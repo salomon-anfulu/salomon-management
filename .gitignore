@@ -1,0 +1,9 @@
+node_modules/
+.workbuddy/
+scripts/node_modules/
+data/auth_state.json
+*.bak.*
+.DS_Store
+__pycache__/
+*.pyc
+/tmp/

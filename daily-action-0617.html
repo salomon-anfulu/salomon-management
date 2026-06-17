@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>今日行动卡 — 6/17</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+    background: #f5f5f0;
+    color: #1a1a1a;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+  }
+  .page {
+    width: 800px;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  }
+
+  /* Header */
+  .header {
+    background: #0F2742;
+    color: #fff;
+    padding: 32px 40px 28px;
+    position: relative;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #E63946 0%, #E63946 40%, #F4A261 40%, #F4A261 100%);
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .header h1 {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .header .date {
+    font-size: 14px;
+    opacity: 0.7;
+    font-weight: 400;
+  }
+  .header .subtitle {
+    margin-top: 6px;
+    font-size: 13px;
+    opacity: 0.8;
+    font-weight: 400;
+  }
+  .header .brand {
+    position: absolute;
+    top: 28px;
+    right: 40px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    opacity: 0.4;
+    text-transform: uppercase;
+  }
+
+  /* Section */
+  .section {
+    padding: 24px 40px;
+    border-bottom: 1px solid #eee;
+  }
+  .section:last-child { border-bottom: none; }
+  .section-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0F2742;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #E63946;
+  }
+
+  /* Team grid */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .member-card {
+    background: #f8f8f5;
+    border-radius: 10px;
+    padding: 14px 12px;
+    text-align: center;
+    border: 1px solid #eee;
+  }
+  .member-card .name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0F2742;
+  }
+  .member-card .metric {
+    margin-top: 6px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #E63946;
+  }
+  .member-card .metric.green { color: #2A9D5F; }
+  .member-card .metric-label {
+    font-size: 10px;
+    color: #999;
+    margin-top: 1px;
+  }
+  .member-card .cats {
+    margin-top: 8px;
+    display: flex;
+    gap: 3px;
+    justify-content: center;
+  }
+  .cat-bar {
+    height: 5px;
+    border-radius: 3px;
+  }
+  .cat-shoe { background: #0F2742; }
+  .cat-apparel { background: #F4A261; }
+  .cat-acc { background: #E63946; }
+  .member-card .cat-labels {
+    margin-top: 4px;
+    font-size: 9px;
+    color: #aaa;
+  }
+  .member-card .tag {
+    margin-top: 8px;
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  .tag-warn { background: #FFF3E0; color: #E65100; }
+  .tag-good { background: #E8F5E9; color: #2E7D32; }
+  .tag-info { background: #E3F2FD; color: #1565C0; }
+
+  /* Category insight */
+  .insight-row {
+    display: flex;
+    gap: 16px;
+  }
+  .insight-box {
+    flex: 1;
+    background: #f8f8f5;
+    border-radius: 10px;
+    padding: 14px 16px;
+    border-left: 3px solid #E63946;
+  }
+  .insight-box.blue { border-left-color: #1565C0; }
+  .insight-box.green { border-left-color: #2A9D5F; }
+  .insight-box h4 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  .insight-box p {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.5;
+  }
+  .insight-box .big {
+    font-size: 20px;
+    font-weight: 700;
+    color: #E63946;
+  }
+
+  /* Scene cards */
+  .scenes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .scene-card {
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #eee;
+  }
+  .scene-img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    display: block;
+  }
+  .scene-body {
+    padding: 12px 16px 14px;
+  }
+  .scene-card.s1 .scene-body { background: #F6F4FC; }
+  .scene-card.s2 .scene-body { background: #EFF7F2; }
+  .scene-card.s3 .scene-body { background: #FFF9EC; }
+  .scene-card.s4 .scene-body { background: #FBEFEB; }
+  .scene-card .scene-num {
+    position: absolute;
+    top: 8px; right: 12px;
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    opacity: 0.7;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    z-index: 2;
+  }
+  .scene-card .scene-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 2px;
+  }
+  .scene-card .scene-trigger {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 8px;
+  }
+  .scene-card .script {
+    font-size: 12.5px;
+    color: #1a1a1a;
+    line-height: 1.65;
+    font-weight: 500;
+  }
+  .scene-card .script .open { color: #6B5B95; font-weight: 600; }
+  .scene-card .product-tag {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-weight: 600;
+  }
+  .scene-card.s2 .product-tag { background: #2A9D5F; color: #fff; }
+
+  /* Actions */
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .action-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background: #f8f8f5;
+    border-radius: 8px;
+  }
+  .action-num {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #E63946;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .action-text {
+    font-size: 12px;
+    color: #333;
+    line-height: 1.55;
+  }
+  .action-text b { color: #E63946; }
+
+  /* Footer */
+  .footer {
+    padding: 12px 40px;
+    background: #0F2742;
+    color: rgba(255,255,255,0.5);
+    font-size: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { border-radius: 0; box-shadow: none; width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="brand">SALOMON ANFU RD · L140</div>
+    <div class="header-top">
+      <h1>今日行动卡</h1>
+      <span class="date">2026.06.17 Wednesday</span>
+    </div>
+    <div class="subtitle">Service Team 在岗 5 人 | 品类推荐 + 场景化话术</div>
+  </div>
+
+  <!-- Team Snapshot -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span>团队速览 — 时产 &amp; 品类分布</div>
+    <div class="team-grid">
+      <div class="member-card">
+        <div class="name">杨子豪</div>
+        <div class="metric green">331</div>
+        <div class="metric-label">¥/h · 4.8分</div>
+        <div class="cats">
+          <div class="cat-bar cat-shoe" style="width:45px"></div>
+          <div class="cat-bar cat-apparel" style="width:6px"></div>
+          <div class="cat-bar cat-acc" style="width:1px"></div>
+        </div>
+        <div class="cat-labels">鞋89% 服11% 配1%</div>
+        <span class="tag tag-good">TOP</span>
+      </div>
+      <div class="member-card">
+        <div class="name">孔祥宇</div>
+        <div class="metric">126</div>
+        <div class="metric-label">¥/h · 4.2分</div>
+        <div class="cats">
+          <div class="cat-bar cat-shoe" style="width:50px"></div>
+        </div>
+        <div class="cat-labels">鞋履 100%</div>
+        <span class="tag tag-warn">零联单</span>
+      </div>
+      <div class="member-card">
+        <div class="name">王龙宇</div>
+        <div class="metric">108</div>
+        <div class="metric-label">¥/h · 4.2分</div>
+        <div class="cats">
+          <div class="cat-bar cat-shoe" style="width:47px"></div>
+          <div class="cat-bar cat-acc" style="width:3px"></div>
+        </div>
+        <div class="cat-labels">鞋93% 配7%</div>
+        <span class="tag tag-info">明日最后</span>
+      </div>
+      <div class="member-card">
+        <div class="name">王靳毓</div>
+        <div class="metric">58</div>
+        <div class="metric-label">¥/h · 3.5分</div>
+        <div class="cats">
+          <div class="cat-bar cat-shoe" style="width:23px"></div>
+          <div class="cat-bar cat-apparel" style="width:10px"></div>
+          <div class="cat-bar cat-acc" style="width:17px"></div>
+        </div>
+        <div class="cat-labels">鞋45% 服21% 配34%</div>
+        <span class="tag tag-good">最均衡</span>
+      </div>
+      <div class="member-card">
+        <div class="name">田佳乐</div>
+        <div class="metric">42</div>
+        <div class="metric-label">¥/h · 4.0分</div>
+        <div class="cats">
+          <div class="cat-bar cat-shoe" style="width:50px"></div>
+        </div>
+        <div class="cat-labels">鞋履 100%</div>
+        <span class="tag tag-warn">零联单</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category Insight -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span>品类机会 — 联单增长点在哪？</div>
+    <div class="insight-row">
+      <div class="insight-box">
+        <h4>鞋履独大</h4>
+        <div class="big">93%</div>
+        <p>5人平均鞋履占比，服装和配件联单几乎是空白</p>
+      </div>
+      <div class="insight-box blue">
+        <h4>最大突破</h4>
+        <div class="big" style="color:#1565C0">2人</div>
+        <p>孔祥宇 &amp; 田佳乐 100%纯鞋履，每单加一句推荐即破零</p>
+      </div>
+      <div class="insight-box green">
+        <h4>隐性能力</h4>
+        <div class="big" style="color:#2A9D5F">3品类</div>
+        <p>王靳毓虽时产最低，但鞋/服/配三品类分布最均衡，搭配能力被低数字掩盖</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scene Scripts -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span>场景化推荐话术 — 按顾客动线设计</div>
+    <div class="scenes">
+      <div class="scene-card s1">
+        <div class="scene-num">01</div>
+        <img class="scene-img" src="images/scenes/Premium_retail_scene__customer_2026-06-17T05-14-18.png" alt="试鞋等待场景">
+        <div class="scene-body">
+          <div class="scene-title">试鞋等待 → 服装展示窗口</div>
+          <div class="scene-trigger">顾客坐下等取码，手里是空的</div>
+          <div class="script">
+            <span class="open">「</span>这双我先帮您去拿码，您可以先看看这件短袖T，面料特别舒服，平时穿也很百搭，随便搭条裤子就很好看。搭配您试的这双风格刚刚好。<span class="open">」</span>
+          </div>
+          <span class="product-tag" style="background:#534AB7;color:#fff;">主推：短袖T恤 ¥498</span>
+        </div>
+      </div>
+      <div class="scene-card s2">
+        <div class="scene-num">02</div>
+        <img class="scene-img" src="images/scenes/Premium_sports_sock_3_pack_pro_2026-06-17T05-11-14.png" alt="3双装运动袜">
+        <div class="scene-body">
+          <div class="scene-title">成交后秒切配件</div>
+          <div class="scene-trigger">鞋成交打包瞬间，信任度最高</div>
+          <div class="script">
+            <span class="open">「</span>帮您包好了。对了，这双鞋配我们家的运动袜特别舒服。这个3双装现在性价比最高，跑步的话3双刚好一周换洗，比单买划算很多。<span class="open">」</span>
+          </div>
+          <span class="product-tag">主推：运动袜3双装 ¥99/组</span>
+        </div>
+      </div>
+      <div class="scene-card s3">
+        <div class="scene-num">03</div>
+        <img class="scene-img" src="images/scenes/Outdoor_trail_running_scene__a_2026-06-17T05-11-14.png" alt="户外徒步场景">
+        <div class="scene-body">
+          <div class="scene-title">户外徒步客群 → 整套穿搭</div>
+          <div class="scene-trigger">顾客提到徒步/登山/越野</div>
+          <div class="script">
+            <span class="open">「</span>您平时会去爬山对吧？那这个冲锋衣一定要试试，防风防泼水，而且超轻。配上您选的这双Speedcross，就是一整套越野装备了。<span class="open">」</span>
+          </div>
+          <span class="product-tag" style="background:#BA7517;color:#fff;">主推：冲锋衣 + Speedcross套装</span>
+        </div>
+      </div>
+      <div class="scene-card s4">
+        <div class="scene-num">04</div>
+        <img class="scene-img" src="images/scenes/Lifestyle_streetwear_scene__st_2026-06-17T05-11-14.png" alt="日常休闲场景">
+        <div class="scene-body">
+          <div class="scene-title">日常休闲逛街 → 穿搭切入</div>
+          <div class="scene-trigger">没有明确运动需求，随便看看</div>
+          <div class="script">
+            <span class="open">「</span>这双配色特别百搭。平时穿牛仔裤或运动裤都好看，要不要试一下这条运动短裤？一套搭配起来拍照特别好看。<span class="open">」</span>
+          </div>
+          <span class="product-tag" style="background:#D85A30;color:#fff;">主推：运动短裤 + 百搭鞋款</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span>今日行动指令</div>
+    <div class="actions">
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div class="action-text"><b>每单至少1句配件/服装推荐</b> — 孔祥宇 &amp; 田佳乐重点，破零联单</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div class="action-text"><b>王龙宇全力冲刺</b> — 明天是在岗最后一天，19日起出差请假</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div class="action-text"><b>晚班前10分钟互练话术</b> — 全员对练1遍场景三（徒步客群）推荐</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">4</div>
+        <div class="action-text"><b>高单价鞋款卖点强化</b> — 今日客单价目标突破¥1,200</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Salomon 安福路 L140 · Service Team</span>
+    <span>Generated 2026.06.17</span>
+  </div>
+
+</div>
+</body>
+</html>

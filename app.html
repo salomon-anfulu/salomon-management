@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>安福路 Salomon 兼职管理系统</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    .user-banner {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, rgba(233,69,96,0.08), rgba(233,69,96,0.02));
+      border-bottom: 1px solid rgba(233,69,96,0.1);
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .user-banner .user-avatar {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-size: 12px; font-weight: 700;
+    }
+    .user-banner .user-name { font-weight: 600; color: var(--text-primary); }
+    .user-banner .user-role {
+      font-size: 11px; padding: 2px 8px; border-radius: 10px;
+      background: var(--accent-light, rgba(233,69,96,0.1)); color: var(--accent);
+    }
+    .user-banner .btn-logout {
+      margin-left: auto; padding: 4px 12px; border-radius: 6px;
+      border: 1px solid var(--border); background: #fff; font-size: 12px;
+      color: var(--text-secondary); cursor: pointer; transition: all 0.2s;
+    }
+    .user-banner .btn-logout:hover { border-color: var(--accent); color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar Overlay (Mobile) -->
+    <div class="sidebar-overlay" onclick="document.querySelector('.sidebar').classList.remove('open'); this.classList.remove('active')"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <h1>
+          <span class="brand-icon">🏔️</span>
+          Salomon 安福路
+        </h1>
+        <div class="brand-sub">兼职团队管理系统 · L140</div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-section-title">概览</div>
+          <button class="nav-item active" data-page="dashboard" onclick="Router.navigate('dashboard')">
+            <span class="nav-icon">📊</span> 工作台
+          </button>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">人员管理</div>
+          <button class="nav-item" data-page="staff" onclick="Router.navigate('staff')">
+            <span class="nav-icon">👥</span> 兼职人员
+            <span class="nav-badge" id="staffCount">19</span>
+          </button>
+          <button class="nav-item" data-page="schedule" onclick="Router.navigate('schedule')">
+            <span class="nav-icon">📅</span> 供班总览
+          </button>
+          <button class="nav-item" data-page="doorSchedule" onclick="Router.navigate('doorSchedule')">
+            <span class="nav-icon">🚪</span> 门迎排班
+          </button>
+          <button class="nav-item" data-page="attendance" onclick="Router.navigate('attendance')">
+            <span class="nav-icon">✅</span> 考勤记录
+          </button>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">表现评估</div>
+          <button class="nav-item" data-page="ratings" onclick="Router.navigate('ratings')">
+            <span class="nav-icon">⭐</span> 表现评分
+          </button>
+          <button class="nav-item" data-page="performance" onclick="Router.navigate('performance')">
+            <span class="nav-icon">💰</span> 业绩数据
+          </button>
+          <button class="nav-item" data-page="support" onclick="Router.navigate('support')">
+            <span class="nav-icon">🔧</span> 店务支援
+          </button>
+          <button class="nav-item" data-page="reviews" onclick="Router.navigate('reviews')">
+            <span class="nav-icon">💬</span> 顾客好评
+          </button>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">数据</div>
+          <button class="nav-item" data-page="reports" onclick="Router.navigate('reports')">
+            <span class="nav-icon">📈</span> 数据报表
+          </button>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">工具</div>
+          <button class="nav-item" data-page="handbook" onclick="Router.navigate('handbook')">
+            <span class="nav-icon">📖</span> 工作手册
+          </button>
+        </div>
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div style="padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08);">
+        <div style="font-size: 11px; color: rgba(255,255,255,0.35); line-height: 1.5;">
+          安福路 Salomon 旗舰店<br>
+          Soft Opening: 2025.6.28<br>
+          Grand Opening: 2025.8.8
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- User Info Banner -->
+      <div class="user-banner" id="userBanner" style="display:none;"></div>
+      <!-- Top Header Bar -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('open'); document.querySelector('.sidebar-overlay').classList.toggle('active')">☰</button>
+          <h2 id="header-title">工作台</h2>
+        </div>
+        <div class="header-right">
+          <span class="text-sm text-secondary" id="currentDate"></span>
+          <div class="notif-dot"></div>
+        </div>
+      </header>
+
+      <!-- Dynamic Page Content -->
+      <div class="page-content" id="page-content">
+        <!-- Content loaded dynamically -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+  <script src="js/pages.js"></script>
+  <script>
+    // ===== Auth Module =====
+    const Auth = {
+      _data: null,
+      init() {
+        const raw = sessionStorage.getItem('auth');
+        if (!raw) { window.location.href = 'login.html'; return false; }
+        this._data = JSON.parse(raw);
+        return true;
+      },
+      get role() { return this._data?.role || null; },
+      get staffId() { return this._data?.staffId; },
+      get staffName() { return this._data?.staffName; },
+      get dept() { return this._data?.dept; },
+      get isAdmin() { return true; },
+      logout() { sessionStorage.removeItem('auth'); window.location.href = 'login.html'; }
+    };
+
+    if (!Auth.init()) throw new Error('Not authenticated');
+
+    // Show user banner
+    const banner = document.getElementById('userBanner');
+    banner.style.display = 'flex';
+    const staffObj = Store.get('staff').find(s => s.id === Auth.staffId);
+    const avatarColor = staffObj?.avatar_color || '#1a1a2e';
+    const initial = Auth.staffName ? Auth.staffName[0] : '管';
+    banner.innerHTML = `
+      <div class="user-avatar" style="background:${avatarColor};">${initial}</div>
+      <span class="user-name">${Auth.staffName}</span>
+      <span class="user-role">${Auth.dept}</span>
+      <button class="btn-logout" onclick="Auth.logout()">退出登录</button>
+    `;
+
+    // Set current date
+    const now = new Date();
+    const dateStr = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日 ${['日','一','二','三','四','五','六'][now.getDay()]}`;
+    document.getElementById('currentDate').textContent = dateStr;
+
+    // Update sidebar badges
+    function updateBadges() {
+      const staffCount = Store.get('staff').filter(s => s.status === 'active').length;
+      document.getElementById('staffCount').textContent = staffCount;
+    }
+    updateBadges();
+
+    // Initialize app
+    Router.render();
+
+    // Override Router.render to update badges
+    const originalRender = Router.render.bind(Router);
+    Router.render = function() {
+      originalRender();
+      updateBadges();
+    };
+  </script>
+</body>
+</html>
