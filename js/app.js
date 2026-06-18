@@ -241,9 +241,9 @@ const Store = {
         staffStats: {
       '陈昕媛': { doorCount: 14, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 1 },
       '田佳乐': { doorCount: 13, shiftChange: 0, shiftedCount: 0, missedPunch: 1, lateCount: 0, absentCount: 0, dianping: 0 },
-      '迟骋': { doorCount: 9, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '迟骋': { doorCount: 9, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 3 },
       '王靳毓': { doorCount: 13, shiftChange: 1, shiftedCount: 2, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
-      '朱凯赟': { doorCount: 9, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '朱凯赟': { doorCount: 9, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 2 },
       '孔祥宇': { doorCount: 17, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
       '邓奇缘': { doorCount: 16, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
       '杨子豪': { doorCount: 8, shiftChange: 2, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
@@ -334,11 +334,11 @@ const Store = {
         "performance": 1,
         "behavior": 4,
         "attendance": 5,
-        "customerReview": 4
+        "customerReview": 5
       },
-      "comment": "6月8天出勤56h，门迎9次，销售¥1,298时产¥23/h，品类(鞋履100.0%)",
-      "avgScore": 3.8,
-      "hourlyRate": 28
+      "comment": "6月8天出勤56h，门迎9次，销售¥1,298时产¥23/h，品类(鞋履100.0%)，大众点评好评3条",
+      "avgScore": 4.0,
+      "hourlyRate": 60
     },
     {
       "id": 4,
@@ -364,11 +364,11 @@ const Store = {
         "performance": 1,
         "behavior": 4,
         "attendance": 5,
-        "customerReview": 4
+        "customerReview": 5
       },
-      "comment": "6月7天出勤50h，门迎9次，销售¥4,072时产¥81/h，品类(鞋履68.7% / 服装29.4% / 配件1.9%)",
-      "avgScore": 3.8,
-      "hourlyRate": 28
+      "comment": "6月7天出勤50h，门迎9次，销售¥4,072时产¥81/h，品类(鞋履68.7% / 服装29.4% / 配件1.9%)，大众点评好评2条",
+      "avgScore": 4.0,
+      "hourlyRate": 60
     },
     {
       "id": 6,
@@ -3108,10 +3108,15 @@ const Store = {
     // 顾客好评记录（大众点评5星好评）
     customerReviews: [
       { id: 1, staffName: '陈昕媛', month: '2026-06', rating: 5, reviewDate: '2026-06-16', snippet: '逛街看到小白楼进来逛逛，Kelly的导览非常详细，带我了解到了很多新的活动和品牌历史，对Salomon有了新的了解。', keywords: ['导览详细', '品牌历史', '新活动', '超预期'], source: '大众点评（陆慧，Lv4）' },
+      { id: 2, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '店门口很适合拍照，店员都好帅。那天碰到一个小哥态度很好很和善，问他说是叫CC，下次还找他服务。', keywords: ['态度好', '和善', '适合拍照', '下次还找'], source: '大众点评（煤球斯基，Lv1）' },
+      { id: 3, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '本次购物体验很棒，导购小哥cc十分热情主动，详细介绍产品特点，耐心解答疑问，专业又贴心，感谢优质服务。', keywords: ['热情主动', '详细介绍', '耐心解答', '专业贴心'], source: '大众点评（yuki，Lv1）' },
+      { id: 4, staffName: '朱凯赟', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '导购小哥cc十分热情主动，详细介绍产品特点，耐心解答疑问，小朱帮忙挑选也很用心，专业又贴心，感谢优质服务。', keywords: ['热情主动', '详细介绍', '耐心解答', '专业贴心'], source: '大众点评（yuki，Lv1）' },
+      { id: 5, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '特别感谢店员朱凯赟和迟骋，两人全程热情耐心，细致讲解鞋款功能，主动拿多款尺码试穿，专业给出选购建议，没有半点推销感。', keywords: ['热情耐心', '细致讲解', '主动拿尺码', '专业建议', '无推销感'], source: '大众点评（我是可乐我会冒泡，Lv3）' },
+      { id: 6, staffName: '朱凯赟', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '特别感谢店员朱凯赟和迟骋，两人全程热情耐心，细致讲解鞋款功能，主动拿多款尺码试穿，专业给出选购建议，服务贴心周到。', keywords: ['热情耐心', '细致讲解', '主动拿尺码', '专业建议', '贴心周到'], source: '大众点评（我是可乐我会冒泡，Lv3）' },
     ],
 
     // Data version for forced refresh detection
-    _dataVersion: '2026-06-18-v6',
+    _dataVersion: '2026-06-18-v7',
   },
 
   init() {
@@ -3177,6 +3182,8 @@ const Store = {
       // Check if customerReviews module is missing or outdated
       const isMissingReviews = !data.customerReviews;
       const isOutdatedReviewsV2 = data.customerReviews && data.customerReviews.length === 0;
+      // Check if customerReviews is outdated v3: missing 6/17 new 5 reviews
+      const isOutdatedReviewsV3 = data.customerReviews && data.customerReviews.length < 6;
       // Check if availability is outdated v3: 陈昕媛 total should be 27 (was 20), 田佳乐 total should be 26 (was 27)
       const isOutdatedAvailV3 = chenXinyuan && chenXinyuan.total === 20;
       // Check if june performance is outdated v2: totalSales should be 129567 (was 127591)
@@ -3184,10 +3191,10 @@ const Store = {
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-18-v6';
+      const DATA_VERSION = '2026-06-18-v7';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
-      if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
+      if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
         localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
       }
     }
