@@ -315,7 +315,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月11天出勤90h，门迎15次，销售¥20,428时产¥227/h，品类(鞋履81.0% / 服装9.8% / 配件9.2%)，大众点评好评1条",
+      "comment": "6月11天出勤90h，门迎15次，销售¥23,628时产¥263/h，品类(鞋履83.6% / 服装8.4% / 配件8.0%)，大众点评好评1条",
       "avgScore": 4.8,
       "hourlyRate": 60
     },
@@ -330,7 +330,7 @@ const Store = {
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月9天出勤62h，缺卡1次，门迎15次，销售¥3,552时产¥57/h，品类(鞋履64.6% / 服装22.5% / 配件12.9%)",
+      "comment": "6月10天出勤70.5h，缺卡1次，门迎15次，销售¥4,950时产¥70/h，品类(鞋履74.6% / 服装16.1% / 配件9.3%)",
       "avgScore": 3.8,
       "hourlyRate": 28
     },
@@ -345,7 +345,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月8天出勤56h，门迎11次，销售¥1,298时产¥23/h，品类(鞋履100.0%)，大众点评好评3条",
+      "comment": "6月9天出勤62h，门迎11次，销售¥1,298时产¥21/h，品类(鞋履100.0%)，大众点评好评3条",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -375,7 +375,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月7天出勤50h，门迎11次，销售¥4,072时产¥81/h，品类(鞋履68.7% / 服装29.4% / 配件1.9%)，大众点评好评2条",
+      "comment": "6月8天出勤58.5h，门迎11次，销售¥4,072时产¥70/h，品类(鞋履68.7% / 服装29.4% / 配件1.9%)，大众点评好评2条",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -400,13 +400,13 @@ const Store = {
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 1,
+        "performance": 2,
         "behavior": 5,
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月9天出勤76h，门迎17次，销售¥6,998时产¥93/h，品类(鞋履98.5% / 配件1.5%)",
-      "avgScore": 4.0,
+      "comment": "6月10天出勤83h，门迎17次，销售¥10,127时产¥122/h，品类(鞋履91.1% / 服装7.9% / 配件1.1%)",
+      "avgScore": 4.2,
       "hourlyRate": 60
     },
     {
@@ -420,7 +420,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月7天出勤62h，门迎8次，销售¥20,226时产¥329/h，品类(鞋履90.1% / 服装9.4% / 配件0.5%)",
+      "comment": "6月7天出勤61.5h，门迎8次，销售¥20,226时产¥329/h，品类(鞋履90.1% / 服装9.4% / 配件0.5%)",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -435,7 +435,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月8天出勤54h，门迎11次，销售¥14,378时产¥269/h，品类(鞋履84.7% / 服装15.3%)",
+      "comment": "6月9天出勤61.5h，门迎11次，销售¥15,576时产¥253/h，品类(鞋履85.9% / 服装14.1%)",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -450,7 +450,7 @@ const Store = {
         "attendance": 1,
         "customerReview": 4
       },
-      "comment": "6月9天出勤74h，迟到1次，缺卡1次，旷工1次，门迎14次，销售¥17,526时产¥237/h，品类(鞋履82.6% / 服装11.9% / 配件5.4%)",
+      "comment": "6月10天出勤82.5h，迟到1次，缺卡1次，旷工1次，门迎14次，销售¥17,526时产¥212/h，品类(鞋履82.6% / 服装11.9% / 配件5.4%)",
       "avgScore": 3.8,
       "hourlyRate": 28
     },
@@ -465,7 +465,7 @@ const Store = {
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月8天出勤58h，缺卡1次，门迎13次，销售¥5,450时产¥93/h，品类(鞋履93.4% / 配件6.6%)",
+      "comment": "6月8天出勤58.5h，缺卡1次，门迎13次，销售¥5,450时产¥93/h，品类(鞋履93.4% / 配件6.6%)",
       "avgScore": 3.8,
       "hourlyRate": 28
     },
@@ -732,37 +732,37 @@ const Store = {
       },
             june: {
         month: '2026-06',
-        totalSales: 129567,
-        avgUPT: 1.35,
-        avgHourlyOutput: 157.7,
-        note: 'data as of 6/17 (file 37, case-insensitive)',
+        totalSales: 138492,
+        avgUPT: 1.33,
+        avgHourlyOutput: 159.6,
+        note: 'data as of 6/19 (file 38)',
         records: [
   {
     'name': "陈昕媛",
-    'sales': 20428,
-    'qty': 17,
-    'tickets': 15,
-    'avgPrice': 1202,
-    'workHours': 90,
+    'sales': 23628,
+    'qty': 18,
+    'tickets': 16,
+    'avgPrice': 1477,
+    'workHours': 90.0,
     'workDays': 11,
-    'hourlyOutput': 227,
-    'efficiency': -0.4784,
-    'salesShare': 0.158,
+    'hourlyOutput': 263,
+    'efficiency': 0.6479,
+    'salesShare': 0.171,
     'categories': {
       '鞋履': {
-        'sales': 16550,
-        'qty': 11,
-        'pct': 81
+        'sales': 19750,
+        'qty': 15,
+        'pct': 83.6
       },
       '服装': {
         'sales': 1996,
         'qty': 2,
-        'pct': 9.8
+        'pct': 8.4
       },
       '配件': {
         'sales': 1882,
-        'qty': 4,
-        'pct': 9.2
+        'qty': 1,
+        'pct': 8.0
       }
     }
   },
@@ -771,16 +771,16 @@ const Store = {
     'sales': 20226,
     'qty': 17,
     'tickets': 12,
-    'avgPrice': 1190,
+    'avgPrice': 1686,
     'workHours': 61.5,
     'workDays': 7,
     'hourlyOutput': 329,
-    'efficiency': 0.0021,
-    'salesShare': 0.156,
+    'efficiency': 1.0614,
+    'salesShare': 0.146,
     'categories': {
       '鞋履': {
         'sales': 18222,
-        'qty': 14,
+        'qty': 15,
         'pct': 90.1
       },
       '服装': {
@@ -800,51 +800,51 @@ const Store = {
     'sales': 17526,
     'qty': 17,
     'tickets': 11,
-    'avgPrice': 1031,
-    'workHours': 74,
-    'workDays': 9,
-    'hourlyOutput': 237,
-    'efficiency': -0.452,
-    'salesShare': 0.135,
+    'avgPrice': 1593,
+    'workHours': 82.5,
+    'workDays': 10,
+    'hourlyOutput': 212,
+    'efficiency': 0.3283,
+    'salesShare': 0.127,
     'categories': {
       '鞋履': {
         'sales': 14478,
-        'qty': 11,
+        'qty': 14,
         'pct': 82.6
       },
       '服装': {
         'sales': 2094,
-        'qty': 3,
+        'qty': 2,
         'pct': 11.9
       },
       '配件': {
         'sales': 954,
-        'qty': 3,
+        'qty': 1,
         'pct': 5.4
       }
     }
   },
   {
     'name': "王雅澜",
-    'sales': 14378,
-    'qty': 11,
-    'tickets': 8,
-    'avgPrice': 1307,
-    'workHours': 53.5,
-    'workDays': 8,
-    'hourlyOutput': 269,
-    'efficiency': 0.939,
-    'salesShare': 0.111,
+    'sales': 15576,
+    'qty': 12,
+    'tickets': 9,
+    'avgPrice': 1731,
+    'workHours': 61.5,
+    'workDays': 9,
+    'hourlyOutput': 253,
+    'efficiency': 0.5852,
+    'salesShare': 0.112,
     'categories': {
       '鞋履': {
-        'sales': 12182,
-        'qty': 9,
-        'pct': 84.7
+        'sales': 13380,
+        'qty': 10,
+        'pct': 85.9
       },
       '服装': {
         'sales': 2196,
         'qty': 2,
-        'pct': 15.3
+        'pct': 14.1
       }
     }
   },
@@ -853,21 +853,21 @@ const Store = {
     'sales': 15327,
     'qty': 14,
     'tickets': 9,
-    'avgPrice': 1095,
-    'workHours': 78,
+    'avgPrice': 1703,
+    'workHours': 78.0,
     'workDays': 11,
     'hourlyOutput': 196,
-    'efficiency': 0.629,
-    'salesShare': 0.118,
+    'efficiency': 0.2281,
+    'salesShare': 0.111,
     'categories': {
       '鞋履': {
         'sales': 11532,
-        'qty': 9,
+        'qty': 11,
         'pct': 75.2
       },
       '服装': {
         'sales': 3795,
-        'qty': 5,
+        'qty': 3,
         'pct': 24.8
       }
     }
@@ -877,22 +877,128 @@ const Store = {
     'sales': 12078,
     'qty': 11,
     'tickets': 9,
-    'avgPrice': 1098,
-    'workHours': 54,
+    'avgPrice': 1342,
+    'workHours': 54.0,
     'workDays': 7,
     'hourlyOutput': 224,
-    'efficiency': -0.2573,
-    'salesShare': 0.093,
+    'efficiency': 0.4035,
+    'salesShare': 0.087,
     'categories': {
       '鞋履': {
         'sales': 9984,
-        'qty': 8,
+        'qty': 9,
         'pct': 82.7
       },
       '服装': {
         'sales': 2094,
-        'qty': 3,
+        'qty': 2,
         'pct': 17.3
+      }
+    }
+  },
+  {
+    'name': "邓奇缘",
+    'sales': 10127,
+    'qty': 9,
+    'tickets': 7,
+    'avgPrice': 1447,
+    'workHours': 83.0,
+    'workDays': 10,
+    'hourlyOutput': 122,
+    'efficiency': -0.2356,
+    'salesShare': 0.073,
+    'categories': {
+      '鞋履': {
+        'sales': 9221,
+        'qty': 8,
+        'pct': 91.1
+      },
+      '服装': {
+        'sales': 798,
+        'qty': 1,
+        'pct': 7.9
+      },
+      '配件': {
+        'sales': 108,
+        'qty': 1,
+        'pct': 1.1
+      }
+    }
+  },
+  {
+    'name': "王龙宇",
+    'sales': 5450,
+    'qty': 5,
+    'tickets': 4,
+    'avgPrice': 1362,
+    'workHours': 58.5,
+    'workDays': 8,
+    'hourlyOutput': 93,
+    'efficiency': -0.4173,
+    'salesShare': 0.039,
+    'categories': {
+      '鞋履': {
+        'sales': 5092,
+        'qty': 5,
+        'pct': 93.4
+      },
+      '配件': {
+        'sales': 358,
+        'qty': 1,
+        'pct': 6.6
+      }
+    }
+  },
+  {
+    'name': "何秋烨",
+    'sales': 5350,
+    'qty': 5,
+    'tickets': 4,
+    'avgPrice': 1338,
+    'workHours': 50.0,
+    'workDays': 8,
+    'hourlyOutput': 107,
+    'efficiency': -0.3296,
+    'salesShare': 0.039,
+    'categories': {
+      '鞋履': {
+        'sales': 4992,
+        'qty': 5,
+        'pct': 93.3
+      },
+      '配件': {
+        'sales': 358,
+        'qty': 1,
+        'pct': 6.7
+      }
+    }
+  },
+  {
+    'name': "田佳乐",
+    'sales': 4950,
+    'qty': 5,
+    'tickets': 4,
+    'avgPrice': 1238,
+    'workHours': 70.5,
+    'workDays': 10,
+    'hourlyOutput': 70,
+    'efficiency': -0.5614,
+    'salesShare': 0.036,
+    'categories': {
+      '鞋履': {
+        'sales': 3694,
+        'qty': 4,
+        'pct': 74.6
+      },
+      '服装': {
+        'sales': 798,
+        'qty': 1,
+        'pct': 16.1
+      },
+      '配件': {
+        'sales': 458,
+        'qty': 1,
+        'pct': 9.3
       }
     }
   },
@@ -901,16 +1007,16 @@ const Store = {
     'sales': 4072,
     'qty': 4,
     'tickets': 3,
-    'avgPrice': 1018,
-    'workHours': 50.5,
-    'workDays': 7,
-    'hourlyOutput': 81,
-    'efficiency': -0.7806,
-    'salesShare': 0.031,
+    'avgPrice': 1357,
+    'workHours': 58.5,
+    'workDays': 8,
+    'hourlyOutput': 70,
+    'efficiency': -0.5614,
+    'salesShare': 0.029,
     'categories': {
       '鞋履': {
         'sales': 2796,
-        'qty': 2,
+        'qty': 3,
         'pct': 68.7
       },
       '服装': {
@@ -926,122 +1032,21 @@ const Store = {
     }
   },
   {
-    'name': "邓奇缘",
-    'sales': 6998,
-    'qty': 6,
-    'tickets': 4,
-    'avgPrice': 1166,
-    'workHours': 75.5,
-    'workDays': 9,
-    'hourlyOutput': 93,
-    'efficiency': -0.6584,
-    'salesShare': 0.054,
-    'categories': {
-      '鞋履': {
-        'sales': 6890,
-        'qty': 5,
-        'pct': 98.5
-      },
-      '配件': {
-        'sales': 108,
-        'qty': 1,
-        'pct': 1.5
-      }
-    }
-  },
-  {
-    'name': "王龙宇",
-    'sales': 5450,
-    'qty': 5,
-    'tickets': 4,
-    'avgPrice': 1090,
-    'workHours': 58.5,
-    'workDays': 8,
-    'hourlyOutput': 93,
-    'efficiency': -0.5931,
-    'salesShare': 0.042,
-    'categories': {
-      '鞋履': {
-        'sales': 5092,
-        'qty': 4,
-        'pct': 93.4
-      },
-      '配件': {
-        'sales': 358,
-        'qty': 1,
-        'pct': 6.6
-      }
-    }
-  },
-  {
-    'name': "何秋烨",
-    'sales': 5350,
-    'qty': 5,
-    'tickets': 4,
-    'avgPrice': 1070,
-    'workHours': 50,
-    'workDays': 8,
-    'hourlyOutput': 107,
-    'efficiency': -0.7791,
-    'salesShare': 0.041,
-    'categories': {
-      '鞋履': {
-        'sales': 4992,
-        'qty': 4,
-        'pct': 93.3
-      },
-      '配件': {
-        'sales': 358,
-        'qty': 1,
-        'pct': 6.7
-      }
-    }
-  },
-  {
-    'name': "田佳乐",
-    'sales': 3552,
-    'qty': 4,
-    'tickets': 3,
-    'avgPrice': 888,
-    'workHours': 62.5,
-    'workDays': 9,
-    'hourlyOutput': 57,
-    'efficiency': -0.7966,
-    'salesShare': 0.027,
-    'categories': {
-      '鞋履': {
-        'sales': 2296,
-        'qty': 2,
-        'pct': 64.6
-      },
-      '服装': {
-        'sales': 798,
-        'qty': 1,
-        'pct': 22.5
-      },
-      '配件': {
-        'sales': 458,
-        'qty': 1,
-        'pct': 12.9
-      }
-    }
-  },
-  {
     'name': "王靳毓",
     'sales': 2884,
     'qty': 3,
     'tickets': 2,
-    'avgPrice': 961,
-    'workHours': 58,
+    'avgPrice': 1442,
+    'workHours': 58.0,
     'workDays': 7,
     'hourlyOutput': 50,
-    'efficiency': -0.4422,
-    'salesShare': 0.022,
+    'efficiency': -0.6867,
+    'salesShare': 0.021,
     'categories': {
       '鞋履': {
         'sales': 1298,
         'qty': 1,
-        'pct': 45
+        'pct': 45.0
       },
       '配件': {
         'sales': 988,
@@ -1061,16 +1066,16 @@ const Store = {
     'qty': 1,
     'tickets': 1,
     'avgPrice': 1298,
-    'workHours': 55.5,
-    'workDays': 8,
-    'hourlyOutput': 23,
-    'efficiency': -0.8698,
-    'salesShare': 0.01,
+    'workHours': 62.0,
+    'workDays': 9,
+    'hourlyOutput': 21,
+    'efficiency': -0.8684,
+    'salesShare': 0.009,
     'categories': {
       '鞋履': {
         'sales': 1298,
         'qty': 1,
-        'pct': 100
+        'pct': 100.0
       }
     }
   }
@@ -1089,7 +1094,7 @@ const Store = {
     ],
 
     // Data version for forced refresh detection
-    _dataVersion: '2026-06-19-v8',
+    _dataVersion: '2026-06-19-v9',
   },
 
   init() {
@@ -1160,11 +1165,11 @@ const Store = {
       // Check if availability is outdated v3: 陈昕媛 total should be 27 (was 20), 田佳乐 total should be 26 (was 27)
       const isOutdatedAvailV3 = chenXinyuan && chenXinyuan.total === 20;
       // Check if june performance is outdated v2: totalSales should be 129567 (was 127591)
-      const isOutdatedJunePerfV2 = junePerf.totalSales && junePerf.totalSales < 129567;
+      const isOutdatedJunePerfV2 = junePerf.totalSales && junePerf.totalSales < 138492;
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-19-v8';
+      const DATA_VERSION = '2026-06-19-v9';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
