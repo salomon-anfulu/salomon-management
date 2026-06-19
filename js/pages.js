@@ -1036,9 +1036,86 @@ function filterAttendanceByDate(selectedDate) {
 
 /**
  * ========================================
- * Ratings Page
+ * Ratings Page - Fun Edition
  * ========================================
  */
+
+// 个性化称号生成器
+function getRatingTitle(scores, avgScore, staffName) {
+  const s = scores;
+  const allHigh = Object.values(s).every(v => v >= 4);
+  const perfHigh = (s.performance || 0) >= 4;
+  const availHigh = (s.availability || 0) >= 5;
+  const behHigh = (s.behavior || 0) >= 5;
+  const attPerfect = (s.attendance || 0) >= 5;
+  const reviewHigh = (s.customerReview || 0) >= 5;
+  const perfLow = (s.performance || 0) <= 1;
+  const attLow = (s.attendance || 0) <= 2;
+
+  // S 级称号（综合 ≥4.6）
+  if (avgScore >= 4.8) return { title: '传奇店王', emoji: '👑', tier: 'tier-s', motto: '"这个店的顶梁柱，没有之一"' };
+  if (allHigh && perfHigh) return { title: '全能战士', emoji: '⚡', tier: 'tier-s', motto: '"攻守兼备，六边形战士"' };
+
+  // A 级称号（综合 4.2-4.5）
+  if (perfHigh && availHigh) return { title: '销售主力', emoji: '🔥', tier: 'tier-a', motto: '"能卖能扛，店铺发动机"' };
+  if (behHigh && attPerfect && reviewHigh) return { title: '服务之星', emoji: '🌟', tier: 'tier-a', motto: '"顾客心中的白月光"' };
+  if (attPerfect && availHigh) return { title: '铁人担当', emoji: '💪', tier: 'tier-a', motto: '"风雨无阻，随叫随到"' };
+  if (reviewHigh) return { title: '好评收割机', emoji: '✨', tier: 'tier-a', motto: '"大众点评的宠儿"' };
+  if (perfHigh) return { title: '业绩猎手', emoji: '🎯', tier: 'tier-a', motto: '"成交转化率拉满"' };
+
+  // B 级称号（综合 4.0-4.1）
+  if (avgScore >= 4.0) return { title: '稳中向好', emoji: '📈', tier: 'tier-b', motto: '"基础扎实，潜力可期"' };
+
+  // C 级称号（综合 3.5-3.9）
+  if (perfLow && attPerfect) return { title: '勤勉新人', emoji: '🌱', tier: 'tier-c', motto: '"态度满分，业绩待开发"' };
+  if (attLow) return { title: '考勤修补匠', emoji: '🔧', tier: 'tier-c', motto: '"先搞定打卡，再谈其他"' };
+  if (perfLow) return { title: '蓄力选手', emoji: '🔋', tier: 'tier-c', motto: '"还没发力，别急着下定论"' };
+
+  return { title: '潜力股', emoji: '💎', tier: 'tier-c', motto: '"一切才刚刚开始"' };
+}
+
+// 成就徽章生成器
+function getAchievements(scores, comment) {
+  const badges = [];
+  const s = scores;
+
+  if ((s.performance || 0) >= 5) badges.push({ icon: '🏆', label: '时产之王', desc: '销售业绩5分' });
+  if ((s.availability || 0) >= 5) badges.push({ icon: '🛡️', label: '出勤铁人', desc: '工时支持满分' });
+  if ((s.behavior || 0) >= 5) badges.push({ icon: '🎪', label: '门迎MVP', desc: '行为规范满分' });
+  if ((s.attendance || 0) >= 5) badges.push({ icon: '⏰', label: '零迟到', desc: '考勤纪律满分' });
+  if ((s.customerReview || 0) >= 5) badges.push({ icon: '💕', label: '好评达人', desc: '顾客好评满分' });
+
+  // 从 comment 提取特殊成就
+  if (comment) {
+    if (/大众点评好评[1-9]/.test(comment) && !badges.find(b => b.label === '好评达人')) {
+      const m = comment.match(/大众点评好评(\d+)条/);
+      if (m && parseInt(m[1]) >= 2) badges.push({ icon: '📝', label: `${m[1]}条好评`, desc: '大众点评认可' });
+    }
+    if (/退货/.test(comment)) badges.push({ icon: '↩️', label: '退货刺客', desc: '遭遇退货扣减' });
+    if (/旷工/.test(comment)) badges.push({ icon: '⚠️', label: '旷工记录', desc: '本月有旷工' });
+  }
+
+  // 全能徽章
+  const allFive = Object.values(s).every(v => v >= 5);
+  if (allFive) badges.unshift({ icon: '🎖️', label: '全维满分', desc: '五项全满分' });
+
+  return badges.slice(0, 4); // 最多显示4个
+}
+
+// 等级计算（将分数映射为1-99级）
+function getRatingLevel(avgScore) {
+  return Math.round(avgScore * 20); // 5.0=100, 4.0=80, 3.0=60
+}
+
+// 维度图标
+const DIMENSION_META = {
+  availability: { icon: '🛡️', color: '#3b82f6' },
+  performance: { icon: '🎯', color: '#f59e0b' },
+  behavior: { icon: '🎪', color: '#8b5cf6' },
+  attendance: { icon: '⏰', color: '#10b981' },
+  customerReview: { icon: '💕', color: '#ec4899' },
+};
+
 function renderRatings() {
   const ratings = Store.get('ratings');
   const staff = Store.get('staff').filter(s => s.status === 'active');
@@ -1048,39 +1125,87 @@ function renderRatings() {
 
   return `
     <div class="animate-in" style="margin-bottom: 24px;">
-      <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%); border-radius: var(--radius-lg); padding: 24px; color: #fff;">
-        <h2 style="font-size: 20px; font-weight: 800;">⭐ 表现评分</h2>
-        <p style="font-size: 13px; opacity: 0.7;">2026年6月 · Service Team 全员评估 · 综合评分 ≥ 4.0 可享 ¥60/h 时薪（五维度：工时支持 / 销售业绩 / 行为规范 / 考勤纪律 / 顾客好评）</p>
+      <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 50%, #1e3a5f 100%); border-radius: var(--radius-lg); padding: 24px; color: #fff; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -20px; right: -20px; font-size: 80px; opacity: 0.05; transform: rotate(-15deg);">🏆</div>
+        <h2 style="font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+          ⭐ 表现评分
+          <span style="font-size: 11px; padding: 3px 8px; background: rgba(255,255,255,0.1); border-radius: 20px; font-weight: 600;">FUN EDITION</span>
+        </h2>
+        <p style="font-size: 13px; opacity: 0.7; margin-top: 4px;">2026年6月 · Service Team 全员评估 · 综合评分 ≥ 4.0 可享 ¥60/h 时薪</p>
+        <div style="display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
+          <span style="font-size: 11px; opacity: 0.6;">🛡️ 工时支持</span>
+          <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩</span>
+          <span style="font-size: 11px; opacity: 0.6;">🎪 行为规范</span>
+          <span style="font-size: 11px; opacity: 0.6;">⏰ 考勤纪律</span>
+          <span style="font-size: 11px; opacity: 0.6;">💕 顾客好评</span>
+        </div>
       </div>
     </div>
 
     <!-- 评分概览 -->
     <div class="stats-grid animate-in" style="grid-template-columns: repeat(4, 1fr);">
       <div class="stat-card success">
-        <div class="stat-value">${ratings.filter(r => r.avgScore >= 4.0).length}</div>
-        <div class="stat-label">达标人数（≥4.0）</div>
+        <div class="stat-value">${ratings.filter(r => r.avgScore >= 4.0).length} <span style="font-size: 14px; opacity: 0.5;">/${ratings.length}</span></div>
+        <div class="stat-label">🎖️ ¥60/h 达标</div>
       </div>
       <div class="stat-card danger">
         <div class="stat-value">${ratings.filter(r => r.avgScore < 4.0).length}</div>
-        <div class="stat-label">待提升（<4.0）</div>
+        <div class="stat-label">💪 待提升选手</div>
       </div>
       <div class="stat-card accent">
         <div class="stat-value">${(ratings.reduce((s, r) => s + r.avgScore, 0) / ratings.length).toFixed(1)}</div>
-        <div class="stat-label">团队均分</div>
+        <div class="stat-label">⭐ 团队均分</div>
       </div>
       <div class="stat-card info">
         <div class="stat-value">¥${ratings.filter(r => r.avgScore >= 4.0).length * 60 + ratings.filter(r => r.avgScore < 4.0).length * 28}</div>
-        <div class="stat-label">时薪支出/h</div>
+        <div class="stat-label">💰 时薪支出/h</div>
       </div>
     </div>
 
+    <!-- TOP3 荣誉墙 -->
+    ${(() => {
+      const top3 = sortedRatings.slice(0, 3);
+      if (top3.length === 0) return '';
+      const podiumStyles = [
+        { medal: '🥇', bg: 'linear-gradient(135deg, #fbbf2433, #f59e0b22)', border: '#f59e0b', label: 'MVP', height: '64px' },
+        { medal: '🥈', bg: 'linear-gradient(135deg, #94a3b833, #64748b22)', border: '#94a3b8', label: '亚军', height: '52px' },
+        { medal: '🥉', bg: 'linear-gradient(135deg, #f9731633, #fb923c22)', border: '#f97316', label: '季军', height: '44px' },
+      ];
+      return `
+        <div class="animate-in" style="display: flex; gap: 12px; margin-top: 20px; align-items: flex-end;">
+          ${top3.map((r, i) => {
+            const s = Store.getStaff(r.staffId);
+            const ti = getRatingTitle(r.scores, r.avgScore, s ? s.name : '');
+            const ps = podiumStyles[i];
+            return `
+              <div style="flex: 1; background: ${ps.bg}; border: 1px solid ${ps.border}44; border-radius: var(--radius-lg); padding: 16px; text-align: center; position: relative; overflow: hidden;">
+                <div style="position: absolute; top: 0; left: 0; right: 0; height: ${ps.height}; background: linear-gradient(180deg, ${ps.border}11, transparent); border-radius: var(--radius-lg) var(--radius-lg) 0 0;"></div>
+                <div style="font-size: 28px; margin-bottom: 4px; position: relative;">${ps.medal}</div>
+                <div style="font-size: 10px; font-weight: 700; color: ${ps.border}; letter-spacing: 1px; margin-bottom: 8px; position: relative;">${ps.label}</div>
+                ${s ? `<div class="avatar" style="background: ${s.avatar_color}; width: 36px; height: 36px; font-size: 13px; margin: 0 auto 6px; position: relative;">${getInitials(s.name)}</div>` : ''}
+                <div style="font-weight: 700; font-size: 14px; position: relative;">${s ? s.name : '未知'}</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px; position: relative;">${ti.emoji} ${ti.title}</div>
+                <div style="font-size: 22px; font-weight: 800; color: ${ps.border}; margin-top: 4px; position: relative;">${r.avgScore.toFixed(1)}</div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+    })()}
+
     <!-- 评分卡片列表 -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 16px; margin-top: 20px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(390px, 1fr)); gap: 16px; margin-top: 20px;">
       ${sortedRatings.map((r, idx) => {
         const s = Store.getStaff(r.staffId);
         const isTop = r.avgScore >= 4.0;
         const borderColor = r.avgScore >= 4.5 ? '#10b981' : r.avgScore >= 4.0 ? '#3b82f6' : r.avgScore >= 3.5 ? '#f59e0b' : '#ef4444';
         const medalIcon = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '';
+        const titleInfo = getRatingTitle(r.scores, r.avgScore, s ? s.name : '');
+        const achievements = getAchievements(r.scores, r.comment);
+        const level = getRatingLevel(r.avgScore);
+        const ringColor = r.avgScore >= 4.5 ? '#10b981' : r.avgScore >= 4.0 ? '#3b82f6' : r.avgScore >= 3.5 ? '#f59e0b' : '#ef4444';
+        const ringCircumference = 2 * Math.PI * 22; // r=22
+        const ringDash = (level / 100) * ringCircumference;
         const dimensions = [
           { key: 'availability', label: '工时支持', val: r.scores.availability },
           { key: 'performance', label: '销售业绩', val: r.scores.performance },
@@ -1089,40 +1214,84 @@ function renderRatings() {
           { key: 'customerReview', label: '顾客好评', val: r.scores.customerReview || 4 },
         ];
         return `
-          <div class="card animate-in" style="border-left: 4px solid ${borderColor}; overflow: visible;">
+          <div class="card animate-in" style="border-left: 4px solid ${borderColor}; overflow: visible; position: relative; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(0,0,0,0.12)';" onmouseleave="this.style.transform='';this.style.boxShadow='';">
             <div style="padding: 20px;">
-              <!-- 头部：姓名 + 评分 -->
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+              <!-- 头部：排名 + 头像 + 等级环 -->
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
-                  ${medalIcon ? `<span style="font-size: 22px;">${medalIcon}</span>` : ''}
-                  ${s ? `<div class="avatar" style="background: ${s.avatar_color}; width: 40px; height: 40px; font-size: 14px;">${getInitials(s.name)}</div>` : ''}
+                  ${medalIcon ? `<span style="font-size: 22px; animation: floatEmoji 2s ease-in-out infinite;">${medalIcon}</span>` : `<span class="rating-vs-label" style="width: 24px; text-align: center;">#${idx + 1}</span>`}
+                  ${s ? `<div class="avatar" style="background: ${s.avatar_color}; width: 42px; height: 42px; font-size: 14px;">${getInitials(s.name)}</div>` : ''}
                   <div>
-                    <div style="font-weight: 700; font-size: 16px;">${s ? s.name : '未知'}</div>
-                    <div style="font-size: 12px; color: var(--text-secondary);">${r.month}</div>
+                    <div style="font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 6px;">
+                      ${s ? s.name : '未知'}
+                      ${r.scores.customerReview >= 5 && /大众点评好评/.test(r.comment) ? '<span style="font-size: 13px;" title="大众点评好评认证">✓</span>' : ''}
+                    </div>
+                    <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">${r.month}</div>
                   </div>
                 </div>
-                <div style="text-align: right;">
-                  <div style="font-size: 28px; font-weight: 800; color: ${borderColor};">${r.avgScore.toFixed(1)}</div>
-                  <div style="font-size: 12px; font-weight: 700; color: ${isTop ? 'var(--success)' : 'var(--danger)'};">${isTop ? '¥60/h' : '¥28/h'}</div>
+                <div class="rating-level-ring">
+                  <svg width="52" height="52">
+                    <circle cx="26" cy="26" r="22" fill="none" stroke="var(--bg-tertiary)" stroke-width="3"/>
+                    <circle cx="26" cy="26" r="22" fill="none" stroke="${ringColor}" stroke-width="3"
+                      stroke-dasharray="${ringCircumference}" stroke-dashoffset="${ringCircumference - ringDash}"
+                      stroke-linecap="round" style="transition: stroke-dashoffset 1s ease-out;"/>
+                  </svg>
+                  <div class="level-num" style="color: ${ringColor};">${level}</div>
                 </div>
               </div>
 
-              <!-- 五维度评分条 -->
-              <div style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px;">
-                ${dimensions.map(d => `
+              <!-- 称号 Badge -->
+              <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+                <span class="rating-title-badge ${titleInfo.tier}">
+                  <span style="font-size: 13px;">${titleInfo.emoji}</span>
+                  ${titleInfo.title}
+                </span>
+                <span style="font-size: 11px; font-weight: 700; color: ${isTop ? 'var(--success)' : 'var(--danger)'}; padding: 3px 8px; background: ${isTop ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)'}; border-radius: 20px;">
+                  ${isTop ? '¥60/h' : '¥28/h'}
+                </span>
+                <span style="font-size: 20px; font-weight: 800; color: ${borderColor}; margin-left: auto;">
+                  ${r.avgScore.toFixed(1)}
+                  <span style="font-size: 12px; color: var(--text-muted); font-weight: 400;">/5.0</span>
+                </span>
+              </div>
+
+              <!-- 五维度评分条（带图标） -->
+              <div style="display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px;">
+                ${dimensions.map(d => {
+                  const meta = DIMENSION_META[d.key] || {};
+                  const dimColor = d.val >= 4 ? '#10b981' : d.val >= 3 ? '#f59e0b' : '#ef4444';
+                  return `
                   <div style="display: flex; align-items: center; gap: 8px;">
-                    <span style="font-size: 12px; color: var(--text-secondary); width: 56px; flex-shrink: 0;">${d.label}</span>
-                    <div style="flex: 1; height: 6px; background: var(--bg-secondary); border-radius: 3px; overflow: hidden;">
-                      <div style="height: 100%; width: ${d.val * 20}%; background: ${d.val >= 4 ? '#10b981' : d.val >= 3 ? '#f59e0b' : '#ef4444'}; border-radius: 3px; transition: width 0.3s;"></div>
+                    <div class="rating-dimension-icon" style="background: ${(meta.color || '#94a3b8')}22; font-size: 11px;">${meta.icon || '•'}</div>
+                    <span style="font-size: 12px; color: var(--text-secondary); width: 52px; flex-shrink: 0;">${d.label}</span>
+                    <div style="flex: 1; height: 7px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden;">
+                      <div style="height: 100%; width: ${d.val * 20}%; background: linear-gradient(90deg, ${dimColor}, ${dimColor}dd); border-radius: 4px; transition: width 0.5s cubic-bezier(0.16,1,0.3,1);"></div>
                     </div>
-                    <span style="font-size: 12px; font-weight: 600; color: ${d.val >= 4 ? '#10b981' : d.val >= 3 ? '#f59e0b' : '#ef4444'}; width: 16px; text-align: right;">${d.val}</span>
+                    <span style="font-size: 12px; font-weight: 700; color: ${dimColor}; width: 16px; text-align: right;">${d.val}</span>
                   </div>
-                `).join('')}
+                  `;
+                }).join('')}
+              </div>
+
+              <!-- 成就徽章 -->
+              ${achievements.length > 0 ? `
+                <div style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px;">
+                  ${achievements.map((a, i) => `
+                    <span class="rating-achievement" style="animation-delay: ${i * 0.08}s;" title="${a.desc}">
+                      ${a.icon} ${a.label}
+                    </span>
+                  `).join('')}
+                </div>
+              ` : ''}
+
+              <!-- 座右铭 -->
+              <div class="rating-motto" style="border-left-color: ${borderColor}; margin-bottom: 10px;">
+                ${titleInfo.motto}
               </div>
 
               <!-- 评语 -->
-              <div style="padding: 12px; background: var(--bg-secondary); border-radius: var(--radius-md); font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
-                💬 ${r.comment}
+              <div style="padding: 10px 12px; background: var(--bg-secondary); border-radius: var(--radius-md); font-size: 12px; color: var(--text-secondary); line-height: 1.6;">
+                📊 ${r.comment}
               </div>
             </div>
           </div>
