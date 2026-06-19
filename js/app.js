@@ -495,7 +495,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月7天出勤54h，门迎11次，销售¥12,078时产¥224/h，品类(鞋履82.7% / 服装17.3%)",
+      "comment": "6月7天出勤54h，门迎11次，销售¥10,880时产¥201/h(含退货-¥1,198)，品类(鞋履82.7% / 服装17.3%)",
       "avgScore": 4.6,
       "hourlyRate": 60
     }
@@ -732,14 +732,14 @@ const Store = {
       },
             june: {
         month: '2026-06',
-        totalSales: 138492,
-        avgUPT: 1.33,
-        avgHourlyOutput: 159.6,
-        note: 'data as of 6/19 (file 38)',
+        totalSales: 137314,
+        avgUPT: 1.32,
+        avgHourlyOutput: 158.0,
+        note: 'data as of 6/19 (file 38), net of returns -¥1,198',
         records: [
   {
     'name': "陈昕媛",
-    'sales': 23628,
+    'sales': 23648,
     'qty': 18,
     'tickets': 16,
     'avgPrice': 1477,
@@ -874,13 +874,13 @@ const Store = {
   },
   {
     'name': "龚赟昊",
-    'sales': 12078,
-    'qty': 11,
+    'sales': 10880,
+    'qty': 10,
     'tickets': 9,
     'avgPrice': 1342,
     'workHours': 54.0,
     'workDays': 7,
-    'hourlyOutput': 224,
+    'hourlyOutput': 201,
     'efficiency': 0.4035,
     'salesShare': 0.087,
     'categories': {
@@ -1094,7 +1094,7 @@ const Store = {
     ],
 
     // Data version for forced refresh detection
-    _dataVersion: '2026-06-19-v9',
+    _dataVersion: '2026-06-19-v10',
   },
 
   init() {
@@ -1165,11 +1165,11 @@ const Store = {
       // Check if availability is outdated v3: 陈昕媛 total should be 27 (was 20), 田佳乐 total should be 26 (was 27)
       const isOutdatedAvailV3 = chenXinyuan && chenXinyuan.total === 20;
       // Check if june performance is outdated v2: totalSales should be 129567 (was 127591)
-      const isOutdatedJunePerfV2 = junePerf.totalSales && junePerf.totalSales < 138492;
+      const isOutdatedJunePerfV2 = junePerf.totalSales && junePerf.totalSales < 137314;
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-19-v9';
+      const DATA_VERSION = '2026-06-19-v10';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {

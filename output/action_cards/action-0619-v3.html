@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salomon 日报 · 6/19 端午特别版</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+    background: #0A1019;
+    color: #E4E8EC;
+    width: 1300px;
+    margin: 0 auto;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* === TOP HEADER === */
+  .top-header {
+    background: linear-gradient(135deg, #0F2A1E 0%, #1B3A2A 30%, #1B3A5C 70%, #0F1924 100%);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #4ADE80;
+  }
+  .top-header .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .top-header .brand .logo-icon {
+    font-size: 24px;
+  }
+  .top-header .brand h1 {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+  }
+  .top-header .brand h1 span { color: #4ADE80; }
+  .top-header .tabs {
+    display: flex;
+    gap: 4px;
+  }
+  .top-header .tab {
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: default;
+    transition: 0.2s;
+  }
+  .tab.active { background: rgba(255,255,255,0.1); color: #fff; }
+  .tab.inactive { background: transparent; color: rgba(255,255,255,0.4); }
+  .top-header .date-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .top-header .date {
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.7);
+  }
+  .top-header .festival-tag {
+    background: linear-gradient(135deg, #166534, #22C55E);
+    color: #fff;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  /* === MAIN GRID === */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 800px;
+  }
+  .col-left { background: #111B26; padding: 24px 20px; }
+  .col-right { background: #0E1722; padding: 24px 20px; }
+
+  /* === SECTION HEADER === */
+  .sec-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .sec-title .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+  }
+  .sec-title h3 {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+  }
+
+  /* === PERSONNEL CARDS (compact) === */
+  .people-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .people-grid.col2 {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .p-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 10px 12px;
+  }
+  .p-card .p-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+  .p-card .p-name {
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .p-card .p-role {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .role-senior { background: rgba(100,181,246,0.12); color: #64B5F6; }
+  .role-high { background: rgba(74,222,128,0.12); color: #4ADE80; }
+  .role-pot { background: rgba(255,183,77,0.12); color: #FFB74D; }
+  .role-new { background: rgba(248,113,113,0.1); color: #F87171; }
+  .p-card .p-mid {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+  .p-card .p-hours {
+    font-size: 15px;
+    font-weight: 800;
+    color: #64B5F6;
+  }
+  .p-card .p-hours .u { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.4); }
+  .p-card .p-meta {
+    display: flex;
+    gap: 8px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+  }
+  .p-card .p-meta span { white-space: nowrap; }
+  .p-card .p-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .status-ok { background: rgba(74,222,128,0.08); color: #4ADE80; }
+  .status-warn { background: rgba(248,113,113,0.08); color: #F87171; }
+
+  /* === PERF CARDS === */
+  .perf-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .perf-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 10px 12px;
+    position: relative;
+  }
+  .perf-card .pf-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .perf-card .pf-name {
+    font-size: 13px;
+    font-weight: 700;
+  }
+  .perf-card .pf-rank {
+    font-size: 11px;
+    font-weight: 800;
+    color: #FFB74D;
+  }
+  .perf-card .pf-sales {
+    font-size: 17px;
+    font-weight: 800;
+    color: #4ADE80;
+    margin-bottom: 2px;
+  }
+  .perf-card .pf-meta {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    display: flex;
+    gap: 8px;
+  }
+  .perf-card .pf-cat {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: rgba(74,222,128,0.08);
+    color: #4ADE80;
+    margin-top: 4px;
+    display: inline-block;
+  }
+
+  /* === STAR ORDER === */
+  .star-card {
+    background: linear-gradient(135deg, rgba(255,193,7,0.08), rgba(255,152,0,0.04));
+    border: 1px solid rgba(255,193,7,0.2);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+  }
+  .star-card .star-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+  }
+  .star-card .star-header .icon { font-size: 16px; }
+  .star-card .star-header span {
+    font-size: 13px;
+    font-weight: 700;
+    color: #FFB74D;
+  }
+  .star-card .star-body {
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+  }
+  .star-card .star-body strong {
+    color: rgba(255,255,255,0.9);
+  }
+
+  /* === DOOR TIMELINE === */
+  .door-timeline {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 16px;
+  }
+  .door-timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px; top: 4px; bottom: 4px;
+    width: 2px;
+    background: rgba(100,181,246,0.2);
+    border-radius: 2px;
+  }
+  .door-item {
+    position: relative;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .door-item::before {
+    content: '';
+    position: absolute;
+    left: -16px; top: 6px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #64B5F6;
+    border: 2px solid #111B26;
+  }
+  .door-item .di-time {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    width: 52px;
+    flex-shrink: 0;
+  }
+  .door-item .di-person {
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* === SUMMARY BOX === */
+  .summary-box {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .summary-box h4 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: rgba(255,255,255,0.8);
+  }
+  .summary-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .ss-item .ss-label {
+    font-size: 10px;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .ss-item .ss-value {
+    font-size: 18px;
+    font-weight: 800;
+  }
+  .summary-box .note {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+  .summary-box .note strong { color: rgba(255,255,255,0.8); }
+
+  /* === TODAY SECTION === */
+  .today-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .ts-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 12px;
+  }
+  .ts-card .ts-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 4px;
+  }
+  .ts-card .ts-value {
+    font-size: 22px;
+    font-weight: 800;
+  }
+  .ts-card .ts-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 2px;
+  }
+
+  /* === PRIORITY TAGS === */
+  .priority-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 14px;
+  }
+  .pri-tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .pri-tag.p0 { background: rgba(239,68,68,0.12); color: #EF4444; }
+  .pri-tag.p1 { background: rgba(245,158,11,0.12); color: #F59E0B; }
+  .pri-tag.p2 { background: rgba(100,181,246,0.12); color: #64B5F6; }
+
+  /* === TEAM OVERVIEW === */
+  .overview-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .ov-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .ov-card h4 {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: rgba(255,255,255,0.7);
+  }
+  .ov-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
+  .ov-bar-row .bar-label {
+    width: 36px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+  }
+  .ov-bar-row .bar-track {
+    flex: 1;
+    height: 6px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .ov-bar-row .bar-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+  .ov-bar-row .bar-val {
+    width: 50px;
+    text-align: right;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  /* === OPPORTUNITY === */
+  .opp-card {
+    background: linear-gradient(135deg, rgba(74,222,128,0.06), rgba(74,222,128,0.02));
+    border: 1px solid rgba(74,222,128,0.12);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+  .opp-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #4ADE80;
+  }
+  .opp-card p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+  }
+  .opp-card p strong { color: rgba(255,255,255,0.85); }
+
+  /* === TALK SCRIPTS === */
+  .script-card {
+    background: rgba(100,181,246,0.04);
+    border: 1px solid rgba(100,181,246,0.1);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+  }
+  .script-card h4 {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #64B5F6;
+  }
+  .script-item {
+    font-size: 12px;
+    color: rgba(255,255,255,0.55);
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    line-height: 1.5;
+  }
+  .script-item:last-child { border-bottom: none; }
+  .script-item .s-icon { color: #64B5F6; margin-right: 4px; }
+
+  /* === ACTION LIST === */
+  .action-list {
+    list-style: none;
+  }
+  .action-list li {
+    display: flex;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 12.5px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.5;
+  }
+  .action-list li:last-child { border-bottom: none; }
+  .action-list .al-num {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .al-num.red { background: rgba(239,68,68,0.15); color: #EF4444; }
+  .al-num.amber { background: rgba(245,158,11,0.15); color: #F59E0B; }
+  .al-num.blue { background: rgba(100,181,246,0.15); color: #64B5F6; }
+  .al-num.green { background: rgba(74,222,128,0.15); color: #4ADE80; }
+  .action-list li strong { color: #fff; }
+
+  /* === FOOTER === */
+  .footer {
+    background: #060B12;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+  .footer .fl {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+  }
+  .footer .fr {
+    font-size: 11px;
+    color: rgba(255,255,255,0.25);
+  }
+  .footer .fr strong { color: #4ADE80; }
+
+  /* === FESTIVAL ACCENTS === */
+  .festival-ribbon {
+    position: absolute;
+    top: 12px; right: 20px;
+    font-size: 28px;
+    opacity: 0.3;
+  }
+  .festival-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(74,222,128,0.3), transparent);
+    margin: 14px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="top-header" style="position:relative;">
+  <div class="brand">
+    <div class="logo-icon">🇫🇷</div>
+    <div>
+      <h1>Service Team <span>日报</span> · 昨日复盘 &amp; 今日行动</h1>
+    </div>
+  </div>
+  <div class="tabs">
+    <div class="tab active">📊 昨日复盘</div>
+    <div class="tab active">🚀 今日行动</div>
+  </div>
+  <div class="date-row">
+    <div class="date">2026.06.19 周五</div>
+    <div class="festival-tag">🐲 端午安康 🎋</div>
+  </div>
+</div>
+
+<!-- MAIN GRID -->
+<div class="main-grid">
+
+  <!-- ========================== LEFT: 昨日复盘 ========================== -->
+  <div class="col-left">
+
+    <!-- 昨日出勤 -->
+    <div class="sec-title">
+      <div class="dot" style="background:#64B5F6;"></div>
+      <h3>昨日出勤 · 6/18 周四</h3>
+    </div>
+
+    <div class="people-grid">
+      <!-- 田佳乐 -->
+      <div class="p-card">
+        <div class="p-top">
+          <div class="p-name">田佳乐</div>
+          <div class="p-role role-pot">潜力</div>
+        </div>
+        <div class="p-mid">
+          <div class="p-hours">8.0<span class="u">h</span></div>
+        </div>
+        <div class="p-meta"><span>🚪 门迎2次</span><span>🕐 10:30-19:00</span></div>
+        <div class="p-status status-ok">✓ 正常 · 本月门迎15次</div>
+      </div>
+      <!-- 邓奇缘 -->
+      <div class="p-card">
+        <div class="p-top">
+          <div class="p-name">邓奇缘</div>
+          <div class="p-role role-high">高潜</div>
+        </div>
+        <div class="p-mid">
+          <div class="p-hours">7.5<span class="u">h</span></div>
+        </div>
+        <div class="p-meta"><span>🚪 门迎1次</span><span>🕐 10:57-19:00</span></div>
+        <div class="p-status status-ok">✓ 正常 · 本月门迎17次</div>
+      </div>
+      <!-- 迟骋 -->
+      <div class="p-card">
+        <div class="p-top">
+          <div class="p-name">迟骋</div>
+          <div class="p-role role-pot">潜力</div>
+        </div>
+        <div class="p-mid">
+          <div class="p-hours">6.5<span class="u">h</span></div>
+        </div>
+        <div class="p-meta"><span>🚪 门迎2次</span><span>🕐 11:20-18:30</span></div>
+        <div class="p-status status-warn">⚠ 迟到20分钟 · 好评3条</div>
+      </div>
+      <!-- 李若彤 -->
+      <div class="p-card">
+        <div class="p-top">
+          <div class="p-name">李若彤</div>
+          <div class="p-role role-high">高潜</div>
+        </div>
+        <div class="p-mid">
+          <div class="p-hours">8.5<span class="u">h</span></div>
+        </div>
+        <div class="p-meta"><span>🚪 门迎1次</span><span>🕐 11:27-20:35</span></div>
+        <div class="p-status status-ok">✓ 正常 · 当日最久8.5h</div>
+      </div>
+      <!-- 王雅澜 -->
+      <div class="p-card">
+        <div class="p-top">
+          <div class="p-name">王雅澜</div>
+          <div class="p-role role-high">高潜</div>
+        </div>
+        <div class="p-mid">
+          <div class="p-hours">8.0<span class="u">h</span></div>
+        </div>
+        <div class="p-meta"><span>🚪 门迎1次</span><span>🕐 11:59-21:00</span></div>
+        <div class="p-status status-ok">✓ 正常 · 时产¥253/h</div>
+      </div>
+      <!-- 朱凯赟 -->
+      <div class="p-card">
+        <div class="p-top">
+          <div class="p-name">朱凯赟</div>
+          <div class="p-role role-pot">潜力</div>
+        </div>
+        <div class="p-mid">
+          <div class="p-hours">8.0<span class="u">h</span></div>
+        </div>
+        <div class="p-meta"><span>🚪 门迎2次</span><span>🕐 12:48-21:30</span></div>
+        <div class="p-status status-ok">✓ 正常 · 大众点评好评2条</div>
+      </div>
+    </div>
+
+    <!-- 昨日业绩产出 -->
+    <div class="sec-title">
+      <div class="dot" style="background:#4ADE80;"></div>
+      <h3>6月业绩累计 · TOP 6</h3>
+    </div>
+
+    <div class="perf-grid">
+      <div class="perf-card">
+        <div class="pf-top">
+          <div class="pf-name">陈昕媛</div>
+          <div class="pf-rank">🥇</div>
+        </div>
+        <div class="pf-sales">¥23,628</div>
+        <div class="pf-meta"><span>18件/16单</span><span>¥263/h</span></div>
+        <div class="pf-cat">鞋履 84%</div>
+      </div>
+      <div class="perf-card">
+        <div class="pf-top">
+          <div class="pf-name">杨子豪</div>
+          <div class="pf-rank">🥈</div>
+        </div>
+        <div class="pf-sales">¥20,226</div>
+        <div class="pf-meta"><span>17件/12单</span><span>¥329/h</span></div>
+        <div class="pf-cat">鞋履 90%</div>
+      </div>
+      <div class="perf-card">
+        <div class="pf-top">
+          <div class="pf-name">李若彤</div>
+          <div class="pf-rank">🥉</div>
+        </div>
+        <div class="pf-sales">¥17,526</div>
+        <div class="pf-meta"><span>17件/11单</span><span>¥212/h</span></div>
+        <div class="pf-cat">鞋履 83%</div>
+      </div>
+      <div class="perf-card">
+        <div class="pf-top">
+          <div class="pf-name">王雅澜</div>
+          <div class="pf-rank">#4</div>
+        </div>
+        <div class="pf-sales">¥15,576</div>
+        <div class="pf-meta"><span>12件/9单</span><span>¥253/h</span></div>
+        <div class="pf-cat">鞋履 86%</div>
+      </div>
+      <div class="perf-card">
+        <div class="pf-top">
+          <div class="pf-name">孔祥宇</div>
+          <div class="pf-rank">#5</div>
+        </div>
+        <div class="pf-sales">¥15,327</div>
+        <div class="pf-meta"><span>14件/9单</span><span>¥196/h</span></div>
+        <div class="pf-cat">鞋履 75%</div>
+      </div>
+      <div class="perf-card">
+        <div class="pf-top">
+          <div class="pf-name">龚赟昊</div>
+          <div class="pf-rank">#6</div>
+        </div>
+        <div class="pf-sales">¥12,078</div>
+        <div class="pf-meta"><span>11件/9单</span><span>¥224/h</span></div>
+        <div class="pf-cat">鞋履 83%</div>
+      </div>
+    </div>
+
+    <!-- 明星单 -->
+    <div class="star-card">
+      <div class="star-header">
+        <span class="icon">⭐</span>
+        <span>明星单 · 昨日最高客单价预估</span>
+      </div>
+      <div class="star-body">
+        6/18 重点成交推测：<strong>杨子豪</strong> 平均客单价 ¥1,686，全队最高。推测含高端鞋款（如 XT-6 / ACS Pro）联单成交。全队平均客单 ¥1,521，高于 6 月均值。
+      </div>
+    </div>
+
+    <!-- 门迎执行 -->
+    <div class="sec-title">
+      <div class="dot" style="background:#FFB74D;"></div>
+      <h3>门迎执行 · 6/18</h3>
+    </div>
+    <div class="door-timeline">
+      <div class="door-item"><div class="di-time">10:00-11:00</div><div class="di-person">田佳乐</div></div>
+      <div class="door-item"><div class="di-time">11:00-12:00</div><div class="di-person">田佳乐</div></div>
+      <div class="door-item"><div class="di-time">12:00-13:00</div><div class="di-person">迟骋</div></div>
+      <div class="door-item"><div class="di-time">13:00-14:00</div><div class="di-person">邓奇缘</div></div>
+      <div class="door-item"><div class="di-time">14:00-15:00</div><div class="di-person">李若彤</div></div>
+      <div class="door-item"><div class="di-time">15:00-16:00</div><div class="di-person">王雅澜</div></div>
+      <div class="door-item"><div class="di-time">16:00-17:00</div><div class="di-person">朱凯赟</div></div>
+      <div class="door-item"><div class="di-time">17:00-18:00</div><div class="di-person">迟骋</div></div>
+      <div class="door-item"><div class="di-time">21:00-21:30</div><div class="di-person">朱凯赟</div></div>
+    </div>
+
+    <!-- 昨日小结 -->
+    <div class="summary-box">
+      <h4>📋 昨日小结</h4>
+      <div class="summary-stats">
+        <div class="ss-item">
+        <div class="ss-label">出勤</div>
+        <div class="ss-value">6人</div>
+        </div>
+        <div class="ss-item">
+        <div class="ss-label">总工时</div>
+        <div class="ss-value">46.5h</div>
+        </div>
+        <div class="ss-item">
+          <div class="ss-label">门迎</div>
+          <div class="ss-value">9段</div>
+        </div>
+      </div>
+      <div class="note">
+        <strong>亮点：</strong>李若彤当日工时最长 8.5h；门迎10:00-21:30 全覆盖无空档；迟骋迟到20分钟（本月首次）需关注。
+        <br><strong>机会：</strong>6月累计 ¥138,492，距 ¥150,000 目标差 ¥11,508，周末+端午假期是冲刺窗口。
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========================== RIGHT: 今日行动 ========================== -->
+  <div class="col-right">
+
+    <!-- 今日在岗 -->
+    <div class="sec-title">
+      <div class="dot" style="background:#EF4444;"></div>
+      <h3>今日在岗 · 6/19 周五 🎋</h3>
+    </div>
+
+    <div class="today-stats">
+      <div class="ts-card">
+        <div class="ts-label">排班人数</div>
+        <div class="ts-value">9人</div>
+        <div class="ts-sub">Service Team 全员</div>
+      </div>
+    </div>
+
+    <!-- 今日优先级 -->
+    <div class="priority-row">
+      <div class="pri-tag p0">🔥 P0 · 冲刺15万（差¥11,508）</div>
+      <div class="pri-tag p1">📈 P1 · 低产能带教</div>
+      <div class="pri-tag p2">⏰ P2 · 零迟到日</div>
+    </div>
+
+    <!-- 在岗9人迷你卡片 -->
+    <div class="people-grid" style="margin-bottom:14px;">
+      <div class="p-card">
+        <div class="p-top"><div class="p-name">邓奇缘</div><div class="p-role role-high">高潜</div></div>
+        <div class="p-meta"><span>10:00-18:30</span></div>
+      </div>
+      <div class="p-card">
+        <div class="p-top"><div class="p-name">孔祥宇</div><div class="p-role role-senior">资深</div></div>
+        <div class="p-meta"><span>10:30-19:00</span></div>
+      </div>
+      <div class="p-card">
+        <div class="p-top"><div class="p-name">陈昕媛</div><div class="p-role role-high">高潜</div></div>
+        <div class="p-meta"><span>11:00-19:30</span></div>      </div>
+      <div class="p-card">
+        <div class="p-top"><div class="p-name">杨子豪</div><div class="p-role role-senior">资深</div></div>
+        <div class="p-meta"><span>11:30-20:30</span></div>      </div>
+      <div class="p-card">
+        <div class="p-top"><div class="p-name">王雅澜</div><div class="p-role role-high">高潜</div></div>
+        <div class="p-meta"><span>11:30-20:30</span></div>      </div>
+      <div class="p-card">
+        <div class="p-top"><div class="p-name">龚赟昊</div><div class="p-role role-high">高潜</div></div>
+        <div class="p-meta"><span>12:15-21:00</span></div>      </div>
+      <div class="p-card">
+        <div class="p-top"><div class="p-name">何秋烨</div><div class="p-role role-pot">潜力</div></div>
+        <div class="p-meta"><span>12:15-21:00</span></div>      </div>
+      <div class="p-card">
+        <div class="p-top"><div class="p-name">王靳毓</div><div class="p-role role-pot">潜力</div></div>
+        <div class="p-meta"><span>13:00-21:30</span></div>      </div>
+      <div class="p-card">
+        <div class="p-top"><div class="p-name">李若彤</div><div class="p-role role-high">高潜</div></div>
+        <div class="p-meta"><span>13:00-21:30</span></div>      </div>
+    </div>
+
+    <!-- 团队速览 -->
+    <div class="overview-row">
+      <div class="ov-card">
+        <h4>⚡ 时产分层</h4>
+        <div class="ov-bar-row">
+          <div class="bar-label">≥300</div>
+          <div class="bar-track"><div class="bar-fill" style="width:8%;background:#4ADE80;"></div></div>
+          <div class="bar-val">1人</div>
+        </div>
+        <div class="ov-bar-row">
+          <div class="bar-label">200-300</div>
+          <div class="bar-track"><div class="bar-fill" style="width:31%;background:#64B5F6;"></div></div>
+          <div class="bar-val">4人</div>
+        </div>
+        <div class="ov-bar-row">
+          <div class="bar-label">100-200</div>
+          <div class="bar-track"><div class="bar-fill" style="width:23%;background:#FFB74D;"></div></div>
+          <div class="bar-val">3人</div>
+        </div>
+        <div class="ov-bar-row">
+          <div class="bar-label"><100</div>
+          <div class="bar-track"><div class="bar-fill" style="width:38%;background:#F87171;"></div></div>
+          <div class="bar-val">5人</div>
+        </div>
+      </div>
+      <div class="ov-card">
+        <h4>📊 品类分布</h4>
+        <div class="ov-bar-row">
+          <div class="bar-label">鞋履</div>
+          <div class="bar-track"><div class="bar-fill" style="width:83%;background:#4ADE80;"></div></div>
+          <div class="bar-val">83%</div>
+        </div>
+        <div class="ov-bar-row">
+          <div class="bar-label">服装</div>
+          <div class="bar-track"><div class="bar-fill" style="width:12%;background:#64B5F6;"></div></div>
+          <div class="bar-val">12%</div>
+        </div>
+        <div class="ov-bar-row">
+          <div class="bar-label">配件</div>
+          <div class="bar-track"><div class="bar-fill" style="width:5%;background:#FFB74D;"></div></div>
+          <div class="bar-val">5%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 品类机会 -->
+    <div class="opp-card">
+      <h4>🎯 品类机会 · 联单增长点</h4>
+      <p>
+        鞋履占比 <strong>83%</strong>，服装仅 <strong>12%</strong>、配件仅 <strong>5%</strong>。
+        对标户外运动品牌（服装占比35-45%），<strong>服装与配件有 2x 增长空间</strong>。
+        端午假期客流以 <strong>家庭游 + 游客</strong> 为主：
+        <br>→ 推荐鞋+运动袜（配件）= 客单 +¥200+
+        <br>→ 推荐鞋+速干T恤（服装）= 客单 +¥600+
+        <br>→ 推荐全家配齐（3人份）= 客单 +¥2,000+
+      </p>
+    </div>
+
+    <!-- 推荐话术 -->
+    <div class="script-card">
+      <h4>💬 端午话术速查 · 按客群分类</h4>
+      <div class="script-item">
+        <span class="s-icon">①</span> <strong>散客进店：</strong>"端午安康！欢迎来 Salomon～今天假期人多，我先帮您看下有没有适合的款式？"
+      </div>
+      <div class="script-item">
+        <span class="s-icon">②</span> <strong>情侣/闺蜜：</strong>"你们俩一人一双情侣款，端午出去玩拍照特别出片。两双一起算业主折扣更划算哦。"
+      </div>
+      <div class="script-item">
+        <span class="s-icon">③</span> <strong>亲子家庭：</strong>"小朋友也来一双？我们有小童款，一家人穿同色系徒步，端午亲子游正好。"
+      </div>
+      <div class="script-item">
+        <span class="s-icon">④</span> <strong>犹豫不决：</strong>"端午节假最后一天了，您喜欢的话今天拿下最划算，后面补货不一定有您的码。"
+      </div>
+      <div class="script-item">
+        <span class="s-icon">⑤</span> <strong>离店送别：</strong>"端午安康！加下我们公众号，下次新品和折扣第一时间通知您。满意的话大众点评给个好评哈～"
+      </div>
+    </div>
+
+    <!-- 今日行动指令 -->
+    <div class="sec-title">
+      <div class="dot" style="background:#4ADE80;"></div>
+      <h3>📋 今日行动指令</h3>
+    </div>
+
+    <ol class="action-list">
+      <li>
+        <div class="al-num red">1</div>
+        <div>
+          <strong>全力接待端午客流</strong> — 今日9名 Service Team 在岗，早班2人已到位（邓奇缘、孔祥宇），11:00起陈昕媛、杨子豪、王雅澜陆续到岗。确保卖场每个区域有专人盯，避免跑单。目标：全队日销售冲击 <strong>¥15,000+</strong>。
+        </div>
+      </li>
+      <li>
+        <div class="al-num amber">2</div>
+        <div>
+          <strong>服装配件联单突破</strong> — 利用端午家庭客群，主推"鞋+袜/鞋+T恤"组合。孔祥宇（服装占25%）今日在岗，可分享搭配话术。目标：今日 <strong>联单率 ≥ 40%</strong>。
+        </div>
+      </li>
+      <li>
+        <div class="al-num blue">3</div>
+        <div>
+          <strong>低产能重点盯</strong> — 王靳毓（¥50/h）今日13:00到岗，品类搭配均衡（鞋45%/服21%/配34%），适合担任搭配顾问。迟骋（¥21/h）发挥服务优势，不设销售硬指标。
+        </div>
+      </li>
+      <li>
+        <div class="al-num green">4</div>
+        <div>
+          <strong>端午话术 · 迎客开场</strong> — 顾客进店第一句：<em>"端午安康！欢迎来 Salomon，今天进店就有端午小惊喜哦～"</em>。先送祝福拉近距离，再自然过渡到产品推荐，避免一上来就推销。
+        </div>
+      </li>
+      <li>
+        <div class="al-num green">5</div>
+        <div>
+          <strong>端午话术 · 出游场景</strong> — <em>"假期出去玩的吧？这双 XT-6 防滑耐磨，徒步逛街都舒服，好多人端午专门来买这双。配一双运动袜今天¥39，穿出去更好。"</em>。场景化痛点 + 联单引导。
+        </div>
+      </li>
+      <li>
+        <div class="al-num green">6</div>
+        <div>
+          <strong>端午话术 · 家庭客群</strong> — 情侣/亲子进店时：<em>"你们一人一双配情侣款，端午出去玩拍照超好看。两双一起还能用业主折扣，我帮你们算一下？"</em>。重点抓双人/多人联单。
+        </div>
+      </li>
+      <li>
+        <div class="al-num green">7</div>
+        <div>
+          <strong>端午话术 · 送别加微</strong> — 顾客买单/离店时：<em>"端午安康！加一下我们公众号，后续有新品和活动第一时间通知您。今天试了觉得好的话，大众点评给个好评我们特别感谢～"</em>。导流 + 口碑一举两得。
+        </div>
+      </li>
+      <li>
+        <div class="al-num green">6</div>
+        <div>
+          <strong>李若彤打卡提醒</strong> — 已累计迟到1+缺卡1+旷工1，今日13:00到岗务必准时打卡。同时提醒王靳毓13:00到岗勿迟到。
+        </div>
+      </li>
+    </ol>
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="fl">Salomon 安福路 L140 · 兼职管理系统 · 端午安康 🎋</div>
+  <div class="fr">数据截止 <strong>6/19 11:15</strong> · 灵工打卡 178条 · 销售小票 #38 · 版本 v9</div>
+</div>
+
+</body>
+</html>
