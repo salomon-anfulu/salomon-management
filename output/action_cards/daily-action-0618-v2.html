@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>昨日复盘 + 今日行动卡 — 6/18</title>
+<style>
+  @page { size: A4; margin: 0; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+    background: #f5f5f0;
+    color: #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 20px;
+  }
+  .page {
+    width: 860px;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  /* Header */
+  .header {
+    background: #0F2742;
+    color: #fff;
+    padding: 32px 40px 28px;
+    position: relative;
+  }
+  .header::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #E63946 0%, #E63946 40%, #F4A261 40%, #F4A261 70%, #2A9D5F 70%, #2A9D5F 100%);
+  }
+  .header.yesterday::after {
+    background: linear-gradient(90deg, #2A9D5F 0%, #2A9D5F 40%, #1565C0 40%, #1565C0 70%, #F4A261 70%, #F4A261 100%);
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .header h1 .badge {
+    font-size: 12px;
+    background: rgba(255,255,255,0.2);
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  .header .date {
+    font-size: 14px;
+    opacity: 0.7;
+    font-weight: 400;
+  }
+  .header .subtitle {
+    margin-top: 6px;
+    font-size: 13px;
+    opacity: 0.8;
+    font-weight: 400;
+  }
+  .header .brand {
+    position: absolute;
+    top: 28px;
+    right: 40px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    opacity: 0.35;
+    text-transform: uppercase;
+  }
+
+  /* Section */
+  .section {
+    padding: 24px 40px;
+    border-bottom: 1px solid #eee;
+  }
+  .section:last-child { border-bottom: none; }
+  .section-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0F2742;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title .dot { width: 6px; height: 6px; border-radius: 50%; background: #E63946; }
+  .section-title .dot.green { background: #2A9D5F; }
+  .section-title .dot.blue { background: #1565C0; }
+  .section-title .dot.amber { background: #F4A261; }
+
+  /* Review performance cards */
+  .perf-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  .perf-card {
+    background: #f8f8f5;
+    border-radius: 10px;
+    padding: 14px 10px;
+    text-align: center;
+    border: 1px solid #eee;
+    position: relative;
+  }
+  .perf-card .name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0F2742;
+  }
+  .perf-card .amount {
+    margin-top: 6px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #E63946;
+  }
+  .perf-card .amount.green { color: #2A9D5F; }
+  .perf-card .amount.blue { color: #1565C0; }
+  .perf-card .amount.muted { color: #999; }
+  .perf-card .detail {
+    font-size: 10px;
+    color: #888;
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  .perf-card .cats {
+    margin-top: 6px;
+    display: flex;
+    gap: 3px;
+    justify-content: center;
+    height: 5px;
+  }
+  .cat-bar { border-radius: 3px; }
+  .cat-shoe { background: #0F2742; }
+  .cat-apparel { background: #F4A261; }
+  .cat-acc { background: #E63946; }
+  .perf-card .cat-labels {
+    margin-top: 4px;
+    font-size: 8px;
+    color: #aaa;
+  }
+
+  /* Team grid */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .member-card {
+    background: #f8f8f5;
+    border-radius: 10px;
+    padding: 14px 12px;
+    border: 1px solid #eee;
+    position: relative;
+  }
+  .member-card .mc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .member-card .name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #0F2742;
+  }
+  .member-card .rank-badge {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #E63946;
+  }
+  .rank-badge.gold { background: #F4A261; }
+  .rank-badge.silver { background: #999; }
+  .rank-badge.bronze { background: #CD7F32; }
+  .member-card .metric-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .member-card .metric-cell {
+    flex: 1;
+    text-align: center;
+  }
+  .member-card .metric-cell .mval {
+    font-size: 18px;
+    font-weight: 700;
+    color: #E63946;
+  }
+  .member-card .metric-cell .mval.green { color: #2A9D5F; }
+  .member-card .metric-cell .mval.blue { color: #1565C0; }
+  .member-card .metric-cell .mval.amber { color: #F4A261; }
+  .member-card .metric-cell .mlbl {
+    font-size: 9px;
+    color: #999;
+  }
+  .member-card .cats {
+    margin: 6px 0 4px;
+    display: flex;
+    gap: 3px;
+    height: 6px;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .member-card .cat-labels {
+    font-size: 9px;
+    color: #aaa;
+    text-align: center;
+  }
+  .member-card .tags {
+    margin-top: 6px;
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  .tag-warn { background: #FFF3E0; color: #E65100; }
+  .tag-good { background: #E8F5E9; color: #2E7D32; }
+  .tag-info { background: #E3F2FD; color: #1565C0; }
+  .tag-red { background: #FFEBEE; color: #C62828; }
+  .tag-star { background: #FFF8E1; color: #F57F17; }
+
+  /* Insight row */
+  .insight-row {
+    display: flex;
+    gap: 14px;
+  }
+  .insight-box {
+    flex: 1;
+    background: #f8f8f5;
+    border-radius: 10px;
+    padding: 14px 16px;
+    border-left: 3px solid #E63946;
+  }
+  .insight-box.blue { border-left-color: #1565C0; }
+  .insight-box.green { border-left-color: #2A9D5F; }
+  .insight-box.amber { border-left-color: #F4A261; }
+  .insight-box h4 {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: #333;
+  }
+  .insight-box p {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.5;
+  }
+  .insight-box .big {
+    font-size: 26px;
+    font-weight: 700;
+    color: #E63946;
+  }
+
+  /* Review timeline */
+  .review-timeline {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 8px 0;
+  }
+  .tl-block {
+    flex-shrink: 0;
+    min-width: 72px;
+    text-align: center;
+  }
+  .tl-time {
+    font-size: 10px;
+    color: #999;
+    margin-bottom: 4px;
+  }
+  .tl-staff {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: #ECF5FF;
+    color: #1565C0;
+  }
+  .tl-staff.empty { background: none; color: #ccc; }
+
+  /* Review stats */
+  .review-stats {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .rstat {
+    flex: 1;
+    background: #f8f8f5;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+  }
+  .rstat .rval {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2A9D5F;
+  }
+  .rstat .rlbl {
+    font-size: 10px;
+    color: #999;
+  }
+
+  /* Scenes */
+  .scenes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .scene-card {
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #eee;
+  }
+  .scene-body {
+    padding: 14px 16px 16px;
+  }
+  .scene-card.s1 .scene-body { background: #F6F4FC; }
+  .scene-card.s2 .scene-body { background: #EFF7F2; }
+  .scene-card.s3 .scene-body { background: #FFF9EC; }
+  .scene-card.s4 .scene-body { background: #FBEFEB; }
+  .scene-card .scene-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+  }
+  .scene-card .scene-trigger {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 8px;
+  }
+  .scene-card .script {
+    font-size: 13px;
+    color: #1a1a1a;
+    line-height: 1.65;
+    font-weight: 500;
+  }
+  .scene-card .script .open { color: #6B5B95; font-weight: 600; }
+  .scene-card .product-tag {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .scene-card .pl-badge {
+    display: inline-block;
+    margin-top: 4px;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 8px;
+    background: #0F2742;
+    color: rgba(255,255,255,0.8);
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  /* Actions */
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .action-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background: #f8f8f5;
+    border-radius: 8px;
+  }
+  .action-num {
+    flex-shrink: 0;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .action-num.red { background: #E63946; }
+  .action-num.green { background: #2A9D5F; }
+  .action-num.blue { background: #1565C0; }
+  .action-num.amber { background: #F4A261; }
+  .action-text {
+    font-size: 12px;
+    color: #333;
+    line-height: 1.55;
+  }
+  .action-text b { color: #E63946; }
+  .action-text .highlight { background: #FFF3E0; padding: 1px 3px; border-radius: 2px; color: #E65100; }
+
+  /* Priority banner */
+  .priority-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .priority-chip {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 12px;
+    color: #fff;
+  }
+  .priority-chip.p0 { background: #D32F2F; }
+  .priority-chip.p1 { background: #E65100; }
+  .priority-chip.p2 { background: #F4A261; }
+
+  /* Footer */
+  .footer {
+    padding: 12px 40px;
+    background: #0F2742;
+    color: rgba(255,255,255,0.5);
+    font-size: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; gap: 0; }
+    .page { border-radius: 0; box-shadow: none; width: 100%; page-break-after: always; }
+    .page:last-child { page-break-after: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== PAGE 1: 昨日复盘 ========== -->
+<div class="page">
+  <div class="header yesterday">
+    <div class="brand">SALOMON ANFU RD · L140</div>
+    <div class="header-top">
+      <h1>昨日复盘 <span class="badge">6/17 Wed</span></h1>
+      <span class="date">2026.06.17 周三</span>
+    </div>
+    <div class="subtitle">Service Team 出勤 5 人 | 门迎 9 时段全覆盖 | 门店总销售 ¥10,593</div>
+  </div>
+
+  <!-- 出勤 -->
+  <div class="section">
+    <div class="section-title"><span class="dot green"></span>出勤人员 — 灵工打卡</div>
+    <div class="perf-grid">
+      <div class="perf-card">
+        <div class="name">孔祥宇</div>
+        <div class="detail">10:00-18:30</div>
+        <div class="amount green" style="font-size:20px;">8h</div>
+        <div class="detail">门迎 1次</div>
+        <span class="tag tag-good" style="display:inline-block;margin-top:4px;">正常</span>
+      </div>
+      <div class="perf-card">
+        <div class="name">杨子豪</div>
+        <div class="detail">11:30-20:30</div>
+        <div class="amount blue" style="font-size:20px;">8.5h</div>
+        <div class="detail">门迎 2次</div>
+        <span class="tag tag-good" style="display:inline-block;margin-top:4px;">正常</span>
+      </div>
+      <div class="perf-card">
+        <div class="name">王靳毓</div>
+        <div class="detail">10:30-19:00</div>
+        <div class="amount green" style="font-size:20px;">8h</div>
+        <div class="detail">门迎 2次</div>
+        <span class="tag tag-good" style="display:inline-block;margin-top:4px;">正常</span>
+      </div>
+      <div class="perf-card">
+        <div class="name">王龙宇</div>
+        <div class="detail">12:15-21:00</div>
+        <div class="amount green" style="font-size:20px;">8h</div>
+        <div class="detail">门迎 2次</div>
+        <span class="tag tag-good" style="display:inline-block;margin-top:4px;">正常</span>
+      </div>
+      <div class="perf-card">
+        <div class="name">田佳乐</div>
+        <div class="detail">13:00-21:30</div>
+        <div class="amount green" style="font-size:20px;">8h</div>
+        <div class="detail">门迎 2次 + 翻场1h</div>
+        <span class="tag tag-good" style="display:inline-block;margin-top:4px;">正常</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 昨日业绩产出 -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span>昨日业绩产出 — 销售小票明细</div>
+    <div class="perf-grid">
+      <div class="perf-card" style="border:2px solid #E63946;">
+        <div class="name">孔祥宇</div>
+        <div class="amount">¥6,541</div>
+        <div class="detail">7件 / 3单 | 时产¥818/h</div>
+        <div class="cats">
+          <div class="cat-bar cat-shoe" style="width:22px"></div>
+          <div class="cat-bar cat-apparel" style="width:30px"></div>
+        </div>
+        <div class="cat-labels">鞋42% 服58%</div>
+        <span class="tag tag-star" style="display:inline-block;margin-top:4px;">昨日TOP</span>
+      </div>
+      <div class="perf-card">
+        <div class="name">杨子豪</div>
+        <div class="amount blue">¥2,696</div>
+        <div class="detail">2件 / 2单 | 时产¥317/h</div>
+        <div class="cats">
+          <div class="cat-bar cat-shoe" style="width:56px"></div>
+        </div>
+        <div class="cat-labels">鞋100%</div>
+        <span class="tag tag-info" style="display:inline-block;margin-top:4px;">纯鞋</span>
+      </div>
+      <div class="perf-card">
+        <div class="name">田佳乐</div>
+        <div class="amount amber">¥1,256</div>
+        <div class="detail">2件 / 1单 | 时产¥157/h</div>
+        <div class="cats">
+          <div class="cat-bar cat-apparel" style="width:22px"></div>
+          <div class="cat-bar cat-acc" style="width:12px"></div>
+        </div>
+        <div class="cat-labels">服64% 配36%</div>
+        <span class="tag tag-good" style="display:inline-block;margin-top:4px;">品类均衡</span>
+      </div>
+      <div class="perf-card" style="background:#fafafa;">
+        <div class="name">王靳毓</div>
+        <div class="amount muted">¥0</div>
+        <div class="detail">0单 | 门迎2次+卖场</div>
+        <div class="detail" style="color:#999;">无开单记录</div>
+        <span class="tag tag-warn" style="display:inline-block;margin-top:4px;">需关注</span>
+      </div>
+      <div class="perf-card" style="background:#fafafa;">
+        <div class="name">王龙宇</div>
+        <div class="amount muted">¥0</div>
+        <div class="detail">0单 | 门迎2次+卖场</div>
+        <div class="detail" style="color:#999;">无开单记录</div>
+        <span class="tag tag-warn" style="display:inline-block;margin-top:4px;">需关注</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 孔祥宇明星单分析 -->
+  <div class="section">
+    <div class="section-title"><span class="dot amber"></span>明星单 — 孔祥宇 12:46 联单 ¥4,395</div>
+    <div class="insight-row">
+      <div class="insight-box amber">
+        <h4>1单4件 · 服装占比75%</h4>
+        <div class="big" style="color:#F4A261">¥4,395</div>
+        <p>X ALP WOVEN鞋¥1,398 + PL OD DA SHORT短裤¥698 + HIKING CREST SS T恤¥598 + SOFTPEAK冲锋裤¥1,103 + PL OD POLO¥798</p>
+      </div>
+      <div class="insight-box green">
+        <h4>标杆话术拆解</h4>
+        <div class="big" style="color:#2A9D5F;">PL线</div>
+        <p>从鞋→短裤→T恤→冲锋裤→Polo，自然过渡到整套穿搭。<b>服装连带率极高</b>，值得全队学习话术动线</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 门迎排班时间轴 -->
+  <div class="section">
+    <div class="section-title"><span class="dot amber"></span>门迎排班时间轴</div>
+    <div class="review-timeline">
+      <div class="tl-block"><div class="tl-time">10:00</div><div class="tl-staff">孔祥宇</div></div>
+      <div class="tl-block"><div class="tl-time">11:00</div><div class="tl-staff">王靳毓</div></div>
+      <div class="tl-block"><div class="tl-time">12:00</div><div class="tl-staff">杨子豪</div></div>
+      <div class="tl-block"><div class="tl-time">13:00</div><div class="tl-staff">王龙宇</div></div>
+      <div class="tl-block"><div class="tl-time">14:00</div><div class="tl-staff">田佳乐</div></div>
+      <div class="tl-block"><div class="tl-time">15:00</div><div class="tl-staff empty">—</div></div>
+      <div class="tl-block"><div class="tl-time">16:00</div><div class="tl-staff">王靳毓</div></div>
+      <div class="tl-block"><div class="tl-time">17:00</div><div class="tl-staff">杨子豪</div></div>
+      <div class="tl-block"><div class="tl-time">18:00</div><div class="tl-staff">王龙宇</div></div>
+      <div class="tl-block"><div class="tl-time">19:00</div><div class="tl-staff">田佳乐</div></div>
+    </div>
+  </div>
+
+  <!-- 小结 -->
+  <div class="section">
+    <div class="section-title"><span class="dot green"></span>昨日小结</div>
+    <div class="review-stats">
+      <div class="rstat"><div class="rval">¥10,593</div><div class="rlbl">门店总销售</div></div>
+      <div class="rstat"><div class="rval">40.5h</div><div class="rlbl">总工时</div></div>
+      <div class="rstat"><div class="rval">9个</div><div class="rlbl">门迎时段</div></div>
+      <div class="rstat"><div class="rval">100%</div><div class="rlbl">考勤正常率</div></div>
+      <div class="rstat"><div class="rval">1单</div><div class="rlbl">明星联单(KXY)</div></div>
+    </div>
+    <div class="actions" style="margin-top:12px; grid-template-columns: 1fr 1fr;">
+      <div class="action-item">
+        <div class="action-num green">✓</div>
+        <div class="action-text"><b>孔祥宇 1单产出¥6,541，占门店62%</b> — PL线服装联单能力强，从鞋自然过渡到整套穿搭</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num amber">!</div>
+        <div class="action-text"><b>王靳毓/王龙宇 昨日0开单</b> — 门迎各2次但未转化，需关注主动接待意愿</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Salomon 安福路 L140 · Service Team</span>
+    <span>昨日复盘 · 2026.06.17 · 数据来源：销售小票+灵工打卡</span>
+  </div>
+</div>
+
+<!-- ========== PAGE 2: 今日行动卡 ========== -->
+<div class="page">
+  <div class="header">
+    <div class="brand">SALOMON ANFU RD · L140</div>
+    <div class="header-top">
+      <h1>今日行动卡 <span class="badge">6/18 Thu</span></h1>
+      <span class="date">2026.06.18 周四</span>
+    </div>
+    <div class="subtitle">Service Team 在岗 6 人 — 迟骋 · 田佳乐 · 邓奇缘 · 李若彤 · 王雅澜 · 朱凯赟</div>
+  </div>
+
+  <!-- Priority Banner -->
+  <div class="section" style="padding-bottom:8px;">
+    <div class="priority-bar">
+      <span class="priority-chip p0">🔴 P0 迟骋 ¥23/h 环比↓87%</span>
+      <span class="priority-chip p0">🔴 P0 田佳乐 ¥57/h 环比↓80%</span>
+      <span class="priority-chip p1">🟠 P1 朱凯赟 ¥81/h 环比↓78%</span>
+      <span class="priority-chip p1">🟠 P1 邓奇缘 ¥93/h 环比↓66%</span>
+      <span class="priority-chip p2">🟡 P2 李若彤 考勤(迟到+缺卡+旷工)</span>
+    </div>
+  </div>
+
+  <!-- Team Snapshot — 3x2 grid -->
+  <div class="section" style="padding-top:8px;">
+    <div class="section-title"><span class="dot"></span>团队速览 — 时产 &amp; 品类分布</div>
+    <div class="team-grid">
+      <!-- 李若彤 -->
+      <div class="member-card">
+        <div class="mc-head">
+          <div class="name">李若彤</div>
+          <div class="rank-badge gold">1</div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-cell"><div class="mval green">237</div><div class="mlbl">¥/h 时产</div></div>
+          <div class="metric-cell"><div class="mval">¥17,526</div><div class="mlbl">月销售(11单)</div></div>
+          <div class="metric-cell"><div class="mval blue">13</div><div class="mlbl">门迎次数</div></div>
+        </div>
+        <div class="cats">
+          <div class="cat-bar cat-shoe" style="width:62px"></div>
+          <div class="cat-bar cat-apparel" style="width:9px"></div>
+          <div class="cat-bar cat-acc" style="width:4px"></div>
+        </div>
+        <div class="cat-labels">鞋83% 服12% 配5%</div>
+        <div class="tags">
+          <span class="tag tag-star">销售TOP</span>
+          <span class="tag tag-red">考勤需改善</span>
+        </div>
+      </div>
+
+      <!-- 王雅澜 -->
+      <div class="member-card">
+        <div class="mc-head">
+          <div class="name">王雅澜</div>
+          <div class="rank-badge silver">2</div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-cell"><div class="mval green">269</div><div class="mlbl">¥/h 时产</div></div>
+          <div class="metric-cell"><div class="mval">¥14,378</div><div class="mlbl">月销售(8单)</div></div>
+          <div class="metric-cell"><div class="mval blue">10</div><div class="mlbl">门迎次数</div></div>
+        </div>
+        <div class="cats">
+          <div class="cat-bar cat-shoe" style="width:64px"></div>
+          <div class="cat-bar cat-apparel" style="width:11px"></div>
+        </div>
+        <div class="cat-labels">鞋85% 服15% 配0%</div>
+        <div class="tags">
+          <span class="tag tag-good">环比↑94%</span>
+          <span class="tag tag-warn">配件0%</span>
+        </div>
+      </div>
+
+      <!-- 邓奇缘 -->
+      <div class="member-card">
+        <div class="mc-head">
+          <div class="name">邓奇缘</div>
+          <div class="rank-badge bronze">3</div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-cell"><div class="mval amber">93</div><div class="mlbl">¥/h 时产</div></div>
+          <div class="metric-cell"><div class="mval">¥6,998</div><div class="mlbl">月销售(4单)</div></div>
+          <div class="metric-cell"><div class="mval blue">16</div><div class="mlbl">门迎次数</div></div>
+        </div>
+        <div class="cats">
+          <div class="cat-bar cat-shoe" style="width:74px"></div>
+          <div class="cat-bar cat-acc" style="width:2px"></div>
+        </div>
+        <div class="cat-labels">鞋98% 服0% 配2%</div>
+        <div class="tags">
+          <span class="tag tag-red">环比↓66%</span>
+          <span class="tag tag-red">服装0%</span>
+        </div>
+      </div>
+
+      <!-- 朱凯赟 -->
+      <div class="member-card">
+        <div class="mc-head">
+          <div class="name">朱凯赟</div>
+          <div class="rank-badge bronze">4</div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-cell"><div class="mval amber">81</div><div class="mlbl">¥/h 时产</div></div>
+          <div class="metric-cell"><div class="mval">¥4,072</div><div class="mlbl">月销售(3单)</div></div>
+          <div class="metric-cell"><div class="mval blue">9</div><div class="mlbl">门迎次数</div></div>
+        </div>
+        <div class="cats">
+          <div class="cat-bar cat-shoe" style="width:52px"></div>
+          <div class="cat-bar cat-apparel" style="width:22px"></div>
+          <div class="cat-bar cat-acc" style="width:2px"></div>
+        </div>
+        <div class="cat-labels">鞋69% 服29% 配2%</div>
+        <div class="tags">
+          <span class="tag tag-red">环比↓78%</span>
+          <span class="tag tag-warn">工时不足</span>
+        </div>
+      </div>
+
+      <!-- 田佳乐 -->
+      <div class="member-card">
+        <div class="mc-head">
+          <div class="name">田佳乐</div>
+          <div class="rank-badge bronze">5</div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-cell"><div class="mval" style="color:#D32F2F;">57</div><div class="mlbl">¥/h 时产</div></div>
+          <div class="metric-cell"><div class="mval">¥3,552</div><div class="mlbl">月销售(3单)</div></div>
+          <div class="metric-cell"><div class="mval blue">13</div><div class="mlbl">门迎次数</div></div>
+        </div>
+        <div class="cats">
+          <div class="cat-bar cat-shoe" style="width:32px"></div>
+          <div class="cat-bar cat-apparel" style="width:11px"></div>
+          <div class="cat-bar cat-acc" style="width:7px"></div>
+        </div>
+        <div class="cat-labels">鞋65% 服22% 配13%</div>
+        <div class="tags">
+          <span class="tag tag-red">环比↓80%</span>
+          <span class="tag tag-red">缺卡1次</span>
+        </div>
+      </div>
+
+      <!-- 迟骋 -->
+      <div class="member-card">
+        <div class="mc-head">
+          <div class="name">迟骋</div>
+          <div class="rank-badge bronze">6</div>
+        </div>
+        <div class="metric-row">
+          <div class="metric-cell"><div class="mval" style="color:#D32F2F;">23</div><div class="mlbl">¥/h 时产</div></div>
+          <div class="metric-cell"><div class="mval">¥1,298</div><div class="mlbl">月销售(1单)</div></div>
+          <div class="metric-cell"><div class="mval blue">9</div><div class="mlbl">门迎次数</div></div>
+        </div>
+        <div class="cats">
+          <div class="cat-bar cat-shoe" style="width:76px"></div>
+        </div>
+        <div class="cat-labels">鞋100% 服0% 配0%</div>
+        <div class="tags">
+          <span class="tag tag-red">环比↓87%</span>
+          <span class="tag tag-red">仅1单/月</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category Insight -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span>品类机会 — 联单增长点在哪？</div>
+    <div class="insight-row">
+      <div class="insight-box">
+        <h4>配件全员薄弱</h4>
+        <div class="big">5/6人</div>
+        <p>仅田佳乐(13%)配件占比&gt;5%，其余5人≤5%。王雅澜/迟骋配件0%是最大增量来源</p>
+      </div>
+      <div class="insight-box blue">
+        <h4>鞋履依赖严重</h4>
+        <div class="big" style="color:#1565C0">3人</div>
+        <p>迟骋100%、邓奇缘98%、王雅澜85%鞋履占比过高。服装/配件能力几乎为零</p>
+      </div>
+      <div class="insight-box green">
+        <h4>昨日PL线验证</h4>
+        <div class="big" style="color:#2A9D5F">¥4,395</div>
+        <p>孔祥宇昨日联单：鞋+短裤+T恤+冲锋裤+Polo，PL线服装连带率极高，话术可复制到今日</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scene Scripts — PL线多场景穿搭 -->
+  <div class="section">
+    <div class="section-title"><span class="dot blue"></span>场景化推荐话术 — PL线多场景穿搭</div>
+    <div class="scenes">
+      <!-- Scene 1: 商务通勤 -->
+      <div class="scene-card s1">
+        <div class="scene-body">
+          <div class="scene-title">场景① 商务通勤 — Polo + 休闲裤</div>
+          <div class="scene-trigger">顾客穿着整洁/上班族/看Polo</div>
+          <div class="script">
+            <span class="open">「</span>这件Polo面料特别有质感，上班穿不比正装差，但舒服太多了。搭这条休闲裤，开会见客户都拿得出手，周末脱掉外套直接休闲。上班通勤一套搞定。<span class="open">」</span>
+          </div>
+          <span class="product-tag" style="background:#534AB7;">主推：PL OD POLO ¥798 + OD DA SHORT/PANTS ¥698</span>
+          <div><span class="pl-badge">PREMIUM LINE</span></div>
+        </div>
+      </div>
+
+      <!-- Scene 2: 成交后秒切配件 -->
+      <div class="scene-card s2">
+        <div class="scene-body">
+          <div class="scene-title">场景② 成交后秒切配件</div>
+          <div class="scene-trigger">鞋成交打包瞬间，信任度最高</div>
+          <div class="script">
+            <span class="open">「</span>帮您包好了。对了，这双鞋配我们家的运动袜特别舒服。这个3双装现在性价比最高，比单买划算很多。<span class="open">」</span>
+          </div>
+          <span class="product-tag" style="background:#2A9D5F;">主推：运动袜3双装 ¥99</span>
+        </div>
+      </div>
+
+      <!-- Scene 3: 多场景穿搭 (替换户外徒步) -->
+      <div class="scene-card s3">
+        <div class="scene-body">
+          <div class="scene-title">场景③ 多场景穿搭 — 商务+休闲一衣多穿</div>
+          <div class="scene-trigger">顾客犹豫/没有明确运动需求/随便看看</div>
+          <div class="script">
+            <span class="open">「</span>这件PL的Polo特别实用，工作日搭休闲裤就是商务look，周末换条短裤直接变休闲风。一件衣服两个场景，比单买两件划算。要不试一下整套搭配？<span class="open">」</span>
+          </div>
+          <span class="product-tag" style="background:#BA7517;">主推：PL POLO + SHORT/PANTS 整套</span>
+          <div><span class="pl-badge">PREMIUM LINE</span></div>
+        </div>
+      </div>
+
+      <!-- Scene 4: 日常休闲 -->
+      <div class="scene-card s4">
+        <div class="scene-body">
+          <div class="scene-title">场景④ 日常休闲 — Polo + 短裤</div>
+          <div class="scene-trigger">年轻顾客/周末逛街/夏日穿搭</div>
+          <div class="script">
+            <span class="open">「</span>这个Polo配短裤，夏天穿特别透气。安福路拍照出片率很高，很多客人都说比传统T恤有质感。一整套搭配我都帮您搭好了，您试试？<span class="open">」</span>
+          </div>
+          <span class="product-tag" style="background:#D85A30;">主推：PL POLO + SHORT + 运动鞋</span>
+          <div><span class="pl-badge">PREMIUM LINE</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Today's Actions -->
+  <div class="section">
+    <div class="section-title"><span class="dot"></span>今日行动指令</div>
+    <div class="actions">
+      <div class="action-item">
+        <div class="action-num red">1</div>
+        <div class="action-text"><b>迟骋 ¥23/h · 全队最低</b> — 仅1单/月且100%鞋履，<span class="highlight">今日重点辅导PL线服装推荐话术</span>，至少完成1单服装联单</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num red">2</div>
+        <div class="action-text"><b>田佳乐 ¥57/h · 环比↓80%</b> — 昨日开1单¥1,256品类不错(服64%配36%)，但量太少，今日提升主动接待频次</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num amber">3</div>
+        <div class="action-text"><b>朱凯赟 ¥81/h · 工时仅50.5h</b> — 服装占比29%不算差，但配件2%需提升，今日至少1单配件联单</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num amber">4</div>
+        <div class="action-text"><b>邓奇缘 ¥93/h · 门迎16次全队最多</b> — 98%鞋履+服装0%，今日破零：至少主动推荐1件PL线服装</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num blue">5</div>
+        <div class="action-text"><b>李若彤 ¥237/h · 销售TOP</b> — 实力最强但考勤3项异常，<span class="highlight">今日必须准时打卡</span>，可做PL线穿搭标杆</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num blue">6</div>
+        <div class="action-text"><b>王雅澜 ¥269/h · 环比↑94%</b> — 势头最好！配件0%是唯一短板，今日破零配件即可全面领先</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num green">7</div>
+        <div class="action-text"><b>午间10分钟PL线快训</b> — 复盘昨日孔祥宇明星单话术（鞋→裤→Tee→Polo），全队对练场景①+③</div>
+      </div>
+      <div class="action-item">
+        <div class="action-num green">8</div>
+        <div class="action-text"><b>今日每人目标</b> — 至少1单PL线服装联单 + 1单配件联单，复刻昨日KXY话术动线</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Salomon 安福路 L140 · Service Team</span>
+    <span>Generated 2026.06.18 · 今日在岗6人</span>
+  </div>
+</div>
+
+</body>
+</html>
