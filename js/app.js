@@ -476,7 +476,7 @@ const Store = {
         "attendance": 4,
         "customerReview": 5
       },
-      "comment": "6月9天出勤62h，迟到1次，未排门迎，销售¥5,490时产¥89/h，品类(鞋履90.9% / 服装9.1%)，大众点评好评3条",
+      "comment": "6月9天出勤62h，迟到1次，未排门迎，销售¥5,490时产¥89/h，品类(鞋履90.9% / 服装9.1%)，大众点评好评4条",
       "avgScore": 4.0,
       "hourlyRate": 60
     },
@@ -609,10 +609,10 @@ const Store = {
         "performance": 4,
         "behavior": 5,
         "attendance": 5,
-        "customerReview": 4
+        "customerReview": 5
       },
-      "comment": "6月8天出勤50h，门迎14次，销售¥10,576时产¥212/h，品类(鞋履68.9% / 服装17.0% / 配件14.1%)",
-      "avgScore": 4.6,
+      "comment": "6月8天出勤50h，门迎14次，销售¥10,576时产¥212/h，品类(鞋履68.9% / 服装17.0% / 配件14.1%)，大众点评好评1条",
+      "avgScore": 4.8,
       "hourlyRate": 60
     },
     {
@@ -1255,10 +1255,12 @@ const Store = {
       { id: 4, staffName: '朱凯赟', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '导购小哥cc十分热情主动，详细介绍产品特点，耐心解答疑问，小朱帮忙挑选也很用心，专业又贴心，感谢优质服务。', keywords: ['热情主动', '详细介绍', '耐心解答', '专业贴心'], source: '大众点评（yuki，Lv1）' },
       { id: 5, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '特别感谢店员朱凯赟和迟骋，两人全程热情耐心，细致讲解鞋款功能，主动拿多款尺码试穿，专业给出选购建议，没有半点推销感。', keywords: ['热情耐心', '细致讲解', '主动拿尺码', '专业建议', '无推销感'], source: '大众点评（我是可乐我会冒泡，Lv3）' },
       { id: 6, staffName: '朱凯赟', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '特别感谢店员朱凯赟和迟骋，两人全程热情耐心，细致讲解鞋款功能，主动拿多款尺码试穿，专业给出选购建议，服务贴心周到。', keywords: ['热情耐心', '细致讲解', '主动拿尺码', '专业建议', '贴心周到'], source: '大众点评（我是可乐我会冒泡，Lv3）' },
+      { id: 7, staffName: '何秋烨', month: '2026-06', rating: 5, reviewDate: '2026-06-20', snippet: '买了两双安福路店限定whisper，来上海旅游的目的就是这两双，店员好亲切，进来了两次，第一次试穿店员并不会因为我来试试而置之不理，非常惊讶。特别点名小和，非常非常非常用心！', keywords: ['服务态度好', '热情亲切', '耐心接待', '小和用心', '购买转化'], source: '大众点评（匿名用户，Lv2）' },
+      { id: 8, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-21', snippet: '来Salomon安福路店逛街，CC接待的我，人特别热情，讲鞋子都讲得很细，耐心跟我说各个款式的区别，选鞋给的建议也很实在，逛着很舒服，体验挺好的～', keywords: ['热情', '讲解细致', '耐心介绍', '建议实在', '体验好'], source: '大众点评（勇善可爱的小柔，Lv1）' },
     ],
 
     // Data version for forced refresh detection
-    _dataVersion: '2026-06-21-v15',
+    _dataVersion: '2026-06-21-v16',
   },
 
   init() {
@@ -1325,7 +1327,7 @@ const Store = {
       const isMissingReviews = !data.customerReviews;
       const isOutdatedReviewsV2 = data.customerReviews && data.customerReviews.length === 0;
       // Check if customerReviews is outdated v3: missing 6/17 new 5 reviews
-      const isOutdatedReviewsV3 = data.customerReviews && data.customerReviews.length < 6;
+      const isOutdatedReviewsV3 = data.customerReviews && data.customerReviews.length < 8;
       // Check if availability is outdated v3: 陈昕媛 total should be 27 (was 20), 田佳乐 total should be 26 (was 27)
       const isOutdatedAvailV3 = chenXinyuan && chenXinyuan.total === 20;
       // Check if june performance is outdated v2: totalSales should be 129567 (was 127591)
@@ -1333,7 +1335,7 @@ const Store = {
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-21-v15';
+      const DATA_VERSION = '2026-06-21-v16';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
