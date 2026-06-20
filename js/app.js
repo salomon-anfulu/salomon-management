@@ -54,121 +54,236 @@ const Store = {
       }
     },
 
-    // 门迎排班数据（6月1日-14日，来源：腾讯文档PT供班）
+    // 门迎排班数据（6月1日-20日，来源：腾讯文档PT供班）
     doorSchedule: [
       { date: '2026-06-01', slots: [
-        { time: '10:00-11:00', staff: '陈昕媛' }, { time: '11:00-12:00', staff: '邓奇缘' },
-        { time: '12:00-13:00', staff: '李若彤' }, { time: '13:00-14:00', staff: '杨子豪' },
-        { time: '14:00-15:00', staff: '王靳毓' }, { time: '15:00-16:00', staff: '陈昕媛' },
-        { time: '16:00-17:00', staff: '邓奇缘' }, { time: '17:00-18:00', staff: '杨子豪' },
-        { time: '18:00-19:00', staff: '王靳毓' }, { time: '19:00-20:00', staff: '李若彤' },
+        { time: '10:00-11:00', staff: '陈昕媛' },
+        { time: '11:00-12:00', staff: '邓奇缘' },
+        { time: '12:00-13:00', staff: '李若彤' },
+        { time: '13:00-14:00', staff: '杨子豪' },
+        { time: '14:00-15:00', staff: '王靳毓' },
+        { time: '15:00-16:00', staff: '陈昕媛' },
+        { time: '16:00-17:00', staff: '邓奇缘' },
+        { time: '17:00-18:00', staff: '杨子豪' },
+        { time: '18:00-19:00', staff: '王靳毓' },
+        { time: '19:00-20:00', staff: '李若彤' }
       ]},
       { date: '2026-06-02', slots: [
-        { time: '10:00-11:00', staff: '田佳乐' }, { time: '11:00-12:00', staff: '孔祥宇' },
-        { time: '12:00-13:00', staff: '王靳毓' }, { time: '13:00-14:00', staff: '龚赟昊' },
-        { time: '14:00-15:00', staff: '陈昕媛' }, { time: '15:00-16:00', staff: '李若彤' },
-        { time: '17:00-18:00', staff: '孔祥宇' }, { time: '18:00-19:00', staff: '王靳毓' },
-        { time: '19:00-20:00', staff: '龚赟昊' }, { time: '20:00-21:00', staff: '李若彤' },
+        { time: '10:00-11:00', staff: '田佳乐' },
+        { time: '11:00-12:00', staff: '孔祥宇' },
+        { time: '12:00-13:00', staff: '王靳毓' },
+        { time: '13:00-14:00', staff: '龚赟昊' },
+        { time: '14:00-15:00', staff: '陈昕媛' },
+        { time: '15:00-16:00', staff: '李若彤' },
+        { time: '17:00-18:00', staff: '孔祥宇' },
+        { time: '18:00-19:00', staff: '王靳毓' },
+        { time: '19:00-20:00', staff: '龚赟昊' },
+        { time: '20:00-21:00', staff: '李若彤' }
       ]},
       { date: '2026-06-03', slots: [
-        { time: '10:00-11:00', staff: '何秋烨' }, { time: '11:00-12:00', staff: '朱凯赟' },
-        { time: '12:00-13:00', staff: '邓奇缘' }, { time: '13:00-14:00', staff: '王雅澜/何秋烨' },
-        { time: '14:00-15:00', staff: '田佳乐' }, { time: '15:00-16:00', staff: '何秋烨' },
-        { time: '16:00-17:00', staff: '朱凯赟' }, { time: '17:00-18:00', staff: '邓奇缘' },
-        { time: '18:00-19:00', staff: '王雅澜' }, { time: '19:00-20:00', staff: '田佳乐' },
-        { time: '20:00-21:00', staff: '澜/天/佳乐' },
+        { time: '10:00-11:00', staff: '何秋烨' },
+        { time: '11:00-12:00', staff: '朱凯赟' },
+        { time: '12:00-13:00', staff: '邓奇缘' },
+        { time: '13:00-14:00', staff: '王雅澜' },
+        { time: '13:00-14:00', staff: '何秋烨' },
+        { time: '14:00-15:00', staff: '田佳乐' },
+        { time: '15:00-16:00', staff: '何秋烨' },
+        { time: '16:00-17:00', staff: '朱凯赟' },
+        { time: '17:00-18:00', staff: '邓奇缘' },
+        { time: '18:00-19:00', staff: '王雅澜' },
+        { time: '19:00-20:00', staff: '田佳乐' },
+        { time: '20:00-21:00', staff: '王雅澜' },
+        { time: '20:00-21:00', staff: '陈昕媛' },
+        { time: '20:00-21:00', staff: '田佳乐' }
       ]},
       { date: '2026-06-04', slots: [
-        { time: '10:00-11:00', staff: '迟骋' }, { time: '11:00-12:00', staff: '王雅澜' },
-        { time: '12:00-13:00', staff: '杨子豪' }, { time: '13:00-14:00', staff: '王龙宇' },
-        { time: '14:00-15:00', staff: '田佳乐' }, { time: '15:00-16:00', staff: '迟骋' },
-        { time: '16:00-17:00', staff: '王雅澜' }, { time: '17:00-18:00', staff: '王龙宇' },
-        { time: '18:00-19:00', staff: '田佳乐' }, { time: '19:00-20:00', staff: '杨子豪' },
-        { time: '20:00-21:00', staff: '王龙宇/田佳乐' },
+        { time: '10:00-11:00', staff: '迟骋' },
+        { time: '11:00-12:00', staff: '王雅澜' },
+        { time: '12:00-13:00', staff: '杨子豪' },
+        { time: '13:00-14:00', staff: '王龙宇' },
+        { time: '14:00-15:00', staff: '田佳乐' },
+        { time: '15:00-16:00', staff: '迟骋' },
+        { time: '16:00-17:00', staff: '王雅澜' },
+        { time: '17:00-18:00', staff: '王龙宇' },
+        { time: '18:00-19:00', staff: '田佳乐' },
+        { time: '19:00-20:00', staff: '杨子豪' },
+        { time: '20:00-21:00', staff: '王龙宇' },
+        { time: '20:00-21:00', staff: '田佳乐' }
       ]},
-      { date: '2026-06-05', slots: [] },
       { date: '2026-06-06', slots: [
-        { time: '11:00-12:00', staff: '王龙宇' }, { time: '16:00-17:00', staff: '王龙宇' },
-        { time: '18:00-19:00', staff: '王雅澜' }, { time: '19:00-20:00', staff: '迟骋' },
-        { time: '20:00-21:00', staff: '何秋烨' }, { time: '21:00-21:30', staff: '何秋烨' },
+        { time: '11:00-12:00', staff: '王龙宇' },
+        { time: '15:00-16:00', staff: '何秋烨' },
+        { time: '16:00-17:00', staff: '王龙宇' },
+        { time: '18:00-19:00', staff: '王雅澜' },
+        { time: '19:00-20:00', staff: '迟骋' },
+        { time: '20:00-21:00', staff: '何秋烨' },
+        { time: '21:00-21:30', staff: '何秋烨' }
       ]},
       { date: '2026-06-07', slots: [
-        { time: '10:00-11:00', staff: '龚赟昊' }, { time: '11:00-12:00', staff: '王靳毓' },
-        { time: '12:00-13:00', staff: '孔祥宇' }, { time: '13:00-14:00', staff: '朱凯赟' },
-        { time: '14:00-15:00', staff: '邓奇缘' }, { time: '16:00-17:00', staff: '陈昕媛' },
-        { time: '18:00-19:00', staff: '孔祥宇' }, { time: '19:00-20:00', staff: '朱凯赟' },
-        { time: '20:00-21:00', staff: '陈昕媛' }, { time: '21:00-21:30', staff: '陈昕媛' },
+        { time: '10:00-11:00', staff: '龚赟昊' },
+        { time: '11:00-12:00', staff: '王靳毓' },
+        { time: '12:00-13:00', staff: '孔祥宇' },
+        { time: '13:00-14:00', staff: '朱凯赟' },
+        { time: '14:00-15:00', staff: '邓奇缘' },
+        { time: '16:00-17:00', staff: '陈昕媛' },
+        { time: '18:00-19:00', staff: '孔祥宇' },
+        { time: '19:00-20:00', staff: '朱凯赟' },
+        { time: '20:00-21:00', staff: '陈昕媛' },
+        { time: '21:00-21:30', staff: '陈昕媛' }
       ]},
       { date: '2026-06-08', slots: [
-        { time: '10:00-11:00', staff: '王龙宇' }, { time: '12:00-13:00', staff: '李若彤' },
-        { time: '13:00-14:00', staff: '田佳乐' }, { time: '14:00-15:00', staff: '迟骋' },
-        { time: '15:00-16:00', staff: '王龙宇' }, { time: '17:00-18:00', staff: '李若彤' },
+        { time: '10:00-11:00', staff: '王龙宇' },
+        { time: '12:00-13:00', staff: '李若彤' },
+        { time: '13:00-14:00', staff: '田佳乐' },
+        { time: '14:00-15:00', staff: '迟骋' },
+        { time: '15:00-16:00', staff: '王龙宇' },
+        { time: '17:00-18:00', staff: '李若彤' },
         { time: '18:00-19:00', staff: '田佳乐' },
+        { time: '19:00-20:00', staff: '迟骋' }
       ]},
       { date: '2026-06-09', slots: [
-        { time: '10:00-11:00', staff: '王靳毓' }, { time: '11:00-12:00', staff: '陈昕媛' },
-        { time: '12:00-13:00', staff: '孔祥宇' }, { time: '13:00-14:00', staff: '王雅澜' },
-        { time: '14:00-15:00', staff: '邓奇缘' }, { time: '15:00-16:00', staff: '王靳毓' },
-        { time: '16:00-17:00', staff: '陈昕媛' }, { time: '17:00-18:00', staff: '孔祥宇' },
-        { time: '18:00-19:00', staff: '王雅澜' }, { time: '19:00-20:00', staff: '邓奇缘' },
+        { time: '10:00-11:00', staff: '王靳毓' },
+        { time: '11:00-12:00', staff: '陈昕媛' },
+        { time: '12:00-13:00', staff: '孔祥宇' },
+        { time: '13:00-14:00', staff: '王雅澜' },
+        { time: '14:00-15:00', staff: '邓奇缘' },
+        { time: '15:00-16:00', staff: '王靳毓' },
+        { time: '16:00-17:00', staff: '陈昕媛' },
+        { time: '17:00-18:00', staff: '孔祥宇' },
+        { time: '18:00-19:00', staff: '王雅澜' },
+        { time: '19:00-20:00', staff: '邓奇缘' }
       ]},
       { date: '2026-06-10', slots: [
-        { time: '10:00-11:00', staff: '龚赟昊' }, { time: '11:00-12:00', staff: '王靳毓' },
-        { time: '12:00-13:00', staff: '朱凯赟' }, { time: '13:00-14:00', staff: '王雅澜' },
-        { time: '14:00-15:00', staff: '何秋烨' }, { time: '15:00-16:00', staff: '龚赟昊' },
-        { time: '16:00-17:00', staff: '王靳毓' }, { time: '17:00-18:00', staff: '何秋烨' },
-        { time: '18:00-19:00', staff: '王雅澜' }, { time: '19:00-20:00', staff: '朱凯赟' },
+        { time: '10:00-11:00', staff: '龚赟昊' },
+        { time: '11:00-12:00', staff: '王靳毓' },
+        { time: '12:00-13:00', staff: '朱凯赟' },
+        { time: '13:00-14:00', staff: '王雅澜' },
+        { time: '14:00-15:00', staff: '何秋烨' },
+        { time: '15:00-16:00', staff: '龚赟昊' },
+        { time: '16:00-17:00', staff: '王靳毓' },
+        { time: '17:00-18:00', staff: '何秋烨' },
+        { time: '18:00-19:00', staff: '王雅澜' },
+        { time: '19:00-20:00', staff: '朱凯赟' }
       ]},
       { date: '2026-06-11', slots: [
-        { time: '10:00-11:00', staff: '孔祥宇' }, { time: '11:00-12:00', staff: '李若彤' },
-        { time: '12:00-13:00', staff: '陈昕媛' }, { time: '13:00-14:00', staff: '王靳毓' },
-        { time: '14:00-15:00', staff: '田佳乐' }, { time: '15:00-16:00', staff: '孔祥宇' },
-        { time: '16:00-17:00', staff: '李若彤' }, { time: '17:00-18:00', staff: '陈昕媛' },
-        { time: '18:00-19:00', staff: '王靳毓' }, { time: '19:00-20:00', staff: '田佳乐' },
-        { time: '20:00-21:00', staff: '田佳乐' },
+        { time: '10:00-11:00', staff: '孔祥宇' },
+        { time: '11:00-12:00', staff: '李若彤' },
+        { time: '12:00-13:00', staff: '陈昕媛' },
+        { time: '13:00-14:00', staff: '王靳毓' },
+        { time: '14:00-15:00', staff: '田佳乐' },
+        { time: '15:00-16:00', staff: '孔祥宇' },
+        { time: '16:00-17:00', staff: '李若彤' },
+        { time: '17:00-18:00', staff: '陈昕媛' },
+        { time: '18:00-19:00', staff: '王靳毓' },
+        { time: '19:00-20:00', staff: '田佳乐' },
+        { time: '20:00-21:00', staff: '田佳乐' }
       ]},
       { date: '2026-06-12', slots: [
-        { time: '10:00-11:00', staff: '何秋烨' }, { time: '11:00-12:00', staff: '王龙宇' },
-        { time: '12:00-13:00', staff: '王龙宇' }, { time: '13:00-14:00', staff: '陈昕媛' },
-        { time: '15:00-16:00', staff: '王雅澜' }, { time: '16:00-17:00', staff: '何秋烨' },
-        { time: '17:00-18:00', staff: '邓奇缘' }, { time: '18:00-19:00', staff: '陈昕媛' },
-        { time: '19:00-20:00', staff: '王雅澜' }, { time: '20:00-21:00', staff: '邓奇缘' },
+        { time: '10:00-11:00', staff: '何秋烨' },
+        { time: '11:00-12:00', staff: '王龙宇' },
+        { time: '12:00-13:00', staff: '王龙宇' },
+        { time: '13:00-14:00', staff: '陈昕媛' },
+        { time: '15:00-16:00', staff: '王雅澜' },
+        { time: '16:00-17:00', staff: '何秋烨' },
+        { time: '17:00-18:00', staff: '邓奇缘' },
+        { time: '18:00-19:00', staff: '陈昕媛' },
+        { time: '19:00-20:00', staff: '王雅澜' },
+        { time: '20:00-21:00', staff: '邓奇缘' }
       ]},
       { date: '2026-06-13', slots: [
-        { time: '10:00-11:00', staff: '龚赟昊' }, { time: '11:00-12:00', staff: '迟骋' },
-        { time: '12:00-13:00', staff: '朱凯赟' }, { time: '13:00-14:00', staff: '邓奇缘' },
-        { time: '14:00-15:00', staff: '陈昕媛' }, { time: '15:00-16:00', staff: '李若彤' },
-        { time: '16:00-17:00', staff: '孔祥宇' }, { time: '17:00-18:00', staff: '龚赟昊' },
-        { time: '18:00-19:00', staff: '朱凯赟' }, { time: '19:00-20:00', staff: '邓奇缘' },
-        { time: '21:00-21:30', staff: '孔祥宇' },
+        { time: '10:00-11:00', staff: '龚赟昊' },
+        { time: '11:00-12:00', staff: '迟骋' },
+        { time: '12:00-13:00', staff: '朱凯赟' },
+        { time: '13:00-14:00', staff: '邓奇缘' },
+        { time: '14:00-15:00', staff: '陈昕媛' },
+        { time: '15:00-16:00', staff: '李若彤' },
+        { time: '16:00-17:00', staff: '孔祥宇' },
+        { time: '17:00-18:00', staff: '龚赟昊' },
+        { time: '18:00-19:00', staff: '朱凯赟' },
+        { time: '19:00-20:00', staff: '邓奇缘' },
+        { time: '20:00-21:00', staff: '李若彤' },
+        { time: '21:00-21:30', staff: '孔祥宇' }
       ]},
       { date: '2026-06-14', slots: [
-        { time: '10:00-11:00', staff: '朱凯赟' }, { time: '11:00-12:00', staff: '迟骋' },
-        { time: '12:00-13:00', staff: '王龙宇' }, { time: '14:00-15:00', staff: '邓奇缘' },
+        { time: '10:00-11:00', staff: '朱凯赟' },
+        { time: '11:00-12:00', staff: '迟骋' },
+        { time: '12:00-13:00', staff: '王龙宇' },
+        { time: '13:00-14:00', staff: '田佳乐' },
+        { time: '14:00-15:00', staff: '邓奇缘' },
+        { time: '15:00-16:00', staff: '李若彤' },
+        { time: '16:00-17:00', staff: '龚赟昊' },
+        { time: '17:00-18:00', staff: '孔祥宇' },
+        { time: '18:00-19:00', staff: '迟骋' },
+        { time: '19:00-20:00', staff: '李若彤' },
+        { time: '21:00-21:30', staff: '龚赟昊' }
       ]},
       { date: '2026-06-15', slots: [
-        { time: '10:00-11:00', staff: '王龙宇' }, { time: '11:00-12:00', staff: '孔祥宇' },
-        { time: '12:00-13:00', staff: '杨子豪' }, { time: '13:00-14:00', staff: '邓奇缘' },
-        { time: '14:00-15:00', staff: '李若彤' }, { time: '15:00-16:00', staff: '迟骋' },
+        { time: '10:00-11:00', staff: '王龙宇' },
+        { time: '11:00-12:00', staff: '孔祥宇' },
+        { time: '12:00-13:00', staff: '杨子豪' },
+        { time: '13:00-14:00', staff: '邓奇缘' },
+        { time: '14:00-15:00', staff: '李若彤' },
+        { time: '15:00-16:00', staff: '迟骋' },
+        { time: '16:00-17:00', staff: '王龙宇' },
+        { time: '17:00-18:00', staff: '孔祥宇' },
+        { time: '18:00-19:00', staff: '杨子豪' },
+        { time: '19:00-20:00', staff: '邓奇缘' },
+        { time: '20:00-21:00', staff: '迟骋' },
+        { time: '20:00-21:00', staff: '李若彤' }
       ]},
       { date: '2026-06-16', slots: [
-        { time: '11:00-12:00', staff: '邓奇缘' }, { time: '12:00-13:00', staff: '龚赟昊' },
-        { time: '13:00-14:00', staff: '陈昕媛' }, { time: '14:00-15:00', staff: '孔祥宇' },
+        { time: '10:00-11:00', staff: '何秋烨' },
+        { time: '11:00-12:00', staff: '邓奇缘' },
+        { time: '12:00-13:00', staff: '龚赟昊' },
+        { time: '13:00-14:00', staff: '陈昕媛' },
+        { time: '14:00-15:00', staff: '孔祥宇' },
+        { time: '15:00-16:00', staff: '何秋烨' },
+        { time: '16:00-17:00', staff: '邓奇缘' },
+        { time: '17:00-18:00', staff: '陈昕媛' },
+        { time: '18:00-19:00', staff: '龚赟昊' },
+        { time: '19:00-20:00', staff: '孔祥宇' }
       ]},
       { date: '2026-06-17', slots: [
-        { time: '10:00-11:00', staff: '孔祥宇' }, { time: '11:00-12:00', staff: '王靳毓' },
-        { time: '12:00-13:00', staff: '杨子豪' }, { time: '13:00-14:00', staff: '王龙宇' },
-        { time: '14:00-15:00', staff: '田佳乐' }, { time: '16:00-17:00', staff: '王靳毓' },
-        { time: '17:00-18:00', staff: '杨子豪' }, { time: '18:00-19:00', staff: '王龙宇' },
-        { time: '19:00-20:00', staff: '田佳乐' },
+        { time: '10:00-11:00', staff: '孔祥宇' },
+        { time: '11:00-12:00', staff: '王靳毓' },
+        { time: '12:00-13:00', staff: '杨子豪' },
+        { time: '13:00-14:00', staff: '王龙宇' },
+        { time: '14:00-15:00', staff: '田佳乐' },
+        { time: '15:00-16:00', staff: '孔祥宇' },
+        { time: '16:00-17:00', staff: '王靳毓' },
+        { time: '17:00-18:00', staff: '杨子豪' },
+        { time: '18:00-19:00', staff: '王龙宇' },
+        { time: '19:00-20:00', staff: '田佳乐' }
       ]},
       { date: '2026-06-18', slots: [
-        { time: '10:00-11:00', staff: '田佳乐' }, { time: '11:00-12:00', staff: '田佳乐' },
-        { time: '12:00-13:00', staff: '迟骋' }, { time: '13:00-14:00', staff: '邓奇缘' },
-        { time: '14:00-15:00', staff: '李若彤' }, { time: '15:00-16:00', staff: '王雅澜' },
-        { time: '16:00-17:00', staff: '朱凯赟' }, { time: '17:00-18:00', staff: '迟骋' },
-        { time: '21:00-21:30', staff: '朱凯赟' },
+        { time: '10:00-11:00', staff: '田佳乐' },
+        { time: '11:00-12:00', staff: '田佳乐' },
+        { time: '12:00-13:00', staff: '迟骋' },
+        { time: '13:00-14:00', staff: '邓奇缘' },
+        { time: '14:00-15:00', staff: '李若彤' },
+        { time: '15:00-16:00', staff: '王雅澜' },
+        { time: '16:00-17:00', staff: '朱凯赟' },
+        { time: '17:00-18:00', staff: '迟骋' },
+        { time: '18:00-19:00', staff: '田佳乐' },
+        { time: '19:00-20:00', staff: '李若彤' },
+        { time: '21:00-21:30', staff: '朱凯赟' }
       ]},
+      { date: '2026-06-19', slots: [
+        { time: '10:00-11:00', staff: '邓奇缘' },
+        { time: '11:00-12:00', staff: '孔祥宇' },
+        { time: '12:00-13:00', staff: '陈昕媛' },
+        { time: '13:00-14:00', staff: '王雅澜' },
+        { time: '14:00-15:00', staff: '杨子豪' },
+        { time: '15:00-16:00', staff: '何秋烨' },
+        { time: '16:00-17:00', staff: '王靳毓' },
+        { time: '17:00-18:00', staff: '龚赟昊' },
+        { time: '18:00-19:00', staff: '李若彤' },
+        { time: '19:00-20:00', staff: '何秋烨' },
+        { time: '21:00-21:30', staff: '李若彤' }
+      ]},
+      { date: '2026-06-20', slots: [
+        { time: '13:00-14:00', staff: '迟骋' }
+      ]}
     ],
 
     // 换班记录
@@ -179,7 +294,9 @@ const Store = {
       { id: 4, applicant: '王靳毓', applyDate: '2026-06-09', applicantShift: '6/12 10:30-19:00', target: '王龙宇', targetShift: '6/10 10:30-19:00' },
       { id: 5, applicant: '孔祥宇', applyDate: '2026-06-20', applicantShift: '6/20 11:30-20:30', target: '王靳毓', targetShift: '6/16 13:00-21:30' },
       { id: 6, applicant: '王雅澜', applyDate: '2026-06-17', applicantShift: '6/22 12:15-21:00', target: '何秋烨', targetShift: '6/24 12:15-21:00' },
-      { id: 7, applicant: '何秋烨', applyDate: '2026-06-18', applicantShift: '6/28 11:30-20:30', target: '王靳毓', targetShift: '6/20 11:30-20:30' },
+      { id: 7, applicant: '何秋烨', applyDate: '2026-06-18', applicantShift: '6/28 11:30-20:30', target: '邓奇缘', targetShift: '6/20 13:00-21:30' },
+      { id: 8, applicant: '迟骋', applyDate: '2026-06-19', applicantShift: '6/23 12:15-21:00', target: '李若彤', targetShift: '6/22 12:15-21:00' },
+      { id: 9, applicant: '田佳乐', applyDate: '2026-06-20', applicantShift: '6/21 13:00-21:30', target: '龚赟昊', targetShift: '6/25 13:00-21:30' },
     ],
 
     // 店务支援记录（真实数据）
@@ -244,23 +361,33 @@ const Store = {
       { id: 58, staff: '龚赟昊', date: '2026-06-16', type: '陈列-翻场支援', duration: '2小时', detail: '叠退陈列衣 叠柜子衣服 换模特' },
       { id: 59, staff: '田佳乐', date: '2026-06-17', type: '陈列-翻场支援', duration: '1小时', detail: '出陈列归样' },
       { id: 60, staff: '迟骋', date: '2026-06-18', type: '货品-辅助收货', duration: '0.5小时', detail: '拆货' },
+      { id: 61, staff: '朱凯赟', date: '2026-06-18', type: '货品-辅助收货', duration: '1.5小时', detail: '搬货' },
+      { id: 62, staff: '迟骋', date: '2026-06-18', type: '货品-整理仓库', duration: '0.5小时', detail: '搬货' },
+      { id: 63, staff: '邓奇缘', date: '2026-06-18', type: '货品-辅助收货', duration: '1小时', detail: '搬货' },
+      { id: 64, staff: '迟骋', date: '2026-06-18', type: '货品-辅助收货', duration: '1小时', detail: '贴标签' },
+      { id: 65, staff: '王雅澜', date: '2026-06-18', type: '货品-整理仓库', duration: '0.8小时', detail: '贴标签' },
+      { id: 66, staff: '田佳乐', date: '2026-06-18', type: '货品-辅助收货', duration: '2小时', detail: '拆货 搬货 贴标签' },
+      { id: 67, staff: '龚赟昊', date: '2026-06-19', type: '货品-整理仓库', duration: '1小时', detail: '1.5内仓整理' },
+      { id: 68, staff: '王靳毓', date: '2026-06-19', type: '货品-整理仓库', duration: '0.5小时', detail: '1.5内仓整理' },
+      { id: 69, staff: '王靳毓', date: '2026-06-19', type: '货品-整理仓库', duration: '1小时', detail: '4楼搬鞋' },
+      { id: 70, staff: '邓奇缘', date: '2026-06-19', type: '陈列-翻场支援', duration: '1小时', detail: '拍新品上身图' },
     ],
 
     // 店务统计（来自店务支援表）
         staffStats: {
-      '陈昕媛': { doorCount: 15, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 1 },
-      '田佳乐': { doorCount: 15, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '迟骋': { doorCount: 11, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 3 },
-      '王靳毓': { doorCount: 13, shiftChange: 1, shiftedCount: 3, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
+      '陈昕媛': { doorCount: 17, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 1 },
+      '田佳乐': { doorCount: 18, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '迟骋': { doorCount: 13, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 3 },
+      '王靳毓': { doorCount: 14, shiftChange: 0, shiftedCount: 3, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
       '朱凯赟': { doorCount: 11, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 2 },
-      '孔祥宇': { doorCount: 17, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '邓奇缘': { doorCount: 17, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '杨子豪': { doorCount: 8, shiftChange: 2, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '王雅澜': { doorCount: 11, shiftChange: 1, shiftedCount: 2, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '李若彤': { doorCount: 14, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
-      '王龙宇': { doorCount: 13, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '何秋烨': { doorCount: 10, shiftChange: 1, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '龚赟昊': { doorCount: 11, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 }
+      '孔祥宇': { doorCount: 18, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '邓奇缘': { doorCount: 18, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '杨子豪': { doorCount: 9, shiftChange: 2, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '王雅澜': { doorCount: 14, shiftChange: 1, shiftedCount: 2, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '李若彤': { doorCount: 18, shiftChange: 1, shiftedCount: 1, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
+      '王龙宇': { doorCount: 14, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '何秋烨': { doorCount: 14, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '龚赟昊': { doorCount: 12, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 }
     },
 
     schedules: [
@@ -315,7 +442,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月11天出勤90h，门迎15次，销售¥23,628时产¥263/h，品类(鞋履83.6% / 服装8.4% / 配件8.0%)，大众点评好评1条",
+      "comment": "6月11天出勤90h，门迎18次，销售¥23,628时产¥263/h，品类(鞋履83.6% / 服装8.4% / 配件8.0%)，大众点评好评1条",
       "avgScore": 4.8,
       "hourlyRate": 60
     },
@@ -330,7 +457,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月11天出勤70.5h，门迎15次，销售¥4,950时产¥70/h，品类(鞋履74.6% / 服装16.1% / 配件9.3%)",
+      "comment": "6月11天出勤70.5h，门迎18次，销售¥4,950时产¥70/h，品类(鞋履74.6% / 服装16.1% / 配件9.3%)",
       "avgScore": 4.0,
       "hourlyRate": 60
     },
@@ -345,7 +472,7 @@ const Store = {
         "attendance": 4,
         "customerReview": 5
       },
-      "comment": "6月10天出勤62h，迟到1次(6/18)，门迎11次，销售¥1,298时产¥21/h，品类(鞋履100.0%)，大众点评好评3条",
+      "comment": "6月10天出勤62h，迟到1次(6/18)，门迎18次，销售¥1,298时产¥21/h，品类(鞋履100.0%)，大众点评好评3条",
       "avgScore": 4.0,
       "hourlyRate": 60
     },
@@ -360,7 +487,7 @@ const Store = {
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月7天出勤58h，迟到1次，门迎13次，销售¥2,884时产¥50/h，品类(鞋履45.0% / 服装20.7% / 配件34.3%)",
+      "comment": "6月7天出勤58h，迟到1次，门迎14次，销售¥2,884时产¥50/h，品类(鞋履45.0% / 服装20.7% / 配件34.3%)",
       "avgScore": 3.8,
       "hourlyRate": 28
     },
@@ -375,7 +502,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月8天出勤58.5h，门迎11次，销售¥4,072时产¥70/h，品类(鞋履68.7% / 服装29.4% / 配件1.9%)，大众点评好评2条",
+      "comment": "6月8天出勤58.5h，门迎14次，销售¥4,072时产¥70/h，品类(鞋履68.7% / 服装29.4% / 配件1.9%)，大众点评好评2条",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -390,7 +517,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月11天出勤78h，门迎17次，销售¥15,327时产¥196/h，品类(鞋履75.2% / 服装24.8%)",
+      "comment": "6月11天出勤78h，门迎18次，销售¥15,327时产¥196/h，品类(鞋履75.2% / 服装24.8%)",
       "avgScore": 4.4,
       "hourlyRate": 60
     },
@@ -420,7 +547,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月7天出勤61.5h，门迎8次，销售¥20,226时产¥329/h，品类(鞋履90.1% / 服装9.4% / 配件0.5%)",
+      "comment": "6月7天出勤61.5h，门迎9次，销售¥20,226时产¥329/h，品类(鞋履90.1% / 服装9.4% / 配件0.5%)",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -435,7 +562,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月9天出勤61.5h，门迎11次，销售¥15,576时产¥253/h，品类(鞋履85.9% / 服装14.1%)",
+      "comment": "6月9天出勤61.5h，门迎12次，销售¥15,576时产¥253/h，品类(鞋履85.9% / 服装14.1%)",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -480,7 +607,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月8天出勤50h，门迎10次，销售¥5,350时产¥107/h，品类(鞋履93.3% / 配件6.7%)",
+      "comment": "6月8天出勤50h，门迎14次，销售¥5,350时产¥107/h，品类(鞋履93.3% / 配件6.7%)",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -1102,7 +1229,7 @@ const Store = {
     ],
 
     // Data version for forced refresh detection
-    _dataVersion: '2026-06-20-v11',
+    _dataVersion: '2026-06-20-v12',
   },
 
   init() {
@@ -1177,7 +1304,7 @@ const Store = {
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-20-v11';
+      const DATA_VERSION = '2026-06-20-v12';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
