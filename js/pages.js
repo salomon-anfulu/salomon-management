@@ -1116,12 +1116,85 @@ const DIMENSION_META = {
   customerReview: { icon: '💕', color: '#ec4899' },
 };
 
+/**
+ * 工时支持评分（按周计算 + 换班调整）
+ * 规则：每周可供排班≥4天且周末至少1天 → 该周达标
+ *      4/4周达标=5分, 3/4=4分, 2/4=3分, 1/4=2分, 0/4=1分
+ *      换班：申请换班>3次 → 每次-1分；被换班顶班 → 每次+0.5分（上限+1）
+ */
+function calcAvailabilityScore(staffName) {
+  const availability = Store.get('availability');
+  const shiftChanges = Store.get('shiftChanges') || [];
+  const availData = (availability && availability.data && availability.data[staffName]) || { total: 0, unavailable: [] };
+
+  // Parse unavailable days → Set of day-of-month numbers
+  const unavailableDays = new Set(
+    (availData.unavailable || []).map(d => parseInt(String(d).split('/')[1]))
+  );
+
+  // June 2026 weeks (Mon-Sun, June 1 = Monday)
+  const weeks = [
+    { name: 'W1', label: '6/1-6/7',   days: [1,2,3,4,5,6,7],     weekends: [6,7] },
+    { name: 'W2', label: '6/8-6/14',  days: [8,9,10,11,12,13,14], weekends: [13,14] },
+    { name: 'W3', label: '6/15-6/21', days: [15,16,17,18,19,20,21], weekends: [20,21] },
+    { name: 'W4', label: '6/22-6/28', days: [22,23,24,25,26,27,28], weekends: [27,28] },
+  ];
+
+  const weekResults = weeks.map(w => {
+    const availDays = w.days.filter(d => !unavailableDays.has(d)).length;
+    const weekendAvail = w.weekends.some(d => !unavailableDays.has(d));
+    const passed = availDays >= 4 && weekendAvail;
+    return { ...w, availDays, weekendAvail, passed };
+  });
+
+  const passedCount = weekResults.filter(w => w.passed).length;
+  const passRate = passedCount / weeks.length;
+
+  // Base score
+  let baseScore;
+  if (passRate >= 1.0)       baseScore = 5;
+  else if (passRate >= 0.75)  baseScore = 4;
+  else if (passRate >= 0.5)   baseScore = 3;
+  else if (passRate >= 0.25)  baseScore = 2;
+  else                        baseScore = 1;
+
+  // Shift change stats
+  const applicantCount = shiftChanges.filter(sc => sc.applicant === staffName).length;
+  const targetCount = shiftChanges.filter(sc => sc.target === staffName).length;
+
+  // Adjustments
+  const penalty = Math.max(0, applicantCount - 3); // -1 per shift beyond 3
+  const bonus = Math.min(targetCount * 0.5, 1.0);  // +0.5 per cover, cap +1
+
+  let finalScore = Math.max(1, Math.min(5, baseScore - penalty + bonus));
+
+  return {
+    score: Math.round(finalScore),
+    baseScore,
+    penalty,
+    bonus,
+    finalScore,
+    applicantCount,
+    targetCount,
+    weekResults,
+    passedCount,
+  };
+}
+
 function renderRatings() {
   const ratings = Store.get('ratings');
   const staff = Store.get('staff').filter(s => s.status === 'active');
 
-  // 按综合评分排序（高到低）
-  const sortedRatings = [...ratings].sort((a, b) => b.avgScore - a.avgScore);
+  // 按综合评分排序（高到低）- 使用动态工时支持分重新计算
+  const enrichedRatings = ratings.map(r => {
+    const s = Store.getStaff(r.staffId);
+    const staffName = s ? s.name : '';
+    const availCalc = calcAvailabilityScore(staffName);
+    const dynamicScores = { ...r.scores, availability: availCalc.score };
+    const dynamicAvg = Object.values(dynamicScores).reduce((a, b) => a + b, 0) / Object.values(dynamicScores).length;
+    return { ...r, _dynamicAvg: dynamicAvg, _availCalc: availCalc };
+  });
+  const sortedRatings = [...enrichedRatings].sort((a, b) => b._dynamicAvg - a._dynamicAvg);
 
   return `
     <div class="animate-in" style="margin-bottom: 24px;">
@@ -1133,7 +1206,7 @@ function renderRatings() {
         </h2>
         <p style="font-size: 13px; opacity: 0.7; margin-top: 4px;">2026年6月 · Service Team 全员评估 · 综合评分 ≥ 4.0 可享 ¥60/h 时薪</p>
         <div style="display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
-          <span style="font-size: 11px; opacity: 0.6;">🛡️ 工时支持</span>
+          <span style="font-size: 11px; opacity: 0.6;">🛡️ 工时支持 <span style="opacity: 0.5; font-size: 10px;">(按周达标+换班调整)</span></span>
           <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩</span>
           <span style="font-size: 11px; opacity: 0.6;">🎪 行为规范</span>
           <span style="font-size: 11px; opacity: 0.6;">⏰ 考勤纪律</span>
@@ -1145,19 +1218,19 @@ function renderRatings() {
     <!-- 评分概览 -->
     <div class="stats-grid animate-in" style="grid-template-columns: repeat(4, 1fr);">
       <div class="stat-card success">
-        <div class="stat-value">${ratings.filter(r => r.avgScore >= 4.0).length} <span style="font-size: 14px; opacity: 0.5;">/${ratings.length}</span></div>
+        <div class="stat-value">${enrichedRatings.filter(r => r._dynamicAvg >= 4.0).length} <span style="font-size: 14px; opacity: 0.5;">/${enrichedRatings.length}</span></div>
         <div class="stat-label">🎖️ ¥60/h 达标</div>
       </div>
       <div class="stat-card danger">
-        <div class="stat-value">${ratings.filter(r => r.avgScore < 4.0).length}</div>
+        <div class="stat-value">${enrichedRatings.filter(r => r._dynamicAvg < 4.0).length}</div>
         <div class="stat-label">💪 待提升选手</div>
       </div>
       <div class="stat-card accent">
-        <div class="stat-value">${(ratings.reduce((s, r) => s + r.avgScore, 0) / ratings.length).toFixed(1)}</div>
+        <div class="stat-value">${(enrichedRatings.reduce((s, r) => s + r._dynamicAvg, 0) / enrichedRatings.length).toFixed(1)}</div>
         <div class="stat-label">⭐ 团队均分</div>
       </div>
       <div class="stat-card info">
-        <div class="stat-value">¥${ratings.filter(r => r.avgScore >= 4.0).length * 60 + ratings.filter(r => r.avgScore < 4.0).length * 28}</div>
+        <div class="stat-value">¥${enrichedRatings.filter(r => r._dynamicAvg >= 4.0).length * 60 + enrichedRatings.filter(r => r._dynamicAvg < 4.0).length * 28}</div>
         <div class="stat-label">💰 时薪支出/h</div>
       </div>
     </div>
@@ -1175,7 +1248,7 @@ function renderRatings() {
         <div class="animate-in" style="display: flex; gap: 12px; margin-top: 20px; align-items: flex-end;">
           ${top3.map((r, i) => {
             const s = Store.getStaff(r.staffId);
-            const ti = getRatingTitle(r.scores, r.avgScore, s ? s.name : '');
+            const ti = getRatingTitle(r.scores, r._dynamicAvg, s ? s.name : '');
             const ps = podiumStyles[i];
             return `
               <div style="flex: 1; background: ${ps.bg}; border: 1px solid ${ps.border}44; border-radius: var(--radius-lg); padding: 16px; text-align: center; position: relative; overflow: hidden;">
@@ -1185,7 +1258,7 @@ function renderRatings() {
                 ${s ? `<div class="avatar" style="background: ${s.avatar_color}; width: 36px; height: 36px; font-size: 13px; margin: 0 auto 6px; position: relative;">${getInitials(s.name)}</div>` : ''}
                 <div style="font-weight: 700; font-size: 14px; position: relative;">${s ? s.name : '未知'}</div>
                 <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px; position: relative;">${ti.emoji} ${ti.title}</div>
-                <div style="font-size: 22px; font-weight: 800; color: ${ps.border}; margin-top: 4px; position: relative;">${r.avgScore.toFixed(1)}</div>
+                <div style="font-size: 22px; font-weight: 800; color: ${ps.border}; margin-top: 4px; position: relative;">${r._dynamicAvg.toFixed(1)}</div>
               </div>
             `;
           }).join('')}
@@ -1197,17 +1270,26 @@ function renderRatings() {
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(390px, 1fr)); gap: 16px; margin-top: 20px;">
       ${sortedRatings.map((r, idx) => {
         const s = Store.getStaff(r.staffId);
-        const isTop = r.avgScore >= 4.0;
-        const borderColor = r.avgScore >= 4.5 ? '#10b981' : r.avgScore >= 4.0 ? '#3b82f6' : r.avgScore >= 3.5 ? '#f59e0b' : '#ef4444';
+        const staffName = s ? s.name : '';
+
+        // === 使用 enrichedRatings 里的动态工时支持数据 ===
+        const availCalc = r._availCalc;
+        const availScore = availCalc.score;
+        const dynamicAvg = r._dynamicAvg;
+        const dynamicHourlyRate = dynamicAvg >= 4.0 ? 60 : 28;
+        const isTop = dynamicAvg >= 4.0;
+        const borderColor = dynamicAvg >= 4.5 ? '#10b981' : dynamicAvg >= 4.0 ? '#3b82f6' : dynamicAvg >= 3.5 ? '#f59e0b' : '#ef4444';
         const medalIcon = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '';
-        const titleInfo = getRatingTitle(r.scores, r.avgScore, s ? s.name : '');
-        const achievements = getAchievements(r.scores, r.comment);
-        const level = getRatingLevel(r.avgScore);
-        const ringColor = r.avgScore >= 4.5 ? '#10b981' : r.avgScore >= 4.0 ? '#3b82f6' : r.avgScore >= 3.5 ? '#f59e0b' : '#ef4444';
-        const ringCircumference = 2 * Math.PI * 22; // r=22
+
+        const dynamicScores = { ...r.scores, availability: availScore };
+        const titleInfo = getRatingTitle(dynamicScores, dynamicAvg, staffName);
+        const achievements = getAchievements(dynamicScores, r.comment);
+        const level = getRatingLevel(dynamicAvg);
+        const ringColor = dynamicAvg >= 4.5 ? '#10b981' : dynamicAvg >= 4.0 ? '#3b82f6' : dynamicAvg >= 3.5 ? '#f59e0b' : '#ef4444';
+        const ringCircumference = 2 * Math.PI * 22;
         const ringDash = (level / 100) * ringCircumference;
         const dimensions = [
-          { key: 'availability', label: '工时支持', val: r.scores.availability },
+          { key: 'availability', label: '工时支持', val: availScore },
           { key: 'performance', label: '销售业绩', val: r.scores.performance },
           { key: 'behavior', label: '行为规范', val: r.scores.behavior },
           { key: 'attendance', label: '考勤纪律', val: r.scores.attendance },
@@ -1246,24 +1328,25 @@ function renderRatings() {
                   <span style="font-size: 13px;">${titleInfo.emoji}</span>
                   ${titleInfo.title}
                 </span>
-                <span style="font-size: 11px; font-weight: 700; color: ${isTop ? 'var(--success)' : 'var(--danger)'}; padding: 3px 8px; background: ${isTop ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)'}; border-radius: 20px;">
-                  ${isTop ? '¥60/h' : '¥28/h'}
+                <span style="font-size: 11px; font-weight: 700; color: ${dynamicAvg >= 4.0 ? 'var(--success)' : 'var(--danger)'}; padding: 3px 8px; background: ${dynamicAvg >= 4.0 ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)'}; border-radius: 20px;">
+                  ${dynamicHourlyRate === 60 ? '¥60/h' : '¥28/h'}
                 </span>
-                <span style="font-size: 20px; font-weight: 800; color: ${borderColor}; margin-left: auto;">
-                  ${r.avgScore.toFixed(1)}
+                <span style="font-size: 20px; font-weight: 800; color: ${ringColor}; margin-left: auto;">
+                  ${dynamicAvg.toFixed(1)}
                   <span style="font-size: 12px; color: var(--text-muted); font-weight: 400;">/5.0</span>
                 </span>
               </div>
 
               <!-- 五维度评分条（带图标） -->
-              <div style="display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px;">
+              <div style="display: flex; flex-direction: column; gap: 7px; margin-bottom: 10px;">
                 ${dimensions.map(d => {
                   const meta = DIMENSION_META[d.key] || {};
                   const dimColor = d.val >= 4 ? '#10b981' : d.val >= 3 ? '#f59e0b' : '#ef4444';
+                  const isAvail = d.key === 'availability';
                   return `
-                  <div style="display: flex; align-items: center; gap: 8px;">
+                  <div style="display: flex; align-items: center; gap: 8px;${isAvail ? ' cursor: pointer;' : ''}"${isAvail ? ` onclick="this.parentElement.querySelector('.avail-detail').classList.toggle('avail-detail-open')"` : ''}>
                     <div class="rating-dimension-icon" style="background: ${(meta.color || '#94a3b8')}22; font-size: 11px;">${meta.icon || '•'}</div>
-                    <span style="font-size: 12px; color: var(--text-secondary); width: 52px; flex-shrink: 0;">${d.label}</span>
+                    <span style="font-size: 12px; color: var(--text-secondary); width: 52px; flex-shrink: 0;">${d.label}${isAvail ? ' <span style="font-size:9px;opacity:0.5;">▾</span>' : ''}</span>
                     <div style="flex: 1; height: 7px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden;">
                       <div style="height: 100%; width: ${d.val * 20}%; background: linear-gradient(90deg, ${dimColor}, ${dimColor}dd); border-radius: 4px; transition: width 0.5s cubic-bezier(0.16,1,0.3,1);"></div>
                     </div>
@@ -1271,6 +1354,30 @@ function renderRatings() {
                   </div>
                   `;
                 }).join('')}
+              </div>
+
+              <!-- 工时支持详情（可展开） -->
+              <div class="avail-detail" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease; margin-bottom: 0;">
+                <div style="padding: 10px; background: var(--bg-secondary); border-radius: var(--radius-md); margin-bottom: 10px;">
+                  <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">📅 每周供班达标分析</div>
+                  <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
+                    ${availCalc.weekResults.map(w => `
+                      <div style="text-align: center; padding: 6px 4px; border-radius: 6px; background: ${w.passed ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.08)'}; border: 1px solid ${w.passed ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.15)'};">
+                        <div style="font-size: 10px; font-weight: 700; color: var(--text-muted);">${w.name}</div>
+                        <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px;">${w.label}</div>
+                        <div style="font-size: 16px; margin-bottom: 2px;">${w.passed ? '✅' : '❌'}</div>
+                        <div style="font-size: 10px; font-weight: 600; color: ${w.passed ? '#10b981' : '#ef4444'};">${w.availDays}天</div>
+                        <div style="font-size: 9px; color: var(--text-muted);">${w.weekendAvail ? '🔑 周末✓' : '🚫 周末✗'}</div>
+                      </div>
+                    `).join('')}
+                  </div>
+                  <div style="margin-top: 8px; display: flex; justify-content: space-between; font-size: 11px;">
+                    <span style="color: var(--text-muted);">达标率: <b style="color: ${availCalc.score >= 4 ? '#10b981' : '#f59e0b'};">${availCalc.passedCount}/4</b> → 基础分 <b>${availCalc.baseScore}</b></span>
+                    ${availCalc.penalty ? `<span style="color: #ef4444;">换班-${availCalc.penalty}</span>` : ''}
+                    ${availCalc.bonus ? `<span style="color: #10b981;">顶班+${availCalc.bonus.toFixed(1)}</span>` : ''}
+                    ${(availCalc.applicantCount || availCalc.targetCount) ? `<span style="color: var(--text-muted); font-size: 10px;">换${availCalc.applicantCount}次/顶${availCalc.targetCount}次</span>` : ''}
+                  </div>
+                </div>
               </div>
 
               <!-- 成就徽章 -->
