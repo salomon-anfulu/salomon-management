@@ -370,19 +370,23 @@ const Store = {
       { id: 67, staff: '龚赟昊', date: '2026-06-19', type: '货品-整理仓库', duration: '1小时', detail: '1.5内仓整理' },
       { id: 68, staff: '王靳毓', date: '2026-06-19', type: '货品-整理仓库', duration: '0.5小时', detail: '1.5内仓整理' },
       { id: 69, staff: '王靳毓', date: '2026-06-19', type: '货品-整理仓库', duration: '1小时', detail: '4楼搬鞋' },
-      { id: 70, staff: '邓奇缘', date: '2026-06-19', type: '陈列-翻场支援', duration: '1小时', detail: '拍新品上身图' },
+      { id: 70, staff: '邓奇缘', date: '2026-06-19', type: '陈列-翻场支援', duration: '1小时', detail: '拍新品上身图' },,
+      { id: 71, staff: '何秋烨', date: '2026-06-19', type: '陈列-翻场支援', duration: '1.5小时', detail: '拍新品上身图、p图' },
+      { id: 72, staff: '王靳毓', date: '2026-06-20', type: '陈列-全楼标签复核', duration: '1小时', detail: '全楼花草拍照，整理陈列' },
+      { id: 73, staff: '李若彤', date: '2026-06-20', type: '货品-辅助收货', duration: '6小时', detail: '发售核销' },
+      { id: 74, staff: '朱凯赟', date: '2026-06-20', type: '货品-整理仓库', duration: '0.5小时', detail: '辅助陈列归货品' },
     ],
 
     // 店务统计（来自店务支援表）
         staffStats: {
       '陈昕媛': { doorCount: 17, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 1 },
-      '田佳乐': { doorCount: 18, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '田佳乐': { doorCount: 18, shiftChange: 1, shiftedCount: 0, missedPunch: 1, lateCount: 0, absentCount: 0, dianping: 0 },
       '迟骋': { doorCount: 13, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 3 },
       '王靳毓': { doorCount: 14, shiftChange: 0, shiftedCount: 3, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
       '朱凯赟': { doorCount: 11, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 2 },
       '孔祥宇': { doorCount: 18, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
       '邓奇缘': { doorCount: 18, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '杨子豪': { doorCount: 9, shiftChange: 2, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '杨子豪': { doorCount: 10, shiftChange: 2, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
       '王雅澜': { doorCount: 14, shiftChange: 1, shiftedCount: 2, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
       '李若彤': { doorCount: 18, shiftChange: 1, shiftedCount: 1, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
       '王龙宇': { doorCount: 14, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
@@ -442,7 +446,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月11天出勤90h，门迎18次，销售¥24,946时产¥277/h，品类(鞋履84.4% / 服装8.4% / 配件8.0%)，大众点评好评1条",
+      "comment": "6月13天出勤106h，门迎17次，销售¥24,946时产¥235/h，品类(鞋履84.4% / 服装8.4% / 配件8.0%)，大众点评好评1条",
       "avgScore": 4.8,
       "hourlyRate": 60
     },
@@ -454,12 +458,12 @@ const Store = {
         "availability": 5,
         "performance": 1,
         "behavior": 5,
-        "attendance": 5,
+        "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月11天出勤70.5h，门迎18次，销售¥4,950时产¥70/h，品类(鞋履74.6% / 服装16.1% / 配件9.3%)",
-      "avgScore": 4.0,
-      "hourlyRate": 60
+      "comment": "6月11天出勤79h，门迎18次，销售¥4,950时产¥63/h，品类(鞋履74.6% / 服装16.1% / 配件9.3%)",
+      "avgScore": 3.8,
+      "hourlyRate": 28
     },
     {
       "id": 3,
@@ -472,7 +476,7 @@ const Store = {
         "attendance": 4,
         "customerReview": 5
       },
-      "comment": "6月10天出勤62h，迟到1次(6/18)，门迎18次，销售¥1,298时产¥21/h，品类(鞋履100.0%)，大众点评好评3条",
+      "comment": "6月10天出勤71h，迟到1次(6/18)，门迎13次，销售¥1,298时产¥18/h，品类(鞋履100.0%)，大众点评好评3条",
       "avgScore": 4.0,
       "hourlyRate": 60
     },
@@ -487,7 +491,7 @@ const Store = {
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月7天出勤58h，迟到1次，门迎14次，销售¥2,884时产¥50/h，品类(鞋履45.0% / 服装20.7% / 配件34.3%)",
+      "comment": "6月9天出勤75h，迟到1次，门迎14次，销售¥2,884时产¥39/h，品类(鞋履45.0% / 服装20.7% / 配件34.3%)",
       "avgScore": 3.8,
       "hourlyRate": 28
     },
@@ -502,7 +506,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月8天出勤58.5h，门迎14次，销售¥4,072时产¥70/h，品类(鞋履68.7% / 服装29.4% / 配件1.9%)，大众点评好评2条",
+      "comment": "6月9天出勤67h，门迎11次，销售¥4,072时产¥61/h，品类(鞋履68.7% / 服装29.4% / 配件1.9%)，大众点评好评2条",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -517,7 +521,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月11天出勤78h，门迎18次，销售¥17,719时产¥227/h，品类(鞋履65.1% / 服装34.9%)",
+      "comment": "6月12天出勤86h，门迎18次，销售¥17,719时产¥206/h，品类(鞋履65.1% / 服装34.9%)",
       "avgScore": 4.4,
       "hourlyRate": 60
     },
@@ -532,7 +536,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月10天出勤83h，门迎17次，销售¥10,127时产¥122/h，品类(鞋履91.1% / 服装7.9% / 配件1.1%)",
+      "comment": "6月11天出勤91h，门迎18次，销售¥10,127时产¥111/h，品类(鞋履91.1% / 服装7.9% / 配件1.1%)",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -547,7 +551,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月7天出勤61.5h，门迎9次，销售¥22,922时产¥373/h，品类(鞋履90.1% / 服装9.4% / 配件0.5%)",
+      "comment": "6月9天出勤78h，门迎10次，销售¥22,922时产¥294/h，品类(鞋履90.1% / 服装9.4% / 配件0.5%)",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -562,7 +566,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月9天出勤61.5h，门迎12次，销售¥16,974时产¥276/h，品类(鞋履87.1% / 服装14.1%)",
+      "comment": "6月10天出勤70h，门迎14次，销售¥16,974时产¥242/h，品类(鞋履87.1% / 服装14.1%)",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -577,7 +581,7 @@ const Store = {
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月13天出勤90.5h，迟到1次(6/11)，排班取消1次(6/6)，门迎14次，销售¥21,420时产¥260/h，品类(鞋履82.6% / 服装11.9% / 配件5.4%)",
+      "comment": "6月12天出勤99h，迟到1次(6/11)，排班取消1次(6/6)，门迎18次，销售¥21,420时产¥217/h，品类(鞋履82.6% / 服装11.9% / 配件5.4%)",
       "avgScore": 4.4,
       "hourlyRate": 60
     },
@@ -592,7 +596,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月8天出勤58.5h（19-30日出差请假），门迎13次，销售¥5,450时产¥93/h，品类(鞋履93.4% / 配件6.6%)",
+      "comment": "6月8天出勤59h，门迎14次，销售¥5,450时产¥93/h，品类(鞋履93.4% / 配件6.6%)",
       "avgScore": 4.0,
       "hourlyRate": 60
     },
@@ -607,7 +611,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月8天出勤50h，门迎14次，销售¥5,350时产¥107/h，品类(鞋履93.3% / 配件6.7%)",
+      "comment": "6月10天出勤66h，门迎14次，销售¥5,350时产¥81/h，品类(鞋履93.3% / 配件6.7%)",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -622,7 +626,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月7天出勤54h，门迎11次，销售¥12,676时产¥235/h(含退货-¥1,198)，品类(鞋履89.0% / 服装17.3%)",
+      "comment": "6月9天出勤70h，门迎12次，销售¥12,676时产¥181/h(含退货-¥1,198)，品类(鞋履89.0% / 服装17.3%)",
       "avgScore": 4.6,
       "hourlyRate": 60
     }
@@ -630,7 +634,7 @@ const Store = {
 
         // 灵工打卡考勤数据（从 scripts/fetch_linggong.js 自动拉取）
         linggongAttendance: {
-      lastSync: '2026-06-20T07:11:31.300Z',
+      lastSync: '2026-06-20T15:39:12.481Z',
       records: [
       { "name": "何秋烨", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "07:27-09:31", "signIn": "07:27", "signOut": "09:31", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
       { "name": "孔祥宇", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "07:26-09:32", "signIn": "07:26", "signOut": "09:32", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
@@ -806,18 +810,18 @@ const Store = {
       { "name": "陈广权", "date": "2026/06/19", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "11:00-20:00", "signIn": "11:00", "signOut": "20:00", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "18321137266" },
       { "name": "陈昕媛", "date": "2026/06/19", "scheduleTime": "11:00-19:30", "restTime": "16:00-16:30", "clockInTime": "10:46-19:31", "signIn": "10:46", "signOut": "19:31", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
       { "name": "龚赟昊", "date": "2026/06/19", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:11-21:00", "signIn": "12:11", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" },
-      { "name": "严佳铮", "date": "2026/06/20", "scheduleTime": "10:30-21:30", "restTime": "14:00-15:00", "clockInTime": "10:27-", "signIn": "10:27", "status": "考勤中", "totalHours": 0, "scheduleHours": 10, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13917130275" },
-      { "name": "何秋烨", "date": "2026/06/20", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:52-", "signIn": "12:52", "status": "考勤中", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
-      { "name": "朱凯赟", "date": "2026/06/20", "scheduleTime": "11:00-19:30", "restTime": "16:00-16:30", "clockInTime": "10:52-", "signIn": "10:52", "status": "考勤中", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "13817425945" },
-      { "name": "李若彤", "date": "2026/06/20", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:14-", "signIn": "12:14", "status": "考勤中", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "杨子豪", "date": "2026/06/20", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:09-", "signIn": "12:09", "status": "考勤中", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17601250568" },
-      { "name": "梁实秋", "date": "2026/06/20", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:09-", "signIn": "12:09", "status": "考勤中", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13221271879" },
-      { "name": "王靳毓", "date": "2026/06/20", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:13-", "signIn": "11:13", "status": "考勤中", "totalHours": 0, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18735796066" },
-      { "name": "田佳乐", "date": "2026/06/20", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:56-", "signIn": "09:56", "status": "考勤中", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17613142469" },
-      { "name": "贾长乐", "date": "2026/06/20", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "10:45-", "signIn": "10:45", "status": "考勤中", "totalHours": 0, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "15359898665" },
-      { "name": "迟骋", "date": "2026/06/20", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "10:52-", "signIn": "10:52", "status": "考勤中", "totalHours": 0, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
-      { "name": "陈昕媛", "date": "2026/06/20", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:29-", "signIn": "10:29", "status": "考勤中", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "龚赟昊", "date": "2026/06/20", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:54-", "signIn": "09:54", "status": "考勤中", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" }
+      { "name": "严佳铮", "date": "2026/06/20", "scheduleTime": "10:30-21:30", "restTime": "14:00-15:00", "clockInTime": "10:27-21:30", "signIn": "10:27", "signOut": "21:30", "status": "考勤正常", "totalHours": 10, "scheduleHours": 10, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13917130275" },
+      { "name": "何秋烨", "date": "2026/06/20", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:52-21:31", "signIn": "12:52", "signOut": "21:31", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
+      { "name": "朱凯赟", "date": "2026/06/20", "scheduleTime": "11:00-19:30", "restTime": "16:00-16:30", "clockInTime": "10:52-19:30", "signIn": "10:52", "signOut": "19:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "13817425945" },
+      { "name": "李若彤", "date": "2026/06/20", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:14-21:01", "signIn": "12:14", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
+      { "name": "杨子豪", "date": "2026/06/20", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:09-21:01", "signIn": "12:09", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17601250568" },
+      { "name": "梁实秋", "date": "2026/06/20", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:09-21:01", "signIn": "12:09", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13221271879" },
+      { "name": "王靳毓", "date": "2026/06/20", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:13-20:32", "signIn": "11:13", "signOut": "20:32", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18735796066" },
+      { "name": "田佳乐", "date": "2026/06/20", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:56-18:38", "signIn": "09:56", "signOut": "18:38", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17613142469" },
+      { "name": "贾长乐", "date": "2026/06/20", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "10:45-20:00", "signIn": "10:45", "signOut": "20:00", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "15359898665" },
+      { "name": "迟骋", "date": "2026/06/20", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "10:52-20:31", "signIn": "10:52", "signOut": "20:31", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
+      { "name": "陈昕媛", "date": "2026/06/20", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:29-19:02", "signIn": "10:29", "signOut": "19:02", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
+      { "name": "龚赟昊", "date": "2026/06/20", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:54-18:30", "signIn": "09:54", "signOut": "18:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" }
       ]
     },
 
@@ -1229,7 +1233,7 @@ const Store = {
     ],
 
     // Data version for forced refresh detection
-    _dataVersion: '2026-06-20-v13',
+    _dataVersion: '2026-06-21-v14',
   },
 
   init() {
@@ -1304,7 +1308,7 @@ const Store = {
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-20-v13';
+      const DATA_VERSION = '2026-06-21-v14';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
