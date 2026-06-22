@@ -1,0 +1,394 @@
+{
+  "totalSales": 211454,
+  "avgUPT": 1.34,
+  "avgHourlyOutput": 198.2,
+  "records": [
+    {
+      "name": "陈昕媛",
+      "sales": 31414,
+      "qty": 25,
+      "tickets": 22,
+      "avgPrice": 1257,
+      "workHours": 100.5,
+      "workDays": 13,
+      "hourlyOutput": 313,
+      "efficiency": 0.5794,
+      "salesShare": 0.149,
+      "categories": {
+        "鞋履": {
+          "sales": 26240,
+          "qty": 17,
+          "pct": 83.5
+        },
+        "服装": {
+          "sales": 3194,
+          "qty": 3,
+          "pct": 10.2
+        },
+        "配件": {
+          "sales": 1980,
+          "qty": 5,
+          "pct": 6.3
+        }
+      }
+    },
+    {
+      "name": "杨子豪",
+      "sales": 30010,
+      "qty": 25,
+      "tickets": 19,
+      "avgPrice": 1200,
+      "workHours": 76.0,
+      "workDays": 9,
+      "hourlyOutput": 395,
+      "efficiency": 0.9932,
+      "salesShare": 0.142,
+      "categories": {
+        "鞋履": {
+          "sales": 27508,
+          "qty": 21,
+          "pct": 91.7
+        },
+        "服装": {
+          "sales": 2394,
+          "qty": 3,
+          "pct": 8.0
+        },
+        "配件": {
+          "sales": 108,
+          "qty": 1,
+          "pct": 0.4
+        }
+      }
+    },
+    {
+      "name": "李若彤",
+      "sales": 24016,
+      "qty": 22,
+      "tickets": 16,
+      "avgPrice": 1092,
+      "workHours": 88.0,
+      "workDays": 11,
+      "hourlyOutput": 273,
+      "efficiency": 0.3776,
+      "salesShare": 0.114,
+      "categories": {
+        "鞋履": {
+          "sales": 20968,
+          "qty": 16,
+          "pct": 87.3
+        },
+        "其他": {
+          "sales": 1098,
+          "qty": 1,
+          "pct": 4.6
+        },
+        "服装": {
+          "sales": 996,
+          "qty": 2,
+          "pct": 4.1
+        },
+        "配件": {
+          "sales": 954,
+          "qty": 3,
+          "pct": 4.0
+        }
+      }
+    },
+    {
+      "name": "龚赟昊",
+      "sales": 21672,
+      "qty": 16,
+      "tickets": 15,
+      "avgPrice": 1354,
+      "workHours": 86.0,
+      "workDays": 11,
+      "hourlyOutput": 252,
+      "efficiency": 0.2716,
+      "salesShare": 0.102,
+      "categories": {
+        "鞋履": {
+          "sales": 19080,
+          "qty": 12,
+          "pct": 88.0
+        },
+        "服装": {
+          "sales": 2592,
+          "qty": 4,
+          "pct": 12.0
+        }
+      }
+    },
+    {
+      "name": "王雅澜",
+      "sales": 19288,
+      "qty": 16,
+      "tickets": 12,
+      "avgPrice": 1206,
+      "workHours": 78.0,
+      "workDays": 11,
+      "hourlyOutput": 247,
+      "efficiency": 0.2464,
+      "salesShare": 0.091,
+      "categories": {
+        "鞋履": {
+          "sales": 14778,
+          "qty": 11,
+          "pct": 76.6
+        },
+        "服装": {
+          "sales": 2094,
+          "qty": 3,
+          "pct": 10.9
+        },
+        "其他": {
+          "sales": 1698,
+          "qty": 1,
+          "pct": 8.8
+        },
+        "配件": {
+          "sales": 718,
+          "qty": 1,
+          "pct": 3.7
+        }
+      }
+    },
+    {
+      "name": "孔祥宇",
+      "sales": 16371,
+      "qty": 17,
+      "tickets": 10,
+      "avgPrice": 963,
+      "workHours": 92.5,
+      "workDays": 13,
+      "hourlyOutput": 177,
+      "efficiency": -0.1069,
+      "salesShare": 0.077,
+      "categories": {
+        "鞋履": {
+          "sales": 10184,
+          "qty": 8,
+          "pct": 62.2
+        },
+        "服装": {
+          "sales": 5389,
+          "qty": 8,
+          "pct": 32.9
+        },
+        "其他": {
+          "sales": 798,
+          "qty": 1,
+          "pct": 4.9
+        }
+      }
+    },
+    {
+      "name": "王靳毓",
+      "sales": 14048,
+      "qty": 12,
+      "tickets": 9,
+      "avgPrice": 1171,
+      "workHours": 79.0,
+      "workDays": 10,
+      "hourlyOutput": 178,
+      "efficiency": -0.1018,
+      "salesShare": 0.066,
+      "categories": {
+        "鞋履": {
+          "sales": 9690,
+          "qty": 6,
+          "pct": 69.0
+        },
+        "服装": {
+          "sales": 1894,
+          "qty": 3,
+          "pct": 13.5
+        },
+        "其他": {
+          "sales": 1398,
+          "qty": 1,
+          "pct": 10.0
+        },
+        "配件": {
+          "sales": 1066,
+          "qty": 2,
+          "pct": 7.6
+        }
+      }
+    },
+    {
+      "name": "何秋烨",
+      "sales": 13568,
+      "qty": 16,
+      "tickets": 9,
+      "avgPrice": 848,
+      "workHours": 82.0,
+      "workDays": 12,
+      "hourlyOutput": 165,
+      "efficiency": -0.1674,
+      "salesShare": 0.064,
+      "categories": {
+        "鞋履": {
+          "sales": 8686,
+          "qty": 7,
+          "pct": 64.0
+        },
+        "服装": {
+          "sales": 3390,
+          "qty": 5,
+          "pct": 25.0
+        },
+        "配件": {
+          "sales": 1492,
+          "qty": 4,
+          "pct": 11.0
+        }
+      }
+    },
+    {
+      "name": "邓奇缘",
+      "sales": 10127,
+      "qty": 9,
+      "tickets": 7,
+      "avgPrice": 1125,
+      "workHours": 89.0,
+      "workDays": 11,
+      "hourlyOutput": 114,
+      "efficiency": -0.4248,
+      "salesShare": 0.048,
+      "categories": {
+        "鞋履": {
+          "sales": 9221,
+          "qty": 7,
+          "pct": 91.1
+        },
+        "服装": {
+          "sales": 798,
+          "qty": 1,
+          "pct": 7.9
+        },
+        "配件": {
+          "sales": 108,
+          "qty": 1,
+          "pct": 1.1
+        }
+      }
+    },
+    {
+      "name": "朱凯赟",
+      "sales": 9660,
+      "qty": 10,
+      "tickets": 7,
+      "avgPrice": 966,
+      "workHours": 75.0,
+      "workDays": 10,
+      "hourlyOutput": 129,
+      "efficiency": -0.3491,
+      "salesShare": 0.046,
+      "categories": {
+        "鞋履": {
+          "sales": 6590,
+          "qty": 5,
+          "pct": 68.2
+        },
+        "其他": {
+          "sales": 2494,
+          "qty": 3,
+          "pct": 25.8
+        },
+        "服装": {
+          "sales": 498,
+          "qty": 1,
+          "pct": 5.2
+        },
+        "配件": {
+          "sales": 78,
+          "qty": 1,
+          "pct": 0.8
+        }
+      }
+    },
+    {
+      "name": "迟骋",
+      "sales": 9482,
+      "qty": 9,
+      "tickets": 5,
+      "avgPrice": 1054,
+      "workHours": 86.0,
+      "workDays": 12,
+      "hourlyOutput": 110,
+      "efficiency": -0.4449,
+      "salesShare": 0.045,
+      "categories": {
+        "鞋履": {
+          "sales": 7588,
+          "qty": 6,
+          "pct": 80.0
+        },
+        "服装": {
+          "sales": 1096,
+          "qty": 2,
+          "pct": 11.6
+        },
+        "其他": {
+          "sales": 798,
+          "qty": 1,
+          "pct": 8.4
+        }
+      }
+    },
+    {
+      "name": "田佳乐",
+      "sales": 6348,
+      "qty": 6,
+      "tickets": 5,
+      "avgPrice": 1058,
+      "workHours": 76.5,
+      "workDays": 10,
+      "hourlyOutput": 83,
+      "efficiency": -0.5812,
+      "salesShare": 0.03,
+      "categories": {
+        "鞋履": {
+          "sales": 5092,
+          "qty": 4,
+          "pct": 80.2
+        },
+        "服装": {
+          "sales": 798,
+          "qty": 1,
+          "pct": 12.6
+        },
+        "配件": {
+          "sales": 458,
+          "qty": 1,
+          "pct": 7.2
+        }
+      }
+    },
+    {
+      "name": "王龙宇",
+      "sales": 5450,
+      "qty": 5,
+      "tickets": 4,
+      "avgPrice": 1090,
+      "workHours": 58.5,
+      "workDays": 8,
+      "hourlyOutput": 93,
+      "efficiency": -0.5307,
+      "salesShare": 0.026,
+      "categories": {
+        "鞋履": {
+          "sales": 5092,
+          "qty": 4,
+          "pct": 93.4
+        },
+        "配件": {
+          "sales": 358,
+          "qty": 1,
+          "pct": 6.6
+        }
+      }
+    }
+  ]
+}
