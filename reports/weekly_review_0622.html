@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Salomon安福路 · 周复盘报告</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans SC', -apple-system, sans-serif;
+    background: #0a0e1a;
+    color: #fff;
+    width: 1080px;
+    overflow-x: hidden;
+  }
+  .page {
+    width: 1080px;
+    background: linear-gradient(160deg, #0a0e1a 0%, #101830 40%, #0d1525 100%);
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+  }
+  /* 装饰背景 */
+  .page::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .page::after {
+    content: '';
+    position: absolute;
+    bottom: -150px; left: -150px;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(239,68,68,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  /* ========== HEADER ========== */
+  .header {
+    padding: 40px 50px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+  }
+  .header-left { display: flex; align-items: center; gap: 18px; }
+  .logo-badge {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: 900;
+    color: #fff;
+    box-shadow: 0 4px 20px rgba(59,130,246,0.3);
+  }
+  .header-title h1 {
+    font-size: 26px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    background: linear-gradient(90deg, #fff, #93c5fd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .header-title p {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 2px;
+  }
+  .header-right {
+    display: flex;
+    gap: 12px;
+  }
+  .date-badge {
+    background: rgba(59,130,246,0.15);
+    border: 1px solid rgba(59,130,246,0.3);
+    border-radius: 10px;
+    padding: 8px 16px;
+    text-align: center;
+  }
+  .date-badge .label { font-size: 11px; color: #60a5fa; font-weight: 500; }
+  .date-badge .value { font-size: 16px; color: #fff; font-weight: 700; margin-top: 1px; }
+
+  /* ========== SECTION COMMON ========== */
+  .section {
+    padding: 0 50px;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 18px;
+  }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .section-title .icon {
+    font-size: 22px;
+  }
+  .section-title h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #e2e8f0;
+  }
+  .section-title .line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(59,130,246,0.3), transparent);
+  }
+
+  /* ========== KPI ROW ========== */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    padding: 0 50px;
+    margin-bottom: 22px;
+    position: relative;
+    z-index: 2;
+  }
+  .kpi-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 18px 14px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .kpi-card .kpi-emoji { font-size: 26px; margin-bottom: 6px; }
+  .kpi-card .kpi-value {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+  }
+  .kpi-card .kpi-label {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: 3px;
+    font-weight: 500;
+  }
+  .kpi-card .kpi-sub {
+    font-size: 10px;
+    color: #475569;
+    margin-top: 4px;
+  }
+  .kpi-blue .kpi-value { color: #60a5fa; }
+  .kpi-green .kpi-value { color: #34d399; }
+  .kpi-orange .kpi-value { color: #fb923c; }
+  .kpi-red .kpi-value { color: #f87171; }
+  .kpi-purple .kpi-value { color: #c084fc; }
+  .kpi-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+  }
+  .kpi-blue::after { background: linear-gradient(90deg, #3b82f6, #60a5fa); }
+  .kpi-green::after { background: linear-gradient(90deg, #10b981, #34d399); }
+  .kpi-orange::after { background: linear-gradient(90deg, #f59e0b, #fb923c); }
+  .kpi-red::after { background: linear-gradient(90deg, #ef4444, #f87171); }
+  .kpi-purple::after { background: linear-gradient(90deg, #8b5cf6, #c084fc); }
+
+  /* ========== TWO COLUMN ========== */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .panel {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 18px 20px;
+  }
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .panel-header h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: #cbd5e1;
+  }
+  .panel-header .tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+  }
+  .tag-blue { background: rgba(59,130,246,0.2); color: #93c5fd; }
+  .tag-orange { background: rgba(251,146,60,0.2); color: #fdba74; }
+  .tag-green { background: rgba(16,185,129,0.2); color: #6ee7b7; }
+
+  /* Daily bars */
+  .daily-stats { display: flex; flex-direction: column; gap: 8px; }
+  .daily-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .daily-bar .day-label {
+    width: 62px;
+    font-size: 11px;
+    color: #94a3b8;
+    font-weight: 500;
+    text-align: right;
+  }
+  .daily-bar .day-label .weekend { color: #fb923c; }
+  .daily-bar .bar-track {
+    flex: 1;
+    height: 24px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .daily-bar .bar-fill {
+    height: 100%;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .bar-fill.weekday { background: linear-gradient(90deg, #1e40af, #3b82f6); }
+  .bar-fill.weekend { background: linear-gradient(90deg, #c2410c, #f97316); }
+
+  /* Leaderboard */
+  .leaderboard { display: flex; flex-direction: column; gap: 6px; }
+  .lb-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 10px;
+  }
+  .lb-rank {
+    width: 24px; height: 24px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+  .rank-1 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #78350f; }
+  .rank-2 { background: linear-gradient(135deg, #e2e8f0, #94a3b8); color: #1e293b; }
+  .rank-3 { background: linear-gradient(135deg, #f97316, #ea580c); color: #fff; }
+  .rank-other { background: rgba(255,255,255,0.1); color: #64748b; }
+  .lb-name {
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
+    color: #e2e8f0;
+  }
+  .lb-name .sub { font-size: 10px; color: #64748b; font-weight: 400; }
+  .lb-value {
+    font-size: 15px;
+    font-weight: 800;
+    color: #60a5fa;
+  }
+  .lb-value.orange { color: #fb923c; }
+  .lb-value.green { color: #34d399; }
+
+  /* Review card */
+  .review-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .review-card .review-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .review-card .review-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: #fbbf24;
+  }
+  .review-card .review-date {
+    font-size: 10px;
+    color: #64748b;
+  }
+  .review-card .review-text {
+    font-size: 11px;
+    color: #94a3b8;
+    line-height: 1.5;
+  }
+  .review-card .review-stars {
+    color: #fbbf24;
+    font-size: 10px;
+    letter-spacing: 1px;
+  }
+
+  /* Weekday vs Weekend comparison */
+  .comparison {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .comp-card {
+    flex: 1;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+  }
+  .comp-card.wd { border-color: rgba(59,130,246,0.2); }
+  .comp-card.we { border-color: rgba(251,146,60,0.2); }
+  .comp-card .comp-icon { font-size: 20px; margin-bottom: 4px; }
+  .comp-card .comp-label { font-size: 11px; color: #94a3b8; font-weight: 500; margin-bottom: 6px; }
+  .comp-card .comp-value { font-size: 22px; font-weight: 900; }
+  .comp-card.wd .comp-value { color: #60a5fa; }
+  .comp-card.we .comp-value { color: #fb923c; }
+  .comp-card .comp-sub { font-size: 10px; color: #64748b; margin-top: 3px; }
+
+  /* Fun facts */
+  .fun-facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .fact {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .fact .fact-icon { font-size: 24px; flex-shrink: 0; }
+  .fact .fact-text { font-size: 11px; line-height: 1.4; color: #cbd5e1; }
+  .fact .fact-text strong { color: #fbbf24; }
+
+  /* Support breakdown */
+  .support-breakdown {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .sb-chip {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 11px;
+    color: #94a3b8;
+  }
+  .sb-chip strong { color: #34d399; font-size: 13px; }
+
+  /* Footer */
+  .footer {
+    padding: 15px 50px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+  .footer-left { font-size: 10px; color: #475569; }
+  .footer-right { font-size: 10px; color: #475569; }
+  .footer-brand {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: 600;
+  }
+
+  /* Highlights bar */
+  .highlights-bar {
+    margin: 0 50px 18px;
+    display: flex;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+  }
+  .hl-pill {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .hl-pill.gold { background: rgba(251,191,36,0.12); border: 1px solid rgba(251,191,36,0.25); color: #fcd34d; }
+  .hl-pill.blue { background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.25); color: #93c5fd; }
+  .hl-pill.red { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.25); color: #fca5a5; }
+  .hl-pill.green { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.25); color: #6ee7b7; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ========== HEADER ========== -->
+  <div class="header">
+    <div class="header-left">
+      <div class="logo-badge">S</div>
+      <div class="header-title">
+        <h1>SALOMON 安福路旗舰店 · 周度战报</h1>
+        <p>L140 Service Team · 兼职团队运营周报</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="date-badge">
+        <div class="label">复盘周期</div>
+        <div class="value">6/15 - 6/21</div>
+      </div>
+      <div class="date-badge">
+        <div class="label">报告日期</div>
+        <div class="value">6/22 周一</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== HIGHLIGHT PILLS ========== -->
+  <div class="highlights-bar">
+    <div class="hl-pill gold">🏆 陈昕媛 连续三周销冠</div>
+    <div class="hl-pill blue">⏱️ 周总工时 538.5h</div>
+    <div class="hl-pill red">🔥 杨子豪 周工时王 41.5h</div>
+    <div class="hl-pill green">💬 本周新增 3条5星好评</div>
+  </div>
+
+  <!-- ========== KPI ROW ========== -->
+  <div class="kpi-row">
+    <div class="kpi-card kpi-blue">
+      <div class="kpi-emoji">⏱️</div>
+      <div class="kpi-value">538.5h</div>
+      <div class="kpi-label">周总工时</div>
+      <div class="kpi-sub">67人次出勤</div>
+    </div>
+    <div class="kpi-card kpi-green">
+      <div class="kpi-emoji">💰</div>
+      <div class="kpi-value">¥203K</div>
+      <div class="kpi-label">6月累计业绩</div>
+      <div class="kpi-sub">人均时产¥197/h</div>
+    </div>
+    <div class="kpi-card kpi-orange">
+      <div class="kpi-emoji">🚪</div>
+      <div class="kpi-value">55次</div>
+      <div class="kpi-label">门迎排班</div>
+      <div class="kpi-sub">6天覆盖</div>
+    </div>
+    <div class="kpi-card kpi-red">
+      <div class="kpi-emoji">📦</div>
+      <div class="kpi-value">25条</div>
+      <div class="kpi-label">店务支援</div>
+      <div class="kpi-sub">合计30.3h</div>
+    </div>
+    <div class="kpi-card kpi-purple">
+      <div class="kpi-emoji">⭐</div>
+      <div class="kpi-value">8条</div>
+      <div class="kpi-label">大众点评好评</div>
+      <div class="kpi-sub">本周新增3条</div>
+    </div>
+  </div>
+
+  <!-- ========== DAILY OUTPUT + WEEKDAY vs WEEKEND ========== -->
+  <div class="section">
+    <div class="section-title">
+      <span class="icon">📊</span>
+      <h2>每日产出 & 工作日 vs 周末</h2>
+      <div class="line"></div>
+    </div>
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-header">
+          <h3>📈 每日出勤人数 / 工时</h3>
+          <span class="tag tag-blue">7天趋势</span>
+        </div>
+        <div class="daily-stats">
+          <div class="daily-bar">
+            <div class="day-label">6/15 一</div>
+            <div class="bar-track"><div class="bar-fill weekday" style="width: 60%">8人 · 64.0h</div></div>
+          </div>
+          <div class="daily-bar">
+            <div class="day-label">6/16 二</div>
+            <div class="bar-track"><div class="bar-fill weekday" style="width: 52%">7人 · 56.0h</div></div>
+          </div>
+          <div class="daily-bar">
+            <div class="day-label">6/17 三</div>
+            <div class="bar-track"><div class="bar-fill weekday" style="width: 60%">8人 · 64.0h</div></div>
+          </div>
+          <div class="daily-bar">
+            <div class="day-label">6/18 四</div>
+            <div class="bar-track"><div class="bar-fill weekday" style="width: 58%">8人 · 62.5h</div></div>
+          </div>
+          <div class="daily-bar">
+            <div class="day-label">6/19 五</div>
+            <div class="bar-track"><div class="bar-fill weekday" style="width: 100%">13人 · 107.5h 🔥</div></div>
+          </div>
+          <div class="daily-bar">
+            <div class="day-label">6/20 六 <span class="weekend">📍</span></div>
+            <div class="bar-track"><div class="bar-fill weekend" style="width: 93%">12人 · 99.5h</div></div>
+          </div>
+          <div class="daily-bar">
+            <div class="day-label">6/21 日 <span class="weekend">📍</span></div>
+            <div class="bar-track"><div class="bar-fill weekend" style="width: 79%">11人 · 85.0h</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <h3>⚖️ 工作日 vs 周末 对决</h3>
+          <span class="tag tag-orange">5天 vs 2天</span>
+        </div>
+        <div class="comparison" style="flex-direction: column; gap: 10px;">
+          <div style="display: flex; gap: 10px;">
+            <div class="comp-card wd">
+              <div class="comp-icon">💼</div>
+              <div class="comp-label">工作日 (一~五)</div>
+              <div class="comp-value">354.0h</div>
+              <div class="comp-sub">44人次 · 19人参与</div>
+            </div>
+            <div class="comp-card we">
+              <div class="comp-icon">🎉</div>
+              <div class="comp-label">周末 (六~日)</div>
+              <div class="comp-value">184.5h</div>
+              <div class="comp-sub">23人次 · 16人参与</div>
+            </div>
+          </div>
+          <div style="background: rgba(255,255,255,0.03); border-radius: 10px; padding: 12px; font-size: 11px; color: #94a3b8; line-height: 1.6;">
+            💡 <strong style="color:#cbd5e1;">洞察：</strong>周五(6/19)是本周巅峰日，13人107.5h！周末虽只有2天但人均8.0h/天，与工作日持平。<br>
+            💡 周末出勤密度高——每百人时产出更集中，<strong style="color:#fb923c;">周末客流是工作日的2.5倍</strong>。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PERFORMANCE LEADERBOARD + DOOR ========== -->
+  <div class="section">
+    <div class="section-title">
+      <span class="icon">🏆</span>
+      <h2>本周风云榜</h2>
+      <div class="line"></div>
+    </div>
+    <div class="two-col">
+      <!-- Performance TOP5 -->
+      <div class="panel">
+        <div class="panel-header">
+          <h3>💰 6月业绩 TOP5</h3>
+          <span class="tag tag-green">时产排行</span>
+        </div>
+        <div class="leaderboard">
+          <div class="lb-row">
+            <div class="lb-rank rank-1">1</div>
+            <div class="lb-name">杨子豪<div class="sub">25件 · 19票 · 时产¥385/h 👑</div></div>
+            <div class="lb-value">¥30,010</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank rank-2">2</div>
+            <div class="lb-name">陈昕媛<div class="sub">25件 · 22票 · 时产¥306/h</div></div>
+            <div class="lb-value">¥31,414</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank rank-3">3</div>
+            <div class="lb-name">李若彤<div class="sub">22件 · 16票 · 时产¥267/h</div></div>
+            <div class="lb-value orange">¥24,016</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank rank-other">4</div>
+            <div class="lb-name">王雅澜<div class="sub">16件 · 时产¥247/h</div></div>
+            <div class="lb-value orange">¥19,288</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank rank-other">5</div>
+            <div class="lb-name">龚赟昊<div class="sub">15件 · 时产¥237/h</div></div>
+            <div class="lb-value orange">¥18,472</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Door + Support TOP -->
+      <div class="panel">
+        <div class="panel-header">
+          <h3>🚪 门迎 & 📦 店务 TOP5</h3>
+          <span class="tag tag-blue">幕后英雄</span>
+        </div>
+        <div class="leaderboard" style="margin-bottom: 10px;">
+          <div class="lb-row">
+            <div class="lb-rank rank-1">🥇</div>
+            <div class="lb-name">孔祥宇<div class="sub">门迎达人 · 7次站岗</div></div>
+            <div class="lb-value green">7次</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank rank-2">🥈</div>
+            <div class="lb-name">邓奇缘 / 李若彤<div class="sub">并列 · 各6次</div></div>
+            <div class="lb-value green">6次</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank rank-3">🥉</div>
+            <div class="lb-name">杨子豪 / 迟骋<div class="sub">并列 · 各5次</div></div>
+            <div class="lb-value green">5次</div>
+          </div>
+        </div>
+        <div style="height: 1px; background: rgba(255,255,255,0.08); margin: 8px 0;"></div>
+        <div class="leaderboard">
+          <div class="lb-row">
+            <div class="lb-rank rank-1">📦</div>
+            <div class="lb-name">李若彤<div class="sub">发售核销6h · 周店务冠军</div></div>
+            <div class="lb-value orange">7.0h</div>
+          </div>
+          <div class="lb-row">
+            <div class="lb-rank rank-other">·</div>
+            <div class="lb-name">孔祥宇 / 邓奇缘 / 龚赟昊<div class="sub">并列 · 各3.0h</div></div>
+            <div class="lb-value orange">3.0h</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== CUSTOMER REVIEWS ========== -->
+  <div class="section">
+    <div class="section-title">
+      <span class="icon">💬</span>
+      <h2>顾客好评 · 本周精选</h2>
+      <div class="line"></div>
+    </div>
+    <div class="two-col">
+      <div>
+        <div class="review-card">
+          <div class="review-header">
+            <div>
+              <span class="review-name">李若彤（小和）</span>
+              <span class="review-stars">★★★★★</span>
+            </div>
+            <span class="review-date">6/20 · 匿名用户</span>
+          </div>
+          <div class="review-text">"买了两双安福路店限定whisper，店员好亲切，进来了两次，特别点名小和，非常非常非常用心！"</div>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <div>
+              <span class="review-name">迟骋（CC）</span>
+              <span class="review-stars">★★★★★</span>
+            </div>
+            <span class="review-date">6/21 · 勇善可爱的小柔</span>
+          </div>
+          <div class="review-text">"CC接待的我，人特别热情，讲鞋子都讲得很细，选鞋给的建议也很实在，逛着很舒服～"</div>
+        </div>
+      </div>
+      <div>
+        <div class="review-card">
+          <div class="review-header">
+            <div>
+              <span class="review-name">朱凯赟 & 迟骋</span>
+              <span class="review-stars">★★★★★</span>
+            </div>
+            <span class="review-date">6/17 · 我是可乐我会冒泡</span>
+          </div>
+          <div class="review-text">"特别感谢店员朱凯赟和迟骋，全程热情耐心，细致讲解鞋款功能，主动拿多款尺码试穿。"</div>
+        </div>
+        <div class="review-card" style="background: rgba(251,191,36,0.06); border-color: rgba(251,191,36,0.2);">
+          <div class="review-header">
+            <div>
+              <span class="review-name" style="color:#fcd34d;">📊 好评分布</span>
+            </div>
+          </div>
+          <div class="review-text">
+            全月8条5星好评 · 点名覆盖：<strong style="color:#fbbf24;">迟骋4条</strong>（好评王👑）、朱凯赟2条、陈昕媛1条、李若彤1条
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FUN FACTS ========== -->
+  <div class="section">
+    <div class="section-title">
+      <span class="icon">🎪</span>
+      <h2>本周趣味数据</h2>
+      <div class="line"></div>
+    </div>
+    <div class="fun-facts">
+      <div class="fact">
+        <div class="fact-icon">🔥</div>
+        <div class="fact-text"><strong>杨子豪</strong>周出勤5天41.5h，全队工时王，日均8.3h比上班还猛</div>
+      </div>
+      <div class="fact">
+        <div class="fact-icon">👑</div>
+        <div class="fact-text"><strong>陈昕媛</strong>6月累计14天102.5h，全队出勤天数最多，铁人三项选手</div>
+      </div>
+      <div class="fact">
+        <div class="fact-icon">🚀</div>
+        <div class="fact-text"><strong>杨子豪</strong>时产¥385/h全队最高，比均线高96%，行走的印钞机</div>
+      </div>
+      <div class="fact">
+        <div class="fact-icon">🚪</div>
+        <div class="fact-text"><strong>孔祥宇</strong>本周门迎7次，站在门口最久的"门面担当"</div>
+      </div>
+      <div class="fact">
+        <div class="fact-icon">📦</div>
+        <div class="fact-text"><strong>李若彤</strong>发售核销一口气干6h，本周最强店务支援输出</div>
+      </div>
+      <div class="fact">
+        <div class="fact-icon">💬</div>
+        <div class="fact-text"><strong>迟骋</strong>全月4条大众点评好评，好评数量遥遥领先</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FOOTER ========== -->
+  <div class="footer">
+    <div class="footer-left">
+      数据来源：灵工打卡 · 销售小票 · 腾讯文档PT供班表 · 大众点评<br>
+      生成时间：2026-06-22 10:00
+    </div>
+    <div class="footer-brand">SALOMON 安福路 L140 · Service Team</div>
+  </div>
+
+</div>
+</body>
+</html>

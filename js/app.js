@@ -370,28 +370,29 @@ const Store = {
       { id: 67, staff: '龚赟昊', date: '2026-06-19', type: '货品-整理仓库', duration: '1小时', detail: '1.5内仓整理' },
       { id: 68, staff: '王靳毓', date: '2026-06-19', type: '货品-整理仓库', duration: '0.5小时', detail: '1.5内仓整理' },
       { id: 69, staff: '王靳毓', date: '2026-06-19', type: '货品-整理仓库', duration: '1小时', detail: '4楼搬鞋' },
-      { id: 70, staff: '邓奇缘', date: '2026-06-19', type: '陈列-翻场支援', duration: '1小时', detail: '拍新品上身图' },,
+      { id: 70, staff: '邓奇缘', date: '2026-06-19', type: '陈列-翻场支援', duration: '1小时', detail: '拍新品上身图' },
       { id: 71, staff: '何秋烨', date: '2026-06-19', type: '陈列-翻场支援', duration: '1.5小时', detail: '拍新品上身图、p图' },
       { id: 72, staff: '王靳毓', date: '2026-06-20', type: '陈列-全楼标签复核', duration: '1小时', detail: '全楼花草拍照，整理陈列' },
       { id: 73, staff: '李若彤', date: '2026-06-20', type: '货品-辅助收货', duration: '6小时', detail: '发售核销' },
       { id: 74, staff: '朱凯赟', date: '2026-06-20', type: '货品-整理仓库', duration: '0.5小时', detail: '辅助陈列归货品' },
+      { id: 75, staff: '龚赟昊', date: '2026-06-20', type: '货品-辅助收货', duration: '5小时', detail: '发售核销' },
     ],
 
     // 店务统计（来自店务支援表）
         staffStats: {
-      '陈昕媛': { doorCount: 17, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 1 },
-      '田佳乐': { doorCount: 18, shiftChange: 1, shiftedCount: 0, missedPunch: 1, lateCount: 0, absentCount: 0, dianping: 0 },
-      '迟骋': { doorCount: 13, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 3 },
-      '王靳毓': { doorCount: 14, shiftChange: 0, shiftedCount: 3, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
-      '朱凯赟': { doorCount: 11, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 2 },
+      '陈昕媛': { doorCount: 18, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 1 },
+      '田佳乐': { doorCount: 17, shiftChange: 1, shiftedCount: 0, missedPunch: 1, lateCount: 0, absentCount: 0, dianping: 0 },
+      '迟骋': { doorCount: 16, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 3 },
+      '王靳毓': { doorCount: 16, shiftChange: 0, shiftedCount: 3, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
+      '朱凯赟': { doorCount: 15, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 2 },
       '孔祥宇': { doorCount: 18, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '邓奇缘': { doorCount: 18, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '杨子豪': { doorCount: 10, shiftChange: 2, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '王雅澜': { doorCount: 14, shiftChange: 1, shiftedCount: 2, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '李若彤': { doorCount: 18, shiftChange: 1, shiftedCount: 1, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
-      '王龙宇': { doorCount: 14, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '何秋烨': { doorCount: 14, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '龚赟昊': { doorCount: 12, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 }
+      '邓奇缘': { doorCount: 20, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '杨子豪': { doorCount: 11, shiftChange: 2, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '王雅澜': { doorCount: 13, shiftChange: 1, shiftedCount: 2, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '李若彤': { doorCount: 17, shiftChange: 1, shiftedCount: 1, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
+      '王龙宇': { doorCount: 13, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '何秋烨': { doorCount: 17, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '龚赟昊': { doorCount: 16, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 }
     },
 
     schedules: [
@@ -446,7 +447,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月14天出勤102h，门迎17次，销售¥31,414时产¥306/h，品类(鞋履 83.5% / 服装 10.2% / 配件 6.3%)，大众点评好评1条",
+      "comment": "6月13天出勤100h，门迎18次，销售¥31,414时产¥312/h，品类(鞋履 83.5% / 服装 10.2% / 配件 6.3%)，大众点评好评1条",
       "avgScore": 5.0,
       "hourlyRate": 60
     },
@@ -458,12 +459,12 @@ const Store = {
         "availability": 5,
         "performance": 1,
         "behavior": 5,
-        "attendance": 5,
+        "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月11天出勤78h，门迎18次，销售¥6,348时产¥81/h，品类(鞋履 80.2% / 服装 12.6% / 配件 7.2%)",
-      "avgScore": 4.0,
-      "hourlyRate": 60
+      "comment": "6月10天出勤76h，门迎17次，销售¥6,348时产¥82/h，品类(鞋履 80.2% / 服装 12.6% / 配件 7.2%)",
+      "avgScore": 3.8,
+      "hourlyRate": 28
     },
     {
       "id": 3,
@@ -476,7 +477,7 @@ const Store = {
         "attendance": 4,
         "customerReview": 5
       },
-      "comment": "6月12天出勤78h，迟到1次，未排门迎，销售¥9,482时产¥122/h，品类(鞋履 80.0% / 服装 11.6% / 其他 8.4%)，大众点评好评4条",
+      "comment": "6月12天出勤86h，迟到1次，门迎16次，销售¥9,482时产¥110/h，品类(鞋履 80.0% / 服装 11.6% / 其他 8.4%)，大众点评好评4条",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -491,7 +492,7 @@ const Store = {
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月11天出勤74h，门迎16次，销售¥10,848时产¥146/h，品类(鞋履 59.8% / 服装 17.5% / 其他 12.9% / 配件 9.8%)",
+      "comment": "6月10天出勤79h，迟到1次，门迎16次，销售¥10,848时产¥137/h，品类(鞋履 59.8% / 服装 17.5% / 其他 12.9% / 配件 9.8%)",
       "avgScore": 4.0,
       "hourlyRate": 60
     },
@@ -506,7 +507,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月10天出勤75h，门迎18次，销售¥9,660时产¥129/h，品类(鞋履 68.2% / 其他 25.8% / 服装 5.2% / 配件 0.8%)，大众点评好评2条",
+      "comment": "6月10天出勤75h，门迎15次，销售¥9,660时产¥128/h，品类(鞋履 68.2% / 其他 25.8% / 服装 5.2% / 配件 0.8%)，大众点评好评2条",
       "avgScore": 4.4,
       "hourlyRate": 60
     },
@@ -521,7 +522,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月13天出勤86h，门迎18次，销售¥16,371时产¥190/h，品类(鞋履 62.2% / 服装 32.9% / 其他 4.9%)",
+      "comment": "6月13天出勤92h，门迎18次，销售¥16,371时产¥176/h，品类(鞋履 62.2% / 服装 32.9% / 其他 4.9%)",
       "avgScore": 4.4,
       "hourlyRate": 60
     },
@@ -536,7 +537,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月12天出勤83h，门迎18次，销售¥10,127时产¥122/h，品类(鞋履 91.1% / 服装 7.9% / 配件 1.1%)",
+      "comment": "6月11天出勤89h，门迎20次，销售¥10,127时产¥113/h，品类(鞋履 91.1% / 服装 7.9% / 配件 1.1%)",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -551,7 +552,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月10天出勤78h，门迎11次，销售¥30,010时产¥385/h，品类(鞋履 91.7% / 服装 8.0% / 配件 0.4%)",
+      "comment": "6月9天出勤76h，门迎11次，销售¥30,010时产¥394/h，品类(鞋履 91.7% / 服装 8.0% / 配件 0.4%)",
       "avgScore": 4.8,
       "hourlyRate": 60
     },
@@ -581,7 +582,7 @@ const Store = {
         "attendance": 4,
         "customerReview": 5
       },
-      "comment": "6月13天出勤90h，迟到1次，门迎17次，销售¥24,016时产¥267/h，品类(鞋履 87.3% / 其他 4.6% / 服装 4.1% / 配件 4.0%)，大众点评好评1条",
+      "comment": "6月11天出勤88h，迟到1次，门迎17次，销售¥24,016时产¥272/h，品类(鞋履 87.3% / 其他 4.6% / 服装 4.1% / 配件 4.0%)，大众点评好评1条",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -596,7 +597,7 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月8天出勤58h，未排门迎，销售¥5,450时产¥93/h，品类(鞋履 93.4% / 配件 6.6%)",
+      "comment": "6月8天出勤58h，门迎13次，销售¥5,450时产¥93/h，品类(鞋履 93.4% / 配件 6.6%)",
       "avgScore": 4.0,
       "hourlyRate": 60
     },
@@ -606,13 +607,13 @@ const Store = {
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 3,
+        "performance": 2,
         "behavior": 5,
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月12天出勤74h，门迎17次，销售¥12,170时产¥164/h，品类(鞋履 59.9% / 服装 27.9% / 配件 12.3%)",
-      "avgScore": 4.4,
+      "comment": "6月12天出勤82h，门迎17次，销售¥12,170时产¥148/h，品类(鞋履 59.9% / 服装 27.9% / 配件 12.3%)",
+      "avgScore": 4.2,
       "hourlyRate": 60
     },
     {
@@ -626,664 +627,218 @@ const Store = {
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月11天出勤78h，门迎13次，销售¥18,472时产¥237/h，品类(鞋履 86.0% / 服装 14.0%)",
+      "comment": "6月11天出勤86h，门迎16次，销售¥18,472时产¥214/h，品类(鞋履 86.0% / 服装 14.0%)",
       "avgScore": 4.6,
       "hourlyRate": 60
     }
     ],
 
+
         // 灵工打卡考勤数据（从 scripts/fetch_linggong.js 自动拉取）
         linggongAttendance: {
-      lastSync: '2026-06-22T01:38:02.171Z',
+      lastSync: '2026-06-22T16:21:00.547Z',
       records: [
-      { "name": "何秋烨", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "07:27-09:31", "signIn": "07:27", "signOut": "09:31", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
-      { "name": "孔祥宇", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "07:26-09:32", "signIn": "07:26", "signOut": "09:32", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
-      { "name": "朱凯赟", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "07:23-09:31", "signIn": "07:23", "signOut": "09:31", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "13817425945" },
-      { "name": "李若彤", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "07:24-09:35", "signIn": "07:24", "signOut": "09:35", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "杨子豪", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "07:23-09:31", "signIn": "07:23", "signOut": "09:31", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17601250568" },
-      { "name": "梁实秋", "date": "2026/06/01", "scheduleTime": "11:30-20:30", "restTime": "16:00-16:30", "clockInTime": "11:19-20:30", "signIn": "11:19", "signOut": "20:30", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13221271879" },
-      { "name": "王雅澜", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "06:59-09:33", "signIn": "06:59", "signOut": "09:33", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18628916171" },
-      { "name": "王靳毓", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "07:19-09:35", "signIn": "07:19", "signOut": "09:35", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18735796066" },
-      { "name": "王龙宇", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "07:24-09:37", "signIn": "07:24", "signOut": "09:37", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18452648526" },
-      { "name": "田佳乐", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "07:24-09:44", "signIn": "07:24", "signOut": "09:44", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17613142469" },
-      { "name": "迟骋", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "07:23-09:35", "signIn": "07:23", "signOut": "09:35", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
-      { "name": "邓奇缘", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "07:25-09:30", "signIn": "07:25", "signOut": "09:30", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17742520904" },
-      { "name": "陈广权", "date": "2026/06/01", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "11:00-20:00", "signIn": "11:00", "signOut": "20:00", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "18321137266" },
-      { "name": "陈昕媛", "date": "2026/06/01", "scheduleTime": "07:30-09:30", "restTime": "-", "clockInTime": "07:29-09:38", "signIn": "07:29", "signOut": "09:38", "status": "考勤正常", "totalHours": 2, "scheduleHours": 2, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "何秋烨", "date": "2026/06/02", "scheduleTime": "09:00-13:00", "restTime": "-", "clockInTime": "09:00-13:00", "signIn": "09:00", "signOut": "13:00", "status": "考勤正常", "totalHours": 4, "scheduleHours": 4, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
-      { "name": "孔祥宇", "date": "2026/06/02", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:27-19:00", "signIn": "10:27", "signOut": "19:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
-      { "name": "李若彤", "date": "2026/06/02", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:08-21:00", "signIn": "12:08", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "王靳毓", "date": "2026/06/02", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:16-20:31", "signIn": "11:16", "signOut": "20:31", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18735796066" },
-      { "name": "玛依拉·努尔夏提", "date": "2026/06/02", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "取消-取消", "signIn": "取消", "signOut": "取消", "status": "取消", "totalHours": 0, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13821001226" },
-      { "name": "田佳乐", "date": "2026/06/02", "scheduleTime": "10:00-16:30", "restTime": "15:00-15:30", "clockInTime": "09:58-16:37", "signIn": "09:58", "signOut": "16:37", "status": "考勤正常", "totalHours": 6, "scheduleHours": 6, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17613142469" },
-      { "name": "祖白代·阿不利孜", "date": "2026/06/02", "scheduleTime": "11:30-20:30", "restTime": "16:00-16:30", "clockInTime": "10:48-20:30", "signIn": "10:48", "signOut": "20:30", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "17599286705" },
-      { "name": "陈昕媛", "date": "2026/06/02", "scheduleTime": "09:00-17:30", "restTime": "12:00-12:30", "clockInTime": "08:55-17:33", "signIn": "08:55", "signOut": "17:33", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "龚赟昊", "date": "2026/06/02", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:51-21:30", "signIn": "12:51", "signOut": "21:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" },
-      { "name": "何秋烨", "date": "2026/06/03", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:52-18:30", "signIn": "09:52", "signOut": "18:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
-      { "name": "朱凯赟", "date": "2026/06/03", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:24-19:00", "signIn": "10:24", "signOut": "19:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "13817425945" },
-      { "name": "李若彤", "date": "2026/06/03", "scheduleTime": "09:00-17:00", "restTime": "-", "clockInTime": "09:00-17:00", "signIn": "09:00", "signOut": "17:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "梁实秋", "date": "2026/06/03", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "10:57-20:01", "signIn": "10:57", "signOut": "20:01", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13221271879" },
-      { "name": "王雅澜", "date": "2026/06/03", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "11:57-21:00", "signIn": "11:57", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18628916171" },
-      { "name": "玛依拉·努尔夏提", "date": "2026/06/03", "scheduleTime": "11:30-20:30", "restTime": "16:00-16:30", "clockInTime": "11:23-20:30", "signIn": "11:23", "signOut": "20:30", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13821001226" },
-      { "name": "田佳乐", "date": "2026/06/03", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:56-21:33", "signIn": "12:56", "signOut": "21:33", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17613142469" },
-      { "name": "邓奇缘", "date": "2026/06/03", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:25-20:34", "signIn": "11:25", "signOut": "20:34", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17742520904" },
-      { "name": "陈昕媛", "date": "2026/06/03", "scheduleTime": "09:00-15:00", "restTime": "-", "clockInTime": "09:00-15:00", "signIn": "09:00", "signOut": "15:00", "status": "考勤正常", "totalHours": 6, "scheduleHours": 6, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "杨子豪", "date": "2026/06/04", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:16-20:31", "signIn": "11:16", "signOut": "20:31", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17601250568" },
-      { "name": "梁实秋", "date": "2026/06/04", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "10:51-20:00", "signIn": "10:51", "signOut": "20:00", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13221271879" },
-      { "name": "王雅澜", "date": "2026/06/04", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:13-19:01", "signIn": "10:13", "signOut": "19:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18628916171" },
-      { "name": "王龙宇", "date": "2026/06/04", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:56-21:31", "signIn": "12:56", "signOut": "21:31", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18452648526" },
-      { "name": "田佳乐", "date": "2026/06/04", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:13-21:02", "signIn": "12:13", "signOut": "21:02", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17613142469" },
-      { "name": "祖白代·阿不利孜", "date": "2026/06/04", "scheduleTime": "11:30-20:30", "restTime": "16:00-16:30", "clockInTime": "11:21-20:30", "signIn": "11:21", "signOut": "20:30", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "17599286705" },
-      { "name": "迟骋", "date": "2026/06/04", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:56-18:30", "signIn": "09:56", "signOut": "18:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
-      { "name": "何秋烨", "date": "2026/06/05", "scheduleTime": "17:30-21:15", "restTime": "-", "clockInTime": "17:24-21:16", "signIn": "17:24", "signOut": "21:16", "status": "考勤正常", "totalHours": 3.5, "scheduleHours": 3.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
-      { "name": "孔祥宇", "date": "2026/06/05", "scheduleTime": "17:30-21:15", "restTime": "-", "clockInTime": "17:25-21:15", "signIn": "17:25", "signOut": "21:15", "status": "考勤正常", "totalHours": 3.5, "scheduleHours": 3.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
-      { "name": "杨子豪", "date": "2026/06/05", "scheduleTime": "10:00-20:00", "restTime": "12:00-12:30", "clockInTime": "09:48-20:01", "signIn": "09:48", "signOut": "20:01", "status": "考勤正常", "totalHours": 9.5, "scheduleHours": 9.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17601250568" },
-      { "name": "王雅澜", "date": "2026/06/05", "scheduleTime": "17:30-21:15", "restTime": "-", "clockInTime": "17:01-21:15", "signIn": "17:01", "signOut": "21:15", "status": "考勤正常", "totalHours": 3.5, "scheduleHours": 3.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18628916171" },
-      { "name": "迟骋", "date": "2026/06/05", "scheduleTime": "17:30-23:00", "restTime": "-", "clockInTime": "17:03-23:04", "signIn": "17:03", "signOut": "23:04", "status": "考勤正常", "totalHours": 5.5, "scheduleHours": 5.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
-      { "name": "陈昕媛", "date": "2026/06/05", "scheduleTime": "10:00-20:00", "restTime": "12:00-12:30", "clockInTime": "09:57-20:02", "signIn": "09:57", "signOut": "20:02", "status": "考勤正常", "totalHours": 9.5, "scheduleHours": 9.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "龚赟昊", "date": "2026/06/05", "scheduleTime": "17:30-23:00", "restTime": "-", "clockInTime": "17:17-23:05", "signIn": "17:17", "signOut": "23:05", "status": "考勤正常", "totalHours": 5.5, "scheduleHours": 5.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" },
-      { "name": "严佳铮", "date": "2026/06/06", "scheduleTime": "10:30-21:30", "restTime": "14:00-15:00", "clockInTime": "10:19-21:30", "signIn": "10:19", "signOut": "21:30", "status": "考勤正常", "totalHours": 10, "scheduleHours": 10, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13917130275" },
-      { "name": "何秋烨", "date": "2026/06/06", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:57-21:30", "signIn": "12:57", "signOut": "21:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
-      { "name": "朱凯赟", "date": "2026/06/06", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:10-21:00", "signIn": "12:10", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "13817425945" },
-      { "name": "李若彤", "date": "2026/06/06", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "取消-取消", "signIn": "取消", "signOut": "取消", "status": "取消", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "王雅澜", "date": "2026/06/06", "scheduleTime": "11:00-19:30", "restTime": "16:00-16:30", "clockInTime": "10:42-20:20", "signIn": "10:42", "signOut": "20:20", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18628916171" },
-      { "name": "王龙宇", "date": "2026/06/06", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:26-20:31", "signIn": "11:26", "signOut": "20:31", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18452648526" },
-      { "name": "贾长乐", "date": "2026/06/06", "scheduleTime": "11:30-20:30", "restTime": "16:00-16:30", "clockInTime": "11:18-20:31", "signIn": "11:18", "signOut": "20:31", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "15359898665" },
-      { "name": "迟骋", "date": "2026/06/06", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:13-21:01", "signIn": "12:13", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
-      { "name": "陈广权", "date": "2026/06/06", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "11:00-20:00", "signIn": "11:00", "signOut": "20:00", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "18321137266" },
-      { "name": "陈昕媛", "date": "2026/06/06", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:42-18:32", "signIn": "09:42", "signOut": "18:32", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "严佳铮", "date": "2026/06/07", "scheduleTime": "10:30-21:30", "restTime": "14:00-15:00", "clockInTime": "10:22-21:30", "signIn": "10:22", "signOut": "21:30", "status": "考勤正常", "totalHours": 10, "scheduleHours": 10, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13917130275" },
-      { "name": "孔祥宇", "date": "2026/06/07", "scheduleTime": "11:00-19:30", "restTime": "16:00-16:30", "clockInTime": "10:57-19:30", "signIn": "10:57", "signOut": "19:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
-      { "name": "朱凯赟", "date": "2026/06/07", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:20-20:31", "signIn": "11:20", "signOut": "20:31", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "13817425945" },
-      { "name": "李若彤", "date": "2026/06/07", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:14-21:05", "signIn": "12:14", "signOut": "21:05", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "王靳毓", "date": "2026/06/07", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:19-19:00", "signIn": "10:19", "signOut": "19:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18735796066" },
-      { "name": "玛依拉·努尔夏提", "date": "2026/06/07", "scheduleTime": "11:30-20:30", "restTime": "16:00-16:30", "clockInTime": "11:16-20:30", "signIn": "11:16", "signOut": "20:30", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13821001226" },
-      { "name": "贾长乐", "date": "2026/06/07", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "10:42-20:02", "signIn": "10:42", "signOut": "20:02", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "15359898665" },
-      { "name": "邓奇缘", "date": "2026/06/07", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:07-21:00", "signIn": "12:07", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17742520904" },
-      { "name": "陈昕媛", "date": "2026/06/07", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:57-21:39", "signIn": "12:57", "signOut": "21:39", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "龚赟昊", "date": "2026/06/07", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:57-18:30", "signIn": "09:57", "signOut": "18:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" },
-      { "name": "李若彤", "date": "2026/06/08", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:58-21:30", "signIn": "12:58", "signOut": "21:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "杨子豪", "date": "2026/06/08", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:11-19:01", "signIn": "10:11", "signOut": "19:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17601250568" },
-      { "name": "王龙宇", "date": "2026/06/08", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "10:00-18:33", "signIn": "10:00", "signOut": "18:33", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18452648526" },
-      { "name": "玛依拉·努尔夏提", "date": "2026/06/08", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:17-21:00", "signIn": "12:17", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13821001226" },
-      { "name": "田佳乐", "date": "2026/06/08", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:26-20:34", "signIn": "11:26", "signOut": "20:34", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17613142469" },
-      { "name": "迟骋", "date": "2026/06/08", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:14-21:01", "signIn": "12:14", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
-      { "name": "陈广权", "date": "2026/06/08", "scheduleTime": "10:30-19:00", "restTime": "14:00-14:30", "clockInTime": "10:30-19:00", "signIn": "10:30", "signOut": "19:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "18321137266" },
-      { "name": "孔祥宇", "date": "2026/06/09", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:29-20:30", "signIn": "11:29", "signOut": "20:30", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
-      { "name": "王雅澜", "date": "2026/06/09", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "11:52-21:00", "signIn": "11:52", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18628916171" },
-      { "name": "王靳毓", "date": "2026/06/09", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:47-18:31", "signIn": "09:47", "signOut": "18:31", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18735796066" },
-      { "name": "田佳乐", "date": "2026/06/09", "scheduleTime": "20:00-次日02:45", "restTime": "23:30-次日00:00", "clockInTime": "19:48-次日02:46", "signIn": "19:48", "signOut": "次日02:46", "status": "考勤正常", "totalHours": 6, "scheduleHours": 6, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17613142469" },
-      { "name": "祖白代·阿不利孜", "date": "2026/06/09", "scheduleTime": "10:30-19:00", "restTime": "14:00-14:30", "clockInTime": "缺卡-缺卡", "signIn": "缺卡", "signOut": "缺卡", "status": "缺勤", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "17599286705" },
-      { "name": "贾长乐", "date": "2026/06/09", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:18-21:01", "signIn": "12:18", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "15359898665" },
-      { "name": "邓奇缘", "date": "2026/06/09", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:58-21:30", "signIn": "12:58", "signOut": "21:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17742520904" },
-      { "name": "陈广权", "date": "2026/06/09", "scheduleTime": "17:00-次日02:00", "restTime": "21:00-21:30", "clockInTime": "17:00-次日02:45", "signIn": "17:00", "signOut": "次日02:45", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "18321137266" },
-      { "name": "陈昕媛", "date": "2026/06/09", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:20-19:01", "signIn": "10:20", "signOut": "19:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "何秋烨", "date": "2026/06/10", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:21-20:34", "signIn": "11:21", "signOut": "20:34", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
-      { "name": "朱凯赟", "date": "2026/06/10", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:51-21:38", "signIn": "12:51", "signOut": "21:38", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "13817425945" },
-      { "name": "王雅澜", "date": "2026/06/10", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "11:45-21:00", "signIn": "11:45", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18628916171" },
-      { "name": "王靳毓", "date": "2026/06/10", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:45-19:00", "signIn": "10:45", "signOut": "19:00", "status": "考勤异常", "totalHours": 7.5, "scheduleHours": 8, "lateMin": 15, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18735796066" },
-      { "name": "祖白代·阿不利孜", "date": "2026/06/10", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:19-21:00", "signIn": "12:19", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "17599286705" },
-      { "name": "贾长乐", "date": "2026/06/10", "scheduleTime": "10:30-19:00", "restTime": "14:00-14:30", "clockInTime": "10:15-19:01", "signIn": "10:15", "signOut": "19:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "15359898665" },
-      { "name": "龚赟昊", "date": "2026/06/10", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:55-18:41", "signIn": "09:55", "signOut": "18:41", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" },
-      { "name": "孔祥宇", "date": "2026/06/11", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:57-18:30", "signIn": "09:57", "signOut": "18:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
-      { "name": "李若彤", "date": "2026/06/11", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:32-19:00", "signIn": "10:32", "signOut": "19:00", "status": "考勤异常", "totalHours": 7.5, "scheduleHours": 8, "lateMin": 2, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "梁实秋", "date": "2026/06/11", "scheduleTime": "10:30-19:00", "restTime": "14:00-14:30", "clockInTime": "10:17-19:00", "signIn": "10:17", "signOut": "19:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13221271879" },
-      { "name": "王靳毓", "date": "2026/06/11", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "11:57-21:01", "signIn": "11:57", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18735796066" },
-      { "name": "田佳乐", "date": "2026/06/11", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:54-21:38", "signIn": "12:54", "signOut": "21:38", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17613142469" },
-      { "name": "贾长乐", "date": "2026/06/11", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:12-21:00", "signIn": "12:12", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "15359898665" },
-      { "name": "陈昕媛", "date": "2026/06/11", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:15-20:50", "signIn": "11:15", "signOut": "20:50", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "何秋烨", "date": "2026/06/12", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:58-18:31", "signIn": "09:58", "signOut": "18:31", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
-      { "name": "杨子豪", "date": "2026/06/12", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:15-20:34", "signIn": "11:15", "signOut": "20:34", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17601250568" },
-      { "name": "梁实秋", "date": "2026/06/12", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:19-21:06", "signIn": "12:19", "signOut": "21:06", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13221271879" },
-      { "name": "王雅澜", "date": "2026/06/12", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "11:43-21:01", "signIn": "11:43", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18628916171" },
-      { "name": "王龙宇", "date": "2026/06/12", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:24-19:01", "signIn": "10:24", "signOut": "19:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18452648526" },
-      { "name": "玛依拉·努尔夏提", "date": "2026/06/12", "scheduleTime": "10:30-19:00", "restTime": "14:00-14:30", "clockInTime": "10:20-19:04", "signIn": "10:20", "signOut": "19:04", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13821001226" },
-      { "name": "邓奇缘", "date": "2026/06/12", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:52-21:30", "signIn": "12:52", "signOut": "21:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17742520904" },
-      { "name": "陈昕媛", "date": "2026/06/12", "scheduleTime": "11:00-19:30", "restTime": "16:00-16:30", "clockInTime": "10:42-19:44", "signIn": "10:42", "signOut": "19:44", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "严佳铮", "date": "2026/06/13", "scheduleTime": "10:30-21:30", "restTime": "14:00-15:00", "clockInTime": "10:28-21:30", "signIn": "10:28", "signOut": "21:30", "status": "考勤正常", "totalHours": 10, "scheduleHours": 10, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13917130275" },
-      { "name": "孔祥宇", "date": "2026/06/13", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:55-21:32", "signIn": "12:55", "signOut": "21:32", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
-      { "name": "朱凯赟", "date": "2026/06/13", "scheduleTime": "11:00-19:30", "restTime": "16:00-16:30", "clockInTime": "11:00-19:30", "signIn": "11:00", "signOut": "19:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "13817425945" },
-      { "name": "李若彤", "date": "2026/06/13", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:10-21:00", "signIn": "12:10", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "玛依拉·努尔夏提", "date": "2026/06/13", "scheduleTime": "11:30-20:30", "restTime": "16:00-16:30", "clockInTime": "11:14-20:30", "signIn": "11:14", "signOut": "20:30", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13821001226" },
-      { "name": "迟骋", "date": "2026/06/13", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:59-18:30", "signIn": "09:59", "signOut": "18:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
-      { "name": "邓奇缘", "date": "2026/06/13", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:28-20:34", "signIn": "11:28", "signOut": "20:34", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17742520904" },
-      { "name": "陈广权", "date": "2026/06/13", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "11:00-20:00", "signIn": "11:00", "signOut": "20:00", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "18321137266" },
-      { "name": "陈昕媛", "date": "2026/06/13", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "11:54-21:02", "signIn": "11:54", "signOut": "21:02", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "龚赟昊", "date": "2026/06/13", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:57-18:32", "signIn": "09:57", "signOut": "18:32", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" },
-      { "name": "严佳铮", "date": "2026/06/14", "scheduleTime": "10:30-21:30", "restTime": "14:00-15:00", "clockInTime": "取消-取消", "signIn": "取消", "signOut": "取消", "status": "取消", "totalHours": 0, "scheduleHours": 10, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13917130275" },
-      { "name": "孔祥宇", "date": "2026/06/14", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:12-21:00", "signIn": "12:12", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
-      { "name": "朱凯赟", "date": "2026/06/14", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:53-18:30", "signIn": "09:53", "signOut": "18:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "13817425945" },
-      { "name": "李若彤", "date": "2026/06/14", "scheduleTime": "11:30-20:00", "restTime": "15:00-15:30", "clockInTime": "11:27-20:08", "signIn": "11:27", "signOut": "20:08", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "梁实秋", "date": "2026/06/14", "scheduleTime": "11:30-20:00", "restTime": "14:00-14:30", "clockInTime": "11:11-20:05", "signIn": "11:11", "signOut": "20:05", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13221271879" },
-      { "name": "王龙宇", "date": "2026/06/14", "scheduleTime": "11:00-19:30", "restTime": "16:00-16:30", "clockInTime": "10:51-19:30", "signIn": "10:51", "signOut": "19:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18452648526" },
-      { "name": "田佳乐", "date": "2026/06/14", "scheduleTime": "11:00-19:30", "restTime": "16:00-16:30", "clockInTime": "10:53-19:36", "signIn": "10:53", "signOut": "19:36", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17613142469" },
-      { "name": "祖白代·阿不利孜", "date": "2026/06/14", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "10:48-20:00", "signIn": "10:48", "signOut": "20:00", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "17599286705" },
-      { "name": "迟骋", "date": "2026/06/14", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "09:53-19:02", "signIn": "09:53", "signOut": "19:02", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
-      { "name": "邓奇缘", "date": "2026/06/14", "scheduleTime": "11:30-20:00", "restTime": "17:00-17:30", "clockInTime": "11:25-20:01", "signIn": "11:25", "signOut": "20:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17742520904" },
-      { "name": "龚赟昊", "date": "2026/06/14", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:53-21:32", "signIn": "12:53", "signOut": "21:32", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" },
-      { "name": "孔祥宇", "date": "2026/06/15", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:24-19:00", "signIn": "10:24", "signOut": "19:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
-      { "name": "李若彤", "date": "2026/06/15", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:12-21:01", "signIn": "12:12", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "杨子豪", "date": "2026/06/15", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:19-20:32", "signIn": "11:19", "signOut": "20:32", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17601250568" },
-      { "name": "梁实秋", "date": "2026/06/15", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:14-21:01", "signIn": "12:14", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13221271879" },
-      { "name": "王龙宇", "date": "2026/06/15", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:56-18:32", "signIn": "09:56", "signOut": "18:32", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18452648526" },
-      { "name": "迟骋", "date": "2026/06/15", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:56-21:31", "signIn": "12:56", "signOut": "21:31", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
-      { "name": "邓奇缘", "date": "2026/06/15", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:28-20:31", "signIn": "11:28", "signOut": "20:31", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17742520904" },
-      { "name": "陈广权", "date": "2026/06/15", "scheduleTime": "10:30-19:00", "restTime": "14:00-14:30", "clockInTime": "10:30-18:00", "signIn": "10:30", "signOut": "18:00", "status": "考勤异常", "totalHours": 7, "scheduleHours": 8, "lateMin": 0, "leaveMin": 60, "department": "上海安福路", "project": "上海安福路", "phone": "18321137266" },
-      { "name": "何秋烨", "date": "2026/06/16", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:56-18:31", "signIn": "09:56", "signOut": "18:31", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
-      { "name": "孔祥宇", "date": "2026/06/16", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:57-21:30", "signIn": "12:57", "signOut": "21:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
-      { "name": "祖白代·阿不利孜", "date": "2026/06/16", "scheduleTime": "10:30-19:00", "restTime": "14:00-14:30", "clockInTime": "10:32-19:01", "signIn": "10:32", "signOut": "19:01", "status": "考勤异常", "totalHours": 7.5, "scheduleHours": 8, "lateMin": 2, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "17599286705" },
-      { "name": "邓奇缘", "date": "2026/06/16", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:19-19:00", "signIn": "10:19", "signOut": "19:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17742520904" },
-      { "name": "陈广权", "date": "2026/06/16", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:30-21:00", "signIn": "12:30", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "18321137266" },
-      { "name": "陈昕媛", "date": "2026/06/16", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "11:44-21:00", "signIn": "11:44", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "龚赟昊", "date": "2026/06/16", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:24-20:35", "signIn": "11:24", "signOut": "20:35", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" },
-      { "name": "孔祥宇", "date": "2026/06/17", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:55-18:30", "signIn": "09:55", "signOut": "18:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
-      { "name": "杨子豪", "date": "2026/06/17", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:16-20:32", "signIn": "11:16", "signOut": "20:32", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17601250568" },
-      { "name": "梁实秋", "date": "2026/06/17", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:16-21:02", "signIn": "12:16", "signOut": "21:02", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13221271879" },
-      { "name": "王靳毓", "date": "2026/06/17", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:17-19:01", "signIn": "10:17", "signOut": "19:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18735796066" },
-      { "name": "王龙宇", "date": "2026/06/17", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:06-21:02", "signIn": "12:06", "signOut": "21:02", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18452648526" },
-      { "name": "玛依拉·努尔夏提", "date": "2026/06/17", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "10:57-20:00", "signIn": "10:57", "signOut": "20:00", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13821001226" },
-      { "name": "田佳乐", "date": "2026/06/17", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:57-21:31", "signIn": "12:57", "signOut": "21:31", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17613142469" },
-      { "name": "贾长乐", "date": "2026/06/17", "scheduleTime": "10:30-19:00", "restTime": "14:00-15:30", "clockInTime": "10:17-19:02", "signIn": "10:17", "signOut": "19:02", "status": "考勤正常", "totalHours": 7, "scheduleHours": 7, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "15359898665" },
-      { "name": "朱凯赟", "date": "2026/06/18", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:48-21:30", "signIn": "12:48", "signOut": "21:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "13817425945" },
-      { "name": "李若彤", "date": "2026/06/18", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:27-20:35", "signIn": "11:27", "signOut": "20:35", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "王雅澜", "date": "2026/06/18", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "11:59-21:00", "signIn": "11:59", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18628916171" },
-      { "name": "玛依拉·努尔夏提", "date": "2026/06/18", "scheduleTime": "10:30-19:00", "restTime": "14:00-14:30", "clockInTime": "10:07-19:01", "signIn": "10:07", "signOut": "19:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13821001226" },
-      { "name": "田佳乐", "date": "2026/06/18", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:30-19:06", "signIn": "10:30", "signOut": "19:06", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17613142469" },
-      { "name": "贾长乐", "date": "2026/06/18", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:14-21:01", "signIn": "12:14", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "15359898665" },
-      { "name": "迟骋", "date": "2026/06/18", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "11:20-18:30", "signIn": "11:20", "signOut": "18:30", "status": "考勤异常", "totalHours": 6.5, "scheduleHours": 8, "lateMin": 80, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
-      { "name": "邓奇缘", "date": "2026/06/18", "scheduleTime": "11:00-19:00", "restTime": "14:00-14:30", "clockInTime": "10:57-19:00", "signIn": "10:57", "signOut": "19:00", "status": "考勤正常", "totalHours": 7.5, "scheduleHours": 7.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17742520904" },
-      { "name": "严佳铮", "date": "2026/06/19", "scheduleTime": "10:30-21:30", "restTime": "14:00-15:00", "clockInTime": "10:22-21:30", "signIn": "10:22", "signOut": "21:30", "status": "考勤正常", "totalHours": 10, "scheduleHours": 10, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13917130275" },
-      { "name": "何秋烨", "date": "2026/06/19", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:07-21:03", "signIn": "12:07", "signOut": "21:03", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
-      { "name": "孔祥宇", "date": "2026/06/19", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:23-19:06", "signIn": "10:23", "signOut": "19:06", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
-      { "name": "李若彤", "date": "2026/06/19", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:59-21:30", "signIn": "12:59", "signOut": "21:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "杨子豪", "date": "2026/06/19", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:16-20:32", "signIn": "11:16", "signOut": "20:32", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17601250568" },
-      { "name": "梁实秋", "date": "2026/06/19", "scheduleTime": "10:30-19:00", "restTime": "14:00-14:30", "clockInTime": "10:23-19:01", "signIn": "10:23", "signOut": "19:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13221271879" },
-      { "name": "王雅澜", "date": "2026/06/19", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "10:58-20:31", "signIn": "10:58", "signOut": "20:31", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18628916171" },
-      { "name": "王靳毓", "date": "2026/06/19", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:53-21:30", "signIn": "12:53", "signOut": "21:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18735796066" },
-      { "name": "玛依拉·努尔夏提", "date": "2026/06/19", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:09-21:01", "signIn": "12:09", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13821001226" },
-      { "name": "邓奇缘", "date": "2026/06/19", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:51-18:31", "signIn": "09:51", "signOut": "18:31", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17742520904" },
-      { "name": "陈广权", "date": "2026/06/19", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "11:00-20:00", "signIn": "11:00", "signOut": "20:00", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "18321137266" },
-      { "name": "陈昕媛", "date": "2026/06/19", "scheduleTime": "11:00-19:30", "restTime": "16:00-16:30", "clockInTime": "10:46-19:31", "signIn": "10:46", "signOut": "19:31", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "龚赟昊", "date": "2026/06/19", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:11-21:00", "signIn": "12:11", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" },
-      { "name": "严佳铮", "date": "2026/06/20", "scheduleTime": "10:30-21:30", "restTime": "14:00-15:00", "clockInTime": "10:27-21:30", "signIn": "10:27", "signOut": "21:30", "status": "考勤正常", "totalHours": 10, "scheduleHours": 10, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13917130275" },
-      { "name": "何秋烨", "date": "2026/06/20", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:52-21:31", "signIn": "12:52", "signOut": "21:31", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
-      { "name": "朱凯赟", "date": "2026/06/20", "scheduleTime": "11:00-19:30", "restTime": "16:00-16:30", "clockInTime": "10:52-19:30", "signIn": "10:52", "signOut": "19:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "13817425945" },
-      { "name": "李若彤", "date": "2026/06/20", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:14-21:01", "signIn": "12:14", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18121400532" },
-      { "name": "杨子豪", "date": "2026/06/20", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:09-21:01", "signIn": "12:09", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17601250568" },
-      { "name": "梁实秋", "date": "2026/06/20", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:09-21:01", "signIn": "12:09", "signOut": "21:01", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13221271879" },
-      { "name": "王靳毓", "date": "2026/06/20", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:13-20:32", "signIn": "11:13", "signOut": "20:32", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18735796066" },
-      { "name": "田佳乐", "date": "2026/06/20", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:56-18:38", "signIn": "09:56", "signOut": "18:38", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17613142469" },
-      { "name": "贾长乐", "date": "2026/06/20", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "10:45-20:00", "signIn": "10:45", "signOut": "20:00", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "15359898665" },
-      { "name": "迟骋", "date": "2026/06/20", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "10:52-20:31", "signIn": "10:52", "signOut": "20:31", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
-      { "name": "陈昕媛", "date": "2026/06/20", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:29-19:02", "signIn": "10:29", "signOut": "19:02", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "龚赟昊", "date": "2026/06/20", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "09:54-18:30", "signIn": "09:54", "signOut": "18:30", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" },
-      { "name": "何秋烨", "date": "2026/06/21", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "10:25-19:04", "signIn": "10:25", "signOut": "19:04", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
-      { "name": "朱凯赟", "date": "2026/06/21", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "11:25-20:32", "signIn": "11:25", "signOut": "20:32", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "13817425945" },
-      { "name": "杨子豪", "date": "2026/06/21", "scheduleTime": "13:30-22:00", "restTime": "17:00-17:30", "clockInTime": "13:20-22:03", "signIn": "13:20", "signOut": "22:03", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17601250568" },
-      { "name": "王雅澜", "date": "2026/06/21", "scheduleTime": "11:00-19:30", "restTime": "16:00-16:30", "clockInTime": "10:44-19:47", "signIn": "10:44", "signOut": "19:47", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18628916171" },
-      { "name": "王靳毓", "date": "2026/06/21", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "12:01-21:23", "signIn": "12:01", "signOut": "21:23", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18735796066" },
-      { "name": "玛依拉·努尔夏提", "date": "2026/06/21", "scheduleTime": "10:30-19:00", "restTime": "14:00-14:30", "clockInTime": "10:26-19:00", "signIn": "10:26", "signOut": "19:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "13821001226" },
-      { "name": "祖白代·阿不利孜", "date": "2026/06/21", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "12:12-21:00", "signIn": "12:12", "signOut": "21:00", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "17599286705" },
-      { "name": "迟骋", "date": "2026/06/21", "scheduleTime": "10:00-17:30", "restTime": "-", "clockInTime": "09:59-17:30", "signIn": "09:59", "signOut": "17:30", "status": "考勤正常", "totalHours": 7.5, "scheduleHours": 7.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
-      { "name": "陈广权", "date": "2026/06/21", "scheduleTime": "11:00-20:00", "restTime": "15:00-15:30", "clockInTime": "11:00-20:03", "signIn": "11:00", "signOut": "20:03", "status": "考勤正常", "totalHours": 8.5, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "18321137266" },
-      { "name": "陈昕媛", "date": "2026/06/21", "scheduleTime": "12:15-17:00", "restTime": "-", "clockInTime": "12:01-17:05", "signIn": "12:01", "signOut": "17:05", "status": "考勤正常", "totalHours": 4.5, "scheduleHours": 4.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17316338391" },
-      { "name": "龚赟昊", "date": "2026/06/21", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "12:57-21:31", "signIn": "12:57", "signOut": "21:31", "status": "考勤正常", "totalHours": 8, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" },
-      { "name": "何秋烨", "date": "2026/06/22", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "-", "signIn": "-", "signOut": "-", "status": "未开始考勤", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17385186797" },
-      { "name": "孔祥宇", "date": "2026/06/22", "scheduleTime": "10:30-19:00", "restTime": "14:30-15:00", "clockInTime": "-", "signIn": "-", "signOut": "-", "status": "未开始考勤", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17317692616" },
-      { "name": "王靳毓", "date": "2026/06/22", "scheduleTime": "10:00-18:30", "restTime": "12:00-12:30", "clockInTime": "-", "signIn": "-", "signOut": "-", "status": "未开始考勤", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18735796066" },
-      { "name": "祖白代·阿不利孜", "date": "2026/06/22", "scheduleTime": "12:30-21:00", "restTime": "16:00-16:30", "clockInTime": "-", "signIn": "-", "signOut": "-", "status": "未开始考勤", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "17599286705" },
-      { "name": "贾长乐", "date": "2026/06/22", "scheduleTime": "10:30-19:00", "restTime": "14:00-14:30", "clockInTime": "-", "signIn": "-", "signOut": "-", "status": "未开始考勤", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路", "project": "上海安福路", "phone": "15359898665" },
-      { "name": "迟骋", "date": "2026/06/22", "scheduleTime": "12:15-21:00", "restTime": "16:00-16:30", "clockInTime": "-", "signIn": "-", "signOut": "-", "status": "未开始考勤", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "15641153195" },
-      { "name": "邓奇缘", "date": "2026/06/22", "scheduleTime": "13:00-21:30", "restTime": "17:30-18:00", "clockInTime": "-", "signIn": "-", "signOut": "-", "status": "未开始考勤", "totalHours": 0, "scheduleHours": 8, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "17742520904" },
-      { "name": "龚赟昊", "date": "2026/06/22", "scheduleTime": "11:30-20:30", "restTime": "15:00-15:30", "clockInTime": "-", "signIn": "-", "signOut": "-", "status": "未开始考勤", "totalHours": 0, "scheduleHours": 8.5, "lateMin": 0, "leaveMin": 0, "department": "上海安福路-短期项目", "project": "上海安福路-短期项目", "phone": "18964138059" }
-      ]
-    },
-
-    // 业绩数据（从Excel「安福路兼职数据表.xlsx」导入）
-    performanceData: {
-      april: {
-        month: '2026-04',
-        totalSales: 407876,
-        avgHourlyOutput: 285.98,
-        records: [
-          { name: '龚赟昊', sales: 55736, salesShare: 0.1366, workHours: 114.5, prevMonthSales: 6366, prevShare: 0.0395, shareGrowth: 0.0972, hourlyOutput: 486.78 },
-          { name: '陈昕媛', sales: 53428, salesShare: 0.1310, workHours: 84, prevMonthSales: 24758, prevShare: 0.1536, shareGrowth: -0.0226, hourlyOutput: 636.05 },
-          { name: '何秋烨', sales: 43268, salesShare: 0.1061, workHours: 80, prevMonthSales: 29628, prevShare: 0.1838, shareGrowth: -0.0777, hourlyOutput: 540.85 },
-          { name: '李若彤', sales: 41488, salesShare: 0.1017, workHours: 122, prevMonthSales: 17484, prevShare: 0.1084, shareGrowth: -0.0067, hourlyOutput: 340.07 },
-          { name: '田佳乐', sales: 34148, salesShare: 0.0837, workHours: 110.5, prevMonthSales: 9986, prevShare: 0.0619, shareGrowth: 0.0218, hourlyOutput: 309.03 },
-          { name: '徐思懿', sales: 32868, salesShare: 0.0806, workHours: 96, prevMonthSales: 17214, prevShare: 0.1068, shareGrowth: -0.0262, hourlyOutput: 342.38 },
-          { name: '邓奇缘', sales: 32208, salesShare: 0.0790, workHours: 138, prevMonthSales: 3296, prevShare: 0.0204, shareGrowth: 0.0585, hourlyOutput: 233.39 },
-          { name: '朱凯赟', sales: 24958, salesShare: 0.0612, workHours: 105, prevMonthSales: 13180, prevShare: 0.0817, shareGrowth: -0.0206, hourlyOutput: 237.70 },
-          { name: '孔祥宇', sales: 23652, salesShare: 0.0580, workHours: 130, prevMonthSales: 0, prevShare: 0, shareGrowth: 0.0580, hourlyOutput: 181.94 },
-          { name: '迟骋', sales: 21132, salesShare: 0.0518, workHours: 109.5, prevMonthSales: 7186, prevShare: 0.0446, shareGrowth: 0.0072, hourlyOutput: 192.99 },
-          { name: '王龙宇', sales: 17074, salesShare: 0.0419, workHours: 80, prevMonthSales: 6656, prevShare: 0.0413, shareGrowth: 0.0006, hourlyOutput: 213.43 },
-          { name: '杨子豪', sales: 13338, salesShare: 0.0327, workHours: 83.5, prevMonthSales: 22484, prevShare: 0.1394, shareGrowth: -0.1067, hourlyOutput: 159.74 },
-          { name: '王雅澜', sales: 7588, salesShare: 0.0186, workHours: 99.5, prevMonthSales: 2996, prevShare: 0.0186, shareGrowth: 0.0000, hourlyOutput: 76.26 },
-          { name: '王靳毓', sales: 6990, salesShare: 0.0171, workHours: 131.5, prevMonthSales: 0, prevShare: 0, shareGrowth: 0.0171, hourlyOutput: 53.16 },
-        ]
-      },
-      may: {
-        month: '2026-05',
-        totalSales: 440577,
-        avgUPT: 1.27,
-        avgHourlyOutput: 281.34,
-        records: [
-          { name: '李若彤', sales: 61848, upt: 1.24, salesShare: 0.1404, workHours: 143, hourlyOutput: 432.50, prevHourlyOutput: 340.07, efficiency: 0.2137 },
-          { name: '陈昕媛', sales: 60276, upt: 1.29, salesShare: 0.1368, workHours: 138.5, hourlyOutput: 435.21, prevHourlyOutput: 636.05, efficiency: -0.4615 },
-          { name: '何秋烨', sales: 58358, upt: 1.52, salesShare: 0.1325, workHours: 120.5, hourlyOutput: 484.30, prevHourlyOutput: 540.85, efficiency: -0.1168 },
-          { name: '杨子豪', sales: 39398, upt: 1.29, salesShare: 0.0894, workHours: 120, hourlyOutput: 328.32, prevHourlyOutput: 159.74, efficiency: 0.5135 },
-          { name: '邓奇缘', sales: 38528, upt: 1.52, salesShare: 0.0874, workHours: 141.5, hourlyOutput: 272.28, prevHourlyOutput: 233.39, efficiency: 0.1428 },
-          { name: '龚赟昊', sales: 36192, upt: 1.36, salesShare: 0.0821, workHours: 120, hourlyOutput: 301.60, prevHourlyOutput: 486.78, efficiency: -0.6140 },
-          { name: '朱凯赟', sales: 32860, upt: 1.11, salesShare: 0.0746, workHours: 89, hourlyOutput: 369.21, prevHourlyOutput: 237.70, efficiency: 0.3562 },
-          { name: '田佳乐', sales: 29979, upt: 1.22, salesShare: 0.0680, workHours: 107, hourlyOutput: 280.18, prevHourlyOutput: 309.03, efficiency: -0.1030 },
-          { name: '王龙宇', sales: 25258, upt: 1.17, salesShare: 0.0573, workHours: 110.5, hourlyOutput: 228.58, prevHourlyOutput: 213.43, efficiency: 0.0663 },
-          { name: '迟骋', sales: 19868, upt: 1.44, salesShare: 0.0451, workHours: 112.5, hourlyOutput: 176.60, prevHourlyOutput: 192.99, efficiency: -0.0928 },
-          { name: '王雅澜', sales: 16648, upt: 1.00, salesShare: 0.0378, workHours: 120, hourlyOutput: 138.73, prevHourlyOutput: 76.26, efficiency: 0.4503 },
-          { name: '孔祥宇', sales: 13476, upt: 1.20, salesShare: 0.0306, workHours: 112, hourlyOutput: 120.32, prevHourlyOutput: 181.94, efficiency: -0.5121 },
-          { name: '王靳毓', sales: 7888, upt: 1.20, salesShare: 0.0179, workHours: 88, hourlyOutput: 89.64, prevHourlyOutput: 53.16, efficiency: 0.4070 },
-        ]
-      },
-            june: {
-        month: '2026-06',
-        totalSales: 203656,
-        avgUPT: 1.35,
-        avgHourlyOutput: 197.0,
-        note: 'data as of 6/22 (file 42), net of returns -¥2,196 (1 traced) + 2 untraced from April',
-        records: [
-  {
-    'name': "陈昕媛",
-    'sales': 31414,
-    'qty': 25,
-    'tickets': 22,
-    'avgPrice': 1257,
-    'workHours': 102.5,
-    'workDays': 14,
-    'hourlyOutput': 306,
-    'efficiency': 0.5536,
-    'salesShare': 0.154,
-    'categories': {
-      '鞋履': {
-        'sales': 26240,
-        'qty': 17,
-        'pct': 83.5
-      },
-      '服装': {
-        'sales': 3194,
-        'qty': 3,
-        'pct': 10.2
-      },
-      '配件': {
-        'sales': 1980,
-        'qty': 5,
-        'pct': 6.3
-      }
-    }
-  },
-  {
-    'name': "杨子豪",
-    'sales': 30010,
-    'qty': 25,
-    'tickets': 19,
-    'avgPrice': 1200,
-    'workHours': 78.0,
-    'workDays': 10,
-    'hourlyOutput': 385,
-    'efficiency': 0.9547,
-    'salesShare': 0.147,
-    'categories': {
-      '鞋履': {
-        'sales': 27508,
-        'qty': 21,
-        'pct': 91.7
-      },
-      '服装': {
-        'sales': 2394,
-        'qty': 3,
-        'pct': 8.0
-      },
-      '配件': {
-        'sales': 108,
-        'qty': 1,
-        'pct': 0.4
-      }
-    }
-  },
-  {
-    'name': "李若彤",
-    'sales': 24016,
-    'qty': 22,
-    'tickets': 16,
-    'avgPrice': 1092,
-    'workHours': 90.0,
-    'workDays': 13,
-    'hourlyOutput': 267,
-    'efficiency': 0.3556,
-    'salesShare': 0.118,
-    'categories': {
-      '鞋履': {
-        'sales': 20968,
-        'qty': 16,
-        'pct': 87.3
-      },
-      '其他': {
-        'sales': 1098,
-        'qty': 1,
-        'pct': 4.6
-      },
-      '服装': {
-        'sales': 996,
-        'qty': 2,
-        'pct': 4.1
-      },
-      '配件': {
-        'sales': 954,
-        'qty': 3,
-        'pct': 4.0
-      }
-    }
-  },
-  {
-    'name': "王雅澜",
-    'sales': 19288,
-    'qty': 16,
-    'tickets': 12,
-    'avgPrice': 1206,
-    'workHours': 78.0,
-    'workDays': 11,
-    'hourlyOutput': 247,
-    'efficiency': 0.2541,
-    'salesShare': 0.095,
-    'categories': {
-      '鞋履': {
-        'sales': 14778,
-        'qty': 11,
-        'pct': 76.6
-      },
-      '服装': {
-        'sales': 2094,
-        'qty': 3,
-        'pct': 10.9
-      },
-      '其他': {
-        'sales': 1698,
-        'qty': 1,
-        'pct': 8.8
-      },
-      '配件': {
-        'sales': 718,
-        'qty': 1,
-        'pct': 3.7
-      }
-    }
-  },
-  {
-    'name': "龚赟昊",
-    'sales': 18472,
-    'qty': 15,
-    'tickets': 14,
-    'avgPrice': 1231,
-    'workHours': 78.0,
-    'workDays': 11,
-    'hourlyOutput': 237,
-    'efficiency': 0.2033,
-    'salesShare': 0.091,
-    'categories': {
-      '鞋履': {
-        'sales': 15880,
-        'qty': 11,
-        'pct': 86.0
-      },
-      '服装': {
-        'sales': 2592,
-        'qty': 4,
-        'pct': 14.0
-      }
-    }
-  },
-  {
-    'name': "孔祥宇",
-    'sales': 16371,
-    'qty': 17,
-    'tickets': 10,
-    'avgPrice': 963,
-    'workHours': 86.0,
-    'workDays': 13,
-    'hourlyOutput': 190,
-    'efficiency': -0.0353,
-    'salesShare': 0.08,
-    'categories': {
-      '鞋履': {
-        'sales': 10184,
-        'qty': 8,
-        'pct': 62.2
-      },
-      '服装': {
-        'sales': 5389,
-        'qty': 8,
-        'pct': 32.9
-      },
-      '其他': {
-        'sales': 798,
-        'qty': 1,
-        'pct': 4.9
-      }
-    }
-  },
-  {
-    'name': "何秋烨",
-    'sales': 12170,
-    'qty': 15,
-    'tickets': 8,
-    'avgPrice': 811,
-    'workHours': 74.0,
-    'workDays': 12,
-    'hourlyOutput': 164,
-    'efficiency': -0.1673,
-    'salesShare': 0.06,
-    'categories': {
-      '鞋履': {
-        'sales': 7288,
-        'qty': 6,
-        'pct': 59.9
-      },
-      '服装': {
-        'sales': 3390,
-        'qty': 5,
-        'pct': 27.9
-      },
-      '配件': {
-        'sales': 1492,
-        'qty': 4,
-        'pct': 12.3
-      }
-    }
-  },
-  {
-    'name': "王靳毓",
-    'sales': 10848,
-    'qty': 11,
-    'tickets': 8,
-    'avgPrice': 986,
-    'workHours': 74.5,
-    'workDays': 11,
-    'hourlyOutput': 146,
-    'efficiency': -0.2587,
-    'salesShare': 0.053,
-    'categories': {
-      '鞋履': {
-        'sales': 6490,
-        'qty': 5,
-        'pct': 59.8
-      },
-      '服装': {
-        'sales': 1894,
-        'qty': 3,
-        'pct': 17.5
-      },
-      '其他': {
-        'sales': 1398,
-        'qty': 1,
-        'pct': 12.9
-      },
-      '配件': {
-        'sales': 1066,
-        'qty': 2,
-        'pct': 9.8
-      }
-    }
-  },
-  {
-    'name': "邓奇缘",
-    'sales': 10127,
-    'qty': 9,
-    'tickets': 7,
-    'avgPrice': 1125,
-    'workHours': 83.0,
-    'workDays': 12,
-    'hourlyOutput': 122,
-    'efficiency': -0.3806,
-    'salesShare': 0.05,
-    'categories': {
-      '鞋履': {
-        'sales': 9221,
-        'qty': 7,
-        'pct': 91.1
-      },
-      '服装': {
-        'sales': 798,
-        'qty': 1,
-        'pct': 7.9
-      },
-      '配件': {
-        'sales': 108,
-        'qty': 1,
-        'pct': 1.1
-      }
-    }
-  },
-  {
-    'name': "朱凯赟",
-    'sales': 9660,
-    'qty': 10,
-    'tickets': 7,
-    'avgPrice': 966,
-    'workHours': 75.0,
-    'workDays': 10,
-    'hourlyOutput': 129,
-    'efficiency': -0.345,
-    'salesShare': 0.047,
-    'categories': {
-      '鞋履': {
-        'sales': 6590,
-        'qty': 5,
-        'pct': 68.2
-      },
-      '其他': {
-        'sales': 2494,
-        'qty': 3,
-        'pct': 25.8
-      },
-      '服装': {
-        'sales': 498,
-        'qty': 1,
-        'pct': 5.2
-      },
-      '配件': {
-        'sales': 78,
-        'qty': 1,
-        'pct': 0.8
-      }
-    }
-  },
-  {
-    'name': "迟骋",
-    'sales': 9482,
-    'qty': 9,
-    'tickets': 5,
-    'avgPrice': 1054,
-    'workHours': 78.0,
-    'workDays': 12,
-    'hourlyOutput': 122,
-    'efficiency': -0.3806,
-    'salesShare': 0.047,
-    'categories': {
-      '鞋履': {
-        'sales': 7588,
-        'qty': 6,
-        'pct': 80.0
-      },
-      '服装': {
-        'sales': 1096,
-        'qty': 2,
-        'pct': 11.6
-      },
-      '其他': {
-        'sales': 798,
-        'qty': 1,
-        'pct': 8.4
-      }
-    }
-  },
-  {
-    'name': "田佳乐",
-    'sales': 6348,
-    'qty': 6,
-    'tickets': 5,
-    'avgPrice': 1058,
-    'workHours': 78.5,
-    'workDays': 11,
-    'hourlyOutput': 81,
-    'efficiency': -0.5887,
-    'salesShare': 0.031,
-    'categories': {
-      '鞋履': {
-        'sales': 5092,
-        'qty': 4,
-        'pct': 80.2
-      },
-      '服装': {
-        'sales': 798,
-        'qty': 1,
-        'pct': 12.6
-      },
-      '配件': {
-        'sales': 458,
-        'qty': 1,
-        'pct': 7.2
-      }
-    }
-  },
-  {
-    'name': "王龙宇",
-    'sales': 5450,
-    'qty': 5,
-    'tickets': 4,
-    'avgPrice': 1090,
-    'workHours': 58.5,
-    'workDays': 8,
-    'hourlyOutput': 93,
-    'efficiency': -0.5278,
-    'salesShare': 0.027,
-    'categories': {
-      '鞋履': {
-        'sales': 5092,
-        'qty': 4,
-        'pct': 93.4
-      },
-      '配件': {
-        'sales': 358,
-        'qty': 1,
-        'pct': 6.6
-      }
-    }
-  },
-        ]
-      },
-    },
-
-    // 顾客好评记录（大众点评5星好评）
-    customerReviews: [
-      { id: 1, staffName: '陈昕媛', month: '2026-06', rating: 5, reviewDate: '2026-06-16', snippet: '逛街看到小白楼进来逛逛，Kelly的导览非常详细，带我了解到了很多新的活动和品牌历史，对Salomon有了新的了解。', keywords: ['导览详细', '品牌历史', '新活动', '超预期'], source: '大众点评（陆慧，Lv4）' },
+        { "name": "何秋烨", "date": "2026-06-01", "signIn": "07:27", "signOut": "09:31", "status": "考勤正常", "totalHours": "2" },
+        { "name": "孔祥宇", "date": "2026-06-01", "signIn": "07:26", "signOut": "09:32", "status": "考勤正常", "totalHours": "2" },
+        { "name": "朱凯赟", "date": "2026-06-01", "signIn": "07:23", "signOut": "09:31", "status": "考勤正常", "totalHours": "2" },
+        { "name": "王雅澜", "date": "2026-06-01", "signIn": "06:59", "signOut": "09:33", "status": "考勤正常", "totalHours": "2" },
+        { "name": "王龙宇", "date": "2026-06-01", "signIn": "07:24", "signOut": "09:37", "status": "考勤正常", "totalHours": "2" },
+        { "name": "迟骋", "date": "2026-06-01", "signIn": "07:23", "signOut": "09:35", "status": "考勤正常", "totalHours": "2" },
+        { "name": "何秋烨", "date": "2026-06-02", "signIn": "09:00", "signOut": "13:00", "status": "考勤正常", "totalHours": "4" },
+        { "name": "孔祥宇", "date": "2026-06-02", "signIn": "10:27", "signOut": "19:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "李若彤", "date": "2026-06-02", "signIn": "12:08", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王靳毓", "date": "2026-06-02", "signIn": "11:16", "signOut": "20:31", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-06-02", "signIn": "取消", "signOut": "取消", "status": "取消", "totalHours": "0" },
+        { "name": "田佳乐", "date": "2026-06-02", "signIn": "09:58", "signOut": "16:37", "status": "考勤正常", "totalHours": "6" },
+        { "name": "祖白代·阿不利孜", "date": "2026-06-02", "signIn": "10:48", "signOut": "20:30", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "陈昕媛", "date": "2026-06-02", "signIn": "08:55", "signOut": "17:33", "status": "考勤正常", "totalHours": "8" },
+        { "name": "龚赟昊", "date": "2026-06-02", "signIn": "12:51", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "何秋烨", "date": "2026-06-03", "signIn": "09:52", "signOut": "18:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "朱凯赟", "date": "2026-06-03", "signIn": "10:24", "signOut": "19:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "李若彤", "date": "2026-06-03", "signIn": "09:00", "signOut": "17:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "梁实秋", "date": "2026-06-03", "signIn": "10:57", "signOut": "20:01", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "王雅澜", "date": "2026-06-03", "signIn": "11:57", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-06-03", "signIn": "11:23", "signOut": "20:30", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "田佳乐", "date": "2026-06-03", "signIn": "12:56", "signOut": "21:33", "status": "考勤正常", "totalHours": "8" },
+        { "name": "邓奇缘", "date": "2026-06-03", "signIn": "11:25", "signOut": "20:34", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "陈昕媛", "date": "2026-06-03", "signIn": "09:00", "signOut": "15:00", "status": "考勤正常", "totalHours": "6" },
+        { "name": "杨子豪", "date": "2026-06-04", "signIn": "11:16", "signOut": "20:31", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "梁实秋", "date": "2026-06-04", "signIn": "10:51", "signOut": "20:00", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "王雅澜", "date": "2026-06-04", "signIn": "10:13", "signOut": "19:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王龙宇", "date": "2026-06-04", "signIn": "12:56", "signOut": "21:31", "status": "考勤正常", "totalHours": "8" },
+        { "name": "田佳乐", "date": "2026-06-04", "signIn": "12:13", "signOut": "21:02", "status": "考勤正常", "totalHours": "8" },
+        { "name": "祖白代·阿不利孜", "date": "2026-06-04", "signIn": "11:21", "signOut": "20:30", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "迟骋", "date": "2026-06-04", "signIn": "09:56", "signOut": "18:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "何秋烨", "date": "2026-06-05", "signIn": "17:24", "signOut": "21:16", "status": "考勤正常", "totalHours": "3.5" },
+        { "name": "孔祥宇", "date": "2026-06-05", "signIn": "17:25", "signOut": "21:15", "status": "考勤正常", "totalHours": "3.5" },
+        { "name": "杨子豪", "date": "2026-06-05", "signIn": "09:48", "signOut": "20:01", "status": "考勤正常", "totalHours": "9.5" },
+        { "name": "王雅澜", "date": "2026-06-05", "signIn": "17:01", "signOut": "21:15", "status": "考勤正常", "totalHours": "3.5" },
+        { "name": "迟骋", "date": "2026-06-05", "signIn": "17:03", "signOut": "23:04", "status": "考勤正常", "totalHours": "5.5" },
+        { "name": "陈昕媛", "date": "2026-06-05", "signIn": "09:57", "signOut": "20:02", "status": "考勤正常", "totalHours": "9.5" },
+        { "name": "龚赟昊", "date": "2026-06-05", "signIn": "17:17", "signOut": "23:05", "status": "考勤正常", "totalHours": "5.5" },
+        { "name": "严佳铮", "date": "2026-06-06", "signIn": "10:19", "signOut": "21:30", "status": "考勤正常", "totalHours": "10" },
+        { "name": "何秋烨", "date": "2026-06-06", "signIn": "12:57", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "朱凯赟", "date": "2026-06-06", "signIn": "12:10", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "李若彤", "date": "2026-06-06", "signIn": "取消", "signOut": "取消", "status": "取消", "totalHours": "0" },
+        { "name": "王雅澜", "date": "2026-06-06", "signIn": "10:42", "signOut": "20:20", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王龙宇", "date": "2026-06-06", "signIn": "11:26", "signOut": "20:31", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "贾长乐", "date": "2026-06-06", "signIn": "11:18", "signOut": "20:31", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "迟骋", "date": "2026-06-06", "signIn": "12:13", "signOut": "21:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈广权", "date": "2026-06-06", "signIn": "11:00", "signOut": "20:00", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "陈昕媛", "date": "2026-06-06", "signIn": "09:42", "signOut": "18:32", "status": "考勤正常", "totalHours": "8" },
+        { "name": "严佳铮", "date": "2026-06-07", "signIn": "10:22", "signOut": "21:30", "status": "考勤正常", "totalHours": "10" },
+        { "name": "孔祥宇", "date": "2026-06-07", "signIn": "10:57", "signOut": "19:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "朱凯赟", "date": "2026-06-07", "signIn": "11:20", "signOut": "20:31", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "李若彤", "date": "2026-06-07", "signIn": "12:14", "signOut": "21:05", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王靳毓", "date": "2026-06-07", "signIn": "10:19", "signOut": "19:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-06-07", "signIn": "11:16", "signOut": "20:30", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "贾长乐", "date": "2026-06-07", "signIn": "10:42", "signOut": "20:02", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "邓奇缘", "date": "2026-06-07", "signIn": "12:07", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈昕媛", "date": "2026-06-07", "signIn": "12:57", "signOut": "21:39", "status": "考勤正常", "totalHours": "8" },
+        { "name": "龚赟昊", "date": "2026-06-07", "signIn": "09:57", "signOut": "18:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "李若彤", "date": "2026-06-08", "signIn": "12:58", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "杨子豪", "date": "2026-06-08", "signIn": "10:11", "signOut": "19:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王龙宇", "date": "2026-06-08", "signIn": "10:00", "signOut": "18:33", "status": "考勤正常", "totalHours": "8" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-06-08", "signIn": "12:17", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "田佳乐", "date": "2026-06-08", "signIn": "11:26", "signOut": "20:34", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "迟骋", "date": "2026-06-08", "signIn": "12:14", "signOut": "21:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈广权", "date": "2026-06-08", "signIn": "10:30", "signOut": "19:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "孔祥宇", "date": "2026-06-09", "signIn": "11:29", "signOut": "20:30", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "王雅澜", "date": "2026-06-09", "signIn": "11:52", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王靳毓", "date": "2026-06-09", "signIn": "09:47", "signOut": "18:31", "status": "考勤正常", "totalHours": "8" },
+        { "name": "田佳乐", "date": "2026-06-09", "signIn": "19:48", "signOut": "次日02:46", "status": "考勤正常", "totalHours": "6" },
+        { "name": "祖白代·阿不利孜", "date": "2026-06-09", "signIn": "缺卡", "signOut": "缺卡", "status": "缺勤", "totalHours": "0" },
+        { "name": "贾长乐", "date": "2026-06-09", "signIn": "12:18", "signOut": "21:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "邓奇缘", "date": "2026-06-09", "signIn": "12:58", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈广权", "date": "2026-06-09", "signIn": "17:00", "signOut": "次日02:45", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "陈昕媛", "date": "2026-06-09", "signIn": "10:20", "signOut": "19:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "何秋烨", "date": "2026-06-10", "signIn": "11:21", "signOut": "20:34", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "朱凯赟", "date": "2026-06-10", "signIn": "12:51", "signOut": "21:38", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王雅澜", "date": "2026-06-10", "signIn": "11:45", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王靳毓", "date": "2026-06-10", "signIn": "10:45", "signOut": "19:00", "status": "考勤异常", "totalHours": "7.5" },
+        { "name": "祖白代·阿不利孜", "date": "2026-06-10", "signIn": "12:19", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "贾长乐", "date": "2026-06-10", "signIn": "10:15", "signOut": "19:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "龚赟昊", "date": "2026-06-10", "signIn": "09:55", "signOut": "18:41", "status": "考勤正常", "totalHours": "8" },
+        { "name": "孔祥宇", "date": "2026-06-11", "signIn": "09:57", "signOut": "18:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "李若彤", "date": "2026-06-11", "signIn": "10:32", "signOut": "19:00", "status": "考勤异常", "totalHours": "7.5" },
+        { "name": "梁实秋", "date": "2026-06-11", "signIn": "10:17", "signOut": "19:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王靳毓", "date": "2026-06-11", "signIn": "11:57", "signOut": "21:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "田佳乐", "date": "2026-06-11", "signIn": "12:54", "signOut": "21:38", "status": "考勤正常", "totalHours": "8" },
+        { "name": "贾长乐", "date": "2026-06-11", "signIn": "12:12", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈昕媛", "date": "2026-06-11", "signIn": "11:15", "signOut": "20:50", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "何秋烨", "date": "2026-06-12", "signIn": "09:58", "signOut": "18:31", "status": "考勤正常", "totalHours": "8" },
+        { "name": "杨子豪", "date": "2026-06-12", "signIn": "11:15", "signOut": "20:34", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "梁实秋", "date": "2026-06-12", "signIn": "12:19", "signOut": "21:06", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王雅澜", "date": "2026-06-12", "signIn": "11:43", "signOut": "21:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王龙宇", "date": "2026-06-12", "signIn": "10:24", "signOut": "19:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-06-12", "signIn": "10:20", "signOut": "19:04", "status": "考勤正常", "totalHours": "8" },
+        { "name": "邓奇缘", "date": "2026-06-12", "signIn": "12:52", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈昕媛", "date": "2026-06-12", "signIn": "10:42", "signOut": "19:44", "status": "考勤正常", "totalHours": "8" },
+        { "name": "严佳铮", "date": "2026-06-13", "signIn": "10:28", "signOut": "21:30", "status": "考勤正常", "totalHours": "10" },
+        { "name": "孔祥宇", "date": "2026-06-13", "signIn": "12:55", "signOut": "21:32", "status": "考勤正常", "totalHours": "8" },
+        { "name": "朱凯赟", "date": "2026-06-13", "signIn": "11:00", "signOut": "19:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "李若彤", "date": "2026-06-13", "signIn": "12:10", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-06-13", "signIn": "11:14", "signOut": "20:30", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "迟骋", "date": "2026-06-13", "signIn": "09:59", "signOut": "18:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "邓奇缘", "date": "2026-06-13", "signIn": "11:28", "signOut": "20:34", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "陈广权", "date": "2026-06-13", "signIn": "11:00", "signOut": "20:00", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "陈昕媛", "date": "2026-06-13", "signIn": "11:54", "signOut": "21:02", "status": "考勤正常", "totalHours": "8" },
+        { "name": "龚赟昊", "date": "2026-06-13", "signIn": "09:57", "signOut": "18:32", "status": "考勤正常", "totalHours": "8" },
+        { "name": "严佳铮", "date": "2026-06-14", "signIn": "取消", "signOut": "取消", "status": "取消", "totalHours": "0" },
+        { "name": "孔祥宇", "date": "2026-06-14", "signIn": "12:12", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "朱凯赟", "date": "2026-06-14", "signIn": "09:53", "signOut": "18:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "李若彤", "date": "2026-06-14", "signIn": "11:27", "signOut": "20:08", "status": "考勤正常", "totalHours": "8" },
+        { "name": "梁实秋", "date": "2026-06-14", "signIn": "11:11", "signOut": "20:05", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王龙宇", "date": "2026-06-14", "signIn": "10:51", "signOut": "19:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "田佳乐", "date": "2026-06-14", "signIn": "10:53", "signOut": "19:36", "status": "考勤正常", "totalHours": "8" },
+        { "name": "祖白代·阿不利孜", "date": "2026-06-14", "signIn": "10:48", "signOut": "20:00", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "迟骋", "date": "2026-06-14", "signIn": "09:53", "signOut": "19:02", "status": "考勤正常", "totalHours": "8" },
+        { "name": "邓奇缘", "date": "2026-06-14", "signIn": "11:25", "signOut": "20:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "龚赟昊", "date": "2026-06-14", "signIn": "12:53", "signOut": "21:32", "status": "考勤正常", "totalHours": "8" },
+        { "name": "孔祥宇", "date": "2026-06-15", "signIn": "10:24", "signOut": "19:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "李若彤", "date": "2026-06-15", "signIn": "12:12", "signOut": "21:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "杨子豪", "date": "2026-06-15", "signIn": "11:19", "signOut": "20:32", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "梁实秋", "date": "2026-06-15", "signIn": "12:14", "signOut": "21:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王龙宇", "date": "2026-06-15", "signIn": "09:56", "signOut": "18:32", "status": "考勤正常", "totalHours": "8" },
+        { "name": "迟骋", "date": "2026-06-15", "signIn": "12:56", "signOut": "21:31", "status": "考勤正常", "totalHours": "8" },
+        { "name": "邓奇缘", "date": "2026-06-15", "signIn": "11:28", "signOut": "20:31", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "陈广权", "date": "2026-06-15", "signIn": "10:30", "signOut": "18:00", "status": "考勤异常", "totalHours": "7" },
+        { "name": "何秋烨", "date": "2026-06-16", "signIn": "09:56", "signOut": "18:31", "status": "考勤正常", "totalHours": "8" },
+        { "name": "孔祥宇", "date": "2026-06-16", "signIn": "12:57", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "祖白代·阿不利孜", "date": "2026-06-16", "signIn": "10:32", "signOut": "19:01", "status": "考勤异常", "totalHours": "7.5" },
+        { "name": "邓奇缘", "date": "2026-06-16", "signIn": "10:19", "signOut": "19:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈广权", "date": "2026-06-16", "signIn": "12:30", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈昕媛", "date": "2026-06-16", "signIn": "11:44", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "龚赟昊", "date": "2026-06-16", "signIn": "11:24", "signOut": "20:35", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "孔祥宇", "date": "2026-06-17", "signIn": "09:55", "signOut": "18:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "杨子豪", "date": "2026-06-17", "signIn": "11:16", "signOut": "20:32", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "梁实秋", "date": "2026-06-17", "signIn": "12:16", "signOut": "21:02", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王靳毓", "date": "2026-06-17", "signIn": "10:17", "signOut": "19:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王龙宇", "date": "2026-06-17", "signIn": "12:06", "signOut": "21:02", "status": "考勤正常", "totalHours": "8" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-06-17", "signIn": "10:57", "signOut": "20:00", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "田佳乐", "date": "2026-06-17", "signIn": "12:57", "signOut": "21:31", "status": "考勤正常", "totalHours": "8" },
+        { "name": "贾长乐", "date": "2026-06-17", "signIn": "10:17", "signOut": "19:02", "status": "考勤正常", "totalHours": "7" },
+        { "name": "朱凯赟", "date": "2026-06-18", "signIn": "12:48", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "李若彤", "date": "2026-06-18", "signIn": "11:27", "signOut": "20:35", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "王雅澜", "date": "2026-06-18", "signIn": "11:59", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-06-18", "signIn": "10:07", "signOut": "19:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "田佳乐", "date": "2026-06-18", "signIn": "10:30", "signOut": "19:06", "status": "考勤正常", "totalHours": "8" },
+        { "name": "贾长乐", "date": "2026-06-18", "signIn": "12:14", "signOut": "21:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "迟骋", "date": "2026-06-18", "signIn": "11:20", "signOut": "18:30", "status": "考勤异常", "totalHours": "6.5" },
+        { "name": "邓奇缘", "date": "2026-06-18", "signIn": "10:57", "signOut": "19:00", "status": "考勤正常", "totalHours": "7.5" },
+        { "name": "严佳铮", "date": "2026-06-19", "signIn": "10:22", "signOut": "21:30", "status": "考勤正常", "totalHours": "10" },
+        { "name": "何秋烨", "date": "2026-06-19", "signIn": "12:07", "signOut": "21:03", "status": "考勤正常", "totalHours": "8" },
+        { "name": "孔祥宇", "date": "2026-06-19", "signIn": "10:23", "signOut": "19:06", "status": "考勤正常", "totalHours": "8" },
+        { "name": "李若彤", "date": "2026-06-19", "signIn": "12:59", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "杨子豪", "date": "2026-06-19", "signIn": "11:16", "signOut": "20:32", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "梁实秋", "date": "2026-06-19", "signIn": "10:23", "signOut": "19:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王雅澜", "date": "2026-06-19", "signIn": "10:58", "signOut": "20:31", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "王靳毓", "date": "2026-06-19", "signIn": "12:53", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-06-19", "signIn": "12:09", "signOut": "21:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "邓奇缘", "date": "2026-06-19", "signIn": "09:51", "signOut": "18:31", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈广权", "date": "2026-06-19", "signIn": "11:00", "signOut": "20:00", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "陈昕媛", "date": "2026-06-19", "signIn": "10:46", "signOut": "19:31", "status": "考勤正常", "totalHours": "8" },
+        { "name": "龚赟昊", "date": "2026-06-19", "signIn": "12:11", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "严佳铮", "date": "2026-06-20", "signIn": "10:27", "signOut": "21:30", "status": "考勤正常", "totalHours": "10" },
+        { "name": "何秋烨", "date": "2026-06-20", "signIn": "12:52", "signOut": "21:31", "status": "考勤正常", "totalHours": "8" },
+        { "name": "朱凯赟", "date": "2026-06-20", "signIn": "10:52", "signOut": "19:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "李若彤", "date": "2026-06-20", "signIn": "12:14", "signOut": "21:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "杨子豪", "date": "2026-06-20", "signIn": "12:09", "signOut": "21:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "梁实秋", "date": "2026-06-20", "signIn": "12:09", "signOut": "21:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王靳毓", "date": "2026-06-20", "signIn": "11:13", "signOut": "20:32", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "田佳乐", "date": "2026-06-20", "signIn": "09:56", "signOut": "18:38", "status": "考勤正常", "totalHours": "8" },
+        { "name": "贾长乐", "date": "2026-06-20", "signIn": "10:45", "signOut": "20:00", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "迟骋", "date": "2026-06-20", "signIn": "10:52", "signOut": "20:31", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "陈昕媛", "date": "2026-06-20", "signIn": "10:29", "signOut": "19:02", "status": "考勤正常", "totalHours": "8" },
+        { "name": "龚赟昊", "date": "2026-06-20", "signIn": "09:54", "signOut": "18:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "何秋烨", "date": "2026-06-21", "signIn": "10:25", "signOut": "19:04", "status": "考勤正常", "totalHours": "8" },
+        { "name": "朱凯赟", "date": "2026-06-21", "signIn": "11:25", "signOut": "20:32", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "杨子豪", "date": "2026-06-21", "signIn": "13:20", "signOut": "22:03", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王雅澜", "date": "2026-06-21", "signIn": "10:44", "signOut": "19:47", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王靳毓", "date": "2026-06-21", "signIn": "12:01", "signOut": "21:23", "status": "考勤正常", "totalHours": "8" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-06-21", "signIn": "10:26", "signOut": "19:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "祖白代·阿不利孜", "date": "2026-06-21", "signIn": "12:12", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "迟骋", "date": "2026-06-21", "signIn": "09:59", "signOut": "17:30", "status": "考勤正常", "totalHours": "7.5" },
+        { "name": "陈广权", "date": "2026-06-21", "signIn": "11:00", "signOut": "20:03", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "陈昕媛", "date": "2026-06-21", "signIn": "12:01", "signOut": "17:05", "status": "考勤正常", "totalHours": "4.5" },
+        { "name": "龚赟昊", "date": "2026-06-21", "signIn": "12:57", "signOut": "21:31", "status": "考勤正常", "totalHours": "8" },
+        { "name": "何秋烨", "date": "2026-06-22", "signIn": "12:13", "signOut": "21:01", "status": "考勤正常", "totalHours": "8" },
+        { "name": "孔祥宇", "date": "2026-06-22", "signIn": "10:27", "signOut": "17:08", "status": "考勤正常", "totalHours": "6.5" },
+        { "name": "王靳毓", "date": "2026-06-22", "signIn": "09:42", "signOut": "16:35", "status": "考勤正常", "totalHours": "6.5" },
+        { "name": "祖白代·阿不利孜", "date": "2026-06-22", "signIn": "11:52", "signOut": "21:02", "status": "考勤正常", "totalHours": "8" },
+        { "name": "贾长乐", "date": "2026-06-22", "signIn": "10:08", "signOut": "17:30", "status": "考勤正常", "totalHours": "7" },
+        { "name": "迟骋", "date": "2026-06-22", "signIn": "12:13", "signOut": "20:31", "status": "考勤正常", "totalHours": "8" },
+        { "name": "邓奇缘", "date": "2026-06-22", "signIn": "12:57", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "龚赟昊", "date": "2026-06-22", "signIn": "11:28", "signOut": "19:34", "status": "考勤正常", "totalHours": "8" },
+        { "name": "何秋烨", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
+        { "name": "朱凯赟", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
+        { "name": "李若彤", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
+        { "name": "杨子豪", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
+        { "name": "田佳乐", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
+        { "name": "贾长乐", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
+        { "name": "陈广权", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
+        { "name": "陈昕媛", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" }
+      ], source: '大众点评（陆慧，Lv4）' },
       { id: 2, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '店门口很适合拍照，店员都好帅。那天碰到一个小哥态度很好很和善，问他说是叫CC，下次还找他服务。', keywords: ['态度好', '和善', '适合拍照', '下次还找'], source: '大众点评（煤球斯基，Lv1）' },
       { id: 3, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '本次购物体验很棒，导购小哥cc十分热情主动，详细介绍产品特点，耐心解答疑问，专业又贴心，感谢优质服务。', keywords: ['热情主动', '详细介绍', '耐心解答', '专业贴心'], source: '大众点评（yuki，Lv1）' },
       { id: 4, staffName: '朱凯赟', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '导购小哥cc十分热情主动，详细介绍产品特点，耐心解答疑问，小朱帮忙挑选也很用心，专业又贴心，感谢优质服务。', keywords: ['热情主动', '详细介绍', '耐心解答', '专业贴心'], source: '大众点评（yuki，Lv1）' },
@@ -1294,7 +849,7 @@ const Store = {
     ],
 
     // Data version for forced refresh detection
-    _dataVersion: '2026-06-22-v18',
+    _dataVersion: '2026-06-23-v19',
   },
 
   init() {
@@ -1322,7 +877,7 @@ const Store = {
       const hasBrokenTime = doorSchedule.some(d => d.slots && d.slots.some(s => s.time && s.time.includes('-') && s.time.split('-')[0] === s.time.split('-')[1]));
       // Check if linggongAttendance is outdated (only 10 records instead of 94)
       const lgData = data.linggongAttendance || {};
-      const isOutdatedLG = lgData.records && lgData.records.length < 200;
+      const isOutdatedLG = lgData.records && lgData.records.length < 208;
       // Check if ratings is outdated (still 5月 data or less than 13 records)
       const ratingsData = data.ratings || [];
       const isOutdatedRatings = ratingsData.length < 13 || (ratingsData[0] && ratingsData[0].month === '2026-05');
@@ -1369,7 +924,7 @@ const Store = {
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-22-v18';
+      const DATA_VERSION = '2026-06-23-v19';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
