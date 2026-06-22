@@ -116,12 +116,12 @@ def main():
 
         if any(x in category for x in ['鞋', '靴']):
             cat = '鞋履'
-        elif any(x in category for x in ['服', '衣', '裤', '裙', 'T恤', '卫衣', '外套']):
+        elif any(x in category for x in ['服', '衣', '裤', '裙', 'T恤', '卫衣', '外套', '衫', '茄克', '背心', '风衣', '夹克']):
             cat = '服装'
-        elif any(x in category for x in ['配', '袜', '帽', '包', '围巾', '手套']):
+        elif any(x in category for x in ['配', '袜', '帽', '包', '围巾', '手套', '袋']):
             cat = '配件'
         else:
-            cat = '其他'
+            cat = '配件'
 
         data[name]['sales'] += amount
         data[name]['qty'] += qty

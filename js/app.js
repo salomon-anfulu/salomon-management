@@ -507,7 +507,7 @@ ratings: [
         "attendance": 4,
         "customerReview": 5
       },
-      "comment": "6月12天出勤86h，迟到1次，门迎16次，销售¥9,482时产¥110/h，品类(鞋履 80.0% / 服装 11.6% / 其他 8.4%)，大众点评好评4条",
+      "comment": "6月12天出勤86h，迟到1次，门迎16次，销售¥9,482时产¥110/h，品类(鞋履 80.0% / 服装 11.6% / 配件 8.4%)，大众点评好评4条",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -522,7 +522,7 @@ ratings: [
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月10天出勤79h，迟到1次，门迎16次，销售¥14,048时产¥178/h，品类(鞋履 69.0% / 服装 13.5% / 其他 10.0% / 配件 7.6%)",
+      "comment": "6月10天出勤79h，迟到1次，门迎16次，销售¥14,048时产¥178/h，品类(鞋履 69.0% / 服装 23.4% / 配件 7.6%)",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -537,7 +537,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月10天出勤75h，门迎15次，销售¥9,660时产¥129/h，品类(鞋履 68.2% / 其他 25.8% / 服装 5.2% / 配件 0.8%)，大众点评好评2条",
+      "comment": "6月10天出勤75h，门迎15次，销售¥9,660时产¥129/h，品类(鞋履 68.2% / 服装 31.0% / 配件 0.8%)，大众点评好评2条",
       "avgScore": 4.4,
       "hourlyRate": 60
     },
@@ -552,7 +552,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月13天出勤92h，门迎18次，销售¥16,371时产¥177/h，品类(鞋履 62.2% / 服装 32.9% / 其他 4.9%)",
+      "comment": "6月13天出勤92h，门迎18次，销售¥16,371时产¥177/h，品类(鞋履 62.2% / 服装 37.8%)",
       "avgScore": 4.4,
       "hourlyRate": 60
     },
@@ -597,7 +597,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月11天出勤78h，门迎13次，销售¥19,288时产¥247/h，品类(鞋履 76.6% / 服装 10.9% / 其他 8.8% / 配件 3.7%)",
+      "comment": "6月11天出勤78h，门迎13次，销售¥19,288时产¥247/h，品类(鞋履 76.6% / 服装 19.7% / 配件 3.7%)",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -612,7 +612,7 @@ ratings: [
         "attendance": 4,
         "customerReview": 5
       },
-      "comment": "6月11天出勤88h，迟到1次，门迎17次，销售¥24,016时产¥273/h，品类(鞋履 87.3% / 其他 4.6% / 服装 4.1% / 配件 4.0%)，大众点评好评1条",
+      "comment": "6月11天出勤88h，迟到1次，门迎17次，销售¥24,016时产¥273/h，品类(鞋履 87.3% / 服装 8.7% / 配件 4.0%)，大众点评好评1条",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -958,7 +958,7 @@ june: {
             hourlyOutput: 273,
             efficiency: 0.3776,
             salesShare: 0.114,
-            categories: '鞋履 87.3% / 其他 4.6% / 服装 4.1% / 配件 4.0%'
+            categories: '鞋履 87.3% / 服装 8.7% / 配件 4.0%'
           },
           {
             name: '龚赟昊',
@@ -984,7 +984,7 @@ june: {
             hourlyOutput: 247,
             efficiency: 0.2464,
             salesShare: 0.091,
-            categories: '鞋履 76.6% / 服装 10.9% / 其他 8.8% / 配件 3.7%'
+            categories: '鞋履 76.6% / 服装 19.7% / 配件 3.7%'
           },
           {
             name: '孔祥宇',
@@ -997,7 +997,7 @@ june: {
             hourlyOutput: 177,
             efficiency: -0.1069,
             salesShare: 0.077,
-            categories: '鞋履 62.2% / 服装 32.9% / 其他 4.9%'
+            categories: '鞋履 62.2% / 服装 37.8%'
           },
           {
             name: '王靳毓',
@@ -1010,7 +1010,7 @@ june: {
             hourlyOutput: 178,
             efficiency: -0.1018,
             salesShare: 0.066,
-            categories: '鞋履 69.0% / 服装 13.5% / 其他 10.0% / 配件 7.6%'
+            categories: '鞋履 69.0% / 服装 23.4% / 配件 7.6%'
           },
           {
             name: '何秋烨',
@@ -1049,7 +1049,7 @@ june: {
             hourlyOutput: 129,
             efficiency: -0.3491,
             salesShare: 0.046,
-            categories: '鞋履 68.2% / 其他 25.8% / 服装 5.2% / 配件 0.8%'
+            categories: '鞋履 68.2% / 服装 31.0% / 配件 0.8%'
           },
           {
             name: '迟骋',
@@ -1062,7 +1062,7 @@ june: {
             hourlyOutput: 110,
             efficiency: -0.4449,
             salesShare: 0.045,
-            categories: '鞋履 80.0% / 服装 11.6% / 其他 8.4%'
+            categories: '鞋履 80.0% / 服装 11.6% / 配件 8.4%'
           },
           {
             name: '田佳乐',
@@ -1106,7 +1106,7 @@ june: {
       { id: 8, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-21', snippet: '来Salomon安福路店逛街，CC接待的我，人特别热情，讲鞋子都讲得很细，耐心跟我说各个款式的区别，选鞋给的建议也很实在，逛着很舒服，体验挺好的～', keywords: ['热情', '讲解细致', '耐心介绍', '建议实在', '体验好'], source: '大众点评（勇善可爱的小柔，Lv1）' },
     ],
 
-        _dataVersion: '2026-06-23-v23',
+        _dataVersion: '2026-06-23-v24',
   },
 
   init() {
@@ -1181,7 +1181,7 @@ june: {
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-23-v23';
+      const DATA_VERSION = '2026-06-23-v24';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
