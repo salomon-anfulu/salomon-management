@@ -2170,6 +2170,7 @@ function renderPerformance() {
             '鞋履': { color: '#3b82f6', icon: '👟' },
             '服装': { color: '#8b5cf6', icon: '👕' },
             '配件': { color: '#f59e0b', icon: '🧢' },
+            '其他': { color: '#94a3b8', icon: '📦' },
           };
           const catRecords = records.filter(r => r.categories);
           return catRecords.map(r => {
@@ -2184,30 +2185,37 @@ function renderPerformance() {
               cats = parsed;
             }
             const catNames = Object.keys(cats).filter(cn => cats[cn] && typeof cats[cn].pct === 'number');
+            // 从总销售额和占比反算各品类金额和数量
+            catNames.forEach(cn => {
+              const c = cats[cn];
+              if (c && c.pct > 0) {
+                if (c.sales == null || c.sales === 0) c.sales = Math.round(r.sales * c.pct / 100);
+                if (c.qty == null || c.qty === 0) {
+                  const estimatedQty = Math.round(r.qty * c.pct / 100);
+                  c.qty = estimatedQty;
+                }
+              }
+            });
             return `
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
                   <span style="font-weight: 600; font-size: 14px; min-width: 60px;">${r.name}</span>
-                  <span style="font-size: 12px; color: var(--text-secondary);">¥${r.sales.toLocaleString()}</span>
+                  <span style="font-size: 12px; color: var(--text-secondary);">¥${r.sales.toLocaleString()} · ${r.qty}件</span>
                 </div>
                 <div style="display: flex; height: 28px; border-radius: 6px; overflow: hidden; background: var(--bg-secondary);">
                   ${catNames.map(cn => {
                     const c = cats[cn];
                     if (!c || typeof c.pct !== 'number') return '';
                     const cfg = CAT_CONFIG[cn] || { color: '#94a3b8', icon: '📦' };
-                    const salesStr = c.sales != null ? '¥' + Number(c.sales).toLocaleString() : '';
-                    const qtyStr = c.qty != null ? c.qty + '件' : '';
-                    return c.pct > 0 ? `<div title="${cn}: ${salesStr} (${c.pct}%)" style="width: ${c.pct}%; background: ${cfg.color}; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 600; min-width: 0; overflow: hidden; white-space: nowrap;">${c.pct >= 10 ? cfg.icon + ' ' + c.pct + '%' : ''}</div>` : '';
+                    return c.pct > 0 ? `<div title="${cn}: ¥${Number(c.sales).toLocaleString()} · ${c.qty}件 (${c.pct}%)" style="width: ${c.pct}%; background: ${cfg.color}; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 600; min-width: 0; overflow: hidden; white-space: nowrap;">${c.pct >= 10 ? cfg.icon + ' ' + c.pct + '%' : ''}</div>` : '';
                   }).join('')}
                 </div>
-                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; padding: 6px 8px; background: var(--bg-secondary); border-radius: 6px;">
                   ${catNames.map(cn => {
                     const c = cats[cn];
                     if (!c || typeof c.pct !== 'number') return '';
                     const cfg = CAT_CONFIG[cn] || { color: '#94a3b8', icon: '📦' };
-                    const salesStr = c.sales != null ? '¥' + Number(c.sales).toLocaleString() : '';
-                    const qtyStr = c.qty != null ? '· ' + c.qty + '件' : '';
-                    return `<span style="font-size: 11px; color: var(--text-secondary);">${cfg.icon} ${cn} ${salesStr} ${qtyStr} (${c.pct}%)</span>`;
+                    return `<span style="font-size: 12px; display: flex; align-items: center; gap: 4px;"><span style="font-size: 14px;">${cfg.icon}</span><span style="color: ${cfg.color}; font-weight: 600;">${cn}</span> <span style="color: var(--text-primary); font-weight: 600;">¥${Number(c.sales).toLocaleString()}</span> <span style="color: var(--text-secondary);">· ${c.qty}件</span> <span style="color: var(--text-secondary);">(${c.pct}%)</span></span>`;
                   }).join('')}
                 </div>
               </div>
