@@ -715,7 +715,7 @@ function renderAttendance() {
   const lgNormal = lgRecords.filter(r => r.status === '考勤正常').length;
   const lgAbnormal = lgRecords.filter(r => r.status === '考勤异常').length;
   const lgOngoing = lgRecords.filter(r => r.status === '考勤中').length;
-  const lgTotalHours = lgRecords.reduce((sum, r) => sum + (r.totalHours || 0), 0);
+  const lgTotalHours = lgRecords.reduce((sum, r) => sum + (parseFloat(r.totalHours) || 0), 0);
   const lgTotalLate = lgRecords.filter(r => r.lateMin > 0).length;
 
   // 名字到头像颜色的映射
@@ -736,7 +736,7 @@ function renderAttendance() {
       dateStats[d] = { count: 0, totalHours: 0, normal: 0, abnormal: 0, ongoing: 0 };
     }
     dateStats[d].count++;
-    dateStats[d].totalHours += r.totalHours || 0;
+    dateStats[d].totalHours += parseFloat(r.totalHours) || 0;
     if (r.status === '考勤正常') dateStats[d].normal++;
     else if (r.status === '考勤异常') dateStats[d].abnormal++;
     else if (r.status === '考勤中') dateStats[d].ongoing++;
@@ -745,10 +745,10 @@ function renderAttendance() {
       personStats[r.name] = { name: r.name, count: 0, totalHours: 0, lateCount: 0, lateMinTotal: 0 };
     }
     personStats[r.name].count++;
-    personStats[r.name].totalHours += r.totalHours || 0;
+    personStats[r.name].totalHours += parseFloat(r.totalHours) || 0;
     if (r.lateMin > 0) {
       personStats[r.name].lateCount++;
-      personStats[r.name].lateMinTotal += r.lateMin;
+      personStats[r.name].lateMinTotal += parseFloat(r.lateMin) || 0;
     }
   });
 
@@ -2173,8 +2173,17 @@ function renderPerformance() {
           };
           const catRecords = records.filter(r => r.categories);
           return catRecords.map(r => {
-            const cats = r.categories;
-            const catNames = Object.keys(cats);
+            // Parse categories: support both string format and object format
+            let cats = r.categories;
+            if (typeof cats === 'string') {
+              const parsed = {};
+              cats.split('/').forEach(part => {
+                const m = part.trim().match(/^(.+?)\s+([\d.]+)%/);
+                if (m) parsed[m[1]] = { pct: parseFloat(m[2]), sales: 0, qty: 0 };
+              });
+              cats = parsed;
+            }
+            const catNames = Object.keys(cats).filter(cn => cats[cn] && typeof cats[cn].pct === 'number');
             return `
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
@@ -2184,15 +2193,21 @@ function renderPerformance() {
                 <div style="display: flex; height: 28px; border-radius: 6px; overflow: hidden; background: var(--bg-secondary);">
                   ${catNames.map(cn => {
                     const c = cats[cn];
+                    if (!c || typeof c.pct !== 'number') return '';
                     const cfg = CAT_CONFIG[cn] || { color: '#94a3b8', icon: '📦' };
-                    return c.pct > 0 ? `<div title="${cn}: ¥${c.sales.toLocaleString()} (${c.pct}%) · ${c.qty}件" style="width: ${c.pct}%; background: ${cfg.color}; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 600; min-width: 0; overflow: hidden; white-space: nowrap;">${c.pct >= 10 ? cfg.icon + ' ' + c.pct + '%' : ''}</div>` : '';
+                    const salesStr = c.sales != null ? '¥' + Number(c.sales).toLocaleString() : '';
+                    const qtyStr = c.qty != null ? c.qty + '件' : '';
+                    return c.pct > 0 ? `<div title="${cn}: ${salesStr} (${c.pct}%)" style="width: ${c.pct}%; background: ${cfg.color}; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: 600; min-width: 0; overflow: hidden; white-space: nowrap;">${c.pct >= 10 ? cfg.icon + ' ' + c.pct + '%' : ''}</div>` : '';
                   }).join('')}
                 </div>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px;">
                   ${catNames.map(cn => {
                     const c = cats[cn];
+                    if (!c || typeof c.pct !== 'number') return '';
                     const cfg = CAT_CONFIG[cn] || { color: '#94a3b8', icon: '📦' };
-                    return `<span style="font-size: 11px; color: var(--text-secondary);">${cfg.icon} ${cn} ¥${c.sales.toLocaleString()} · ${c.qty}件 (${c.pct}%)</span>`;
+                    const salesStr = c.sales != null ? '¥' + Number(c.sales).toLocaleString() : '';
+                    const qtyStr = c.qty != null ? '· ' + c.qty + '件' : '';
+                    return `<span style="font-size: 11px; color: var(--text-secondary);">${cfg.icon} ${cn} ${salesStr} ${qtyStr} (${c.pct}%)</span>`;
                   }).join('')}
                 </div>
               </div>
