@@ -282,7 +282,37 @@ const Store = {
         { time: '21:00-21:30', staff: '李若彤' }
       ]},
       { date: '2026-06-20', slots: [
-        { time: '13:00-14:00', staff: '迟骋' }
+        { time: '10:00-11:00', staff: '田佳乐' },
+        { time: '11:00-12:00', staff: '朱凯赟' },
+        { time: '12:00-13:00', staff: '陈昕媛' },
+        { time: '13:00-14:00', staff: '迟骋' },
+        { time: '14:00-15:00', staff: '王靳毓' },
+        { time: '15:00-16:00', staff: '何秋烨' },
+        { time: '16:00-17:00', staff: '杨子豪' },
+        { time: '17:00-18:00', staff: '龚赟昊' },
+        { time: '18:00-19:00', staff: '朱凯赟' },
+        { time: '19:00-20:00', staff: '迟骋' },
+        { time: '21:00-21:30', staff: '何秋烨' }
+      ]},
+      { date: '2026-06-21', slots: [
+        { time: '10:00-11:00', staff: '迟骋' },
+        { time: '11:00-12:00', staff: '王雅澜' },
+        { time: '12:00-13:00', staff: '何秋烨' },
+        { time: '13:00-14:00', staff: '朱凯赟' },
+        { time: '14:00-15:00', staff: '陈昕媛' },
+        { time: '15:00-16:00', staff: '何秋烨' },
+        { time: '16:00-17:00', staff: '龚赟昊' },
+        { time: '17:00-18:00', staff: '杨子豪' },
+        { time: '18:00-19:00', staff: '朱凯赟' },
+        { time: '20:00-21:00', staff: '龚赟昊' }
+      ]},
+      { date: '2026-06-22', slots: [
+        { time: '10:00-11:00', staff: '王靳毓' },
+        { time: '12:00-13:00', staff: '龚赟昊' },
+        { time: '13:00-14:00', staff: '迟骋' },
+        { time: '15:00-16:00', staff: '邓奇缘' },
+        { time: '17:00-18:00', staff: '迟骋' },
+        { time: '19:00-20:00', staff: '邓奇缘' }
       ]}
     ],
 
@@ -380,19 +410,19 @@ const Store = {
 
     // 店务统计（来自店务支援表）
         staffStats: {
-      '陈昕媛': { doorCount: 18, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 1 },
+      '陈昕媛': { doorCount: 19, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 1 },
       '田佳乐': { doorCount: 17, shiftChange: 1, shiftedCount: 0, missedPunch: 1, lateCount: 0, absentCount: 0, dianping: 0 },
-      '迟骋': { doorCount: 16, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 3 },
-      '王靳毓': { doorCount: 16, shiftChange: 0, shiftedCount: 3, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
-      '朱凯赟': { doorCount: 15, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 2 },
+      '迟骋': { doorCount: 19, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 3 },
+      '王靳毓': { doorCount: 17, shiftChange: 0, shiftedCount: 3, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
+      '朱凯赟': { doorCount: 17, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 2 },
       '孔祥宇': { doorCount: 18, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '邓奇缘': { doorCount: 20, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '杨子豪': { doorCount: 11, shiftChange: 2, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '王雅澜': { doorCount: 13, shiftChange: 1, shiftedCount: 2, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '邓奇缘': { doorCount: 22, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '杨子豪': { doorCount: 12, shiftChange: 2, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '王雅澜': { doorCount: 14, shiftChange: 1, shiftedCount: 2, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
       '李若彤': { doorCount: 17, shiftChange: 1, shiftedCount: 1, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
       '王龙宇': { doorCount: 13, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '何秋烨': { doorCount: 17, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '龚赟昊': { doorCount: 16, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 }
+      '何秋烨': { doorCount: 19, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '龚赟昊': { doorCount: 19, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 }
     },
 
     schedules: [
@@ -1076,7 +1106,7 @@ june: {
       { id: 8, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-21', snippet: '来Salomon安福路店逛街，CC接待的我，人特别热情，讲鞋子都讲得很细，耐心跟我说各个款式的区别，选鞋给的建议也很实在，逛着很舒服，体验挺好的～', keywords: ['热情', '讲解细致', '耐心介绍', '建议实在', '体验好'], source: '大众点评（勇善可爱的小柔，Lv1）' },
     ],
 
-        _dataVersion: '2026-06-23-v21',
+        _dataVersion: '2026-06-23-v22',
   },
 
   init() {
@@ -1151,7 +1181,7 @@ june: {
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-23-v21';
+      const DATA_VERSION = '2026-06-23-v22';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
