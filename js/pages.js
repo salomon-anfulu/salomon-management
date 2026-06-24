@@ -1279,8 +1279,8 @@ function calcCustomerReviewScore(staffName) {
  *
  * 规则：
  *   signIn === '缺卡' 或 signOut === '缺卡' → 缺卡 +1
- *   status === '缺勤'                        → 旷工 +1
- *   lateMin > 0                             → 迟到 +1
+ *   status === '缺勤' 或 '取消'              → 旷工 +1
+ *   status === '考勤异常' 或 lateMin > 0     → 迟到 +1
  *
  * @param {string} staffName - 兼职姓名
  * @returns {{missedPunch, lateCount, absentCount, records: []}}
@@ -1299,9 +1299,12 @@ function getLinggongAttStats(staffName) {
     // 兼容默认数据(signIn/signOut)和同步数据(clockIn/clockOut)两种格式
     const clockIn = r.signIn || r.clockIn || '';
     const clockOut = r.signOut || r.clockOut || '';
+
     const isMissedPunch = clockIn === '缺卡' || clockOut === '缺卡';
-    const isAbsent = r.status === '缺勤';
-    const isLate = (r.lateMin || 0) > 0;
+    // 「取消」= 排班被取消但人没来，按旷工处理
+    const isAbsent = r.status === '缺勤' || r.status === '取消';
+    // 「考勤异常」算迟到（如迟到打卡、排班时间不符等），lateMin>0 也算迟到
+    const isLate = r.status === '考勤异常' || (r.lateMin || 0) > 0;
 
     if (isMissedPunch) {
       missedPunch++;
@@ -1313,7 +1316,7 @@ function getLinggongAttStats(staffName) {
     }
     if (isLate) {
       lateCount++;
-      detailRecords.push({ date: r.date, type: '迟到', detail: `迟到${r.lateMin}分钟` });
+      if (!isMissedPunch && !isAbsent) detailRecords.push({ date: r.date, type: '迟到', detail: r.lateMin ? `迟到${r.lateMin}分钟` : r.status });
     }
   });
 
@@ -1330,7 +1333,7 @@ function getLinggongAttStats(staffName) {
  *   最低1分
  */
 function calcAttendanceScore(staffName) {
-  const { lateCount, missedPunch, absentCount } = getLinggongAttStats(staffName);
+  const { lateCount, missedPunch, absentCount, records } = getLinggongAttStats(staffName);
 
   // 补卡：第1次免费，之后每次-1
   const punchDeduction = Math.max(0, missedPunch - 1);
@@ -1351,6 +1354,7 @@ function calcAttendanceScore(staffName) {
     lateDeduction,
     absentDeduction,
     totalDeduction,
+    records,
   };
 }
 
@@ -1743,6 +1747,16 @@ function renderRatings() {
                     <span style="color: var(--text-muted);">基础 <b>5</b>${attendCalc.totalDeduction > 0 ? ` → 扣 <b style="color:#ef4444;">${attendCalc.totalDeduction}</b>` : ' ✅ 全勤'} = <b style="color: ${attendCalc.score >= 4 ? '#10b981' : attendCalc.score >= 3 ? '#f59e0b' : '#ef4444'};">${attendCalc.score.toFixed(1)}</b></span>
                     ${attendCalc.missedPunch > 0 ? `<span style="color: var(--text-muted); font-size: 10px;">补卡${attendCalc.missedPunch}次${attendCalc.missedPunch > 1 ? '(超免费)' : '(免费)'}</span>` : ''}
                   </div>
+                  ${(attendCalc.records || []).length > 0 ? `
+                  <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border-color);">
+                    <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">📋 异常明细</div>
+                    ${attendCalc.records.map(rec => `<div style="font-size: 10px; display: flex; align-items: center; gap: 6px; padding: 2px 0;">
+                      <span style="color: var(--text-muted); min-width: 70px;">${rec.date}</span>
+                      <span class="badge ${rec.type === '旷工' ? 'badge-danger' : rec.type === '迟到' ? 'badge-warning' : 'badge-info'}" style="font-size: 10px; padding: 1px 6px;">${rec.type}</span>
+                      ${rec.detail ? `<span style="color: var(--text-muted);">${rec.detail}</span>` : ''}
+                    </div>`).join('')}
+                  </div>
+                  ` : ''}
                 </div>
               </div>
 
