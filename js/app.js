@@ -666,10 +666,10 @@ ratings: [
         "availability": 5,
         "performance": 3,  // 时产2+UPT4 动态计算
         "behavior": 5,
-        "attendance": 4,
+        "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月11天出勤86h，缺卡1次，门迎16次，销售¥22,870时产¥266/h，UPT 1.06，品类(鞋履 88.7% / 服装 11.3%)",
+      "comment": "6月11天出勤86h，全勤，门迎16次，销售¥22,870时产¥266/h，UPT 1.06，品类(鞋履 88.7% / 服装 11.3%)",
       "avgScore": 4.4,
       "hourlyRate": 60
     }
