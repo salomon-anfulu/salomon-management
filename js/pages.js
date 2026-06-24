@@ -1063,8 +1063,8 @@ function getRatingTitle(scores, avgScore, staffName) {
   if (reviewHigh) return { title: '好评收割机', emoji: '✨', tier: 'tier-a', motto: '"大众点评的宠儿"' };
   if (perfHigh) return { title: '业绩猎手', emoji: '🎯', tier: 'tier-a', motto: '"成交转化率拉满"' };
 
-  // B 级称号（综合 4.0-4.1）
-  if (avgScore >= 4.0) return { title: '稳中向好', emoji: '📈', tier: 'tier-b', motto: '"基础扎实，潜力可期"' };
+  // B 级称号（综合 3.6-4.1）
+  if (avgScore >= 3.6) return { title: '稳中向好', emoji: '📈', tier: 'tier-b', motto: '"基础扎实，潜力可期"' };
 
   // C 级称号（综合 3.5-3.9）
   if (perfLow && attPerfect) return { title: '勤勉新人', emoji: '🌱', tier: 'tier-c', motto: '"态度满分，业绩待开发"' };
@@ -1437,7 +1437,7 @@ function renderRatings() {
           ⭐ 表现评分
           <span style="font-size: 11px; padding: 3px 8px; background: rgba(255,255,255,0.1); border-radius: 20px; font-weight: 600;">FUN EDITION</span>
         </h2>
-        <p style="font-size: 13px; opacity: 0.7; margin-top: 4px;">2026年6月 · Service Team 全员评估 · 综合评分 ≥ 4.0 可享 ¥60/h 时薪</p>
+        <p style="font-size: 13px; opacity: 0.7; margin-top: 4px;">2026年6月 · Service Team 全员评估 · 综合评分 ≥ 3.6 可享 ¥60/h 时薪</p>
         <div style="display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
           <span style="font-size: 11px; opacity: 0.6;">🛡️ 工时支持 <span style="opacity: 0.5; font-size: 10px;">(基础5分·每周不达标-1)</span></span>
           <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩 <span style="opacity: 0.5; font-size: 10px;">(时产+UPT各50% · 月销2万+0.5)</span></span>
@@ -1451,11 +1451,11 @@ function renderRatings() {
     <!-- 评分概览 -->
     <div class="stats-grid animate-in" style="grid-template-columns: repeat(4, 1fr);">
       <div class="stat-card success">
-        <div class="stat-value">${enrichedRatings.filter(r => r._dynamicAvg >= 4.0).length} <span style="font-size: 14px; opacity: 0.5;">/${enrichedRatings.length}</span></div>
+        <div class="stat-value">${enrichedRatings.filter(r => r._dynamicAvg >= 3.6).length} <span style="font-size: 14px; opacity: 0.5;">/${enrichedRatings.length}</span></div>
         <div class="stat-label">🎖️ ¥60/h 达标</div>
       </div>
       <div class="stat-card danger">
-        <div class="stat-value">${enrichedRatings.filter(r => r._dynamicAvg < 4.0).length}</div>
+        <div class="stat-value">${enrichedRatings.filter(r => r._dynamicAvg < 3.6).length}</div>
         <div class="stat-label">💪 待提升选手</div>
       </div>
       <div class="stat-card accent">
@@ -1463,7 +1463,7 @@ function renderRatings() {
         <div class="stat-label">⭐ 团队均分</div>
       </div>
       <div class="stat-card info">
-        <div class="stat-value">¥${enrichedRatings.filter(r => r._dynamicAvg >= 4.0).length * 60 + enrichedRatings.filter(r => r._dynamicAvg < 4.0).length * 28}</div>
+        <div class="stat-value">¥${enrichedRatings.filter(r => r._dynamicAvg >= 3.6).length * 60 + enrichedRatings.filter(r => r._dynamicAvg < 3.6).length * 28}</div>
         <div class="stat-label">💰 时薪支出/h</div>
       </div>
     </div>
@@ -1509,8 +1509,8 @@ function renderRatings() {
         const availCalc = r._availCalc;
         const availScore = availCalc.score;
         const dynamicAvg = r._dynamicAvg;
-        const dynamicHourlyRate = dynamicAvg >= 4.0 ? 60 : 28;
-        const isTop = dynamicAvg >= 4.0;
+        const dynamicHourlyRate = dynamicAvg >= 3.6 ? 60 : 28;
+        const isTop = dynamicAvg >= 3.6;
         const borderColor = dynamicAvg >= 4.5 ? '#10b981' : dynamicAvg >= 4.0 ? '#3b82f6' : dynamicAvg >= 3.5 ? '#f59e0b' : '#ef4444';
         const medalIcon = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '';
 
@@ -1566,7 +1566,7 @@ function renderRatings() {
                   <span style="font-size: 13px;">${titleInfo.emoji}</span>
                   ${titleInfo.title}
                 </span>
-                <span style="font-size: 11px; font-weight: 700; color: ${dynamicAvg >= 4.0 ? 'var(--success)' : 'var(--danger)'}; padding: 3px 8px; background: ${dynamicAvg >= 4.0 ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)'}; border-radius: 20px;">
+                <span style="font-size: 11px; font-weight: 700; color: ${dynamicAvg >= 3.6 ? 'var(--success)' : 'var(--danger)'}; padding: 3px 8px; background: ${dynamicAvg >= 3.6 ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)'}; border-radius: 20px;">
                   ${dynamicHourlyRate === 60 ? '¥60/h' : '¥28/h'}
                 </span>
                 <span style="font-size: 20px; font-weight: 800; color: ${ringColor}; margin-left: auto;">
@@ -1840,7 +1840,7 @@ function saveRating() {
   // Fill 0s with 3 (default)
   Object.keys(scores).forEach(k => { if (!scores[k]) scores[k] = 3; });
   const avgScore = Object.values(scores).reduce((a, b) => a + b, 0) / 5;
-  const hourlyRate = avgScore >= 4 ? HOURLY_RATE_PASS : HOURLY_RATE_FAIL;
+  const hourlyRate = avgScore >= 3.6 ? HOURLY_RATE_PASS : HOURLY_RATE_FAIL;
 
   const ratings = Store.get('ratings');
   ratings.push({
@@ -2006,7 +2006,7 @@ function exportReport() {
     const a = attendance.filter(a => a.staffId === s.id);
     const avg = r.length > 0 ? (r.reduce((sum, x) => sum + x.avgScore, 0) / r.length).toFixed(1) : '-';
     const attRate = a.length > 0 ? Math.round(a.filter(x => x.status === 'normal').length / a.length * 100) + '%' : '-';
-    const rate = r.length > 0 ? (r[r.length-1].avgScore >= 4 ? '60元/h' : '28元/h') : '-';
+    const rate = r.length > 0 ? (r[r.length-1].avgScore >= 3.6 ? '60元/h' : '28元/h') : '-';
     csv += `${s.name},${s.dept},${avg},${rate},${attRate}\n`;
   });
 
@@ -3072,7 +3072,7 @@ function renderPersonalDashboard() {
   const normalDays = myAttendance.filter(r => r.status === '考勤正常').length;
   const totalHours = myAttendance.reduce((s, r) => s + (r.totalHours || 0), 0);
   const lateTimes = myAttendance.filter(r => r.lateMin > 0).length;
-  const hourlyRate = dynamicAvg >= 4.0 ? 60 : 28;
+  const hourlyRate = dynamicAvg >= 3.6 ? 60 : 28;
 
   return `
     <div class="animate-in" style="margin-bottom: 24px;">
@@ -3095,13 +3095,13 @@ function renderPersonalDashboard() {
         <div class="stat-icon">⭐</div>
         <div class="stat-value">${dynamicAvg > 0 ? dynamicAvg.toFixed(1) : '-'}</div>
         <div class="stat-label">综合评分</div>
-        <div class="stat-trend ${dynamicAvg >= 4.0 ? 'up' : 'down'}">${dynamicAvg > 0 ? (dynamicAvg >= 4.0 ? '✓ 达标' : '待提升') : '尚未评分'}</div>
+        <div class="stat-trend ${dynamicAvg >= 3.6 ? 'up' : 'down'}">${dynamicAvg > 0 ? (dynamicAvg >= 3.6 ? '✓ 达标' : '待提升') : '尚未评分'}</div>
       </div>
       <div class="stat-card info">
         <div class="stat-icon">💰</div>
         <div class="stat-value">¥${hourlyRate}</div>
         <div class="stat-label">时薪（元/h）</div>
-        <div class="stat-trend up">${dynamicAvg >= 4.0 ? '高时薪' : '基础时薪'}</div>
+        <div class="stat-trend up">${dynamicAvg >= 3.6 ? '高时薪' : '基础时薪'}</div>
       </div>
       <div class="stat-card success">
         <div class="stat-icon">✅</div>
@@ -3122,7 +3122,7 @@ function renderPersonalDashboard() {
     <div class="card animate-in" style="margin-top: 20px;">
       <div class="card-header">
         <h3>⭐ 评分详情 · ${myRating.month}</h3>
-        <span class="badge ${dynamicAvg >= 4.0 ? 'badge-active' : 'badge-danger'}">综合 ${dynamicAvg.toFixed(1)}</span>
+        <span class="badge ${dynamicAvg >= 3.6 ? 'badge-active' : 'badge-danger'}">综合 ${dynamicAvg.toFixed(1)}</span>
       </div>
       <div class="card-body">
         <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px;">
