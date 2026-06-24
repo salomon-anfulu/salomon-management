@@ -313,6 +313,17 @@ const Store = {
         { time: '15:00-16:00', staff: '邓奇缘' },
         { time: '17:00-18:00', staff: '迟骋' },
         { time: '19:00-20:00', staff: '邓奇缘' }
+      ]},
+      { date: '2026-06-23', slots: [
+        { time: '10:00-11:00', staff: '陈昕媛' },
+        { time: '11:00-12:00', staff: '田佳乐' },
+        { time: '12:00-13:00', staff: '何秋烨' },
+        { time: '13:00-14:00', staff: '李若彤' },
+        { time: '14:00-15:00', staff: '朱凯赟' },
+        { time: '15:00-16:00', staff: '杨子豪' },
+        { time: '16:00-17:00', staff: '陈昕媛' },
+        { time: '17:00-18:00', staff: '田佳乐' },
+        { time: '19:00-20:00', staff: '李若彤' }
       ]}
     ],
 
@@ -406,23 +417,24 @@ const Store = {
       { id: 73, staff: '李若彤', date: '2026-06-20', type: '货品-辅助收货', duration: '6小时', detail: '发售核销' },
       { id: 74, staff: '朱凯赟', date: '2026-06-20', type: '货品-整理仓库', duration: '0.5小时', detail: '辅助陈列归货品' },
       { id: 75, staff: '龚赟昊', date: '2026-06-20', type: '货品-辅助收货', duration: '5小时', detail: '发售核销' },
+      { id: 76, staff: '田佳乐', date: '2026-06-23', type: '陈列-新品熨烫', duration: '1小时', detail: '新品熨烫整理' },
     ],
 
     // 店务统计（来自店务支援表）
         staffStats: {
-      '陈昕媛': { doorCount: 19, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 1 },
-      '田佳乐': { doorCount: 17, shiftChange: 1, shiftedCount: 0, missedPunch: 1, lateCount: 0, absentCount: 0, dianping: 0 },
-      '迟骋': { doorCount: 19, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 3 },
-      '王靳毓': { doorCount: 17, shiftChange: 0, shiftedCount: 3, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
-      '朱凯赟': { doorCount: 17, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 2 },
+      '陈昕媛': { doorCount: 20, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 1 },
+      '田佳乐': { doorCount: 19, shiftChange: 1, shiftedCount: 0, missedPunch: 1, lateCount: 0, absentCount: 0, dianping: 0 },
+      '迟骋': { doorCount: 16, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 3 },
+      '王靳毓': { doorCount: 16, shiftChange: 1, shiftedCount: 2, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
+      '朱凯赟': { doorCount: 16, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 2 },
       '孔祥宇': { doorCount: 18, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '邓奇缘': { doorCount: 22, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '邓奇缘': { doorCount: 20, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
       '杨子豪': { doorCount: 12, shiftChange: 2, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '王雅澜': { doorCount: 14, shiftChange: 1, shiftedCount: 2, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '李若彤': { doorCount: 17, shiftChange: 1, shiftedCount: 1, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
-      '王龙宇': { doorCount: 13, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '何秋烨': { doorCount: 19, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '龚赟昊': { doorCount: 19, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 }
+      '王雅澜': { doorCount: 13, shiftChange: 1, shiftedCount: 2, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '李若彤': { doorCount: 19, shiftChange: 1, shiftedCount: 1, missedPunch: 0, lateCount: 1, absentCount: 1, dianping: 0 },
+      '王龙宇': { doorCount: 13, shiftChange: 0, shiftedCount: 1, missedPunch: 1, lateCount: 0, absentCount: 0, dianping: 0 },
+      '何秋烨': { doorCount: 21, shiftChange: 1, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
+      '龚赟昊': { doorCount: 16, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 }
     },
 
     schedules: [
@@ -504,12 +516,12 @@ ratings: [
         "availability": 5,
         "performance": 2,
         "behavior": 5,
-        "attendance": 4,
+        "attendance": 2,
         "customerReview": 5
       },
-      "comment": "6月12天出勤86h，迟到1次，门迎16次，销售¥9,482时产¥110/h，品类(鞋履 80.0% / 服装 11.6% / 配件 8.4%)，大众点评好评4条",
-      "avgScore": 4.2,
-      "hourlyRate": 60
+      "comment": "6月12天出勤86h，迟到1次，旷工1次，门迎19次，销售¥9,482时产¥110/h，品类(鞋履 80.0% / 服装 11.6% / 配件 8.4%)，大众点评好评4条",
+      "avgScore": 3.8,
+      "hourlyRate": 28
     },
     {
       "id": 4,
@@ -654,11 +666,11 @@ ratings: [
         "availability": 5,
         "performance": 4,
         "behavior": 5,
-        "attendance": 5,
+        "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月11天出勤86h，门迎16次，销售¥21,672时产¥252/h，品类(鞋履 88.0% / 服装 12.0%)",
-      "avgScore": 4.6,
+      "comment": "6月11天出勤86h，缺卡1次，门迎13次，销售¥21,672时产¥252/h，品类(鞋履 88.0% / 服装 12.0%)",
+      "avgScore": 4.4,
       "hourlyRate": 60
     }
     ],
@@ -667,7 +679,7 @@ ratings: [
 
         // 灵工打卡考勤数据（从 scripts/fetch_linggong.js 自动拉取）
         linggongAttendance: {
-      lastSync: '2026-06-22T16:21:00.547Z',
+      lastSync: '2026-06-24T11:05:00.000Z',
       records: [
         { "name": "何秋烨", "date": "2026-06-01", "signIn": "07:27", "signOut": "09:31", "status": "考勤正常", "totalHours": "2" },
         { "name": "孔祥宇", "date": "2026-06-01", "signIn": "07:26", "signOut": "09:32", "status": "考勤正常", "totalHours": "2" },
@@ -861,14 +873,22 @@ ratings: [
         { "name": "迟骋", "date": "2026-06-22", "signIn": "12:13", "signOut": "20:31", "status": "考勤正常", "totalHours": "8" },
         { "name": "邓奇缘", "date": "2026-06-22", "signIn": "12:57", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
         { "name": "龚赟昊", "date": "2026-06-22", "signIn": "11:28", "signOut": "19:34", "status": "考勤正常", "totalHours": "8" },
-        { "name": "何秋烨", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
-        { "name": "朱凯赟", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
-        { "name": "李若彤", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
-        { "name": "杨子豪", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
-        { "name": "田佳乐", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
-        { "name": "贾长乐", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
-        { "name": "陈广权", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
-        { "name": "陈昕媛", "date": "2026-06-23", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" }
+        { "name": "何秋烨", "date": "2026-06-23", "signIn": "11:27", "signOut": "20:32", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "朱凯赟", "date": "2026-06-23", "signIn": "12:00", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "李若彤", "date": "2026-06-23", "signIn": "12:10", "signOut": "21:03", "status": "考勤正常", "totalHours": "8" },
+        { "name": "杨子豪", "date": "2026-06-23", "signIn": "12:51", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "田佳乐", "date": "2026-06-23", "signIn": "10:28", "signOut": "19:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "贾长乐", "date": "2026-06-23", "signIn": "12:21", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈广权", "date": "2026-06-23", "signIn": "10:30", "signOut": "19:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈昕媛", "date": "2026-06-23", "signIn": "09:58", "signOut": "18:34", "status": "考勤正常", "totalHours": "8" },
+        { "name": "朱凯赟", "date": "2026-06-24", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
+        { "name": "王雅澜", "date": "2026-06-24", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-06-24", "signIn": "10:28", "signOut": "", "status": "考勤中", "totalHours": "0" },
+        { "name": "田佳乐", "date": "2026-06-24", "signIn": "09:59", "signOut": "", "status": "考勤中", "totalHours": "0" },
+        { "name": "迟骋", "date": "2026-06-24", "signIn": "10:59", "signOut": "", "status": "考勤中", "totalHours": "0" },
+        { "name": "邓奇缘", "date": "2026-06-24", "signIn": "10:29", "signOut": "", "status": "考勤中", "totalHours": "0" },
+        { "name": "陈广权", "date": "2026-06-24", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
+        { "name": "陈昕媛", "date": "2026-06-24", "signIn": "", "signOut": "", "status": "未开始考勤", "totalHours": "0" },
       ],
       source: 'linggongguanjia.com API',
     },
@@ -1106,7 +1126,7 @@ june: {
       { id: 8, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-21', snippet: '来Salomon安福路店逛街，CC接待的我，人特别热情，讲鞋子都讲得很细，耐心跟我说各个款式的区别，选鞋给的建议也很实在，逛着很舒服，体验挺好的～', keywords: ['热情', '讲解细致', '耐心介绍', '建议实在', '体验好'], source: '大众点评（勇善可爱的小柔，Lv1）' },
     ],
 
-        _dataVersion: '2026-06-23-v24',
+        _dataVersion: '2026-06-24-v25',
   },
 
   init() {
@@ -1134,7 +1154,7 @@ june: {
       const hasBrokenTime = doorSchedule.some(d => d.slots && d.slots.some(s => s.time && s.time.includes('-') && s.time.split('-')[0] === s.time.split('-')[1]));
       // Check if linggongAttendance is outdated (only 10 records instead of 94)
       const lgData = data.linggongAttendance || {};
-      const isOutdatedLG = lgData.records && lgData.records.length < 208;
+      const isOutdatedLG = lgData.records && lgData.records.length < 209;
       // Check if ratings is outdated (still 5月 data or less than 13 records)
       const ratingsData = data.ratings || [];
       const isOutdatedRatings = ratingsData.length < 13 || (ratingsData[0] && ratingsData[0].month === '2026-05');
@@ -1181,7 +1201,7 @@ june: {
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-23-v24';
+      const DATA_VERSION = '2026-06-24-v25';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
