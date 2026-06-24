@@ -1182,13 +1182,15 @@ function calcAvailabilityScore(staffName) {
 }
 
 /**
- * 销售业绩评分（时产 + UPT 双维度，各占50%）
+ * 销售业绩评分（时产 + UPT 双维度各50%，月销售额达标加成）
  *
  * 时产维度（hourly）：
  *   ≥300 → 5 | ≥210 → 4 | ≥150 → 3 | ≥100 → 2 | <100 → 1
  * UPT维度（连带率 = 件数 ÷ 交易笔数）：
  *   ≥1.5 → 5 | ≥1.3 → 4 | ≥1.1 → 3 | ≥0.9 → 2 | <0.9 → 1
- * 最终 = 两维度各50%取平均，保留1位小数
+ * 月销售额目标加成：
+ *   ≥20000 → +0.5 bonus（封顶5分）；未达标不扣分
+ * 最终 = (时产分 + UPT分) / 2 + 达标加成，保留1位小数，上限5
  */
 function calcPerformanceScore(staffName) {
   const perfData = Store.get('performanceData') || {};
@@ -1196,17 +1198,18 @@ function calcPerformanceScore(staffName) {
   const records = june.records || [];
   const record = records.find(r => r.name === staffName);
 
+  const SALES_TARGET = 20000; // 月销售额目标 2万
+
   // Fallback：找不到数据则返回静态评分
   if (!record) {
-    const ratings = Store.get('ratings') || [];
-    const staff = Store.getStaff ? null : null;
-    return { score: 3, hourlyScore: 0, uptScore: 0, hourly: 0, upt: 0, fallback: true };
+    return { score: 3, hourlyScore: 0, uptScore: 0, hourly: 0, upt: 0, sales: 0, targetMet: false, fallback: true };
   }
 
   const hourly = record.hourlyOutput || 0;
   const qty = record.qty || 0;
   const tickets = record.tickets || 1;
   const upt = tickets > 0 ? qty / tickets : 0;
+  const sales = record.sales || 0;
 
   // 时产评分
   let hourlyScore;
@@ -1226,7 +1229,13 @@ function calcPerformanceScore(staffName) {
 
   // 双维度各50%
   const rawAvg = (hourlyScore + uptScore) / 2;
-  const finalScore = Math.max(1, Math.min(5, parseFloat(rawAvg.toFixed(1))));
+
+  // 月销售额达标加成
+  const targetMet = sales >= SALES_TARGET;
+  const targetBonus = targetMet ? 0.5 : 0;
+
+  // 最终分 = 双维度均值 + 达标加成，封顶5
+  let finalScore = Math.max(1, Math.min(5, parseFloat((rawAvg + targetBonus).toFixed(1))));
 
   return {
     score: finalScore,
@@ -1234,9 +1243,12 @@ function calcPerformanceScore(staffName) {
     uptScore,
     hourly,
     upt: parseFloat(upt.toFixed(2)),
-    sales: record.sales || 0,
+    sales,
     qty,
     tickets,
+    targetMet,
+    targetBonus,
+    salesTarget: SALES_TARGET,
   };
 }
 
@@ -1267,7 +1279,7 @@ function renderRatings() {
         <p style="font-size: 13px; opacity: 0.7; margin-top: 4px;">2026年6月 · Service Team 全员评估 · 综合评分 ≥ 4.0 可享 ¥60/h 时薪</p>
         <div style="display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
           <span style="font-size: 11px; opacity: 0.6;">🛡️ 工时支持 <span style="opacity: 0.5; font-size: 10px;">(基础5分·每周不达标-1)</span></span>
-          <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩 <span style="opacity: 0.5; font-size: 10px;">(时产50%+UPT50%)</span></span>
+          <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩 <span style="opacity: 0.5; font-size: 10px;">(时产+UPT各50% · 月销2万+0.5)</span></span>
           <span style="font-size: 11px; opacity: 0.6;">🎪 行为规范</span>
           <span style="font-size: 11px; opacity: 0.6;">⏰ 考勤纪律</span>
           <span style="font-size: 11px; opacity: 0.6;">💕 顾客好评</span>
@@ -1445,24 +1457,30 @@ function renderRatings() {
               <!-- 销售业绩详情（可展开） -->
               <div class="perf-detail" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease; margin-bottom: 0;">
                 <div style="padding: 10px; background: var(--bg-secondary); border-radius: var(--radius-md); margin-bottom: 10px;">
-                  <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">🎯 时产 + UPT 双维度（各50%）</div>
-                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                  <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">🎯 时产 + UPT 各50% · 月销2万达标加0.5</div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
                     <!-- 时产 -->
                     <div style="padding: 8px; border-radius: 6px; background: ${perfCalc.hourly >= 210 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)'}; border: 1px solid ${perfCalc.hourly >= 210 ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)'};">
                       <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">💰 时产</div>
-                      <div style="font-size: 18px; font-weight: 800; color: ${perfCalc.hourly >= 210 ? '#10b981' : '#f59e0b'};">¥${perfCalc.hourly}<span style="font-size: 11px; font-weight: 400; opacity: 0.6;">/h</span></div>
-                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">得分 <b style="color: ${perfCalc.hourlyScore >= 4 ? '#10b981' : perfCalc.hourlyScore >= 3 ? '#f59e0b' : '#ef4444'};">${perfCalc.hourlyScore}</b>/5 ${perfCalc.hourly >= 210 ? '✓达标' : '✗未达标'}</div>
+                      <div style="font-size: 16px; font-weight: 800; color: ${perfCalc.hourly >= 210 ? '#10b981' : '#f59e0b'};">¥${perfCalc.hourly}<span style="font-size: 11px; font-weight: 400; opacity: 0.6;">/h</span></div>
+                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">得分 <b style="color: ${perfCalc.hourlyScore >= 4 ? '#10b981' : perfCalc.hourlyScore >= 3 ? '#f59e0b' : '#ef4444'};">${perfCalc.hourlyScore}</b>/5 ${perfCalc.hourly >= 210 ? '✓' : '✗'}</div>
                     </div>
                     <!-- UPT -->
                     <div style="padding: 8px; border-radius: 6px; background: ${perfCalc.upt >= 1.25 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)'}; border: 1px solid ${perfCalc.upt >= 1.25 ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)'};">
-                      <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">📦 UPT 连带率</div>
-                      <div style="font-size: 18px; font-weight: 800; color: ${perfCalc.upt >= 1.25 ? '#10b981' : '#f59e0b'};">${perfCalc.upt}</div>
-                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">得分 <b style="color: ${perfCalc.uptScore >= 4 ? '#10b981' : perfCalc.uptScore >= 3 ? '#f59e0b' : '#ef4444'};">${perfCalc.uptScore}</b>/5 ${perfCalc.upt >= 1.25 ? '✓达标' : '✗未达标'} · ${perfCalc.qty}件/${perfCalc.tickets}单</div>
+                      <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">📦 UPT</div>
+                      <div style="font-size: 16px; font-weight: 800; color: ${perfCalc.upt >= 1.25 ? '#10b981' : '#f59e0b'};">${perfCalc.upt}</div>
+                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">得分 <b style="color: ${perfCalc.uptScore >= 4 ? '#10b981' : perfCalc.uptScore >= 3 ? '#f59e0b' : '#ef4444'};">${perfCalc.uptScore}</b>/5 · ${perfCalc.qty}件/${perfCalc.tickets}单</div>
+                    </div>
+                    <!-- 月销售额达标 -->
+                    <div style="padding: 8px; border-radius: 6px; background: ${perfCalc.targetMet ? 'rgba(16,185,129,0.08)' : 'rgba(100,116,139,0.06)'}; border: 1px solid ${perfCalc.targetMet ? 'rgba(16,185,129,0.15)' : 'rgba(100,116,139,0.1)'};">
+                      <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">🏆 月销目标</div>
+                      <div style="font-size: 16px; font-weight: 800; color: ${perfCalc.targetMet ? '#10b981' : 'var(--text-muted)'};">¥${(perfCalc.sales / 10000).toFixed(1)}<span style="font-size: 11px; font-weight: 400; opacity: 0.6;">万</span></div>
+                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">${perfCalc.targetMet ? '<b style="color:#10b981;">+0.5</b> ✓达标' : '未达标(不扣分)'}</div>
                     </div>
                   </div>
                   <div style="margin-top: 8px; display: flex; justify-content: space-between; font-size: 11px;">
-                    <span style="color: var(--text-muted);">时产 <b>${perfCalc.hourlyScore}</b> + UPT <b>${perfCalc.uptScore}</b> ÷ 2 = <b style="color: ${perfCalc.score >= 4 ? '#10b981' : '#f59e0b'};">${perfCalc.score.toFixed(1)}</b></span>
-                    <span style="color: var(--text-muted); font-size: 10px;">销售 ¥${perfCalc.sales.toLocaleString()}</span>
+                    <span style="color: var(--text-muted);">(时产 <b>${perfCalc.hourlyScore}</b> + UPT <b>${perfCalc.uptScore}</b>) ÷ 2 = <b>${((perfCalc.hourlyScore + perfCalc.uptScore) / 2).toFixed(1)}</b>${perfCalc.targetBonus ? ` <span style="color:#10b981;">+ ${perfCalc.targetBonus}</span>` : ''} = <b style="color: ${perfCalc.score >= 4 ? '#10b981' : '#f59e0b'};">${perfCalc.score.toFixed(1)}</b></span>
+                    <span style="color: var(--text-muted); font-size: 10px;">目标 ¥${perfCalc.salesTarget.toLocaleString()}</span>
                   </div>
                 </div>
               </div>
