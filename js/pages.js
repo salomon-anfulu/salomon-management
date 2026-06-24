@@ -1313,11 +1313,108 @@ function calcAttendanceScore(staffName) {
   };
 }
 
+/**
+ * 计算行为规范评分辅助 - 汇总团队时长数据（全局缓存，每次渲染只算一次）
+ */
+let _behaviorCache = null;
+function getBehaviorData() {
+  if (_behaviorCache) return _behaviorCache;
+
+  const allStaff = Store.get('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
+  const names = allStaff.map(s => s.name);
+
+  // 门迎时长
+  const doorSchedule = Store.get('doorSchedule') || [];
+  const doorHours = {};
+  doorSchedule.forEach(d => {
+    (d.slots || []).forEach(s => {
+      const m = (s.time || '').match(/(\d+):(\d+)-(\d+):(\d+)/);
+      if (!m) return;
+      let h = (parseInt(m[3]) + parseInt(m[4])/60) - (parseInt(m[1]) + parseInt(m[2])/60);
+      if (h < 0) h += 24;
+      if (!doorHours[s.staff]) doorHours[s.staff] = 0;
+      doorHours[s.staff] += h;
+    });
+  });
+
+  // 店务时长
+  const storeSupport = Store.get('storeSupport') || [];
+  const supportHours = {};
+  storeSupport.forEach(r => {
+    const m = (r.duration || '').match(/([\d.]+)\s*小时/);
+    if (!m) return;
+    if (!supportHours[r.staff]) supportHours[r.staff] = 0;
+    supportHours[r.staff] += parseFloat(m[1]);
+  });
+
+  // 计算团队平均
+  const avgDoor = names.reduce((s, n) => s + (doorHours[n] || 0), 0) / names.length;
+  const avgSupport = names.reduce((s, n) => s + (supportHours[n] || 0), 0) / names.length;
+
+  // 综合排名
+  const ranking = names.map(name => ({
+    name,
+    door: doorHours[name] || 0,
+    support: supportHours[name] || 0,
+    total: (doorHours[name] || 0) + (supportHours[name] || 0),
+  })).sort((a, b) => b.total - a.total);
+
+  _behaviorCache = { doorHours, supportHours, avgDoor, avgSupport, ranking };
+  return _behaviorCache;
+}
+
+/**
+ * 行为规范评分（门迎时长 + 店务时长双维度对标团队平均）
+ *
+ * 规则：
+ *   基础分 4.0
+ *   门迎时长 < 团队平均 → -0.5
+ *   店务时长 < 团队平均 → -0.5
+ *   综合排名 #1 → +1.0
+ *   综合排名 #2 → +0.7
+ *   综合排名 #3 → +0.4
+ *   封顶 5.0，保底 1.0
+ */
+function calcBehaviorScore(staffName) {
+  const data = getBehaviorData();
+  const door = data.doorHours[staffName] || 0;
+  const support = data.supportHours[staffName] || 0;
+  const avgDoor = data.avgDoor;
+  const avgSupport = data.avgSupport;
+
+  let score = 4.0;
+  let belowDoor = false, belowSupport = false;
+  if (door < avgDoor) { score -= 0.5; belowDoor = true; }
+  if (support < avgSupport) { score -= 0.5; belowSupport = true; }
+
+  // 排名加成
+  const rankIdx = data.ranking.findIndex(r => r.name === staffName);
+  let rankBonus = 0;
+  if (rankIdx === 0) rankBonus = 1.0;
+  else if (rankIdx === 1) rankBonus = 0.7;
+  else if (rankIdx === 2) rankBonus = 0.4;
+  score += rankBonus;
+
+  score = Math.max(1, Math.min(5, parseFloat(score.toFixed(1))));
+
+  return {
+    score,
+    door, support,
+    avgDoor: parseFloat(avgDoor.toFixed(1)),
+    avgSupport: parseFloat(avgSupport.toFixed(1)),
+    total: parseFloat((door + support).toFixed(1)),
+    rank: rankIdx + 1,
+    rankBonus,
+    belowDoor, belowSupport,
+  };
+}
+
 function renderRatings() {
   const ratings = Store.get('ratings');
   const staff = Store.get('staff').filter(s => s.status === 'active');
 
-  // 按综合评分排序（高到低）- 工时支持 + 销售业绩 + 顾客好评 + 考勤纪律 动态计算
+  // 按综合评分排序（高到低）- 全五维度动态计算
+  _behaviorCache = null; // 重置缓存
   const enrichedRatings = ratings.map(r => {
     const s = Store.getStaff(r.staffId);
     const staffName = s ? s.name : '';
@@ -1325,9 +1422,10 @@ function renderRatings() {
     const perfCalc = calcPerformanceScore(staffName);
     const reviewCalc = calcCustomerReviewScore(staffName);
     const attendCalc = calcAttendanceScore(staffName);
-    const dynamicScores = { ...r.scores, availability: availCalc.score, performance: perfCalc.score, customerReview: reviewCalc.score, attendance: attendCalc.score };
+    const behaviorCalc = calcBehaviorScore(staffName);
+    const dynamicScores = { availability: availCalc.score, performance: perfCalc.score, behavior: behaviorCalc.score, attendance: attendCalc.score, customerReview: reviewCalc.score };
     const dynamicAvg = Object.values(dynamicScores).reduce((a, b) => a + b, 0) / Object.values(dynamicScores).length;
-    return { ...r, _dynamicAvg: dynamicAvg, _availCalc: availCalc, _perfCalc: perfCalc, _reviewCalc: reviewCalc, _attendCalc: attendCalc };
+    return { ...r, _dynamicAvg: dynamicAvg, _availCalc: availCalc, _perfCalc: perfCalc, _reviewCalc: reviewCalc, _attendCalc: attendCalc, _behaviorCalc: behaviorCalc };
   });
   const sortedRatings = [...enrichedRatings].sort((a, b) => b._dynamicAvg - a._dynamicAvg);
 
@@ -1343,7 +1441,7 @@ function renderRatings() {
         <div style="display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
           <span style="font-size: 11px; opacity: 0.6;">🛡️ 工时支持 <span style="opacity: 0.5; font-size: 10px;">(基础5分·每周不达标-1)</span></span>
           <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩 <span style="opacity: 0.5; font-size: 10px;">(时产+UPT各50% · 月销2万+0.5)</span></span>
-          <span style="font-size: 11px; opacity: 0.6;">🎪 行为规范</span>
+          <span style="font-size: 11px; opacity: 0.6;">🎪 行为规范 <span style="opacity: 0.5; font-size: 10px;">(门迎+店务时长·对标平均·前三加成)</span></span>
           <span style="font-size: 11px; opacity: 0.6;">⏰ 考勤纪律</span>
           <span style="font-size: 11px; opacity: 0.6;">💕 顾客好评 <span style="opacity: 0.5; font-size: 10px;">(基础1+每条好评递增)</span></span>
         </div>
@@ -1417,7 +1515,8 @@ function renderRatings() {
         const medalIcon = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '';
 
         const attendCalc = r._attendCalc;
-        const dynamicScores = { ...r.scores, availability: availScore, performance: r._perfCalc.score, customerReview: r._reviewCalc.score, attendance: attendCalc.score };
+        const behaviorCalc = r._behaviorCalc;
+        const dynamicScores = { availability: availScore, performance: r._perfCalc.score, behavior: behaviorCalc.score, customerReview: r._reviewCalc.score, attendance: attendCalc.score };
         const reviewScore = r._reviewCalc.score;
         const reviewCalc = r._reviewCalc;
         const titleInfo = getRatingTitle(dynamicScores, dynamicAvg, staffName);
@@ -1430,7 +1529,7 @@ function renderRatings() {
         const dimensions = [
           { key: 'availability', label: '工时支持', val: availScore },
           { key: 'performance', label: '销售业绩', val: perfCalc.score },
-          { key: 'behavior', label: '行为规范', val: r.scores.behavior },
+          { key: 'behavior', label: '行为规范', val: behaviorCalc.score },
           { key: 'attendance', label: '考勤纪律', val: attendCalc.score },
           { key: 'customerReview', label: '顾客好评', val: reviewScore },
         ];
@@ -1481,8 +1580,8 @@ function renderRatings() {
                 ${dimensions.map(d => {
                   const meta = DIMENSION_META[d.key] || {};
                   const dimColor = d.val >= 4 ? '#10b981' : d.val >= 3 ? '#f59e0b' : '#ef4444';
-                  const isExpandable = d.key === 'availability' || d.key === 'performance' || d.key === 'customerReview' || d.key === 'attendance';
-                  const detailClass = d.key === 'availability' ? 'avail-detail' : d.key === 'customerReview' ? 'review-detail' : d.key === 'attendance' ? 'attend-detail' : 'perf-detail';
+                  const isExpandable = true;
+                  const detailClass = d.key === 'availability' ? 'avail-detail' : d.key === 'customerReview' ? 'review-detail' : d.key === 'attendance' ? 'attend-detail' : d.key === 'behavior' ? 'behavior-detail' : 'perf-detail';
                   return `
                   <div style="display: flex; align-items: center; gap: 8px;${isExpandable ? ' cursor: pointer;' : ''}"${isExpandable ? ` onclick="this.parentElement.parentElement.querySelector('.${detailClass}').classList.toggle('${detailClass}-open')"` : ''}>
                     <div class="rating-dimension-icon" style="background: ${(meta.color || '#94a3b8')}22; font-size: 11px;">${meta.icon || '•'}</div>
@@ -1602,6 +1701,31 @@ function renderRatings() {
                   <div style="margin-top: 8px; display: flex; justify-content: space-between; font-size: 11px;">
                     <span style="color: var(--text-muted);">基础 <b>5</b>${attendCalc.totalDeduction > 0 ? ` → 扣 <b style="color:#ef4444;">${attendCalc.totalDeduction}</b>` : ' ✅ 全勤'} = <b style="color: ${attendCalc.score >= 4 ? '#10b981' : attendCalc.score >= 3 ? '#f59e0b' : '#ef4444'};">${attendCalc.score.toFixed(1)}</b></span>
                     ${attendCalc.missedPunch > 0 ? `<span style="color: var(--text-muted); font-size: 10px;">补卡${attendCalc.missedPunch}次${attendCalc.missedPunch > 1 ? '(超免费)' : '(免费)'}</span>` : ''}
+                  </div>
+                </div>
+              </div>
+
+              <!-- 行为规范详情（可展开） -->
+              <div class="behavior-detail" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease; margin-bottom: 0;">
+                <div style="padding: 10px; background: var(--bg-secondary); border-radius: var(--radius-md); margin-bottom: 10px;">
+                  <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">🎪 门迎 + 店务 双维度对标（基础4·低于均线-0.5·前三名加成）</div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <!-- 门迎 -->
+                    <div style="padding: 8px; border-radius: 6px; background: ${behaviorCalc.belowDoor ? 'rgba(239,68,68,0.06)' : 'rgba(16,185,129,0.06)'}; border: 1px solid ${behaviorCalc.belowDoor ? 'rgba(239,68,68,0.12)' : 'rgba(16,185,129,0.15)'};">
+                      <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">🚪 门迎时长</div>
+                      <div style="font-size: 18px; font-weight: 800; color: ${behaviorCalc.belowDoor ? '#ef4444' : '#10b981'};">${behaviorCalc.door.toFixed(1)}<span style="font-size: 11px; font-weight: 400; opacity: 0.6;">h</span></div>
+                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">${behaviorCalc.belowDoor ? `<b style="color:#ef4444;">↓</b> 低于均线 ${behaviorCalc.avgDoor}h` : `<b style="color:#10b981;">✓</b> 达到/超过均线 ${behaviorCalc.avgDoor}h`}</div>
+                    </div>
+                    <!-- 店务 -->
+                    <div style="padding: 8px; border-radius: 6px; background: ${behaviorCalc.belowSupport ? 'rgba(239,68,68,0.06)' : 'rgba(16,185,129,0.06)'}; border: 1px solid ${behaviorCalc.belowSupport ? 'rgba(239,68,68,0.12)' : 'rgba(16,185,129,0.15)'};">
+                      <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">📦 店务支援</div>
+                      <div style="font-size: 18px; font-weight: 800; color: ${behaviorCalc.belowSupport ? '#ef4444' : '#10b981'};">${behaviorCalc.support.toFixed(1)}<span style="font-size: 11px; font-weight: 400; opacity: 0.6;">h</span></div>
+                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">${behaviorCalc.belowSupport ? `<b style="color:#ef4444;">↓</b> 低于均线 ${behaviorCalc.avgSupport}h` : `<b style="color:#10b981;">✓</b> 达到/超过均线 ${behaviorCalc.avgSupport}h`}</div>
+                    </div>
+                  </div>
+                  <div style="margin-top: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+                    <span style="color: var(--text-muted);">基础 <b>4.0</b>${behaviorCalc.belowDoor || behaviorCalc.belowSupport ? ` → 扣 <b style="color:#ef4444;">${(behaviorCalc.belowDoor ? 0.5 : 0) + (behaviorCalc.belowSupport ? 0.5 : 0)}</b>` : ' ✅ 双达标'}${behaviorCalc.rankBonus ? ` → 排名#${behaviorCalc.rank} <b style="color:#10b981;">+${behaviorCalc.rankBonus.toFixed(1)}</b>` : ''} = <b style="color: ${behaviorCalc.score >= 4 ? '#10b981' : behaviorCalc.score >= 3 ? '#f59e0b' : '#ef4444'};">${behaviorCalc.score.toFixed(1)}</b></span>
+                    <span style="color: var(--text-muted); font-size: 10px;">合计 ${behaviorCalc.total}h · 排名 #${behaviorCalc.rank}</span>
                   </div>
                 </div>
               </div>
@@ -2930,13 +3054,15 @@ function renderPersonalDashboard() {
 
   const ratings = Store.get('ratings').filter(r => r.staffId === _auth.staffId);
   const myRating = ratings.length > 0 ? ratings[ratings.length - 1] : null;
-  // 动态计算综合分（工时支持+销售业绩+顾客好评+考勤纪律）
+  // 动态计算综合分（全五维度）
+  _behaviorCache = null;
   const availCalc = me ? calcAvailabilityScore(me.name) : { score: 0 };
   const perfCalc = me ? calcPerformanceScore(me.name) : { score: 0 };
   const reviewCalc = me ? calcCustomerReviewScore(me.name) : { score: 0 };
   const attendCalc = me ? calcAttendanceScore(me.name) : { score: 0 };
+  const behaviorCalc = me ? calcBehaviorScore(me.name) : { score: 0 };
   const dynamicAvg = myRating ? (() => {
-    const ds = { ...myRating.scores, availability: availCalc.score, performance: perfCalc.score, customerReview: reviewCalc.score, attendance: attendCalc.score };
+    const ds = { availability: availCalc.score, performance: perfCalc.score, behavior: behaviorCalc.score, attendance: attendCalc.score, customerReview: reviewCalc.score };
     return Object.values(ds).reduce((a, b) => a + b, 0) / Object.values(ds).length;
   })() : 0;
   const perfData = Store.get('performanceData') || {};
@@ -3001,7 +3127,7 @@ function renderPersonalDashboard() {
       <div class="card-body">
         <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px;">
           ${(() => {
-            const dynamicScores = { ...myRating.scores, availability: availCalc.score, performance: perfCalc.score, customerReview: reviewCalc.score, attendance: attendCalc.score };
+            const dynamicScores = { availability: availCalc.score, performance: perfCalc.score, behavior: behaviorCalc.score, attendance: attendCalc.score, customerReview: reviewCalc.score };
             const labels = { availability: '工时支持', performance: '销售业绩', behavior: '行为规范', attendance: '考勤纪律', customerReview: '顾客好评' };
             return Object.entries(dynamicScores).filter(([key]) => key !== 'knowledge').map(([key, val]) => {
               return `
