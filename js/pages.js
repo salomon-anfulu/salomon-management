@@ -1120,7 +1120,7 @@ const DIMENSION_META = {
  * 工时支持评分（倒扣制 + 换班调整）
  * 规则：基础5分，每周可供排班≥4天且周末至少1天→该周达标
  *      不满足条件的周 → 每周扣1分（最低1分）
- *      换班：申请换班>3次 → 每次-1分；被换班顶班 → 每次+0.5分（上限+1）
+ *      换班：申请换班>1次 → 超出每1次-0.5分；被换班顶班 → 每次+0.5分（上限+1）
  */
 function calcAvailabilityScore(staffName) {
   const availability = Store.get('availability');
@@ -1160,13 +1160,13 @@ function calcAvailabilityScore(staffName) {
   const targetCount = shiftChanges.filter(sc => sc.target === staffName).length;
 
   // Adjustments
-  const penalty = Math.max(0, applicantCount - 3); // -1 per shift beyond 3
+  const penalty = Math.max(0, applicantCount - 1) * 0.5; // -0.5 per shift beyond 1
   const bonus = Math.min(targetCount * 0.5, 1.0);  // +0.5 per cover, cap +1
 
   let finalScore = Math.max(1, Math.min(5, weekScore - penalty + bonus));
 
   return {
-    score: Math.round(finalScore),
+    score: parseFloat(finalScore.toFixed(1)),  // 保留1位小数，直观展示带小数的得分
     baseScore: BASE_SCORE,
     weekDeduction,  // 未达标扣分
     weekScore,      // 周达标后得分
@@ -1350,7 +1350,7 @@ function renderRatings() {
                     <div style="flex: 1; height: 7px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden;">
                       <div style="height: 100%; width: ${d.val * 20}%; background: linear-gradient(90deg, ${dimColor}, ${dimColor}dd); border-radius: 4px; transition: width 0.5s cubic-bezier(0.16,1,0.3,1);"></div>
                     </div>
-                    <span style="font-size: 12px; font-weight: 700; color: ${dimColor}; width: 16px; text-align: right;">${d.val}</span>
+                    <span style="font-size: 12px; font-weight: 700; color: ${dimColor}; min-width: 22px; text-align: right;">${isAvail ? d.val.toFixed(1) : d.val}</span>
                   </div>
                   `;
                 }).join('')}
