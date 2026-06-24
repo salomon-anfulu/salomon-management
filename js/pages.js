@@ -1117,9 +1117,9 @@ const DIMENSION_META = {
 };
 
 /**
- * 工时支持评分（按周计算 + 换班调整）
- * 规则：每周可供排班≥4天且周末至少1天 → 该周达标
- *      4/4周达标=5分, 3/4=4分, 2/4=3分, 1/4=2分, 0/4=1分
+ * 工时支持评分（倒扣制 + 换班调整）
+ * 规则：基础5分，每周可供排班≥4天且周末至少1天→该周达标
+ *      不满足条件的周 → 每周扣1分（最低1分）
  *      换班：申请换班>3次 → 每次-1分；被换班顶班 → 每次+0.5分（上限+1）
  */
 function calcAvailabilityScore(staffName) {
@@ -1148,15 +1148,12 @@ function calcAvailabilityScore(staffName) {
   });
 
   const passedCount = weekResults.filter(w => w.passed).length;
-  const passRate = passedCount / weeks.length;
+  const failedCount = weeks.length - passedCount; // 未达标周数
 
-  // Base score
-  let baseScore;
-  if (passRate >= 1.0)       baseScore = 5;
-  else if (passRate >= 0.75)  baseScore = 4;
-  else if (passRate >= 0.5)   baseScore = 3;
-  else if (passRate >= 0.25)  baseScore = 2;
-  else                        baseScore = 1;
+  // 倒扣制：基础5分，每有一周未达标扣1分
+  const BASE_SCORE = 5;
+  const weekDeduction = failedCount * 1; // -1 per unmet week
+  const weekScore = Math.max(1, BASE_SCORE - weekDeduction);
 
   // Shift change stats
   const applicantCount = shiftChanges.filter(sc => sc.applicant === staffName).length;
@@ -1166,11 +1163,13 @@ function calcAvailabilityScore(staffName) {
   const penalty = Math.max(0, applicantCount - 3); // -1 per shift beyond 3
   const bonus = Math.min(targetCount * 0.5, 1.0);  // +0.5 per cover, cap +1
 
-  let finalScore = Math.max(1, Math.min(5, baseScore - penalty + bonus));
+  let finalScore = Math.max(1, Math.min(5, weekScore - penalty + bonus));
 
   return {
     score: Math.round(finalScore),
-    baseScore,
+    baseScore: BASE_SCORE,
+    weekDeduction,  // 未达标扣分
+    weekScore,      // 周达标后得分
     penalty,
     bonus,
     finalScore,
@@ -1178,6 +1177,7 @@ function calcAvailabilityScore(staffName) {
     targetCount,
     weekResults,
     passedCount,
+    failedCount,
   };
 }
 
@@ -1206,7 +1206,7 @@ function renderRatings() {
         </h2>
         <p style="font-size: 13px; opacity: 0.7; margin-top: 4px;">2026年6月 · Service Team 全员评估 · 综合评分 ≥ 4.0 可享 ¥60/h 时薪</p>
         <div style="display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
-          <span style="font-size: 11px; opacity: 0.6;">🛡️ 工时支持 <span style="opacity: 0.5; font-size: 10px;">(按周达标+换班调整)</span></span>
+          <span style="font-size: 11px; opacity: 0.6;">🛡️ 工时支持 <span style="opacity: 0.5; font-size: 10px;">(基础5分·每周不达标-1)</span></span>
           <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩</span>
           <span style="font-size: 11px; opacity: 0.6;">🎪 行为规范</span>
           <span style="font-size: 11px; opacity: 0.6;">⏰ 考勤纪律</span>
@@ -1372,7 +1372,7 @@ function renderRatings() {
                     `).join('')}
                   </div>
                   <div style="margin-top: 8px; display: flex; justify-content: space-between; font-size: 11px;">
-                    <span style="color: var(--text-muted);">达标率: <b style="color: ${availCalc.score >= 4 ? '#10b981' : '#f59e0b'};">${availCalc.passedCount}/4</b> → 基础分 <b>${availCalc.baseScore}</b></span>
+                    <span style="color: var(--text-muted);">基础分 <b>5</b>${availCalc.weekDeduction ? ` → 未达标${availCalc.failedCount}周 <b style="color:#ef4444;">-${availCalc.weekDeduction}</b>` : ' ✅ 全周达标'} = <b style="color: ${availCalc.weekScore >= 4 ? '#10b981' : '#f59e0b'};">${availCalc.weekScore}</b></span>
                     ${availCalc.penalty ? `<span style="color: #ef4444;">换班-${availCalc.penalty}</span>` : ''}
                     ${availCalc.bonus ? `<span style="color: #10b981;">顶班+${availCalc.bonus.toFixed(1)}</span>` : ''}
                     ${(availCalc.applicantCount || availCalc.targetCount) ? `<span style="color: var(--text-muted); font-size: 10px;">换${availCalc.applicantCount}次/顶${availCalc.targetCount}次</span>` : ''}
