@@ -484,13 +484,13 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 5,
+        "performance": 4,  // 时产5+UPT3 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月13天出勤100h，门迎20次，销售¥31,394时产¥312/h，品类(鞋履 83.6% / 服装 10.2% / 配件 6.2%)，大众点评好评1条",
-      "avgScore": 5.0,
+      "comment": "6月13天出勤100h，门迎20次，销售¥31,394时产¥312/h，UPT 1.14，品类(鞋履 83.6% / 服装 10.2% / 配件 6.2%)，大众点评好评1条",
+      "avgScore": 4.6,
       "hourlyRate": 60
     },
     {
@@ -499,12 +499,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 1,
+        "performance": 2,  // 时产1+UPT3 动态计算
         "behavior": 5,
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月10天出勤76h，门迎17次，销售¥6,348时产¥83/h，品类(鞋履 80.2% / 服装 12.6% / 配件 7.2%)",
+      "comment": "6月10天出勤76h，门迎17次，销售¥6,348时产¥83/h，UPT 1.20，品类(鞋履 80.2% / 服装 12.6% / 配件 7.2%)",
       "avgScore": 3.8,
       "hourlyRate": 28
     },
@@ -514,12 +514,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 2,
+        "performance": 3.5,  // 时产2+UPT5 动态计算
         "behavior": 5,
         "attendance": 2,
         "customerReview": 5
       },
-      "comment": "6月12天出勤86h，迟到1次，旷工1次，门迎19次，销售¥9,482时产¥110/h，品类(鞋履 80.0% / 服装 11.6% / 配件 8.4%)，大众点评好评4条",
+      "comment": "6月12天出勤86h，迟到1次，旷工1次，门迎19次，销售¥9,482时产¥110/h，UPT 1.80，品类(鞋履 80.0% / 服装 11.6% / 配件 8.4%)，大众点评好评4条",
       "avgScore": 3.8,
       "hourlyRate": 28
     },
@@ -529,12 +529,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 3,
+        "performance": 3.5,  // 时产3+UPT4 动态计算
         "behavior": 5,
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月10天出勤79h，迟到1次，门迎16次，销售¥14,048时产¥178/h，品类(鞋履 69.0% / 服装 23.4% / 配件 7.6%)",
+      "comment": "6月10天出勤79h，迟到1次，门迎16次，销售¥14,048时产¥178/h，UPT 1.33，品类(鞋履 69.0% / 服装 23.4% / 配件 7.6%)",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -544,12 +544,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 2,
+        "performance": 4,  // 时产3+UPT5 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月10天出勤75h，门迎16次，销售¥10,958时产¥146/h，品类(鞋履 72.0% / 服装 27.3% / 配件 0.7%)，大众点评好评2条",
+      "comment": "6月10天出勤75h，门迎16次，销售¥10,958时产¥146/h，UPT 1.38，品类(鞋履 72.0% / 服装 27.3% / 配件 0.7%)，大众点评好评2条",
       "avgScore": 4.4,
       "hourlyRate": 60
     },
@@ -559,12 +559,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 3,
+        "performance": 4,  // 时产3+UPT5 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月13天出勤92h，门迎18次，销售¥16,371时产¥177/h，品类(鞋履 62.2% / 服装 37.8%)",
+      "comment": "6月13天出勤92h，门迎18次，销售¥16,371时产¥177/h，UPT 1.70，品类(鞋履 62.2% / 服装 37.8%)",
       "avgScore": 4.4,
       "hourlyRate": 60
     },
@@ -574,12 +574,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 2,
+        "performance": 2.5,  // 时产2+UPT3 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月11天出勤89h，门迎20次，销售¥10,127时产¥114/h，品类(鞋履 91.1% / 服装 7.9% / 配件 1.1%)",
+      "comment": "6月11天出勤89h，门迎20次，销售¥10,127时产¥114/h，UPT 1.29，品类(鞋履 91.1% / 服装 7.9% / 配件 1.1%)",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -589,13 +589,13 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 5,
+        "performance": 4.5,  // 时产5+UPT4 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月9天出勤76h，门迎12次，销售¥34,104时产¥449/h，品类(鞋履 92.7% / 服装 7.0% / 配件 0.3%)",
-      "avgScore": 4.8,
+      "comment": "6月9天出勤76h，门迎12次，销售¥34,104时产¥449/h，UPT 1.33，品类(鞋履 92.7% / 服装 7.0% / 配件 0.3%)",
+      "avgScore": 4.7,
       "hourlyRate": 60
     },
     {
@@ -604,12 +604,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 4,
+        "performance": 4,  // 时产4+UPT4 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月11天出勤78h，门迎13次，销售¥19,288时产¥247/h，品类(鞋履 76.6% / 服装 19.7% / 配件 3.7%)",
+      "comment": "6月11天出勤78h，门迎13次，销售¥19,288时产¥247/h，UPT 1.33，品类(鞋履 76.6% / 服装 19.7% / 配件 3.7%)",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -619,12 +619,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 4,
+        "performance": 4,  // 时产4+UPT4 动态计算
         "behavior": 5,
         "attendance": 4,
         "customerReview": 5
       },
-      "comment": "6月11天出勤88h，迟到1次，门迎17次，销售¥24,016时产¥273/h，品类(鞋履 87.3% / 服装 8.7% / 配件 4.0%)，大众点评好评1条",
+      "comment": "6月11天出勤88h，迟到1次，门迎17次，销售¥24,016时产¥273/h，UPT 1.38，品类(鞋履 87.3% / 服装 8.7% / 配件 4.0%)，大众点评好评1条",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -634,12 +634,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 1,
+        "performance": 2,  // 时产1+UPT3 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月8天出勤58h，门迎13次，销售¥5,450时产¥93/h，品类(鞋履 93.4% / 配件 6.6%)",
+      "comment": "6月8天出勤58h，门迎13次，销售¥5,450时产¥93/h，UPT 1.25，品类(鞋履 93.4% / 配件 6.6%)",
       "avgScore": 4.0,
       "hourlyRate": 60
     },
@@ -649,12 +649,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 3,
+        "performance": 4,  // 时产3+UPT5 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月12天出勤82h，门迎17次，销售¥13,568时产¥165/h，品类(鞋履 64.0% / 服装 25.0% / 配件 11.0%)",
+      "comment": "6月12天出勤82h，门迎17次，销售¥13,568时产¥165/h，UPT 1.78，品类(鞋履 64.0% / 服装 25.0% / 配件 11.0%)",
       "avgScore": 4.4,
       "hourlyRate": 60
     },
@@ -664,12 +664,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 4,
+        "performance": 3,  // 时产2+UPT4 动态计算
         "behavior": 5,
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月11天出勤86h，缺卡1次，门迎16次，销售¥22,870时产¥266/h，品类(鞋履 88.7% / 服装 11.3%)",
+      "comment": "6月11天出勤86h，缺卡1次，门迎16次，销售¥22,870时产¥266/h，UPT 1.06，品类(鞋履 88.7% / 服装 11.3%)",
       "avgScore": 4.4,
       "hourlyRate": 60
     }
@@ -1126,7 +1126,7 @@ june: {
       { id: 8, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-21', snippet: '来Salomon安福路店逛街，CC接待的我，人特别热情，讲鞋子都讲得很细，耐心跟我说各个款式的区别，选鞋给的建议也很实在，逛着很舒服，体验挺好的～', keywords: ['热情', '讲解细致', '耐心介绍', '建议实在', '体验好'], source: '大众点评（勇善可爱的小柔，Lv1）' },
     ],
 
-        _dataVersion: '2026-06-24-v26',
+        _dataVersion: '2026-06-24-v29',
   },
 
   init() {
@@ -1201,7 +1201,7 @@ june: {
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-24-v26';
+      const DATA_VERSION = '2026-06-24-v29';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
@@ -1371,7 +1371,7 @@ const SHIFT_LABELS = { morning: '早班', afternoon: '晚班', fullday: '全天'
 // 考核标准 - 对应 Service Team 工作手册
 const RATING_DIMENSIONS = [
   { key: 'availability', label: '工时支持', desc: '每周可排班≥4天，实际≥3天/周，灵活补位' },
-  { key: 'performance', label: '销售业绩', desc: '小时销售额>210元，UPT>1.25，大众点评好评加分' },
+  { key: 'performance', label: '销售业绩', desc: '时产(≥300=5,≥210=4,≥150=3,≥100=2) × 50% + UPT连带率(≥1.5=5,≥1.3=4,≥1.1=3,≥0.9=2) × 50%' },
   { key: 'behavior', label: '行为规范', desc: '仪容仪表、服务态度、专业素养、团队合作' },
   { key: 'attendance', label: '考勤纪律', desc: '准时打卡、请假规范、在岗专注' },
   { key: 'knowledge', label: '产品知识', desc: '核心科技掌握、全品类认知、场景搭配能力' },

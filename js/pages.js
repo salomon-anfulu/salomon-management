@@ -1181,18 +1181,78 @@ function calcAvailabilityScore(staffName) {
   };
 }
 
+/**
+ * 销售业绩评分（时产 + UPT 双维度，各占50%）
+ *
+ * 时产维度（hourly）：
+ *   ≥300 → 5 | ≥210 → 4 | ≥150 → 3 | ≥100 → 2 | <100 → 1
+ * UPT维度（连带率 = 件数 ÷ 交易笔数）：
+ *   ≥1.5 → 5 | ≥1.3 → 4 | ≥1.1 → 3 | ≥0.9 → 2 | <0.9 → 1
+ * 最终 = 两维度各50%取平均，保留1位小数
+ */
+function calcPerformanceScore(staffName) {
+  const perfData = Store.get('performanceData') || {};
+  const june = perfData.june || {};
+  const records = june.records || [];
+  const record = records.find(r => r.name === staffName);
+
+  // Fallback：找不到数据则返回静态评分
+  if (!record) {
+    const ratings = Store.get('ratings') || [];
+    const staff = Store.getStaff ? null : null;
+    return { score: 3, hourlyScore: 0, uptScore: 0, hourly: 0, upt: 0, fallback: true };
+  }
+
+  const hourly = record.hourlyOutput || 0;
+  const qty = record.qty || 0;
+  const tickets = record.tickets || 1;
+  const upt = tickets > 0 ? qty / tickets : 0;
+
+  // 时产评分
+  let hourlyScore;
+  if (hourly >= 300) hourlyScore = 5;
+  else if (hourly >= 210) hourlyScore = 4;
+  else if (hourly >= 150) hourlyScore = 3;
+  else if (hourly >= 100) hourlyScore = 2;
+  else hourlyScore = 1;
+
+  // UPT评分
+  let uptScore;
+  if (upt >= 1.5) uptScore = 5;
+  else if (upt >= 1.3) uptScore = 4;
+  else if (upt >= 1.1) uptScore = 3;
+  else if (upt >= 0.9) uptScore = 2;
+  else uptScore = 1;
+
+  // 双维度各50%
+  const rawAvg = (hourlyScore + uptScore) / 2;
+  const finalScore = Math.max(1, Math.min(5, parseFloat(rawAvg.toFixed(1))));
+
+  return {
+    score: finalScore,
+    hourlyScore,
+    uptScore,
+    hourly,
+    upt: parseFloat(upt.toFixed(2)),
+    sales: record.sales || 0,
+    qty,
+    tickets,
+  };
+}
+
 function renderRatings() {
   const ratings = Store.get('ratings');
   const staff = Store.get('staff').filter(s => s.status === 'active');
 
-  // 按综合评分排序（高到低）- 使用动态工时支持分重新计算
+  // 按综合评分排序（高到低）- 工时支持 + 销售业绩 动态计算
   const enrichedRatings = ratings.map(r => {
     const s = Store.getStaff(r.staffId);
     const staffName = s ? s.name : '';
     const availCalc = calcAvailabilityScore(staffName);
-    const dynamicScores = { ...r.scores, availability: availCalc.score };
+    const perfCalc = calcPerformanceScore(staffName);
+    const dynamicScores = { ...r.scores, availability: availCalc.score, performance: perfCalc.score };
     const dynamicAvg = Object.values(dynamicScores).reduce((a, b) => a + b, 0) / Object.values(dynamicScores).length;
-    return { ...r, _dynamicAvg: dynamicAvg, _availCalc: availCalc };
+    return { ...r, _dynamicAvg: dynamicAvg, _availCalc: availCalc, _perfCalc: perfCalc };
   });
   const sortedRatings = [...enrichedRatings].sort((a, b) => b._dynamicAvg - a._dynamicAvg);
 
@@ -1207,7 +1267,7 @@ function renderRatings() {
         <p style="font-size: 13px; opacity: 0.7; margin-top: 4px;">2026年6月 · Service Team 全员评估 · 综合评分 ≥ 4.0 可享 ¥60/h 时薪</p>
         <div style="display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
           <span style="font-size: 11px; opacity: 0.6;">🛡️ 工时支持 <span style="opacity: 0.5; font-size: 10px;">(基础5分·每周不达标-1)</span></span>
-          <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩</span>
+          <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩 <span style="opacity: 0.5; font-size: 10px;">(时产50%+UPT50%)</span></span>
           <span style="font-size: 11px; opacity: 0.6;">🎪 行为规范</span>
           <span style="font-size: 11px; opacity: 0.6;">⏰ 考勤纪律</span>
           <span style="font-size: 11px; opacity: 0.6;">💕 顾客好评</span>
@@ -1281,16 +1341,17 @@ function renderRatings() {
         const borderColor = dynamicAvg >= 4.5 ? '#10b981' : dynamicAvg >= 4.0 ? '#3b82f6' : dynamicAvg >= 3.5 ? '#f59e0b' : '#ef4444';
         const medalIcon = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '';
 
-        const dynamicScores = { ...r.scores, availability: availScore };
+        const dynamicScores = { ...r.scores, availability: availScore, performance: r._perfCalc.score };
         const titleInfo = getRatingTitle(dynamicScores, dynamicAvg, staffName);
         const achievements = getAchievements(dynamicScores, r.comment);
         const level = getRatingLevel(dynamicAvg);
         const ringColor = dynamicAvg >= 4.5 ? '#10b981' : dynamicAvg >= 4.0 ? '#3b82f6' : dynamicAvg >= 3.5 ? '#f59e0b' : '#ef4444';
         const ringCircumference = 2 * Math.PI * 22;
         const ringDash = (level / 100) * ringCircumference;
+        const perfCalc = r._perfCalc;
         const dimensions = [
           { key: 'availability', label: '工时支持', val: availScore },
-          { key: 'performance', label: '销售业绩', val: r.scores.performance },
+          { key: 'performance', label: '销售业绩', val: perfCalc.score },
           { key: 'behavior', label: '行为规范', val: r.scores.behavior },
           { key: 'attendance', label: '考勤纪律', val: r.scores.attendance },
           { key: 'customerReview', label: '顾客好评', val: r.scores.customerReview || 4 },
@@ -1342,15 +1403,16 @@ function renderRatings() {
                 ${dimensions.map(d => {
                   const meta = DIMENSION_META[d.key] || {};
                   const dimColor = d.val >= 4 ? '#10b981' : d.val >= 3 ? '#f59e0b' : '#ef4444';
-                  const isAvail = d.key === 'availability';
+                  const isExpandable = d.key === 'availability' || d.key === 'performance';
+                  const detailClass = d.key === 'availability' ? 'avail-detail' : 'perf-detail';
                   return `
-                  <div style="display: flex; align-items: center; gap: 8px;${isAvail ? ' cursor: pointer;' : ''}"${isAvail ? ` onclick="this.parentElement.querySelector('.avail-detail').classList.toggle('avail-detail-open')"` : ''}>
+                  <div style="display: flex; align-items: center; gap: 8px;${isExpandable ? ' cursor: pointer;' : ''}"${isExpandable ? ` onclick="this.parentElement.parentElement.querySelector('.${detailClass}').classList.toggle('${detailClass}-open')"` : ''}>
                     <div class="rating-dimension-icon" style="background: ${(meta.color || '#94a3b8')}22; font-size: 11px;">${meta.icon || '•'}</div>
-                    <span style="font-size: 12px; color: var(--text-secondary); width: 52px; flex-shrink: 0;">${d.label}${isAvail ? ' <span style="font-size:9px;opacity:0.5;">▾</span>' : ''}</span>
+                    <span style="font-size: 12px; color: var(--text-secondary); width: 52px; flex-shrink: 0;">${d.label}${isExpandable ? ' <span style="font-size:9px;opacity:0.5;">▾</span>' : ''}</span>
                     <div style="flex: 1; height: 7px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden;">
                       <div style="height: 100%; width: ${d.val * 20}%; background: linear-gradient(90deg, ${dimColor}, ${dimColor}dd); border-radius: 4px; transition: width 0.5s cubic-bezier(0.16,1,0.3,1);"></div>
                     </div>
-                    <span style="font-size: 12px; font-weight: 700; color: ${dimColor}; min-width: 22px; text-align: right;">${isAvail ? d.val.toFixed(1) : d.val}</span>
+                    <span style="font-size: 12px; font-weight: 700; color: ${dimColor}; min-width: 28px; text-align: right;">${isExpandable ? d.val.toFixed(1) : d.val}</span>
                   </div>
                   `;
                 }).join('')}
@@ -1376,6 +1438,31 @@ function renderRatings() {
                     ${availCalc.penalty ? `<span style="color: #ef4444;">换班-${availCalc.penalty}</span>` : ''}
                     ${availCalc.bonus ? `<span style="color: #10b981;">顶班+${availCalc.bonus.toFixed(1)}</span>` : ''}
                     ${(availCalc.applicantCount || availCalc.targetCount) ? `<span style="color: var(--text-muted); font-size: 10px;">换${availCalc.applicantCount}次/顶${availCalc.targetCount}次</span>` : ''}
+                  </div>
+                </div>
+              </div>
+
+              <!-- 销售业绩详情（可展开） -->
+              <div class="perf-detail" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease; margin-bottom: 0;">
+                <div style="padding: 10px; background: var(--bg-secondary); border-radius: var(--radius-md); margin-bottom: 10px;">
+                  <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">🎯 时产 + UPT 双维度（各50%）</div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <!-- 时产 -->
+                    <div style="padding: 8px; border-radius: 6px; background: ${perfCalc.hourly >= 210 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)'}; border: 1px solid ${perfCalc.hourly >= 210 ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)'};">
+                      <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">💰 时产</div>
+                      <div style="font-size: 18px; font-weight: 800; color: ${perfCalc.hourly >= 210 ? '#10b981' : '#f59e0b'};">¥${perfCalc.hourly}<span style="font-size: 11px; font-weight: 400; opacity: 0.6;">/h</span></div>
+                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">得分 <b style="color: ${perfCalc.hourlyScore >= 4 ? '#10b981' : perfCalc.hourlyScore >= 3 ? '#f59e0b' : '#ef4444'};">${perfCalc.hourlyScore}</b>/5 ${perfCalc.hourly >= 210 ? '✓达标' : '✗未达标'}</div>
+                    </div>
+                    <!-- UPT -->
+                    <div style="padding: 8px; border-radius: 6px; background: ${perfCalc.upt >= 1.25 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)'}; border: 1px solid ${perfCalc.upt >= 1.25 ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)'};">
+                      <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">📦 UPT 连带率</div>
+                      <div style="font-size: 18px; font-weight: 800; color: ${perfCalc.upt >= 1.25 ? '#10b981' : '#f59e0b'};">${perfCalc.upt}</div>
+                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">得分 <b style="color: ${perfCalc.uptScore >= 4 ? '#10b981' : perfCalc.uptScore >= 3 ? '#f59e0b' : '#ef4444'};">${perfCalc.uptScore}</b>/5 ${perfCalc.upt >= 1.25 ? '✓达标' : '✗未达标'} · ${perfCalc.qty}件/${perfCalc.tickets}单</div>
+                    </div>
+                  </div>
+                  <div style="margin-top: 8px; display: flex; justify-content: space-between; font-size: 11px;">
+                    <span style="color: var(--text-muted);">时产 <b>${perfCalc.hourlyScore}</b> + UPT <b>${perfCalc.uptScore}</b> ÷ 2 = <b style="color: ${perfCalc.score >= 4 ? '#10b981' : '#f59e0b'};">${perfCalc.score.toFixed(1)}</b></span>
+                    <span style="color: var(--text-muted); font-size: 10px;">销售 ¥${perfCalc.sales.toLocaleString()}</span>
                   </div>
                 </div>
               </div>
@@ -2704,6 +2791,13 @@ function renderPersonalDashboard() {
 
   const ratings = Store.get('ratings').filter(r => r.staffId === _auth.staffId);
   const myRating = ratings.length > 0 ? ratings[ratings.length - 1] : null;
+  // 动态计算综合分（工时支持+销售业绩）
+  const availCalc = me ? calcAvailabilityScore(me.name) : { score: 0 };
+  const perfCalc = me ? calcPerformanceScore(me.name) : { score: 0 };
+  const dynamicAvg = myRating ? (() => {
+    const ds = { ...myRating.scores, availability: availCalc.score, performance: perfCalc.score };
+    return Object.values(ds).reduce((a, b) => a + b, 0) / Object.values(ds).length;
+  })() : 0;
   const perfData = Store.get('performanceData') || {};
   const junePerf = perfData.june?.records?.find(r => r.name === _auth.staffName);
   const lgData = Store.get('linggongAttendance') || {};
@@ -2711,7 +2805,7 @@ function renderPersonalDashboard() {
   const normalDays = myAttendance.filter(r => r.status === '考勤正常').length;
   const totalHours = myAttendance.reduce((s, r) => s + (r.totalHours || 0), 0);
   const lateTimes = myAttendance.filter(r => r.lateMin > 0).length;
-  const hourlyRate = myRating && myRating.avgScore >= 4.0 ? 60 : 28;
+  const hourlyRate = dynamicAvg >= 4.0 ? 60 : 28;
 
   return `
     <div class="animate-in" style="margin-bottom: 24px;">
@@ -2732,15 +2826,15 @@ function renderPersonalDashboard() {
     <div class="stats-grid animate-in" style="grid-template-columns: repeat(2, 1fr);">
       <div class="stat-card accent">
         <div class="stat-icon">⭐</div>
-        <div class="stat-value">${myRating ? myRating.avgScore.toFixed(1) : '-'}</div>
+        <div class="stat-value">${dynamicAvg > 0 ? dynamicAvg.toFixed(1) : '-'}</div>
         <div class="stat-label">综合评分</div>
-        <div class="stat-trend ${myRating && myRating.avgScore >= 4.0 ? 'up' : 'down'}">${myRating ? (myRating.avgScore >= 4.0 ? '✓ 达标' : '待提升') : '尚未评分'}</div>
+        <div class="stat-trend ${dynamicAvg >= 4.0 ? 'up' : 'down'}">${dynamicAvg > 0 ? (dynamicAvg >= 4.0 ? '✓ 达标' : '待提升') : '尚未评分'}</div>
       </div>
       <div class="stat-card info">
         <div class="stat-icon">💰</div>
         <div class="stat-value">¥${hourlyRate}</div>
         <div class="stat-label">时薪（元/h）</div>
-        <div class="stat-trend up">${myRating && myRating.avgScore >= 4.0 ? '高时薪' : '基础时薪'}</div>
+        <div class="stat-trend up">${dynamicAvg >= 4.0 ? '高时薪' : '基础时薪'}</div>
       </div>
       <div class="stat-card success">
         <div class="stat-icon">✅</div>
@@ -2761,19 +2855,22 @@ function renderPersonalDashboard() {
     <div class="card animate-in" style="margin-top: 20px;">
       <div class="card-header">
         <h3>⭐ 评分详情 · ${myRating.month}</h3>
-        <span class="badge ${myRating.avgScore >= 4.0 ? 'badge-active' : 'badge-danger'}">综合 ${myRating.avgScore.toFixed(1)}</span>
+        <span class="badge ${dynamicAvg >= 4.0 ? 'badge-active' : 'badge-danger'}">综合 ${dynamicAvg.toFixed(1)}</span>
       </div>
       <div class="card-body">
         <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px;">
-          ${Object.entries(myRating.scores).filter(([key]) => key !== 'knowledge').map(([key, val]) => {
+          ${(() => {
+            const dynamicScores = { ...myRating.scores, availability: availCalc.score, performance: perfCalc.score };
             const labels = { availability: '工时支持', performance: '销售业绩', behavior: '行为规范', attendance: '考勤纪律', customerReview: '顾客好评' };
-            return `
-              <div style="text-align: center;">
-                <div style="font-size: 20px; font-weight: 800; color: ${val >= 4 ? '#10b981' : val >= 3 ? '#f59e0b' : '#ef4444'};">${val}</div>
-                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">${labels[key] || key}</div>
-              </div>
-            `;
-          }).join('')}
+            return Object.entries(dynamicScores).filter(([key]) => key !== 'knowledge').map(([key, val]) => {
+              return `
+                <div style="text-align: center;">
+                  <div style="font-size: 20px; font-weight: 800; color: ${val >= 4 ? '#10b981' : val >= 3 ? '#f59e0b' : '#ef4444'};">${key === 'availability' || key === 'performance' ? val.toFixed(1) : val}</div>
+                  <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">${labels[key] || key}</div>
+                </div>
+              `;
+            }).join('');
+          })()}
         </div>
         <div style="background: rgba(0,0,0,0.02); border-radius: 8px; padding: 12px 14px; font-size: 13px; color: var(--text-secondary); line-height: 1.7;">
           ${myRating.comment || '暂无评语'}
