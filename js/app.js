@@ -489,7 +489,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月13天出勤100h，门迎18次，销售¥31,414时产¥313/h，品类(鞋履 83.5% / 服装 10.2% / 配件 6.3%)，大众点评好评1条",
+      "comment": "6月13天出勤100h，门迎20次，销售¥31,394时产¥312/h，品类(鞋履 83.6% / 服装 10.2% / 配件 6.2%)，大众点评好评1条",
       "avgScore": 5.0,
       "hourlyRate": 60
     },
@@ -549,7 +549,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "6月10天出勤75h，门迎15次，销售¥9,660时产¥129/h，品类(鞋履 68.2% / 服装 31.0% / 配件 0.8%)，大众点评好评2条",
+      "comment": "6月10天出勤75h，门迎16次，销售¥10,958时产¥146/h，品类(鞋履 72.0% / 服装 27.3% / 配件 0.7%)，大众点评好评2条",
       "avgScore": 4.4,
       "hourlyRate": 60
     },
@@ -594,7 +594,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "6月9天出勤76h，门迎11次，销售¥30,010时产¥395/h，品类(鞋履 91.7% / 服装 8.0% / 配件 0.4%)",
+      "comment": "6月9天出勤76h，门迎12次，销售¥34,104时产¥449/h，品类(鞋履 92.7% / 服装 7.0% / 配件 0.3%)",
       "avgScore": 4.8,
       "hourlyRate": 60
     },
@@ -669,7 +669,7 @@ ratings: [
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "6月11天出勤86h，缺卡1次，门迎13次，销售¥21,672时产¥252/h，品类(鞋履 88.0% / 服装 12.0%)",
+      "comment": "6月11天出勤86h，缺卡1次，门迎16次，销售¥22,870时产¥266/h，品类(鞋履 88.7% / 服装 11.3%)",
       "avgScore": 4.4,
       "hourlyRate": 60
     }
@@ -937,35 +937,35 @@ ratings: [
         ]
       },
 june: {
-        totalSales: 211454,
+        totalSales: 218024,
         avgUPT: 1.34,
-        avgHourlyOutput: 198.2,
+        avgHourlyOutput: 204.3,
         records: [
           {
             name: '陈昕媛',
-            sales: 31414,
+            sales: 31394,
             qty: 25,
             tickets: 22,
-            avgPrice: 1257,
+            avgPrice: 1256,
             workHours: 100.5,
             workDays: 13,
-            hourlyOutput: 313,
-            efficiency: 0.5794,
-            salesShare: 0.149,
-            categories: '鞋履 83.5% / 服装 10.2% / 配件 6.3%'
+            hourlyOutput: 312,
+            efficiency: 0.5782,
+            salesShare: 0.144,
+            categories: '鞋履 83.6% / 服装 10.2% / 配件 6.2%'
           },
           {
             name: '杨子豪',
-            sales: 30010,
-            qty: 25,
-            tickets: 19,
-            avgPrice: 1200,
+            sales: 34104,
+            qty: 28,
+            tickets: 21,
+            avgPrice: 1218,
             workHours: 76.0,
             workDays: 9,
-            hourlyOutput: 395,
-            efficiency: 0.9932,
-            salesShare: 0.142,
-            categories: '鞋履 91.7% / 服装 8.0% / 配件 0.4%'
+            hourlyOutput: 449,
+            efficiency: 1.1281,
+            salesShare: 0.156,
+            categories: '鞋履 92.7% / 服装 7.0% / 配件 0.3%'
           },
           {
             name: '李若彤',
@@ -982,16 +982,16 @@ june: {
           },
           {
             name: '龚赟昊',
-            sales: 21672,
-            qty: 16,
-            tickets: 15,
-            avgPrice: 1354,
+            sales: 22870,
+            qty: 17,
+            tickets: 16,
+            avgPrice: 1345,
             workHours: 86.0,
             workDays: 11,
-            hourlyOutput: 252,
-            efficiency: 0.2716,
-            salesShare: 0.102,
-            categories: '鞋履 88.0% / 服装 12.0%'
+            hourlyOutput: 266,
+            efficiency: 0.3394,
+            salesShare: 0.105,
+            categories: '鞋履 88.7% / 服装 11.3%'
           },
           {
             name: '王雅澜',
@@ -1060,16 +1060,16 @@ june: {
           },
           {
             name: '朱凯赟',
-            sales: 9660,
-            qty: 10,
-            tickets: 7,
-            avgPrice: 966,
+            sales: 10958,
+            qty: 11,
+            tickets: 8,
+            avgPrice: 996,
             workHours: 75.0,
             workDays: 10,
-            hourlyOutput: 129,
-            efficiency: -0.3491,
-            salesShare: 0.046,
-            categories: '鞋履 68.2% / 服装 31.0% / 配件 0.8%'
+            hourlyOutput: 146,
+            efficiency: -0.2687,
+            salesShare: 0.05,
+            categories: '鞋履 72.0% / 服装 27.3% / 配件 0.7%'
           },
           {
             name: '迟骋',
@@ -1126,7 +1126,7 @@ june: {
       { id: 8, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-21', snippet: '来Salomon安福路店逛街，CC接待的我，人特别热情，讲鞋子都讲得很细，耐心跟我说各个款式的区别，选鞋给的建议也很实在，逛着很舒服，体验挺好的～', keywords: ['热情', '讲解细致', '耐心介绍', '建议实在', '体验好'], source: '大众点评（勇善可爱的小柔，Lv1）' },
     ],
 
-        _dataVersion: '2026-06-24-v25',
+        _dataVersion: '2026-06-24-v26',
   },
 
   init() {
@@ -1197,11 +1197,11 @@ june: {
       // Check if availability is outdated v3: 陈昕媛 total should be 27 (was 20), 田佳乐 total should be 26 (was 27)
       const isOutdatedAvailV3 = chenXinyuan && chenXinyuan.total === 20;
       // Check if june performance is outdated v2: totalSales should be 129567 (was 127591)
-      const isOutdatedJunePerfV2 = junePerf.totalSales && junePerf.totalSales < 211454;
+      const isOutdatedJunePerfV2 = junePerf.totalSales && junePerf.totalSales < 218024;
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-24-v25';
+      const DATA_VERSION = '2026-06-24-v26';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
