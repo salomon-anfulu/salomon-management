@@ -1490,7 +1490,7 @@ function renderRatings() {
                     <div style="flex: 1; height: 7px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden;">
                       <div style="height: 100%; width: ${d.val * 20}%; background: linear-gradient(90deg, ${dimColor}, ${dimColor}dd); border-radius: 4px; transition: width 0.5s cubic-bezier(0.16,1,0.3,1);"></div>
                     </div>
-                    <span style="font-size: 12px; font-weight: 700; color: ${dimColor}; min-width: 28px; text-align: right;">${isExpandable ? d.val.toFixed(1) : d.val}</span>
+                    <span style="font-size: 12px; font-weight: 700; color: ${dimColor}; min-width: 28px; text-align: right;">${d.val.toFixed(1)}</span>
                   </div>
                   `;
                 }).join('')}
@@ -3006,7 +3006,7 @@ function renderPersonalDashboard() {
             return Object.entries(dynamicScores).filter(([key]) => key !== 'knowledge').map(([key, val]) => {
               return `
                 <div style="text-align: center;">
-                  <div style="font-size: 20px; font-weight: 800; color: ${val >= 4 ? '#10b981' : val >= 3 ? '#f59e0b' : '#ef4444'};">${key === 'availability' || key === 'performance' || key === 'customerReview' || key === 'attendance' ? val.toFixed(1) : val}</div>
+                  <div style="font-size: 20px; font-weight: 800; color: ${val >= 4 ? '#10b981' : val >= 3 ? '#f59e0b' : '#ef4444'};">${val.toFixed(1)}</div>
                   <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">${labels[key] || key}</div>
                 </div>
               `;
