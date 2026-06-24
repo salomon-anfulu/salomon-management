@@ -1252,19 +1252,42 @@ function calcPerformanceScore(staffName) {
   };
 }
 
+/**
+ * 顾客好评评分（基于大众点评好评数量，线性递增）
+ *
+ * 0条 → 1分（基础分）
+ * 1条 → 2分（基础1 + 第1条+1）
+ * n条(n≥2) → 2 + 0.5×(n-1)，封顶5分
+ *
+ * 示例：1条=2, 2条=2.5, 3条=3, 4条=3.5, 5条=4, 6条=4.5, 7条=5
+ */
+function calcCustomerReviewScore(staffName) {
+  const reviews = Store.get('customerReviews') || [];
+  const myReviews = reviews.filter(r => r.staffName === staffName);
+  const count = myReviews.length;
+
+  let score;
+  if (count === 0) score = 1;
+  else if (count === 1) score = 2;
+  else score = Math.min(5, 2 + 0.5 * (count - 1));
+
+  return { score: parseFloat(score.toFixed(1)), count, reviews: myReviews };
+}
+
 function renderRatings() {
   const ratings = Store.get('ratings');
   const staff = Store.get('staff').filter(s => s.status === 'active');
 
-  // 按综合评分排序（高到低）- 工时支持 + 销售业绩 动态计算
+  // 按综合评分排序（高到低）- 工时支持 + 销售业绩 + 顾客好评 动态计算
   const enrichedRatings = ratings.map(r => {
     const s = Store.getStaff(r.staffId);
     const staffName = s ? s.name : '';
     const availCalc = calcAvailabilityScore(staffName);
     const perfCalc = calcPerformanceScore(staffName);
-    const dynamicScores = { ...r.scores, availability: availCalc.score, performance: perfCalc.score };
+    const reviewCalc = calcCustomerReviewScore(staffName);
+    const dynamicScores = { ...r.scores, availability: availCalc.score, performance: perfCalc.score, customerReview: reviewCalc.score };
     const dynamicAvg = Object.values(dynamicScores).reduce((a, b) => a + b, 0) / Object.values(dynamicScores).length;
-    return { ...r, _dynamicAvg: dynamicAvg, _availCalc: availCalc, _perfCalc: perfCalc };
+    return { ...r, _dynamicAvg: dynamicAvg, _availCalc: availCalc, _perfCalc: perfCalc, _reviewCalc: reviewCalc };
   });
   const sortedRatings = [...enrichedRatings].sort((a, b) => b._dynamicAvg - a._dynamicAvg);
 
@@ -1282,7 +1305,7 @@ function renderRatings() {
           <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩 <span style="opacity: 0.5; font-size: 10px;">(时产+UPT各50% · 月销2万+0.5)</span></span>
           <span style="font-size: 11px; opacity: 0.6;">🎪 行为规范</span>
           <span style="font-size: 11px; opacity: 0.6;">⏰ 考勤纪律</span>
-          <span style="font-size: 11px; opacity: 0.6;">💕 顾客好评</span>
+          <span style="font-size: 11px; opacity: 0.6;">💕 顾客好评 <span style="opacity: 0.5; font-size: 10px;">(基础1+每条好评递增)</span></span>
         </div>
       </div>
     </div>
@@ -1353,7 +1376,9 @@ function renderRatings() {
         const borderColor = dynamicAvg >= 4.5 ? '#10b981' : dynamicAvg >= 4.0 ? '#3b82f6' : dynamicAvg >= 3.5 ? '#f59e0b' : '#ef4444';
         const medalIcon = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '';
 
-        const dynamicScores = { ...r.scores, availability: availScore, performance: r._perfCalc.score };
+        const dynamicScores = { ...r.scores, availability: availScore, performance: r._perfCalc.score, customerReview: r._reviewCalc.score };
+        const reviewScore = r._reviewCalc.score;
+        const reviewCalc = r._reviewCalc;
         const titleInfo = getRatingTitle(dynamicScores, dynamicAvg, staffName);
         const achievements = getAchievements(dynamicScores, r.comment);
         const level = getRatingLevel(dynamicAvg);
@@ -1366,7 +1391,7 @@ function renderRatings() {
           { key: 'performance', label: '销售业绩', val: perfCalc.score },
           { key: 'behavior', label: '行为规范', val: r.scores.behavior },
           { key: 'attendance', label: '考勤纪律', val: r.scores.attendance },
-          { key: 'customerReview', label: '顾客好评', val: r.scores.customerReview || 4 },
+          { key: 'customerReview', label: '顾客好评', val: reviewScore },
         ];
         return `
           <div class="card animate-in" style="border-left: 4px solid ${borderColor}; overflow: visible; position: relative; transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), box-shadow 0.3s;" onmouseenter="this.style.transform='translateY(-4px)';this.style.boxShadow='0 12px 32px rgba(0,0,0,0.12)';" onmouseleave="this.style.transform='';this.style.boxShadow='';">
@@ -1415,8 +1440,8 @@ function renderRatings() {
                 ${dimensions.map(d => {
                   const meta = DIMENSION_META[d.key] || {};
                   const dimColor = d.val >= 4 ? '#10b981' : d.val >= 3 ? '#f59e0b' : '#ef4444';
-                  const isExpandable = d.key === 'availability' || d.key === 'performance';
-                  const detailClass = d.key === 'availability' ? 'avail-detail' : 'perf-detail';
+                  const isExpandable = d.key === 'availability' || d.key === 'performance' || d.key === 'customerReview';
+                  const detailClass = d.key === 'availability' ? 'avail-detail' : d.key === 'customerReview' ? 'review-detail' : 'perf-detail';
                   return `
                   <div style="display: flex; align-items: center; gap: 8px;${isExpandable ? ' cursor: pointer;' : ''}"${isExpandable ? ` onclick="this.parentElement.parentElement.querySelector('.${detailClass}').classList.toggle('${detailClass}-open')"` : ''}>
                     <div class="rating-dimension-icon" style="background: ${(meta.color || '#94a3b8')}22; font-size: 11px;">${meta.icon || '•'}</div>
@@ -1481,6 +1506,30 @@ function renderRatings() {
                   <div style="margin-top: 8px; display: flex; justify-content: space-between; font-size: 11px;">
                     <span style="color: var(--text-muted);">(时产 <b>${perfCalc.hourlyScore}</b> + UPT <b>${perfCalc.uptScore}</b>) ÷ 2 = <b>${((perfCalc.hourlyScore + perfCalc.uptScore) / 2).toFixed(1)}</b>${perfCalc.targetBonus ? ` <span style="color:#10b981;">+ ${perfCalc.targetBonus}</span>` : ''} = <b style="color: ${perfCalc.score >= 4 ? '#10b981' : '#f59e0b'};">${perfCalc.score.toFixed(1)}</b></span>
                     <span style="color: var(--text-muted); font-size: 10px;">目标 ¥${perfCalc.salesTarget.toLocaleString()}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 顾客好评详情（可展开） -->
+              <div class="review-detail" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease; margin-bottom: 0;">
+                <div style="padding: 10px; background: var(--bg-secondary); border-radius: var(--radius-md); margin-bottom: 10px;">
+                  <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">💕 大众点评好评（基础1 + 第1条+1 + 之后每条+0.5）</div>
+                  ${reviewCalc.count > 0 ? `
+                    <div style="display: flex; flex-direction: column; gap: 6px;">
+                      ${reviewCalc.reviews.map(rv => `
+                        <div style="padding: 6px 8px; border-radius: 6px; background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.12); font-size: 11px;">
+                          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+                            <span style="font-weight: 600; color: var(--text-secondary);">${'⭐'.repeat(rv.rating)}</span>
+                            <span style="font-size: 10px; color: var(--text-muted);">${rv.reviewDate} · ${(rv.source||'').replace('大众点评（','').replace('）','')}</span>
+                          </div>
+                          <div style="color: var(--text-muted); line-height: 1.5; font-size: 10px;">${(rv.snippet||'').slice(0,60)}${(rv.snippet||'').length > 60 ? '…' : ''}</div>
+                        </div>
+                      `).join('')}
+                    </div>
+                  ` : `<div style="text-align: center; padding: 12px; color: var(--text-muted); font-size: 12px;">暂无大众点评好评记录</div>`}
+                  <div style="margin-top: 8px; display: flex; justify-content: space-between; font-size: 11px;">
+                    <span style="color: var(--text-muted);">基础 <b>1</b>${reviewCalc.count >= 1 ? ` + 首条 <b>+1</b>` : ''}${reviewCalc.count >= 2 ? ` + ${reviewCalc.count - 1}条 <b>+${(0.5*(reviewCalc.count-1)).toFixed(1)}</b>` : ''} = <b style="color: ${reviewCalc.score >= 4 ? '#10b981' : reviewCalc.score >= 3 ? '#f59e0b' : '#ef4444'};">${reviewCalc.score.toFixed(1)}</b></span>
+                    <span style="color: var(--text-muted); font-size: 10px;">${reviewCalc.count}条好评</span>
                   </div>
                 </div>
               </div>
@@ -2809,11 +2858,12 @@ function renderPersonalDashboard() {
 
   const ratings = Store.get('ratings').filter(r => r.staffId === _auth.staffId);
   const myRating = ratings.length > 0 ? ratings[ratings.length - 1] : null;
-  // 动态计算综合分（工时支持+销售业绩）
+  // 动态计算综合分（工时支持+销售业绩+顾客好评）
   const availCalc = me ? calcAvailabilityScore(me.name) : { score: 0 };
   const perfCalc = me ? calcPerformanceScore(me.name) : { score: 0 };
+  const reviewCalc = me ? calcCustomerReviewScore(me.name) : { score: 0 };
   const dynamicAvg = myRating ? (() => {
-    const ds = { ...myRating.scores, availability: availCalc.score, performance: perfCalc.score };
+    const ds = { ...myRating.scores, availability: availCalc.score, performance: perfCalc.score, customerReview: reviewCalc.score };
     return Object.values(ds).reduce((a, b) => a + b, 0) / Object.values(ds).length;
   })() : 0;
   const perfData = Store.get('performanceData') || {};
@@ -2878,12 +2928,12 @@ function renderPersonalDashboard() {
       <div class="card-body">
         <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 16px;">
           ${(() => {
-            const dynamicScores = { ...myRating.scores, availability: availCalc.score, performance: perfCalc.score };
+            const dynamicScores = { ...myRating.scores, availability: availCalc.score, performance: perfCalc.score, customerReview: reviewCalc.score };
             const labels = { availability: '工时支持', performance: '销售业绩', behavior: '行为规范', attendance: '考勤纪律', customerReview: '顾客好评' };
             return Object.entries(dynamicScores).filter(([key]) => key !== 'knowledge').map(([key, val]) => {
               return `
                 <div style="text-align: center;">
-                  <div style="font-size: 20px; font-weight: 800; color: ${val >= 4 ? '#10b981' : val >= 3 ? '#f59e0b' : '#ef4444'};">${key === 'availability' || key === 'performance' ? val.toFixed(1) : val}</div>
+                  <div style="font-size: 20px; font-weight: 800; color: ${val >= 4 ? '#10b981' : val >= 3 ? '#f59e0b' : '#ef4444'};">${key === 'availability' || key === 'performance' || key === 'customerReview' ? val.toFixed(1) : val}</div>
                   <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">${labels[key] || key}</div>
                 </div>
               `;

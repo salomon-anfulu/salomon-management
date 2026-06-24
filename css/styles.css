@@ -1283,6 +1283,15 @@ body {
   max-height: 300px;
 }
 
+.review-detail {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.review-detail-open {
+  max-height: 400px;
+}
+
 .rating-vs-label {
   font-size: 10px;
   font-weight: 700;
