@@ -1275,7 +1275,53 @@ function calcCustomerReviewScore(staffName) {
 }
 
 /**
- * 考勤纪律评分（基于 staffStats 异常考勤记录动态计算）
+ * 从灵工打卡数据动态计算考勤异常（缺卡/迟到/旷工）
+ *
+ * 规则：
+ *   signIn === '缺卡' 或 signOut === '缺卡' → 缺卡 +1
+ *   status === '缺勤'                        → 旷工 +1
+ *   lateMin > 0                             → 迟到 +1
+ *
+ * @param {string} staffName - 兼职姓名
+ * @returns {{missedPunch, lateCount, absentCount, records: []}}
+ */
+let _linggongAttCache = null;
+function getLinggongAttStats(staffName) {
+  const lgData = Store.get('linggongAttendance') || { records: [] };
+  const records = (lgData.records || []).filter(r => r.name === staffName);
+
+  let missedPunch = 0;
+  let lateCount = 0;
+  let absentCount = 0;
+  const detailRecords = [];
+
+  records.forEach(r => {
+    // 兼容默认数据(signIn/signOut)和同步数据(clockIn/clockOut)两种格式
+    const clockIn = r.signIn || r.clockIn || '';
+    const clockOut = r.signOut || r.clockOut || '';
+    const isMissedPunch = clockIn === '缺卡' || clockOut === '缺卡';
+    const isAbsent = r.status === '缺勤';
+    const isLate = (r.lateMin || 0) > 0;
+
+    if (isMissedPunch) {
+      missedPunch++;
+      detailRecords.push({ date: r.date, type: '缺卡', detail: '打卡缺失' });
+    }
+    if (isAbsent) {
+      absentCount++;
+      if (!isMissedPunch) detailRecords.push({ date: r.date, type: '旷工', detail: r.status });
+    }
+    if (isLate) {
+      lateCount++;
+      detailRecords.push({ date: r.date, type: '迟到', detail: `迟到${r.lateMin}分钟` });
+    }
+  });
+
+  return { missedPunch, lateCount, absentCount, records: detailRecords };
+}
+
+/**
+ * 考勤纪律评分（基于灵工打卡数据动态计算）
  *
  * 基础5分，倒扣制：
  *   迟到：每次-1
@@ -1284,12 +1330,7 @@ function calcCustomerReviewScore(staffName) {
  *   最低1分
  */
 function calcAttendanceScore(staffName) {
-  const staffStats = Store.get('staffStats') || {};
-  const stats = staffStats[staffName] || {};
-
-  const lateCount = stats.lateCount || 0;
-  const missedPunch = stats.missedPunch || 0;
-  const absentCount = stats.absentCount || 0;
+  const { lateCount, missedPunch, absentCount } = getLinggongAttStats(staffName);
 
   // 补卡：第1次免费，之后每次-1
   const punchDeduction = Math.max(0, missedPunch - 1);
@@ -2832,7 +2873,13 @@ function renderSupport() {
         <div class="stat-label">换班记录</div>
       </div>
       <div class="stat-card warning">
-        <div class="stat-value">${Object.values(staffStats).filter(s => s.missedPunch > 0 || s.lateCount > 0).length}</div>
+        <div class="stat-value">${(() => {
+          const allStaff = Store.get('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
+          return allStaff.filter(s => {
+            const lg = getLinggongAttStats(s.name);
+            return lg.missedPunch > 0 || lg.lateCount > 0 || lg.absentCount > 0;
+          }).length;
+        })()}</div>
         <div class="stat-label">异常人员</div>
       </div>
     </div>
@@ -2886,58 +2933,70 @@ function renderSupportTable(data) {
 }
 
 function renderStaffStatsTable(staffStats, staffSupportCount) {
-  // 按门迎次数降序排列
-  const sortedStats = Object.entries(staffStats).sort((a, b) => b[1].doorCount - a[1].doorCount);
+  // 从灵工打卡数据动态计算缺卡/迟到/旷工
+  const allStaff = Store.get('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
+
+  const statsData = allStaff.map(s => {
+    const lgStats = getLinggongAttStats(s.name);
+    const staticStats = staffStats[s.name] || {};
+    return {
+      name: s.name,
+      avatar_color: s.avatar_color,
+      shiftChange: staticStats.shiftChange || 0,
+      shiftedCount: staticStats.shiftedCount || 0,
+      missedPunch: lgStats.missedPunch,
+      lateCount: lgStats.lateCount,
+      absentCount: lgStats.absentCount,
+      supportCount: staffSupportCount[s.name] || 0,
+    };
+  });
+
+  // 按缺卡+迟到+旷工总异常数升序，异常少的排前面
+  const sortedStats = statsData.sort((a, b) => {
+    const aIssue = a.missedPunch + a.lateCount + a.absentCount;
+    const bIssue = b.missedPunch + b.lateCount + b.absentCount;
+    if (aIssue !== bIssue) return aIssue - bIssue;
+    return b.supportCount - a.supportCount;
+  });
 
   // 汇总数据
-  const totals = {
-    doorCount: 0, shiftChange: 0, shiftedCount: 0,
-    missedPunch: 0, lateCount: 0, absentCount: 0,
-  };
-  sortedStats.forEach(([_, s]) => {
-    totals.doorCount += s.doorCount;
-    totals.shiftChange += s.shiftChange;
-    totals.shiftedCount += s.shiftedCount;
-    totals.missedPunch += s.missedPunch;
-    totals.lateCount += s.lateCount;
-    totals.absentCount += s.absentCount;
-  });
+  const totals = sortedStats.reduce((acc, s) => {
+    acc.missedPunch += s.missedPunch;
+    acc.lateCount += s.lateCount;
+    acc.absentCount += s.absentCount;
+    acc.supportCount += s.supportCount;
+    return acc;
+  }, { missedPunch: 0, lateCount: 0, absentCount: 0, supportCount: 0 });
+
+  const issuePersonCount = sortedStats.filter(s => s.missedPunch > 0 || s.lateCount > 0 || s.absentCount > 0).length;
 
   return `
     <div class="animate-in" style="margin-top: 4px;">
       <!-- 汇总统计卡片 -->
-      <div class="stats-grid animate-in" style="grid-template-columns: repeat(6, 1fr); margin-bottom: 20px;">
-        <div class="stat-card accent">
-          <div class="stat-value">${totals.doorCount}</div>
-          <div class="stat-label">门迎总人次</div>
-        </div>
-        <div class="stat-card info">
-          <div class="stat-value">${totals.shiftChange + totals.shiftedCount}</div>
-          <div class="stat-label">换班/被换</div>
-        </div>
+      <div class="stats-grid animate-in" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 20px;">
         <div class="stat-card danger">
           <div class="stat-value">${totals.missedPunch}</div>
-          <div class="stat-label">缺卡</div>
+          <div class="stat-label">缺卡总次数</div>
         </div>
         <div class="stat-card warning">
           <div class="stat-value">${totals.lateCount}</div>
-          <div class="stat-label">迟到</div>
+          <div class="stat-label">迟到总次数</div>
         </div>
         <div class="stat-card danger">
           <div class="stat-value">${totals.absentCount}</div>
-          <div class="stat-label">旷工</div>
+          <div class="stat-label">旷工总次数</div>
         </div>
-        <div class="stat-card success">
-          <div class="stat-value">${totals.doorCount > 0 ? (totals.doorCount / sortedStats.length).toFixed(1) : 0}</div>
-          <div class="stat-label">人均门迎</div>
+        <div class="stat-card ${issuePersonCount > 0 ? 'warning' : 'success'}">
+          <div class="stat-value">${issuePersonCount}</div>
+          <div class="stat-label">考勤异常人数</div>
         </div>
       </div>
 
       <!-- 详细表格 -->
       <div class="card">
         <div class="card-header">
-          <h3>📊 Service Team 综合表现统计（6月）</h3>
-          <span class="text-sm text-secondary">数据来源：PT供班表 · 实时更新</span>
+          <h3>📊 考勤纪律统计（6月）</h3>
+          <span class="text-sm text-secondary">数据来源：灵工打卡 · 实时更新</span>
         </div>
         <div class="card-body" style="padding: 0;">
           <div class="table-container">
@@ -2946,39 +3005,29 @@ function renderStaffStatsTable(staffStats, staffSupportCount) {
                 <tr>
                   <th>排名</th>
                   <th>姓名</th>
-                  <th>🚪 门迎</th>
-                  <th>🔄 换班</th>
-                  <th>↩️ 被换班</th>
                   <th>❌ 缺卡</th>
                   <th>⏰ 迟到</th>
                   <th>🚫 旷工</th>
                   <th>🔧 支援</th>
-                  <th>📝 点评</th>
                 </tr>
               </thead>
               <tbody>
-                ${sortedStats.map(([name, stats], idx) => {
+                ${sortedStats.map((stats, idx) => {
                   const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : idx + 1;
                   const hasIssue = stats.missedPunch > 0 || stats.lateCount > 0 || stats.absentCount > 0;
                   return `
                     <tr style="${hasIssue ? 'background: rgba(239,68,68,0.04);' : ''}">
                       <td style="font-weight: 700; font-size: 16px;">${medal}</td>
-                      <td><span style="font-weight: 600;">${name}</span></td>
                       <td>
-                        <div style="display: flex; align-items: center; gap: 6px;">
-                          <span style="font-weight: 700; color: var(--accent); font-size: 16px;">${stats.doorCount}</span>
-                          <div style="flex: 1; max-width: 60px; height: 4px; background: var(--bg-secondary); border-radius: 2px;">
-                            <div style="width: ${Math.round(stats.doorCount / 8 * 100)}%; height: 100%; background: var(--accent); border-radius: 2px;"></div>
-                          </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                          <div class="avatar" style="background: ${stats.avatar_color || '#6366f1'}; width: 28px; height: 28px; font-size: 11px;">${stats.name[0]}</div>
+                          <span style="font-weight: 600;">${stats.name}</span>
                         </div>
                       </td>
-                      <td>${stats.shiftChange > 0 ? `<span class="badge badge-warning">${stats.shiftChange}</span>` : '<span style="color: var(--text-muted);">0</span>'}</td>
-                      <td>${stats.shiftedCount > 0 ? `<span class="badge badge-info">${stats.shiftedCount}</span>` : '<span style="color: var(--text-muted);">0</span>'}</td>
                       <td>${stats.missedPunch > 0 ? `<span class="badge badge-danger">${stats.missedPunch}</span>` : '<span style="color: var(--text-muted);">0</span>'}</td>
                       <td>${stats.lateCount > 0 ? `<span class="badge badge-danger">${stats.lateCount}</span>` : '<span style="color: var(--text-muted);">0</span>'}</td>
                       <td>${stats.absentCount > 0 ? `<span class="badge badge-danger">${stats.absentCount}</span>` : '<span style="color: var(--text-muted);">0</span>'}</td>
-                      <td><span style="font-weight: 600; color: var(--success);">${staffSupportCount[name] || 0}</span></td>
-                      <td>${stats.dianping ? `<span style="color: var(--success);">✓</span>` : '<span style="color: var(--text-muted);">-</span>'}</td>
+                      <td><span style="font-weight: 600; color: var(--success);">${stats.supportCount}</span></td>
                     </tr>
                   `;
                 }).join('')}
@@ -2987,14 +3036,10 @@ function renderStaffStatsTable(staffStats, staffSupportCount) {
                 <tr style="background: var(--bg-secondary); font-weight: 700;">
                   <td></td>
                   <td>合计</td>
-                  <td style="color: var(--accent);">${totals.doorCount}</td>
-                  <td>${totals.shiftChange}</td>
-                  <td>${totals.shiftedCount}</td>
                   <td>${totals.missedPunch > 0 ? `<span style="color: var(--danger);">${totals.missedPunch}</span>` : '0'}</td>
                   <td>${totals.lateCount > 0 ? `<span style="color: var(--danger);">${totals.lateCount}</span>` : '0'}</td>
                   <td>${totals.absentCount > 0 ? `<span style="color: var(--danger);">${totals.absentCount}</span>` : '0'}</td>
-                  <td>${Object.values(staffSupportCount).reduce((a, b) => a + b, 0)}</td>
-                  <td></td>
+                  <td>${totals.supportCount}</td>
                 </tr>
               </tfoot>
             </table>

@@ -420,21 +420,21 @@ const Store = {
       { id: 76, staff: '田佳乐', date: '2026-06-23', type: '陈列-新品熨烫', duration: '1小时', detail: '新品熨烫整理' },
     ],
 
-    // 店务统计（来自店务支援表）
+    // 换班统计（缺卡/迟到/旷工已改为从灵工打卡动态计算，门迎/点评已移至各自模块）
         staffStats: {
-      '陈昕媛': { doorCount: 20, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 1 },
-      '田佳乐': { doorCount: 19, shiftChange: 1, shiftedCount: 0, missedPunch: 1, lateCount: 0, absentCount: 0, dianping: 0 },
-      '迟骋': { doorCount: 16, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 3 },
-      '王靳毓': { doorCount: 16, shiftChange: 1, shiftedCount: 2, missedPunch: 0, lateCount: 1, absentCount: 0, dianping: 0 },
-      '朱凯赟': { doorCount: 16, shiftChange: 0, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 2 },
-      '孔祥宇': { doorCount: 18, shiftChange: 1, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '邓奇缘': { doorCount: 20, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '杨子豪': { doorCount: 12, shiftChange: 2, shiftedCount: 0, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '王雅澜': { doorCount: 13, shiftChange: 1, shiftedCount: 2, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '李若彤': { doorCount: 19, shiftChange: 1, shiftedCount: 1, missedPunch: 0, lateCount: 1, absentCount: 1, dianping: 0 },
-      '王龙宇': { doorCount: 13, shiftChange: 0, shiftedCount: 1, missedPunch: 1, lateCount: 0, absentCount: 0, dianping: 0 },
-      '何秋烨': { doorCount: 21, shiftChange: 1, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 },
-      '龚赟昊': { doorCount: 16, shiftChange: 0, shiftedCount: 1, missedPunch: 0, lateCount: 0, absentCount: 0, dianping: 0 }
+      '陈昕媛': { shiftChange: 0, shiftedCount: 0 },
+      '田佳乐': { shiftChange: 1, shiftedCount: 0 },
+      '迟骋': { shiftChange: 1, shiftedCount: 0 },
+      '王靳毓': { shiftChange: 1, shiftedCount: 2 },
+      '朱凯赟': { shiftChange: 0, shiftedCount: 0 },
+      '孔祥宇': { shiftChange: 1, shiftedCount: 0 },
+      '邓奇缘': { shiftChange: 0, shiftedCount: 1 },
+      '杨子豪': { shiftChange: 2, shiftedCount: 0 },
+      '王雅澜': { shiftChange: 1, shiftedCount: 2 },
+      '李若彤': { shiftChange: 1, shiftedCount: 1 },
+      '王龙宇': { shiftChange: 0, shiftedCount: 1 },
+      '何秋烨': { shiftChange: 1, shiftedCount: 1 },
+      '龚赟昊': { shiftChange: 0, shiftedCount: 1 }
     },
 
     schedules: [
@@ -1126,7 +1126,7 @@ june: {
       { id: 8, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-21', snippet: '来Salomon安福路店逛街，CC接待的我，人特别热情，讲鞋子都讲得很细，耐心跟我说各个款式的区别，选鞋给的建议也很实在，逛着很舒服，体验挺好的～', keywords: ['热情', '讲解细致', '耐心介绍', '建议实在', '体验好'], source: '大众点评（勇善可爱的小柔，Lv1）' },
     ],
 
-        _dataVersion: '2026-06-24-v34',
+        _dataVersion: '2026-06-24-v35',
   },
 
   init() {
@@ -1201,7 +1201,7 @@ june: {
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-24-v34';
+      const DATA_VERSION = '2026-06-24-v35';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
@@ -1373,7 +1373,7 @@ const RATING_DIMENSIONS = [
   { key: 'availability', label: '工时支持', desc: '基础5分·每周不达标-1·换班>1次每次-0.5·顶班每次+0.5(上限+1)' },
   { key: 'performance', label: '销售业绩', desc: '时产×50% + UPT×50% + 月销≥2万加0.5分(封顶5)' },
   { key: 'behavior', label: '行为规范', desc: '门迎时长+店务时长对标团队平均·基础4·低于均线各-0.5·前三名加成(+1/+0.7/+0.4)' },
-  { key: 'attendance', label: '考勤纪律', desc: '基础5分·补卡1次免费·超出每次-1·迟到-1·旷工-2(最低1)' },
+  { key: 'attendance', label: '考勤纪律', desc: '灵工打卡联动·基础5分·补卡1次免费·超出每次-1·迟到-1·旷工-2(最低1)' },
   { key: 'customerReview', label: '顾客好评', desc: '基础1分·首条好评+1·之后每条+0.5(封顶5)' },
 ];
 
