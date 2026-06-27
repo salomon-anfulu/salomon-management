@@ -349,6 +349,11 @@ const Store = {
       { date: '2026-06-26', slots: [
         { time: '10:00-11:00', staff: '孔祥宇' },
         { time: '11:00-12:00', staff: '杨子豪' }
+      ]},
+      { date: '2026-06-27', slots: [
+        { time: '13:00-14:00', staff: '李若彤' },
+        { time: '19:00-20:00', staff: '邓奇缘' },
+        { time: '21:00-21:30', staff: '李若彤' }
       ]}
     ],
 
@@ -449,7 +454,10 @@ const Store = {
       { id: 80, staff: '陈昕媛', date: '2026-06-24', type: '货品-辅助收货', duration: '0.5小时', detail: '收货贴标签' },
       { id: 81, staff: '王靳毓', date: '2026-06-25', type: '陈列-翻场支援', duration: '0.5小时', detail: '陈列熨烫 衣服归仓' },
       { id: 82, staff: '龚赟昊', date: '2026-06-25', type: '陈列-新品熨烫', duration: '1.5小时', detail: '拆包装 烫衣服' },
-      { id: 83, staff: '田佳乐', date: '2026-06-25', type: '陈列-翻场支援', duration: '0.5小时', detail: '补货品调陈列' }
+      { id: 83, staff: '田佳乐', date: '2026-06-25', type: '陈列-翻场支援', duration: '0.5小时', detail: '补货品调陈列' },
+      { id: 84, staff: '孔祥宇', date: '2026-06-26', type: '货品-整理仓库', duration: '1.5小时', detail: '叠归陈列退下来的衣服' },
+      { id: 85, staff: '王雅澜', date: '2026-06-26', type: '陈列-翻场支援', duration: '0.4小时', detail: '叠陈列衣服' },
+      { id: 86, staff: '朱凯赟', date: '2026-06-27', type: '货品-查鞋盒', duration: '1小时', detail: '查鞋盒理尺码26和地面' }
     ],
 
     // 换班统计（缺卡/迟到/旷工已改为从灵工打卡动态计算，门迎/点评已移至各自模块）
@@ -458,12 +466,12 @@ const Store = {
       '田佳乐': { doorCount: 21, shiftChange: 1, shiftedCount: 0 },
       '迟骋': { doorCount: 13, shiftChange: 1, shiftedCount: 0 },
       '王靳毓': { doorCount: 17, shiftChange: 1, shiftedCount: 2 },
-      '朱凯赟': { doorCount: 15, shiftChange: 0, shiftedCount: 0 },
-      '孔祥宇': { doorCount: 13, shiftChange: 1, shiftedCount: 0 },
-      '邓奇缘': { doorCount: 15, shiftChange: 0, shiftedCount: 1 },
+      '朱凯赟': { doorCount: 16, shiftChange: 0, shiftedCount: 0 },
+      '孔祥宇': { doorCount: 15, shiftChange: 1, shiftedCount: 0 },
+      '邓奇缘': { doorCount: 17, shiftChange: 0, shiftedCount: 1 },
       '杨子豪': { doorCount: 11, shiftChange: 2, shiftedCount: 0 },
-      '王雅澜': { doorCount: 16, shiftChange: 1, shiftedCount: 2 },
-      '李若彤': { doorCount: 14, shiftChange: 1, shiftedCount: 1 },
+      '王雅澜': { doorCount: 18, shiftChange: 1, shiftedCount: 2 },
+      '李若彤': { doorCount: 19, shiftChange: 1, shiftedCount: 1 },
       '王龙宇': { doorCount: 10, shiftChange: 0, shiftedCount: 1 },
       '何秋烨': { doorCount: 20, shiftChange: 1, shiftedCount: 1 },
       '龚赟昊': { doorCount: 11, shiftChange: 0, shiftedCount: 1 }
@@ -651,7 +659,13 @@ attendance: [
       { id: 150, staffId: 9, date: '2026-06-25', checkIn: '09:44', checkOut: '17:03', status: 'normal', shift: 'fullday' },
       { id: 151, staffId: 4, date: '2026-06-25', checkIn: '10:16', checkOut: '17:01', status: 'normal', shift: 'fullday' },
       { id: 152, staffId: 2, date: '2026-06-25', checkIn: '12:51', checkOut: '21:33', status: 'normal', shift: 'fullday' },
-      { id: 153, staffId: 13, date: '2026-06-25', checkIn: '12:09', checkOut: '21:00', status: 'normal', shift: 'fullday' }
+      { id: 153, staffId: 13, date: '2026-06-25', checkIn: '12:09', checkOut: '21:00', status: 'normal', shift: 'fullday' },
+      { id: 154, staffId: 6, date: '2026-06-26', checkIn: '09:53', checkOut: '17:01', status: 'normal', shift: 'fullday' },
+      { id: 155, staffId: 10, date: '2026-06-26', checkIn: '12:52', checkOut: '21:30', status: 'normal', shift: 'fullday' },
+      { id: 156, staffId: 8, date: '2026-06-26', checkIn: '10:18', checkOut: '17:02', status: 'normal', shift: 'fullday' },
+      { id: 157, staffId: 9, date: '2026-06-26', checkIn: '11:19', checkOut: '20:30', status: 'normal', shift: 'fullday' },
+      { id: 158, staffId: 7, date: '2026-06-26', checkIn: '12:55', checkOut: '21:30', status: 'normal', shift: 'fullday' },
+      { id: 159, staffId: 13, date: '2026-06-26', checkIn: '12:10', checkOut: '21:00', status: 'normal', shift: 'fullday' }
     ],
 
 ratings: [
@@ -855,7 +869,7 @@ ratings: [
 
 
         // 灵工打卡考勤数据（从 scripts/fetch_linggong.js 自动拉取）
-        linggongAttendance: {
+                linggongAttendance: {
       lastSync: new Date().toISOString(),
       records: [
         { "name": "何秋烨", "date": "2026-06-02", "signIn": "09:00", "signOut": "13:00", "status": "考勤正常", "totalHours": "4" },
@@ -1066,7 +1080,16 @@ ratings: [
         { "name": "玛依拉·努尔夏提", "date": "2026-06-25", "signIn": "12:12", "signOut": "21:03", "status": "考勤正常", "totalHours": "8" },
         { "name": "田佳乐", "date": "2026-06-25", "signIn": "12:51", "signOut": "21:33", "status": "考勤正常", "totalHours": "8" },
         { "name": "祖白代·阿不利孜", "date": "2026-06-25", "signIn": "10:11", "signOut": "19:01", "status": "考勤正常", "totalHours": "8" },
-        { "name": "龚赟昊", "date": "2026-06-25", "signIn": "12:09", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" }
+        { "name": "龚赟昊", "date": "2026-06-25", "signIn": "12:09", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "孔祥宇", "date": "2026-06-26", "signIn": "09:53", "signOut": "17:01", "status": "考勤正常", "totalHours": "7" },
+        { "name": "李若彤", "date": "2026-06-26", "signIn": "12:52", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "杨子豪", "date": "2026-06-26", "signIn": "10:18", "signOut": "17:02", "status": "考勤正常", "totalHours": "6.5" },
+        { "name": "梁实秋", "date": "2026-06-26", "signIn": "10:20", "signOut": "19:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王雅澜", "date": "2026-06-26", "signIn": "11:19", "signOut": "20:30", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-06-26", "signIn": "12:47", "signOut": "22:17", "status": "考勤正常", "totalHours": "8" },
+        { "name": "邓奇缘", "date": "2026-06-26", "signIn": "12:55", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈广权", "date": "2026-06-26", "signIn": "11:16", "signOut": "20:30", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "龚赟昊", "date": "2026-06-26", "signIn": "12:10", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" }
       ]
     },
 
@@ -1304,7 +1327,7 @@ ratings: [
       { id: 8, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-21', snippet: '来Salomon安福路店逛街，CC接待的我，人特别热情，讲鞋子都讲得很细，耐心跟我说各个款式的区别，选鞋给的建议也很实在，逛着很舒服，体验挺好的～', keywords: ['热情', '讲解细致', '耐心介绍', '建议实在', '体验好'], source: '大众点评（勇善可爱的小柔，Lv1）' },
     ],
 
-        _dataVersion: '2026-06-26-v2',
+        _dataVersion: '2026-06-27-v1',
   },
 
   init() {
@@ -1379,7 +1402,7 @@ ratings: [
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-26-v2';
+      const DATA_VERSION = '2026-06-27-v1';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
