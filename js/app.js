@@ -346,14 +346,34 @@ const Store = {
         { time: '16:00-17:00', staff: '龚赟昊' },
         { time: '17:00-18:00', staff: '杨子豪' }
       ]},
-      { date: '2026-06-26', slots: [
+            { date: '2026-06-26', slots: [
         { time: '10:00-11:00', staff: '孔祥宇' },
-        { time: '11:00-12:00', staff: '杨子豪' }
+        { time: '11:00-12:00', staff: '杨子豪' },
+        { time: '12:00-13:00', staff: '王雅澜' },
+        { time: '13:00-14:00', staff: '李若彤' },
+        { time: '14:00-15:00', staff: '邓奇缘' },
+        { time: '16:00-17:00', staff: '田佳乐' },
+        { time: '17:00-18:00', staff: '陈昕媛' },
+        { time: '18:00-19:00', staff: '王靳毓' },
+        { time: '20:00-21:00', staff: '李若彤' }
       ]},
       { date: '2026-06-27', slots: [
-        { time: '13:00-14:00', staff: '李若彤' },
-        { time: '19:00-20:00', staff: '邓奇缘' },
-        { time: '21:00-21:30', staff: '李若彤' }
+        { time: '11:00-12:00', staff: '朱凯赟' },
+        { time: '12:00-13:00', staff: '孔祥宇' },
+        { time: '13:00-14:00', staff: '杨子豪' },
+        { time: '14:00-15:00', staff: '迟骋' },
+        { time: '15:00-16:00', staff: '邓奇缘' },
+        { time: '16:00-17:00', staff: '田佳乐' },
+        { time: '17:00-18:00', staff: '陈昕媛' },
+        { time: '18:00-19:00', staff: '王靳毓' },
+        { time: '20:00-21:00', staff: '邓奇缘' }
+      ]},
+      { date: '2026-06-28', slots: [
+        { time: '12:00-13:00', staff: '王雅澜' },
+        { time: '14:00-15:00', staff: '朱凯赟' },
+        { time: '16:00-17:00', staff: '王靳毓' },
+        { time: '17:00-18:00', staff: '迟骋' },
+        { time: '18:00-19:00', staff: '龚赟昊' }
       ]}
     ],
 
@@ -457,24 +477,29 @@ const Store = {
       { id: 83, staff: '田佳乐', date: '2026-06-25', type: '陈列-翻场支援', duration: '0.5小时', detail: '补货品调陈列' },
       { id: 84, staff: '孔祥宇', date: '2026-06-26', type: '货品-整理仓库', duration: '1.5小时', detail: '叠归陈列退下来的衣服' },
       { id: 85, staff: '王雅澜', date: '2026-06-26', type: '陈列-翻场支援', duration: '0.4小时', detail: '叠陈列衣服' },
-      { id: 86, staff: '朱凯赟', date: '2026-06-27', type: '货品-查鞋盒', duration: '1小时', detail: '查鞋盒理尺码26和地面' }
+      { id: 86, staff: '朱凯赟', date: '2026-06-27', type: '货品-查鞋盒', duration: '1小时', detail: '查鞋盒理尺码26和地面' },
+      { id: 87, staff: '田佳乐', date: '2026-06-27', type: '陈列-翻场支援', duration: '0.5小时', detail: '叠陈列整理内仓' },
+      { id: 88, staff: '邓奇缘', date: '2026-06-27', type: '货品-整理仓库', duration: '0.5小时', detail: '贴袜子价签' },
+      { id: 89, staff: '田佳乐', date: '2026-06-28', type: '陈列-新品熨烫', duration: '0.5小时', detail: '出样熨烫' },
+      { id: 90, staff: '陈昕媛', date: '2026-06-28', type: '货品-整理仓库', duration: '0.5小时', detail: '整理仓库' },
+      { id: 91, staff: '王雅澜', date: '2026-06-28', type: '货品-查鞋盒', duration: '1小时', detail: '查鞋盒' }
     ],
 
     // 换班统计（缺卡/迟到/旷工已改为从灵工打卡动态计算，门迎/点评已移至各自模块）
                 staffStats: {
-      '陈昕媛': { doorCount: 19, shiftChange: 0, shiftedCount: 0 },
-      '田佳乐': { doorCount: 21, shiftChange: 1, shiftedCount: 0 },
-      '迟骋': { doorCount: 13, shiftChange: 1, shiftedCount: 0 },
-      '王靳毓': { doorCount: 17, shiftChange: 1, shiftedCount: 2 },
-      '朱凯赟': { doorCount: 16, shiftChange: 0, shiftedCount: 0 },
-      '孔祥宇': { doorCount: 15, shiftChange: 1, shiftedCount: 0 },
-      '邓奇缘': { doorCount: 17, shiftChange: 0, shiftedCount: 1 },
-      '杨子豪': { doorCount: 11, shiftChange: 2, shiftedCount: 0 },
-      '王雅澜': { doorCount: 18, shiftChange: 1, shiftedCount: 2 },
+      '陈昕媛': { doorCount: 20, shiftChange: 0, shiftedCount: 0 },
+      '田佳乐': { doorCount: 22, shiftChange: 1, shiftedCount: 0 },
+      '迟骋': { doorCount: 16, shiftChange: 1, shiftedCount: 0 },
+      '王靳毓': { doorCount: 19, shiftChange: 1, shiftedCount: 2 },
+      '朱凯赟': { doorCount: 17, shiftChange: 0, shiftedCount: 0 },
+      '孔祥宇': { doorCount: 16, shiftChange: 1, shiftedCount: 0 },
+      '邓奇缘': { doorCount: 19, shiftChange: 0, shiftedCount: 1 },
+      '杨子豪': { doorCount: 12, shiftChange: 2, shiftedCount: 0 },
+      '王雅澜': { doorCount: 19, shiftChange: 1, shiftedCount: 2 },
       '李若彤': { doorCount: 19, shiftChange: 1, shiftedCount: 1 },
       '王龙宇': { doorCount: 10, shiftChange: 0, shiftedCount: 1 },
       '何秋烨': { doorCount: 20, shiftChange: 1, shiftedCount: 1 },
-      '龚赟昊': { doorCount: 11, shiftChange: 0, shiftedCount: 1 }
+      '龚赟昊': { doorCount: 14, shiftChange: 0, shiftedCount: 1 }
     },
 
     schedules: [
@@ -506,7 +531,7 @@ const Store = {
       { id: 25, staffId: 12, date: '2026-06-06', shift: 'fullday', dept: 'Service Team' },
     ],
 
-attendance: [
+    attendance: [
       { id: 1, staffId: 12, date: '2026-06-02', checkIn: '09:00', checkOut: '13:00', status: 'normal', shift: 'fullday' },
       { id: 2, staffId: 6, date: '2026-06-02', checkIn: '10:27', checkOut: '19:00', status: 'normal', shift: 'fullday' },
       { id: 3, staffId: 10, date: '2026-06-02', checkIn: '12:08', checkOut: '21:00', status: 'normal', shift: 'fullday' },
@@ -665,7 +690,25 @@ attendance: [
       { id: 156, staffId: 8, date: '2026-06-26', checkIn: '10:18', checkOut: '17:02', status: 'normal', shift: 'fullday' },
       { id: 157, staffId: 9, date: '2026-06-26', checkIn: '11:19', checkOut: '20:30', status: 'normal', shift: 'fullday' },
       { id: 158, staffId: 7, date: '2026-06-26', checkIn: '12:55', checkOut: '21:30', status: 'normal', shift: 'fullday' },
-      { id: 159, staffId: 13, date: '2026-06-26', checkIn: '12:10', checkOut: '21:00', status: 'normal', shift: 'fullday' }
+      { id: 159, staffId: 13, date: '2026-06-26', checkIn: '12:10', checkOut: '21:00', status: 'normal', shift: 'fullday' },
+      { id: 160, staffId: 12, date: '2026-06-27', checkIn: '10:27', checkOut: '18:02', status: 'normal', shift: 'fullday' },
+      { id: 161, staffId: 6, date: '2026-06-27', checkIn: '10:54', checkOut: '19:17', status: 'normal', shift: 'fullday' },
+      { id: 162, staffId: 5, date: '2026-06-27', checkIn: '09:58', checkOut: '18:02', status: 'normal', shift: 'fullday' },
+      { id: 163, staffId: 8, date: '2026-06-27', checkIn: '11:21', checkOut: '20:31', status: 'normal', shift: 'fullday' },
+      { id: 164, staffId: 4, date: '2026-06-27', checkIn: '11:46', checkOut: '21:02', status: 'normal', shift: 'fullday' },
+      { id: 165, staffId: 2, date: '2026-06-27', checkIn: '12:55', checkOut: '21:33', status: 'normal', shift: 'fullday' },
+      { id: 166, staffId: 3, date: '2026-06-27', checkIn: '11:21', checkOut: '19:33', status: 'normal', shift: 'fullday' },
+      { id: 167, staffId: 7, date: '2026-06-27', checkIn: '12:14', checkOut: '21:00', status: 'normal', shift: 'fullday' },
+      { id: 168, staffId: 1, date: '2026-06-27', checkIn: '10:51', checkOut: '19:14', status: 'normal', shift: 'fullday' },
+      { id: 169, staffId: 5, date: '2026-06-28', checkIn: '10:56', checkOut: '18:00', status: 'normal', shift: 'fullday' },
+      { id: 170, staffId: 10, date: '2026-06-28', checkIn: '12:13', checkOut: '21:00', status: 'normal', shift: 'fullday' },
+      { id: 171, staffId: 9, date: '2026-06-28', checkIn: '10:45', checkOut: '19:31', status: 'normal', shift: 'fullday' },
+      { id: 172, staffId: 4, date: '2026-06-28', checkIn: '11:16', checkOut: '17:30', status: 'normal', shift: 'fullday' },
+      { id: 173, staffId: 2, date: '2026-06-28', checkIn: '10:27', checkOut: '17:33', status: 'normal', shift: 'fullday' },
+      { id: 174, staffId: 3, date: '2026-06-28', checkIn: '12:55', checkOut: '21:31', status: 'normal', shift: 'fullday' },
+      { id: 175, staffId: 7, date: '2026-06-28', checkIn: '11:26', checkOut: '20:30', status: 'normal', shift: 'fullday' },
+      { id: 176, staffId: 1, date: '2026-06-28', checkIn: '09:57', checkOut: '17:05', status: 'normal', shift: 'fullday' },
+      { id: 177, staffId: 13, date: '2026-06-28', checkIn: '12:58', checkOut: '21:30', status: 'normal', shift: 'fullday' }
     ],
 
 ratings: [
@@ -1089,7 +1132,31 @@ ratings: [
         { "name": "玛依拉·努尔夏提", "date": "2026-06-26", "signIn": "12:47", "signOut": "22:17", "status": "考勤正常", "totalHours": "8" },
         { "name": "邓奇缘", "date": "2026-06-26", "signIn": "12:55", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" },
         { "name": "陈广权", "date": "2026-06-26", "signIn": "11:16", "signOut": "20:30", "status": "考勤正常", "totalHours": "8.5" },
-        { "name": "龚赟昊", "date": "2026-06-26", "signIn": "12:10", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" }
+        { "name": "龚赟昊", "date": "2026-06-26", "signIn": "12:10", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "何秋烨", "date": "2026-06-27", "signIn": "10:27", "signOut": "18:02", "status": "考勤正常", "totalHours": "7" },
+        { "name": "孔祥宇", "date": "2026-06-27", "signIn": "10:54", "signOut": "19:17", "status": "考勤正常", "totalHours": "7.5" },
+        { "name": "朱凯赟", "date": "2026-06-27", "signIn": "09:58", "signOut": "18:02", "status": "考勤正常", "totalHours": "7.5" },
+        { "name": "杨子豪", "date": "2026-06-27", "signIn": "11:21", "signOut": "20:31", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "梁实秋", "date": "2026-06-27", "signIn": "12:52", "signOut": "21:33", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王靳毓", "date": "2026-06-27", "signIn": "11:46", "signOut": "21:02", "status": "考勤正常", "totalHours": "8" },
+        { "name": "田佳乐", "date": "2026-06-27", "signIn": "12:55", "signOut": "21:33", "status": "考勤正常", "totalHours": "8" },
+        { "name": "贾长乐", "date": "2026-06-27", "signIn": "11:21", "signOut": "20:30", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "迟骋", "date": "2026-06-27", "signIn": "11:21", "signOut": "19:33", "status": "考勤正常", "totalHours": "7.5" },
+        { "name": "邓奇缘", "date": "2026-06-27", "signIn": "12:14", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈广权", "date": "2026-06-27", "signIn": "10:30", "signOut": "19:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "陈昕媛", "date": "2026-06-27", "signIn": "10:51", "signOut": "19:14", "status": "考勤正常", "totalHours": "7.5" },
+        { "name": "严佳铮", "date": "2026-06-28", "signIn": "10:23", "signOut": "21:30", "status": "考勤正常", "totalHours": "10" },
+        { "name": "朱凯赟", "date": "2026-06-28", "signIn": "10:56", "signOut": "18:00", "status": "考勤正常", "totalHours": "7" },
+        { "name": "李若彤", "date": "2026-06-28", "signIn": "12:13", "signOut": "21:00", "status": "考勤正常", "totalHours": "8" },
+        { "name": "梁实秋", "date": "2026-06-28", "signIn": "11:22", "signOut": "20:30", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "王雅澜", "date": "2026-06-28", "signIn": "10:45", "signOut": "19:31", "status": "考勤正常", "totalHours": "8" },
+        { "name": "王靳毓", "date": "2026-06-28", "signIn": "11:16", "signOut": "17:30", "status": "考勤正常", "totalHours": "6" },
+        { "name": "田佳乐", "date": "2026-06-28", "signIn": "10:27", "signOut": "17:33", "status": "考勤正常", "totalHours": "7" },
+        { "name": "迟骋", "date": "2026-06-28", "signIn": "12:55", "signOut": "21:31", "status": "考勤正常", "totalHours": "8" },
+        { "name": "邓奇缘", "date": "2026-06-28", "signIn": "11:26", "signOut": "20:30", "status": "考勤正常", "totalHours": "8.5" },
+        { "name": "陈广权", "date": "2026-06-28", "signIn": "16:30", "signOut": "21:00", "status": "考勤正常", "totalHours": "4.5" },
+        { "name": "陈昕媛", "date": "2026-06-28", "signIn": "09:57", "signOut": "17:05", "status": "考勤正常", "totalHours": "7" },
+        { "name": "龚赟昊", "date": "2026-06-28", "signIn": "12:58", "signOut": "21:30", "status": "考勤正常", "totalHours": "8" }
       ]
     },
 
@@ -1329,7 +1396,7 @@ ratings: [
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-06-27-v1',
+        _dataVersion: '2026-06-29-v1',
   },
 
   init() {
@@ -1404,7 +1471,7 @@ ratings: [
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-27-v1';
+      const DATA_VERSION = '2026-06-29-v1';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
