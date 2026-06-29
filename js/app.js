@@ -718,12 +718,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 4.5,  // 时产5+UPT3 动态计算
+        "performance": 4.0,  // 时产4+UPT3 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "15天出勤117h，销售¥37,290时产¥318.7/h，UPT 1.12，品类(鞋履 86.2% / 服装 8.6% / 配件 5.3%)，月销达标¥3.7万，月销达标¥3.6万，月销达标¥3.6万，门迎20次，销售¥31,394时产¥312/h，UPT 1.14，品类(鞋履 83.6% / 服装 10.2% / 配件 6.2%)，大众点评好评1条",
+      "comment": "17天出勤131.5h，销售¥37,648时产¥286.3/h，UPT 1.12，品类(鞋履 85.4% / 服装 8.5% / 配件 6.2%)，月销达标，门迎20次，大众点评好评1条",
       "avgScore": 4.9,
       "hourlyRate": 60
     },
@@ -738,7 +738,7 @@ ratings: [
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "12天出勤94.5h，销售¥8,944时产¥94.6/h，UPT 1.14，品类(鞋履 86.0% / 服装 8.9% / 配件 5.1%)",
+      "comment": "14天出勤109.5h，销售¥8,944时产¥81.7/h，UPT 1.14，品类(鞋履 86.0% / 服装 8.9% / 配件 5.1%)",
       "avgScore": 4.0,
       "hourlyRate": 60
     },
@@ -753,7 +753,7 @@ ratings: [
         "attendance": 4,
         "customerReview": 5
       },
-      "comment": "12天出勤92h，销售¥11,578时产¥125.8/h，UPT 1.83，品类(鞋履 78.5% / 配件 12.1% / 服装 9.5%)，月销达标¥2.4万，迟到1次，门迎19次，销售¥9,482时产¥110/h，UPT 1.80，品类(鞋履 80.0% / 服装 11.6% / 配件 8.4%)，大众点评好评4条",
+      "comment": "14天出勤107.5h，销售¥15,586时产¥145.0/h，UPT 2.12，品类(鞋履 67.3% / 服装 23.0% / 配件 9.7%)，大众点评好评4条",
       "avgScore": 4.5,
       "hourlyRate": 60
     },
@@ -763,12 +763,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 4.0,  // 时产3+UPT4 动态计算
+        "performance": 5.0,  // 时产4+UPT5 动态计算
         "behavior": 5,
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "10天出勤77h，销售¥19,440时产¥252.5/h，UPT 1.45，品类(鞋履 77.6% / 服装 16.9% / 配件 5.5%)",
+      "comment": "12天出勤91h，销售¥23,632时产¥259.7/h，UPT 1.54，品类(鞋履 75.2% / 服装 20.3% / 配件 4.5%)，月销达标",
       "avgScore": 4.4,
       "hourlyRate": 60
     },
@@ -778,12 +778,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 3.0,  // 时产3+UPT5 动态计算
+        "performance": 4.0,  // 时产3+UPT5 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "11天出勤89h，销售¥14,452时产¥162.4/h，UPT 1.27，品类(鞋履 73.2% / 服装 26.2% / 配件 0.5%)，门迎16次，销售¥10,958时产¥146/h，UPT 1.38，品类(鞋履 72.0% / 服装 27.3% / 配件 0.7%)，大众点评好评2条",
+      "comment": "13天出勤103.5h，销售¥17,654时产¥170.6/h，UPT 1.50，品类(鞋履 60.0% / 服装 39.0% / 配件 1.1%)，大众点评好评2条",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -793,12 +793,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 5.0,  // 时产3+UPT5 动态计算
+        "performance": 5.0,  // 时产4+UPT5 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "14天出勤105.5h，销售¥24,307时产¥230.4/h，UPT 1.85，品类(鞋履 64.3% / 服装 35.7%)，月销达标¥2.4万，月销达标¥2.0万",
+      "comment": "15天出勤113h，销售¥24,307时产¥215.1/h，UPT 1.85，品类(鞋履 64.3% / 服装 35.7%)，月销达标",
       "avgScore": 4.8,
       "hourlyRate": 60
     },
@@ -813,7 +813,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "13天出勤105h，销售¥14,109时产¥134.4/h，UPT 1.18，品类(鞋履 93.0% / 服装 5.7% / 配件 1.4%)",
+      "comment": "15天出勤121.5h，销售¥16,005时产¥131.7/h，UPT 1.25，品类(鞋履 90.7% / 服装 8.1% / 配件 1.2%)",
       "avgScore": 4.3,
       "hourlyRate": 60
     },
@@ -828,7 +828,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 2.5
       },
-      "comment": "12天出勤99h，销售¥35,502时产¥358.6/h，UPT 1.32，品类(鞋履 93.0% / 服装 6.7% / 配件 0.3%)，月销达标¥3.6万",
+      "comment": "13天出勤107.5h，销售¥35,502时产¥330.3/h，UPT 1.32，品类(鞋履 93.0% / 服装 6.7%)，月销达标，大众点评好评2条",
       "avgScore": 4.5,
       "hourlyRate": 60
     },
@@ -838,12 +838,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 4.0,  // 时产4+UPT4 动态计算
+        "performance": 4.0,  // 时产4+UPT3 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "13天出勤99.5h，销售¥27,576时产¥277.1/h，UPT 1.22，品类(鞋履 83.6% / 服装 13.8% / 配件 2.6%)，月销达标¥2.8万，月销达标¥2.2万，月销达标¥2.2万",
+      "comment": "14天出勤107.5h，销售¥31,470时产¥292.7/h，UPT 1.25，品类(鞋履 85.7% / 服装 12.0% / 配件 2.3%)，月销达标",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -858,7 +858,7 @@ ratings: [
         "attendance": 4,
         "customerReview": 5
       },
-      "comment": "14天出勤112.5h，销售¥28,906时产¥256.9/h，UPT 1.42，品类(鞋履 81.9% / 服装 10.7% / 配件 7.4%)，月销达标¥2.9万，月销达标¥2.4万，迟到1次，门迎17次，销售¥24,016时产¥273/h，UPT 1.38，品类(鞋履 87.3% / 服装 8.7% / 配件 4.0%)，大众点评好评1条",
+      "comment": "15天出勤120.5h，销售¥33,698时产¥279.7/h，UPT 1.35，品类(鞋履 84.4% / 服装 9.2% / 配件 6.4%)，月销达标，大众点评好评1条",
       "avgScore": 4.7,
       "hourlyRate": 60
     },
@@ -888,7 +888,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "12天出勤88.5h，销售¥16,364时产¥184.9/h，UPT 1.8，品类(鞋履 70.2% / 服装 20.7% / 配件 9.1%)",
+      "comment": "13天出勤95.5h，销售¥17,660时产¥184.9/h，UPT 1.82，品类(鞋履 65.0% / 服装 26.5% / 配件 8.4%)",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -898,12 +898,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 4.0,  // 时产2+UPT4 动态计算
+        "performance": 4.0,  // 时产4+UPT3 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "13天出勤102h，销售¥23,804时产¥233.4/h，UPT 1.11，品类(鞋履 85.2% / 服装 13.0% / 配件 1.8%)，月销达标¥2.4万，月销达标¥2.4万，月销达标¥2.2万",
+      "comment": "14天出勤110h，销售¥28,254时产¥256.9/h，UPT 1.19，品类(鞋履 83.8% / 服装 13.3% / 配件 2.9%)，月销达标",
       "avgScore": 4.6,
       "hourlyRate": 60
     }
@@ -1204,22 +1204,22 @@ ratings: [
         ]
       },
             june: {
-        totalSales: 267722,
-        avgUPT: 1.38,
-        avgHourlyOutput: 209.7,
+        totalSales: 295810,
+        avgUPT: 1.39,
+        avgHourlyOutput: 216.7,
         records: [
           {
             name: "陈昕媛",
-            sales: 37290,
-            qty: 28,
-            tickets: 25,
+            sales: 37648,
+            qty: 29,
+            tickets: 26,
             upt: 1.12,
-            avgPrice: 1331,
-            workHours: 117,
-            workDays: 15,
-            hourlyOutput: 318.7,
-            salesShare: 0.139,
-            categories: "鞋履 86.2% / 服装 8.6% / 配件 5.3%"
+            avgPrice: 1298,
+            workHours: 131.5,
+            workDays: 17,
+            hourlyOutput: 286.3,
+            salesShare: 0.127,
+            categories: "鞋履 85.4% / 服装 8.5% / 配件 6.2%"
           },
           {
             name: "杨子豪",
@@ -1228,37 +1228,50 @@ ratings: [
             tickets: 22,
             upt: 1.32,
             avgPrice: 1224,
-            workHours: 99,
-            workDays: 12,
-            hourlyOutput: 358.6,
-            salesShare: 0.133,
-            categories: "鞋履 93.0% / 服装 6.7% / 配件 0.3%"
+            workHours: 107.5,
+            workDays: 13,
+            hourlyOutput: 330.3,
+            salesShare: 0.120,
+            categories: "鞋履 93.0% / 服装 6.7%"
           },
           {
             name: "李若彤",
-            sales: 28906,
-            qty: 27,
-            tickets: 19,
-            upt: 1.42,
-            avgPrice: 1070,
-            workHours: 112.5,
-            workDays: 14,
-            hourlyOutput: 256.9,
-            salesShare: 0.108,
-            categories: "鞋履 81.9% / 服装 10.7% / 配件 7.4%"
+            sales: 33698,
+            qty: 31,
+            tickets: 23,
+            upt: 1.35,
+            avgPrice: 1087,
+            workHours: 120.5,
+            workDays: 15,
+            hourlyOutput: 279.7,
+            salesShare: 0.114,
+            categories: "鞋履 84.4% / 服装 9.2% / 配件 6.4%"
           },
           {
             name: "王雅澜",
-            sales: 27576,
-            qty: 22,
-            tickets: 18,
-            upt: 1.22,
-            avgPrice: 1253,
-            workHours: 99.5,
-            workDays: 13,
-            hourlyOutput: 277.1,
-            salesShare: 0.103,
-            categories: "鞋履 83.6% / 服装 13.8% / 配件 2.6%"
+            sales: 31470,
+            qty: 25,
+            tickets: 20,
+            upt: 1.25,
+            avgPrice: 1259,
+            workHours: 107.5,
+            workDays: 14,
+            hourlyOutput: 292.7,
+            salesShare: 0.106,
+            categories: "鞋履 85.7% / 服装 12.0% / 配件 2.3%"
+          },
+          {
+            name: "龚赟昊",
+            sales: 28254,
+            qty: 25,
+            tickets: 21,
+            upt: 1.19,
+            avgPrice: 1130,
+            workHours: 110,
+            workDays: 14,
+            hourlyOutput: 256.9,
+            salesShare: 0.096,
+            categories: "鞋履 83.8% / 服装 13.3% / 配件 2.9%"
           },
           {
             name: "孔祥宇",
@@ -1266,90 +1279,77 @@ ratings: [
             qty: 24,
             tickets: 13,
             upt: 1.85,
-            avgPrice: 1012,
-            workHours: 105.5,
-            workDays: 14,
-            hourlyOutput: 230.4,
-            salesShare: 0.091,
+            avgPrice: 1013,
+            workHours: 113,
+            workDays: 15,
+            hourlyOutput: 215.1,
+            salesShare: 0.082,
             categories: "鞋履 64.3% / 服装 35.7%"
           },
           {
-            name: "龚赟昊",
-            sales: 23804,
-            qty: 20,
-            tickets: 18,
-            upt: 1.11,
-            avgPrice: 1190,
-            workHours: 102,
-            workDays: 13,
-            hourlyOutput: 233.4,
-            salesShare: 0.089,
-            categories: "鞋履 85.2% / 服装 13.0% / 配件 1.8%"
-          },
-          {
             name: "王靳毓",
-            sales: 19440,
-            qty: 16,
-            tickets: 11,
-            upt: 1.45,
-            avgPrice: 1215,
-            workHours: 77,
-            workDays: 10,
-            hourlyOutput: 252.5,
-            salesShare: 0.073,
-            categories: "鞋履 77.6% / 服装 16.9% / 配件 5.5%"
+            sales: 23632,
+            qty: 20,
+            tickets: 13,
+            upt: 1.54,
+            avgPrice: 1182,
+            workHours: 91,
+            workDays: 12,
+            hourlyOutput: 259.7,
+            salesShare: 0.080,
+            categories: "鞋履 75.2% / 服装 20.3% / 配件 4.5%"
           },
           {
             name: "何秋烨",
-            sales: 16364,
-            qty: 18,
-            tickets: 10,
-            upt: 1.8,
-            avgPrice: 909,
-            workHours: 88.5,
-            workDays: 12,
+            sales: 17660,
+            qty: 20,
+            tickets: 11,
+            upt: 1.82,
+            avgPrice: 883,
+            workHours: 95.5,
+            workDays: 13,
             hourlyOutput: 184.9,
-            salesShare: 0.061,
-            categories: "鞋履 70.2% / 服装 20.7% / 配件 9.1%"
+            salesShare: 0.060,
+            categories: "鞋履 65.0% / 服装 26.5% / 配件 8.4%"
           },
           {
             name: "朱凯赟",
-            sales: 14452,
-            qty: 14,
-            tickets: 11,
-            upt: 1.27,
-            avgPrice: 1032,
-            workHours: 89,
-            workDays: 11,
-            hourlyOutput: 162.4,
-            salesShare: 0.054,
-            categories: "鞋履 73.2% / 服装 26.2% / 配件 0.5%"
+            sales: 17654,
+            qty: 18,
+            tickets: 12,
+            upt: 1.50,
+            avgPrice: 981,
+            workHours: 103.5,
+            workDays: 13,
+            hourlyOutput: 170.6,
+            salesShare: 0.060,
+            categories: "鞋履 60.0% / 服装 39.0% / 配件 1.1%"
           },
           {
             name: "邓奇缘",
-            sales: 14109,
-            qty: 13,
-            tickets: 11,
-            upt: 1.18,
-            avgPrice: 1085,
-            workHours: 105,
-            workDays: 13,
-            hourlyOutput: 134.4,
-            salesShare: 0.053,
-            categories: "鞋履 93.0% / 服装 5.7% / 配件 1.4%"
+            sales: 16005,
+            qty: 15,
+            tickets: 12,
+            upt: 1.25,
+            avgPrice: 1067,
+            workHours: 121.5,
+            workDays: 15,
+            hourlyOutput: 131.7,
+            salesShare: 0.054,
+            categories: "鞋履 90.7% / 服装 8.1% / 配件 1.2%"
           },
           {
             name: "迟骋",
-            sales: 11578,
-            qty: 11,
-            tickets: 6,
-            upt: 1.83,
-            avgPrice: 1052,
-            workHours: 92,
-            workDays: 12,
-            hourlyOutput: 125.8,
-            salesShare: 0.043,
-            categories: "鞋履 78.5% / 配件 12.1% / 服装 9.5%"
+            sales: 15586,
+            qty: 17,
+            tickets: 8,
+            upt: 2.12,
+            avgPrice: 917,
+            workHours: 107.5,
+            workDays: 14,
+            hourlyOutput: 145.0,
+            salesShare: 0.053,
+            categories: "鞋履 67.3% / 服装 23.0% / 配件 9.7%"
           },
           {
             name: "田佳乐",
@@ -1358,10 +1358,10 @@ ratings: [
             tickets: 7,
             upt: 1.14,
             avgPrice: 1118,
-            workHours: 94.5,
-            workDays: 12,
-            hourlyOutput: 94.6,
-            salesShare: 0.033,
+            workHours: 109.5,
+            workDays: 14,
+            hourlyOutput: 81.7,
+            salesShare: 0.030,
             categories: "鞋履 86.0% / 服装 8.9% / 配件 5.1%"
           },
           {
@@ -1374,7 +1374,7 @@ ratings: [
             workHours: 56.5,
             workDays: 7,
             hourlyOutput: 96.5,
-            salesShare: 0.02,
+            salesShare: 0.018,
             categories: "鞋履 93.4% / 配件 6.6%"
           }
         ]
@@ -1396,7 +1396,7 @@ ratings: [
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-06-29-v1',
+        _dataVersion: '2026-06-29-v2',
   },
 
   init() {
@@ -1471,7 +1471,7 @@ ratings: [
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-29-v1';
+      const DATA_VERSION = '2026-06-29-v2';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
