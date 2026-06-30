@@ -1396,7 +1396,7 @@ ratings: [
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-06-29-v2',
+        _dataVersion: '2026-06-30-v1',
   },
 
   init() {
@@ -1471,7 +1471,7 @@ ratings: [
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-06-29-v2';
+      const DATA_VERSION = '2026-06-30-v1';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
@@ -1541,7 +1541,6 @@ const Router = {
       performance: () => renderPerformance(),
       support: () => renderSupport(),
       reviews: () => renderCustomerReviews(),
-      reports: () => renderReports(),
       handbook: () => renderHandbook(),
     };
 
@@ -1549,7 +1548,6 @@ const Router = {
       content.innerHTML = pages[this.current]();
       // Re-init any page-specific JS
       if (this.current === 'dashboard') initDashboardCharts();
-      if (this.current === 'reports') initReportCharts();
     }
 
     // Update nav active state
@@ -1568,7 +1566,6 @@ const Router = {
       performance: '业绩数据',
       support: '店务支援',
       reviews: '顾客好评',
-      reports: '数据报表',
       handbook: '工作手册',
     };
     const headerTitle = document.getElementById('header-title');
