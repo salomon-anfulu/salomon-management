@@ -1238,8 +1238,13 @@ function calcAvailabilityScore(staffName) {
   const weekResults = weeks.map(w => {
     const availDays = w.days.filter(d => !unavailableDays.has(d)).length;
     const weekendAvail = w.weekends.some(d => !unavailableDays.has(d));
-    const passed = availDays >= 4 && weekendAvail;
-    return { ...w, availDays, weekendAvail, passed };
+    // 达标标准与供班总览显示页一致：
+    // - 天数要求：该周在月内≥5天时需≥4天；不足5天时按实际天数（至少有供班即可）
+    // - 周末要求：该周有周末日时需至少供1天；无周末日则免除
+    const meetMinDays = w.days.length >= 5 ? availDays >= 4 : availDays >= w.days.length;
+    const meetWeekend = w.weekends.length > 0 ? weekendAvail : true;
+    const passed = meetMinDays && meetWeekend;
+    return { ...w, availDays, weekendAvail, meetMinDays, meetWeekend, passed };
   });
 
   const passedCount = weekResults.filter(w => w.passed).length;
