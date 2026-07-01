@@ -335,10 +335,14 @@ function renderSchedule() {
   const staff = Store.get('staff').filter(s => s.status === 'active');
   const serviceTeam = staff.filter(s => s.dept === 'Service Team');
   const availability = Store.get('availability');
-  // Support both new (months) and old (month/data) structures
+  // Month to display: _scheduleMonth if set, otherwise availability.currentMonth
+  // Available months from availability.months keys
+  const availableAvailMonths = (availability && availability.months) ? Object.keys(availability.months).sort().reverse() : ['2026-06'];
+  // Determine display month
   let month, availData;
+  const displayMonth = _scheduleMonth || (availability && availability.currentMonth) || availableAvailMonths[0] || '2026-06';
   if (availability && availability.months) {
-    month = availability.currentMonth || Object.keys(availability.months)[0] || '2026-06';
+    month = displayMonth;
     availData = (availability.months[month] && availability.months[month].data) || {};
   } else {
     month = (availability && availability.month) || '2026-06';
@@ -447,12 +451,42 @@ function renderSchedule() {
 
   // === 供班总数汇总 ===
   const totalAvailDays = staffWeeklyData.reduce((sum, s) => sum + s.monthlyTotal, 0);
-  const avgAvailDays = (totalAvailDays / staffWeeklyData.length).toFixed(1);
+  const avgAvailDays = staffWeeklyData.length > 0 ? (totalAvailDays / staffWeeklyData.length).toFixed(1) : '0.0';
   const fullPassCount = staffWeeklyData.filter(s => s.overallPass).length;
   const weekendFailCount = staffWeeklyData.reduce((sum, s) => sum + s.weekResults.filter(w => !w.meetWeekend).length, 0);
   const weekdayFailCount = staffWeeklyData.reduce((sum, s) => sum + s.weekResults.filter(w => !w.meetMinDays).length, 0);
 
   return `
+    <!-- 月份切换器 -->
+    <div class="animate-in" style="margin-bottom: 20px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+      <div>
+        <h2 style="font-size: 18px; font-weight: 800; display:flex; align-items:center; gap:8px;">
+          📅 供班总览
+          <span style="font-size:12px; padding:3px 10px; background: var(--surface); border-radius: 20px; font-weight:600; color: var(--text-secondary);">${year}年${mon}月</span>
+        </h2>
+      </div>
+      <div style="display:flex; gap:6px; align-items:center;">
+        ${availableAvailMonths.map(m => {
+          const [y, mm] = m.split('-');
+          const active = m === month;
+          const monthData = (availability && availability.months && availability.months[m] && availability.months[m].data) || {};
+          const hasData = Object.keys(monthData).length > 0;
+          return `<button onclick="_scheduleMonth='${m}';Router.render()" style="padding:8px 16px;border-radius:10px;border:1px solid ${active ? 'var(--primary)' : 'var(--border)'};background:${active ? 'var(--primary)' : 'var(--surface)'};color:${active ? '#fff' : 'var(--text-secondary)'};font-size:13px;font-weight:${active ? '700' : '500'};cursor:pointer;transition:all 0.2s;${!hasData ? 'opacity:0.6;' : ''}">
+            ${parseInt(mm)}月${!hasData ? '<span style="font-size:10px;margin-left:4px;">(空)</span>' : ''}
+          </button>`;
+        }).join('')}
+      </div>
+    </div>
+
+    ${availData && Object.keys(availData).length === 0 ? `
+    <div class="card animate-in" style="border:2px dashed var(--border);margin-bottom:16px;">
+      <div class="card-body" style="text-align:center;padding:40px 20px;">
+        <div style="font-size:36px;margin-bottom:12px;">📋</div>
+        <div style="font-size:15px;font-weight:700;color:var(--text-primary);margin-bottom:6px;">${mon}月供班数据尚未填写</div>
+        <div style="font-size:13px;color:var(--text-secondary);">请前往「我的填报」→「可上班时间」逐日填写可供班日期</div>
+      </div>
+    </div>
+    ` : ''}
     <!-- 顶部统计卡片 -->
     <div class="stats-grid animate-in" style="margin-bottom: 24px;">
       <div class="stat-card accent">
