@@ -3771,6 +3771,7 @@ let _availViewMode = 'personal';  // personal | overview
 let _availMonth = null;           // 'YYYY-MM'
 let _availStaff = null;           // staff name
 let _availOverviewWeek = 0;       // week offset from first week of month
+let _availOverviewDept = 'Service Team'; // Service Team | 仓库兼职
 
 function renderMyForms() {
   if (!_availMonth) {
@@ -3779,7 +3780,7 @@ function renderMyForms() {
   }
   if (!_availStaff) {
     const me = Store.get('staff').find(s => s.id === _auth.staffId);
-    _availStaff = me ? me.name : (Store.get('staff').find(s => s.dept === 'Service Team') || {}).name || '';
+    _availStaff = me ? me.name : (Store.get('staff').find(s => s.status === 'active') || {}).name || '';
   }
 
   const tabs = [
@@ -3878,7 +3879,7 @@ function renderMonthSwitcher() {
 
 // ===== Personal calendar view =====
 function renderPersonalCalendar() {
-  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.get('staff').filter(s => s.status === 'active');
   const [year, mon] = _availMonth.split('-').map(Number);
   const totalDays = new Date(year, mon, 0).getDate();
   const firstDay = new Date(year, mon - 1, 1).getDay() || 7; // 1=Mon ... 7=Sun
@@ -3932,7 +3933,12 @@ function renderPersonalCalendar() {
         <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
           <label style="font-size:13px;font-weight:600;color:var(--text-secondary);">选择姓名:</label>
           <select id="availStaffSelect" onchange="_availStaff=this.value;Router.render()" style="padding:8px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);min-width:120px;">
-            ${staff.map(s => `<option value="${s.name}" ${_availStaff === s.name ? 'selected' : ''}>${s.name}</option>`).join('')}
+            <optgroup label="Service Team">
+              ${staff.filter(s => s.dept === 'Service Team').map(s => `<option value="${s.name}" ${_availStaff === s.name ? 'selected' : ''}>${s.name}</option>`).join('')}
+            </optgroup>
+            <optgroup label="仓库兼职">
+              ${staff.filter(s => s.dept === '仓库兼职').map(s => `<option value="${s.name}" ${_availStaff === s.name ? 'selected' : ''}>${s.name}</option>`).join('')}
+            </optgroup>
           </select>
           <div style="margin-left:auto;display:flex;gap:12px;font-size:13px;">
             <span style="color:#10b981;font-weight:600;">✅ 可供班 ${availCount}天</span>
@@ -4102,18 +4108,22 @@ function renderWeekSwitcher() {
   const w = weeks[_availOverviewWeek];
 
   return `
-    <div style="display:flex;align-items:center;gap:8px;">
+    <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+      <div style="display:flex;gap:4px;">
+        <button onclick="_availOverviewDept='Service Team';Router.render()" style="padding:6px 12px;border-radius:6px;border:1px solid ${_availOverviewDept==='Service Team'?'var(--accent)':'var(--border)'};background:${_availOverviewDept==='Service Team'?'var(--accent)':'var(--bg-secondary)'};color:${_availOverviewDept==='Service Team'?'#fff':'var(--text-primary)'};font-size:12px;font-weight:${_availOverviewDept==='Service Team'?'700':'400'};cursor:pointer;">Service Team</button>
+        <button onclick="_availOverviewDept='仓库兼职';Router.render()" style="padding:6px 12px;border-radius:6px;border:1px solid ${_availOverviewDept==='仓库兼职'?'var(--accent)':'var(--border)'};background:${_availOverviewDept==='仓库兼职'?'var(--accent)':'var(--bg-secondary)'};color:${_availOverviewDept==='仓库兼职'?'#fff':'var(--text-primary)'};font-size:12px;font-weight:${_availOverviewDept==='仓库兼职'?'700':'400'};cursor:pointer;">📦 仓库兼职</button>
+      </div>
       <button onclick="_availOverviewWeek--;Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">‹</button>
       <span style="font-size:13px;font-weight:700;min-width:140px;text-align:center;">第${_availOverviewWeek + 1}周 ${mon}/${w.start}-${mon}/${w.end}</span>
       <button onclick="_availOverviewWeek++;Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">›</button>
-      <span style="font-size:12px;color:var(--text-muted);margin-left:8px;">共${weeks.length}周</span>
+      <span style="font-size:12px;color:var(--text-muted);margin-left:4px;">共${weeks.length}周</span>
       ${renderMonthSwitcher()}
     </div>
   `;
 }
 
 function renderOverviewMatrix() {
-  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === _availOverviewDept);
   const [year, mon] = _availMonth.split('-').map(Number);
   const totalDays = new Date(year, mon, 0).getDate();
 
@@ -4152,12 +4162,15 @@ function renderOverviewMatrix() {
     return count;
   });
 
+  // Low staff threshold differs by dept
+  const lowThreshold = _availOverviewDept === 'Service Team' ? 6 : 3;
+
   // Build table
   const headerCells = weekDays.map((d, i) => {
     const date = new Date(year, mon - 1, d);
     const dow = date.getDay();
     const isWeekend = dow === 0 || dow === 6;
-    const lowStaff = dailyCounts[i] < 6;
+    const lowStaff = dailyCounts[i] < lowThreshold;
     return `<th style="text-align:center;padding:8px 4px;min-width:60px;background:${isWeekend ? 'rgba(233,69,96,0.05)' : 'transparent'};">
       <div style="font-size:14px;font-weight:700;color:${isWeekend ? '#e94560' : 'var(--text-primary)'};">${d}日</div>
       <div style="font-size:10px;color:${isWeekend ? '#e94560' : 'var(--text-muted)'};">周${dowLabels[dow]}</div>
@@ -4202,7 +4215,7 @@ function renderOverviewMatrix() {
   }).join('');
 
   const countRow = dailyCounts.map((c, i) => {
-    const low = c < 6;
+    const low = c < lowThreshold;
     return `<td style="text-align:center;padding:8px;background:${low ? 'rgba(239,68,68,0.08)' : 'rgba(16,185,129,0.06)'};">
       <span style="font-size:16px;font-weight:800;color:${low ? '#ef4444' : '#10b981'};">${c}</span>
       <span style="font-size:10px;color:var(--text-muted);">人</span>
@@ -4214,10 +4227,12 @@ function renderOverviewMatrix() {
     return personData && personData.dates && Object.keys(personData.dates).length > 0;
   }).length;
 
+  const deptLabel = _availOverviewDept === 'Service Team' ? '🛍️ Service Team' : '📦 仓库兼职';
+
   return `
     <div class="card animate-in">
       <div class="card-header">
-        <h3>📊 排班总览 · ${year}年${mon}月</h3>
+        <h3>📊 ${deptLabel} 排班总览 · ${year}年${mon}月</h3>
         <span style="font-size:12px;color:var(--text-secondary);">已填报 ${filledCount}/${staff.length} 人</span>
       </div>
       <div class="card-body" style="padding:0;overflow-x:auto;">
@@ -4243,7 +4258,7 @@ function renderOverviewMatrix() {
         <span>✅ 可供班</span>
         <span>❌ 不可上班</span>
         <span>— 未填</span>
-        <span style="color:#ef4444;">⚠️ 人数<6人标红</span>
+        <span style="color:#ef4444;">⚠️ 人数<${lowThreshold}人标红</span>
       </div>
     </div>
   `;
