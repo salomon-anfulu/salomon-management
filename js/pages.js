@@ -2578,7 +2578,7 @@ function renderDoorSchedule() {
 
     <!-- Date Selector -->
     <div class="card animate-in" style="margin-bottom: 20px;">
-      <div class="card-body" style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <div class="card-body" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
         ${doorData.map(d => {
           const isSelected = d.date === doorScheduleDate;
           const slotCount = d.slots.filter(s => s.staff && s.staff.trim()).length;
@@ -2589,6 +2589,7 @@ function renderDoorSchedule() {
             ${d.date.replace('2026-06-', '6/')} <span style="font-size: 11px; opacity: 0.7;">(${slotCount}班次)</span>
           </button>`;
         }).join('')}
+        <button onclick="openDoorDayForm()" style="padding: 8px 16px; border-radius: var(--radius-md); border: 1px dashed var(--accent); background: transparent; color: var(--accent); cursor: pointer; font-size: 13px; font-weight: 600;">+ 新增日期</button>
       </div>
     </div>
 
@@ -2597,6 +2598,7 @@ function renderDoorSchedule() {
       <div class="card">
         <div class="card-header">
           <h3>📋 ${doorScheduleDate.replace('2026-06-', '6月')}日 门迎时间表</h3>
+          <button onclick="openDoorSlotForm()" style="padding: 6px 14px; border-radius: 6px; border: none; background: var(--accent, #3b82f6); color: #fff; font-size: 12px; font-weight: 600; cursor: pointer;">+ 添加班次</button>
         </div>
         <div class="card-body" style="padding: 0;">
           <div class="table-container">
@@ -2606,10 +2608,11 @@ function renderDoorSchedule() {
                   <th style="width: 140px;">时间段</th>
                   <th>值班人员</th>
                   <th style="width: 80px;">时长</th>
+                  <th style="width: 100px;">操作</th>
                 </tr>
               </thead>
               <tbody>
-                ${selectedDay.slots.length > 0 ? selectedDay.slots.map(slot => {
+                ${selectedDay.slots.length > 0 ? selectedDay.slots.map((slot, idx) => {
                   const hasStaff = slot.staff && slot.staff.trim();
                   const parts = slot.time.split('-');
                   const dur = (parseInt(parts[1].split(':')[0]) + (parseInt(parts[1].split(':')[1])||0)/60) - (parseInt(parts[0].split(':')[0]) + (parseInt(parts[0].split(':')[1])||0)/60);
@@ -2625,10 +2628,14 @@ function renderDoorSchedule() {
                           : (hasStaff ? '<span style="font-size: 12px; color: var(--text-muted);">—</span>' : '<span class="badge" style="background: var(--border-light); color: var(--text-muted);">空缺</span>')
                         }
                       </td>
+                      <td>
+                        <button onclick="openDoorSlotForm(${idx})" style="padding: 2px 8px; border: 1px solid var(--border); border-radius: 4px; background: transparent; color: var(--text-secondary); font-size: 11px; cursor: pointer; margin-right: 4px;">编辑</button>
+                        <button onclick="deleteDoorSlot(${idx})" style="padding: 2px 8px; border: 1px solid #ef4444; border-radius: 4px; background: transparent; color: #ef4444; font-size: 11px; cursor: pointer;">删除</button>
+                      </td>
                     </tr>
                   `;
                 }).join('') : `
-                  <tr><td colspan="3" style="text-align: center; padding: 40px; color: var(--text-muted);">暂无排班数据</td></tr>
+                  <tr><td colspan="4" style="text-align: center; padding: 40px; color: var(--text-muted);">暂无排班数据，点击「+ 添加班次」开始录入</td></tr>
                 `}
               </tbody>
             </table>
@@ -2750,6 +2757,10 @@ function renderSupport() {
 function renderSupportTable(data) {
   return `
     <div class="card animate-in">
+      <div class="card-header">
+        <h3>📋 支援记录</h3>
+        <button onclick="openSupportForm()" style="padding:6px 14px;border-radius:6px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">+ 新增支援</button>
+      </div>
       <div class="card-body" style="padding: 0;">
         <div class="table-container">
           <table class="data-table">
@@ -2760,18 +2771,20 @@ function renderSupportTable(data) {
                 <th>支援类型</th>
                 <th>时长</th>
                 <th>详细内容</th>
+                <th style="width:80px;">操作</th>
               </tr>
             </thead>
             <tbody>
-              ${data.slice().reverse().map(s => `
+              ${data.length > 0 ? data.slice().reverse().map(s => `
                 <tr>
                   <td>${s.date.replace('2026-', '')}</td>
                   <td><span style="font-weight: 600;">${s.staff}</span></td>
                   <td><span class="badge ${s.type.includes('货品') ? 'badge-info' : s.type.includes('陈列') ? 'badge-active' : 'badge-warning'}">${s.type}</span></td>
                   <td>${s.duration}</td>
                   <td class="text-sm text-secondary">${s.detail}</td>
+                  <td><button onclick="deleteSupport(${s.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button></td>
                 </tr>
-              `).join('')}
+              `).join('') : '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">暂无支援记录，点击「+ 新增支援」录入</td></tr>'}
             </tbody>
           </table>
         </div>
@@ -2903,6 +2916,7 @@ function renderShiftChanges(changes) {
     <div class="card animate-in">
       <div class="card-header">
         <h3>🔄 换班登记表</h3>
+        <button onclick="openShiftForm()" style="padding:6px 14px;border-radius:6px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">+ 新增换班</button>
       </div>
       <div class="card-body" style="padding: 0;">
         <div class="table-container">
@@ -2915,10 +2929,11 @@ function renderShiftChanges(changes) {
                 <th>申请班次</th>
                 <th>被换班人</th>
                 <th>被换班次</th>
+                <th style="width:80px;">操作</th>
               </tr>
             </thead>
             <tbody>
-              ${changes.map(c => `
+              ${changes.length > 0 ? changes.map(c => `
                 <tr>
                   <td>${c.id}</td>
                   <td><span style="font-weight: 600;">${c.applicant}</span></td>
@@ -2926,8 +2941,9 @@ function renderShiftChanges(changes) {
                   <td class="text-sm">${c.applicantShift}</td>
                   <td><span style="font-weight: 600;">${c.target}</span></td>
                   <td class="text-sm">${c.targetShift}</td>
+                  <td><button onclick="deleteShift(${c.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button></td>
                 </tr>
-              `).join('')}
+              `).join('') : '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">暂无换班记录，点击「+ 新增换班」录入</td></tr>'}
             </tbody>
           </table>
         </div>
@@ -3388,4 +3404,316 @@ function deleteReview(id) {
   const reviews = Store.get('customerReviews') || [];
   Store.set('customerReviews', reviews.filter(r => r.id !== id));
   Router.render();
+}
+
+/**
+ * ========================================
+ * Door Schedule CRUD - 门迎排班增删改
+ * ========================================
+ */
+let doorSlotEditingIdx = null;
+
+function openDoorDayForm() {
+  const overlay = document.createElement('div');
+  overlay.id = 'doorDayFormOverlay';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:var(--bg-card,#fff);border-radius:16px;padding:28px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="font-size:18px;font-weight:800;">新增门迎日期</h3>
+        <button onclick="closeDoorDayForm()" style="background:none;border:none;font-size:22px;cursor:pointer;opacity:0.5;">&times;</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div>
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">日期 *</label>
+          <input id="doorDayDate" type="date" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
+        </div>
+        <div style="display:flex;gap:12px;margin-top:8px;">
+          <button onclick="closeDoorDayForm()" style="flex:1;padding:12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:var(--text-primary);">取消</button>
+          <button onclick="saveDoorDay()" style="flex:1;padding:12px;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;background:var(--accent,#3b82f6);color:#fff;">创建</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDoorDayForm(); });
+}
+
+function closeDoorDayForm() {
+  const o = document.getElementById('doorDayFormOverlay');
+  if (o) o.remove();
+}
+
+function saveDoorDay() {
+  const date = document.getElementById('doorDayDate').value;
+  if (!date) { alert('请选择日期'); return; }
+  const doorData = Store.get('doorSchedule') || [];
+  if (doorData.find(d => d.date === date)) { alert('该日期已存在'); return; }
+  doorData.push({ date, slots: [] });
+  doorData.sort((a, b) => a.date.localeCompare(b.date));
+  Store.set('doorSchedule', doorData);
+  doorScheduleDate = date;
+  closeDoorDayForm();
+  Router.render();
+  showToast('已新增日期 ' + date);
+}
+
+function openDoorSlotForm(idx) {
+  doorSlotEditingIdx = (typeof idx === 'number') ? idx : null;
+  const doorData = Store.get('doorSchedule') || [];
+  const day = doorData.find(d => d.date === doorScheduleDate);
+  const slot = (doorSlotEditingIdx !== null && day && day.slots[doorSlotEditingIdx]) ? day.slots[doorSlotEditingIdx] : null;
+  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+
+  const overlay = document.createElement('div');
+  overlay.id = 'doorSlotFormOverlay';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:var(--bg-card,#fff);border-radius:16px;padding:28px;max-width:440px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="font-size:18px;font-weight:800;">${doorSlotEditingIdx !== null ? '编辑班次' : '添加门迎班次'}</h3>
+        <button onclick="closeDoorSlotForm()" style="background:none;border:none;font-size:22px;cursor:pointer;opacity:0.5;">&times;</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">开始时间 *</label>
+            <input id="doorSlotStart" type="time" value="${slot ? slot.time.split('-')[0] : '10:00'}" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">结束时间 *</label>
+            <input id="doorSlotEnd" type="time" value="${slot ? slot.time.split('-')[1] : '11:00'}" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
+          </div>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">值班人员</label>
+          <select id="doorSlotStaff" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
+            <option value="">— 未安排 —</option>
+            ${staff.map(s => `<option value="${s.name}" ${slot && slot.staff === s.name ? 'selected' : ''}>${s.name}</option>`).join('')}
+          </select>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:8px;">
+          <button onclick="closeDoorSlotForm()" style="flex:1;padding:12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:var(--text-primary);">取消</button>
+          <button onclick="saveDoorSlot()" style="flex:1;padding:12px;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;background:var(--accent,#3b82f6);color:#fff;">保存</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDoorSlotForm(); });
+}
+
+function closeDoorSlotForm() {
+  const o = document.getElementById('doorSlotFormOverlay');
+  if (o) o.remove();
+  doorSlotEditingIdx = null;
+}
+
+function saveDoorSlot() {
+  const start = document.getElementById('doorSlotStart').value;
+  const end = document.getElementById('doorSlotEnd').value;
+  const staffName = document.getElementById('doorSlotStaff').value;
+  if (!start || !end) { alert('请填写时间段'); return; }
+  if (start >= end) { alert('开始时间必须早于结束时间'); return; }
+
+  const doorData = Store.get('doorSchedule') || [];
+  let day = doorData.find(d => d.date === doorScheduleDate);
+  if (!day) { day = { date: doorScheduleDate, slots: [] }; doorData.push(day); }
+  const newSlot = { time: start + '-' + end, staff: staffName };
+  if (doorSlotEditingIdx !== null) {
+    day.slots[doorSlotEditingIdx] = newSlot;
+  } else {
+    day.slots.push(newSlot);
+  }
+  day.slots.sort((a, b) => a.time.localeCompare(b.time));
+  Store.set('doorSchedule', doorData);
+  closeDoorSlotForm();
+  Router.render();
+  showToast(doorSlotEditingIdx !== null ? '班次已更新' : '班次已添加');
+}
+
+function deleteDoorSlot(idx) {
+  if (!confirm('确定删除这个班次吗？')) return;
+  const doorData = Store.get('doorSchedule') || [];
+  const day = doorData.find(d => d.date === doorScheduleDate);
+  if (day) {
+    day.slots.splice(idx, 1);
+    Store.set('doorSchedule', doorData);
+    Router.render();
+    showToast('班次已删除');
+  }
+}
+
+/**
+ * ========================================
+ * Store Support CRUD - 店务支援增删改
+ * ========================================
+ */
+function openSupportForm() {
+  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const supportTypes = ['货品-整理仓库', '货品-查鞋盒', '货品-辅助收货', '陈列-翻场支援', '陈列-全楼标签复核', '其他'];
+  const today = new Date().toISOString().slice(0, 10);
+
+  const overlay = document.createElement('div');
+  overlay.id = 'supportFormOverlay';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:var(--bg-card,#fff);border-radius:16px;padding:28px;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="font-size:18px;font-weight:800;">新增店务支援</h3>
+        <button onclick="closeSupportForm()" style="background:none;border:none;font-size:22px;cursor:pointer;opacity:0.5;">&times;</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">员工 *</label>
+            <select id="supportStaff" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
+              ${staff.map(s => `<option value="${s.name}">${s.name}</option>`).join('')}
+            </select>
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">日期 *</label>
+            <input id="supportDate" type="date" value="${today}" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;">
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">支援类型 *</label>
+            <select id="supportType" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
+              ${supportTypes.map(t => `<option value="${t}">${t}</option>`).join('')}
+            </select>
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">时长</label>
+            <input id="supportDuration" type="text" placeholder="如：1小时 / 0.5小时" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
+          </div>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">详细内容</label>
+          <textarea id="supportDetail" rows="3" placeholder="如：货架1-3号查鞋盒、整理1.5衣服仓..." style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:13px;line-height:1.6;background:var(--bg-input,#fff);color:var(--text-primary);resize:vertical;"></textarea>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:8px;">
+          <button onclick="closeSupportForm()" style="flex:1;padding:12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:var(--text-primary);">取消</button>
+          <button onclick="saveSupport()" style="flex:1;padding:12px;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;background:var(--accent,#3b82f6);color:#fff;">保存</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeSupportForm(); });
+}
+
+function closeSupportForm() {
+  const o = document.getElementById('supportFormOverlay');
+  if (o) o.remove();
+}
+
+function saveSupport() {
+  const staffName = document.getElementById('supportStaff').value;
+  const date = document.getElementById('supportDate').value;
+  const type = document.getElementById('supportType').value;
+  const duration = document.getElementById('supportDuration').value.trim() || '1小时';
+  const detail = document.getElementById('supportDetail').value.trim();
+  if (!staffName || !date || !type) { alert('请填写必填字段'); return; }
+
+  const data = Store.get('storeSupport') || [];
+  const newId = data.length > 0 ? Math.max(...data.map(s => s.id)) + 1 : 1;
+  data.push({ id: newId, staff: staffName, date, type, duration, detail });
+  Store.set('storeSupport', data);
+  closeSupportForm();
+  Router.render();
+  showToast('支援记录已添加');
+}
+
+function deleteSupport(id) {
+  if (!confirm('确定删除这条支援记录吗？')) return;
+  const data = Store.get('storeSupport') || [];
+  Store.set('storeSupport', data.filter(s => s.id !== id));
+  Router.render();
+  showToast('记录已删除');
+}
+
+/**
+ * ========================================
+ * Shift Changes CRUD - 换班登记增删改
+ * ========================================
+ */
+function openShiftForm() {
+  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const today = new Date().toISOString().slice(0, 10);
+
+  const overlay = document.createElement('div');
+  overlay.id = 'shiftFormOverlay';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  const staffOptions = staff.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
+  overlay.innerHTML = `
+    <div style="background:var(--bg-card,#fff);border-radius:16px;padding:28px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="font-size:18px;font-weight:800;">新增换班登记</h3>
+        <button onclick="closeShiftForm()" style="background:none;border:none;font-size:22px;cursor:pointer;opacity:0.5;">&times;</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">申请人 *</label>
+            <select id="shiftApplicant" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">${staffOptions}</select>
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">申请日期 *</label>
+            <input id="shiftApplyDate" type="date" value="${today}" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
+          </div>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">申请人班次 *</label>
+          <input id="shiftApplicantShift" type="text" placeholder="如：7/1 12:15-21:00" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">被换班人 *</label>
+            <select id="shiftTarget" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">${staffOptions}</select>
+          </div>
+          <div>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">被换班次</label>
+            <input id="shiftTargetShift" type="text" placeholder="如：6/30 10:30-19:00" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:8px;">
+          <button onclick="closeShiftForm()" style="flex:1;padding:12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:var(--text-primary);">取消</button>
+          <button onclick="saveShift()" style="flex:1;padding:12px;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;background:var(--accent,#3b82f6);color:#fff;">保存</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeShiftForm(); });
+}
+
+function closeShiftForm() {
+  const o = document.getElementById('shiftFormOverlay');
+  if (o) o.remove();
+}
+
+function saveShift() {
+  const applicant = document.getElementById('shiftApplicant').value;
+  const applyDate = document.getElementById('shiftApplyDate').value;
+  const applicantShift = document.getElementById('shiftApplicantShift').value.trim();
+  const target = document.getElementById('shiftTarget').value;
+  const targetShift = document.getElementById('shiftTargetShift').value.trim();
+  if (!applicant || !applyDate || !applicantShift || !target) { alert('请填写必填字段'); return; }
+
+  const data = Store.get('shiftChanges') || [];
+  const newId = data.length > 0 ? Math.max(...data.map(s => s.id)) + 1 : 1;
+  data.push({ id: newId, applicant, applyDate, applicantShift, target, targetShift });
+  Store.set('shiftChanges', data);
+  closeShiftForm();
+  Router.render();
+  showToast('换班记录已添加');
+}
+
+function deleteShift(id) {
+  if (!confirm('确定删除这条换班记录吗？')) return;
+  const data = Store.get('shiftChanges') || [];
+  Store.set('shiftChanges', data.filter(s => s.id !== id));
+  Router.render();
+  showToast('换班记录已删除');
 }
