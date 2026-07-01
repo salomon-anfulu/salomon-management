@@ -1513,11 +1513,31 @@ function renderRatings() {
   const allRatings = Store.get('ratings');
   const staff = Store.get('staff').filter(s => s.status === 'active');
 
-  // Available months from ratings
-  const availableMonths = [...new Set(allRatings.map(r => r.month))].sort().reverse();
+  // Available months from ratings — ensure current month always shows
+  const availableMonths = [...new Set(allRatings.map(r => r.month))];
+  if (!availableMonths.includes(_scoringMonth)) {
+    availableMonths.push(_scoringMonth);
+  }
+  availableMonths.sort().reverse();
 
   // Filter ratings by current scoring month
-  const ratings = allRatings.filter(r => r.month === _scoringMonth);
+  let ratings = allRatings.filter(r => r.month === _scoringMonth);
+
+  // If no ratings exist for current month, create placeholder entries from active staff
+  if (ratings.length === 0) {
+    const existingIds = allRatings.map(r => r.id);
+    let nextId = existingIds.length > 0 ? Math.max(...existingIds) + 1 : 1;
+    ratings = staff.map(s => ({
+      id: nextId++,
+      staffId: s.id,
+      month: _scoringMonth,
+      scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 },
+      comment: _scoringMonth.split('-')[1] + '月待评',
+      avgScore: 0,
+      hourlyRate: 28,
+      _placeholder: true,
+    }));
+  }
 
   // Determine if current month has data or is a "pending" month
   const hasPerfData = (() => {
