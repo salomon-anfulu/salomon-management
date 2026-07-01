@@ -1436,103 +1436,55 @@ linggongAttendance: {
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-01-v4',
+        _dataVersion: '2026-07-01-v5',
   },
 
   init() {
-    if (!localStorage.getItem(this.KEY)) {
-      localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
-    } else {
-      // Auto-upgrade: if old data format detected, reset to new format
+    try {
+      if (!localStorage.getItem(this.KEY)) {
+        localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
+        return;
+      }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const staff = data.staff || [];
-      const avail = data.availability || {};
-      const availData = avail.data || {};
-      const wangYalan = availData['王雅澜'];
-      const chenXinyuan = availData['陈昕媛'];
-      const doorSchedule = data.doorSchedule || [];
-
-      // Check if old format (no "陈昕媛" means old data)
-      const isOldFormat = staff.length > 0 && !staff.find(s => s.name === '陈昕媛');
-      // Check if 王雅澜 availability data is outdated (missing 6/13 or has 6/17)
-      const isOutdatedAvail = wangYalan && (!wangYalan.unavailable.includes('6/13') || wangYalan.unavailable.includes('6/17'));
-      // Check if 陈昕媛 availability is outdated (has 6/16 instead of 6/15)
-      const isOutdatedAvail2 = chenXinyuan && chenXinyuan.unavailable.includes('6/16');
-      // Check if doorSchedule is outdated: 6/9 missing 王靳毓 at 10:00-11:00, or has broken time like 15:00-15:00
-      const june9 = doorSchedule.find(d => d.date === '2026-06-09');
-      const isOutdatedDoor = june9 && june9.slots && !june9.slots.find(s => s.staff === '王靳毓' && s.time.startsWith('10:'));
-      const hasBrokenTime = doorSchedule.some(d => d.slots && d.slots.some(s => s.time && s.time.includes('-') && s.time.split('-')[0] === s.time.split('-')[1]));
-      // Check if linggongAttendance is outdated (only 10 records instead of 94)
-      const lgData = data.linggongAttendance || {};
-      const isOutdatedLG = lgData.records && lgData.records.length < 247;
-      // Check if ratings is outdated (still 5月 data or less than 13 records)
-      const ratingsData = data.ratings || [];
-      const isOutdatedRatings = ratingsData.length < 13 || (ratingsData[0] && ratingsData[0].month === '2026-05');
-      // Check if performanceData has june data
-      const perfData = data.performanceData || {};
-      const isOutdatedPerf = !perfData.june;
-      // Check if staff data still has phone/joinDate fields (old format)
-      const isOldStaffFormat = staff.length > 0 && staff[0].phone !== undefined;
-      // Check if 邓奇缘 rating attendance is outdated (was 4, should be 5)
-      const dengRating = ratingsData.find(r => r.staffId === 7);
-      const isOutdatedDengRating = dengRating && dengRating.scores && dengRating.scores.attendance === 4;
-      // Check if june performance data is outdated (totalSales < 85636 or missing 陈昕媛)
-      const junePerf = (perfData.june || {});
-      const juneRecords = junePerf.records || [];
-      const cxyPerf = juneRecords.find(r => r.name === '陈昕媛');
-      const isOutdatedJunePerf = junePerf.totalSales && junePerf.totalSales < 127591;
-      const isOutdatedKXY = juneRecords.length > 0 && !juneRecords.find(r => r.categories); // 无categories=旧数据（品类功能）
-      // Check if ratings is outdated v3: 陈昕媛 avgScore should be 4.4 (old v2 was 4.6)
-      const cxyRating = ratingsData.find(r => r.staffId === 1);
-      const isOutdatedRatingsV2 = cxyRating && cxyRating.avgScore > 4.4;
-      // Check if doorSchedule is outdated v2: missing 6/13 or 6/14 data
-      const hasJune13 = doorSchedule.find(d => d.date === '2026-06-13');
-      const hasJune14 = doorSchedule.find(d => d.date === '2026-06-14');
-      const isOutdatedDoorV2 = !hasJune13 || !hasJune14;
-      // Check if ratings is outdated v4: 王雅澜 avgScore should be 4.6 (was 4.4), 邓奇缘 should be 4.6 (was 4.4)
-      const wylRating = ratingsData.find(r => r.staffId === 9);
-      const dqyRating = ratingsData.find(r => r.staffId === 8);
-      const isOutdatedRatingsV4 = (wylRating && wylRating.avgScore < 4.6) || (dqyRating && dqyRating.avgScore < 4.6);
-
-      // Check if ratings is outdated v5: scores still has knowledge field (removed)
-      const hasKnowledgeScore = ratingsData.some(r => r.scores && r.scores.knowledge !== undefined);
-      const isOutdatedRatingsV5 = hasKnowledgeScore;
-      const isOutdatedRatingsV6 = cxyRating && cxyRating.scores && !cxyRating.scores.customerReview;
-
-      // Check if customerReviews module is missing or outdated
-      const isMissingReviews = !data.customerReviews;
-      const isOutdatedReviewsV2 = data.customerReviews && data.customerReviews.length === 0;
-      // Check if customerReviews is outdated v3: missing 6/17 new 5 reviews
-      const isOutdatedReviewsV3 = data.customerReviews && data.customerReviews.length < 8;
-      // Check if availability is outdated v3: 陈昕媛 total should be 27 (was 20), 田佳乐 total should be 26 (was 27)
-      const isOutdatedAvailV3 = chenXinyuan && chenXinyuan.total === 20;
-      // Check if june performance is outdated v2: totalSales should be 129567 (was 127591)
-      const isOutdatedJunePerfV2 = junePerf.totalSales && junePerf.totalSales < 218024;
-      // Force reset if critical data sections are missing (ratings, linggong, performanceData)
-      const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
-      // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-07-01-v4';
+      const DATA_VERSION = '2026-07-01-v5';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
-
-      if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
+      const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
+      if (isVersionMismatch || isMissingCritical) {
         localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
       }
+    } catch (e) {
+      console.error('[Store] 数据解析失败，重置为默认值:', e);
+      localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
     }
   },
 
   get(key) {
-    const data = JSON.parse(localStorage.getItem(this.KEY) || '{}');
-    return data[key] || this.defaults[key] || [];
+    try {
+      const data = JSON.parse(localStorage.getItem(this.KEY) || '{}');
+      return data[key] !== undefined ? data[key] : (this.defaults[key] || []);
+    } catch (e) {
+      console.error('[Store.get] 读取失败，返回默认值:', key, e);
+      return this.defaults[key] || [];
+    }
   },
 
   set(key, value) {
-    const data = JSON.parse(localStorage.getItem(this.KEY) || '{}');
-    data[key] = value;
-    localStorage.setItem(this.KEY, JSON.stringify(data));
+    try {
+      const data = JSON.parse(localStorage.getItem(this.KEY) || '{}');
+      data[key] = value;
+      localStorage.setItem(this.KEY, JSON.stringify(data));
+    } catch (e) {
+      console.error('[Store.set] 写入失败:', key, e);
+    }
   },
 
   getAll() {
-    return JSON.parse(localStorage.getItem(this.KEY) || JSON.stringify(this.defaults));
+    try {
+      return JSON.parse(localStorage.getItem(this.KEY) || JSON.stringify(this.defaults));
+    } catch (e) {
+      console.error('[Store.getAll] 读取失败，返回默认数据:', e);
+      return this.defaults;
+    }
   },
 
   reset() {
@@ -1585,9 +1537,16 @@ const Router = {
     };
 
     if (pages[this.current]) {
-      content.innerHTML = pages[this.current]();
-      // Re-init any page-specific JS
-      if (this.current === 'dashboard') initDashboardCharts();
+      try {
+        content.innerHTML = pages[this.current]();
+        if (this.current === 'dashboard') initDashboardCharts();
+      } catch (e) {
+        console.error('[App.render] 页面渲染失败:', this.current, e);
+        content.innerHTML = '<div style="padding:40px;text-align:center;color:#666;">' +
+          '<p style="font-size:16px;margin-bottom:8px;">该页面加载出错</p>' +
+          '<p style="font-size:13px;color:#999;">' + (e.message || 'Unknown error') + '</p>' +
+          '<button onclick="location.reload()" style="margin-top:16px;padding:8px 20px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;">刷新重试</button></div>';
+      }
     }
 
     // Update nav active state
@@ -1713,4 +1672,16 @@ const DAILY_CHECKLIST = [
 ];
 
 // ===== Initialize =====
+// Global error handler - prevents white screen on data corruption
+window.addEventListener('error', function(e) {
+  console.error('[Global Error]', e.message, e.filename + ':' + e.lineno);
+  const main = document.getElementById('main-content') || document.querySelector('main');
+  if (main && main.children.length === 0) {
+    main.innerHTML = '<div style="padding:40px;text-align:center;color:#666;">' +
+      '<p style="font-size:18px;margin-bottom:12px;">页面加载出错了</p>' +
+      '<p style="font-size:14px;">请刷新页面重试，如问题持续请清除浏览器缓存。</p>' +
+      '<p style="font-size:12px;color:#999;margin-top:16px;">' + (e.message || 'Unknown error') + '</p></div>';
+  }
+});
+
 Store.init();

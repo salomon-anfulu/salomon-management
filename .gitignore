@@ -7,3 +7,15 @@ data/auth_state.json
 __pycache__/
 *.pyc
 /tmp/
+
+# 大文件目录 - 不需要部署到线上
+screenshots/
+reports/
+output/
+images/scenes/
+data/
+
+# 根目录散落的大图
+*.png
+!images/**/*.png
+scripts/archive/
