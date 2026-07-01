@@ -1148,9 +1148,24 @@ function calcAvailabilityScore(staffName) {
   }
 
   // Parse unavailable days → Set of day-of-month numbers
-  const unavailableDays = new Set(
-    (availData.unavailable || []).map(d => parseInt(String(d).split('/')[1]))
-  );
+  // Priority: dates{} object (granular per-day status) > unavailable[] (legacy)
+  const unavailableDays = new Set();
+  const [availMonNum] = monthKey.split('-').map(n => parseInt(n));
+  if (availData.dates && typeof availData.dates === 'object') {
+    // Use granular dates structure
+    Object.entries(availData.dates).forEach(([dateKey, status]) => {
+      if (status && status.available === false) {
+        const dayNum = parseInt(String(dateKey).split('/')[1]);
+        if (!isNaN(dayNum)) unavailableDays.add(dayNum);
+      }
+    });
+  } else {
+    // Fallback to legacy unavailable array
+    (availData.unavailable || []).forEach(d => {
+      const dayNum = parseInt(String(d).split('/')[1]);
+      if (!isNaN(dayNum)) unavailableDays.add(dayNum);
+    });
+  }
 
   // Dynamically compute weeks for the availability month (Mon-Sun)
   const [yr, mn] = monthKey.split('-').map(Number);
@@ -1567,6 +1582,8 @@ function renderRatings() {
   const [yr, mn] = _scoringMonth.split('-');
   const monthLabel = `${yr}年${parseInt(mn)}月`;
   const isCurrentMonth = _scoringMonth === '2026-07';
+  // Check if this month has no performance data (placeholder month)
+  const isPlaceholderMonth = !hasPerfData;
 
   return `
     <div class="animate-in" style="margin-bottom: 24px;">
@@ -1599,12 +1616,12 @@ function renderRatings() {
       </div>
     </div>
 
-    ${isCurrentMonth && !hasPerfData ? `
+    ${isPlaceholderMonth ? `
     <div class="card animate-in" style="border:2px dashed var(--accent,#3b82f6);margin-bottom:16px;">
       <div class="card-body" style="text-align:center;padding:20px;">
         <div style="font-size:28px;margin-bottom:8px;">📊</div>
-        <div style="font-size:14px;font-weight:700;color:var(--text-primary);">7月评分进行中</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">当前显示动态基准分（全部5分），数据录入后将实时更新排名。点击上方「6月」可查看6月历史评分。</div>
+        <div style="font-size:14px;font-weight:700;color:var(--text-primary);">${parseInt(mn)}月评分进行中</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">当前显示动态基准分，数据录入后将实时更新排名。</div>
       </div>
     </div>
     ` : ''}
