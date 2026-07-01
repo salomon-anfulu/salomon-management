@@ -1185,9 +1185,9 @@ function calcAvailabilityScore(staffName) {
  * 销售业绩评分（时产 + UPT 双维度各50%，月销售额达标加成）
  *
  * 时产维度（hourly）：
- *   ≥300 → 5 | ≥210 → 4 | ≥150 → 3 | ≥100 → 2 | <100 → 1
+ *   ≥300 → 5 | ≥240 → 4 | ≥180 → 3 | ≥120 → 2 | <120 → 1
  * UPT维度（连带率 = 件数 ÷ 交易笔数）：
- *   ≥1.5 → 5 | ≥1.3 → 4 | ≥1.1 → 3 | ≥0.9 → 2 | <0.9 → 1
+ *   ≥1.6 → 5 | ≥1.4 → 4 | ≥1.25 → 3 | ≥1.1 → 2 | <1.1 → 1
  * 月销售额目标加成：
  *   ≥20000 → +0.5 bonus（封顶5分）；未达标不扣分
  * 最终 = (时产分 + UPT分) / 2 + 达标加成，保留1位小数，上限5
@@ -1211,21 +1211,21 @@ function calcPerformanceScore(staffName) {
   const upt = tickets > 0 ? qty / tickets : 0;
   const sales = record.sales || 0;
 
-  // 时产评分
+  // 时产评分（v2调整：2026-07-01）
   let hourlyScore;
-  if (hourly >= 300) hourlyScore = 5;
-  else if (hourly >= 210) hourlyScore = 4;
-  else if (hourly >= 150) hourlyScore = 3;
-  else if (hourly >= 100) hourlyScore = 2;
-  else hourlyScore = 1;
+  if (hourly >= 300) hourlyScore = 5;       // 顶级
+  else if (hourly >= 240) hourlyScore = 4;   // 优秀
+  else if (hourly >= 180) hourlyScore = 3;   // 合格
+  else if (hourly >= 120) hourlyScore = 2;   // 偏低
+  else hourlyScore = 1;                      // 不达标
 
-  // UPT评分
+  // UPT评分（v2调整：2026-07-01）
   let uptScore;
-  if (upt >= 1.5) uptScore = 5;
-  else if (upt >= 1.3) uptScore = 4;
-  else if (upt >= 1.1) uptScore = 3;
-  else if (upt >= 0.9) uptScore = 2;
-  else uptScore = 1;
+  if (upt >= 1.6) uptScore = 5;       // 顶级
+  else if (upt >= 1.4) uptScore = 4;   // 优秀
+  else if (upt >= 1.25) uptScore = 3;  // 合格
+  else if (upt >= 1.1) uptScore = 2;   // 偏低
+  else uptScore = 1;                   // 不达标
 
   // 双维度各50%
   const rawAvg = (hourlyScore + uptScore) / 2;
@@ -1670,15 +1670,15 @@ function renderRatings() {
                   <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">🎯 时产 + UPT 各50% · 月销2万达标加0.5</div>
                   <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
                     <!-- 时产 -->
-                    <div style="padding: 8px; border-radius: 6px; background: ${perfCalc.hourly >= 210 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)'}; border: 1px solid ${perfCalc.hourly >= 210 ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)'};">
+                    <div style="padding: 8px; border-radius: 6px; background: ${perfCalc.hourly >= 240 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)'}; border: 1px solid ${perfCalc.hourly >= 240 ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)'};">
                       <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">💰 时产</div>
-                      <div style="font-size: 16px; font-weight: 800; color: ${perfCalc.hourly >= 210 ? '#10b981' : '#f59e0b'};">¥${perfCalc.hourly}<span style="font-size: 11px; font-weight: 400; opacity: 0.6;">/h</span></div>
-                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">得分 <b style="color: ${perfCalc.hourlyScore >= 4 ? '#10b981' : perfCalc.hourlyScore >= 3 ? '#f59e0b' : '#ef4444'};">${perfCalc.hourlyScore}</b>/5 ${perfCalc.hourly >= 210 ? '✓' : '✗'}</div>
+                      <div style="font-size: 16px; font-weight: 800; color: ${perfCalc.hourly >= 240 ? '#10b981' : '#f59e0b'};">¥${perfCalc.hourly}<span style="font-size: 11px; font-weight: 400; opacity: 0.6;">/h</span></div>
+                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">得分 <b style="color: ${perfCalc.hourlyScore >= 4 ? '#10b981' : perfCalc.hourlyScore >= 3 ? '#f59e0b' : '#ef4444'};">${perfCalc.hourlyScore}</b>/5 ${perfCalc.hourly >= 240 ? '✓' : '✗'}</div>
                     </div>
                     <!-- UPT -->
-                    <div style="padding: 8px; border-radius: 6px; background: ${perfCalc.upt >= 1.25 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)'}; border: 1px solid ${perfCalc.upt >= 1.25 ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)'};">
+                    <div style="padding: 8px; border-radius: 6px; background: ${perfCalc.upt >= 1.4 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)'}; border: 1px solid ${perfCalc.upt >= 1.4 ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)'};">
                       <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">📦 UPT</div>
-                      <div style="font-size: 16px; font-weight: 800; color: ${perfCalc.upt >= 1.25 ? '#10b981' : '#f59e0b'};">${perfCalc.upt}</div>
+                      <div style="font-size: 16px; font-weight: 800; color: ${perfCalc.upt >= 1.4 ? '#10b981' : '#f59e0b'};">${perfCalc.upt}</div>
                       <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">得分 <b style="color: ${perfCalc.uptScore >= 4 ? '#10b981' : perfCalc.uptScore >= 3 ? '#f59e0b' : '#ef4444'};">${perfCalc.uptScore}</b>/5 · ${perfCalc.qty}件/${perfCalc.tickets}单</div>
                     </div>
                     <!-- 月销售额达标 -->
@@ -3002,11 +3002,11 @@ function renderPersonalDashboard() {
         <div class="stat-label">出勤天数</div>
         <div class="stat-trend up">累计 ${totalHours.toFixed(1)}h</div>
       </div>
-      <div class="stat-card ${junePerf ? (junePerf.hourlyOutput >= 210 ? 'success' : 'warning') : ''}">
+      <div class="stat-card ${junePerf ? (junePerf.hourlyOutput >= 240 ? 'success' : 'warning') : ''}">
         <div class="stat-icon">📊</div>
         <div class="stat-value">${junePerf ? '¥' + junePerf.sales.toLocaleString() : '-'}</div>
         <div class="stat-label">6月销售额</div>
-        <div class="stat-trend ${junePerf ? (junePerf.hourlyOutput >= 210 ? 'up' : 'down') : ''}">${junePerf ? '时产 ¥' + junePerf.hourlyOutput.toFixed(0) + '/h' : '暂无数据'}</div>
+        <div class="stat-trend ${junePerf ? (junePerf.hourlyOutput >= 240 ? 'up' : 'down') : ''}">${junePerf ? '时产 ¥' + junePerf.hourlyOutput.toFixed(0) + '/h' : '暂无数据'}</div>
       </div>
     </div>
 
@@ -3088,8 +3088,8 @@ function renderPersonalDashboard() {
             <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">销售额</div>
           </div>
           <div style="text-align: center; padding: 12px;">
-            <div style="font-size: 18px; font-weight: 800; color: ${junePerf.hourlyOutput >= 210 ? '#10b981' : '#f59e0b'};">¥${junePerf.hourlyOutput.toFixed(0)}/h</div>
-            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">时产 ${junePerf.hourlyOutput >= 210 ? '✓达标' : '✗未达标'}</div>
+            <div style="font-size: 18px; font-weight: 800; color: ${junePerf.hourlyOutput >= 240 ? '#10b981' : '#f59e0b'};">¥${junePerf.hourlyOutput.toFixed(0)}/h</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">时产 ${junePerf.hourlyOutput >= 240 ? '✓达标' : '✗未达标'}</div>
           </div>
           <div style="text-align: center; padding: 12px;">
             <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);">${junePerf.qty || '-'}件 / ${junePerf.tickets || '-'}单</div>
