@@ -712,9 +712,9 @@ function renderAttendance() {
   let lgRecords = linggongData.records || [];
 
   // 灵工打卡统计
-  const lgNormal = lgRecords.filter(r => r.status === '考勤正常').length;
-  const lgAbnormal = lgRecords.filter(r => r.status === '考勤异常').length;
-  const lgOngoing = lgRecords.filter(r => r.status === '考勤中').length;
+  const lgNormal = lgRecords.filter(r => r.status === '打卡正常').length;
+  const lgAbnormal = lgRecords.filter(r => r.status === '打卡异常').length;
+  const lgOngoing = 0; // 灵工API不返回"考勤中"状态
   const lgTotalHours = lgRecords.reduce((sum, r) => sum + (parseFloat(r.totalHours) || 0), 0);
   const lgTotalLate = lgRecords.filter(r => r.lateMin > 0).length;
 
@@ -737,8 +737,8 @@ function renderAttendance() {
     }
     dateStats[d].count++;
     dateStats[d].totalHours += parseFloat(r.totalHours) || 0;
-    if (r.status === '考勤正常') dateStats[d].normal++;
-    else if (r.status === '考勤异常') dateStats[d].abnormal++;
+    if (r.status === '打卡正常') dateStats[d].normal++;
+    else if (r.status === '打卡异常') dateStats[d].abnormal++;
     else if (r.status === '考勤中') dateStats[d].ongoing++;
 
     if (!personStats[r.name]) {
@@ -863,9 +863,9 @@ function renderAttendance() {
                 const dateStr = r.date.replace(/\//g, '-').replace(/^2026-/, '');
 
                 let statusBg, statusText, statusIcon;
-                if (r.status === '考勤正常') {
+                if (r.status === '打卡正常') {
                   statusBg = 'rgba(16,185,129,0.1)'; statusText = '#10b981'; statusIcon = '✅';
-                } else if (r.status === '考勤异常') {
+                } else if (r.status === '打卡异常') {
                   statusBg = 'rgba(239,68,68,0.1)'; statusText = '#ef4444'; statusIcon = '❌';
                 } else {
                   statusBg = 'rgba(59,130,246,0.1)'; statusText = '#3b82f6'; statusIcon = '🕐';
@@ -876,7 +876,7 @@ function renderAttendance() {
                 if (r.leaveMin > 0) exceptionParts.push(`早退${r.leaveMin}min`);
 
                 return `
-                  <tr class="attendance-row" data-date="${r.date}" style="${r.status === '考勤异常' ? 'background: rgba(239,68,68,0.03);' : ''}">
+                  <tr class="attendance-row" data-date="${r.date}" style="${r.status === '打卡异常' ? 'background: rgba(239,68,68,0.03);' : ''}">
                     <td>
                       <div style="display: flex; align-items: center; gap: 8px;">
                         <div class="avatar" style="background: ${avatarColor}; width: 28px; height: 28px; font-size: 11px;">${initials}</div>
@@ -1280,7 +1280,7 @@ function calcCustomerReviewScore(staffName) {
  * 规则：
  *   signIn === '缺卡' 或 signOut === '缺卡' → 缺卡 +1
  *   status === '缺勤' 或 '取消'              → 旷工 +1
- *   status === '考勤异常' 或 lateMin > 0     → 迟到 +1
+ *   status === '打卡异常' 或 lateMin > 0     → 迟到 +1
  *
  * @param {string} staffName - 兼职姓名
  * @returns {{missedPunch, lateCount, absentCount, records: []}}
@@ -1303,8 +1303,8 @@ function getLinggongAttStats(staffName) {
     const isMissedPunch = clockIn === '缺卡' || clockOut === '缺卡';
     // 「取消」= 排班被取消但人没来，按旷工处理
     const isAbsent = r.status === '缺勤' || r.status === '取消';
-    // 「考勤异常」算迟到（如迟到打卡、排班时间不符等），lateMin>0 也算迟到
-    const isLate = r.status === '考勤异常' || (r.lateMin || 0) > 0;
+    // 「打卡异常」算迟到（如迟到打卡、排班时间不符等），lateMin>0 也算迟到
+    const isLate = r.status === '打卡异常' || (r.lateMin || 0) > 0;
 
     if (isMissedPunch) {
       missedPunch++;
@@ -2961,8 +2961,8 @@ function renderPersonalDashboard() {
   const perfData = Store.get('performanceData') || {};
   const junePerf = perfData.june?.records?.find(r => r.name === _auth.staffName);
   const lgData = Store.get('linggongAttendance') || {};
-  const myAttendance = (lgData.records || []).filter(r => r.staffName === _auth.staffName);
-  const normalDays = myAttendance.filter(r => r.status === '考勤正常').length;
+  const myAttendance = (lgData.records || []).filter(r => r.name === _auth.staffName);
+  const normalDays = myAttendance.filter(r => r.status === '打卡正常').length;
   const totalHours = myAttendance.reduce((s, r) => s + (r.totalHours || 0), 0);
   const lateTimes = myAttendance.filter(r => r.lateMin > 0).length;
   const hourlyRate = dynamicAvg >= 3.6 ? 60 : 28;
@@ -3067,7 +3067,7 @@ function renderPersonalDashboard() {
                   <td>${r.clockIn || '-'}</td>
                   <td>${r.clockOut || '-'}</td>
                   <td>${r.totalHours ? r.totalHours.toFixed(1) + 'h' : '-'}</td>
-                  <td><span class="badge ${r.status === '考勤正常' ? 'badge-active' : r.status === '考勤中' ? 'badge-danger' : 'badge-danger'}">${r.status === '考勤正常' ? '✓' : r.status === '考勤中' ? '🕐' : '❌'} ${r.status}</span></td>
+                  <td><span class="badge ${r.status === '打卡正常' ? 'badge-active' : r.status === '考勤中' ? 'badge-danger' : 'badge-danger'}">${r.status === '打卡正常' ? '✓' : r.status === '考勤中' ? '🕐' : '❌'} ${r.status}</span></td>
                 </tr>
               `).join('')}
             </tbody>

@@ -307,7 +307,7 @@ function getMonthTimestamps() {
     const records = dateGroups[date];
     log(`\n  📅 ${date} (${records.length}人):`);
     records.forEach(r => {
-      const icon = r.status === '考勤正常' ? '✅' : r.status === '考勤异常' ? '⚠️' : '🕐';
+      const icon = r.status === '打卡正常' ? '✅' : r.status === '打卡异常' ? '⚠️' : '🕐';
       log(`    ${r.name} | 排班:${r.scheduleTime} | 打卡:${r.clockInTime} | ${icon} ${r.status} | ${r.totalHours}h${r.lateMin > 0 ? ' | 迟到' + r.lateMin + 'min' : ''}`);
     });
   });

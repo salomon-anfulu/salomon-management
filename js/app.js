@@ -55,7 +55,7 @@ const Store = {
     },
 
     // 门迎排班数据（6月1日-20日，来源：腾讯文档PT供班）
-    doorSchedule: [
+doorSchedule: [
       { date: '2026-06-01', slots: [
         { time: '10:00-11:00', staff: '陈昕媛' },
         { time: '11:00-12:00', staff: '邓奇缘' },
@@ -93,7 +93,7 @@ const Store = {
         { time: '18:00-19:00', staff: '王雅澜' },
         { time: '19:00-20:00', staff: '田佳乐' },
         { time: '20:00-21:00', staff: '王雅澜' },
-        { time: '20:00-21:00', staff: '陈昕媛' },
+        { time: '20:00-21:00', staff: '王龙宇' },
         { time: '20:00-21:00', staff: '田佳乐' }
       ]},
       { date: '2026-06-04', slots: [
@@ -190,59 +190,6 @@ const Store = {
         { time: '19:00-20:00', staff: '王雅澜' },
         { time: '20:00-21:00', staff: '邓奇缘' }
       ]},
-      { date: '2026-06-13', slots: [
-        { time: '10:00-11:00', staff: '龚赟昊' },
-        { time: '11:00-12:00', staff: '迟骋' },
-        { time: '12:00-13:00', staff: '朱凯赟' },
-        { time: '13:00-14:00', staff: '邓奇缘' },
-        { time: '14:00-15:00', staff: '陈昕媛' },
-        { time: '15:00-16:00', staff: '李若彤' },
-        { time: '16:00-17:00', staff: '孔祥宇' },
-        { time: '17:00-18:00', staff: '龚赟昊' },
-        { time: '18:00-19:00', staff: '朱凯赟' },
-        { time: '19:00-20:00', staff: '邓奇缘' },
-        { time: '20:00-21:00', staff: '李若彤' },
-        { time: '21:00-21:30', staff: '孔祥宇' }
-      ]},
-      { date: '2026-06-14', slots: [
-        { time: '10:00-11:00', staff: '朱凯赟' },
-        { time: '11:00-12:00', staff: '迟骋' },
-        { time: '12:00-13:00', staff: '王龙宇' },
-        { time: '13:00-14:00', staff: '田佳乐' },
-        { time: '14:00-15:00', staff: '邓奇缘' },
-        { time: '15:00-16:00', staff: '李若彤' },
-        { time: '16:00-17:00', staff: '龚赟昊' },
-        { time: '17:00-18:00', staff: '孔祥宇' },
-        { time: '18:00-19:00', staff: '迟骋' },
-        { time: '19:00-20:00', staff: '李若彤' },
-        { time: '21:00-21:30', staff: '龚赟昊' }
-      ]},
-      { date: '2026-06-15', slots: [
-        { time: '10:00-11:00', staff: '王龙宇' },
-        { time: '11:00-12:00', staff: '孔祥宇' },
-        { time: '12:00-13:00', staff: '杨子豪' },
-        { time: '13:00-14:00', staff: '邓奇缘' },
-        { time: '14:00-15:00', staff: '李若彤' },
-        { time: '15:00-16:00', staff: '迟骋' },
-        { time: '16:00-17:00', staff: '王龙宇' },
-        { time: '17:00-18:00', staff: '孔祥宇' },
-        { time: '18:00-19:00', staff: '杨子豪' },
-        { time: '19:00-20:00', staff: '邓奇缘' },
-        { time: '20:00-21:00', staff: '迟骋' },
-        { time: '20:00-21:00', staff: '李若彤' }
-      ]},
-      { date: '2026-06-16', slots: [
-        { time: '10:00-11:00', staff: '何秋烨' },
-        { time: '11:00-12:00', staff: '邓奇缘' },
-        { time: '12:00-13:00', staff: '龚赟昊' },
-        { time: '13:00-14:00', staff: '陈昕媛' },
-        { time: '14:00-15:00', staff: '孔祥宇' },
-        { time: '15:00-16:00', staff: '何秋烨' },
-        { time: '16:00-17:00', staff: '邓奇缘' },
-        { time: '17:00-18:00', staff: '陈昕媛' },
-        { time: '18:00-19:00', staff: '龚赟昊' },
-        { time: '19:00-20:00', staff: '孔祥宇' }
-      ]},
       { date: '2026-06-17', slots: [
         { time: '10:00-11:00', staff: '孔祥宇' },
         { time: '11:00-12:00', staff: '王靳毓' },
@@ -308,10 +255,14 @@ const Store = {
       ]},
       { date: '2026-06-22', slots: [
         { time: '10:00-11:00', staff: '王靳毓' },
+        { time: '11:00-12:00', staff: '孔祥宇' },
         { time: '12:00-13:00', staff: '龚赟昊' },
         { time: '13:00-14:00', staff: '迟骋' },
+        { time: '14:00-15:00', staff: '何秋烨' },
         { time: '15:00-16:00', staff: '邓奇缘' },
+        { time: '16:00-17:00', staff: '何秋烨' },
         { time: '17:00-18:00', staff: '迟骋' },
+        { time: '18:00-19:00', staff: '何秋烨' },
         { time: '19:00-20:00', staff: '邓奇缘' }
       ]},
       { date: '2026-06-23', slots: [
@@ -323,7 +274,9 @@ const Store = {
         { time: '15:00-16:00', staff: '杨子豪' },
         { time: '16:00-17:00', staff: '陈昕媛' },
         { time: '17:00-18:00', staff: '田佳乐' },
-        { time: '19:00-20:00', staff: '李若彤' }
+        { time: '18:00-19:00', staff: '何秋烨' },
+        { time: '19:00-20:00', staff: '李若彤' },
+        { time: '20:00-21:00', staff: '朱凯赟' }
       ]},
       { date: '2026-06-24', slots: [
         { time: '10:00-11:00', staff: '田佳乐' },
@@ -334,6 +287,7 @@ const Store = {
         { time: '15:00-16:00', staff: '朱凯赟' },
         { time: '16:00-17:00', staff: '田佳乐' },
         { time: '17:00-18:00', staff: '邓奇缘' },
+        { time: '18:00-19:00', staff: '迟骋' },
         { time: '19:00-20:00', staff: '陈昕媛' },
         { time: '20:00-21:00', staff: '王雅澜' }
       ]},
@@ -341,23 +295,30 @@ const Store = {
         { time: '10:00-11:00', staff: '王雅澜' },
         { time: '11:00-12:00', staff: '王靳毓' },
         { time: '12:00-13:00', staff: '杨子豪' },
+        { time: '13:00-14:00', staff: '李若彤' },
         { time: '14:00-15:00', staff: '孔祥宇' },
         { time: '15:00-16:00', staff: '田佳乐' },
         { time: '16:00-17:00', staff: '龚赟昊' },
-        { time: '17:00-18:00', staff: '杨子豪' }
+        { time: '17:00-18:00', staff: '杨子豪' },
+        { time: '18:00-19:00', staff: '李若彤' },
+        { time: '19:00-20:00', staff: '孔祥宇' }
       ]},
-            { date: '2026-06-26', slots: [
+      { date: '2026-06-26', slots: [
         { time: '10:00-11:00', staff: '孔祥宇' },
         { time: '11:00-12:00', staff: '杨子豪' },
         { time: '12:00-13:00', staff: '王雅澜' },
         { time: '13:00-14:00', staff: '李若彤' },
         { time: '14:00-15:00', staff: '邓奇缘' },
-        { time: '16:00-17:00', staff: '田佳乐' },
-        { time: '17:00-18:00', staff: '陈昕媛' },
-        { time: '18:00-19:00', staff: '王靳毓' },
-        { time: '20:00-21:00', staff: '李若彤' }
+        { time: '15:00-16:00', staff: '龚赟昊' },
+        { time: '16:00-17:00', staff: '孔祥宇' },
+        { time: '17:00-18:00', staff: '王雅澜' },
+        { time: '18:00-19:00', staff: '龚赟昊' },
+        { time: '19:00-20:00', staff: '邓奇缘' },
+        { time: '20:00-21:00', staff: '李若彤' },
+        { time: '21:00-21:30', staff: '李若彤' }
       ]},
       { date: '2026-06-27', slots: [
+        { time: '10:00-11:00', staff: '何秋烨' },
         { time: '11:00-12:00', staff: '朱凯赟' },
         { time: '12:00-13:00', staff: '孔祥宇' },
         { time: '13:00-14:00', staff: '杨子豪' },
@@ -369,22 +330,36 @@ const Store = {
         { time: '20:00-21:00', staff: '邓奇缘' }
       ]},
       { date: '2026-06-28', slots: [
+        { time: '11:00-12:00', staff: '田佳乐' },
         { time: '12:00-13:00', staff: '王雅澜' },
         { time: '14:00-15:00', staff: '朱凯赟' },
+        { time: '15:00-16:00', staff: '李若彤' },
         { time: '16:00-17:00', staff: '王靳毓' },
         { time: '17:00-18:00', staff: '迟骋' },
-        { time: '18:00-19:00', staff: '龚赟昊' }
+        { time: '18:00-19:00', staff: '龚赟昊' },
+        { time: '20:00-21:00', staff: '李若彤' },
+        { time: '21:00-21:30', staff: '迟骋' }
       ]},
       { date: '2026-06-29', slots: [
-        { time: '11:00-12:00', staff: '王雅澜' },
-        { time: '13:00-14:00', staff: '杨子豪' },
-        { time: '15:00-16:00', staff: '邓奇缘' },
+        { time: '10:00-11:00', staff: '孔祥宇' },
+        { time: '11:00-12:00', staff: '邓奇缘' },
+        { time: '12:00-13:00', staff: '王雅澜' },
+        { time: '13:00-14:00', staff: '龚赟昊' },
+        { time: '15:00-16:00', staff: '孔祥宇' },
+        { time: '17:00-18:00', staff: '王雅澜' },
         { time: '18:00-19:00', staff: '龚赟昊' }
       ]},
       { date: '2026-06-30', slots: [
-        { time: '12:00-13:00', staff: '田佳乐' },
+        { time: '11:00-12:00', staff: '孔祥宇' },
+        { time: '12:00-13:00', staff: '何秋烨' },
+        { time: '13:00-14:00', staff: '田佳乐' },
         { time: '14:00-15:00', staff: '王靳毓' },
-        { time: '17:00-18:00', staff: '何秋烨' }
+        { time: '15:00-16:00', staff: '田佳乐' },
+        { time: '16:00-17:00', staff: '何秋烨' },
+        { time: '17:00-18:00', staff: '何秋烨' },
+        { time: '18:00-19:00', staff: '王靳毓' },
+        { time: '19:00-20:00', staff: '田佳乐' },
+        { time: '20:00-21:00', staff: '王靳毓' }
       ]}
     ],
     shiftChanges: [
@@ -751,12 +726,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 4.0,  // 时产4+UPT3 动态计算
+        "performance": 3.5,  // 时产4+UPT2 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "17天出勤131.5h，销售¥37,648时产¥286.3/h，UPT 1.12，品类(鞋履 85.4% / 服装 8.5% / 配件 6.2%)，月销达标，门迎20次，大众点评好评1条",
+      "comment": "18天出勤139.5h，销售¥34,360时产¥246.3/h，UPT 1.08，品类(鞋履 85.4% / 服装 8.5% / 配件 6.2%)，月销达标，门迎20次，大众点评好评1条",
       "avgScore": 4.9,
       "hourlyRate": 60
     },
@@ -771,7 +746,7 @@ ratings: [
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "14天出勤109.5h，销售¥8,944时产¥81.7/h，UPT 1.14，品类(鞋履 86.0% / 服装 8.9% / 配件 5.1%)",
+      "comment": "17天出勤125.5h，销售¥8,944时产¥71.3/h，UPT 1.14，品类(鞋履 86.0% / 服装 8.9% / 配件 5.1%)",
       "avgScore": 4.0,
       "hourlyRate": 60
     },
@@ -786,7 +761,7 @@ ratings: [
         "attendance": 4,
         "customerReview": 5
       },
-      "comment": "14天出勤107.5h，销售¥15,586时产¥145.0/h，UPT 2.12，品类(鞋履 67.3% / 服装 23.0% / 配件 9.7%)，大众点评好评4条",
+      "comment": "15天出勤109.5h，销售¥15,586时产¥142.3/h，UPT 2.12，品类(鞋履 67.3% / 服装 23.0% / 配件 9.7%)，大众点评好评4条",
       "avgScore": 4.5,
       "hourlyRate": 60
     },
@@ -796,12 +771,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 5.0,  // 时产4+UPT5 动态计算
+        "performance": 4.5,  // 时产4+UPT4 动态计算
         "behavior": 5,
         "attendance": 4,
         "customerReview": 4
       },
-      "comment": "12天出勤91h，销售¥23,632时产¥259.7/h，UPT 1.54，品类(鞋履 75.2% / 服装 20.3% / 配件 4.5%)，月销达标",
+      "comment": "15天出勤115.5h，销售¥26,228时产¥227.1/h，UPT 1.47，品类(鞋履 77.7% / 服装 18.3% / 配件 4.1%)，月销达标",
       "avgScore": 4.4,
       "hourlyRate": 60
     },
@@ -816,7 +791,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 5
       },
-      "comment": "13天出勤103.5h，销售¥17,654时产¥170.6/h，UPT 1.50，品类(鞋履 60.0% / 服装 39.0% / 配件 1.1%)，大众点评好评2条",
+      "comment": "14天出勤105.5h，销售¥16,856时产¥159.8/h，UPT 1.50，品类(鞋履 60.0% / 服装 39.0% / 配件 1.1%)，大众点评好评2条",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -826,12 +801,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 5.0,  // 时产4+UPT5 动态计算
+        "performance": 4.5,  // 时产3+UPT5 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "15天出勤113h，销售¥24,307时产¥215.1/h，UPT 1.85，品类(鞋履 64.3% / 服装 35.7%)，月销达标",
+      "comment": "18天出勤127.5h，销售¥22,959时产¥180.1/h，UPT 1.77，品类(鞋履 64.3% / 服装 35.7%)，月销达标",
       "avgScore": 4.8,
       "hourlyRate": 60
     },
@@ -846,7 +821,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "15天出勤121.5h，销售¥16,005时产¥131.7/h，UPT 1.25，品类(鞋履 90.7% / 服装 8.1% / 配件 1.2%)",
+      "comment": "17天出勤137.5h，销售¥16,005时产¥116.4/h，UPT 1.25，品类(鞋履 90.7% / 服装 8.1% / 配件 1.2%)",
       "avgScore": 4.3,
       "hourlyRate": 60
     },
@@ -856,12 +831,12 @@ ratings: [
       "month": "2026-06",
       "scores": {
         "availability": 5,
-        "performance": 5.0,  // 时产5+UPT4 动态计算
+        "performance": 4.5,  // 时产4+UPT4 动态计算
         "behavior": 5,
         "attendance": 5,
         "customerReview": 2.5
       },
-      "comment": "13天出勤107.5h，销售¥35,502时产¥330.3/h，UPT 1.32，品类(鞋履 93.0% / 服装 6.7%)，月销达标，大众点评好评2条",
+      "comment": "15天出勤123.5h，销售¥35,502时产¥287.5/h，UPT 1.32，品类(鞋履 93.0% / 服装 6.7% / 配件 0.3%)，月销达标，大众点评好评2条",
       "avgScore": 4.5,
       "hourlyRate": 60
     },
@@ -876,7 +851,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "14天出勤107.5h，销售¥31,470时产¥292.7/h，UPT 1.25，品类(鞋履 85.7% / 服装 12.0% / 配件 2.3%)，月销达标",
+      "comment": "16天出勤118h，销售¥33,466时产¥283.6/h，UPT 1.23，品类(鞋履 86.5% / 服装 11.3% / 配件 2.1%)，月销达标",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -891,7 +866,7 @@ ratings: [
         "attendance": 4,
         "customerReview": 5
       },
-      "comment": "15天出勤120.5h，销售¥33,698时产¥279.7/h，UPT 1.35，品类(鞋履 84.4% / 服装 9.2% / 配件 6.4%)，月销达标，大众点评好评1条",
+      "comment": "17天出勤133.5h，销售¥32,500时产¥243.4/h，UPT 1.35，品类(鞋履 84.4% / 服装 9.2% / 配件 6.4%)，月销达标，大众点评好评1条",
       "avgScore": 4.7,
       "hourlyRate": 60
     },
@@ -906,7 +881,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "7天出勤56.5h，销售¥5,450时产¥96.5/h，UPT 1.25，品类(鞋履 93.4% / 配件 6.6%)",
+      "comment": "8天出勤58.5h，销售¥5,450时产¥93.2/h，UPT 1.25，品类(鞋履 93.4% / 配件 6.6%)",
       "avgScore": 4.2,
       "hourlyRate": 60
     },
@@ -921,7 +896,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "13天出勤95.5h，销售¥17,660时产¥184.9/h，UPT 1.82，品类(鞋履 65.0% / 服装 26.5% / 配件 8.4%)",
+      "comment": "15天出勤105h，销售¥19,536时产¥186.1/h，UPT 1.77，品类(鞋履 69.4% / 服装 22.9% / 配件 7.7%)",
       "avgScore": 4.6,
       "hourlyRate": 60
     },
@@ -936,7 +911,7 @@ ratings: [
         "attendance": 5,
         "customerReview": 4
       },
-      "comment": "14天出勤110h，销售¥28,254时产¥256.9/h，UPT 1.19，品类(鞋履 83.8% / 服装 13.3% / 配件 2.9%)，月销达标",
+      "comment": "15天出勤118h，销售¥25,858时产¥219.1/h，UPT 1.14，品类(鞋履 83.8% / 服装 13.3% / 配件 2.9%)，月销达标",
       "avgScore": 4.6,
       "hourlyRate": 60
     }
@@ -1269,23 +1244,10 @@ linggongAttendance: {
         ]
       },
             june: {
-        totalSales: 295810,
-        avgUPT: 1.39,
-        avgHourlyOutput: 216.7,
+        totalSales: 293250,
+        avgUPT: 1.36,
+        avgHourlyOutput: 193.3,
         records: [
-          {
-            name: "陈昕媛",
-            sales: 37648,
-            qty: 29,
-            tickets: 26,
-            upt: 1.12,
-            avgPrice: 1298,
-            workHours: 131.5,
-            workDays: 17,
-            hourlyOutput: 286.3,
-            salesShare: 0.127,
-            categories: "鞋履 85.4% / 服装 8.5% / 配件 6.2%"
-          },
           {
             name: "杨子豪",
             sales: 35502,
@@ -1293,101 +1255,114 @@ linggongAttendance: {
             tickets: 22,
             upt: 1.32,
             avgPrice: 1224,
-            workHours: 107.5,
-            workDays: 13,
-            hourlyOutput: 330.3,
-            salesShare: 0.120,
-            categories: "鞋履 93.0% / 服装 6.7%"
+            workHours: 123.5,
+            workDays: 15,
+            hourlyOutput: 287.5,
+            salesShare: 0.121,
+            categories: "鞋履 93.0% / 服装 6.7% / 配件 0.3%"
           },
           {
-            name: "李若彤",
-            sales: 33698,
-            qty: 31,
-            tickets: 23,
-            upt: 1.35,
-            avgPrice: 1087,
-            workHours: 120.5,
-            workDays: 15,
-            hourlyOutput: 279.7,
-            salesShare: 0.114,
-            categories: "鞋履 84.4% / 服装 9.2% / 配件 6.4%"
+            name: "陈昕媛",
+            sales: 34360,
+            qty: 28,
+            tickets: 26,
+            upt: 1.08,
+            avgPrice: 1227,
+            workHours: 139.5,
+            workDays: 18,
+            hourlyOutput: 246.3,
+            salesShare: 0.117,
+            categories: "鞋履 85.4% / 服装 8.5% / 配件 6.2%"
           },
           {
             name: "王雅澜",
-            sales: 31470,
-            qty: 25,
-            tickets: 20,
-            upt: 1.25,
-            avgPrice: 1259,
-            workHours: 107.5,
-            workDays: 14,
-            hourlyOutput: 292.7,
-            salesShare: 0.106,
-            categories: "鞋履 85.7% / 服装 12.0% / 配件 2.3%"
+            sales: 33466,
+            qty: 27,
+            tickets: 22,
+            upt: 1.23,
+            avgPrice: 1239,
+            workHours: 118,
+            workDays: 16,
+            hourlyOutput: 283.6,
+            salesShare: 0.114,
+            categories: "鞋履 86.5% / 服装 11.3% / 配件 2.1%"
+          },
+          {
+            name: "李若彤",
+            sales: 32500,
+            qty: 31,
+            tickets: 23,
+            upt: 1.35,
+            avgPrice: 1048,
+            workHours: 133.5,
+            workDays: 17,
+            hourlyOutput: 243.4,
+            salesShare: 0.111,
+            categories: "鞋履 84.4% / 服装 9.2% / 配件 6.4%"
+          },
+          {
+            name: "王靳毓",
+            sales: 26228,
+            qty: 22,
+            tickets: 15,
+            upt: 1.47,
+            avgPrice: 1192,
+            workHours: 115.5,
+            workDays: 15,
+            hourlyOutput: 227.1,
+            salesShare: 0.089,
+            categories: "鞋履 77.7% / 服装 18.3% / 配件 4.1%"
           },
           {
             name: "龚赟昊",
-            sales: 28254,
-            qty: 25,
+            sales: 25858,
+            qty: 24,
             tickets: 21,
-            upt: 1.19,
-            avgPrice: 1130,
-            workHours: 110,
-            workDays: 14,
-            hourlyOutput: 256.9,
-            salesShare: 0.096,
+            upt: 1.14,
+            avgPrice: 1077,
+            workHours: 118,
+            workDays: 15,
+            hourlyOutput: 219.1,
+            salesShare: 0.088,
             categories: "鞋履 83.8% / 服装 13.3% / 配件 2.9%"
           },
           {
             name: "孔祥宇",
-            sales: 24307,
-            qty: 24,
+            sales: 22959,
+            qty: 23,
             tickets: 13,
-            upt: 1.85,
-            avgPrice: 1013,
-            workHours: 113,
-            workDays: 15,
-            hourlyOutput: 215.1,
-            salesShare: 0.082,
+            upt: 1.77,
+            avgPrice: 998,
+            workHours: 127.5,
+            workDays: 18,
+            hourlyOutput: 180.1,
+            salesShare: 0.078,
             categories: "鞋履 64.3% / 服装 35.7%"
           },
           {
-            name: "王靳毓",
-            sales: 23632,
-            qty: 20,
-            tickets: 13,
-            upt: 1.54,
-            avgPrice: 1182,
-            workHours: 91,
-            workDays: 12,
-            hourlyOutput: 259.7,
-            salesShare: 0.080,
-            categories: "鞋履 75.2% / 服装 20.3% / 配件 4.5%"
-          },
-          {
             name: "何秋烨",
-            sales: 17660,
-            qty: 20,
-            tickets: 11,
-            upt: 1.82,
-            avgPrice: 883,
-            workHours: 95.5,
-            workDays: 13,
-            hourlyOutput: 184.9,
-            salesShare: 0.060,
-            categories: "鞋履 65.0% / 服装 26.5% / 配件 8.4%"
+            sales: 19536,
+            qty: 23,
+            tickets: 13,
+            upt: 1.77,
+            avgPrice: 849,
+            workHours: 105,
+            workDays: 15,
+            hourlyOutput: 186.1,
+            salesShare: 0.067,
+            categories: "鞋履 69.4% / 服装 22.9% / 配件 7.7%"
           },
           {
             name: "朱凯赟",
-            sales: 17654,
+            sales: 16856,
             qty: 18,
             tickets: 12,
             upt: 1.50,
-            avgPrice: 981,
-            workHours: 103.5,
-            workDays: 13,
-            hourlyOutput: 170.6,
-            salesShare: 0.060,
+            avgPrice: 936,
+            workHours: 105.5,
+            workDays: 14,
+            hourlyOutput: 159.8,
+            salesShare: 0.057,
             categories: "鞋履 60.0% / 服装 39.0% / 配件 1.1%"
           },
           {
@@ -1397,10 +1372,10 @@ linggongAttendance: {
             tickets: 12,
             upt: 1.25,
             avgPrice: 1067,
-            workHours: 121.5,
-            workDays: 15,
-            hourlyOutput: 131.7,
-            salesShare: 0.054,
+            workHours: 137.5,
+            workDays: 17,
+            hourlyOutput: 116.4,
+            salesShare: 0.055,
             categories: "鞋履 90.7% / 服装 8.1% / 配件 1.2%"
           },
           {
@@ -1409,10 +1384,10 @@ linggongAttendance: {
             qty: 17,
             tickets: 8,
             upt: 2.12,
-            avgPrice: 917,
-            workHours: 107.5,
-            workDays: 14,
-            hourlyOutput: 145.0,
+            avgPrice: 916,
+            workHours: 109.5,
+            workDays: 15,
+            hourlyOutput: 142.3,
             salesShare: 0.053,
             categories: "鞋履 67.3% / 服装 23.0% / 配件 9.7%"
           },
@@ -1423,9 +1398,9 @@ linggongAttendance: {
             tickets: 7,
             upt: 1.14,
             avgPrice: 1118,
-            workHours: 109.5,
-            workDays: 14,
-            hourlyOutput: 81.7,
+            workHours: 125.5,
+            workDays: 17,
+            hourlyOutput: 71.3,
             salesShare: 0.030,
             categories: "鞋履 86.0% / 服装 8.9% / 配件 5.1%"
           },
@@ -1436,12 +1411,12 @@ linggongAttendance: {
             tickets: 4,
             upt: 1.25,
             avgPrice: 1090,
-            workHours: 56.5,
-            workDays: 7,
-            hourlyOutput: 96.5,
-            salesShare: 0.018,
+            workHours: 58.5,
+            workDays: 8,
+            hourlyOutput: 93.2,
+            salesShare: 0.019,
             categories: "鞋履 93.4% / 配件 6.6%"
-          }
+          },
         ]
       },
 
@@ -1461,7 +1436,7 @@ linggongAttendance: {
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-01-v1',
+        _dataVersion: '2026-07-01-v2',
   },
 
   init() {
@@ -1536,7 +1511,7 @@ linggongAttendance: {
       // Force reset if critical data sections are missing (ratings, linggong, performanceData)
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews;
       // Version-based force reset: bumps every time we push a critical update
-      const DATA_VERSION = '2026-07-01-v1';
+      const DATA_VERSION = '2026-07-01-v2';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
 
       if (isOldFormat || isOutdatedAvail || isOutdatedAvail2 || isOutdatedDoor || hasBrokenTime || isOutdatedLG || isOutdatedRatings || isOutdatedPerf || isOldStaffFormat || isOutdatedDengRating || isOutdatedJunePerf || isOutdatedKXY || isOutdatedRatingsV2 || isOutdatedDoorV2 || isOutdatedRatingsV4 || isOutdatedRatingsV5 || isOutdatedRatingsV6 || isMissingReviews || isOutdatedReviewsV2 || isOutdatedReviewsV3 || isOutdatedAvailV3 || isOutdatedJunePerfV2 || isMissingCritical || isVersionMismatch) {
