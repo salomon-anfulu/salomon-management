@@ -34,23 +34,31 @@ const Store = {
       { id: 19, name: '梁实秋', gender: '男', dept: '仓库兼职', joinDate: '2026-01-25', status: 'active', avatar_color: '#fbbf24', availableDays: 19 },
     ],
 
-    // 6月供班数据（从腾讯文档PT供班表导入）
+    // 供班数据（多月结构，支持逐日状态+备注）
+    // 旧结构 { month, data: { name: { total, unavailable, note } } } 已在 Store.init 中迁移
     availability: {
-      month: '2026-06',
-      data: {
-        '陈昕媛': { total: 27, unavailable: ['6/15', '6/25', '6/26'], note: '' },
-        '田佳乐': { total: 26, unavailable: ['6/1', '6/7', '6/13', '6/15'], note: '' },
-        '迟骋': { total: 26, unavailable: ['6/3', '6/9', '6/16', '6/30'], note: '' },
-        '王靳毓': { total: 25, unavailable: ['6/3', '6/13', '6/14', '6/15', '6/18'], note: '' },
-        '朱凯赟': { total: 24, unavailable: ['6/4', '6/5', '6/9', '6/15', '6/17', '6/30'], note: '' },
-        '孔祥宇': { total: 29, unavailable: ['6/6'], note: '' },
-        '邓奇缘': { total: 28, unavailable: ['6/5', '6/25'], note: '' },
-        '杨子豪': { total: 26, unavailable: ['6/3', '6/11', '6/13', '6/14'], note: '' },
-        '王雅澜': { total: 26, unavailable: ['6/13', '6/14', '6/15', '6/16'], note: '' },
-        '李若彤': { total: 30, unavailable: [], note: '' },
-        '王龙宇': { total: 10, unavailable: ['6/2','6/3','6/7','6/9','6/12','6/13','6/14','6/16','6/18','6/19','6/20','6/21','6/22','6/23','6/24','6/25','6/26','6/27','6/28','6/29','6/30'], note: '19日到30日出差，请假' },
-        '何秋烨': { total: 23, unavailable: ['6/1', '6/8', '6/9', '6/13', '6/14', '6/15', '6/17'], note: '' },
-        '龚赟昊': { total: 25, unavailable: ['6/1', '6/4', '6/8', '6/15', '6/17'], note: '' },
+      currentMonth: '2026-07',
+      months: {
+        '2026-06': {
+          data: {
+            '陈昕媛': { total: 27, unavailable: ['6/15', '6/25', '6/26'], note: '', dates: null },
+            '田佳乐': { total: 26, unavailable: ['6/1', '6/7', '6/13', '6/15'], note: '', dates: null },
+            '迟骋': { total: 26, unavailable: ['6/3', '6/9', '6/16', '6/30'], note: '', dates: null },
+            '王靳毓': { total: 25, unavailable: ['6/3', '6/13', '6/14', '6/15', '6/18'], note: '', dates: null },
+            '朱凯赟': { total: 24, unavailable: ['6/4', '6/5', '6/9', '6/15', '6/17', '6/30'], note: '', dates: null },
+            '孔祥宇': { total: 29, unavailable: ['6/6'], note: '', dates: null },
+            '邓奇缘': { total: 28, unavailable: ['6/5', '6/25'], note: '', dates: null },
+            '杨子豪': { total: 26, unavailable: ['6/3', '6/11', '6/13', '6/14'], note: '', dates: null },
+            '王雅澜': { total: 26, unavailable: ['6/13', '6/14', '6/15', '6/16'], note: '', dates: null },
+            '李若彤': { total: 30, unavailable: [], note: '', dates: null },
+            '王龙宇': { total: 10, unavailable: ['6/2','6/3','6/7','6/9','6/12','6/13','6/14','6/16','6/18','6/19','6/20','6/21','6/22','6/23','6/24','6/25','6/26','6/27','6/28','6/29','6/30'], note: '19日到30日出差，请假', dates: null },
+            '何秋烨': { total: 23, unavailable: ['6/1', '6/8', '6/9', '6/13', '6/14', '6/15', '6/17'], note: '', dates: null },
+            '龚赟昊': { total: 25, unavailable: ['6/1', '6/4', '6/8', '6/15', '6/17'], note: '', dates: null },
+          }
+        },
+        '2026-07': {
+          data: {}
+        }
       }
     },
 
@@ -1436,7 +1444,7 @@ linggongAttendance: {
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-01-v6',
+        _dataVersion: '2026-07-01-v7',
   },
 
   init() {
@@ -1446,7 +1454,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-01-v6';
+      const DATA_VERSION = '2026-07-01-v7';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       if (isVersionMismatch || isMissingCritical) {
@@ -1534,6 +1542,7 @@ const Router = {
       support: () => renderSupport(),
       reviews: () => renderCustomerReviews(),
       handbook: () => renderHandbook(),
+      myforms: () => renderMyForms(),
     };
 
     if (pages[this.current]) {
@@ -1566,6 +1575,7 @@ const Router = {
       support: '店务支援',
       reviews: '顾客好评',
       handbook: '工作手册',
+      myforms: '我的填报',
     };
     const headerTitle = document.getElementById('header-title');
     if (headerTitle) headerTitle.textContent = titles[this.current] || '';

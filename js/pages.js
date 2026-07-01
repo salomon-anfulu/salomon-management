@@ -335,8 +335,15 @@ function renderSchedule() {
   const staff = Store.get('staff').filter(s => s.status === 'active');
   const serviceTeam = staff.filter(s => s.dept === 'Service Team');
   const availability = Store.get('availability');
-  const month = availability.month || '2026-06';
-  const availData = availability.data || {};
+  // Support both new (months) and old (month/data) structures
+  let month, availData;
+  if (availability && availability.months) {
+    month = availability.currentMonth || Object.keys(availability.months)[0] || '2026-06';
+    availData = (availability.months[month] && availability.months[month].data) || {};
+  } else {
+    month = (availability && availability.month) || '2026-06';
+    availData = (availability && availability.data) || {};
+  }
 
   // === 计算月份每周的日期范围 ===
   const [year, mon] = month.split('-').map(Number);
@@ -1125,20 +1132,56 @@ const DIMENSION_META = {
 function calcAvailabilityScore(staffName) {
   const availability = Store.get('availability');
   const shiftChanges = Store.get('shiftChanges') || [];
-  const availData = (availability && availability.data && availability.data[staffName]) || { total: 0, unavailable: [] };
+
+  // Support both new (months) and old (month/data) structures
+  let availData;
+  let monthKey;
+  if (availability && availability.months) {
+    monthKey = availability.currentMonth || Object.keys(availability.months)[0];
+    availData = (availability.months[monthKey] && availability.months[monthKey].data && availability.months[monthKey].data[staffName]) || { total: 0, unavailable: [] };
+  } else {
+    monthKey = (availability && availability.month) || '2026-06';
+    availData = (availability && availability.data && availability.data[staffName]) || { total: 0, unavailable: [] };
+  }
 
   // Parse unavailable days → Set of day-of-month numbers
   const unavailableDays = new Set(
     (availData.unavailable || []).map(d => parseInt(String(d).split('/')[1]))
   );
 
-  // June 2026 weeks (Mon-Sun, June 1 = Monday)
-  const weeks = [
-    { name: 'W1', label: '6/1-6/7',   days: [1,2,3,4,5,6,7],     weekends: [6,7] },
-    { name: 'W2', label: '6/8-6/14',  days: [8,9,10,11,12,13,14], weekends: [13,14] },
-    { name: 'W3', label: '6/15-6/21', days: [15,16,17,18,19,20,21], weekends: [20,21] },
-    { name: 'W4', label: '6/22-6/28', days: [22,23,24,25,26,27,28], weekends: [27,28] },
-  ];
+  // Dynamically compute weeks for the availability month (Mon-Sun)
+  const [yr, mn] = monthKey.split('-').map(Number);
+  const totalDaysInMonth = new Date(yr, mn, 0).getDate();
+  const weeks = [];
+  let wkStart = new Date(yr, mn - 1, 1);
+  const dow1 = wkStart.getDay() || 7;
+  wkStart = new Date(yr, mn - 1, 1 - (dow1 - 1));
+  while (true) {
+    const wkEnd = new Date(wkStart);
+    wkEnd.setDate(wkEnd.getDate() + 6);
+    const ovStart = new Date(Math.max(wkStart.getTime(), new Date(yr, mn - 1, 1).getTime()));
+    const ovEnd = new Date(Math.min(wkEnd.getTime(), new Date(yr, mn - 1, totalDaysInMonth).getTime()));
+    if (ovStart > ovEnd) break;
+    const daysIn = [];
+    const weekendsIn = [];
+    for (let d = 1; d <= totalDaysInMonth; d++) {
+      const dt = new Date(yr, mn - 1, d);
+      if (dt >= wkStart && dt <= wkEnd) {
+        daysIn.push(d);
+        const ddow = dt.getDay();
+        if (ddow === 0 || ddow === 6) weekendsIn.push(d);
+      }
+    }
+    if (daysIn.length > 0) {
+      weeks.push({
+        name: 'W' + (weeks.length + 1),
+        label: `${mn}/${daysIn[0]}-${mn}/${daysIn[daysIn.length-1]}`,
+        days: daysIn,
+        weekends: weekendsIn,
+      });
+    }
+    wkStart.setDate(wkStart.getDate() + 7);
+  }
 
   const weekResults = weeks.map(w => {
     const availDays = w.days.filter(d => !unavailableDays.has(d)).length;
@@ -3716,4 +3759,597 @@ function deleteShift(id) {
   Store.set('shiftChanges', data.filter(s => s.id !== id));
   Router.render();
   showToast('换班记录已删除');
+}
+
+/**
+ * ========================================
+ * My Forms - 我的填报中心
+ * ========================================
+ */
+let _myFormsTab = 'availability'; // availability | shifts | support | door
+let _availViewMode = 'personal';  // personal | overview
+let _availMonth = null;           // 'YYYY-MM'
+let _availStaff = null;           // staff name
+let _availOverviewWeek = 0;       // week offset from first week of month
+
+function renderMyForms() {
+  if (!_availMonth) {
+    const avail = Store.get('availability');
+    _availMonth = (avail && avail.currentMonth) || new Date().toISOString().slice(0, 7);
+  }
+  if (!_availStaff) {
+    const me = Store.get('staff').find(s => s.id === _auth.staffId);
+    _availStaff = me ? me.name : (Store.get('staff').find(s => s.dept === 'Service Team') || {}).name || '';
+  }
+
+  const tabs = [
+    { key: 'availability', label: '📅 可上班时间' },
+    { key: 'shifts', label: '🔄 换班登记' },
+    { key: 'support', label: '🔧 店务支援' },
+    { key: 'door', label: '🚪 门迎排班' },
+  ];
+
+  return `
+    <div class="animate-in" style="margin-bottom: 24px;">
+      <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%); border-radius: var(--radius-lg); padding: 24px; color: #fff;">
+        <h2 style="font-size: 20px; font-weight: 800;">📝 我的填报</h2>
+        <p style="font-size: 13px; opacity: 0.7;">填写可上班时间 · 换班 · 店务 · 门迎</p>
+      </div>
+    </div>
+
+    <div class="tabs animate-in" style="margin-bottom: 20px;">
+      ${tabs.map(t => `<button class="tab ${_myFormsTab === t.key ? 'active' : ''}" onclick="_myFormsTab='${t.key}';Router.render()">${t.label}</button>`).join('')}
+    </div>
+
+    ${_myFormsTab === 'availability' ? renderAvailabilityTab() : ''}
+    ${_myFormsTab === 'shifts' ? renderShiftsTab() : ''}
+    ${_myFormsTab === 'support' ? renderSupportTab() : ''}
+    ${_myFormsTab === 'door' ? renderDoorTab() : ''}
+  `;
+}
+
+// ===== Helper: get availability data for a specific month =====
+function getMonthAvailData(monthKey) {
+  const avail = Store.get('availability');
+  if (!avail) return {};
+  // New structure: months[monthKey].data
+  if (avail.months && avail.months[monthKey]) {
+    return avail.months[monthKey].data || {};
+  }
+  // Old structure fallback
+  if (avail.month === monthKey && avail.data) {
+    return avail.data;
+  }
+  return {};
+}
+
+// ===== Helper: get/set person's date status =====
+function getDateStatus(monthKey, staffName, dayNum) {
+  const data = getMonthAvailData(monthKey);
+  const person = data[staffName];
+  if (!person) return null; // not filled yet
+
+  // New dates structure
+  if (person.dates) {
+    const mon = parseInt(monthKey.split('-')[1]);
+    const dateKey = `${mon}/${dayNum}`;
+    return person.dates[dateKey] || null;
+  }
+
+  // Legacy: infer from unavailable array
+  const mon = parseInt(monthKey.split('-')[1]);
+  const dateStr = `${mon}/${dayNum}`;
+  const isUnavailable = (person.unavailable || []).some(d => {
+    const parts = String(d).split('/');
+    return parseInt(parts[1]) === dayNum;
+  });
+  return { available: !isUnavailable, note: '' };
+}
+
+// ===== Tab: Availability =====
+function renderAvailabilityTab() {
+  return `
+    <div class="card animate-in" style="margin-bottom: 20px;">
+      <div class="card-body" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <div style="display:flex;gap:6px;margin-right:auto;">
+          <button onclick="_availViewMode='personal';Router.render()" style="padding:8px 18px;border-radius:8px;border:1px solid ${_availViewMode==='personal'?'var(--accent)':'var(--border)'};background:${_availViewMode==='personal'?'var(--accent)':'var(--bg-secondary)'};color:${_availViewMode==='personal'?'#fff':'var(--text-primary)'};font-size:13px;font-weight:${_availViewMode==='personal'?'700':'400'};cursor:pointer;">👤 个人填报</button>
+          <button onclick="_availViewMode='overview';Router.render()" style="padding:8px 18px;border-radius:8px;border:1px solid ${_availViewMode==='overview'?'var(--accent)':'var(--border)'};background:${_availViewMode==='overview'?'var(--accent)':'var(--bg-secondary)'};color:${_availViewMode==='overview'?'#fff':'var(--text-primary)'};font-size:13px;font-weight:${_availViewMode==='overview'?'700':'400'};cursor:pointer;">📊 排班总览</button>
+        </div>
+        ${_availViewMode === 'personal' ? renderMonthSwitcher() : renderWeekSwitcher()}
+      </div>
+    </div>
+    ${_availViewMode === 'personal' ? renderPersonalCalendar() : renderOverviewMatrix()}
+  `;
+}
+
+// ===== Month switcher =====
+function renderMonthSwitcher() {
+  const [y, m] = _availMonth.split('-').map(Number);
+  const prevMonth = new Date(y, m - 2, 1).toISOString().slice(0, 7);
+  const nextMonth = new Date(y, m, 1).toISOString().slice(0, 7);
+  return `
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button onclick="_availMonth='${prevMonth}';Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">‹</button>
+      <span style="font-size:15px;font-weight:700;min-width:100px;text-align:center;">${y}年${m}月</span>
+      <button onclick="_availMonth='${nextMonth}';Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">›</button>
+    </div>
+  `;
+}
+
+// ===== Personal calendar view =====
+function renderPersonalCalendar() {
+  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const [year, mon] = _availMonth.split('-').map(Number);
+  const totalDays = new Date(year, mon, 0).getDate();
+  const firstDay = new Date(year, mon - 1, 1).getDay() || 7; // 1=Mon ... 7=Sun
+
+  // Count available days
+  let availCount = 0;
+  let unavailCount = 0;
+  for (let d = 1; d <= totalDays; d++) {
+    const status = getDateStatus(_availMonth, _availStaff, d);
+    if (status === null) { /* not filled */ }
+    else if (status.available) availCount++;
+    else unavailCount++;
+  }
+
+  // Build calendar grid
+  const weekDayLabels = ['一', '二', '三', '四', '五', '六', '日'];
+  let cells = '';
+  // Leading blanks
+  for (let i = 1; i < firstDay; i++) {
+    cells += '<div style="aspect-ratio:1;"></div>';
+  }
+  for (let d = 1; d <= totalDays; d++) {
+    const date = new Date(year, mon - 1, d);
+    const dow = date.getDay();
+    const isWeekend = dow === 0 || dow === 6;
+    const status = getDateStatus(_availMonth, _availStaff, d);
+    const hasNote = status && status.note && status.note.trim();
+    let bg, border, icon, noteText;
+    if (status === null) {
+      bg = 'var(--bg-secondary)'; border = '1px dashed var(--border)'; icon = '○'; noteText = '';
+    } else if (status.available) {
+      bg = 'rgba(16,185,129,0.12)'; border = '1px solid rgba(16,185,129,0.3)'; icon = '✅'; noteText = hasNote ? status.note : '';
+    } else {
+      bg = 'rgba(239,68,68,0.1)'; border = '1px solid rgba(239,68,68,0.3)'; icon = '❌'; noteText = hasNote ? status.note : '';
+    }
+    const noteDisplay = noteText && noteText.length > 5 ? noteText.slice(0, 5) + '…' : (noteText || '');
+    cells += `
+      <div onclick="openDateStatusForm(${d})" style="aspect-ratio:1;background:${bg};border:${border};border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;position:relative;${isWeekend?'box-shadow:inset 0 0 0 10px rgba(233,69,96,0.03);':''}">
+        ${hasNote ? '<div style="position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:#f59e0b;"></div>' : ''}
+        <div style="font-size:16px;font-weight:700;color:${status===null?'var(--text-muted)':status.available?'#10b981':'#ef4444'};">${d}</div>
+        <div style="font-size:9px;color:var(--text-muted);margin-top:2px;">${icon}</div>
+        ${noteDisplay ? `<div style="font-size:9px;color:var(--text-secondary);max-width:90%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px;text-align:center;">${noteDisplay}</div>` : ''}
+      </div>
+    `;
+  }
+
+  return `
+    <!-- Staff selector -->
+    <div class="card animate-in" style="margin-bottom: 20px;">
+      <div class="card-body">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
+          <label style="font-size:13px;font-weight:600;color:var(--text-secondary);">选择姓名:</label>
+          <select id="availStaffSelect" onchange="_availStaff=this.value;Router.render()" style="padding:8px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);min-width:120px;">
+            ${staff.map(s => `<option value="${s.name}" ${_availStaff === s.name ? 'selected' : ''}>${s.name}</option>`).join('')}
+          </select>
+          <div style="margin-left:auto;display:flex;gap:12px;font-size:13px;">
+            <span style="color:#10b981;font-weight:600;">✅ 可供班 ${availCount}天</span>
+            <span style="color:#ef4444;font-weight:600;">❌ 不可上班 ${unavailCount}天</span>
+            <span style="color:var(--text-muted);">○ 未填 ${totalDays - availCount - unavailCount}天</span>
+          </div>
+        </div>
+
+        <!-- Calendar -->
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:6px;">
+          ${weekDayLabels.map((w, i) => `<div style="text-align:center;font-size:12px;font-weight:700;color:${i>=5?'#e94560':'var(--text-muted)'};padding:4px 0;">${w}</div>`).join('')}
+          ${cells}
+        </div>
+
+        <div style="margin-top:16px;padding:12px;background:var(--bg-secondary);border-radius:8px;display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--text-secondary);">
+          <span>💡 点击日期设置状态</span>
+          <span style="color:#10b981;">绿色 = 可供班</span>
+          <span style="color:#ef4444;">红色 = 不可上班</span>
+          <span>🟡 圆点 = 有备注</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ===== Date status form (popup for each day) =====
+function openDateStatusForm(dayNum) {
+  if (!_availStaff) { alert('请先选择姓名'); return; }
+  const status = getDateStatus(_availMonth, _availStaff, dayNum);
+  const [year, mon] = _availMonth.split('-').map(Number);
+  const date = new Date(year, mon - 1, dayNum);
+  const dow = ['日','一','二','三','四','五','六'][date.getDay()];
+  const currentAvail = status ? status.available : true;
+  const currentNote = status ? (status.note || '') : '';
+
+  const overlay = document.createElement('div');
+  overlay.id = 'dateStatusOverlay';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:var(--bg-card,#fff);border-radius:16px;padding:28px;max-width:380px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="font-size:18px;font-weight:800;">📅 ${mon}月${dayNum}日 (周${dow})</h3>
+        <button onclick="document.getElementById('dateStatusOverlay').remove()" style="background:none;border:none;font-size:22px;cursor:pointer;opacity:0.5;">&times;</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:18px;">
+        <div>
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:8px;color:var(--text-secondary);">状态</label>
+          <div style="display:flex;gap:10px;">
+            <label style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;border:2px solid #10b981;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;color:#10b981;background:rgba(16,185,129,0.05);">
+              <input type="radio" name="dateStatus" value="true" ${currentAvail ? 'checked' : ''} style="accent-color:#10b981;"> ✅ 可供班
+            </label>
+            <label style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px;border:2px solid #ef4444;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600;color:#ef4444;background:rgba(239,68,68,0.05);">
+              <input type="radio" name="dateStatus" value="false" ${!currentAvail ? 'checked' : ''} style="accent-color:#ef4444;"> ❌ 不可上班
+            </label>
+          </div>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:8px;color:var(--text-secondary);">备注（可选）</label>
+          <textarea id="dateNote" rows="2" placeholder="如：只能上早班、需提前走、学校考试..." style="width:100%;padding:10px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;line-height:1.5;background:var(--bg-input,#fff);color:var(--text-primary);resize:vertical;">${currentNote}</textarea>
+        </div>
+        <div style="display:flex;gap:12px;">
+          ${status ? `<button onclick="clearDateStatus(${dayNum})" style="flex:1;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:transparent;color:var(--text-muted);">清除</button>` : ''}
+          <button onclick="document.getElementById('dateStatusOverlay').remove()" style="flex:1;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:var(--text-primary);">取消</button>
+          <button onclick="saveDateStatus(${dayNum})" style="flex:2;padding:12px;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;background:var(--accent,#3b82f6);color:#fff;">保存</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+}
+
+function saveDateStatus(dayNum) {
+  const available = document.querySelector('input[name="dateStatus"]:checked')?.value === 'true';
+  const note = document.getElementById('dateNote').value.trim();
+  if (available === undefined) { alert('请选择状态'); return; }
+
+  const [year, mon] = _availMonth.split('-').map(Number);
+  const dateKey = `${mon}/${dayNum}`;
+
+  const avail = Store.get('availability');
+  // Ensure months structure
+  if (!avail.months) {
+    avail.months = {};
+    avail.currentMonth = _availMonth;
+  }
+  if (!avail.months[_availMonth]) {
+    avail.months[_availMonth] = { data: {} };
+  }
+  const monthData = avail.months[_availMonth].data;
+  if (!monthData[_availStaff]) {
+    monthData[_availStaff] = { total: 0, unavailable: [], note: '', dates: {} };
+  }
+  if (!monthData[_availStaff].dates) {
+    monthData[_availStaff].dates = {};
+  }
+  monthData[_availStaff].dates[dateKey] = { available, note };
+
+  // Sync legacy fields
+  syncPersonLegacyFields(monthData[_availStaff], mon);
+
+  Store.set('availability', avail);
+  document.getElementById('dateStatusOverlay').remove();
+  Router.render();
+  showToast(`${mon}/${dayNum} 已更新`);
+}
+
+function clearDateStatus(dayNum) {
+  const [year, mon] = _availMonth.split('-').map(Number);
+  const dateKey = `${mon}/${dayNum}`;
+
+  const avail = Store.get('availability');
+  if (avail.months && avail.months[_availMonth] && avail.months[_availMonth].data[_availStaff]) {
+    const person = avail.months[_availMonth].data[_availStaff];
+    if (person.dates) delete person.dates[dateKey];
+    syncPersonLegacyFields(person, mon);
+    Store.set('availability', avail);
+  }
+  document.getElementById('dateStatusOverlay').remove();
+  Router.render();
+  showToast(`${mon}/${dayNum} 已清除`);
+}
+
+// Sync dates{} → total/unavailable for backward compat with calcAvailabilityScore & renderSchedule
+function syncPersonLegacyFields(person, mon) {
+  if (!person.dates) { person.total = person.total || 0; person.unavailable = person.unavailable || []; return; }
+  let avail = 0, unavail = [];
+  Object.entries(person.dates).forEach(([dateKey, val]) => {
+    if (val.available) avail++;
+    else unavail.push(dateKey);
+  });
+  person.total = avail;
+  person.unavailable = unavail;
+}
+
+// ===== Overview (weekly matrix) =====
+function renderWeekSwitcher() {
+  const [year, mon] = _availMonth.split('-').map(Number);
+  const totalDays = new Date(year, mon, 0).getDate();
+
+  // Build weeks (Mon-Sun)
+  const weeks = [];
+  let currentWeekStart = new Date(year, mon - 1, 1);
+  const dayOfWeek = currentWeekStart.getDay() || 7;
+  currentWeekStart = new Date(year, mon - 1, 1 - (dayOfWeek - 1));
+
+  while (true) {
+    const weekEnd = new Date(currentWeekStart);
+    weekEnd.setDate(weekEnd.getDate() + 6);
+    const overlapStart = new Date(Math.max(currentWeekStart.getTime(), new Date(year, mon - 1, 1).getTime()));
+    const overlapEnd = new Date(Math.min(weekEnd.getTime(), new Date(year, mon - 1, totalDays).getTime()));
+    if (overlapStart > overlapEnd) break;
+
+    const daysInRange = [];
+    for (let d = 1; d <= totalDays; d++) {
+      const date = new Date(year, mon - 1, d);
+      if (date >= currentWeekStart && date <= weekEnd) daysInRange.push(d);
+    }
+    if (daysInRange.length > 0) {
+      weeks.push({ days: daysInRange, start: daysInRange[0], end: daysInRange[daysInRange.length - 1] });
+    }
+    currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+  }
+
+  if (_availOverviewWeek >= weeks.length) _availOverviewWeek = 0;
+  if (_availOverviewWeek < 0) _availOverviewWeek = weeks.length - 1;
+  const w = weeks[_availOverviewWeek];
+
+  return `
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button onclick="_availOverviewWeek--;Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">‹</button>
+      <span style="font-size:13px;font-weight:700;min-width:140px;text-align:center;">第${_availOverviewWeek + 1}周 ${mon}/${w.start}-${mon}/${w.end}</span>
+      <button onclick="_availOverviewWeek++;Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">›</button>
+      <span style="font-size:12px;color:var(--text-muted);margin-left:8px;">共${weeks.length}周</span>
+      ${renderMonthSwitcher()}
+    </div>
+  `;
+}
+
+function renderOverviewMatrix() {
+  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const [year, mon] = _availMonth.split('-').map(Number);
+  const totalDays = new Date(year, mon, 0).getDate();
+
+  // Build weeks
+  const weeks = [];
+  let currentWeekStart = new Date(year, mon - 1, 1);
+  const dayOfWeek = currentWeekStart.getDay() || 7;
+  currentWeekStart = new Date(year, mon - 1, 1 - (dayOfWeek - 1));
+
+  while (true) {
+    const weekEnd = new Date(currentWeekStart);
+    weekEnd.setDate(weekEnd.getDate() + 6);
+    const overlapStart = new Date(Math.max(currentWeekStart.getTime(), new Date(year, mon - 1, 1).getTime()));
+    const overlapEnd = new Date(Math.min(weekEnd.getTime(), new Date(year, mon - 1, totalDays).getTime()));
+    if (overlapStart > overlapEnd) break;
+    const daysInRange = [];
+    for (let d = 1; d <= totalDays; d++) {
+      const date = new Date(year, mon - 1, d);
+      if (date >= currentWeekStart && date <= weekEnd) daysInRange.push(d);
+    }
+    if (daysInRange.length > 0) weeks.push(daysInRange);
+    currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+  }
+
+  if (_availOverviewWeek >= weeks.length) _availOverviewWeek = 0;
+  const weekDays = weeks[_availOverviewWeek] || [];
+  const dowLabels = ['日', '一', '二', '三', '四', '五', '六'];
+
+  // Daily availability count
+  const dailyCounts = weekDays.map(d => {
+    let count = 0;
+    staff.forEach(s => {
+      const status = getDateStatus(_availMonth, s.name, d);
+      if (status && status.available) count++;
+    });
+    return count;
+  });
+
+  // Build table
+  const headerCells = weekDays.map((d, i) => {
+    const date = new Date(year, mon - 1, d);
+    const dow = date.getDay();
+    const isWeekend = dow === 0 || dow === 6;
+    const lowStaff = dailyCounts[i] < 6;
+    return `<th style="text-align:center;padding:8px 4px;min-width:60px;background:${isWeekend ? 'rgba(233,69,96,0.05)' : 'transparent'};">
+      <div style="font-size:14px;font-weight:700;color:${isWeekend ? '#e94560' : 'var(--text-primary)'};">${d}日</div>
+      <div style="font-size:10px;color:${isWeekend ? '#e94560' : 'var(--text-muted)'};">周${dowLabels[dow]}</div>
+    </th>`;
+  }).join('');
+
+  const staffRows = staff.map(s => {
+    const cells = weekDays.map((d, i) => {
+      const status = getDateStatus(_availMonth, s.name, d);
+      const date = new Date(year, mon - 1, d);
+      const dow = date.getDay();
+      const isWeekend = dow === 0 || dow === 6;
+      if (status === null) {
+        return `<td style="text-align:center;padding:6px;background:${isWeekend ? 'rgba(233,69,96,0.03)' : 'transparent'};"><span style="color:var(--text-muted);font-size:14px;">—</span></td>`;
+      }
+      const note = status.note && status.note.trim() ? status.note.trim() : '';
+      const noteDisplay = note.length > 6 ? note.slice(0, 6) + '…' : note;
+      if (status.available) {
+        return `<td style="text-align:center;padding:6px;background:${isWeekend ? 'rgba(233,69,96,0.03)' : 'transparent'};" title="${note}">
+          <div style="font-size:15px;">✅</div>
+          ${noteDisplay ? `<div style="font-size:9px;color:var(--text-secondary);max-width:55px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${noteDisplay}</div>` : ''}
+        </td>`;
+      } else {
+        return `<td style="text-align:center;padding:6px;background:${isWeekend ? 'rgba(233,69,96,0.03)' : 'transparent'};" title="${note}">
+          <div style="font-size:15px;">❌</div>
+          ${noteDisplay ? `<div style="font-size:9px;color:#ef4444;max-width:55px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${noteDisplay}</div>` : ''}
+        </td>`;
+      }
+    }).join('');
+
+    return `
+      <tr style="border-bottom:1px solid var(--border-light);">
+        <td style="padding:8px 12px;position:sticky;left:0;background:var(--bg-card,#fff);z-index:1;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div class="avatar" style="background:${s.avatar_color};width:28px;height:28px;font-size:11px;">${s.name.slice(-2)}</div>
+            <span style="font-size:13px;font-weight:600;">${s.name}</span>
+          </div>
+        </td>
+        ${cells}
+      </tr>
+    `;
+  }).join('');
+
+  const countRow = dailyCounts.map((c, i) => {
+    const low = c < 6;
+    return `<td style="text-align:center;padding:8px;background:${low ? 'rgba(239,68,68,0.08)' : 'rgba(16,185,129,0.06)'};">
+      <span style="font-size:16px;font-weight:800;color:${low ? '#ef4444' : '#10b981'};">${c}</span>
+      <span style="font-size:10px;color:var(--text-muted);">人</span>
+    </td>`;
+  }).join('');
+
+  const filledCount = staff.filter(s => {
+    const personData = getMonthAvailData(_availMonth)[s.name];
+    return personData && personData.dates && Object.keys(personData.dates).length > 0;
+  }).length;
+
+  return `
+    <div class="card animate-in">
+      <div class="card-header">
+        <h3>📊 排班总览 · ${year}年${mon}月</h3>
+        <span style="font-size:12px;color:var(--text-secondary);">已填报 ${filledCount}/${staff.length} 人</span>
+      </div>
+      <div class="card-body" style="padding:0;overflow-x:auto;">
+        <table class="data-table" style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr style="border-bottom:2px solid var(--border);">
+              <th style="text-align:left;padding:8px 12px;min-width:90px;position:sticky;left:0;background:var(--bg-card,#fff);z-index:2;">姓名</th>
+              ${headerCells}
+            </tr>
+          </thead>
+          <tbody>
+            ${staffRows}
+          </tbody>
+          <tfoot>
+            <tr style="border-top:2px solid var(--border);background:var(--bg-secondary);">
+              <td style="padding:8px 12px;font-size:12px;font-weight:700;position:sticky;left:0;background:var(--bg-secondary);z-index:1;">可供人数</td>
+              ${countRow}
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="card-body" style="padding-top:12px;font-size:12px;color:var(--text-muted);display:flex;gap:16px;flex-wrap:wrap;">
+        <span>✅ 可供班</span>
+        <span>❌ 不可上班</span>
+        <span>— 未填</span>
+        <span style="color:#ef4444;">⚠️ 人数<6人标红</span>
+      </div>
+    </div>
+  `;
+}
+
+// ===== Tab: Shift Changes (reuse existing forms) =====
+function renderShiftsTab() {
+  const changes = Store.get('shiftChanges') || [];
+  return `
+    <div class="card animate-in">
+      <div class="card-header">
+        <h3>🔄 换班登记</h3>
+        <button onclick="openShiftForm()" style="padding:6px 14px;border-radius:6px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">+ 新增换班</button>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>#</th><th>申请人</th><th>申请日期</th><th>申请班次</th><th>被换班人</th><th>被换班次</th><th style="width:80px;">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${changes.length > 0 ? changes.map(c => `
+                <tr>
+                  <td>${c.id}</td>
+                  <td><span style="font-weight:600;">${c.applicant}</span></td>
+                  <td>${c.applyDate}</td>
+                  <td class="text-sm">${c.applicantShift}</td>
+                  <td><span style="font-weight:600;">${c.target}</span></td>
+                  <td class="text-sm">${c.targetShift}</td>
+                  <td><button onclick="deleteShift(${c.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button></td>
+                </tr>
+              `).join('') : '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">暂无换班记录，点击「+ 新增换班」录入</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ===== Tab: Store Support (reuse existing forms) =====
+function renderSupportTab() {
+  const data = Store.get('storeSupport') || [];
+  return `
+    <div class="card animate-in">
+      <div class="card-header">
+        <h3>🔧 店务支援</h3>
+        <button onclick="openSupportForm()" style="padding:6px 14px;border-radius:6px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">+ 新增支援</button>
+      </div>
+      <div class="card-body" style="padding:0;">
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr><th>日期</th><th>姓名</th><th>支援类型</th><th>时长</th><th>详细内容</th><th style="width:80px;">操作</th></tr>
+            </thead>
+            <tbody>
+              ${data.length > 0 ? data.slice().reverse().map(s => `
+                <tr>
+                  <td>${s.date.replace('2026-', '')}</td>
+                  <td><span style="font-weight:600;">${s.staff}</span></td>
+                  <td><span class="badge ${s.type.includes('货品') ? 'badge-info' : s.type.includes('陈列') ? 'badge-active' : 'badge-warning'}">${s.type}</span></td>
+                  <td>${s.duration}</td>
+                  <td class="text-sm text-secondary">${s.detail}</td>
+                  <td><button onclick="deleteSupport(${s.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button></td>
+                </tr>
+              `).join('') : '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">暂无支援记录，点击「+ 新增支援」录入</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ===== Tab: Door Schedule (reuse existing forms) =====
+function renderDoorTab() {
+  const doorData = Store.get('doorSchedule') || [];
+  return `
+    <div class="card animate-in" style="margin-bottom: 20px;">
+      <div class="card-header">
+        <h3>🚪 门迎排班录入</h3>
+        <button onclick="openDoorDayForm()" style="padding:6px 14px;border-radius:6px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">+ 新增日期</button>
+      </div>
+      <div class="card-body" style="padding:0;">
+        ${doorData.length > 0 ? doorData.map(day => `
+          <div style="border-bottom:1px solid var(--border-light);padding:12px 16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span style="font-weight:700;font-size:14px;">${day.date}</span>
+              <button onclick="doorScheduleDate='${day.date}';openDoorSlotForm()" style="padding:4px 10px;border-radius:6px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:11px;font-weight:600;cursor:pointer;">+ 添加班次</button>
+            </div>
+            ${day.slots.length > 0 ? `
+              <div style="display:flex;flex-wrap:wrap;gap:6px;">
+                ${day.slots.map((slot, idx) => `
+                  <div style="display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:6px;background:var(--bg-secondary);font-size:12px;">
+                    <span style="font-weight:600;">${slot.time}</span>
+                    <span>${slot.staff || '—'}</span>
+                    <button onclick="doorScheduleDate='${day.date}';deleteDoorSlot(${idx})" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:14px;padding:0 2px;">×</button>
+                  </div>
+                `).join('')}
+              </div>
+            ` : '<div style="font-size:12px;color:var(--text-muted);padding:4px 0;">暂无班次</div>'}
+          </div>
+        `).join('') : '<div style="text-align:center;padding:40px;color:var(--text-muted);">暂无排班数据，点击「+ 新增日期」开始录入</div>'}
+      </div>
+    </div>
+  `;
 }
