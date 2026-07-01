@@ -1253,7 +1253,7 @@ function calcPerformanceScore(staffName) {
 
   // Fallback：找不到数据则返回静态评分
   if (!record) {
-    return { score: 3, hourlyScore: 0, uptScore: 0, hourly: 0, upt: 0, sales: 0, targetMet: false, fallback: true };
+    return { score: 3, hourlyScore: 0, uptScore: 0, hourly: 0, upt: 0, sales: 0, qty: 0, tickets: 0, targetMet: false, targetBonus: 0, salesTarget: SALES_TARGET, fallback: true };
   }
 
   const hourly = record.hourlyOutput || 0;
