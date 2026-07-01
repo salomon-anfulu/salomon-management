@@ -39,11 +39,29 @@ if (!fs.existsSync(SCREENSHOT_DIR)) fs.mkdirSync(SCREENSHOT_DIR, { recursive: tr
 
 function log(msg) { console.log(`[${new Date().toLocaleTimeString()}] ${msg}`); }
 
-// 计算本月起止时间戳（毫秒）
+// 计算起止时间戳（毫秒）
+// 支持 --range=month（本月）、--range=lastmonth（上月）、--start=YYYY-MM-DD --end=YYYY-MM-DD
 function getMonthTimestamps() {
   const now = new Date();
+  
+  if (RANGE === 'lastmonth') {
+    // 上月完整范围
+    const firstDay = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const lastDay = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999);
+    return { startTime: firstDay.getTime(), endTime: lastDay.getTime() };
+  }
+  
+  if (args.start && args.end) {
+    // 自定义日期范围
+    const [sy, sm, sd] = args.start.split('-').map(Number);
+    const [ey, em, ed] = args.end.split('-').map(Number);
+    const startTime = new Date(sy, sm - 1, sd, 0, 0, 0, 0).getTime();
+    const endTime = new Date(ey, em - 1, ed, 23, 59, 59, 999).getTime();
+    return { startTime, endTime };
+  }
+  
+  // 默认本月
   const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
-  // endTime = 今天23:59:59.999
   const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999);
   return {
     startTime: firstDay.getTime(),
