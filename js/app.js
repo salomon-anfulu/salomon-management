@@ -923,6 +923,21 @@ ratings: [
       "avgScore": 4.6,
       "hourlyRate": 60
     }
+    // ===== 7月评分条目（初始空白，随数据录入动态计算） =====
+    ,
+    { "id": 101, "staffId": 1, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 102, "staffId": 2, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 103, "staffId": 3, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 104, "staffId": 4, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 105, "staffId": 5, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 106, "staffId": 6, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 107, "staffId": 7, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 108, "staffId": 8, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 109, "staffId": 9, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 110, "staffId": 10, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 111, "staffId": 11, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 112, "staffId": 12, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 113, "staffId": 13, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 }
     ],
 
 
@@ -1428,6 +1443,15 @@ linggongAttendance: {
         ]
       },
 
+      // ===== 7月数据（空白模板，随月度更新录入） =====
+      july: {
+        month: '2026-07',
+        totalSales: 0,
+        avgUPT: 0,
+        avgHourlyOutput: 0,
+        records: []
+      },
+
     },
 
     // 顾客好评记录（大众点评5星好评）
@@ -1444,7 +1468,7 @@ linggongAttendance: {
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-01-v7',
+        _dataVersion: '2026-07-01-v8',
   },
 
   init() {
@@ -1454,7 +1478,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-01-v7';
+      const DATA_VERSION = '2026-07-01-v8';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       if (isVersionMismatch || isMissingCritical) {
@@ -1516,6 +1540,9 @@ linggongAttendance: {
     return items.length > 0 ? Math.max(...items.map(i => i.id)) + 1 : 1;
   }
 };
+
+// ===== Global scoring month — controls which month's data all rating functions use =====
+let _scoringMonth = '2026-07'; // default to current month
 
 // ===== Router =====
 const Router = {

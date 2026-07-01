@@ -19,7 +19,7 @@ function renderDashboard() {
   const serviceTeamStaff = staff.filter(s => s.dept === 'Service Team' && s.status === 'active').length;
   const warehouseStaff = staff.filter(s => s.dept === '仓库兼职' && s.status === 'active').length;
   const thisWeekSchedules = schedules.length;
-  const pendingRatings = activeStaff.length - ratings.filter(r => r.month === '2026-06').length;
+  const pendingRatings = activeStaff.length - ratings.filter(r => r.month === _scoringMonth).length;
   const attendanceRate = attendance.length > 0
     ? Math.round(attendance.filter(a => a.status === 'normal').length / attendance.length * 100)
     : 100;
@@ -37,14 +37,14 @@ function renderDashboard() {
       <div class="stat-card info">
         <div class="stat-icon">📅</div>
         <div class="stat-value">${thisWeekSchedules}</div>
-        <div class="stat-label">6月排班</div>
+        <div class="stat-label">${_scoringMonth.split('-')[1]}月排班</div>
         <div class="stat-trend up">已排班次</div>
       </div>
       <div class="stat-card warning">
         <div class="stat-icon">🔧</div>
         <div class="stat-value">${storeSupport.length}</div>
         <div class="stat-label">店务支援</div>
-        <div class="stat-trend up">6月累计记录</div>
+        <div class="stat-trend up">${_scoringMonth.split('-')[1]}月累计记录</div>
       </div>
       <div class="stat-card success">
         <div class="stat-icon">⭐</div>
@@ -464,7 +464,7 @@ function renderSchedule() {
       <div class="stat-card info">
         <div class="stat-icon">📅</div>
         <div class="stat-value">${totalAvailDays}</div>
-        <div class="stat-label">6月总可供天次</div>
+        <div class="stat-label">${parseInt(month.split('-')[1])}月总可供天次</div>
         <div class="stat-trend">人均 ${avgAvailDays} 天</div>
       </div>
       <div class="stat-card success">
@@ -1133,11 +1133,14 @@ function calcAvailabilityScore(staffName) {
   const availability = Store.get('availability');
   const shiftChanges = Store.get('shiftChanges') || [];
 
+  // Use _scoringMonth for consistency with other calc functions
+  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : '2026-07';
+
   // Support both new (months) and old (month/data) structures
   let availData;
   let monthKey;
   if (availability && availability.months) {
-    monthKey = availability.currentMonth || Object.keys(availability.months)[0];
+    monthKey = scoreMonth;
     availData = (availability.months[monthKey] && availability.months[monthKey].data && availability.months[monthKey].data[staffName]) || { total: 0, unavailable: [] };
   } else {
     monthKey = (availability && availability.month) || '2026-06';
@@ -1198,9 +1201,10 @@ function calcAvailabilityScore(staffName) {
   const weekDeduction = failedCount * 1; // -1 per unmet week
   const weekScore = Math.max(1, BASE_SCORE - weekDeduction);
 
-  // Shift change stats
-  const applicantCount = shiftChanges.filter(sc => sc.applicant === staffName).length;
-  const targetCount = shiftChanges.filter(sc => sc.target === staffName).length;
+  // Shift change stats — filter by scoring month
+  const monthShiftChanges = shiftChanges.filter(sc => (sc.applyDate || '').startsWith(scoreMonth));
+  const applicantCount = monthShiftChanges.filter(sc => sc.applicant === staffName).length;
+  const targetCount = monthShiftChanges.filter(sc => sc.target === staffName).length;
 
   // Adjustments
   const penalty = Math.max(0, applicantCount - 1) * 0.5; // -0.5 per shift beyond 1
@@ -1237,8 +1241,12 @@ function calcAvailabilityScore(staffName) {
  */
 function calcPerformanceScore(staffName) {
   const perfData = Store.get('performanceData') || {};
-  const june = perfData.june || {};
-  const records = june.records || [];
+  // Month-aware: map _scoringMonth 'YYYY-MM' to perfData key (april/may/june/july)
+  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : '2026-07';
+  const monthKeyMap = { '2026-04': 'april', '2026-05': 'may', '2026-06': 'june', '2026-07': 'july' };
+  const perfKey = monthKeyMap[scoreMonth] || 'july';
+  const monthData = perfData[perfKey] || {};
+  const records = monthData.records || [];
   const record = records.find(r => r.name === staffName);
 
   const SALES_TARGET = 20000; // 月销售额目标 2万
@@ -1306,7 +1314,8 @@ function calcPerformanceScore(staffName) {
  */
 function calcCustomerReviewScore(staffName) {
   const reviews = Store.get('customerReviews') || [];
-  const myReviews = reviews.filter(r => r.staffName === staffName);
+  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : '2026-07';
+  const myReviews = reviews.filter(r => r.staffName === staffName && r.month === scoreMonth);
   const count = myReviews.length;
 
   let score;
@@ -1331,7 +1340,9 @@ function calcCustomerReviewScore(staffName) {
 let _linggongAttCache = null;
 function getLinggongAttStats(staffName) {
   const lgData = Store.get('linggongAttendance') || { records: [] };
-  const records = (lgData.records || []).filter(r => r.name === staffName);
+  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : '2026-07';
+  // Filter records to current scoring month
+  const records = (lgData.records || []).filter(r => r.name === staffName && (r.date || '').startsWith(scoreMonth));
 
   let missedPunch = 0;
   let lateCount = 0;
@@ -1408,11 +1419,12 @@ let _behaviorCache = null;
 function getBehaviorData() {
   if (_behaviorCache) return _behaviorCache;
 
+  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : '2026-07';
   const allStaff = Store.get('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
   const names = allStaff.map(s => s.name);
 
-  // 门迎时长
-  const doorSchedule = Store.get('doorSchedule') || [];
+  // 门迎时长 — filter by scoring month
+  const doorSchedule = (Store.get('doorSchedule') || []).filter(d => (d.date || '').startsWith(scoreMonth));
   const doorHours = {};
   doorSchedule.forEach(d => {
     (d.slots || []).forEach(s => {
@@ -1425,8 +1437,8 @@ function getBehaviorData() {
     });
   });
 
-  // 店务时长
-  const storeSupport = Store.get('storeSupport') || [];
+  // 店务时长 — filter by scoring month
+  const storeSupport = (Store.get('storeSupport') || []).filter(r => (r.date || '').startsWith(scoreMonth));
   const supportHours = {};
   storeSupport.forEach(r => {
     const m = (r.duration || '').match(/([\d.]+)\s*小时/);
@@ -1498,8 +1510,22 @@ function calcBehaviorScore(staffName) {
 }
 
 function renderRatings() {
-  const ratings = Store.get('ratings');
+  const allRatings = Store.get('ratings');
   const staff = Store.get('staff').filter(s => s.status === 'active');
+
+  // Available months from ratings
+  const availableMonths = [...new Set(allRatings.map(r => r.month))].sort().reverse();
+
+  // Filter ratings by current scoring month
+  const ratings = allRatings.filter(r => r.month === _scoringMonth);
+
+  // Determine if current month has data or is a "pending" month
+  const hasPerfData = (() => {
+    const perfData = Store.get('performanceData') || {};
+    const monthKeyMap = { '2026-04': 'april', '2026-05': 'may', '2026-06': 'june', '2026-07': 'july' };
+    const perfKey = monthKeyMap[_scoringMonth] || 'july';
+    return perfData[perfKey] && perfData[perfKey].records && perfData[perfKey].records.length > 0;
+  })();
 
   // 按综合评分排序（高到低）- 全五维度动态计算
   _behaviorCache = null; // 重置缓存
@@ -1517,15 +1543,32 @@ function renderRatings() {
   });
   const sortedRatings = [...enrichedRatings].sort((a, b) => b._dynamicAvg - a._dynamicAvg);
 
+  // Month label display
+  const [yr, mn] = _scoringMonth.split('-');
+  const monthLabel = `${yr}年${parseInt(mn)}月`;
+  const isCurrentMonth = _scoringMonth === '2026-07';
+
   return `
     <div class="animate-in" style="margin-bottom: 24px;">
       <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 50%, #1e3a5f 100%); border-radius: var(--radius-lg); padding: 24px; color: #fff; position: relative; overflow: hidden;">
         <div style="position: absolute; top: -20px; right: -20px; font-size: 80px; opacity: 0.05; transform: rotate(-15deg);">🏆</div>
-        <h2 style="font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
-          ⭐ 表现评分
-          <span style="font-size: 11px; padding: 3px 8px; background: rgba(255,255,255,0.1); border-radius: 20px; font-weight: 600;">FUN EDITION</span>
-        </h2>
-        <p style="font-size: 13px; opacity: 0.7; margin-top: 4px;">2026年6月 · Service Team 全员评估 · 综合评分 ≥ 3.6 可享 ¥60/h 时薪</p>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h2 style="font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+              ⭐ 表现评分
+              <span style="font-size: 11px; padding: 3px 8px; background: rgba(255,255,255,0.1); border-radius: 20px; font-weight: 600;">FUN EDITION</span>
+            </h2>
+            <p style="font-size: 13px; opacity: 0.7; margin-top: 4px;">${monthLabel} · Service Team 全员评估 · 综合评分 ≥ 3.6 可享 ¥60/h 时薪</p>
+          </div>
+          <!-- Month switcher -->
+          <div style="display:flex;gap:6px;align-items:center;">
+            ${availableMonths.map(m => {
+              const [y, mm] = m.split('-');
+              const active = m === _scoringMonth;
+              return `<button onclick="_scoringMonth='${m}';Router.render()" style="padding:6px 14px;border-radius:8px;border:1px solid ${active ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.15)'};background:${active ? 'rgba(255,255,255,0.15)' : 'transparent'};color:#fff;font-size:12px;font-weight:${active ? '700' : '500'};cursor:pointer;transition:all 0.2s;">${parseInt(mm)}月</button>`;
+            }).join('')}
+          </div>
+        </div>
         <div style="display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
           <span style="font-size: 11px; opacity: 0.6;">🛡️ 工时支持 <span style="opacity: 0.5; font-size: 10px;">(基础5分·每周不达标-1)</span></span>
           <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩 <span style="opacity: 0.5; font-size: 10px;">(时产+UPT各50% · 月销2万+0.5)</span></span>
@@ -1535,6 +1578,16 @@ function renderRatings() {
         </div>
       </div>
     </div>
+
+    ${isCurrentMonth && !hasPerfData ? `
+    <div class="card animate-in" style="border:2px dashed var(--accent,#3b82f6);margin-bottom:16px;">
+      <div class="card-body" style="text-align:center;padding:20px;">
+        <div style="font-size:28px;margin-bottom:8px;">📊</div>
+        <div style="font-size:14px;font-weight:700;color:var(--text-primary);">7月评分进行中</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">当前显示动态基准分（全部5分），数据录入后将实时更新排名。点击上方「6月」可查看6月历史评分。</div>
+      </div>
+    </div>
+    ` : ''}
 
     <!-- 评分概览 -->
     <div class="stats-grid animate-in" style="grid-template-columns: repeat(4, 1fr);">
@@ -2268,14 +2321,37 @@ function renderHandbookChecklist() {
  * Performance Page - 业绩数据
  * ========================================
  */
-let perfMonth = 'june';
+let perfMonth = 'july';
 let perfSort = 'sales';
 let perfSortDir = 'desc';
 
 function renderPerformance() {
   const perfData = Store.get('performanceData') || {};
   const currentData = perfData[perfMonth];
-  if (!currentData) return '<div class="card animate-in"><div class="card-body"><p>暂无数据</p></div></div>';
+  if (!currentData || !currentData.records || currentData.records.length === 0) {
+    return `
+    <div class="animate-in" style="margin-bottom: 24px;">
+      <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%); border-radius: var(--radius-lg); padding: 24px; color: #fff;">
+        <h2 style="font-size: 20px; font-weight: 800;">💰 兼职业绩数据</h2>
+        <p style="font-size: 13px; opacity: 0.7;">2026年7月 · 数据采集中</p>
+      </div>
+    </div>
+    <!-- Month Tabs -->
+    <div class="tabs animate-in" style="margin-top: 20px;">
+      <button class="tab ${perfMonth === 'july' ? 'active' : ''}" onclick="perfMonth='july';Router.render()">📅 7月数据</button>
+      <button class="tab ${perfMonth === 'june' ? 'active' : ''}" onclick="perfMonth='june';Router.render()">📅 6月数据</button>
+      <button class="tab ${perfMonth === 'may' ? 'active' : ''}" onclick="perfMonth='may';Router.render()">📅 5月数据</button>
+      <button class="tab ${perfMonth === 'april' ? 'active' : ''}" onclick="perfMonth='april';Router.render()">📅 4月数据</button>
+    </div>
+    <div class="card animate-in" style="margin-top:20px;">
+      <div class="card-body" style="text-align:center;padding:40px;">
+        <div style="font-size:36px;margin-bottom:12px;">📊</div>
+        <div style="font-size:15px;font-weight:700;color:var(--text-primary);">7月数据采集中</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">数据录入后将自动展示。点击上方「6月数据」查看上月排行。</div>
+      </div>
+    </div>
+    `;
+  }
 
   let records = [...currentData.records].sort((a, b) => {
     const valA = a[perfSort] || 0;
@@ -2285,8 +2361,9 @@ function renderPerformance() {
 
   const isMay = perfMonth === 'may';
   const isJune = perfMonth === 'june';
-  const monthLabel = isJune ? '6月' : isMay ? '5月' : '4月';
-  const monthDate = isJune ? '2026年6月（截至6/17）' : isMay ? '2026年5月' : '2026年4月';
+  const isJuly = perfMonth === 'july';
+  const monthLabel = isJuly ? '7月' : isJune ? '6月' : isMay ? '5月' : '4月';
+  const monthDate = isJuly ? '2026年7月' : isJune ? '2026年6月（截至6/17）' : isMay ? '2026年5月' : '2026年4月';
 
   return `
     <div class="animate-in" style="margin-bottom: 24px;">
@@ -2323,6 +2400,7 @@ function renderPerformance() {
 
     <!-- Month Tabs -->
     <div class="tabs animate-in" style="margin-top: 20px;">
+      <button class="tab ${perfMonth === 'july' ? 'active' : ''}" onclick="perfMonth='july';Router.render()">📅 7月数据</button>
       <button class="tab ${perfMonth === 'june' ? 'active' : ''}" onclick="perfMonth='june';Router.render()">📅 6月数据</button>
       <button class="tab ${perfMonth === 'may' ? 'active' : ''}" onclick="perfMonth='may';Router.render()">📅 5月数据</button>
       <button class="tab ${perfMonth === 'april' ? 'active' : ''}" onclick="perfMonth='april';Router.render()">📅 4月数据</button>

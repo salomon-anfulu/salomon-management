@@ -1,0 +1,600 @@
+[
+  {
+    "name": "孔祥宇",
+    "scores": {
+      "availability": 4,
+      "performance": 4.5,
+      "behavior": 4.4,
+      "attendance": 5,
+      "customerReview": 1
+    },
+    "avg": 3.78,
+    "avail": {
+      "score": 4,
+      "weekScore": 4,
+      "failedCount": 1,
+      "penalty": 0,
+      "bonus": 0
+    },
+    "perf": {
+      "score": 4.5,
+      "hourlyScore": 3,
+      "uptScore": 5,
+      "hourly": 180.1,
+      "upt": 1.77,
+      "sales": 22959,
+      "qty": 23,
+      "tickets": 13,
+      "targetMet": true
+    },
+    "review": {
+      "score": 1,
+      "count": 0
+    },
+    "attend": {
+      "score": 5,
+      "lateCount": 0,
+      "missedPunch": 0,
+      "absentCount": 0
+    },
+    "behavior": {
+      "score": 4.4,
+      "door": 20,
+      "support": 12.7,
+      "rank": 3,
+      "rankBonus": 0.4
+    }
+  },
+  {
+    "name": "迟骋",
+    "scores": {
+      "availability": 4,
+      "performance": 3.5,
+      "behavior": 3,
+      "attendance": 4,
+      "customerReview": 3.5
+    },
+    "avg": 3.6,
+    "avail": {
+      "score": 4,
+      "weekScore": 4,
+      "failedCount": 1,
+      "penalty": 0,
+      "bonus": 0
+    },
+    "perf": {
+      "score": 3.5,
+      "hourlyScore": 2,
+      "uptScore": 5,
+      "hourly": 142.3,
+      "upt": 2.13,
+      "sales": 15586,
+      "qty": 17,
+      "tickets": 8,
+      "targetMet": false
+    },
+    "review": {
+      "score": 3.5,
+      "count": 4
+    },
+    "attend": {
+      "score": 4,
+      "lateCount": 1,
+      "missedPunch": 0,
+      "absentCount": 0
+    },
+    "behavior": {
+      "score": 3,
+      "door": 16.5,
+      "support": 6.5,
+      "rank": 11,
+      "rankBonus": 0
+    }
+  },
+  {
+    "name": "朱凯赟",
+    "scores": {
+      "availability": 4,
+      "performance": 3,
+      "behavior": 3.5,
+      "attendance": 5,
+      "customerReview": 2.5
+    },
+    "avg": 3.6,
+    "avail": {
+      "score": 4,
+      "weekScore": 4,
+      "failedCount": 1,
+      "penalty": 0,
+      "bonus": 0
+    },
+    "perf": {
+      "score": 3,
+      "hourlyScore": 2,
+      "uptScore": 4,
+      "hourly": 159.8,
+      "upt": 1.5,
+      "sales": 16856,
+      "qty": 18,
+      "tickets": 12,
+      "targetMet": false
+    },
+    "review": {
+      "score": 2.5,
+      "count": 2
+    },
+    "attend": {
+      "score": 5,
+      "lateCount": 0,
+      "missedPunch": 0,
+      "absentCount": 0
+    },
+    "behavior": {
+      "score": 3.5,
+      "door": 16.5,
+      "support": 7.5,
+      "rank": 9,
+      "rankBonus": 0
+    }
+  },
+  {
+    "name": "陈昕媛",
+    "scores": {
+      "availability": 4,
+      "performance": 3,
+      "behavior": 3.5,
+      "attendance": 5,
+      "customerReview": 2
+    },
+    "avg": 3.5,
+    "avail": {
+      "score": 4,
+      "weekScore": 4,
+      "failedCount": 1,
+      "penalty": 0,
+      "bonus": 0
+    },
+    "perf": {
+      "score": 3,
+      "hourlyScore": 4,
+      "uptScore": 1,
+      "hourly": 246.3,
+      "upt": 1.08,
+      "sales": 34360,
+      "qty": 28,
+      "tickets": 26,
+      "targetMet": true
+    },
+    "review": {
+      "score": 2,
+      "count": 1
+    },
+    "attend": {
+      "score": 5,
+      "lateCount": 0,
+      "missedPunch": 0,
+      "absentCount": 0
+    },
+    "behavior": {
+      "score": 3.5,
+      "door": 19.5,
+      "support": 4,
+      "rank": 10,
+      "rankBonus": 0
+    }
+  },
+  {
+    "name": "杨子豪",
+    "scores": {
+      "availability": 2.5,
+      "performance": 4,
+      "behavior": 3,
+      "attendance": 5,
+      "customerReview": 2.5
+    },
+    "avg": 3.4,
+    "avail": {
+      "score": 2.5,
+      "weekScore": 3,
+      "failedCount": 2,
+      "penalty": 0.5,
+      "bonus": 0
+    },
+    "perf": {
+      "score": 4,
+      "hourlyScore": 4,
+      "uptScore": 3,
+      "hourly": 287.5,
+      "upt": 1.32,
+      "sales": 35502,
+      "qty": 29,
+      "tickets": 22,
+      "targetMet": true
+    },
+    "review": {
+      "score": 2.5,
+      "count": 2
+    },
+    "attend": {
+      "score": 5,
+      "lateCount": 0,
+      "missedPunch": 0,
+      "absentCount": 0
+    },
+    "behavior": {
+      "score": 3,
+      "door": 14,
+      "support": 0,
+      "rank": 13,
+      "rankBonus": 0
+    }
+  },
+  {
+    "name": "王雅澜",
+    "scores": {
+      "availability": 4,
+      "performance": 3.5,
+      "behavior": 3.5,
+      "attendance": 5,
+      "customerReview": 1
+    },
+    "avg": 3.4,
+    "avail": {
+      "score": 4,
+      "weekScore": 3,
+      "failedCount": 2,
+      "penalty": 0,
+      "bonus": 1
+    },
+    "perf": {
+      "score": 3.5,
+      "hourlyScore": 4,
+      "uptScore": 2,
+      "hourly": 283.6,
+      "upt": 1.23,
+      "sales": 33466,
+      "qty": 27,
+      "tickets": 22,
+      "targetMet": true
+    },
+    "review": {
+      "score": 1,
+      "count": 0
+    },
+    "attend": {
+      "score": 5,
+      "lateCount": 0,
+      "missedPunch": 0,
+      "absentCount": 0
+    },
+    "behavior": {
+      "score": 3.5,
+      "door": 23,
+      "support": 5.7,
+      "rank": 5,
+      "rankBonus": 0
+    }
+  },
+  {
+    "name": "何秋烨",
+    "scores": {
+      "availability": 3.5,
+      "performance": 4,
+      "behavior": 3.5,
+      "attendance": 5,
+      "customerReview": 1
+    },
+    "avg": 3.4,
+    "avail": {
+      "score": 3.5,
+      "weekScore": 3,
+      "failedCount": 2,
+      "penalty": 0,
+      "bonus": 0.5
+    },
+    "perf": {
+      "score": 4,
+      "hourlyScore": 3,
+      "uptScore": 5,
+      "hourly": 186.1,
+      "upt": 1.77,
+      "sales": 19536,
+      "qty": 23,
+      "tickets": 13,
+      "targetMet": false
+    },
+    "review": {
+      "score": 1,
+      "count": 0
+    },
+    "attend": {
+      "score": 5,
+      "lateCount": 0,
+      "missedPunch": 0,
+      "absentCount": 0
+    },
+    "behavior": {
+      "score": 3.5,
+      "door": 24,
+      "support": 3.7,
+      "rank": 6,
+      "rankBonus": 0
+    }
+  },
+  {
+    "name": "龚赟昊",
+    "scores": {
+      "availability": 4.5,
+      "performance": 3,
+      "behavior": 3.5,
+      "attendance": 5,
+      "customerReview": 1
+    },
+    "avg": 3.4,
+    "avail": {
+      "score": 4.5,
+      "weekScore": 4,
+      "failedCount": 1,
+      "penalty": 0,
+      "bonus": 0.5
+    },
+    "perf": {
+      "score": 3,
+      "hourlyScore": 3,
+      "uptScore": 2,
+      "hourly": 219.1,
+      "upt": 1.14,
+      "sales": 25858,
+      "qty": 24,
+      "tickets": 21,
+      "targetMet": true
+    },
+    "review": {
+      "score": 1,
+      "count": 0
+    },
+    "attend": {
+      "score": 5,
+      "lateCount": 0,
+      "missedPunch": 0,
+      "absentCount": 0
+    },
+    "behavior": {
+      "score": 3.5,
+      "door": 16,
+      "support": 13.5,
+      "rank": 4,
+      "rankBonus": 0
+    }
+  },
+  {
+    "name": "田佳乐",
+    "scores": {
+      "availability": 4,
+      "performance": 1.5,
+      "behavior": 5,
+      "attendance": 5,
+      "customerReview": 1
+    },
+    "avg": 3.3,
+    "avail": {
+      "score": 4,
+      "weekScore": 4,
+      "failedCount": 1,
+      "penalty": 0,
+      "bonus": 0
+    },
+    "perf": {
+      "score": 1.5,
+      "hourlyScore": 1,
+      "uptScore": 2,
+      "hourly": 71.3,
+      "upt": 1.14,
+      "sales": 8944,
+      "qty": 8,
+      "tickets": 7,
+      "targetMet": false
+    },
+    "review": {
+      "score": 1,
+      "count": 0
+    },
+    "attend": {
+      "score": 5,
+      "lateCount": 0,
+      "missedPunch": 0,
+      "absentCount": 0
+    },
+    "behavior": {
+      "score": 5,
+      "door": 28,
+      "support": 11,
+      "rank": 1,
+      "rankBonus": 1
+    }
+  },
+  {
+    "name": "王靳毓",
+    "scores": {
+      "availability": 4,
+      "performance": 4,
+      "behavior": 3.5,
+      "attendance": 4,
+      "customerReview": 1
+    },
+    "avg": 3.3,
+    "avail": {
+      "score": 4,
+      "weekScore": 3,
+      "failedCount": 2,
+      "penalty": 0,
+      "bonus": 1
+    },
+    "perf": {
+      "score": 4,
+      "hourlyScore": 3,
+      "uptScore": 4,
+      "hourly": 227.1,
+      "upt": 1.47,
+      "sales": 26228,
+      "qty": 22,
+      "tickets": 15,
+      "targetMet": true
+    },
+    "review": {
+      "score": 1,
+      "count": 0
+    },
+    "attend": {
+      "score": 4,
+      "lateCount": 1,
+      "missedPunch": 0,
+      "absentCount": 0
+    },
+    "behavior": {
+      "score": 3.5,
+      "door": 22,
+      "support": 4,
+      "rank": 8,
+      "rankBonus": 0
+    }
+  },
+  {
+    "name": "邓奇缘",
+    "scores": {
+      "availability": 4.5,
+      "performance": 2,
+      "behavior": 4,
+      "attendance": 5,
+      "customerReview": 1
+    },
+    "avg": 3.3,
+    "avail": {
+      "score": 4.5,
+      "weekScore": 4,
+      "failedCount": 1,
+      "penalty": 0,
+      "bonus": 0.5
+    },
+    "perf": {
+      "score": 2,
+      "hourlyScore": 1,
+      "uptScore": 3,
+      "hourly": 116.4,
+      "upt": 1.25,
+      "sales": 16005,
+      "qty": 15,
+      "tickets": 12,
+      "targetMet": false
+    },
+    "review": {
+      "score": 1,
+      "count": 0
+    },
+    "attend": {
+      "score": 5,
+      "lateCount": 0,
+      "missedPunch": 0,
+      "absentCount": 0
+    },
+    "behavior": {
+      "score": 4,
+      "door": 20,
+      "support": 7.5,
+      "rank": 7,
+      "rankBonus": 0
+    }
+  },
+  {
+    "name": "李若彤",
+    "scores": {
+      "availability": 4.5,
+      "performance": 4,
+      "behavior": 4.7,
+      "attendance": 1,
+      "customerReview": 2
+    },
+    "avg": 3.24,
+    "avail": {
+      "score": 4.5,
+      "weekScore": 4,
+      "failedCount": 1,
+      "penalty": 0,
+      "bonus": 0.5
+    },
+    "perf": {
+      "score": 4,
+      "hourlyScore": 4,
+      "uptScore": 3,
+      "hourly": 243.4,
+      "upt": 1.35,
+      "sales": 32500,
+      "qty": 31,
+      "tickets": 23,
+      "targetMet": true
+    },
+    "review": {
+      "score": 2,
+      "count": 1
+    },
+    "attend": {
+      "score": 1,
+      "lateCount": 2,
+      "missedPunch": 0,
+      "absentCount": 1
+    },
+    "behavior": {
+      "score": 4.7,
+      "door": 20,
+      "support": 13,
+      "rank": 2,
+      "rankBonus": 0.7
+    }
+  },
+  {
+    "name": "王龙宇",
+    "scores": {
+      "availability": 1.5,
+      "performance": 2,
+      "behavior": 3,
+      "attendance": 5,
+      "customerReview": 1
+    },
+    "avg": 2.5,
+    "avail": {
+      "score": 1.5,
+      "weekScore": 1,
+      "failedCount": 4,
+      "penalty": 0,
+      "bonus": 0.5
+    },
+    "perf": {
+      "score": 2,
+      "hourlyScore": 1,
+      "uptScore": 3,
+      "hourly": 93.2,
+      "upt": 1.25,
+      "sales": 5450,
+      "qty": 5,
+      "tickets": 4,
+      "targetMet": false
+    },
+    "review": {
+      "score": 1,
+      "count": 0
+    },
+    "attend": {
+      "score": 5,
+      "lateCount": 0,
+      "missedPunch": 0,
+      "absentCount": 0
+    },
+    "behavior": {
+      "score": 3,
+      "door": 12,
+      "support": 3.5,
+      "rank": 12,
+      "rankBonus": 0
+    }
+  }
+]
