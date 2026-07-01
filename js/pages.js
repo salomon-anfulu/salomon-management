@@ -3002,11 +3002,11 @@ function renderPersonalDashboard() {
         <div class="stat-label">出勤天数</div>
         <div class="stat-trend up">累计 ${totalHours.toFixed(1)}h</div>
       </div>
-      <div class="stat-card ${junePerf ? (junePerf.hourlyOutput >= 240 ? 'success' : 'warning') : ''}">
+      <div class="stat-card ${junePerf ? (junePerf.hourlyOutput >= 210 ? 'success' : 'warning') : ''}">
         <div class="stat-icon">📊</div>
         <div class="stat-value">${junePerf ? '¥' + junePerf.sales.toLocaleString() : '-'}</div>
         <div class="stat-label">6月销售额</div>
-        <div class="stat-trend ${junePerf ? (junePerf.hourlyOutput >= 240 ? 'up' : 'down') : ''}">${junePerf ? '时产 ¥' + junePerf.hourlyOutput.toFixed(0) + '/h' : '暂无数据'}</div>
+        <div class="stat-trend ${junePerf ? (junePerf.hourlyOutput >= 210 ? 'up' : 'down') : ''}">${junePerf ? '时产 ¥' + junePerf.hourlyOutput.toFixed(0) + '/h' : '暂无数据'}</div>
       </div>
     </div>
 
@@ -3088,8 +3088,8 @@ function renderPersonalDashboard() {
             <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">销售额</div>
           </div>
           <div style="text-align: center; padding: 12px;">
-            <div style="font-size: 18px; font-weight: 800; color: ${junePerf.hourlyOutput >= 240 ? '#10b981' : '#f59e0b'};">¥${junePerf.hourlyOutput.toFixed(0)}/h</div>
-            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">时产 ${junePerf.hourlyOutput >= 240 ? '✓达标' : '✗未达标'}</div>
+            <div style="font-size: 18px; font-weight: 800; color: ${junePerf.hourlyOutput >= 210 ? '#10b981' : '#f59e0b'};">¥${junePerf.hourlyOutput.toFixed(0)}/h</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">时产 ${junePerf.hourlyOutput >= 210 ? '✓达标' : '✗未达标'}</div>
           </div>
           <div style="text-align: center; padding: 12px;">
             <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);">${junePerf.qty || '-'}件 / ${junePerf.tickets || '-'}单</div>
