@@ -12,26 +12,26 @@ const Store = {
   defaults: {
     staff: [
       // ===== Service Team (门店兼职) =====
-      { id: 1, name: '陈昕媛', gender: '女', dept: 'Service Team', joinDate: '2026-01-15', status: 'active', avatar_color: '#3b82f6', availableDays: 29 },
-      { id: 2, name: '田佳乐', gender: '男', dept: 'Service Team', joinDate: '2026-02-01', status: 'active', avatar_color: '#8b5cf6', availableDays: 27 },
-      { id: 3, name: '迟骋', gender: '男', dept: 'Service Team', joinDate: '2026-01-20', status: 'active', avatar_color: '#ec4899', availableDays: 26 },
-      { id: 4, name: '王靳毓', gender: '女', dept: 'Service Team', joinDate: '2026-03-01', status: 'active', avatar_color: '#f59e0b', availableDays: 25 },
-      { id: 5, name: '朱凯赟', gender: '男', dept: 'Service Team', joinDate: '2026-02-15', status: 'active', avatar_color: '#10b981', availableDays: 24 },
-      { id: 6, name: '孔祥宇', gender: '女', dept: 'Service Team', joinDate: '2026-01-10', status: 'active', avatar_color: '#06b6d4', availableDays: 29 },
-      { id: 7, name: '邓奇缘', gender: '男', dept: 'Service Team', joinDate: '2026-03-10', status: 'active', avatar_color: '#f43f5e', availableDays: 28 },
-      { id: 8, name: '杨子豪', gender: '男', dept: 'Service Team', joinDate: '2026-02-20', status: 'active', avatar_color: '#6366f1', availableDays: 26 },
-      { id: 9, name: '王雅澜', gender: '女', dept: 'Service Team', joinDate: '2026-01-05', status: 'active', avatar_color: '#a855f7', availableDays: 26 },
-      { id: 10, name: '李若彤', gender: '女', dept: 'Service Team', joinDate: '2026-02-10', status: 'active', avatar_color: '#14b8a6', availableDays: 30 },
-      { id: 11, name: '王龙宇', gender: '男', dept: 'Service Team', joinDate: '2026-04-01', status: 'active', avatar_color: '#eab308', availableDays: 10, note: '19日到30日出差，请假' },
-      { id: 12, name: '何秋烨', gender: '女', dept: 'Service Team', joinDate: '2026-03-15', status: 'active', avatar_color: '#f97316', availableDays: 23 },
-      { id: 13, name: '龚赟昊', gender: '男', dept: 'Service Team', joinDate: '2026-02-25', status: 'active', avatar_color: '#84cc16', availableDays: 25 },
+      { id: 1, name: '陈昕媛', gender: '女', dept: 'Service Team', joinDate: '2026-01-15', status: 'full_time', avatar_color: '#3b82f6', availableDays: 29, mbti: '' },
+      { id: 2, name: '田佳乐', gender: '男', dept: 'Service Team', joinDate: '2026-02-01', status: 'active', avatar_color: '#8b5cf6', availableDays: 27, mbti: '' },
+      { id: 3, name: '迟骋', gender: '男', dept: 'Service Team', joinDate: '2026-01-20', status: 'active', avatar_color: '#ec4899', availableDays: 26, mbti: '' },
+      { id: 4, name: '王靳毓', gender: '女', dept: 'Service Team', joinDate: '2026-03-01', status: 'active', avatar_color: '#f59e0b', availableDays: 25, mbti: '' },
+      { id: 5, name: '朱凯赟', gender: '男', dept: 'Service Team', joinDate: '2026-02-15', status: 'active', avatar_color: '#10b981', availableDays: 24, mbti: '' },
+      { id: 6, name: '孔祥宇', gender: '女', dept: 'Service Team', joinDate: '2026-01-10', status: 'active', avatar_color: '#06b6d4', availableDays: 29, mbti: '' },
+      { id: 7, name: '邓奇缘', gender: '男', dept: 'Service Team', joinDate: '2026-03-10', status: 'active', avatar_color: '#f43f5e', availableDays: 28, mbti: '' },
+      { id: 8, name: '杨子豪', gender: '男', dept: 'Service Team', joinDate: '2026-02-20', status: 'active', avatar_color: '#6366f1', availableDays: 26, mbti: '' },
+      { id: 9, name: '王雅澜', gender: '女', dept: 'Service Team', joinDate: '2026-01-05', status: 'active', avatar_color: '#a855f7', availableDays: 26, mbti: '' },
+      { id: 10, name: '李若彤', gender: '女', dept: 'Service Team', joinDate: '2026-02-10', status: 'active', avatar_color: '#14b8a6', availableDays: 30, mbti: '' },
+      { id: 11, name: '王龙宇', gender: '男', dept: 'Service Team', joinDate: '2026-04-01', status: 'active', avatar_color: '#eab308', availableDays: 10, note: '19日到30日出差，请假', mbti: '' },
+      { id: 12, name: '何秋烨', gender: '女', dept: 'Service Team', joinDate: '2026-03-15', status: 'active', avatar_color: '#f97316', availableDays: 23, mbti: '' },
+      { id: 13, name: '龚赟昊', gender: '男', dept: 'Service Team', joinDate: '2026-02-25', status: 'active', avatar_color: '#84cc16', availableDays: 25, mbti: '' },
       // ===== 仓库兼职 =====
-      { id: 14, name: '严佳铮', gender: '男', dept: '仓库兼职', joinDate: '2026-03-01', status: 'active', avatar_color: '#22d3ee', availableDays: 7 },
-      { id: 15, name: '祖白代', gender: '女', dept: '仓库兼职', joinDate: '2026-01-20', status: 'active', avatar_color: '#fb923c', availableDays: 29 },
-      { id: 16, name: '陈广权', gender: '男', dept: '仓库兼职', joinDate: '2026-02-05', status: 'active', avatar_color: '#a78bfa', availableDays: 26 },
-      { id: 17, name: '贾长乐', gender: '男', dept: '仓库兼职', joinDate: '2026-03-10', status: 'active', avatar_color: '#f472b6', availableDays: 13 },
-      { id: 18, name: '玛依拉', gender: '女', dept: '仓库兼职', joinDate: '2026-02-15', status: 'active', avatar_color: '#34d399', availableDays: 23 },
-      { id: 19, name: '梁实秋', gender: '男', dept: '仓库兼职', joinDate: '2026-01-25', status: 'active', avatar_color: '#fbbf24', availableDays: 19 },
+      { id: 14, name: '严佳铮', gender: '男', dept: '仓库兼职', joinDate: '2026-03-01', status: 'active', avatar_color: '#22d3ee', availableDays: 7, mbti: '' },
+      { id: 15, name: '祖白代', gender: '女', dept: '仓库兼职', joinDate: '2026-01-20', status: 'active', avatar_color: '#fb923c', availableDays: 29, mbti: '' },
+      { id: 16, name: '陈广权', gender: '男', dept: '仓库兼职', joinDate: '2026-02-05', status: 'active', avatar_color: '#a78bfa', availableDays: 26, mbti: '' },
+      { id: 17, name: '贾长乐', gender: '男', dept: '仓库兼职', joinDate: '2026-03-10', status: 'active', avatar_color: '#f472b6', availableDays: 13, mbti: '' },
+      { id: 18, name: '玛依拉', gender: '女', dept: '仓库兼职', joinDate: '2026-02-15', status: 'active', avatar_color: '#34d399', availableDays: 23, mbti: '' },
+      { id: 19, name: '梁实秋', gender: '男', dept: '仓库兼职', joinDate: '2026-01-25', status: 'active', avatar_color: '#fbbf24', availableDays: 19, mbti: '' },
     ],
 
     // 供班数据（多月结构，支持逐日状态+备注）
@@ -1468,7 +1468,7 @@ linggongAttendance: {
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-02-v15',
+        _dataVersion: '2026-07-02-v16',
   },
 
   init() {
@@ -1478,7 +1478,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-02-v15';
+      const DATA_VERSION = '2026-07-02-v16';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       if (isVersionMismatch || isMissingCritical) {

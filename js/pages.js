@@ -165,14 +165,14 @@ function renderStaff() {
   const staff = Store.get('staff');
   const filtered = staffFilter === 'all' ? staff :
     staffFilter === 'active' ? staff.filter(s => s.status === 'active') :
-    staff.filter(s => s.status === 'inactive');
+    staff.filter(s => s.status !== 'active');
 
   return `
     <div class="flex justify-between items-center mb-6 animate-in">
       <div class="filters-bar" style="margin-bottom: 0;">
         <button class="filter-chip ${staffFilter === 'all' ? 'active' : ''}" onclick="staffFilter='all';Router.render()">全部 (${staff.length})</button>
         <button class="filter-chip ${staffFilter === 'active' ? 'active' : ''}" onclick="staffFilter='active';Router.render()">在职 (${staff.filter(s=>s.status==='active').length})</button>
-        <button class="filter-chip ${staffFilter === 'inactive' ? 'active' : ''}" onclick="staffFilter='inactive';Router.render()">离职 (${staff.filter(s=>s.status==='inactive').length})</button>
+        <button class="filter-chip ${staffFilter === 'inactive' ? 'active' : ''}" onclick="staffFilter='inactive';Router.render()">离职/转正 (${staff.filter(s=>s.status!=='active').length})</button>
       </div>
       <button class="btn btn-primary" onclick="openStaffModal()">+ 添加兼职</button>
     </div>
@@ -185,6 +185,7 @@ function renderStaff() {
               <tr>
                 <th>姓名</th>
                 <th>部门</th>
+                <th>MBTI</th>
                 <th>状态</th>
                 <th>操作</th>
               </tr>
@@ -197,22 +198,24 @@ function renderStaff() {
                       <div class="avatar" style="background: ${s.avatar_color}">${getInitials(s.name)}</div>
                       <div>
                         <div class="user-name">${s.name}</div>
-                        <div class="user-dept">紧急: ${s.emergency}</div>
+                        <div class="user-dept">${s.mbti ? s.mbti : '—'}</div>
                       </div>
                     </div>
                   </td>
-                  <td><span class="badge ${s.dept === '陈列' ? 'badge-info' : 'badge-accent'}">${s.dept} Team</span></td>
-                  <td><span class="badge ${s.status === 'active' ? 'badge-active' : 'badge-inactive'}">${s.status === 'active' ? '在职' : '离职'}</span></td>
+                  <td><span class="badge ${s.dept === 'Service Team' ? 'badge-accent' : 'badge-info'}">${s.dept === 'Service Team' ? 'Service Team' : '仓库兼职'}</span></td>
+                  <td>${s.mbti ? `<span class="badge badge-active" style="font-size:11px;">${s.mbti}</span>` : '<span class="text-muted">未填写</span>'}</td>
+                  <td><span class="badge ${s.status === 'active' ? 'badge-active' : s.status === 'full_time' ? 'badge-info' : 'badge-inactive'}">${s.status === 'active' ? '在职' : s.status === 'full_time' ? '已转正' : '离职'}</span></td>
                   <td>
                     <div class="flex gap-8">
                       <button class="btn btn-sm btn-outline" onclick="openStaffModal(${s.id})">编辑</button>
-                      <button class="btn btn-sm btn-secondary" onclick="toggleStaffStatus(${s.id})">${s.status === 'active' ? '离职' : '恢复'}</button>
+                      ${s.status === 'active' ? `<button class="btn btn-sm" style="background:#10b981;color:#fff;border:none;" onclick="promoteStaff(${s.id})">转正</button>` : ''}
+                      ${s.status === 'full_time' ? '' : `<button class="btn btn-sm btn-secondary" onclick="toggleStaffStatus(${s.id})">${s.status === 'active' ? '离职' : '恢复'}</button>`}
                     </div>
                   </td>
                 </tr>
               `).join('')}
               ${filtered.length === 0 ? `
-                <tr><td colspan="4" class="text-center text-muted" style="padding: 40px;">暂无数据</td></tr>
+                <tr><td colspan="5" class="text-center text-muted" style="padding: 40px;">暂无数据</td></tr>
               ` : ''}
             </tbody>
           </table>
@@ -237,13 +240,31 @@ function renderStaff() {
             <div class="form-group">
               <label class="form-label">部门 *</label>
               <select class="form-select" id="staff_dept">
-                <option value="陈列">陈列 Team</option>
-                <option value="培训">培训 Team</option>
+                <option value="Service Team">Service Team</option>
+                <option value="仓库兼职">仓库兼职</option>
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">紧急联系人</label>
-              <input class="form-input" id="staff_emergency" placeholder="姓名 电话">
+              <label class="form-label">MBTI</label>
+              <select class="form-select" id="staff_mbti">
+                <option value="">未填写</option>
+                <option value="INTJ">INTJ - 建筑师</option>
+                <option value="INTP">INTP - 逻辑学家</option>
+                <option value="ENTJ">ENTJ - 指挥官</option>
+                <option value="ENTP">ENTP - 辩论家</option>
+                <option value="INFJ">INFJ - 提倡者</option>
+                <option value="INFP">INFP - 调停者</option>
+                <option value="ENFJ">ENFJ - 主人公</option>
+                <option value="ENFP">ENFP - 竞选者</option>
+                <option value="ISTJ">ISTJ - 物流师</option>
+                <option value="ISFJ">ISFJ - 守卫者</option>
+                <option value="ESTJ">ESTJ - 总经理</option>
+                <option value="ESFJ">ESFJ - 执政官</option>
+                <option value="ISTP">ISTP - 鉴赏家</option>
+                <option value="ISFP">ISFP - 探险家</option>
+                <option value="ESTP">ESTP - 企业家</option>
+                <option value="ESFP">ESFP - 表演者</option>
+              </select>
             </div>
           </div>
         </div>
@@ -268,13 +289,13 @@ function openStaffModal(id) {
     document.getElementById('staff_edit_id').value = s.id;
     document.getElementById('staff_name').value = s.name;
     document.getElementById('staff_dept').value = s.dept;
-    document.getElementById('staff_emergency').value = s.emergency;
+    document.getElementById('staff_mbti').value = s.mbti || '';
   } else {
     title.textContent = '添加兼职人员';
     document.getElementById('staff_edit_id').value = '';
     document.getElementById('staff_name').value = '';
-    document.getElementById('staff_dept').value = '陈列';
-    document.getElementById('staff_emergency').value = '';
+    document.getElementById('staff_dept').value = 'Service Team';
+    document.getElementById('staff_mbti').value = '';
   }
 }
 
@@ -286,7 +307,7 @@ function saveStaff() {
   const editId = document.getElementById('staff_edit_id').value;
   const name = document.getElementById('staff_name').value.trim();
   const dept = document.getElementById('staff_dept').value;
-  const emergency = document.getElementById('staff_emergency').value.trim();
+  const mbti = document.getElementById('staff_mbti').value;
 
   if (!name) { showToast('请输入姓名', 'warning'); return; }
 
@@ -296,7 +317,7 @@ function saveStaff() {
   if (editId) {
     const idx = staff.findIndex(s => s.id === parseInt(editId));
     if (idx >= 0) {
-      staff[idx] = { ...staff[idx], name, dept, emergency };
+      staff[idx] = { ...staff[idx], name, dept, mbti };
       showToast(`${name} 信息已更新`);
     }
   } else {
@@ -304,7 +325,7 @@ function saveStaff() {
       id: Store.nextId('staff'),
       name, dept,
       status: 'active',
-      emergency: emergency || '未填写',
+      mbti: mbti || '',
       avatar_color: colors[Math.floor(Math.random() * colors.length)]
     });
     showToast(`${name} 已添加到团队`);
@@ -322,6 +343,17 @@ function toggleStaffStatus(id) {
     staff[idx].status = staff[idx].status === 'active' ? 'inactive' : 'active';
     Store.set('staff', staff);
     showToast(`${staff[idx].name} 已${staff[idx].status === 'active' ? '恢复在职' : '标记离职'}`);
+    Router.render();
+  }
+}
+
+function promoteStaff(id) {
+  const staff = Store.get('staff');
+  const idx = staff.findIndex(s => s.id === id);
+  if (idx >= 0) {
+    staff[idx].status = 'full_time';
+    Store.set('staff', staff);
+    showToast(`${staff[idx].name} 已转正为全职员工`);
     Router.render();
   }
 }
