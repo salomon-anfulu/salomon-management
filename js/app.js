@@ -1553,7 +1553,7 @@ linggongAttendance: {
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-03-v29',
+        _dataVersion: '2026-07-03-v30',
   },
 
   init() {
@@ -1563,7 +1563,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-03-v29';
+      const DATA_VERSION = '2026-07-03-v30';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -1643,9 +1643,17 @@ linggongAttendance: {
           });
           merged.performanceData = data.performanceData;
         }
-        // linggongAttendance: 保留用户数据
-        if (data.linggongAttendance) {
-          merged.linggongAttendance = data.linggongAttendance;
+        // linggongAttendance: 以默认数据为准（含最新拉取的考勤），但保留用户可能手动添加的自定义记录
+        if (data.linggongAttendance && data.linggongAttendance.records) {
+          // 用默认记录作为基础
+          const defaultRecords = this.defaults.linggongAttendance.records || [];
+          const defaultKeys = new Set(defaultRecords.map(r => `${r.name}-${r.date}`));
+          // 保留用户数据中不在默认列表里的记录（手动添加的）
+          const extraRecords = data.linggongAttendance.records.filter(r => !defaultKeys.has(`${r.name}-${r.date}`));
+          merged.linggongAttendance = {
+            ...this.defaults.linggongAttendance,
+            records: [...defaultRecords, ...extraRecords]
+          };
         }
         // customerReviews: 保留用户数据
         if (data.customerReviews) {
