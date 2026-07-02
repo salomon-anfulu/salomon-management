@@ -7,7 +7,7 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    
+
     :root {
       --primary: #1a1a2e;
       --primary-light: #2d2d4a;
@@ -46,7 +46,7 @@
 
     .login-header {
       background: linear-gradient(135deg, #1a1a2e, #2d2d4a);
-      padding: 32px 28px 24px;
+      padding: 36px 28px 28px;
       text-align: center;
       position: relative;
     }
@@ -65,14 +65,14 @@
     }
 
     .brand-icon {
-      font-size: 40px;
+      font-size: 44px;
       display: block;
       margin-bottom: 8px;
     }
 
     .brand-title {
       color: #fff;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
       letter-spacing: 0.5px;
     }
@@ -84,76 +84,38 @@
     }
 
     .login-body {
-      padding: 36px 28px 28px;
+      padding: 44px 28px 32px;
+      text-align: center;
     }
 
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 6px;
-    }
-
-    .form-input, .form-select {
-      width: 100%;
-      padding: 12px 14px;
-      border: 2px solid var(--border);
-      border-radius: 10px;
-      font-size: 15px;
-      color: var(--text-primary);
-      background: #fff;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
-      -webkit-appearance: none;
-    }
-
-    .form-input:focus, .form-select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
-    }
-
-    .form-select {
-      cursor: pointer;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 14px center;
-      padding-right: 36px;
+    .welcome-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      line-height: 1.6;
     }
 
     .btn-login {
       width: 100%;
-      padding: 14px;
+      padding: 15px;
       background: linear-gradient(135deg, var(--accent), #c0392b);
       color: #fff;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       font-size: 16px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       transition: transform 0.2s, box-shadow 0.2s;
-      margin-top: 4px;
+      letter-spacing: 1px;
     }
 
     .btn-login:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(233, 69, 96, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(233, 69, 96, 0.4);
     }
 
     .btn-login:active {
       transform: translateY(0);
-    }
-
-    .error-msg {
-      color: var(--accent);
-      font-size: 13px;
-      text-align: center;
-      margin-top: 8px;
-      min-height: 20px;
     }
 
     .login-footer {
@@ -172,15 +134,8 @@
       <div class="brand-sub">L140 兼职团队数据平台</div>
     </div>
     <div class="login-body">
-      <div class="form-group">
-        <label class="form-label">选择你的姓名</label>
-        <select class="form-select" id="staffSelect">
-          <option value="">-- 请选择 --</option>
-        </select>
-      </div>
+      <div class="welcome-text">欢迎进入兼职团队管理系统<br>点击下方按钮直接登录</div>
       <button class="btn-login" onclick="doLogin()">进入系统</button>
-
-      <div class="error-msg" id="errorMsg"></div>
     </div>
     <div class="login-footer">
       安福路 Salomon 旗舰店 · 数据截至2026年6月
@@ -188,72 +143,12 @@
   </div>
 
   <script>
-    // Staff list (must match Store.defaults.staff)
-    const STAFF_LIST = [
-      { id: 1, name: '陈昕媛', dept: 'Service Team' },
-      { id: 2, name: '田佳乐', dept: 'Service Team' },
-      { id: 3, name: '迟骋', dept: 'Service Team' },
-      { id: 4, name: '王靳毓', dept: 'Service Team' },
-      { id: 5, name: '朱凯赟', dept: 'Service Team' },
-      { id: 6, name: '孔祥宇', dept: 'Service Team' },
-      { id: 7, name: '邓奇缘', dept: 'Service Team' },
-      { id: 8, name: '杨子豪', dept: 'Service Team' },
-      { id: 9, name: '王雅澜', dept: 'Service Team' },
-      { id: 10, name: '李若彤', dept: 'Service Team' },
-      { id: 11, name: '王龙宇', dept: 'Service Team' },
-      { id: 12, name: '何秋烨', dept: 'Service Team' },
-      { id: 13, name: '龚赟昊', dept: 'Service Team' },
-      { id: 14, name: '严佳铮', dept: '仓库兼职' },
-      { id: 15, name: '祖白代', dept: '仓库兼职' },
-      { id: 16, name: '陈广权', dept: '仓库兼职' },
-      { id: 17, name: '贾长乐', dept: '仓库兼职' },
-      { id: 18, name: '玛依拉', dept: '仓库兼职' },
-      { id: 19, name: '梁实秋', dept: '仓库兼职' },
-    ];
-
-    // Populate select
-    const select = document.getElementById('staffSelect');
-    const serviceTeam = STAFF_LIST.filter(s => s.dept === 'Service Team');
-    const warehouse = STAFF_LIST.filter(s => s.dept === '仓库兼职');
-    
-    const optGroup1 = document.createElement('optgroup');
-    optGroup1.label = 'Service Team';
-    serviceTeam.forEach(s => {
-      const opt = document.createElement('option');
-      opt.value = s.id;
-      opt.textContent = s.name;
-      optGroup1.appendChild(opt);
-    });
-    select.appendChild(optGroup1);
-
-    const optGroup2 = document.createElement('optgroup');
-    optGroup2.label = '仓库兼职';
-    warehouse.forEach(s => {
-      const opt = document.createElement('option');
-      opt.value = s.id;
-      opt.textContent = s.name;
-      optGroup2.appendChild(opt);
-    });
-    select.appendChild(optGroup2);
-
-    // Admin password (simple hash for basic protection)
-
     function doLogin() {
-      const staffId = parseInt(select.value);
-      if (!staffId) {
-        document.getElementById('errorMsg').textContent = '请先选择你的姓名';
-        return;
-      }
-      const staff = STAFF_LIST.find(s => s.id === staffId);
-      if (!staff) {
-        document.getElementById('errorMsg').textContent = '未找到该人员';
-        return;
-      }
       sessionStorage.setItem('auth', JSON.stringify({
         role: 'admin',
-        staffId: staff.id,
-        staffName: staff.name,
-        dept: staff.dept,
+        staffId: null,
+        staffName: null,
+        dept: null,
         loginTime: Date.now()
       }));
       window.location.href = 'app.html';

@@ -166,13 +166,15 @@
     // Show user banner
     const banner = document.getElementById('userBanner');
     banner.style.display = 'flex';
-    const staffObj = Store.get('staff').find(s => s.id === Auth.staffId);
+    const staffObj = Auth.staffId ? Store.get('staff').find(s => s.id === Auth.staffId) : null;
     const avatarColor = staffObj?.avatar_color || '#1a1a2e';
-    const initial = Auth.staffName ? Auth.staffName[0] : '管';
+    const displayName = Auth.staffName || '管理员';
+    const displayDept = Auth.dept || 'Admin';
+    const initial = displayName[0];
     banner.innerHTML = `
       <div class="user-avatar" style="background:${avatarColor};">${initial}</div>
-      <span class="user-name">${Auth.staffName}</span>
-      <span class="user-role">${Auth.dept}</span>
+      <span class="user-name">${displayName}</span>
+      <span class="user-role">${displayDept}</span>
       <button class="btn-logout" onclick="Auth.logout()">退出登录</button>
     `;
 
