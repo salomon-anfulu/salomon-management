@@ -1462,13 +1462,79 @@ linggongAttendance: {
         ]
       },
 
-      // ===== 7月数据（空白模板，随月度更新录入） =====
+      // ===== 7月数据（7/1-7/2首批，随周更新录入） =====
       july: {
         month: '2026-07',
-        totalSales: 0,
-        avgUPT: 0,
-        avgHourlyOutput: 0,
-        records: []
+        totalSales: 9394,
+        avgUPT: 1.60,
+        avgHourlyOutput: 251.7,
+        records: [
+          {
+            name: "孔祥宇",
+            sales: 2804,
+            qty: 3,
+            tickets: 1,
+            upt: 3.00,
+            avgPrice: 935,
+            workHours: 8.5,
+            workDays: 1,
+            hourlyOutput: 329.9,
+            salesShare: 0.298,
+            categories: "鞋履 96.1% / 配件 3.9%"
+          },
+          {
+            name: "龚赟昊",
+            sales: 2696,
+            qty: 2,
+            tickets: 1,
+            upt: 2.00,
+            avgPrice: 1348,
+            workHours: 7,
+            workDays: 1,
+            hourlyOutput: 385.1,
+            salesShare: 0.287,
+            categories: "鞋履 100.0%"
+          },
+          {
+            name: "田佳乐",
+            sales: 1498,
+            qty: 1,
+            tickets: 1,
+            upt: 1.00,
+            avgPrice: 1498,
+            workHours: 8,
+            workDays: 1,
+            hourlyOutput: 187.3,
+            salesShare: 0.159,
+            categories: "鞋履 100.0%"
+          },
+          {
+            name: "王雅澜",
+            sales: 1398,
+            qty: 1,
+            tickets: 1,
+            upt: 1.00,
+            avgPrice: 1398,
+            workHours: 8,
+            workDays: 1,
+            hourlyOutput: 174.8,
+            salesShare: 0.149,
+            categories: "鞋履 100.0%"
+          },
+          {
+            name: "何秋烨",
+            sales: 998,
+            qty: 1,
+            tickets: 1,
+            upt: 1.00,
+            avgPrice: 998,
+            workHours: 5.5,
+            workDays: 1,
+            hourlyOutput: 181.5,
+            salesShare: 0.106,
+            categories: "鞋履 100.0%"
+          },
+        ]
       },
 
     },
@@ -1487,7 +1553,7 @@ linggongAttendance: {
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-03-v28',
+        _dataVersion: '2026-07-03-v29',
   },
 
   init() {
@@ -1497,7 +1563,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-03-v28';
+      const DATA_VERSION = '2026-07-03-v29';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -1569,8 +1635,12 @@ linggongAttendance: {
           merged.availability.currentMonth = data.availability.currentMonth || '2026-07';
         }
 
-        // performanceData: 保留用户数据（结构复杂，直接保留）
+        // performanceData: 以默认数据为准（含最新录入），但保留用户可能在其他月份录入的自定义数据
         if (data.performanceData) {
+          // 默认数据覆盖用户数据中的同名月份
+          Object.keys(this.defaults.performanceData).forEach(mk => {
+            data.performanceData[mk] = this.defaults.performanceData[mk];
+          });
           merged.performanceData = data.performanceData;
         }
         // linggongAttendance: 保留用户数据
