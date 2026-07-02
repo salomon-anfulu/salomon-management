@@ -4972,3 +4972,223 @@ function deleteDoorSlotInline() {
     showToast('班次已删除');
   }
 }
+
+// ===== 数据管理页面 =====
+function renderDataManagement() {
+  const allData = Store.getAll();
+  const dataVersion = allData._dataVersion || 'unknown';
+  const staffCount = (allData.staff || []).length;
+  const ratingsCount = (allData.ratings || []).length;
+  const doorCount = (allData.doorSchedule || []).length;
+  const attRecords = (allData.linggongAttendance && allData.linggongAttendance.records) || [];
+  const reviewCount = (allData.customerReviews || []).length;
+  const supportCount = (allData.storeSupport || []).length;
+  const shiftCount = (allData.shiftChanges || []).length;
+  const perfKeys = allData.performanceData ? Object.keys(allData.performanceData) : [];
+
+  // Estimate localStorage usage
+  let storageSize = 0;
+  try {
+    const raw = localStorage.getItem(Store.KEY) || '';
+    storageSize = new Blob([raw]).size;
+  } catch (e) {}
+
+  const formatSize = (bytes) => {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1024 / 1024).toFixed(2) + ' MB';
+  };
+
+  const storagePct = Math.min(100, (storageSize / (5 * 1024 * 1024)) * 100);
+
+  // Check if safety backup exists
+  const hasSafetyBackup = !!localStorage.getItem(Store.KEY + '_safety_backup');
+
+  return `
+    <div class="animate-in" style="margin-bottom: 24px;">
+      <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 50%, #1e3a5f 100%); border-radius: var(--radius-lg); padding: 24px; color: #fff; position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -20px; right: -20px; font-size: 80px; opacity: 0.05; transform: rotate(-15deg);">💾</div>
+        <h2 style="font-size: 20px; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+          💾 数据管理
+          <span style="font-size: 11px; padding: 3px 8px; background: rgba(255,255,255,0.1); border-radius: 20px; font-weight: 600;">BACKUP & RESTORE</span>
+        </h2>
+        <p style="font-size: 13px; opacity: 0.7; margin-top: 4px;">导出完整数据备份 / 从备份恢复 / 安全回滚</p>
+      </div>
+    </div>
+
+    <!-- 存储状态 -->
+    <div class="card animate-in" style="margin-bottom: 16px;">
+      <div class="card-body">
+        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 16px;">📊 当前数据状态</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 16px;">
+          <div style="background: var(--surface); border-radius: 10px; padding: 12px; text-align: center;">
+            <div style="font-size: 22px; font-weight: 800; color: var(--primary);">${staffCount}</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">兼职人员</div>
+          </div>
+          <div style="background: var(--surface); border-radius: 10px; padding: 12px; text-align: center;">
+            <div style="font-size: 22px; font-weight: 800; color: var(--primary);">${ratingsCount}</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">评分记录</div>
+          </div>
+          <div style="background: var(--surface); border-radius: 10px; padding: 12px; text-align: center;">
+            <div style="font-size: 22px; font-weight: 800; color: var(--primary);">${attRecords.length}</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">考勤记录</div>
+          </div>
+          <div style="background: var(--surface); border-radius: 10px; padding: 12px; text-align: center;">
+            <div style="font-size: 22px; font-weight: 800; color: var(--primary);">${doorCount}</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">门迎排班</div>
+          </div>
+          <div style="background: var(--surface); border-radius: 10px; padding: 12px; text-align: center;">
+            <div style="font-size: 22px; font-weight: 800; color: var(--primary);">${reviewCount}</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">顾客好评</div>
+          </div>
+          <div style="background: var(--surface); border-radius: 10px; padding: 12px; text-align: center;">
+            <div style="font-size: 22px; font-weight: 800; color: var(--primary);">${supportCount + shiftCount}</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">支援/换班</div>
+          </div>
+          <div style="background: var(--surface); border-radius: 10px; padding: 12px; text-align: center;">
+            <div style="font-size: 22px; font-weight: 800; color: var(--primary);">${perfKeys.length}</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">业绩月份</div>
+          </div>
+        </div>
+
+        <!-- Storage bar -->
+        <div style="background: var(--surface); border-radius: 10px; padding: 12px 16px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <span style="font-size: 12px; color: var(--text-muted);">LocalStorage 占用</span>
+            <span style="font-size: 12px; font-weight: 600; color: ${storagePct > 80 ? '#ef4444' : 'var(--text-secondary)'};">${formatSize(storageSize)} / 5.0 MB (${storagePct.toFixed(1)}%)</span>
+          </div>
+          <div style="height: 8px; background: var(--border); border-radius: 4px; overflow: hidden;">
+            <div style="height: 100%; width: ${storagePct}%; background: ${storagePct > 80 ? '#ef4444' : 'linear-gradient(90deg, #10b981, #3b82f6)'}; border-radius: 4px; transition: width 0.3s;"></div>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">数据版本: <code style="background: var(--surface); padding: 2px 6px; border-radius: 4px; font-size: 11px;">${dataVersion}</code> ${hasSafetyBackup ? '<span style="color:#f59e0b;margin-left:8px;">⚠️ 存在安全备份(上次升级前自动创建)</span>' : ''}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 导出数据 -->
+    <div class="card animate-in" style="margin-bottom: 16px; border-left: 4px solid #10b981;">
+      <div class="card-body">
+        <div style="display: flex; align-items: flex-start; gap: 16px;">
+          <div style="font-size: 32px;">📤</div>
+          <div style="flex: 1;">
+            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">导出备份</h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6;">
+              将当前所有数据（人员/考勤/评分/排班/业绩/好评等）导出为 JSON 文件，保存到电脑或手机。<br>
+              <strong style="color: var(--text-secondary);">建议每周导出一次，系统升级前务必导出。</strong>
+            </p>
+            <button onclick="Store.downloadBackup()" style="padding: 10px 24px; background: #10b981; color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;">
+              📥 立即导出
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 导入数据 -->
+    <div class="card animate-in" style="margin-bottom: 16px; border-left: 4px solid #3b82f6;">
+      <div class="card-body">
+        <div style="display: flex; align-items: flex-start; gap: 16px;">
+          <div style="font-size: 32px;">📥</div>
+          <div style="flex: 1;">
+            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">导入恢复</h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6;">
+              从之前导出的 JSON 备份文件恢复数据。<strong style="color: #ef4444;">导入会覆盖当前所有数据</strong>，请确认备份文件正确。
+            </p>
+            <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="handleImportFile(this)">
+            <button onclick="document.getElementById('importFileInput').click()" style="padding: 10px 24px; background: #3b82f6; color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;">
+              📂 选择备份文件
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 安全备份恢复 -->
+    ${hasSafetyBackup ? `
+    <div class="card animate-in" style="margin-bottom: 16px; border-left: 4px solid #f59e0b;">
+      <div class="card-body">
+        <div style="display: flex; align-items: flex-start; gap: 16px;">
+          <div style="font-size: 32px;">⚠️</div>
+          <div style="flex: 1;">
+            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px; color: #f59e0b;">恢复上次升级前的备份</h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6;">
+              系统检测到上次版本升级前自动创建的安全备份。如果升级后数据异常，可以一键回滚到升级前的状态。<br>
+              <strong style="color: #ef4444;">回滚将覆盖当前数据，请谨慎操作。</strong>
+            </p>
+            <button onclick="restoreSafetyBackup()" style="padding: 10px 24px; background: #f59e0b; color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 6px;">
+              🔄 恢复安全备份
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    ` : ''}
+
+    <!-- 操作指南 -->
+    <div class="card animate-in" style="margin-bottom: 16px;">
+      <div class="card-body">
+        <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px;">📖 操作指南</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div>
+            <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: #10b981;">📤 如何备份</h4>
+            <ol style="font-size: 12px; color: var(--text-muted); line-height: 1.8; padding-left: 16px;">
+              <li>点击「立即导出」按钮</li>
+              <li>浏览器自动下载 JSON 文件</li>
+              <li>文件名含日期时间，如 <code>salomon-backup-20260702-2329.json</code></li>
+              <li>保存到安全位置（建议云盘+本地各一份）</li>
+            </ol>
+          </div>
+          <div>
+            <h4 style="font-size: 13px; font-weight: 700; margin-bottom: 8px; color: #3b82f6;">📥 如何恢复</h4>
+            <ol style="font-size: 12px; color: var(--text-muted); line-height: 1.8; padding-left: 16px;">
+              <li>点击「选择备份文件」</li>
+              <li>选中之前导出的 JSON 文件</li>
+              <li>确认覆盖提示</li>
+              <li>页面自动刷新，数据恢复完成</li>
+            </ol>
+          </div>
+        </div>
+        <div style="margin-top: 12px; padding: 10px 14px; background: #fef3c7; border-radius: 8px; font-size: 12px; color: #92400e; line-height: 1.6;">
+          <strong>💡 提示：</strong>系统每次版本升级时会自动创建安全备份（存储在浏览器中），如果升级后发现数据异常，可在本页面一键回滚。但浏览器安全备份不是永久的，清除浏览器数据后消失，<strong>定期手动导出才是最安全的做法</strong>。
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Handle file import
+function handleImportFile(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const jsonStr = e.target.result;
+    if (!confirm('⚠️ 确认导入此备份文件吗？\n\n导入后当前所有数据将被覆盖，此操作不可撤销。\n\n建议在导入前先导出当前数据作为保险。')) {
+      input.value = '';
+      return;
+    }
+    // Create safety backup before import
+    Store.createSafetyBackup();
+    const result = Store.importData(jsonStr);
+    if (result.success) {
+      showToast('数据导入成功，页面即将刷新...', 'success');
+      setTimeout(() => location.reload(), 1500);
+    } else {
+      showToast('导入失败: ' + result.error, 'error');
+    }
+    input.value = '';
+  };
+  reader.readAsText(file);
+}
+
+// Restore safety backup
+function restoreSafetyBackup() {
+  if (!confirm('⚠️ 确认恢复到上次升级前的备份吗？\n\n当前所有数据将被替换为升级前的状态，此操作不可撤销。')) return;
+  const ok = Store.restoreSafetyBackup();
+  if (ok) {
+    showToast('安全备份已恢复，页面即将刷新...', 'success');
+    setTimeout(() => location.reload(), 1500);
+  } else {
+    showToast('未找到安全备份', 'error');
+  }
+}

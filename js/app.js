@@ -1471,7 +1471,7 @@ linggongAttendance: {
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-02-v25',
+        _dataVersion: '2026-07-02-v26',
   },
 
   init() {
@@ -1481,11 +1481,15 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-02-v25';
+      const DATA_VERSION = '2026-07-02-v26';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
       if (isVersionMismatch || isMissingCritical) {
+        // 升级前自动创建安全备份（防升级失败丢数据）
+        if (isVersionMismatch) {
+          this.createSafetyBackup();
+        }
         // 智能合并：保留用户添加的数据，只更新默认数据结构
         const merged = JSON.parse(JSON.stringify(this.defaults));
         merged._dataVersion = DATA_VERSION;
@@ -1607,6 +1611,90 @@ linggongAttendance: {
     localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
   },
 
+  // ===== 数据导出/导入/备份 =====
+  exportData() {
+    const data = localStorage.getItem(this.KEY);
+    if (!data) return null;
+    const parsed = JSON.parse(data);
+    const exportPayload = {
+      _exportMeta: {
+        appName: '安福路 Salomon 兼职管理系统',
+        exportTime: new Date().toISOString(),
+        dataVersion: parsed._dataVersion || 'unknown',
+        staffCount: (parsed.staff || []).length,
+        recordSummary: {
+          staff: (parsed.staff || []).length,
+          ratings: (parsed.ratings || []).length,
+          doorSchedule: (parsed.doorSchedule || []).length,
+          attendance: (parsed.linggongAttendance && parsed.linggongAttendance.records || []).length,
+          customerReviews: (parsed.customerReviews || []).length,
+        }
+      },
+      data: parsed
+    };
+    return JSON.stringify(exportPayload, null, 2);
+  },
+
+  downloadBackup() {
+    const jsonStr = this.exportData();
+    if (!jsonStr) { showToast('没有可导出的数据', 'error'); return; }
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const filename = `salomon-backup-${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}.json`;
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('数据已导出到下载文件夹', 'success');
+  },
+
+  importData(jsonStr) {
+    try {
+      const parsed = JSON.parse(jsonStr);
+      // Support both wrapped format (with _exportMeta) and raw format
+      const actualData = parsed.data ? parsed.data : parsed;
+      // Basic validation — must have staff array
+      if (!actualData.staff || !Array.isArray(actualData.staff)) {
+        return { success: false, error: '文件格式不正确：缺少 staff 数据' };
+      }
+      // Write to localStorage
+      localStorage.setItem(this.KEY, JSON.stringify(actualData));
+      return { success: true, data: actualData };
+    } catch (e) {
+      return { success: false, error: 'JSON 解析失败: ' + e.message };
+    }
+  },
+
+  // Create safety backup before version upgrade (called in Store.init)
+  createSafetyBackup() {
+    try {
+      const existing = localStorage.getItem(this.KEY);
+      if (!existing) return;
+      const backupKey = this.KEY + '_safety_backup';
+      localStorage.setItem(backupKey, existing);
+    } catch (e) {
+      console.warn('[Store] 安全备份创建失败:', e);
+    }
+  },
+
+  restoreSafetyBackup() {
+    try {
+      const backupKey = this.KEY + '_safety_backup';
+      const backup = localStorage.getItem(backupKey);
+      if (!backup) return false;
+      localStorage.setItem(this.KEY, backup);
+      localStorage.removeItem(backupKey);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
+
   // Helper: get staff by id
   getStaff(id) {
     return this.get('staff').find(s => s.id === id);
@@ -1657,6 +1745,7 @@ const Router = {
       reviews: () => renderCustomerReviews(),
       handbook: () => renderHandbook(),
       myforms: () => renderMyForms(),
+      dataManage: () => renderDataManagement(),
     };
 
     if (pages[this.current]) {
@@ -1690,6 +1779,7 @@ const Router = {
       reviews: '顾客好评',
       handbook: '工作手册',
       myforms: '我的填报',
+      dataManage: '数据管理',
     };
     const headerTitle = document.getElementById('header-title');
     if (headerTitle) headerTitle.textContent = titles[this.current] || '';
