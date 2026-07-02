@@ -25,12 +25,13 @@ const Store = {
       { id: 11, name: '王龙宇', gender: '男', dept: 'Service Team', joinDate: '2026-04-01', status: 'active', avatar_color: '#eab308', availableDays: 10, note: '19日到30日出差，请假', mbti: '' },
       { id: 12, name: '何秋烨', gender: '女', dept: 'Service Team', joinDate: '2026-03-15', status: 'active', avatar_color: '#f97316', availableDays: 23, mbti: '' },
       { id: 13, name: '龚赟昊', gender: '男', dept: 'Service Team', joinDate: '2026-02-25', status: 'active', avatar_color: '#84cc16', availableDays: 25, mbti: '' },
+      { id: 20, name: '唐蓉', gender: '女', dept: 'Service Team', joinDate: '2026-07-01', status: 'active', avatar_color: '#ec4899', availableDays: 0, mbti: '' },
       // ===== 仓库兼职 =====
       { id: 14, name: '严佳铮', gender: '男', dept: '仓库兼职', joinDate: '2026-03-01', status: 'active', avatar_color: '#22d3ee', availableDays: 7, mbti: '' },
       { id: 15, name: '祖白代', gender: '女', dept: '仓库兼职', joinDate: '2026-01-20', status: 'active', avatar_color: '#fb923c', availableDays: 29, mbti: '' },
       { id: 16, name: '陈广权', gender: '男', dept: '仓库兼职', joinDate: '2026-02-05', status: 'active', avatar_color: '#a78bfa', availableDays: 26, mbti: '' },
       { id: 17, name: '贾长乐', gender: '男', dept: '仓库兼职', joinDate: '2026-03-10', status: 'active', avatar_color: '#f472b6', availableDays: 13, mbti: '' },
-      { id: 18, name: '玛依拉', gender: '女', dept: '仓库兼职', joinDate: '2026-02-15', status: 'active', avatar_color: '#34d399', availableDays: 23, mbti: '' },
+      { id: 18, name: '玛依拉', gender: '女', dept: 'Service Team', joinDate: '2026-02-15', status: 'active', avatar_color: '#34d399', availableDays: 23, mbti: '', transferredFrom: '仓库兼职' },
       { id: 19, name: '梁实秋', gender: '男', dept: '仓库兼职', joinDate: '2026-01-25', status: 'active', avatar_color: '#fbbf24', availableDays: 19, mbti: '' },
     ],
 
@@ -937,7 +938,9 @@ ratings: [
     { "id": 110, "staffId": 10, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
     { "id": 111, "staffId": 11, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
     { "id": 112, "staffId": 12, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
-    { "id": 113, "staffId": 13, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 }
+    { "id": 113, "staffId": 13, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 114, "staffId": 20, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 115, "staffId": 18, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 }
     ],
 
 
@@ -1468,7 +1471,7 @@ linggongAttendance: {
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-02-v20',
+        _dataVersion: '2026-07-02-v21',
   },
 
   init() {
@@ -1478,11 +1481,89 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-02-v20';
+      const DATA_VERSION = '2026-07-02-v21';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
+      
       if (isVersionMismatch || isMissingCritical) {
-        localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
+        // 智能合并：保留用户添加的数据，只更新默认数据结构
+        const merged = JSON.parse(JSON.stringify(this.defaults));
+        merged._dataVersion = DATA_VERSION;
+        
+        // staff: 以 name 为唯一键合并（保留用户的编辑/新增/删除）
+        const defaultStaffNames = new Set(this.defaults.staff.map(s => s.name));
+        const existingStaffMap = new Map();
+        if (Array.isArray(data.staff)) {
+          // 保留用户添加的（不在默认列表中的）+ 保留用户编辑过的默认成员
+          data.staff.forEach(s => existingStaffMap.set(s.name, s));
+        }
+        // 默认数据覆盖同名条目，但保留用户自定义新增的
+        merged.staff = merged.staff.map(s => {
+          const userVersion = existingStaffMap.get(s.name);
+          return userVersion ? { ...s, ...userVersion, id: s.id } : s; // 保持默认ID，但保留用户编辑
+        });
+        // 追加用户自定义新增的（不在默认列表中的）
+        data.staff.forEach(s => {
+          if (!defaultStaffNames.has(s.name)) {
+            merged.staff.push(s);
+          }
+        });
+
+        // ratings: 保留用户添加的自定义评分（staffId不在默认列表中的）
+        const defaultRatingKeys = new Set(this.defaults.ratings.map(r => `${r.staffId}-${r.month}`));
+        if (Array.isArray(data.ratings)) {
+          data.ratings.forEach(r => {
+            const key = `${r.staffId}-${r.month}`;
+            if (!defaultRatingKeys.has(key)) {
+              merged.ratings.push(r);
+            }
+          });
+        }
+
+        // 其他数组类数据：保留用户数据
+        ['doorSchedule', 'storeSupport', 'shiftChanges', 'schedules', 'attendance'].forEach(key => {
+          if (Array.isArray(data[key]) && data[key].length > 0) {
+            merged[key] = data[key];
+          }
+        });
+
+        // availability: 保留用户编辑的月份数据
+        if (data.availability && data.availability.months) {
+          if (!merged.availability) merged.availability = { currentMonth: '2026-07', months: {} };
+          // 保留用户编辑过的所有月份
+          Object.keys(data.availability.months).forEach(mk => {
+            if (data.availability.months[mk] && data.availability.months[mk].data) {
+              // 确保新 staff（唐蓉、玛依拉）在所有月份有空条目
+              const existingData = data.availability.months[mk].data;
+              this.defaults.staff.filter(s => s.dept === 'Service Team' && s.status === 'active').forEach(s => {
+                if (!existingData[s.name]) {
+                  existingData[s.name] = { total: 0, unavailable: [], note: '', dates: {} };
+                }
+              });
+              merged.availability.months[mk] = { data: existingData };
+            }
+          });
+          merged.availability.currentMonth = data.availability.currentMonth || '2026-07';
+        }
+
+        // performanceData: 保留用户数据（结构复杂，直接保留）
+        if (data.performanceData) {
+          merged.performanceData = data.performanceData;
+        }
+        // linggongAttendance: 保留用户数据
+        if (data.linggongAttendance) {
+          merged.linggongAttendance = data.linggongAttendance;
+        }
+        // customerReviews: 保留用户数据
+        if (data.customerReviews) {
+          merged.customerReviews = data.customerReviews;
+        }
+        // staffStats: 保留
+        if (data.staffStats) {
+          merged.staffStats = data.staffStats;
+        }
+
+        localStorage.setItem(this.KEY, JSON.stringify(merged));
       }
     } catch (e) {
       console.error('[Store] 数据解析失败，重置为默认值:', e);
