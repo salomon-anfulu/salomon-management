@@ -4024,8 +4024,8 @@ function renderAvailabilityTab() {
 // ===== Month switcher =====
 function renderMonthSwitcher() {
   const [y, m] = _availMonth.split('-').map(Number);
-  const prevMonth = _ymKey(y, m === 1 ? (y - 1) : y, m === 1 ? 12 : (m - 1));
-  const nextMonth = _ymKey(y, m === 12 ? (y + 1) : y, m === 12 ? 1 : (m + 1));
+  const prevMonth = _ymKey(m === 1 ? (y - 1) : y, m === 1 ? 12 : (m - 1));
+  const nextMonth = _ymKey(m === 12 ? (y + 1) : y, m === 12 ? 1 : (m + 1));
   const canGoPrev = prevMonth >= AVAIL_MIN_MONTH;
   return `
     <div style="display:flex;align-items:center;gap:8px;">
