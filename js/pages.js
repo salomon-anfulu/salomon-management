@@ -4021,7 +4021,9 @@ function openSupportForm() {
           </div>
           <div>
             <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">时长</label>
-            <input id="supportDuration" type="text" placeholder="如：1小时 / 0.5小时" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
+            <select id="supportDuration" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
+              ${[0.5,1,1.5,2,2.5,3,3.5,4,4.5,5,5.5,6,6.5,7,7.5,8].map(h => `<option value="${h}小时"${h===1?' selected':''}>${h}小时</option>`).join('')}
+            </select>
           </div>
         </div>
         <div>
@@ -4048,7 +4050,7 @@ function saveSupport() {
   const staffName = document.getElementById('supportStaff').value;
   const date = document.getElementById('supportDate').value;
   const type = document.getElementById('supportType').value;
-  const duration = document.getElementById('supportDuration').value.trim() || '1小时';
+  const duration = document.getElementById('supportDuration').value;
   const detail = document.getElementById('supportDetail').value.trim();
   if (!staffName || !date || !type) { alert('请填写必填字段'); return; }
 
