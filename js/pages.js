@@ -1792,6 +1792,17 @@ function renderRatings() {
   });
   const sortedRatings = [...enrichedRatings].sort((a, b) => b._dynamicAvg - a._dynamicAvg);
 
+  // 过滤掉"该月尚未加入 Service Team"的成员（如唐蓉7月才入职、玛依拉7月才转岗）
+  // 当查看的历史月份早于该成员 serviceTeamStartDate 时，不参与评分展示与统计
+  const visibleRatings = sortedRatings.filter(r => {
+    const s = Store.getStaff(r.staffId);
+    if (!s) return true;
+    if (!s.serviceTeamStartDate) return true; // 老成员无此字段，始终显示
+    return _scoringMonth >= s.serviceTeamStartDate.slice(0, 7);
+  });
+  // 同时构建一个 visibleSet 用于其他下游渲染（评分卡列表等）
+  const visibleStaffIds = new Set(visibleRatings.map(r => r.staffId));
+
   // Month label display
   const [yr, mn] = _scoringMonth.split('-');
   const monthLabel = `${yr}年${parseInt(mn)}月`;
@@ -1843,26 +1854,26 @@ function renderRatings() {
     <!-- 评分概览 -->
     <div class="stats-grid animate-in" style="grid-template-columns: repeat(4, 1fr);">
       <div class="stat-card success">
-        <div class="stat-value">${enrichedRatings.filter(r => r._dynamicAvg >= 3.6).length} <span style="font-size: 14px; opacity: 0.5;">/${enrichedRatings.length}</span></div>
+        <div class="stat-value">${visibleRatings.filter(r => r._dynamicAvg >= 3.6).length} <span style="font-size: 14px; opacity: 0.5;">/${visibleRatings.length}</span></div>
         <div class="stat-label">🎖️ ¥60/h 达标</div>
       </div>
       <div class="stat-card danger">
-        <div class="stat-value">${enrichedRatings.filter(r => r._dynamicAvg < 3.6).length}</div>
+        <div class="stat-value">${visibleRatings.filter(r => r._dynamicAvg < 3.6).length}</div>
         <div class="stat-label">💪 待提升选手</div>
       </div>
       <div class="stat-card accent">
-        <div class="stat-value">${(enrichedRatings.reduce((s, r) => s + r._dynamicAvg, 0) / enrichedRatings.length).toFixed(1)}</div>
+        <div class="stat-value">${visibleRatings.length > 0 ? (visibleRatings.reduce((s, r) => s + r._dynamicAvg, 0) / visibleRatings.length).toFixed(1) : '0.0'}</div>
         <div class="stat-label">⭐ 团队均分</div>
       </div>
       <div class="stat-card info">
-        <div class="stat-value">¥${enrichedRatings.filter(r => r._dynamicAvg >= 3.6).length * 60 + enrichedRatings.filter(r => r._dynamicAvg < 3.6).length * 28}</div>
+        <div class="stat-value">¥${visibleRatings.filter(r => r._dynamicAvg >= 3.6).length * 60 + visibleRatings.filter(r => r._dynamicAvg < 3.6).length * 28}</div>
         <div class="stat-label">💰 时薪支出/h</div>
       </div>
     </div>
 
     <!-- TOP3 荣誉墙 -->
     ${(() => {
-      const top3 = sortedRatings.slice(0, 3);
+      const top3 = visibleRatings.slice(0, 3);
       if (top3.length === 0) return '';
       const podiumStyles = [
         { medal: '🥇', bg: 'linear-gradient(135deg, #fbbf2433, #f59e0b22)', border: '#f59e0b', label: 'MVP', height: '64px' },
@@ -1893,7 +1904,7 @@ function renderRatings() {
 
     <!-- 评分卡片列表 -->
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(390px, 1fr)); gap: 16px; margin-top: 20px;">
-      ${sortedRatings.map((r, idx) => {
+      ${visibleRatings.map((r, idx) => {
         const s = Store.getStaff(r.staffId);
         const staffName = s ? s.name : '';
 
