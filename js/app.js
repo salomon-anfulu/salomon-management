@@ -1222,7 +1222,23 @@ linggongAttendance: {
         { "name": "王靳毓", "date": "2026-06-30", "signIn": "12:49", "signOut": "21:30", "status": "打卡正常", "totalHours": "8" },
         { "name": "玛依拉·努尔夏提", "date": "2026-06-30", "signIn": "12:11", "signOut": "21:00", "status": "打卡正常", "totalHours": "8" },
         { "name": "田佳乐", "date": "2026-06-30", "signIn": "12:12", "signOut": "21:21", "status": "打卡正常", "totalHours": "8" },
-        { "name": "陈广权", "date": "2026-06-30", "signIn": "10:30", "signOut": "15:00", "status": "打卡正常", "totalHours": "4.5" }
+        { "name": "陈广权", "date": "2026-06-30", "signIn": "10:30", "signOut": "15:00", "status": "打卡正常", "totalHours": "4.5" },
+        { "name": "朱凯赟", "date": "2026-07-01", "signIn": "11:25", "signOut": "20:50", "status": "打卡正常", "totalHours": "8.5" },
+        { "name": "李若彤", "date": "2026-07-01", "signIn": "12:13", "signOut": "21:01", "status": "打卡正常", "totalHours": "8" },
+        { "name": "杨子豪", "date": "2026-07-01", "signIn": "09:48", "signOut": "16:30", "status": "打卡正常", "totalHours": "6.5" },
+        { "name": "梁实秋", "date": "2026-07-01", "signIn": "12:26", "signOut": "21:02", "status": "打卡正常", "totalHours": "8" },
+        { "name": "贾长乐", "date": "2026-07-01", "signIn": "10:17", "signOut": "19:00", "status": "打卡正常", "totalHours": "6.5" },
+        { "name": "迟骋", "date": "2026-07-01", "signIn": "12:56", "signOut": "21:30", "status": "打卡正常", "totalHours": "8" },
+        { "name": "龚赟昊", "date": "2026-07-01", "signIn": "10:20", "signOut": "17:30", "status": "打卡正常", "totalHours": "7" },
+        { "name": "何秋烨", "date": "2026-07-02", "signIn": "09:57", "signOut": "15:30", "status": "打卡正常", "totalHours": "5.5" },
+        { "name": "唐蓉", "date": "2026-07-02", "signIn": "10:19", "signOut": "18:19", "status": "打卡正常", "totalHours": "7.5" },
+        { "name": "孔祥宇", "date": "2026-07-02", "signIn": "11:25", "signOut": "20:48", "status": "打卡正常", "totalHours": "8.5" },
+        { "name": "王雅澜", "date": "2026-07-02", "signIn": "11:54", "signOut": "21:04", "status": "打卡正常", "totalHours": "8" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-07-02", "signIn": "10:23", "signOut": "18:07", "status": "打卡正常", "totalHours": "7.5" },
+        { "name": "田佳乐", "date": "2026-07-02", "signIn": "12:57", "signOut": "21:33", "status": "打卡正常", "totalHours": "8" },
+        { "name": "祖白代·阿不利孜", "date": "2026-07-02", "signIn": "10:20", "signOut": "19:00", "status": "打卡正常", "totalHours": "8" },
+        { "name": "贾长乐", "date": "2026-07-02", "signIn": "16:50", "signOut": "21:02", "status": "打卡正常", "totalHours": "4" },
+        { "name": "邓奇缘", "date": "2026-07-02", "signIn": "10:19", "signOut": "15:32", "status": "打卡正常", "totalHours": "5" }
       ]
     },
 
@@ -1471,7 +1487,7 @@ linggongAttendance: {
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-02-v26',
+        _dataVersion: '2026-07-03-v28',
   },
 
   init() {
@@ -1481,7 +1497,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-02-v26';
+      const DATA_VERSION = '2026-07-03-v28';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
