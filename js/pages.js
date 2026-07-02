@@ -2813,12 +2813,27 @@ function renderPerformance() {
  * ========================================
  */
 let doorScheduleDate = '';
+let _doorPageMonth = null; // 独立页面月份，null=默认所有数据中最新月份
 
 function renderDoorSchedule() {
-  const doorData = Store.get('doorSchedule') || [];
+  const allDoorData = Store.get('doorSchedule') || [];
   const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
-  if (!doorScheduleDate && doorData.length > 0) {
-    doorScheduleDate = doorData[0].date;
+
+  // === 月份切换：确定可用月份列表 ===
+  const allMonths = [...new Set(allDoorData.map(d => (d.date || '').slice(0, 7)))].filter(Boolean).sort();
+  if (!_doorPageMonth) {
+    _doorPageMonth = allMonths.length > 0 ? allMonths[allMonths.length - 1] : _ymKey(new Date().getFullYear(), new Date().getMonth() + 1);
+  }
+  const [dY, dM] = _doorPageMonth.split('-').map(Number);
+  const prevMonth = _ymKey(dM === 1 ? (dY - 1) : dY, dM === 1 ? 12 : (dM - 1));
+  const nextMonth = _ymKey(dM === 12 ? (dY + 1) : dY, dM === 12 ? 1 : (dM + 1));
+  const canGoPrev = allMonths.length > 1 && allMonths.indexOf(_doorPageMonth) > 0;
+  const canGoNext = allMonths.length > 1 && allMonths.indexOf(_doorPageMonth) < allMonths.length - 1;
+
+  // === 按月过滤 ===
+  const doorData = allDoorData.filter(d => (d.date || '').startsWith(_doorPageMonth));
+  if (!doorScheduleDate || !doorData.find(d => d.date === doorScheduleDate)) {
+    doorScheduleDate = doorData.length > 0 ? doorData[0].date : '';
   }
 
   const selectedDay = doorData.find(d => d.date === doorScheduleDate) || { slots: [] };
@@ -2830,7 +2845,6 @@ function renderDoorSchedule() {
   doorData.forEach(day => {
     day.slots.forEach(slot => {
       if (!slot.staff || !slot.staff.trim()) return;
-      // 解析时长
       const parts = slot.time.split('-');
       const startH = parseInt(parts[0].split(':')[0]);
       const startM = parseInt(parts[0].split(':')[1]) || 0;
@@ -2839,7 +2853,6 @@ function renderDoorSchedule() {
       const duration = (endH + endM / 60) - (startH + startM / 60);
       if (duration <= 0) return;
 
-      // 多人值班（含 / 分隔符）不计入工时
       const isMultiPerson = slot.staff.includes('/');
       if (isMultiPerson) return;
 
@@ -2853,7 +2866,6 @@ function renderDoorSchedule() {
     });
   });
 
-  // 排序：时长降序
   const sortedStats = Object.entries(staffDoorStats)
     .filter(([_, v]) => v.slots > 0)
     .sort((a, b) => b[1].hours - a[1].hours);
@@ -2863,12 +2875,12 @@ function renderDoorSchedule() {
   const avgDoorHours = sortedStats.length > 0 ? (totalDoorHours / sortedStats.length).toFixed(1) : 0;
   const maxDoorHours = sortedStats.length > 0 ? sortedStats[0][1].hours : 0;
 
-  // 计算选中日期的门迎人次和时长（多人值班不计入）
+  // 选中日期统计
   let selectedDayStaff = 0;
   let selectedDayHours = 0;
   selectedDay.slots.forEach(slot => {
     if (!slot.staff || !slot.staff.trim()) return;
-    if (slot.staff.includes('/')) return; // 多人值班不计入
+    if (slot.staff.includes('/')) return;
     const parts = slot.time.split('-');
     const startH = parseInt(parts[0].split(':')[0]);
     const startM = parseInt(parts[0].split(':')[1]) || 0;
@@ -2880,11 +2892,29 @@ function renderDoorSchedule() {
     selectedDayHours += duration;
   });
 
+  // 日期显示辅助：YYYY-MM-DD → M/D
+  const fmtDate = (dateStr) => {
+    const p = dateStr.split('-');
+    return parseInt(p[1]) + '/' + parseInt(p[2]);
+  };
+
   return `
     <div class="animate-in" style="margin-bottom: 24px;">
       <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%); border-radius: var(--radius-lg); padding: 24px; color: #fff;">
         <h2 style="font-size: 20px; font-weight: 800;">🚪 门迎排班表</h2>
-        <p style="font-size: 13px; opacity: 0.7;">6月1日 - 6月10日 · 每日时间段排班详情</p>
+        <p style="font-size: 13px; opacity: 0.7;">${dY}年${dM}月 · 每日时间段排班详情</p>
+      </div>
+    </div>
+
+    <!-- 月份切换器 -->
+    <div class="card animate-in" style="margin-bottom: 20px;">
+      <div class="card-body" style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button ${canGoPrev ? `onclick="_doorPageMonth='${prevMonth}';doorScheduleDate='';Router.render()"` : 'disabled'} style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:${canGoPrev?'var(--text-primary)':'var(--text-muted)'};cursor:${canGoPrev?'pointer':'not-allowed'};font-size:16px;opacity:${canGoPrev?1:0.4};">‹</button>
+          <span style="font-size:18px;font-weight:700;min-width:100px;text-align:center;">${dY}年${dM}月</span>
+          <button ${canGoNext ? `onclick="_doorPageMonth='${nextMonth}';doorScheduleDate='';Router.render()"` : 'disabled'} style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:${canGoNext?'var(--text-primary)':'var(--text-muted)'};cursor:${canGoNext?'pointer':'not-allowed'};font-size:16px;opacity:${canGoNext?1:0.4};">›</button>
+        </div>
+        <span style="font-size:12px;color:var(--text-secondary);">共 ${doorData.length} 天 / ${totalDoorSlots} 班次</span>
       </div>
     </div>
 
@@ -2917,6 +2947,7 @@ function renderDoorSchedule() {
     </div>
 
     <!-- Date Selector -->
+    ${doorData.length > 0 ? `
     <div class="card animate-in" style="margin-bottom: 20px;">
       <div class="card-body" style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
         ${doorData.map(d => {
@@ -2926,19 +2957,18 @@ function renderDoorSchedule() {
             style="padding: 8px 16px; border-radius: var(--radius-md); border: 1px solid ${isSelected ? 'var(--accent)' : 'var(--border)'}; 
             background: ${isSelected ? 'var(--accent)' : 'var(--bg-secondary)'}; color: ${isSelected ? '#fff' : 'var(--text-primary)'}; 
             cursor: pointer; font-size: 13px; font-weight: ${isSelected ? '700' : '400'}; transition: all 0.2s;">
-            ${d.date.replace('2026-06-', '6/')} <span style="font-size: 11px; opacity: 0.7;">(${slotCount}班次)</span>
+            ${fmtDate(d.date)} <span style="font-size: 11px; opacity: 0.7;">(${slotCount}班次)</span>
           </button>`;
         }).join('')}
-        <button onclick="openDoorDayForm()" style="padding: 8px 16px; border-radius: var(--radius-md); border: 1px dashed var(--accent); background: transparent; color: var(--accent); cursor: pointer; font-size: 13px; font-weight: 600;">+ 新增日期</button>
       </div>
     </div>
+    ` : ''}
 
     <div class="grid-2 animate-in">
       <!-- Time Slots -->
       <div class="card">
         <div class="card-header">
-          <h3>📋 ${doorScheduleDate.replace('2026-06-', '6月')}日 门迎时间表</h3>
-          <button onclick="openDoorSlotForm()" style="padding: 6px 14px; border-radius: 6px; border: none; background: var(--accent, #3b82f6); color: #fff; font-size: 12px; font-weight: 600; cursor: pointer;">+ 添加班次</button>
+          <h3>📋 ${doorScheduleDate ? fmtDate(doorScheduleDate) + ' 门迎时间表' : '门迎时间表'}</h3>
         </div>
         <div class="card-body" style="padding: 0;">
           <div class="table-container">
@@ -2948,11 +2978,10 @@ function renderDoorSchedule() {
                   <th style="width: 140px;">时间段</th>
                   <th>值班人员</th>
                   <th style="width: 80px;">时长</th>
-                  <th style="width: 100px;">操作</th>
                 </tr>
               </thead>
               <tbody>
-                ${selectedDay.slots.length > 0 ? selectedDay.slots.map((slot, idx) => {
+                ${selectedDay.slots && selectedDay.slots.length > 0 ? selectedDay.slots.map((slot) => {
                   const hasStaff = slot.staff && slot.staff.trim();
                   const parts = slot.time.split('-');
                   const dur = (parseInt(parts[1].split(':')[0]) + (parseInt(parts[1].split(':')[1])||0)/60) - (parseInt(parts[0].split(':')[0]) + (parseInt(parts[0].split(':')[1])||0)/60);
@@ -2968,14 +2997,10 @@ function renderDoorSchedule() {
                           : (hasStaff ? '<span style="font-size: 12px; color: var(--text-muted);">—</span>' : '<span class="badge" style="background: var(--border-light); color: var(--text-muted);">空缺</span>')
                         }
                       </td>
-                      <td>
-                        <button onclick="openDoorSlotForm(${idx})" style="padding: 2px 8px; border: 1px solid var(--border); border-radius: 4px; background: transparent; color: var(--text-secondary); font-size: 11px; cursor: pointer; margin-right: 4px;">编辑</button>
-                        <button onclick="deleteDoorSlot(${idx})" style="padding: 2px 8px; border: 1px solid #ef4444; border-radius: 4px; background: transparent; color: #ef4444; font-size: 11px; cursor: pointer;">删除</button>
-                      </td>
                     </tr>
                   `;
                 }).join('') : `
-                  <tr><td colspan="4" style="text-align: center; padding: 40px; color: var(--text-muted);">暂无排班数据，点击「+ 添加班次」开始录入</td></tr>
+                  <tr><td colspan="3" style="text-align: center; padding: 40px; color: var(--text-muted);">${doorData.length === 0 ? '本月暂无排班数据，请到「我的填报」录入' : '请选择日期查看排班详情'}</td></tr>
                 `}
               </tbody>
             </table>
@@ -2987,7 +3012,7 @@ function renderDoorSchedule() {
       <div class="card">
         <div class="card-header">
           <h3>⏱️ 门迎总时长排行</h3>
-          <span style="font-size: 12px; color: var(--text-secondary);">6月1日 - 6月10日 累计</span>
+          <span style="font-size: 12px; color: var(--text-secondary);">${dY}年${dM}月累计</span>
         </div>
         <div class="card-body">
           ${sortedStats.length > 0 ? sortedStats.map(([name, data], i) => `
@@ -3007,7 +3032,7 @@ function renderDoorSchedule() {
                 </div>
               </div>
             </div>
-          `).join('') : '<div style="text-align: center; padding: 40px; color: var(--text-muted);">暂无门迎数据</div>'}
+          `).join('') : '<div style="text-align: center; padding: 40px; color: var(--text-muted);">本月暂无门迎数据</div>'}
           <div style="margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--border-light); display: flex; justify-content: space-between; font-size: 13px;">
             <span style="color: var(--text-secondary);">合计</span>
             <div>
@@ -3028,13 +3053,32 @@ function renderDoorSchedule() {
  * ========================================
  */
 let supportFilter = 'stats';
+let _supportPageMonth = null; // 独立页面月份
 
 function renderSupport() {
-  const supportData = Store.get('storeSupport') || [];
-  const shiftChanges = Store.get('shiftChanges') || [];
+  const allSupportData = Store.get('storeSupport') || [];
+  const allShiftChanges = Store.get('shiftChanges') || [];
   const staffStats = Store.get('staffStats') || {};
 
+  // === 月份切换：从 storeSupport + shiftChanges 中提取所有可用月份 ===
+  const supportMonths = [...new Set(allSupportData.map(s => (s.date || '').slice(0, 7)))].filter(Boolean);
+  const shiftMonths = [...new Set(allShiftChanges.map(c => (c.applyDate || '').slice(0, 7)))].filter(Boolean);
+  const allMonths = [...new Set([...supportMonths, ...shiftMonths])].sort();
+  if (!_supportPageMonth) {
+    _supportPageMonth = allMonths.length > 0 ? allMonths[allMonths.length - 1] : _ymKey(new Date().getFullYear(), new Date().getMonth() + 1);
+  }
+  const [dY, dM] = _supportPageMonth.split('-').map(Number);
+  const prevMonth = _ymKey(dM === 1 ? (dY - 1) : dY, dM === 1 ? 12 : (dM - 1));
+  const nextMonth = _ymKey(dM === 12 ? (dY + 1) : dY, dM === 12 ? 1 : (dM + 1));
+  const canGoPrev = allMonths.length > 1 && allMonths.indexOf(_supportPageMonth) > 0;
+  const canGoNext = allMonths.length > 1 && allMonths.indexOf(_supportPageMonth) < allMonths.length - 1;
+
+  // === 按月过滤 ===
+  const supportData = allSupportData.filter(s => (s.date || '').startsWith(_supportPageMonth));
+  const shiftChanges = allShiftChanges.filter(c => (c.applyDate || '').startsWith(_supportPageMonth));
+
   const filteredData = supportFilter === 'all' ? supportData :
+    (supportFilter === 'stats' || supportFilter === 'shifts') ? supportData :
     supportData.filter(s => s.type.includes(supportFilter));
 
   // Aggregate support stats by staff
@@ -3049,7 +3093,19 @@ function renderSupport() {
     <div class="animate-in" style="margin-bottom: 24px;">
       <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%); border-radius: var(--radius-lg); padding: 24px; color: #fff;">
         <h2 style="font-size: 20px; font-weight: 800;">🔧 店务支援 & 表现追踪</h2>
-        <p style="font-size: 13px; opacity: 0.7;">基于PT供班表的真实工作记录 · 6月数据</p>
+        <p style="font-size: 13px; opacity: 0.7;">基于PT供班表的真实工作记录 · ${dY}年${dM}月数据</p>
+      </div>
+    </div>
+
+    <!-- 月份切换器 -->
+    <div class="card animate-in" style="margin-bottom: 20px;">
+      <div class="card-body" style="display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <button ${canGoPrev ? `onclick="_supportPageMonth='${prevMonth}';Router.render()"` : 'disabled'} style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:${canGoPrev?'var(--text-primary)':'var(--text-muted)'};cursor:${canGoPrev?'pointer':'not-allowed'};font-size:16px;opacity:${canGoPrev?1:0.4};">‹</button>
+          <span style="font-size:18px;font-weight:700;min-width:100px;text-align:center;">${dY}年${dM}月</span>
+          <button ${canGoNext ? `onclick="_supportPageMonth='${nextMonth}';Router.render()"` : 'disabled'} style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:${canGoNext?'var(--text-primary)':'var(--text-muted)'};cursor:${canGoNext?'pointer':'not-allowed'};font-size:16px;opacity:${canGoNext?1:0.4};">›</button>
+        </div>
+        <span style="font-size:12px;color:var(--text-secondary);">支援 ${supportData.length} 条 · 换班 ${shiftChanges.length} 条</span>
       </div>
     </div>
 
@@ -3099,7 +3155,6 @@ function renderSupportTable(data) {
     <div class="card animate-in">
       <div class="card-header">
         <h3>📋 支援记录</h3>
-        <button onclick="openSupportForm()" style="padding:6px 14px;border-radius:6px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">+ 新增支援</button>
       </div>
       <div class="card-body" style="padding: 0;">
         <div class="table-container">
@@ -3111,20 +3166,18 @@ function renderSupportTable(data) {
                 <th>支援类型</th>
                 <th>时长</th>
                 <th>详细内容</th>
-                <th style="width:80px;">操作</th>
               </tr>
             </thead>
             <tbody>
               ${data.length > 0 ? data.slice().reverse().map(s => `
                 <tr>
-                  <td>${s.date.replace('2026-', '')}</td>
+                  <td>${s.date.replace(/^[0-9]{4}-/, '')}</td>
                   <td><span style="font-weight: 600;">${s.staff}</span></td>
                   <td><span class="badge ${s.type.includes('货品') ? 'badge-info' : s.type.includes('陈列') ? 'badge-active' : 'badge-warning'}">${s.type}</span></td>
                   <td>${s.duration}</td>
                   <td class="text-sm text-secondary">${s.detail}</td>
-                  <td><button onclick="deleteSupport(${s.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button></td>
                 </tr>
-              `).join('') : '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">暂无支援记录，点击「+ 新增支援」录入</td></tr>'}
+              `).join('') : '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-muted);">本月暂无支援记录，请到「我的填报」录入</td></tr>'}
             </tbody>
           </table>
         </div>
@@ -3256,7 +3309,6 @@ function renderShiftChanges(changes) {
     <div class="card animate-in">
       <div class="card-header">
         <h3>🔄 换班登记表</h3>
-        <button onclick="openShiftForm()" style="padding:6px 14px;border-radius:6px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">+ 新增换班</button>
       </div>
       <div class="card-body" style="padding: 0;">
         <div class="table-container">
@@ -3269,7 +3321,6 @@ function renderShiftChanges(changes) {
                 <th>申请班次</th>
                 <th>被换班人</th>
                 <th>被换班次</th>
-                <th style="width:80px;">操作</th>
               </tr>
             </thead>
             <tbody>
@@ -3281,9 +3332,8 @@ function renderShiftChanges(changes) {
                   <td class="text-sm">${c.applicantShift}</td>
                   <td><span style="font-weight: 600;">${c.target}</span></td>
                   <td class="text-sm">${c.targetShift}</td>
-                  <td><button onclick="deleteShift(${c.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button></td>
                 </tr>
-              `).join('') : '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">暂无换班记录，点击「+ 新增换班」录入</td></tr>'}
+              `).join('') : '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">本月暂无换班记录，请到「我的填报」录入</td></tr>'}
             </tbody>
           </table>
         </div>
