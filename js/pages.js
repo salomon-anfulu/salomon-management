@@ -868,25 +868,48 @@ function renderSchedule() {
  * Attendance Page
  * ========================================
  */
+let _attMonth = null; // 考勤页面月份切换
+
 function renderAttendance() {
-  const staff = Store.get('staff').filter(s => s.status === 'active');
+  const ATT_MIN_MONTH = '2026-06';
+  const allStaff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
   const linggongData = Store.get('linggongAttendance') || { lastSync: null, records: [] };
-  let lgRecords = linggongData.records || [];
+  const allLgRecords = linggongData.records || [];
+
+  // Service Team 成员姓名集合（含别名匹配）
+  const stNames = new Set(allStaff.map(s => s.name));
+
+  // === 月份切换：从数据中提取所有可用月份，限定 ≥ 2026-06 ===
+  const allMonths = [...new Set(allLgRecords.map(r => (r.date || '').slice(0, 7)))].filter(m => m >= ATT_MIN_MONTH).sort();
+  if (!_attMonth) {
+    _attMonth = allMonths.length > 0 ? allMonths[allMonths.length - 1] : _ymKey(new Date().getFullYear(), new Date().getMonth() + 1);
+  }
+  const [aY, aM] = _attMonth.split('-').map(Number);
+  const prevMonth = _ymKey(aM === 1 ? (aY - 1) : aY, aM === 1 ? 12 : (aM - 1));
+  const nextMonth = _ymKey(aM === 12 ? (aY + 1) : aY, aM === 12 ? 1 : (aM + 1));
+  const canGoPrev = prevMonth >= ATT_MIN_MONTH;
+  const canGoNext = nextMonth <= _ymKey(new Date().getFullYear(), new Date().getMonth() + 1);
+
+  // === 按当前月份 + Service Team 过滤 ===
+  const lgRecords = allLgRecords.filter(r => {
+    const d = r.date || '';
+    if (!d.startsWith(_attMonth)) return false;
+    // 匹配 Service Team 成员（精确名匹配）
+    return stNames.has(r.name);
+  });
 
   // 灵工打卡统计
   const lgNormal = lgRecords.filter(r => r.status === '打卡正常').length;
   const lgAbnormal = lgRecords.filter(r => r.status === '打卡异常').length;
-  const lgOngoing = 0; // 灵工API不返回"考勤中"状态
   const lgTotalHours = lgRecords.reduce((sum, r) => sum + (parseFloat(r.totalHours) || 0), 0);
-  const lgTotalLate = lgRecords.filter(r => r.lateMin > 0).length;
+  const lgTotalLate = lgRecords.filter(r => r.lateMin > 0 || r.status === '打卡异常').length;
+  const lgAbsent = lgRecords.filter(r => r.status === '缺勤' || r.status === '取消').length;
 
   // 名字到头像颜色的映射
   const staffMap = {};
-  staff.forEach(s => { staffMap[s.name] = s; });
-  // 简称映射
-  staffMap['祖白代'] = staff.find(s => s.name === '祖白代') || null;
+  allStaff.forEach(s => { staffMap[s.name] = s; });
 
-  // === 考勤数据分析 ===
+  // === 考勤数据分析（按当前月） ===
   const dateStats = {};
   const personStats = {};
   const uniqueDates = new Set();
@@ -894,176 +917,159 @@ function renderAttendance() {
   lgRecords.forEach(r => {
     const d = r.date;
     uniqueDates.add(d);
-    if (!dateStats[d]) {
-      dateStats[d] = { count: 0, totalHours: 0, normal: 0, abnormal: 0, ongoing: 0 };
-    }
+    if (!dateStats[d]) dateStats[d] = { count: 0, totalHours: 0, normal: 0, abnormal: 0 };
     dateStats[d].count++;
     dateStats[d].totalHours += parseFloat(r.totalHours) || 0;
     if (r.status === '打卡正常') dateStats[d].normal++;
-    else if (r.status === '打卡异常') dateStats[d].abnormal++;
-    else if (r.status === '考勤中') dateStats[d].ongoing++;
+    else dateStats[d].abnormal++;
 
-    if (!personStats[r.name]) {
-      personStats[r.name] = { name: r.name, count: 0, totalHours: 0, lateCount: 0, lateMinTotal: 0 };
-    }
+    if (!personStats[r.name]) personStats[r.name] = { name: r.name, count: 0, totalHours: 0, lateCount: 0, absentCount: 0 };
     personStats[r.name].count++;
     personStats[r.name].totalHours += parseFloat(r.totalHours) || 0;
-    if (r.lateMin > 0) {
-      personStats[r.name].lateCount++;
-      personStats[r.name].lateMinTotal += parseFloat(r.lateMin) || 0;
-    }
+    if (r.lateMin > 0 || r.status === '打卡异常') personStats[r.name].lateCount++;
+    if (r.status === '缺勤' || r.status === '取消') personStats[r.name].absentCount++;
   });
 
   const sortedDates = Array.from(uniqueDates).sort();
   const sortedPersonStats = Object.values(personStats).sort((a, b) => b.totalHours - a.totalHours);
+  const [mY, mM] = _attMonth.split('-').map(Number);
 
   return `
     <div class="flex justify-between items-center mb-4 animate-in">
       <h3 style="font-size: 18px; font-weight: 700;">📋 考勤记录</h3>
-      <div style="display: flex; gap: 8px;">
-        <button class="btn btn-secondary" onclick="syncLinggongData()">🔄 同步灵工打卡</button>
+      <button class="btn btn-secondary" onclick="syncLinggongData()">🔄 同步灵工打卡</button>
+    </div>
+
+    <!-- 月份切换器 -->
+    <div class="animate-in" style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 20px;">
+      <button onclick="${canGoPrev ? `_attMonth='${prevMonth}';Router.render()` : ''}"
+        style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-secondary); color: ${canGoPrev ? 'var(--text-primary)' : 'var(--text-muted)'}; cursor: ${canGoPrev ? 'pointer' : 'not-allowed'}; font-size: 18px; display: flex; align-items: center; justify-content: center; ${canGoPrev ? '' : 'opacity:0.4;'}">‹</button>
+      <span style="font-size: 20px; font-weight: 800; min-width: 100px; text-align: center;">${mY}年${mM}月</span>
+      <button onclick="${canGoNext ? `_attMonth='${nextMonth}';Router.render()` : ''}"
+        style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-secondary); color: ${canGoNext ? 'var(--text-primary)' : 'var(--text-muted)'}; cursor: ${canGoNext ? 'pointer' : 'not-allowed'}; font-size: 18px; display: flex; align-items: center; justify-content: center; ${canGoNext ? '' : 'opacity:0.4;'}">›</button>
+    </div>
+
+    ${lgRecords.length > 0 ? `
+    <!-- 统计概览卡片 -->
+    <div class="stats-grid animate-in" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 20px;">
+      <div class="stat-card accent">
+        <div class="stat-icon">👥</div>
+        <div class="stat-value">${lgRecords.length}</div>
+        <div class="stat-label">打卡人次</div>
+        <div class="stat-trend">${sortedPersonStats.length}人参与</div>
+      </div>
+      <div class="stat-card info">
+        <div class="stat-icon">⏱️</div>
+        <div class="stat-value">${lgTotalHours.toFixed(1)}h</div>
+        <div class="stat-label">总工时</div>
+        <div class="stat-trend">人均 ${(sortedPersonStats.length > 0 ? lgTotalHours / sortedPersonStats.length : 0).toFixed(1)}h</div>
+      </div>
+      <div class="stat-card ${lgAbnormal + lgAbsent > 0 ? 'warning' : 'success'}">
+        <div class="stat-icon">${lgAbnormal + lgAbsent > 0 ? '⚠️' : '✅'}</div>
+        <div class="stat-value">${lgNormal}</div>
+        <div class="stat-label">正常打卡</div>
+        <div class="stat-trend">${lgAbnormal + lgAbsent > 0 ? `异常${lgAbnormal} · 旷工${lgAbsent}` : '全部正常'}</div>
+      </div>
+      <div class="stat-card ${lgTotalLate > 0 ? 'warning' : 'success'}">
+        <div class="stat-icon">${lgTotalLate > 0 ? '🕐' : '🏆'}</div>
+        <div class="stat-value">${lgTotalLate}</div>
+        <div class="stat-label">迟到/异常</div>
+        <div class="stat-trend">共 ${uniqueDates.size} 个出勤日</div>
       </div>
     </div>
 
-    <!-- 灵工打卡数据区域 -->
-    ${lgRecords.length > 0 ? `
-    <div class="card animate-in" style="margin-bottom: 24px; border: 2px solid var(--primary); border-radius: var(--radius-lg);">
-      <div style="background: linear-gradient(135deg, var(--primary) 0%, #2d2d5a 100%); padding: 16px 20px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; color: #fff;">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div>
-            <h3 style="font-size: 16px; font-weight: 700;">🤖 灵工打卡 · 实时考勤</h3>
-            <p style="font-size: 12px; opacity: 0.7; margin-top: 4px;">上次同步: ${linggongData.lastSync ? new Date(linggongData.lastSync).toLocaleString('zh-CN') : '未同步'}</p>
-          </div>
-          <div style="display: flex; gap: 16px;">
-            <div style="text-align: center;">
-              <div style="font-size: 20px; font-weight: 800;">${lgRecords.length}</div>
-              <div style="font-size: 11px; opacity: 0.7;">排班人次</div>
-            </div>
-            <div style="text-align: center;">
-              <div style="font-size: 20px; font-weight: 800;">${lgTotalHours.toFixed(1)}</div>
-              <div style="font-size: 11px; opacity: 0.7;">总工时</div>
-            </div>
-          </div>
+    <!-- 每日出勤热力卡 -->
+    <div class="card animate-in" style="margin-bottom: 20px;">
+      <div class="card-header">
+        <h3>📅 每日出勤概览</h3>
+        <span style="font-size: 12px; color: var(--text-secondary);">${mM}月共 ${uniqueDates.size} 天</span>
+      </div>
+      <div class="card-body" style="padding: 12px;">
+        <div style="display: flex; gap: 8px; overflow-x: auto; flex-wrap: wrap;">
+          ${sortedDates.map(d => {
+            const s = dateStats[d];
+            const dayLabel = d.replace(/^2026-0?/, '').replace('-', '/');
+            const hasIssue = s.abnormal > 0;
+            return `
+              <div style="min-width: 100px; background: ${hasIssue ? 'rgba(239,68,68,0.06)' : 'rgba(16,185,129,0.06)'}; border: 1px solid ${hasIssue ? 'rgba(239,68,68,0.15)' : 'rgba(16,185,129,0.15)'}; border-radius: var(--radius); padding: 10px; text-align: center;">
+                <div style="font-weight: 700; font-size: 13px; margin-bottom: 4px;">${dayLabel}</div>
+                <div style="font-size: 18px; font-weight: 800; color: ${hasIssue ? '#ef4444' : '#10b981'};">${s.count}</div>
+                <div style="font-size: 10px; color: var(--text-muted);">人 · ${s.totalHours.toFixed(0)}h</div>
+              </div>
+            `;
+          }).join('')}
+          ${sortedDates.length === 0 ? '<div style="color: var(--text-muted); padding: 20px;">本月暂无考勤数据</div>' : ''}
         </div>
       </div>
-      <div class="card-body" style="padding: 0;">
-        <!-- 每日考勤统计卡片 -->
-        <div style="padding: 16px 16px 8px; border-bottom: 1px solid var(--border-light);">
-          <h4 style="font-size: 14px; font-weight: 700; margin-bottom: 12px;">📅 每日考勤统计</h4>
-          <div style="display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px;">
-            ${sortedDates.map(d => {
-              const s = dateStats[d];
-              const dateLabel = d.replace(/^2026\//, '');
-              return `
-                <div style="min-width: 150px; background: var(--bg-secondary); border-radius: var(--radius); padding: 12px; border: 1px solid var(--border-light); flex-shrink: 0;">
-                  <div style="font-weight: 700; font-size: 14px; margin-bottom: 8px;">${dateLabel}</div>
-                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
-                    <span style="color: var(--text-secondary);">出勤</span>
-                    <span style="font-weight: 600;">${s.count}人</span>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
-                    <span style="color: var(--text-secondary);">工时</span>
-                    <span style="font-weight: 600;">${s.totalHours.toFixed(1)}h</span>
-                  </div>
-                  <div style="display: flex; gap: 4px; margin-top: 8px; flex-wrap: wrap;">
-                    <span style="font-size: 11px; padding: 2px 6px; border-radius: 4px; background: rgba(16,185,129,0.1); color: #10b981;">正常${s.normal}</span>
-                    <span style="font-size: 11px; padding: 2px 6px; border-radius: 4px; background: rgba(239,68,68,0.1); color: #ef4444;">异常${s.abnormal}</span>
-                    ${s.ongoing > 0 ? `<span style="font-size: 11px; padding: 2px 6px; border-radius: 4px; background: rgba(59,130,246,0.1); color: #3b82f6;">考勤中${s.ongoing}</span>` : ''}
-                  </div>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </div>
+    </div>
 
-        <!-- 日期筛选器 + 统计条 -->
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; background: var(--bg-secondary); border-bottom: 1px solid var(--border-light); flex-wrap: wrap; gap: 8px;">
-          <div style="display: flex; gap: 10px; align-items: center;">
-            <span style="font-size: 13px; font-weight: 600;">日期筛选:</span>
-            <select class="form-select" style="min-width: 120px; font-size: 13px; padding: 5px 8px;" onchange="filterAttendanceByDate(this.value)">
-              <option value="all">全部日期</option>
-              ${sortedDates.map(d => `<option value="${d}">${d.replace(/^2026\//, '')}</option>`).join('')}
-            </select>
-            <span id="attendanceFilterHint" style="font-size: 12px; color: var(--text-secondary);">显示全部记录</span>
-          </div>
-          <div style="display: flex; gap: 12px; align-items: center;">
-            <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 12px;">
-              <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></span>
-              正常 ${lgNormal}人
-            </span>
-            <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 12px;">
-              <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ef4444;"></span>
-              异常 ${lgAbnormal}人
-            </span>
-            <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 12px;">
-              <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #3b82f6;"></span>
-              考勤中 ${lgOngoing}人
-            </span>
-            ${lgTotalLate > 0 ? `<span style="display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: #ef4444; font-weight: 600;">⚠️ 迟到 ${lgTotalLate}人</span>` : ''}
-          </div>
-        </div>
+    <!-- 考勤明细表（精简三列：日期 / 工时 / 状态） -->
+    <div class="card animate-in" style="margin-bottom: 24px;">
+      <div class="card-header">
+        <h3>📝 考勤明细</h3>
+        <span style="font-size: 12px; color: var(--text-secondary);">Service Team · ${mY}年${mM}月</span>
+      </div>
+      <div class="card-body" style="padding: 0;">
         <div class="table-container">
           <table class="data-table" style="font-size: 13px;">
             <thead>
               <tr>
-                <th>姓名</th>
-                <th>日期</th>
-                <th>排班时间</th>
-                <th>休息</th>
-                <th>签到</th>
-                <th>签退</th>
-                <th>工时</th>
-                <th>状态</th>
-                <th>异常</th>
+                <th style="width: 30%;">姓名</th>
+                <th style="width: 20%;">日期</th>
+                <th style="width: 15%;">工时</th>
+                <th style="width: 20%;">状态</th>
+                <th style="width: 15%;">备注</th>
               </tr>
             </thead>
             <tbody>
-              ${lgRecords.slice().reverse().map(r => {
+              ${lgRecords.slice().sort((a, b) => (b.date || '').localeCompare(a.date || '') || (a.name || '').localeCompare(b.name || '')).map(r => {
                 const s = staffMap[r.name];
                 const avatarColor = s ? s.avatar_color : '#6366f1';
                 const initials = s ? getInitials(s.name) : r.name.slice(-2);
-                const dateStr = r.date.replace(/\//g, '-').replace(/^2026-/, '');
+                const dateStr = (r.date || '').replace(/\//g, '-').replace(/^2026-0?/, '');
 
-                let statusBg, statusText, statusIcon;
+                let statusBg, statusText, statusIcon, statusLabel;
                 if (r.status === '打卡正常') {
-                  statusBg = 'rgba(16,185,129,0.1)'; statusText = '#10b981'; statusIcon = '✅';
+                  statusBg = 'rgba(16,185,129,0.1)'; statusText = '#10b981'; statusIcon = '✅'; statusLabel = '正常';
                 } else if (r.status === '打卡异常') {
-                  statusBg = 'rgba(239,68,68,0.1)'; statusText = '#ef4444'; statusIcon = '❌';
+                  statusBg = 'rgba(245,158,11,0.1)'; statusText = '#f59e0b'; statusIcon = '⚠️'; statusLabel = '异常';
+                } else if (r.status === '取消' || r.status === '缺勤') {
+                  statusBg = 'rgba(239,68,68,0.1)'; statusText = '#ef4444'; statusIcon = '❌'; statusLabel = r.status;
                 } else {
-                  statusBg = 'rgba(59,130,246,0.1)'; statusText = '#3b82f6'; statusIcon = '🕐';
+                  statusBg = 'rgba(100,116,139,0.1)'; statusText = '#64748b'; statusIcon = '—'; statusLabel = r.status || '未知';
                 }
 
-                const exceptionParts = [];
-                if (r.lateMin > 0) exceptionParts.push(`迟到${r.lateMin}min`);
-                if (r.leaveMin > 0) exceptionParts.push(`早退${r.leaveMin}min`);
+                const notes = [];
+                if (r.lateMin > 0) notes.push(`迟到${r.lateMin}min`);
+                if (r.leaveMin > 0) notes.push(`早退${r.leaveMin}min`);
+                const signIn = r.signIn || r.clockIn || '';
+                const signOut = r.signOut || r.clockOut || '';
+                if (signIn === '缺卡') notes.push('上班缺卡');
+                if (signOut === '缺卡') notes.push('下班缺卡');
 
                 return `
-                  <tr class="attendance-row" data-date="${r.date}" style="${r.status === '打卡异常' ? 'background: rgba(239,68,68,0.03);' : ''}">
+                  <tr style="${statusLabel === '正常' ? '' : 'background: rgba(245,158,11,0.02);'}">
                     <td>
                       <div style="display: flex; align-items: center; gap: 8px;">
                         <div class="avatar" style="background: ${avatarColor}; width: 28px; height: 28px; font-size: 11px;">${initials}</div>
                         <span style="font-weight: 600;">${r.name}</span>
                       </div>
                     </td>
-                    <td>${dateStr}</td>
-                    <td style="font-size: 12px;">${r.scheduleTime}</td>
-                    <td style="font-size: 12px; color: var(--text-secondary);">${r.restTime || '-'}</td>
-                    <td style="font-weight: 500; color: ${r.lateMin > 0 ? '#ef4444' : 'var(--text-primary)'};">${r.clockIn || '-'}</td>
-                    <td style="font-weight: 500;">${r.clockOut || '<span style="color: var(--text-muted);">—</span>'}</td>
+                    <td><span style="font-weight: 500;">${dateStr}</span></td>
                     <td>
-                      <span style="font-weight: 700; color: ${r.totalHours >= 8 ? '#10b981' : r.totalHours > 0 ? 'var(--text-primary)' : 'var(--text-muted)'};">
-                        ${r.totalHours > 0 ? r.totalHours + 'h' : '-'}
+                      <span style="font-weight: 700; color: ${(parseFloat(r.totalHours) || 0) >= 8 ? '#10b981' : (parseFloat(r.totalHours) || 0) > 0 ? 'var(--text-primary)' : 'var(--text-muted)'};">
+                        ${(parseFloat(r.totalHours) || 0) > 0 ? r.totalHours + 'h' : '-'}
                       </span>
                     </td>
                     <td>
                       <span style="display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: 600; background: ${statusBg}; color: ${statusText};">
-                        ${statusIcon} ${r.status}
+                        ${statusIcon} ${statusLabel}
                       </span>
                     </td>
                     <td>
-                      ${exceptionParts.length > 0
-                        ? exceptionParts.map(p => `<span style="display: inline-block; padding: 1px 6px; margin: 1px; border-radius: 4px; font-size: 11px; background: rgba(239,68,68,0.08); color: #ef4444;">${p}</span>`).join('')
-                        : '<span style="color: var(--text-muted);">-</span>'
+                      ${notes.length > 0
+                        ? notes.map(p => `<span style="display: inline-block; padding: 1px 6px; margin: 1px; border-radius: 4px; font-size: 11px; background: rgba(239,68,68,0.08); color: #ef4444;">${p}</span>`).join('')
+                        : '<span style="color: var(--text-muted); font-size: 12px;">-</span>'
                       }
                     </td>
                   </tr>
@@ -1074,23 +1080,12 @@ function renderAttendance() {
         </div>
       </div>
     </div>
-    ` : `
-    <div class="card animate-in" style="margin-bottom: 24px;">
-      <div class="card-body" style="text-align: center; padding: 32px;">
-        <div style="font-size: 40px; margin-bottom: 12px;">🤖</div>
-        <h4 style="font-weight: 600; margin-bottom: 8px;">灵工打卡数据未同步</h4>
-        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">点击"同步灵工打卡"从灵工打卡后台拉取最新考勤数据</p>
-        <button class="btn btn-primary" onclick="syncLinggongData()">🔄 立即同步</button>
-      </div>
-    </div>
-    `}
 
     <!-- 个人累计工时排行 -->
-    ${lgRecords.length > 0 ? `
     <div class="card animate-in" style="margin-bottom: 24px;">
       <div class="card-header">
-        <h3>⏱️ 个人累计工时排行</h3>
-        <span style="font-size: 12px; color: var(--text-secondary);">${sortedDates.length > 0 ? sortedDates[0].replace(/^2026\//, '') + ' ~ ' + sortedDates[sortedDates.length-1].replace(/^2026\//, '') : ''} · 共 ${sortedDates.length} 天</span>
+        <h3>⏱️ 个人工时排行</h3>
+        <span style="font-size: 12px; color: var(--text-secondary);">${mY}年${mM}月 · Service Team</span>
       </div>
       <div class="card-body">
         ${sortedPersonStats.map((p, i) => {
@@ -1113,18 +1108,32 @@ function renderAttendance() {
                   <div style="font-weight: 700; font-size: 15px; color: ${p.totalHours >= 40 ? '#10b981' : p.totalHours >= 20 ? 'var(--text-primary)' : '#f59e0b'}">${p.totalHours.toFixed(1)}h</div>
                   <div style="font-size: 11px; color: var(--text-secondary);">总工时</div>
                 </div>
-                ${p.lateCount > 0 ? `<span style="font-size: 11px; color: #ef4444; font-weight: 600;">⚠️ 迟到 ${p.lateCount} 次</span>` : '<span style="font-size: 11px; color: #10b981;">✅ 无迟到</span>'}
+                ${p.lateCount > 0 || p.absentCount > 0
+                  ? `<span style="font-size: 11px; color: #ef4444; font-weight: 600;">⚠️${p.lateCount > 0 ? ` 迟到${p.lateCount}` : ''}${p.absentCount > 0 ? ` 旷工${p.absentCount}` : ''}</span>`
+                  : '<span style="font-size: 11px; color: #10b981;">✅ 全勤</span>'
+                }
               </div>
             </div>
           `;
         }).join('')}
         <div style="margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--border-light); display: flex; justify-content: space-between; font-size: 13px;">
-          <span style="color: var(--text-secondary);">累计统计</span>
-          <span style="font-weight: 700;">${lgRecords.length} 人次 · ${lgTotalHours.toFixed(1)} 总工时 · ${sortedPersonStats.length} 人参与</span>
+          <span style="color: var(--text-secondary);">月度统计</span>
+          <span style="font-weight: 700;">${lgRecords.length} 人次 · ${lgTotalHours.toFixed(1)}h 总工时 · ${sortedPersonStats.length} 人</span>
         </div>
       </div>
     </div>
-    ` : ''}
+    ` : `
+    <div class="card animate-in" style="margin-bottom: 24px;">
+      <div class="card-body" style="text-align: center; padding: 32px;">
+        <div style="font-size: 40px; margin-bottom: 12px;">🤖</div>
+        <h4 style="font-weight: 600; margin-bottom: 8px;">${mY}年${mM}月暂无考勤数据</h4>
+        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">点击"同步灵工打卡"导入考勤数据，或切换到其他月份查看</p>
+        <button class="btn btn-primary" onclick="syncLinggongData()">🔄 立即同步</button>
+      </div>
+    </div>
+    `}
+
+    <p style="font-size: 12px; color: var(--text-muted); text-align: center;">上次同步: ${linggongData.lastSync ? new Date(linggongData.lastSync).toLocaleString('zh-CN') : '未同步'} · 仅显示 Service Team 成员</p>
   `;
 }
 
