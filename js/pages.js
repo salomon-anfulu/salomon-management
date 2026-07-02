@@ -1428,7 +1428,7 @@ function calcPerformanceScore(staffName) {
 
   // Fallback：找不到数据则返回静态评分
   if (!record) {
-    return { score: 3, hourlyScore: 0, uptScore: 0, hourly: 0, upt: 0, sales: 0, qty: 0, tickets: 0, targetMet: false, targetBonus: 0, salesTarget: SALES_TARGET, fallback: true };
+    return { score: 3, hourlyScore: 0, uptScore: 0, hourly: 0, upt: 0, sales: 0, qty: 0, tickets: 0, targetMet: false, targetBonus: 0, bonusDetail: '', salesTarget: SALES_TARGET, fallback: true };
   }
 
   const hourly = record.hourlyOutput || 0;
@@ -1456,9 +1456,28 @@ function calcPerformanceScore(staffName) {
   // 双维度各50%
   const rawAvg = (hourlyScore + uptScore) / 2;
 
-  // 月销售额达标加成
+  // 月销售额阶梯加成（2026-07-02升级）
+  // ≥2万 +0.5；≥3万 再+0.5；3万以上每多2千 再+0.1
   const targetMet = sales >= SALES_TARGET;
-  const targetBonus = targetMet ? 0.5 : 0;
+  const TIER2 = 30000;      // 3万门槛
+  const STEP = 2000;        // 每2千一档
+  let targetBonus = 0;
+  let bonusDetail = '';     // UI展示用
+  if (targetMet) {
+    targetBonus += 0.5;
+    bonusDetail = '+0.5(达标2万)';
+    if (sales >= TIER2) {
+      targetBonus += 0.5;
+      bonusDetail += ' +0.5(达标3万)';
+      const extra = Math.floor((sales - TIER2) / STEP);
+      if (extra > 0) {
+        const extraBonus = parseFloat((extra * 0.1).toFixed(1));
+        targetBonus += extraBonus;
+        bonusDetail += ` +${extraBonus}(超3万${extra}档)`;
+      }
+    }
+  }
+  targetBonus = parseFloat(targetBonus.toFixed(1));
 
   // 最终分 = 双维度均值 + 达标加成，封顶5
   let finalScore = Math.max(1, Math.min(5, parseFloat((rawAvg + targetBonus).toFixed(1))));
@@ -1474,6 +1493,7 @@ function calcPerformanceScore(staffName) {
     tickets,
     targetMet,
     targetBonus,
+    bonusDetail,
     salesTarget: SALES_TARGET,
   };
 }
@@ -2001,9 +2021,9 @@ function renderRatings() {
                     </div>
                     <!-- 月销售额达标 -->
                     <div style="padding: 8px; border-radius: 6px; background: ${perfCalc.targetMet ? 'rgba(16,185,129,0.08)' : 'rgba(100,116,139,0.06)'}; border: 1px solid ${perfCalc.targetMet ? 'rgba(16,185,129,0.15)' : 'rgba(100,116,139,0.1)'};">
-                      <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">🏆 月销目标</div>
+                      <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">🏆 月销加成</div>
                       <div style="font-size: 16px; font-weight: 800; color: ${perfCalc.targetMet ? '#10b981' : 'var(--text-muted)'};">¥${(perfCalc.sales / 10000).toFixed(1)}<span style="font-size: 11px; font-weight: 400; opacity: 0.6;">万</span></div>
-                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">${perfCalc.targetMet ? '<b style="color:#10b981;">+0.5</b> ✓达标' : '未达标(不扣分)'}</div>
+                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">${perfCalc.targetBonus ? `<b style="color:#10b981;">+${perfCalc.targetBonus}</b> ${perfCalc.bonusDetail || '✓达标'}` : '未达标(不加分)'}</div>
                     </div>
                   </div>
                   <div style="margin-top: 8px; display: flex; justify-content: space-between; font-size: 11px;">
