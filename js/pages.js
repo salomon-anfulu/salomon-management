@@ -1685,6 +1685,9 @@ function calcBehaviorScore(staffName) {
 }
 
 function renderRatings() {
+  // 清除所有月份相关缓存，确保切月后数据正确
+  _behaviorCache = null;
+  
   const allRatings = Store.get('ratings');
   const staff = Store.get('staff').filter(s => s.status === 'active');
 
@@ -2814,21 +2817,22 @@ function renderPerformance() {
  */
 let doorScheduleDate = '';
 let _doorPageMonth = null; // 独立页面月份，null=默认所有数据中最新月份
+const DOOR_PAGE_MIN_MONTH = '2026-06'; // 门迎排班最早月份
 
 function renderDoorSchedule() {
   const allDoorData = Store.get('doorSchedule') || [];
   const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
 
-  // === 月份切换：确定可用月份列表 ===
-  const allMonths = [...new Set(allDoorData.map(d => (d.date || '').slice(0, 7)))].filter(Boolean).sort();
-  if (!_doorPageMonth) {
-    _doorPageMonth = allMonths.length > 0 ? allMonths[allMonths.length - 1] : _ymKey(new Date().getFullYear(), new Date().getMonth() + 1);
+  // === 月份切换：确定可用月份列表（限定最早6月） ===
+  const allMonths = [...new Set(allDoorData.map(d => (d.date || '').slice(0, 7)))].filter(m => m >= DOOR_PAGE_MIN_MONTH).sort();
+  if (!_doorPageMonth || _doorPageMonth < DOOR_PAGE_MIN_MONTH) {
+    _doorPageMonth = allMonths.length > 0 ? allMonths[allMonths.length - 1] : DOOR_PAGE_MIN_MONTH;
   }
   const [dY, dM] = _doorPageMonth.split('-').map(Number);
   const prevMonth = _ymKey(dM === 1 ? (dY - 1) : dY, dM === 1 ? 12 : (dM - 1));
   const nextMonth = _ymKey(dM === 12 ? (dY + 1) : dY, dM === 12 ? 1 : (dM + 1));
-  const canGoPrev = allMonths.length > 1 && allMonths.indexOf(_doorPageMonth) > 0;
-  const canGoNext = allMonths.length > 1 && allMonths.indexOf(_doorPageMonth) < allMonths.length - 1;
+  const canGoPrev = prevMonth >= DOOR_PAGE_MIN_MONTH;
+  const canGoNext = true; // 允许向前看未来月份
 
   // === 按月过滤 ===
   const doorData = allDoorData.filter(d => (d.date || '').startsWith(_doorPageMonth));
@@ -3054,24 +3058,25 @@ function renderDoorSchedule() {
  */
 let supportFilter = 'stats';
 let _supportPageMonth = null; // 独立页面月份
+const SUPPORT_PAGE_MIN_MONTH = '2026-06'; // 店务支援最早月份
 
 function renderSupport() {
   const allSupportData = Store.get('storeSupport') || [];
   const allShiftChanges = Store.get('shiftChanges') || [];
   const staffStats = Store.get('staffStats') || {};
 
-  // === 月份切换：从 storeSupport + shiftChanges 中提取所有可用月份 ===
-  const supportMonths = [...new Set(allSupportData.map(s => (s.date || '').slice(0, 7)))].filter(Boolean);
-  const shiftMonths = [...new Set(allShiftChanges.map(c => (c.applyDate || '').slice(0, 7)))].filter(Boolean);
+  // === 月份切换：从 storeSupport + shiftChanges 中提取所有可用月份（限定最早6月） ===
+  const supportMonths = [...new Set(allSupportData.map(s => (s.date || '').slice(0, 7)))].filter(m => m >= SUPPORT_PAGE_MIN_MONTH);
+  const shiftMonths = [...new Set(allShiftChanges.map(c => (c.applyDate || '').slice(0, 7)))].filter(m => m >= SUPPORT_PAGE_MIN_MONTH);
   const allMonths = [...new Set([...supportMonths, ...shiftMonths])].sort();
-  if (!_supportPageMonth) {
-    _supportPageMonth = allMonths.length > 0 ? allMonths[allMonths.length - 1] : _ymKey(new Date().getFullYear(), new Date().getMonth() + 1);
+  if (!_supportPageMonth || _supportPageMonth < SUPPORT_PAGE_MIN_MONTH) {
+    _supportPageMonth = allMonths.length > 0 ? allMonths[allMonths.length - 1] : SUPPORT_PAGE_MIN_MONTH;
   }
   const [dY, dM] = _supportPageMonth.split('-').map(Number);
   const prevMonth = _ymKey(dM === 1 ? (dY - 1) : dY, dM === 1 ? 12 : (dM - 1));
   const nextMonth = _ymKey(dM === 12 ? (dY + 1) : dY, dM === 12 ? 1 : (dM + 1));
-  const canGoPrev = allMonths.length > 1 && allMonths.indexOf(_supportPageMonth) > 0;
-  const canGoNext = allMonths.length > 1 && allMonths.indexOf(_supportPageMonth) < allMonths.length - 1;
+  const canGoPrev = prevMonth >= SUPPORT_PAGE_MIN_MONTH;
+  const canGoNext = true; // 允许向前看未来月份
 
   // === 按月过滤 ===
   const supportData = allSupportData.filter(s => (s.date || '').startsWith(_supportPageMonth));
@@ -4722,8 +4727,8 @@ function renderSupportTab() {
   `;
 }
 
-// ===== Tab: Door Schedule — Calendar grid view with 1-hour slots (10:00-22:00) =====
-const DOOR_HOURS = ['10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00'];
+// ===== Tab: Door Schedule — Calendar grid view with 1-hour slots (10:00-21:00) =====
+const DOOR_HOURS = ['10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00'];
 
 function renderDoorTab() {
   if (!_doorViewMonth) _doorViewMonth = AVAIL_MIN_MONTH;
@@ -4762,7 +4767,7 @@ function renderDoorTab() {
           <span style="font-size:15px;font-weight:700;min-width:100px;text-align:center;">${y}年${m}月</span>
           <button onclick="_doorViewMonth='${nextMonth}';Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">›</button>
         </div>
-        <span style="font-size:12px;color:var(--text-muted);">点击空白格添加门迎 · 时间段 10:00-22:00（每小时1班）</span>
+        <span style="font-size:12px;color:var(--text-muted);">点击空白格添加门迎 · 时间段 10:00-21:00（每小时1班）</span>
       </div>
     </div>
 
