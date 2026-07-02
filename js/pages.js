@@ -177,9 +177,9 @@ function renderStaff() {
   return `
     <div class="flex justify-between items-center mb-6 animate-in">
       <div class="filters-bar" style="margin-bottom: 0;">
-        <button class="filter-chip ${staffFilter === 'all' ? 'active' : ''}" onclick="staffFilter='all';Router.render()">全部 (${staff.length})</button>
-        <button class="filter-chip ${staffFilter === 'active' ? 'active' : ''}" onclick="staffFilter='active';Router.render()">在职 (${staff.filter(s=>s.status==='active').length})</button>
-        <button class="filter-chip ${staffFilter === 'inactive' ? 'active' : ''}" onclick="staffFilter='inactive';Router.render()">离职/转正 (${staff.filter(s=>s.status!=='active').length})</button>
+        <button class="filter-chip ${staffFilter === 'all' ? 'active' : ''}" onclick="staffFilter='all';Router.render()">全部 (${allStaff.length})</button>
+        <button class="filter-chip ${staffFilter === 'active' ? 'active' : ''}" onclick="staffFilter='active';Router.render()">在职 (${allStaff.filter(s=>s.status==='active').length})</button>
+        <button class="filter-chip ${staffFilter === 'inactive' ? 'active' : ''}" onclick="staffFilter='inactive';Router.render()">离职/转正 (${allStaff.filter(s=>s.status!=='active').length})</button>
       </div>
       <button class="btn btn-primary" onclick="openStaffModal()">+ 添加兼职</button>
     </div>
