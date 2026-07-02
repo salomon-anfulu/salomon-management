@@ -3781,7 +3781,8 @@ function deleteDoorSlot(idx) {
 function openSupportForm() {
   const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
   const supportTypes = ['货品-整理仓库', '货品-查鞋盒', '货品-辅助收货', '陈列-翻场支援', '陈列-全楼标签复核', '其他'];
-  const today = new Date().toISOString().slice(0, 10);
+  const today = new Date();
+  const defaultDate = _supportMonth + '-' + String(today.getDate()).padStart(2, '0');
 
   const overlay = document.createElement('div');
   overlay.id = 'supportFormOverlay';
@@ -3869,7 +3870,8 @@ function deleteSupport(id) {
  */
 function openShiftForm() {
   const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
-  const today = new Date().toISOString().slice(0, 10);
+  const today = new Date();
+  const defaultDate = _shiftsMonth + '-' + String(today.getDate()).padStart(2, '0');
 
   const overlay = document.createElement('div');
   overlay.id = 'shiftFormOverlay';
@@ -3889,7 +3891,7 @@ function openShiftForm() {
           </div>
           <div>
             <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">申请日期 *</label>
-            <input id="shiftApplyDate" type="date" value="${today}" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
+            <input id="shiftApplyDate" type="date" value="${defaultDate}" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
           </div>
         </div>
         <div>
@@ -3958,6 +3960,9 @@ let _availMonth = null;           // 'YYYY-MM'
 let _availStaff = null;           // staff name
 let _availOverviewWeek = 0;       // week offset from first week of month
 let _availOverviewDept = 'Service Team'; // Service Team | 仓库兼职
+let _shiftsMonth = null;          // 'YYYY-MM' for shift changes tab
+let _supportMonth = null;         // 'YYYY-MM' for store support tab
+let _doorViewMonth = null;        // 'YYYY-MM' for door schedule calendar view
 
 // Min month for personal availability entry: July 2026
 const AVAIL_MIN_MONTH = '2026-07';
@@ -4457,13 +4462,28 @@ function renderOverviewMatrix() {
 
 // ===== Tab: Shift Changes (reuse existing forms) =====
 function renderShiftsTab() {
-  const changes = Store.get('shiftChanges') || [];
+  if (!_shiftsMonth) _shiftsMonth = AVAIL_MIN_MONTH;
+  const allChanges = Store.get('shiftChanges') || [];
+  const changes = allChanges.filter(c => (c.applyDate || '').startsWith(_shiftsMonth));
+
+  const [y, m] = _shiftsMonth.split('-').map(Number);
+  const prevMonth = _ymKey(m === 1 ? (y - 1) : y, m === 1 ? 12 : (m - 1));
+  const nextMonth = _ymKey(m === 12 ? (y + 1) : y, m === 12 ? 1 : (m + 1));
+  const canGoPrev = prevMonth >= AVAIL_MIN_MONTH;
+
   return `
-    <div class="card animate-in">
-      <div class="card-header">
-        <h3>🔄 换班登记</h3>
-        <button onclick="openShiftForm()" style="padding:6px 14px;border-radius:6px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">+ 新增换班</button>
+    <div class="card animate-in" style="margin-bottom: 20px;">
+      <div class="card-body" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <div style="display:flex;align-items:center;gap:8px;margin-right:auto;">
+          <button ${canGoPrev ? `onclick="_shiftsMonth='${prevMonth}';Router.render()"` : 'disabled'} style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:${canGoPrev?'var(--text-primary)':'var(--text-muted)'};cursor:${canGoPrev?'pointer':'not-allowed'};font-size:16px;opacity:${canGoPrev?1:0.4};">‹</button>
+          <span style="font-size:15px;font-weight:700;min-width:100px;text-align:center;">${y}年${m}月</span>
+          <button onclick="_shiftsMonth='${nextMonth}';Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">›</button>
+        </div>
+        <button onclick="openShiftForm()" style="padding:8px 16px;border-radius:8px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:13px;font-weight:600;cursor:pointer;">+ 新增换班</button>
       </div>
+    </div>
+
+    <div class="card animate-in">
       <div class="card-body" style="padding:0;">
         <div class="table-container">
           <table class="data-table">
@@ -4483,7 +4503,7 @@ function renderShiftsTab() {
                   <td class="text-sm">${c.targetShift}</td>
                   <td><button onclick="deleteShift(${c.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button></td>
                 </tr>
-              `).join('') : '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">暂无换班记录，点击「+ 新增换班」录入</td></tr>'}
+              `).join('') : '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">本月暂无换班记录，点击「+ 新增换班」录入</td></tr>'}
             </tbody>
           </table>
         </div>
@@ -4494,13 +4514,28 @@ function renderShiftsTab() {
 
 // ===== Tab: Store Support (reuse existing forms) =====
 function renderSupportTab() {
-  const data = Store.get('storeSupport') || [];
+  if (!_supportMonth) _supportMonth = AVAIL_MIN_MONTH;
+  const allData = Store.get('storeSupport') || [];
+  const data = allData.filter(s => (s.date || '').startsWith(_supportMonth));
+
+  const [y, m] = _supportMonth.split('-').map(Number);
+  const prevMonth = _ymKey(m === 1 ? (y - 1) : y, m === 1 ? 12 : (m - 1));
+  const nextMonth = _ymKey(m === 12 ? (y + 1) : y, m === 12 ? 1 : (m + 1));
+  const canGoPrev = prevMonth >= AVAIL_MIN_MONTH;
+
   return `
-    <div class="card animate-in">
-      <div class="card-header">
-        <h3>🔧 店务支援</h3>
-        <button onclick="openSupportForm()" style="padding:6px 14px;border-radius:6px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">+ 新增支援</button>
+    <div class="card animate-in" style="margin-bottom: 20px;">
+      <div class="card-body" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <div style="display:flex;align-items:center;gap:8px;margin-right:auto;">
+          <button ${canGoPrev ? `onclick="_supportMonth='${prevMonth}';Router.render()"` : 'disabled'} style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:${canGoPrev?'var(--text-primary)':'var(--text-muted)'};cursor:${canGoPrev?'pointer':'not-allowed'};font-size:16px;opacity:${canGoPrev?1:0.4};">‹</button>
+          <span style="font-size:15px;font-weight:700;min-width:100px;text-align:center;">${y}年${m}月</span>
+          <button onclick="_supportMonth='${nextMonth}';Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">›</button>
+        </div>
+        <button onclick="openSupportForm()" style="padding:8px 16px;border-radius:8px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:13px;font-weight:600;cursor:pointer;">+ 新增支援</button>
       </div>
+    </div>
+
+    <div class="card animate-in">
       <div class="card-body" style="padding:0;">
         <div class="table-container">
           <table class="data-table">
@@ -4517,7 +4552,7 @@ function renderSupportTab() {
                   <td class="text-sm text-secondary">${s.detail}</td>
                   <td><button onclick="deleteSupport(${s.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button></td>
                 </tr>
-              `).join('') : '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">暂无支援记录，点击「+ 新增支援」录入</td></tr>'}
+              `).join('') : '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">本月暂无支援记录，点击「+ 新增支援」录入</td></tr>'}
             </tbody>
           </table>
         </div>
@@ -4526,36 +4561,208 @@ function renderSupportTab() {
   `;
 }
 
-// ===== Tab: Door Schedule (reuse existing forms) =====
+// ===== Tab: Door Schedule — Calendar grid view with 1-hour slots (10:00-22:00) =====
+const DOOR_HOURS = ['10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00','22:00'];
+
 function renderDoorTab() {
-  const doorData = Store.get('doorSchedule') || [];
+  if (!_doorViewMonth) _doorViewMonth = AVAIL_MIN_MONTH;
+  const allDoorData = Store.get('doorSchedule') || [];
+  const doorData = allDoorData.filter(d => (d.date || '').startsWith(_doorViewMonth));
+
+  const [y, m] = _doorViewMonth.split('-').map(Number);
+  const prevMonth = _ymKey(m === 1 ? (y - 1) : y, m === 1 ? 12 : (m - 1));
+  const nextMonth = _ymKey(m === 12 ? (y + 1) : y, m === 12 ? 1 : (m + 1));
+  const canGoPrev = prevMonth >= AVAIL_MIN_MONTH;
+
+  // Build a map: date -> { hour -> staff }
+  const doorMap = {};
+  doorData.forEach(day => {
+    doorMap[day.date] = {};
+    day.slots.forEach(slot => {
+      doorMap[day.date][slot.time] = slot.staff || '';
+    });
+  });
+
+  // Generate days for the month
+  const totalDays = new Date(y, m, 0).getDate();
+  const days = [];
+  for (let d = 1; d <= totalDays; d++) {
+    const dateStr = `${_doorViewMonth}-${String(d).padStart(2, '0')}`;
+    days.push(dateStr);
+  }
+
+  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+
   return `
     <div class="card animate-in" style="margin-bottom: 20px;">
-      <div class="card-header">
-        <h3>🚪 门迎排班录入</h3>
-        <button onclick="openDoorDayForm()" style="padding:6px 14px;border-radius:6px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:12px;font-weight:600;cursor:pointer;">+ 新增日期</button>
+      <div class="card-body" style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <div style="display:flex;align-items:center;gap:8px;margin-right:auto;">
+          <button ${canGoPrev ? `onclick="_doorViewMonth='${prevMonth}';Router.render()"` : 'disabled'} style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:${canGoPrev?'var(--text-primary)':'var(--text-muted)'};cursor:${canGoPrev?'pointer':'not-allowed'};font-size:16px;opacity:${canGoPrev?1:0.4};">‹</button>
+          <span style="font-size:15px;font-weight:700;min-width:100px;text-align:center;">${y}年${m}月</span>
+          <button onclick="_doorViewMonth='${nextMonth}';Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">›</button>
+        </div>
+        <span style="font-size:12px;color:var(--text-muted);">点击空白格添加门迎 · 时间段 10:00-22:00（每小时1班）</span>
       </div>
-      <div class="card-body" style="padding:0;">
-        ${doorData.length > 0 ? doorData.map(day => `
-          <div style="border-bottom:1px solid var(--border-light);padding:12px 16px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-              <span style="font-weight:700;font-size:14px;">${day.date}</span>
-              <button onclick="doorScheduleDate='${day.date}';openDoorSlotForm()" style="padding:4px 10px;border-radius:6px;border:none;background:var(--accent,#3b82f6);color:#fff;font-size:11px;font-weight:600;cursor:pointer;">+ 添加班次</button>
-            </div>
-            ${day.slots.length > 0 ? `
-              <div style="display:flex;flex-wrap:wrap;gap:6px;">
-                ${day.slots.map((slot, idx) => `
-                  <div style="display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:6px;background:var(--bg-secondary);font-size:12px;">
-                    <span style="font-weight:600;">${slot.time}</span>
-                    <span>${slot.staff || '—'}</span>
-                    <button onclick="doorScheduleDate='${day.date}';deleteDoorSlot(${idx})" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:14px;padding:0 2px;">×</button>
-                  </div>
-                `).join('')}
-              </div>
-            ` : '<div style="font-size:12px;color:var(--text-muted);padding:4px 0;">暂无班次</div>'}
-          </div>
-        `).join('') : '<div style="text-align:center;padding:40px;color:var(--text-muted);">暂无排班数据，点击「+ 新增日期」开始录入</div>'}
+    </div>
+
+    <div class="card animate-in">
+      <div class="card-body" style="padding:0;overflow-x:auto;">
+        <table class="data-table" style="min-width:900px;">
+          <thead>
+            <tr>
+              <th style="width:60px;position:sticky;left:0;z-index:2;background:var(--bg-card,#fff);">日期</th>
+              ${DOOR_HOURS.map(h => `<th style="text-align:center;min-width:75px;font-size:11px;">${h}</th>`).join('')}
+            </tr>
+          </thead>
+          <tbody>
+            ${days.map(dateStr => {
+              const daySlots = doorMap[dateStr] || {};
+              const day = daySlots;
+              const d = parseInt(dateStr.split('-')[2]);
+              const weekday = new Date(y, m - 1, d).getDay();
+              const weekdayNames = ['日','一','二','三','四','五','六'];
+              const isWeekend = weekday === 0 || weekday === 6;
+              const filledCount = Object.keys(daySlots).filter(k => daySlots[k]).length;
+
+              return `
+                <tr>
+                  <td style="position:sticky;left:0;z-index:1;background:var(--bg-card,#fff);font-weight:600;font-size:13px;white-space:nowrap;">
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+                      <span style="${isWeekend ? 'color:#ef4444;' : ''}">${d}日</span>
+                      <span style="font-size:10px;color:var(--text-muted);font-weight:400;">周${weekdayNames[weekday]}</span>
+                    </div>
+                  </td>
+                  ${DOOR_HOURS.map(h => {
+                    const nextH = DOOR_HOURS[DOOR_HOURS.indexOf(h) + 1];
+                    const slotKey = h + ':00-' + nextH + ':00';
+                    const staffName = day[slotKey];
+                    if (staffName) {
+                      return `
+                        <td style="text-align:center;padding:4px;">
+                          <div onclick="editDoorCell('${dateStr}','${slotKey}')" style="cursor:pointer;background:linear-gradient(135deg,#10b98133,#10b98111);border:1px solid #10b98155;border-radius:6px;padding:4px 6px;font-size:11px;font-weight:600;color:#10b981;">
+                            ${staffName}
+                          </div>
+                        </td>
+                      `;
+                    } else {
+                      return `
+                        <td style="text-align:center;padding:4px;">
+                          <div onclick="addDoorCell('${dateStr}','${h}','${nextH}')" style="cursor:pointer;border:1px dashed var(--border);border-radius:6px;padding:4px 6px;font-size:10px;color:var(--text-muted);min-height:22px;display:flex;align-items:center;justify-content:center;">+</div>
+                        </td>
+                      `;
+                    }
+                  }).join('')}
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
       </div>
     </div>
   `;
+}
+
+// ===== Door Cell: click empty cell to add =====
+function addDoorCell(date, startHour, endHour) {
+  doorScheduleDate = date;
+  openDoorSlotFormInline(startHour, endHour);
+}
+
+// ===== Door Cell: click filled cell to edit/delete =====
+function editDoorCell(date, slotKey) {
+  doorScheduleDate = date;
+  const doorData = Store.get('doorSchedule') || [];
+  const day = doorData.find(d => d.date === date);
+  if (!day) return;
+  const idx = day.slots.findIndex(s => s.time === slotKey);
+  if (idx >= 0) openDoorSlotFormInline(null, null, idx);
+}
+
+// ===== Inline door slot form (used by calendar grid) =====
+function openDoorSlotFormInline(prefillStart, prefillEnd, editIdx) {
+  doorSlotEditingIdx = (typeof editIdx === 'number') ? editIdx : null;
+  const doorData = Store.get('doorSchedule') || [];
+  const day = doorData.find(d => d.date === doorScheduleDate);
+  const slot = (doorSlotEditingIdx !== null && day && day.slots[doorSlotEditingIdx]) ? day.slots[doorSlotEditingIdx] : null;
+  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+
+  // Generate 1-hour slot dropdown from 10:00-22:00
+  const slotOptions = [];
+  for (let i = 0; i < DOOR_HOURS.length - 1; i++) {
+    const slot = DOOR_HOURS[i] + ':00-' + DOOR_HOURS[i+1] + ':00';
+    slotOptions.push(slot);
+  }
+
+  const currentSlot = slot ? slot.time : (prefillStart && prefillEnd ? `${prefillStart}:00-${prefillEnd}:00` : slotOptions[0]);
+
+  const overlay = document.createElement('div');
+  overlay.id = 'doorSlotFormOverlay';
+  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  overlay.innerHTML = `
+    <div style="background:var(--bg-card,#fff);border-radius:16px;padding:28px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <h3 style="font-size:18px;font-weight:800;">门迎排班 · ${doorScheduleDate}</h3>
+        <button onclick="closeDoorSlotForm()" style="background:none;border:none;font-size:22px;cursor:pointer;opacity:0.5;">&times;</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div>
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">时间段（1小时/班） *</label>
+          <select id="doorSlotTimeInline" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
+            ${slotOptions.map(s => `<option value="${s}" ${s === currentSlot ? 'selected' : ''}>${s}</option>`).join('')}
+          </select>
+        </div>
+        <div>
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">值班人员</label>
+          <select id="doorSlotStaffInline" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
+            <option value="">— 未安排 —</option>
+            ${staff.map(s => `<option value="${s.name}" ${slot && slot.staff === s.name ? 'selected' : ''}>${s.name}</option>`).join('')}
+          </select>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:8px;">
+          ${doorSlotEditingIdx !== null ? `<button onclick="deleteDoorSlotInline()" style="padding:12px 16px;border:1px solid #ef4444;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:#ef4444;">删除</button>` : ''}
+          <button onclick="closeDoorSlotForm()" style="flex:1;padding:12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:transparent;color:var(--text-primary);">取消</button>
+          <button onclick="saveDoorSlotInline()" style="flex:1;padding:12px;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;background:var(--accent,#3b82f6);color:#fff;">保存</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeDoorSlotForm(); });
+}
+
+function saveDoorSlotInline() {
+  const time = document.getElementById('doorSlotTimeInline').value;
+  const staffName = document.getElementById('doorSlotStaffInline').value;
+  if (!time) { alert('请选择时间段'); return; }
+
+  const doorData = Store.get('doorSchedule') || [];
+  let day = doorData.find(d => d.date === doorScheduleDate);
+  if (!day) { day = { date: doorScheduleDate, slots: [] }; doorData.push(day); }
+  const newSlot = { time, staff: staffName };
+  if (doorSlotEditingIdx !== null) {
+    day.slots[doorSlotEditingIdx] = newSlot;
+  } else {
+    // Check for duplicate time slot
+    if (day.slots.find(s => s.time === time)) { alert('该时间段已有班次，请编辑已有班次'); return; }
+    day.slots.push(newSlot);
+  }
+  day.slots.sort((a, b) => a.time.localeCompare(b.time));
+  doorData.sort((a, b) => a.date.localeCompare(b.date));
+  Store.set('doorSchedule', doorData);
+  closeDoorSlotForm();
+  Router.render();
+  showToast(doorSlotEditingIdx !== null ? '班次已更新' : '班次已添加');
+}
+
+function deleteDoorSlotInline() {
+  if (!confirm('确定删除这个班次吗？')) return;
+  const doorData = Store.get('doorSchedule') || [];
+  const day = doorData.find(d => d.date === doorScheduleDate);
+  if (day && doorSlotEditingIdx !== null) {
+    day.slots.splice(doorSlotEditingIdx, 1);
+    Store.set('doorSchedule', doorData);
+    closeDoorSlotForm();
+    Router.render();
+    showToast('班次已删除');
+  }
 }
