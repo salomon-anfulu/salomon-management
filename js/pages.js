@@ -162,10 +162,17 @@ function initDashboardCharts() {
 let staffFilter = 'all';
 
 function renderStaff() {
-  const staff = Store.get('staff');
-  const filtered = staffFilter === 'all' ? staff :
-    staffFilter === 'active' ? staff.filter(s => s.status === 'active') :
-    staff.filter(s => s.status !== 'active');
+  const allStaff = Store.get('staff');
+  // 排序：Service Team 优先，仓库兼职在后；同部门内按姓名排序
+  const sorted = [...allStaff].sort((a, b) => {
+    const aIsST = a.dept === 'Service Team' ? 0 : 1;
+    const bIsST = b.dept === 'Service Team' ? 0 : 1;
+    if (aIsST !== bIsST) return aIsST - bIsST;
+    return (a.name || '').localeCompare(b.name || '', 'zh-CN');
+  });
+  const filtered = staffFilter === 'all' ? sorted :
+    staffFilter === 'active' ? sorted.filter(s => s.status === 'active') :
+    sorted.filter(s => s.status !== 'active');
 
   return `
     <div class="flex justify-between items-center mb-6 animate-in">
@@ -314,13 +321,20 @@ function saveStaff() {
   const staff = Store.get('staff');
   const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981', '#06b6d4', '#f43f5e', '#6366f1'];
 
+  let isNewStaff = false;
+  let isDeptChanged = false;
+  let oldDept = null;
+
   if (editId) {
     const idx = staff.findIndex(s => s.id === parseInt(editId));
     if (idx >= 0) {
+      oldDept = staff[idx].dept;
+      isDeptChanged = oldDept !== dept;
       staff[idx] = { ...staff[idx], name, dept, mbti };
       showToast(`${name} 信息已更新`);
     }
   } else {
+    isNewStaff = true;
     staff.push({
       id: Store.nextId('staff'),
       name, dept,
@@ -332,8 +346,83 @@ function saveStaff() {
   }
 
   Store.set('staff', staff);
+
+  // === 级联初始化：新增 Service Team 兼职 或 从仓库转部门为 Service Team ===
+  if (dept === 'Service Team' && (isNewStaff || isDeptChanged)) {
+    initStaffCascadeData(name);
+  }
+
   closeStaffModal();
   Router.render();
+}
+
+/**
+ * 新增/转部门为 Service Team 兼职时，自动初始化所有相关数据集
+ * - availability 供班数据（所有已有月份 + 当前月）
+ * - ratings 评分 placeholder（所有已有评分月份 + 当前评分月）
+ */
+function initStaffCascadeData(staffName) {
+  // 1. 初始化 availability 供班数据
+  const availability = Store.get('availability');
+  if (availability && availability.months) {
+    let availChanged = false;
+    Object.keys(availability.months).forEach(monthKey => {
+      if (!availability.months[monthKey].data) {
+        availability.months[monthKey].data = {};
+      }
+      if (!availability.months[monthKey].data[staffName]) {
+        availability.months[monthKey].data[staffName] = {
+          total: 0,
+          unavailable: [],
+          note: '',
+          dates: {}
+        };
+        availChanged = true;
+      }
+    });
+    if (availChanged) {
+      Store.set('availability', availability);
+    }
+  }
+
+  // 2. 初始化 ratings 评分 placeholder
+  const allRatings = Store.get('ratings');
+  const staff = Store.get('staff');
+  const newStaff = staff.find(s => s.name === staffName);
+  if (!newStaff) return;
+
+  // 获取所有已有评分的月份
+  const ratingMonths = [...new Set(allRatings.map(r => r.month))];
+  // 确保 _scoringMonth 也包含在内
+  if (!ratingMonths.includes(_scoringMonth)) {
+    ratingMonths.push(_scoringMonth);
+  }
+
+  let ratingsChanged = false;
+  const existingIds = allRatings.map(r => r.id);
+  let nextId = existingIds.length > 0 ? Math.max(...existingIds) + 1 : 1;
+
+  ratingMonths.forEach(month => {
+    // 检查该月份是否已有此人的评分
+    const hasRating = allRatings.some(r => r.staffId === newStaff.id && r.month === month);
+    if (!hasRating) {
+      allRatings.push({
+        id: nextId++,
+        staffId: newStaff.id,
+        month: month,
+        scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 },
+        comment: month.split('-')[1] + '月待评',
+        avgScore: 0,
+        hourlyRate: 28,
+        _placeholder: true,
+      });
+      ratingsChanged = true;
+    }
+  });
+
+  if (ratingsChanged) {
+    Store.set('ratings', allRatings);
+  }
 }
 
 function toggleStaffStatus(id) {
@@ -1623,6 +1712,28 @@ function renderRatings() {
       hourlyRate: 28,
       _placeholder: true,
     }));
+  }
+
+  // 补全：如果当月已有 ratings 但缺少某些在职 Service Team 兼职，自动追加 placeholder
+  const ratedStaffIds = new Set(ratings.map(r => r.staffId));
+  const missingStaff = staff.filter(s =>
+    s.dept === 'Service Team' && s.status === 'active' && !ratedStaffIds.has(s.id)
+  );
+  if (missingStaff.length > 0) {
+    const existingIds = allRatings.map(r => r.id);
+    let nextId = existingIds.length > 0 ? Math.max(...existingIds) + 1 : 1;
+    missingStaff.forEach(s => {
+      ratings.push({
+        id: nextId++,
+        staffId: s.id,
+        month: _scoringMonth,
+        scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 },
+        comment: _scoringMonth.split('-')[1] + '月待评',
+        avgScore: 0,
+        hourlyRate: 28,
+        _placeholder: true,
+      });
+    });
   }
 
   // Determine if current month has data or is a "pending" month
