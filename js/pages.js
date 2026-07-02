@@ -3927,10 +3927,14 @@ let _availStaff = null;           // staff name
 let _availOverviewWeek = 0;       // week offset from first week of month
 let _availOverviewDept = 'Service Team'; // Service Team | 仓库兼职
 
+// Min month for personal availability entry: July 2026
+const AVAIL_MIN_MONTH = '2026-07';
+
+function _ymKey(y, m) { return `${y}-${String(m).padStart(2,'0')}`; }
+
 function renderMyForms() {
   if (!_availMonth) {
-    const avail = Store.get('availability');
-    _availMonth = (avail && avail.currentMonth) || new Date().toISOString().slice(0, 7);
+    _availMonth = AVAIL_MIN_MONTH; // default to July 2026
   }
   if (!_availStaff) {
     const me = Store.get('staff').find(s => s.id === _auth.staffId);
@@ -4020,11 +4024,12 @@ function renderAvailabilityTab() {
 // ===== Month switcher =====
 function renderMonthSwitcher() {
   const [y, m] = _availMonth.split('-').map(Number);
-  const prevMonth = new Date(y, m - 2, 1).toISOString().slice(0, 7);
-  const nextMonth = new Date(y, m, 1).toISOString().slice(0, 7);
+  const prevMonth = _ymKey(y, m === 1 ? (y - 1) : y, m === 1 ? 12 : (m - 1));
+  const nextMonth = _ymKey(y, m === 12 ? (y + 1) : y, m === 12 ? 1 : (m + 1));
+  const canGoPrev = prevMonth >= AVAIL_MIN_MONTH;
   return `
     <div style="display:flex;align-items:center;gap:8px;">
-      <button onclick="_availMonth='${prevMonth}';Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">‹</button>
+      <button ${canGoPrev ? `onclick="_availMonth='${prevMonth}';Router.render()"` : 'disabled'} style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:${canGoPrev?'var(--bg-secondary)':'var(--bg-secondary)'};color:${canGoPrev?'var(--text-primary)':'var(--text-muted)'};cursor:${canGoPrev?'pointer':'not-allowed'};font-size:16px;opacity:${canGoPrev?1:0.4};">‹</button>
       <span style="font-size:15px;font-weight:700;min-width:100px;text-align:center;">${y}年${m}月</span>
       <button onclick="_availMonth='${nextMonth}';Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">›</button>
     </div>
