@@ -1003,6 +1003,48 @@ function renderAttendance() {
       </div>
     </div>
 
+    <!-- 个人累计工时排行 -->
+    <div class="card animate-in" style="margin-bottom: 24px;">
+      <div class="card-header">
+        <h3>⏱️ 个人工时排行</h3>
+        <span style="font-size: 12px; color: var(--text-secondary);">${mY}年${mM}月 · Service Team</span>
+      </div>
+      <div class="card-body">
+        ${sortedPersonStats.map((p, i) => {
+          const s = staffMap[p.name];
+          const avatarColor = s ? s.avatar_color : '#6366f1';
+          const initials = s ? getInitials(s.name) : p.name.slice(-2);
+          const avgHours = p.count > 0 ? (p.totalHours / p.count).toFixed(1) : '0.0';
+          return `
+            <div class="flex justify-between items-center" style="padding: 10px 0; border-bottom: 1px solid var(--border-light);">
+              <div class="flex items-center gap-12">
+                <span style="width: 20px; text-align: center; font-weight: 700; font-size: 13px; color: ${i < 3 ? 'var(--primary)' : 'var(--text-secondary)'}">${i + 1}</span>
+                <div class="avatar" style="background: ${avatarColor}; width: 32px; height: 32px; font-size: 12px;">${initials}</div>
+                <div>
+                  <span class="font-semibold text-sm">${p.name}</span>
+                  <div style="font-size: 11px; color: var(--text-secondary);">出勤 ${p.count} 天 · 平均 ${avgHours}h/天</div>
+                </div>
+              </div>
+              <div class="flex items-center gap-12">
+                <div style="text-align: right;">
+                  <div style="font-weight: 700; font-size: 15px; color: ${p.totalHours >= 40 ? '#10b981' : p.totalHours >= 20 ? 'var(--text-primary)' : '#f59e0b'}">${p.totalHours.toFixed(1)}h</div>
+                  <div style="font-size: 11px; color: var(--text-secondary);">总工时</div>
+                </div>
+                ${p.lateCount > 0 || p.absentCount > 0
+                  ? `<span style="font-size: 11px; color: #ef4444; font-weight: 600;">⚠️${p.lateCount > 0 ? ` 迟到${p.lateCount}` : ''}${p.absentCount > 0 ? ` 旷工${p.absentCount}` : ''}</span>`
+                  : '<span style="font-size: 11px; color: #10b981;">✅ 全勤</span>'
+                }
+              </div>
+            </div>
+          `;
+        }).join('')}
+        <div style="margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--border-light); display: flex; justify-content: space-between; font-size: 13px;">
+          <span style="color: var(--text-secondary);">月度统计</span>
+          <span style="font-weight: 700;">${lgRecords.length} 人次 · ${lgTotalHours.toFixed(1)}h 总工时 · ${sortedPersonStats.length} 人</span>
+        </div>
+      </div>
+    </div>
+
     <!-- 考勤明细表（精简三列：日期 / 工时 / 状态） -->
     <div class="card animate-in" style="margin-bottom: 24px;">
       <div class="card-header">
@@ -1077,48 +1119,6 @@ function renderAttendance() {
               }).join('')}
             </tbody>
           </table>
-        </div>
-      </div>
-    </div>
-
-    <!-- 个人累计工时排行 -->
-    <div class="card animate-in" style="margin-bottom: 24px;">
-      <div class="card-header">
-        <h3>⏱️ 个人工时排行</h3>
-        <span style="font-size: 12px; color: var(--text-secondary);">${mY}年${mM}月 · Service Team</span>
-      </div>
-      <div class="card-body">
-        ${sortedPersonStats.map((p, i) => {
-          const s = staffMap[p.name];
-          const avatarColor = s ? s.avatar_color : '#6366f1';
-          const initials = s ? getInitials(s.name) : p.name.slice(-2);
-          const avgHours = p.count > 0 ? (p.totalHours / p.count).toFixed(1) : '0.0';
-          return `
-            <div class="flex justify-between items-center" style="padding: 10px 0; border-bottom: 1px solid var(--border-light);">
-              <div class="flex items-center gap-12">
-                <span style="width: 20px; text-align: center; font-weight: 700; font-size: 13px; color: ${i < 3 ? 'var(--primary)' : 'var(--text-secondary)'}">${i + 1}</span>
-                <div class="avatar" style="background: ${avatarColor}; width: 32px; height: 32px; font-size: 12px;">${initials}</div>
-                <div>
-                  <span class="font-semibold text-sm">${p.name}</span>
-                  <div style="font-size: 11px; color: var(--text-secondary);">出勤 ${p.count} 天 · 平均 ${avgHours}h/天</div>
-                </div>
-              </div>
-              <div class="flex items-center gap-12">
-                <div style="text-align: right;">
-                  <div style="font-weight: 700; font-size: 15px; color: ${p.totalHours >= 40 ? '#10b981' : p.totalHours >= 20 ? 'var(--text-primary)' : '#f59e0b'}">${p.totalHours.toFixed(1)}h</div>
-                  <div style="font-size: 11px; color: var(--text-secondary);">总工时</div>
-                </div>
-                ${p.lateCount > 0 || p.absentCount > 0
-                  ? `<span style="font-size: 11px; color: #ef4444; font-weight: 600;">⚠️${p.lateCount > 0 ? ` 迟到${p.lateCount}` : ''}${p.absentCount > 0 ? ` 旷工${p.absentCount}` : ''}</span>`
-                  : '<span style="font-size: 11px; color: #10b981;">✅ 全勤</span>'
-                }
-              </div>
-            </div>
-          `;
-        }).join('')}
-        <div style="margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--border-light); display: flex; justify-content: space-between; font-size: 13px;">
-          <span style="color: var(--text-secondary);">月度统计</span>
-          <span style="font-weight: 700;">${lgRecords.length} 人次 · ${lgTotalHours.toFixed(1)}h 总工时 · ${sortedPersonStats.length} 人</span>
         </div>
       </div>
     </div>
@@ -3170,13 +3170,10 @@ function renderSupport() {
       </div>
       <div class="stat-card warning">
         <div class="stat-value">${(() => {
-          const allStaff = Store.get('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
-          return allStaff.filter(s => {
-            const lg = getLinggongAttStats(s.name);
-            return lg.missedPunch > 0 || lg.lateCount > 0 || lg.absentCount > 0;
-          }).length;
+          const parseHours = (dur) => { const m = String(dur).match(/([\d.]+)\s*小时?/); return m ? parseFloat(m[1]) : 0; };
+          return supportData.reduce((sum, s) => sum + parseHours(s.duration), 0).toFixed(1);
         })()}</div>
-        <div class="stat-label">异常人员</div>
+        <div class="stat-label">支援总时长(h)</div>
       </div>
     </div>
 
@@ -3185,7 +3182,7 @@ function renderSupport() {
       <button class="tab ${supportFilter === 'all' ? 'active' : ''}" onclick="supportFilter='all';Router.render()">全部支援</button>
       <button class="tab ${supportFilter === '货品' ? 'active' : ''}" onclick="supportFilter='货品';Router.render()">📦 货品</button>
       <button class="tab ${supportFilter === '陈列' ? 'active' : ''}" onclick="supportFilter='陈列';Router.render()">🎨 陈列</button>
-      <button class="tab ${supportFilter === 'stats' ? 'active' : ''}" onclick="supportFilter='stats';Router.render()">📊 综合统计</button>
+      <button class="tab ${supportFilter === 'stats' ? 'active' : ''}" onclick="supportFilter='stats';Router.render()">📊 支援统计</button>
       <button class="tab ${supportFilter === 'shifts' ? 'active' : ''}" onclick="supportFilter='shifts';Router.render()">🔄 换班记录</button>
     </div>
 
@@ -3232,113 +3229,144 @@ function renderSupportTable(data) {
 }
 
 function renderStaffStatsTable(staffStats, staffSupportCount) {
-  // 从灵工打卡数据动态计算缺卡/迟到/旷工
   const allStaff = Store.get('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
+  const allSupportData = Store.get('storeSupport') || [];
+  const monthSupportData = allSupportData.filter(s => (s.date || '').startsWith(_supportPageMonth));
 
-  const statsData = allStaff.map(s => {
-    const lgStats = getLinggongAttStats(s.name);
-    const staticStats = staffStats[s.name] || {};
-    return {
-      name: s.name,
-      avatar_color: s.avatar_color,
-      shiftChange: staticStats.shiftChange || 0,
-      shiftedCount: staticStats.shiftedCount || 0,
-      missedPunch: lgStats.missedPunch,
-      lateCount: lgStats.lateCount,
-      absentCount: lgStats.absentCount,
-      supportCount: staffSupportCount[s.name] || 0,
-    };
+  // 解析时长为小时数（"0.5小时" → 0.5, "2小时" → 2）
+  const parseHours = (dur) => {
+    if (!dur) return 0;
+    const m = String(dur).match(/([\d.]+)\s*小时?/);
+    return m ? parseFloat(m[1]) : 0;
+  };
+
+  // 按板块（大类）汇总
+  const categories = {}; // { '货品': { count, hours }, '陈列': {...} }
+  const staffStatsMap = {}; // { '李若彤': { total: {count, hours}, '货品': {count, hours}, '陈列': {count, hours} } }
+
+  monthSupportData.forEach(s => {
+    const cat = (s.type || '').split('-')[0] || '其他';
+    const hours = parseHours(s.duration);
+    const staff = s.staff || '未知';
+
+    if (!categories[cat]) categories[cat] = { count: 0, hours: 0 };
+    categories[cat].count++;
+    categories[cat].hours += hours;
+
+    if (!staffStatsMap[staff]) {
+      staffStatsMap[staff] = { total: { count: 0, hours: 0 } };
+    }
+    if (!staffStatsMap[staff][cat]) staffStatsMap[staff][cat] = { count: 0, hours: 0 };
+    staffStatsMap[staff].total.count++;
+    staffStatsMap[staff].total.hours += hours;
+    staffStatsMap[staff][cat].count++;
+    staffStatsMap[staff][cat].hours += hours;
   });
 
-  // 按缺卡+迟到+旷工总异常数升序，异常少的排前面
-  const sortedStats = statsData.sort((a, b) => {
-    const aIssue = a.missedPunch + a.lateCount + a.absentCount;
-    const bIssue = b.missedPunch + b.lateCount + b.absentCount;
-    if (aIssue !== bIssue) return aIssue - bIssue;
-    return b.supportCount - a.supportCount;
-  });
+  const catList = Object.keys(categories).sort();
+  const totalCount = monthSupportData.length;
+  const totalHours = Object.values(categories).reduce((sum, c) => sum + c.hours, 0);
 
-  // 汇总数据
-  const totals = sortedStats.reduce((acc, s) => {
-    acc.missedPunch += s.missedPunch;
-    acc.lateCount += s.lateCount;
-    acc.absentCount += s.absentCount;
-    acc.supportCount += s.supportCount;
-    return acc;
-  }, { missedPunch: 0, lateCount: 0, absentCount: 0, supportCount: 0 });
-
-  const issuePersonCount = sortedStats.filter(s => s.missedPunch > 0 || s.lateCount > 0 || s.absentCount > 0).length;
+  // 按总时长排序人员
+  const sortedStaff = Object.entries(staffStatsMap)
+    .sort((a, b) => b[1].total.hours - a[1].total.hours)
+    .map(([name, data]) => ({ name, ...data }));
 
   return `
     <div class="animate-in" style="margin-top: 4px;">
       <!-- 汇总统计卡片 -->
       <div class="stats-grid animate-in" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 20px;">
-        <div class="stat-card danger">
-          <div class="stat-value">${totals.missedPunch}</div>
-          <div class="stat-label">缺卡总次数</div>
+        <div class="stat-card accent">
+          <div class="stat-icon">🔧</div>
+          <div class="stat-value">${totalCount}</div>
+          <div class="stat-label">支援总次数</div>
+          <div class="stat-trend">${Object.keys(staffStatsMap).length}人参与</div>
         </div>
-        <div class="stat-card warning">
-          <div class="stat-value">${totals.lateCount}</div>
-          <div class="stat-label">迟到总次数</div>
+        <div class="stat-card info">
+          <div class="stat-icon">⏱️</div>
+          <div class="stat-value">${totalHours.toFixed(1)}h</div>
+          <div class="stat-label">支援总时长</div>
+          <div class="stat-trend">人均 ${(sortedStaff.length > 0 ? totalHours / sortedStaff.length : 0).toFixed(1)}h</div>
         </div>
-        <div class="stat-card danger">
-          <div class="stat-value">${totals.absentCount}</div>
-          <div class="stat-label">旷工总次数</div>
-        </div>
-        <div class="stat-card ${issuePersonCount > 0 ? 'warning' : 'success'}">
-          <div class="stat-value">${issuePersonCount}</div>
-          <div class="stat-label">考勤异常人数</div>
-        </div>
+        ${catList.map((cat, i) => `
+          <div class="stat-card ${i === 0 ? 'success' : 'warning'}">
+            <div class="stat-icon">${cat === '货品' ? '📦' : cat === '陈列' ? '🎨' : '📋'}</div>
+            <div class="stat-value">${categories[cat].count}次</div>
+            <div class="stat-label">${cat} · ${categories[cat].hours.toFixed(1)}h</div>
+            <div class="stat-trend">${(categories[cat].count / Math.max(totalCount, 1) * 100).toFixed(0)}% 占比</div>
+          </div>
+        `).join('')}
       </div>
 
-      <!-- 详细表格 -->
-      <div class="card">
+      <!-- 各板块占比图 -->
+      ${catList.length > 1 ? `
+        <div class="card animate-in" style="margin-bottom: 20px;">
+          <div class="card-header">
+            <h3>📊 板块分布</h3>
+            <span class="text-sm text-secondary">${catList.map(cat => `${cat} ${(categories[cat].count / totalCount * 100).toFixed(0)}%`).join(' · ')}</span>
+          </div>
+          <div class="card-body" style="padding: 16px;">
+            <div style="display: flex; height: 32px; border-radius: 8px; overflow: hidden;">
+              ${catList.map(cat => {
+                const pct = categories[cat].count / Math.max(totalCount, 1) * 100;
+                const colors = { '货品': '#3b82f6', '陈列': '#f59e0b', '其他': '#64748b' };
+                return `<div style="width: ${pct}%; background: ${colors[cat] || '#64748b'}; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; transition: all 0.3s;" title="${cat}: ${categories[cat].count}次 / ${categories[cat].hours.toFixed(1)}h">${pct > 15 ? cat : ''}</div>`;
+              }).join('')}
+            </div>
+          </div>
+        </div>
+      ` : ''}
+
+      <!-- 个人支援统计表 -->
+      <div class="card animate-in">
         <div class="card-header">
-          <h3>📊 考勤纪律统计（6月）</h3>
-          <span class="text-sm text-secondary">数据来源：灵工打卡 · 实时更新</span>
+          <h3>📋 个人支援统计</h3>
+          <span class="text-sm text-secondary">按总时长排序 · ${_supportPageMonth ? _supportPageMonth.replace('-', '年') + '月' : ''}</span>
         </div>
         <div class="card-body" style="padding: 0;">
           <div class="table-container">
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>排名</th>
+                  <th style="width: 40px;">排名</th>
                   <th>姓名</th>
-                  <th>❌ 缺卡</th>
-                  <th>⏰ 迟到</th>
-                  <th>🚫 旷工</th>
-                  <th>🔧 支援</th>
+                  <th>总次数</th>
+                  <th>总时长</th>
+                  ${catList.map(cat => `
+                    <th>${cat === '货品' ? '📦' : cat === '陈列' ? '🎨' : '📋'} ${cat}<br><span style="font-size:10px;font-weight:400;color:var(--text-muted);">次 / 时长</span></th>
+                  `).join('')}
                 </tr>
               </thead>
               <tbody>
-                ${sortedStats.map((stats, idx) => {
+                ${sortedStaff.length > 0 ? sortedStaff.map((stats, idx) => {
                   const medal = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : idx + 1;
-                  const hasIssue = stats.missedPunch > 0 || stats.lateCount > 0 || stats.absentCount > 0;
+                  const staffInfo = allStaff.find(s => s.name === stats.name);
+                  const avatarColor = staffInfo ? staffInfo.avatar_color : '#6366f1';
                   return `
-                    <tr style="${hasIssue ? 'background: rgba(239,68,68,0.04);' : ''}">
+                    <tr>
                       <td style="font-weight: 700; font-size: 16px;">${medal}</td>
                       <td>
                         <div style="display: flex; align-items: center; gap: 8px;">
-                          <div class="avatar" style="background: ${stats.avatar_color || '#6366f1'}; width: 28px; height: 28px; font-size: 11px;">${stats.name[0]}</div>
+                          <div class="avatar" style="background: ${avatarColor}; width: 28px; height: 28px; font-size: 11px;">${stats.name[0]}</div>
                           <span style="font-weight: 600;">${stats.name}</span>
                         </div>
                       </td>
-                      <td>${stats.missedPunch > 0 ? `<span class="badge badge-danger">${stats.missedPunch}</span>` : '<span style="color: var(--text-muted);">0</span>'}</td>
-                      <td>${stats.lateCount > 0 ? `<span class="badge badge-danger">${stats.lateCount}</span>` : '<span style="color: var(--text-muted);">0</span>'}</td>
-                      <td>${stats.absentCount > 0 ? `<span class="badge badge-danger">${stats.absentCount}</span>` : '<span style="color: var(--text-muted);">0</span>'}</td>
-                      <td><span style="font-weight: 600; color: var(--success);">${stats.supportCount}</span></td>
+                      <td><span style="font-weight: 700;">${stats.total.count}</span></td>
+                      <td><span style="font-weight: 700; color: var(--primary);">${stats.total.hours.toFixed(1)}h</span></td>
+                      ${catList.map(cat => {
+                        const c = stats[cat] || { count: 0, hours: 0 };
+                        return `<td>${c.count > 0 ? `<span style="font-weight:600;">${c.count}</span> / ${c.hours.toFixed(1)}h` : '<span style="color: var(--text-muted);">—</span>'}</td>`;
+                      }).join('')}
                     </tr>
                   `;
-                }).join('')}
+                }).join('') : '<tr><td colspan="' + (4 + catList.length) + '" style="text-align:center;padding:40px;color:var(--text-muted);">本月暂无支援记录</td></tr>'}
               </tbody>
               <tfoot>
                 <tr style="background: var(--bg-secondary); font-weight: 700;">
-                  <td></td>
-                  <td>合计</td>
-                  <td>${totals.missedPunch > 0 ? `<span style="color: var(--danger);">${totals.missedPunch}</span>` : '0'}</td>
-                  <td>${totals.lateCount > 0 ? `<span style="color: var(--danger);">${totals.lateCount}</span>` : '0'}</td>
-                  <td>${totals.absentCount > 0 ? `<span style="color: var(--danger);">${totals.absentCount}</span>` : '0'}</td>
-                  <td>${totals.supportCount}</td>
+                  <td colspan="2">合计</td>
+                  <td>${totalCount}</td>
+                  <td>${totalHours.toFixed(1)}h</td>
+                  ${catList.map(cat => `<td>${categories[cat].count} / ${categories[cat].hours.toFixed(1)}h</td>`).join('')}
                 </tr>
               </tfoot>
             </table>
