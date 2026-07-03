@@ -103,7 +103,8 @@ const Sync = {
     }
 
     // GitHub API 返回 base64 编码内容
-    const jsonStr = atob(fileData.content.replace(/\n/g, ''));
+    // 必须用 decodeURIComponent(escape(atob())) 解码 UTF-8（与 push 端的 btoa(unescape(encodeURIComponent())) 配对）
+    const jsonStr = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, ''))));
     const data = JSON.parse(jsonStr);
 
     // 同时返回 sha（后续写回时需要）
