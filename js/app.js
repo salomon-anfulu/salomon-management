@@ -1613,9 +1613,29 @@ linggongAttendance: {
         }
 
         // 其他数组类数据：保留用户数据
+        // v44 新增：先过滤掉乱码条目（mojibake）再合并
+        const _isCorrupt = (s) => {
+          if (typeof s !== 'string') return false;
+          return /[\u00c0-\u00ff]{2,}/.test(s) || /[ÃÂ]/.test(s);
+        };
+        const _recClean = (rec) => {
+          if (!rec || typeof rec !== 'object') return false;
+          for (const v of Object.values(rec)) {
+            if (typeof v === 'string' && _isCorrupt(v)) return false;
+            if (v && typeof v === 'object' && !_recClean(v)) return false;
+          }
+          return true;
+        };
         ['doorSchedule', 'storeSupport', 'shiftChanges', 'schedules', 'attendance'].forEach(key => {
           if (Array.isArray(data[key]) && data[key].length > 0) {
-            merged[key] = data[key];
+            // 过滤乱码条目（type/detail/staff 等字段含 mojibake）
+            const cleaned = data[key].filter(_recClean);
+            if (cleaned.length > 0) {
+              merged[key] = cleaned;
+            } else {
+              // 全部是乱码，用默认数据
+              merged[key] = JSON.parse(JSON.stringify(this.defaults[key] || []));
+            }
           }
         });
 
