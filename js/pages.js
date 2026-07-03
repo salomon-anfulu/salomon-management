@@ -2590,12 +2590,13 @@ let perfSortDir = 'desc';
 function renderPerformance() {
   const perfData = Store.get('performanceData') || {};
   const currentData = perfData[perfMonth];
+  const _mLabel = perfMonth === 'july' ? '7月' : perfMonth === 'june' ? '6月' : perfMonth === 'may' ? '5月' : '4月';
   if (!currentData || !currentData.records || currentData.records.length === 0) {
     return `
     <div class="animate-in" style="margin-bottom: 24px;">
       <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%); border-radius: var(--radius-lg); padding: 24px; color: #fff;">
         <h2 style="font-size: 20px; font-weight: 800;">💰 兼职业绩数据</h2>
-        <p style="font-size: 13px; opacity: 0.7;">2026年7月 · 数据采集中</p>
+        <p style="font-size: 13px; opacity: 0.7;">2026年${perfMonth === 'july' ? '7' : perfMonth === 'june' ? '6' : perfMonth === 'may' ? '5' : '4'}月 · 数据采集中</p>
       </div>
     </div>
     <!-- Month Tabs -->
@@ -2608,8 +2609,8 @@ function renderPerformance() {
     <div class="card animate-in" style="margin-top:20px;">
       <div class="card-body" style="text-align:center;padding:40px;">
         <div style="font-size:36px;margin-bottom:12px;">📊</div>
-        <div style="font-size:15px;font-weight:700;color:var(--text-primary);">7月数据采集中</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">数据录入后将自动展示。点击上方「6月数据」查看上月排行。</div>
+        <div style="font-size:15px;font-weight:700;color:var(--text-primary);">${_mLabel}数据采集中</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">数据录入后将自动展示。点击上方月份切换查看排行。</div>
       </div>
     </div>
     `;
@@ -2624,6 +2625,8 @@ function renderPerformance() {
   const isMay = perfMonth === 'may';
   const isJune = perfMonth === 'june';
   const isJuly = perfMonth === 'july';
+  const showFull = isJune || isJuly;   // 6月/7月: 完整列(件数/客单/UPT/件均价/出勤天数+工时)
+  const showUpt = isMay || isJune || isJuly;  // UPT相关展示
   const monthLabel = isJuly ? '7月' : isJune ? '6月' : isMay ? '5月' : '4月';
   const monthDate = isJuly ? '2026年7月' : isJune ? '2026年6月（截至6/17）' : isMay ? '2026年5月' : '2026年4月';
 
@@ -2631,12 +2634,12 @@ function renderPerformance() {
     <div class="animate-in" style="margin-bottom: 24px;">
       <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%); border-radius: var(--radius-lg); padding: 24px; color: #fff;">
         <h2 style="font-size: 20px; font-weight: 800;">💰 兼职业绩数据</h2>
-        <p style="font-size: 13px; opacity: 0.7;">数据来源：${isJune ? '收银系统（备注栏缩写）' : '安福路兼职数据表'} · ${monthDate}</p>
+        <p style="font-size: 13px; opacity: 0.7;">数据来源：${isJune || isJuly ? '收银系统（备注栏缩写）' : '安福路兼职数据表'} · ${monthDate}</p>
       </div>
     </div>
 
     <!-- Summary Stats -->
-    <div class="stats-grid animate-in" style="grid-template-columns: repeat(${isJune ? '5' : '4'}, 1fr);">
+    <div class="stats-grid animate-in" style="grid-template-columns: repeat(${showFull ? '5' : '4'}, 1fr);">
       <div class="stat-card accent">
         <div class="stat-value">¥${(currentData.totalSales / 10000).toFixed(1)}万</div>
         <div class="stat-label">${monthLabel}总业绩</div>
@@ -2646,14 +2649,14 @@ function renderPerformance() {
         <div class="stat-label">在册兼职</div>
       </div>
       <div class="stat-card success">
-        <div class="stat-value">${isMay || isJune ? (currentData.avgUPT || '-').toFixed(2) : '-'}</div>
+        <div class="stat-value">${showUpt ? (currentData.avgUPT || 0).toFixed(2) : '-'}</div>
         <div class="stat-label">平均 UPT</div>
       </div>
       <div class="stat-card warning">
         <div class="stat-value">¥${(currentData.avgHourlyOutput || 0).toFixed(0)}</div>
         <div class="stat-label">平均时产</div>
       </div>
-      ${isJune ? `
+      ${showFull ? `
       <div class="stat-card" style="border-left-color: #8b5cf6;">
         <div class="stat-value">${currentData.records ? currentData.records.reduce((s, r) => s + (r.tickets || 0), 0) : 0}单</div>
         <div class="stat-label">总客单数</div>
@@ -2677,8 +2680,8 @@ function renderPerformance() {
             <option value="sales" ${perfSort === 'sales' ? 'selected' : ''}>按销售额</option>
             <option value="hourlyOutput" ${perfSort === 'hourlyOutput' ? 'selected' : ''}>按时产</option>
             ${isMay ? `<option value="upt" ${perfSort === 'upt' ? 'selected' : ''}>按 UPT</option>` : ''}
-            ${isJune ? `<option value="tickets" ${perfSort === 'tickets' ? 'selected' : ''}>按客单数</option>` : ''}
-            ${isJune ? `<option value="avgPrice" ${perfSort === 'avgPrice' ? 'selected' : ''}>按件均价</option>` : ''}
+            ${showFull ? `<option value="tickets" ${perfSort === 'tickets' ? 'selected' : ''}>按客单数</option>` : ''}
+            ${showFull ? `<option value="avgPrice" ${perfSort === 'avgPrice' ? 'selected' : ''}>按件均价</option>` : ''}
             <option value="salesShare" ${perfSort === 'salesShare' ? 'selected' : ''}>按占比</option>
             ${isMay || isJune ? `<option value="efficiency" ${perfSort === 'efficiency' ? 'selected' : ''}>按效率值</option>` : ''}
           </select>
@@ -2695,13 +2698,14 @@ function renderPerformance() {
                 <th>排名</th>
                 <th>姓名</th>
                 <th>销售额</th>
-                ${isJune ? '<th>件数</th><th>客单</th><th>UPT</th><th>件均价</th>' : ''}
-                ${isMay ? '<th>UPT</th>' : !isJune ? '<th>3月业绩</th>' : ''}
+                ${showFull ? '<th>件数</th><th>客单</th><th>UPT</th><th>件均价</th>' : ''}
+                ${isMay ? '<th>UPT</th>' : !showFull ? '<th>3月业绩</th>' : ''}
                 <th>业绩占比</th>
-                <th>${isJune ? '出勤天数' : '出勤工时'}</th>
-                ${isJune ? '<th>出勤工时</th>' : ''}
+                <th>${showFull ? '出勤天数' : '出勤工时'}</th>
+                ${showFull ? '<th>出勤工时</th>' : ''}
                 <th>时产(元/h)</th>
-                ${isMay || isJune ? '<th>效率值</th>' : '<th>占比变化</th>'}
+                ${isMay || isJune ? '<th>效率值</th>' : ''}
+                ${!showFull ? '<th>占比变化</th>' : ''}
               </tr>
             </thead>
             <tbody>
@@ -2713,8 +2717,8 @@ function renderPerformance() {
                   <tr>
                     <td style="font-weight: 700; font-size: 16px;">${rankIcon}</td>
                     <td><span style="font-weight: 600;">${r.name}</span></td>
-                    <td><span style="font-weight: 700; color: var(--accent);">¥${isJune ? r.sales.toLocaleString() : (r.sales / 10000).toFixed(2) + '万'}</span></td>
-                    ${isJune ? `
+                    <td><span style="font-weight: 700; color: var(--accent);">¥${showFull ? r.sales.toLocaleString() : (r.sales / 10000).toFixed(2) + '万'}</span></td>
+                    ${showFull ? `
                       <td>${r.qty || 0}</td>
                       <td>${r.tickets || 0}</td>
                       <td><span class="badge ${((r.qty || 0) / Math.max(r.tickets || 1, 1) >= KPI.uptTarget ? 'badge-active' : 'badge-danger')}">${((r.qty || 0) / Math.max(r.tickets || 1, 1)).toFixed(2)}</span></td>
@@ -2722,11 +2726,11 @@ function renderPerformance() {
                     ` : ''}
                     ${isMay 
                       ? `<td><span class="badge ${(r.upt || 0) >= KPI.uptTarget ? 'badge-active' : 'badge-danger'}">${r.upt}</span></td>`
-                      : !isJune ? `<td class="text-sm">¥${((r.prevMonthSales || 0) / 10000).toFixed(2)}万</td>` : ''
+                      : !showFull ? `<td class="text-sm">¥${((r.prevMonthSales || 0) / 10000).toFixed(2)}万</td>` : ''
                     }
                     <td>${(r.salesShare * 100).toFixed(1)}%</td>
-                    <td>${isJune ? (r.workDays || 0) + '天' : r.workHours + 'h'}</td>
-                    ${isJune ? `<td>${r.workHours}h</td>` : ''}
+                    <td>${showFull ? (r.workDays || 0) + '天' : r.workHours + 'h'}</td>
+                    ${showFull ? `<td>${r.workHours}h</td>` : ''}
                     <td>
                       <span style="font-weight: 600; color: ${hourlyPass ? 'var(--success)' : 'var(--danger)'};">
                         ¥${r.hourlyOutput.toFixed(0)}
@@ -2735,8 +2739,9 @@ function renderPerformance() {
                     </td>
                     ${isMay || isJune
                       ? `<td><span style="color: ${r.efficiency >= 0 ? 'var(--success)' : 'var(--danger)'}; font-weight: 600;">${r.efficiency >= 0 ? '+' : ''}${(r.efficiency * 100).toFixed(1)}%</span></td>`
-                      : `<td><span style="color: ${(r.shareGrowth || 0) > 0 ? 'var(--success)' : 'var(--danger)'}; font-weight: 500;">${(r.shareGrowth || 0) > 0 ? '↑' : '↓'} ${Math.abs((r.shareGrowth || 0) * 100).toFixed(1)}%</span></td>`
+                      : ''
                     }
+                    ${!showFull ? `<td><span style="color: ${(r.shareGrowth || 0) > 0 ? 'var(--success)' : 'var(--danger)'}; font-weight: 500;">${(r.shareGrowth || 0) > 0 ? '↑' : '↓'} ${Math.abs((r.shareGrowth || 0) * 100).toFixed(1)}%</span></td>` : ''}
                   </tr>
                 `;
               }).join('')}
@@ -2750,13 +2755,13 @@ function renderPerformance() {
     <div class="card animate-in" style="margin-top: 20px;">
       <div class="card-header">
         <h3>🎯 KPI 达标检查</h3>
-        <span class="text-sm text-secondary">小时销售额 > ¥${KPI.hourlySalesTarget}${isMay || isJune ? ' · UPT > ' + KPI.uptTarget : ''}</span>
+        <span class="text-sm text-secondary">小时销售额 > ¥${KPI.hourlySalesTarget}${showUpt ? ' · UPT > ' + KPI.uptTarget : ''}</span>
       </div>
       <div class="card-body">
         <div class="grid-3" style="gap: 16px;">
           ${records.map(r => {
             const hourlyPass = r.hourlyOutput >= KPI.hourlySalesTarget;
-            const uptPass = isMay ? (r.upt || 0) >= KPI.uptTarget : isJune ? ((r.qty || 0) / Math.max(r.tickets || 1, 1)) >= KPI.uptTarget : true;
+            const uptPass = isMay ? (r.upt || 0) >= KPI.uptTarget : showFull ? ((r.qty || 0) / Math.max(r.tickets || 1, 1)) >= KPI.uptTarget : true;
             const allPass = hourlyPass && uptPass;
             return `
               <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-secondary); border-radius: var(--radius-md); border-left: 3px solid ${allPass ? 'var(--success)' : 'var(--danger)'};">
@@ -2768,7 +2773,7 @@ function renderPerformance() {
                   <div style="font-size: 12px; color: var(--text-secondary);">
                     时产 ¥${r.hourlyOutput.toFixed(0)} ${hourlyPass ? '✓' : '✗'}
                     ${isMay ? `· UPT ${r.upt} ${(r.upt || 0) >= KPI.uptTarget ? '✓' : '✗'}` : ''}
-                    ${isJune ? `· UPT ${((r.qty || 0) / Math.max(r.tickets || 1, 1)).toFixed(2)} ${uptPass ? '✓' : '✗'}` : ''}
+                    ${showFull ? `· UPT ${((r.qty || 0) / Math.max(r.tickets || 1, 1)).toFixed(2)} ${uptPass ? '✓' : '✗'}` : ''}
                   </div>
                 </div>
                 <span class="badge ${allPass ? 'badge-active' : 'badge-danger'}">${allPass ? '达标' : '未达标'}</span>
@@ -2779,7 +2784,7 @@ function renderPerformance() {
       </div>
     </div>
 
-    ${isJune && records.some(r => r.categories) ? `
+    ${showFull && records.some(r => r.categories) ? `
     <!-- Category Breakdown - 品类占比分析 -->
     <div class="card animate-in" style="margin-top: 20px;">
       <div class="card-header">
