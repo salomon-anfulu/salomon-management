@@ -243,6 +243,31 @@ const Sync = {
    *           数组类数据按 id 去重
    */
   _mergeIntoLocal(shared) {
+    // === 人员信息 (staff) — 按 id 合并，最先处理，让 staff 名称早于 availability/shiftChanges 解析 ===
+    if (shared.staff && Array.isArray(shared.staff) && shared.staff.length > 0) {
+      const local = Store.get('staff') || [];
+      const staffMap = new Map();
+      local.forEach(s => staffMap.set(s.id, { ...s }));
+      shared.staff.forEach(cloud => {
+        if (!cloud || !cloud.id) return;
+        const existing = staffMap.get(cloud.id);
+        if (existing) {
+          // 合并字段：云端非空字段覆盖本地
+          Object.keys(cloud).forEach(key => {
+            if (key === 'id') return;
+            if (cloud[key] !== null && cloud[key] !== undefined && cloud[key] !== '') {
+              existing[key] = cloud[key];
+            }
+          });
+          staffMap.set(cloud.id, existing);
+        } else {
+          staffMap.set(cloud.id, cloud);
+        }
+      });
+      const merged = Array.from(staffMap.values()).sort((a, b) => (a.id || 0) - (b.id || 0));
+      Store.set('staff', merged);
+    }
+
     // === 可上班时间 (availability) ===
     if (shared.availability && Object.keys(shared.availability).length > 0) {
       const localAvail = Store.get('availability');
@@ -609,6 +634,14 @@ const Sync = {
    * 将本地数据合并到共享数据对象（用于推送前）
    */
   _mergeLocalIntoShared(shared) {
+    // === staff（人员信息）— 优先合并，确保 staff 名称最新 ===
+    const localStaff = Store.get('staff') || [];
+    const cloudStaff = shared.staff || [];
+    const staffMap = new Map();
+    cloudStaff.forEach(s => staffMap.set(s.id, s));
+    localStaff.forEach(s => staffMap.set(s.id, s));
+    shared.staff = Array.from(staffMap.values()).sort((a, b) => (a.id || 0) - (b.id || 0));
+
     // === availability ===
     const localAvail = Store.get('availability');
     if (localAvail && localAvail.months) {
@@ -647,15 +680,6 @@ const Sync = {
       shared.doorSchedule || [],
       Store.get('doorSchedule') || []
     );
-
-    // === staff (人员信息) — 同步状态/部门/备注等变更 ===
-    // 策略：用本地覆盖云端（按 id 合并），确保本地最新修改优先
-    const localStaff = Store.get('staff') || [];
-    const cloudStaff = shared.staff || [];
-    const staffMap = new Map();
-    cloudStaff.forEach(s => staffMap.set(s.id, s));
-    localStaff.forEach(s => staffMap.set(s.id, s)); // 本地优先
-    shared.staff = Array.from(staffMap.values()).sort((a, b) => (a.id || 0) - (b.id || 0));
   },
 
   /**
