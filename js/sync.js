@@ -256,36 +256,53 @@ const Sync = {
 
         const localMonthData = localAvail.months[monthKey].data;
 
-        Object.entries(monthData.data).forEach(([staffName, sharedPerson]) => {
-          // 如果本地没有该人数据，直接写入
-          if (!localMonthData[staffName]) {
-            localMonthData[staffName] = sharedPerson;
+        Object.entries(monthData.data).forEach(([sharedName, sharedPerson]) => {
+          // 深拷贝避免引用污染
+          const clonedShared = JSON.parse(JSON.stringify(sharedPerson));
+
+          // 如果本地没有该人数据，直接写入（但用克隆版本）
+          if (!localMonthData[sharedName]) {
+            localMonthData[sharedName] = clonedShared;
+            console.log(`[Sync] 拉取新增: ${monthKey} / ${sharedName}`);
             return;
           }
 
+          const localPerson = localMonthData[sharedName];
+
           // 合并 dates
-          const localPerson = localMonthData[staffName];
-          if (sharedPerson.dates && sharedPerson.dates !== null) {
+          if (clonedShared.dates && typeof clonedShared.dates === 'object') {
             // 确保本地有 dates 结构
-            if (!localPerson.dates || localPerson.dates === null) {
+            if (!localPerson.dates || localPerson.dates === null || typeof localPerson.dates !== 'object') {
               localPerson.dates = {};
             }
-            // 逐日合并：共享数据覆盖本地已有日期，但保留远程没有的本地日期
-            Object.entries(sharedPerson.dates).forEach(([dateKey, dateVal]) => {
+            // 逐日合并：共享数据覆盖本地已有日期，但保留本地独有日期
+            const before = Object.keys(localPerson.dates).length;
+            Object.entries(clonedShared.dates).forEach(([dateKey, dateVal]) => {
               localPerson.dates[dateKey] = dateVal;
             });
+            const after = Object.keys(localPerson.dates).length;
+            console.log(`[Sync] 拉取合并 ${monthKey}/${sharedName} dates: +${after - before}天 → 共${after}天`);
           }
 
           // 合并备注
-          if (sharedPerson.note) {
-            localPerson.note = localPerson.note
-              ? (localPerson.note.includes(sharedPerson.note) ? localPerson.note : localPerson.note + '; ' + sharedPerson.note)
-              : sharedPerson.note;
+          if (clonedShared.note && clonedShared.note.trim()) {
+            if (!localPerson.note || !localPerson.note.includes(clonedShared.note)) {
+              localPerson.note = localPerson.note
+                ? localPerson.note + '; ' + clonedShared.note
+                : clonedShared.note;
+            }
           }
 
-          // 如果共享数据有 total 且本地没有 dates，更新 total
-          if (!localPerson.dates && sharedPerson.total) {
-            localPerson.total = Math.max(localPerson.total || 0, sharedPerson.total);
+          // 更新 total（基于 dates 重新计算）
+          if (localPerson.dates && Object.keys(localPerson.dates).length > 0) {
+            let avail = 0;
+            Object.values(localPerson.dates).forEach(d => { if (d.available) avail++; });
+            localPerson.total = avail;
+            localPerson.unavailable = Object.entries(localPerson.dates)
+              .filter(([_, v]) => !v.available)
+              .map(([k]) => k);
+          } else if (clonedShared.total && !localPerson.total) {
+            localPerson.total = clonedShared.total;
           }
         });
       });

@@ -4241,6 +4241,21 @@ const AVAIL_MIN_MONTH = '2026-07';
 function _ymKey(y, m) { return `${y}-${String(m).padStart(2,'0')}`; }
 
 function renderMyForms() {
+  // 进入"我的填报"时强制拉取最新云端数据，确保看到其他人的更新
+  if (Sync.isEnabled()) {
+    Sync.pull(true).then(() => {
+      // 拉取完成后强制重新渲染一次
+      if (typeof Router !== 'undefined' && Router.render) {
+        const wasMyForms = location.hash === '#myforms' || (Router._currentPage === 'myforms');
+        if (wasMyForms) {
+          // 替换页面内容而不丢失焦点
+          const mainEl = document.getElementById('app-main');
+          if (mainEl) mainEl.innerHTML = renderMyForms();
+        }
+      }
+    }).catch(() => {});
+  }
+
   if (!_availMonth) {
     _availMonth = AVAIL_MIN_MONTH; // default to July 2026
   }
