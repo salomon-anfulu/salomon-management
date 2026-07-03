@@ -189,8 +189,18 @@ const Sync = {
       return true;
     } catch (e) {
       console.warn('[Sync] 推送失败:', e.message);
-      // 静默失败 —— 数据已保存到 LocalStorage，下次拉取时会合并
-      return false;
+      // 显示用户友好的错误提示
+      const msg = e.message || '未知错误';
+      if (msg.includes('401') || msg.includes('Bad credentials')) {
+        showToast('☁️ 同步失败: Token无效，请在设置中重新配置', 'error');
+      } else if (msg.includes('403') || msg.includes('resource not accessible')) {
+        showToast('☁️ 同步失败: Token权限不足，需开启 Contents → Read & Write', 'error');
+      } else if (msg.includes('409')) {
+        showToast('☁️ 同步冲突，将在下次自动重试', 'warning');
+      } else {
+        showToast('☁️ 同步未成功: ' + msg, 'warning');
+      }
+      return { success: false, error: e.message };
     }
   },
 
@@ -392,18 +402,24 @@ Sync._updateIndicator = function() {
   const indicator = document.getElementById('syncIndicator');
   if (!dot || !label) return;
 
-  if (this.isEnabled()) {
+    if (this.isEnabled()) {
     dot.style.background = '#10b981';
     label.textContent = '已同步';
-    indicator.title = '云端同步已启用 · 点击重新配置';
+    indicator.title = '云端同步已启用 · 点击手动拉取 · 右键配置Token';
     indicator.style.cursor = 'pointer';
-    indicator.onclick = () => Sync._showConfigDialog();
+    indicator.onclick = async () => {
+      label.textContent = '拉取中...';
+      const ok = await Sync.pull(false);
+      Sync._updateIndicator();
+    };
+    indicator.oncontextmenu = (e) => { e.preventDefault(); Sync._showConfigDialog(); };
   } else {
     dot.style.background = '#f59e0b';
     label.textContent = '仅本地';
     indicator.title = '云端同步未配置 · 点击配置';
     indicator.style.cursor = 'pointer';
     indicator.onclick = () => Sync._showConfigDialog();
+    indicator.oncontextmenu = null;
   }
 };
 
