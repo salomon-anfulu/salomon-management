@@ -592,7 +592,7 @@ function renderSchedule() {
           const active = m === month;
           const monthData = (availability && availability.months && availability.months[m] && availability.months[m].data) || {};
           const hasData = Object.keys(monthData).length > 0;
-          return `<button onclick="_scheduleMonth='${m}';Router.render()" style="padding:8px 16px;border-radius:10px;border:1px solid ${active ? 'var(--primary)' : 'var(--border)'};background:${active ? 'var(--primary)' : 'var(--surface)'};color:${active ? '#fff' : 'var(--text-secondary)'};font-size:13px;font-weight:${active ? '700' : '500'};cursor:pointer;transition:all 0.2s;${!hasData ? 'opacity:0.6;' : ''}">
+          return `<button onclick="switchScheduleMonth('${m}')" style="padding:8px 16px;border-radius:10px;border:1px solid ${active ? 'var(--primary)' : 'var(--border)'};background:${active ? 'var(--primary)' : 'var(--surface)'};color:${active ? '#fff' : 'var(--text-secondary)'};font-size:13px;font-weight:${active ? '700' : '500'};cursor:pointer;transition:all 0.2s;${!hasData ? 'opacity:0.6;' : ''}">
             ${parseInt(mm)}月${!hasData ? '<span style="font-size:10px;margin-left:4px;">(空)</span>' : ''}
           </button>`;
         }).join('')}
@@ -942,10 +942,10 @@ function renderAttendance() {
 
     <!-- 月份切换器 -->
     <div class="animate-in" style="display: flex; align-items: center; justify-content: center; gap: 16px; margin-bottom: 20px;">
-      <button onclick="${canGoPrev ? `_attMonth='${prevMonth}';Router.render()` : ''}"
+      <button onclick="${canGoPrev ? `switchAttMonth('${prevMonth}')` : ''}"
         style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-secondary); color: ${canGoPrev ? 'var(--text-primary)' : 'var(--text-muted)'}; cursor: ${canGoPrev ? 'pointer' : 'not-allowed'}; font-size: 18px; display: flex; align-items: center; justify-content: center; ${canGoPrev ? '' : 'opacity:0.4;'}">‹</button>
       <span style="font-size: 20px; font-weight: 800; min-width: 100px; text-align: center;">${mY}年${mM}月</span>
-      <button onclick="${canGoNext ? `_attMonth='${nextMonth}';Router.render()` : ''}"
+      <button onclick="${canGoNext ? `switchAttMonth('${nextMonth}')` : ''}"
         style="width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-secondary); color: ${canGoNext ? 'var(--text-primary)' : 'var(--text-muted)'}; cursor: ${canGoNext ? 'pointer' : 'not-allowed'}; font-size: 18px; display: flex; align-items: center; justify-content: center; ${canGoNext ? '' : 'opacity:0.4;'}">›</button>
     </div>
 
@@ -1827,7 +1827,7 @@ function renderRatings() {
             ${availableMonths.map(m => {
               const [y, mm] = m.split('-');
               const active = m === _scoringMonth;
-              return `<button onclick="_scoringMonth='${m}';Router.render()" style="padding:6px 14px;border-radius:8px;border:1px solid ${active ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.15)'};background:${active ? 'rgba(255,255,255,0.15)' : 'transparent'};color:#fff;font-size:12px;font-weight:${active ? '700' : '500'};cursor:pointer;transition:all 0.2s;">${parseInt(mm)}月</button>`;
+              return `<button onclick="switchScoringMonth('${m}')" style="padding:6px 14px;border-radius:8px;border:1px solid ${active ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.15)'};background:${active ? 'rgba(255,255,255,0.15)' : 'transparent'};color:#fff;font-size:12px;font-weight:${active ? '700' : '500'};cursor:pointer;transition:all 0.2s;">${parseInt(mm)}月</button>`;
             }).join('')}
           </div>
         </div>
