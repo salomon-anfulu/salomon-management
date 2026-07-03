@@ -340,6 +340,239 @@ const Sync = {
   },
 
   /**
+   * 导出本地数据为 JSON 字符串
+   * 用法：const json = Sync.exportLocal(); 下载或复制
+   */
+  exportLocal() {
+    const dump = {
+      _meta: {
+        description: '本地数据导出',
+        exportedAt: new Date().toISOString(),
+        source: 'local'
+      },
+      availability: Store.get('availability'),
+      shiftChanges: Store.get('shiftChanges') || [],
+      storeSupport: Store.get('storeSupport') || [],
+      doorSchedule: Store.get('doorSchedule') || [],
+    };
+    return JSON.stringify(dump, null, 2);
+  },
+
+  /**
+   * 从 JSON 字符串导入数据到 LocalStorage
+   */
+  importLocal(jsonStr) {
+    try {
+      const dump = JSON.parse(jsonStr);
+      if (dump.availability) Store.set('availability', dump.availability);
+      if (dump.shiftChanges) Store.set('shiftChanges', dump.shiftChanges);
+      if (dump.storeSupport) Store.set('storeSupport', dump.storeSupport);
+      if (dump.doorSchedule) Store.set('doorSchedule', dump.doorSchedule);
+      console.log('[Sync] 导入成功');
+      return { ok: true, data: dump };
+    } catch (e) {
+      console.error('[Sync] 导入失败:', e);
+      return { ok: false, error: e.message };
+    }
+  },
+
+  /**
+   * 下载本地数据为 JSON 文件
+   */
+  downloadBackup() {
+    const json = this.exportLocal();
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+    a.href = url;
+    a.download = `salomon-backup-${ts}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast('📥 备份已下载', 'success');
+  },
+
+  /**
+   * 强制推送本地数据到云端（覆盖云端）
+   */
+  async forcePush() {
+    if (!this.isEnabled()) {
+      showToast('未配置同步Token', 'warning');
+      return false;
+    }
+    showToast('⬆️ 正在推送...', 'info');
+    try {
+      // 不拉取云端，直接读取本地+上传
+      const localAvail = Store.get('availability');
+      const localSC = Store.get('shiftChanges') || [];
+      const localSS = Store.get('storeSupport') || [];
+      const localDS = Store.get('doorSchedule') || [];
+
+      // 获取云端最新 SHA（覆盖模式：获取 SHA，不合并）
+      let shared, sha = null;
+      try {
+        shared = await this._fetchSharedData();
+        sha = shared?.__sha || null;
+        if (shared) delete shared.__sha;
+      } catch (e) {
+        if (!e.message.includes('Not Found') && !e.message.includes('404')) throw e;
+        shared = { _meta: {}, availability: {}, shiftChanges: [], storeSupport: [], doorSchedule: [] };
+      }
+
+      // 用本地覆盖
+      shared.availability = localAvail?.months || {};
+      shared.shiftChanges = localSC;
+      shared.storeSupport = localSS;
+      shared.doorSchedule = localDS;
+      shared._meta = {
+        ...(shared._meta || {}),
+        lastUpdated: new Date().toISOString(),
+        lastUpdatedBy: (_auth && _auth.staffName) || 'force-push',
+        version: (shared._meta?.version || 0) + 1,
+        description: '安福路 Salomon 兼职管理系统 - 共享填报数据（GitHub云同步）'
+      };
+
+      const body = {
+        message: `force-push: 覆盖推送 (v${shared._meta.version})`,
+        content: btoa(unescape(encodeURIComponent(JSON.stringify(shared, null, 2)))),
+        branch: this.BRANCH,
+      };
+      if (sha) body.sha = sha;
+
+      await this._api('PUT', `${this.API_BASE}/repos/${this.REPO}/contents/${this.FILE_PATH}`, body);
+      showToast(`✅ 推送成功 v${shared._meta.version}`, 'success');
+      return true;
+    } catch (e) {
+      showToast('❌ 推送失败: ' + e.message, 'error');
+      return false;
+    }
+  },
+
+  /**
+   * 强制拉取并覆盖本地（用云端覆盖本地）
+   */
+  async forcePull() {
+    if (!this.isEnabled()) {
+      showToast('未配置同步Token', 'warning');
+      return false;
+    }
+    showToast('⬇️ 正在拉取...', 'info');
+    try {
+      this._lastPull = null; // 绕过防抖
+      const shared = await this._fetchSharedData();
+      if (!shared) {
+        showToast('云端无数据', 'warning');
+        return false;
+      }
+      this._mergeIntoLocal(shared);
+      this._lastPull = Date.now();
+      showToast('✅ 拉取完成，刷新页面查看', 'success');
+      return true;
+    } catch (e) {
+      showToast('❌ 拉取失败: ' + e.message, 'error');
+      return false;
+    }
+  },
+
+  /**
+   * 高级同步对话框（导出/导入/强制推送/强制拉取）
+   */
+  _showAdvancedDialog() {
+    const overlay = document.createElement('div');
+    overlay.id = 'syncAdvancedOverlay';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;';
+    overlay.innerHTML = `
+      <div style="background:var(--bg-card,#fff);border-radius:16px;padding:24px;max-width:520px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);max-height:90vh;overflow-y:auto;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <h3 style="font-size:16px;font-weight:800;">🔄 数据同步工具</h3>
+          <button id="advCloseBtn" style="background:none;border:none;font-size:22px;cursor:pointer;opacity:0.5;">&times;</button>
+        </div>
+        <p style="font-size:12px;color:var(--text-secondary);margin-bottom:16px;line-height:1.5;">
+          v40 重置了云端数据，其他设备如有数据，请使用「强制推送」把数据传到云端。
+        </p>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+          <button id="advExportBtn" style="padding:12px;border:1px solid #10b981;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#ecfdf5;color:#065f46;">
+            📤 导出本地
+          </button>
+          <button id="advImportBtn" style="padding:12px;border:1px solid #f59e0b;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#fffbeb;color:#92400e;">
+            📥 导入备份
+          </button>
+          <button id="advPushBtn" style="padding:12px;border:1px solid #3b82f6;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#eff6ff;color:#1e40af;">
+            ⬆️ 强制推送
+          </button>
+          <button id="advPullBtn" style="padding:12px;border:1px solid #8b5cf6;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#f5f3ff;color:#5b21b6;">
+            ⬇️ 强制拉取
+          </button>
+        </div>
+
+        <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:8px;padding:12px;font-size:11px;color:#92400e;line-height:1.5;margin-bottom:12px;">
+          <strong>使用流程：</strong><br>
+          1. <strong>有数据设备</strong>：导出备份 → 推送到云端<br>
+          2. <strong>无数据设备</strong>：强制拉取云端 → 刷新页面<br>
+          3. <strong>跨设备迁移</strong>：A 设备导出 → B 设备导入
+        </div>
+
+        <details style="background:#f9fafb;border-radius:8px;padding:10px;">
+          <summary style="font-size:12px;font-weight:600;cursor:pointer;">📋 查看本地数据 JSON</summary>
+          <textarea id="advDataView" readonly style="width:100%;height:200px;margin-top:8px;font-size:10px;font-family:monospace;border:1px solid #e5e7eb;border-radius:4px;padding:6px;background:#fff;"></textarea>
+          <button id="advCopyBtn" style="margin-top:6px;padding:6px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:11px;cursor:pointer;background:#fff;">📋 复制</button>
+        </details>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    // 显示本地数据
+    const dataView = overlay.querySelector('#advDataView');
+    try {
+      dataView.value = this.exportLocal();
+    } catch (e) {
+      dataView.value = '导出失败: ' + e.message;
+    }
+
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+    overlay.querySelector('#advCloseBtn').onclick = () => overlay.remove();
+    overlay.querySelector('#advExportBtn').onclick = () => this.downloadBackup();
+    overlay.querySelector('#advCopyBtn').onclick = () => {
+      dataView.select();
+      document.execCommand('copy');
+      showToast('已复制到剪贴板', 'success');
+    };
+    overlay.querySelector('#advImportBtn').onclick = () => {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.json,application/json';
+      input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          const result = this.importLocal(evt.target.result);
+          if (result.ok) {
+            showToast('✅ 导入成功，刷新页面查看', 'success');
+            setTimeout(() => { overlay.remove(); Router.render(); }, 1500);
+          } else {
+            showToast('❌ 导入失败: ' + result.error, 'error');
+          }
+        };
+        reader.readAsText(file);
+      };
+      input.click();
+    };
+    overlay.querySelector('#advPushBtn').onclick = async () => {
+      overlay.remove();
+      await this.forcePush();
+    };
+    overlay.querySelector('#advPullBtn').onclick = async () => {
+      overlay.remove();
+      const ok = await this.forcePull();
+      if (ok) setTimeout(() => Router.render(), 800);
+    };
+  },
+
+  /**
    * 将本地数据合并到共享数据对象（用于推送前）
    */
   _mergeLocalIntoShared(shared) {
@@ -500,6 +733,11 @@ Sync._showConfigDialog = function() {
         <button id="syncSaveBtn" style="flex:1;padding:10px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:var(--accent,#e94560);color:#fff;">💾 保存并验证</button>
         ${currentToken ? '<button id="syncClearBtn" style="padding:10px 16px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;cursor:pointer;background:none;color:var(--text-secondary);">清除</button>' : ''}
       </div>
+      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border-color,#e5e7eb);">
+        <button id="syncAdvancedBtn" style="width:100%;padding:10px;border:1px solid #8b5cf6;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#f5f3ff;color:#5b21b6;">
+          🔄 高级同步工具（导出/导入/强制推送/拉取）
+        </button>
+      </div>
       <div id="syncConfigMsg" style="margin-top:10px;font-size:12px;"></div>
     </div>
   `;
@@ -533,6 +771,12 @@ Sync._showConfigDialog = function() {
     overlay.querySelector('#syncConfigToken').value = '';
     overlay.querySelector('#syncConfigMsg').innerHTML = '<span style="color:#f59e0b;">Token已清除</span>';
     setTimeout(() => { overlay.remove(); Sync._updateIndicator(); }, 800);
+  };
+
+  const advBtn = overlay.querySelector('#syncAdvancedBtn');
+  if (advBtn) advBtn.onclick = () => {
+    overlay.remove();
+    Sync._showAdvancedDialog();
   };
 };
 
