@@ -149,22 +149,38 @@ const Sync = {
 
     try {
       // 1. 先拉取最新共享数据（防止覆盖他人提交）
-      let shared;
-      try {
-        shared = await this._fetchSharedData();
-      } catch (e) {
-        // 如果文件不存在或读取出错，初始化一个空结构
-        shared = {
-          _meta: { version: 1, lastUpdated: null, lastUpdatedBy: null },
-          availability: {},
-          shiftChanges: [],
-          storeSupport: [],
-          doorSchedule: [],
-        };
+      //    冲突时（409）自动重试一次
+      let shared = null;
+      let sha = null;
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
+          shared = await this._fetchSharedData();
+          sha = shared?.__sha || null;
+          if (shared) delete shared.__sha;
+          break;
+        } catch (e) {
+          if (e.message.includes('does not match') && attempt < 2) {
+            // SHA 不匹配说明文件刚被他人修改，强制重新拉取
+            console.warn('[Sync] SHA冲突，强制重新拉取', attempt + 1);
+            this._lastPull = null; // 忽略防抖，重新拉取
+            continue;
+          }
+          // 不是冲突错或重试次数用完
+          if (e.message.includes('Not Found') || e.message.includes('404')) {
+            // 文件不存在（首次推送）
+            shared = {
+              _meta: { version: 1, lastUpdated: null, lastUpdatedBy: null },
+              availability: {},
+              shiftChanges: [],
+              storeSupport: [],
+              doorSchedule: [],
+            };
+            sha = null;
+            break;
+          }
+          throw e;
+        }
       }
-
-      const sha = shared.__sha || null;
-      delete shared.__sha;
 
       // 2. 合入本地最新数据
       this._mergeLocalIntoShared(shared);
@@ -183,7 +199,22 @@ const Sync = {
       if (sha) body.sha = sha;
 
       const url = `${this.API_BASE}/repos/${this.REPO}/contents/${this.FILE_PATH}`;
-      await this._api('PUT', url, body);
+      try {
+        await this._api('PUT', url, body);
+      } catch (putErr) {
+        if (putErr.message.includes('does not match') || putErr.message.includes('409')) {
+          // 写回时还是冲突，强制重新拉取重试
+          console.warn('[Sync] 写回时冲突，重新拉取再试一次');
+          this._lastPull = null;
+          // 重新跑一次
+          const fresh = await this._fetchSharedData();
+          const freshSha = fresh?.__sha;
+          if (freshSha) body.sha = freshSha;
+          await this._api('PUT', url, body);
+        } else {
+          throw putErr;
+        }
+      }
 
       console.log('[Sync] 推送成功 v' + shared._meta.version);
       return true;
