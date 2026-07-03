@@ -104,7 +104,27 @@ const Sync = {
 
     // GitHub API 返回 base64 编码内容
     // 必须用 decodeURIComponent(escape(atob())) 解码 UTF-8（与 push 端的 btoa(unescape(encodeURIComponent())) 配对）
-    const jsonStr = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, ''))));
+    // v45: 额外加一层双重 UTF-8 防御（修复 v5 force-push 时的历史脏数据）
+    const jsonStr = (() => {
+      const decoded = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, ''))));
+      // 检测双重 UTF-8 编码（字符串中含 Latin-1 范围连续字符）：尝试修复
+      // Latin-1 范围 (\u00c0-\u00ff) 连续 2+ 出现 + 不含正常中文字符 → 高度疑似双重编码
+      if (/[\u00c0-\u00ff]{2,}/.test(decoded) && !/[\u4e00-\u9fff]/.test(decoded)) {
+        try {
+          const fixed = decoded.split('').map(ch => {
+            const code = ch.charCodeAt(0);
+            if (code >= 0xc0 && code <= 0xff) return String.fromCharCode(code & 0xff);
+            return ch;
+          }).join('');
+          const redecoded = decodeURIComponent(escape(fixed));
+          if (/[\u4e00-\u9fff]/.test(redecoded)) {
+            console.log('[Sync] 检测到双重 UTF-8 编码，已自动修复');
+            return redecoded;
+          }
+        } catch (e) {}
+      }
+      return decoded;
+    })();
     const data = JSON.parse(jsonStr);
 
     // 同时返回 sha（后续写回时需要）
