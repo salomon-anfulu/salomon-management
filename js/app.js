@@ -1556,14 +1556,17 @@ linggongAttendance: {
         _dataVersion: '2026-07-03-v33',
   },
 
+  _cache: null,  // in-memory cache to avoid repeated JSON.parse
+
   init() {
     try {
       if (!localStorage.getItem(this.KEY)) {
         localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
+        this._cache = JSON.parse(JSON.stringify(this.defaults));
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-03-v34';
+      const DATA_VERSION = '2026-07-03-v35';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -1677,11 +1680,17 @@ linggongAttendance: {
       } catch (e2) { /* ignore backup errors */ }
       localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
     }
+    // Always populate cache after init
+    try {
+      this._cache = JSON.parse(localStorage.getItem(this.KEY) || JSON.stringify(this.defaults));
+    } catch(e) {
+      this._cache = JSON.parse(JSON.stringify(this.defaults));
+    }
   },
 
   get(key) {
     try {
-      const data = JSON.parse(localStorage.getItem(this.KEY) || '{}');
+      const data = this._cache || JSON.parse(localStorage.getItem(this.KEY) || '{}');
       return data[key] !== undefined ? data[key] : (this.defaults[key] || []);
     } catch (e) {
       console.error('[Store.get] 读取失败，返回默认值:', key, e);
@@ -1691,9 +1700,10 @@ linggongAttendance: {
 
   set(key, value) {
     try {
-      const data = JSON.parse(localStorage.getItem(this.KEY) || '{}');
+      const data = this._cache || JSON.parse(localStorage.getItem(this.KEY) || '{}');
       data[key] = value;
       localStorage.setItem(this.KEY, JSON.stringify(data));
+      this._cache = data;  // update cache
     } catch (e) {
       console.error('[Store.set] 写入失败:', key, e);
     }
@@ -1701,7 +1711,7 @@ linggongAttendance: {
 
   getAll() {
     try {
-      return JSON.parse(localStorage.getItem(this.KEY) || JSON.stringify(this.defaults));
+      return this._cache || JSON.parse(localStorage.getItem(this.KEY) || JSON.stringify(this.defaults));
     } catch (e) {
       console.error('[Store.getAll] 读取失败，返回默认数据:', e);
       return this.defaults;
@@ -1710,6 +1720,7 @@ linggongAttendance: {
 
   reset() {
     localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
+    this._cache = JSON.parse(JSON.stringify(this.defaults));
   },
 
   // ===== 数据导出/导入/备份 =====

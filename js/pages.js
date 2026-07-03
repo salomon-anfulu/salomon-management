@@ -8,6 +8,18 @@
 // ===== Auth Helper (defined in index.html, safe fallback) =====
 const _auth = typeof Auth !== 'undefined' ? Auth : { isAdmin: true, staffId: null, staffName: null, role: 'admin' };
 
+// ===== Month key mapper (dynamic, not hardcoded) =====
+// Maps 'YYYY-MM' string to performanceData object key (april/may/june/july/august...)
+function _monthKeyToPerfKey(ym) {
+  if (!ym || typeof ym !== 'string') return null;
+  const parts = ym.split('-');
+  if (parts.length !== 2) return null;
+  const monthNames = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+  const m = parseInt(parts[1]);
+  if (m >= 1 && m <= 12) return monthNames[m - 1];
+  return null;
+}
+
 function renderDashboard() {
   const staff = Store.get('staff');
   const activeStaff = staff.filter(s => s.status === 'active');
@@ -1427,8 +1439,7 @@ function calcPerformanceScore(staffName) {
   const perfData = Store.get('performanceData') || {};
   // Month-aware: map _scoringMonth 'YYYY-MM' to perfData key (april/may/june/july)
   const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : '2026-07';
-  const monthKeyMap = { '2026-04': 'april', '2026-05': 'may', '2026-06': 'june', '2026-07': 'july' };
-  const perfKey = monthKeyMap[scoreMonth] || 'july';
+  const perfKey = _monthKeyToPerfKey(scoreMonth) || 'july';
   const monthData = perfData[perfKey] || {};
   const records = monthData.records || [];
   const record = records.find(r => r.name === staffName);
@@ -1541,7 +1552,6 @@ function calcCustomerReviewScore(staffName) {
  * @param {string} staffName - 兼职姓名
  * @returns {{missedPunch, lateCount, absentCount, records: []}}
  */
-let _linggongAttCache = null;
 function getLinggongAttStats(staffName) {
   const lgData = Store.get('linggongAttendance') || { records: [] };
   const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : '2026-07';
@@ -1776,8 +1786,7 @@ function renderRatings() {
   // Determine if current month has data or is a "pending" month
   const hasPerfData = (() => {
     const perfData = Store.get('performanceData') || {};
-    const monthKeyMap = { '2026-04': 'april', '2026-05': 'may', '2026-06': 'june', '2026-07': 'july' };
-    const perfKey = monthKeyMap[_scoringMonth] || 'july';
+    const perfKey = _monthKeyToPerfKey(_scoringMonth) || 'july';
     return perfData[perfKey] && perfData[perfKey].records && perfData[perfKey].records.length > 0;
   })();
 
@@ -3456,8 +3465,7 @@ function renderPersonalDashboard() {
     return Object.values(ds).reduce((a, b) => a + b, 0) / Object.values(ds).length;
   })() : 0;
   const perfData = Store.get('performanceData') || {};
-  const perfKeyMap = { '2026-04': 'april', '2026-05': 'may', '2026-06': 'june', '2026-07': 'july' };
-  const perfKey = perfKeyMap[_scoringMonth] || 'july';
+  const perfKey = _monthKeyToPerfKey(_scoringMonth) || 'july';
   const myPerf = perfData[perfKey]?.records?.find(r => r.name === _auth.staffName);
   const perfMonthLabel = _scoringMonth ? parseInt(_scoringMonth.split('-')[1]) + '月' : '本月';
   const lgData = Store.get('linggongAttendance') || {};
@@ -3860,7 +3868,7 @@ function saveReviewForm() {
   const source = document.getElementById('reviewSource').value.trim() || '大众点评';
 
   if (!staffName || !month) {
-    alert('请填写员工姓名和月份');
+    showToast('请填写员工姓名和月份', 'warning');
     return;
   }
 
@@ -3930,9 +3938,9 @@ function closeDoorDayForm() {
 
 function saveDoorDay() {
   const date = document.getElementById('doorDayDate').value;
-  if (!date) { alert('请选择日期'); return; }
+  if (!date) { showToast('请选择日期', 'warning'); return; }
   const doorData = Store.get('doorSchedule') || [];
-  if (doorData.find(d => d.date === date)) { alert('该日期已存在'); return; }
+  if (doorData.find(d => d.date === date)) { showToast('该日期已存在', 'warning'); return; }
   doorData.push({ date, slots: [] });
   doorData.sort((a, b) => a.date.localeCompare(b.date));
   Store.set('doorSchedule', doorData);
@@ -3997,8 +4005,8 @@ function saveDoorSlot() {
   const start = document.getElementById('doorSlotStart').value;
   const end = document.getElementById('doorSlotEnd').value;
   const staffName = document.getElementById('doorSlotStaff').value;
-  if (!start || !end) { alert('请填写时间段'); return; }
-  if (start >= end) { alert('开始时间必须早于结束时间'); return; }
+  if (!start || !end) { showToast('请填写时间段', 'warning'); return; }
+  if (start >= end) { showToast('开始时间必须早于结束时间', 'warning'); return; }
 
   const doorData = Store.get('doorSchedule') || [];
   let day = doorData.find(d => d.date === doorScheduleDate);
@@ -4101,7 +4109,7 @@ function saveSupport() {
   const type = document.getElementById('supportType').value;
   const duration = document.getElementById('supportDuration').value;
   const detail = document.getElementById('supportDetail').value.trim();
-  if (!staffName || !date || !type) { alert('请填写必填字段'); return; }
+  if (!staffName || !date || !type) { showToast('请填写必填字段', 'warning'); return; }
 
   const data = Store.get('storeSupport') || [];
   const newId = data.length > 0 ? Math.max(...data.map(s => s.id)) + 1 : 1;
@@ -4187,7 +4195,7 @@ function saveShift() {
   const applicantShift = document.getElementById('shiftApplicantShift').value.trim();
   const target = document.getElementById('shiftTarget').value;
   const targetShift = document.getElementById('shiftTargetShift').value.trim();
-  if (!applicant || !applyDate || !applicantShift || !target) { alert('请填写必填字段'); return; }
+  if (!applicant || !applyDate || !applicantShift || !target) { showToast('请填写必填字段', 'warning'); return; }
 
   const data = Store.get('shiftChanges') || [];
   const newId = data.length > 0 ? Math.max(...data.map(s => s.id)) + 1 : 1;
@@ -4419,7 +4427,7 @@ function renderPersonalCalendar() {
 
 // ===== Date status form (popup for each day) =====
 function openDateStatusForm(dayNum) {
-  if (!_availStaff) { alert('请先选择姓名'); return; }
+  if (!_availStaff) { showToast('请先选择姓名', 'warning'); return; }
   const status = getDateStatus(_availMonth, _availStaff, dayNum);
   const [year, mon] = _availMonth.split('-').map(Number);
   const date = new Date(year, mon - 1, dayNum);
@@ -4991,7 +4999,7 @@ function openDoorSlotFormInline(prefillStart, prefillEnd, editIdx) {
 function saveDoorSlotInline() {
   const time = document.getElementById('doorSlotTimeInline').value;
   const staffName = document.getElementById('doorSlotStaffInline').value;
-  if (!time) { alert('请选择时间段'); return; }
+  if (!time) { showToast('请选择时间段', 'warning'); return; }
 
   const doorData = Store.get('doorSchedule') || [];
   let day = doorData.find(d => d.date === doorScheduleDate);
@@ -5001,7 +5009,7 @@ function saveDoorSlotInline() {
     day.slots[doorSlotEditingIdx] = newSlot;
   } else {
     // Check for duplicate time slot
-    if (day.slots.find(s => s.time === time)) { alert('该时间段已有班次，请编辑已有班次'); return; }
+    if (day.slots.find(s => s.time === time)) { showToast('该时间段已有班次，请编辑已有班次', 'warning'); return; }
     day.slots.push(newSlot);
   }
   day.slots.sort((a, b) => a.time.localeCompare(b.time));
