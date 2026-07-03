@@ -14,6 +14,7 @@ reports/
 output/
 images/scenes/
 data/
+!data/submissions.json
 
 # 根目录散落的大图
 *.png

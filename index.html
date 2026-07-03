@@ -144,8 +144,9 @@
   </div>
 
   <!-- Scripts (cache-buster: v=对应 DATA_VERSION, 每次升级 v17 时改成 v17) -->
-  <script src="js/app.js?v=35"></script>
-  <script src="js/pages.js?v=35"></script>
+  <script src="js/app.js?v=36"></script>
+  <script src="js/sync.js?v=36"></script>
+  <script src="js/pages.js?v=36"></script>
   <script>
     // ===== Auth Module =====
     const Auth = {
@@ -178,6 +179,10 @@
       <div class="user-avatar" style="background:${avatarColor};">${initial}</div>
       <span class="user-name">${displayName}</span>
       <span class="user-role">${displayDept}</span>
+      <span id="syncIndicator" style="font-size:11px;margin-left:8px;opacity:0.7;cursor:default;" title="云端同步状态">
+        <span id="syncDot" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#9ca3af;margin-right:3px;"></span>
+        <span id="syncLabel">--</span>
+      </span>
       <button class="btn-logout" onclick="Auth.logout()">退出登录</button>
     `;
 

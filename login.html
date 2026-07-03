@@ -124,6 +124,76 @@
       font-size: 11px;
       color: #94a3b8;
     }
+
+    /* Sync settings */
+    .sync-toggle {
+      display: block;
+      margin: 16px auto 0;
+      background: none;
+      border: none;
+      color: #64748b;
+      font-size: 13px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .sync-toggle:hover { color: var(--text-primary); background: rgba(0,0,0,0.04); }
+    .sync-panel {
+      display: none;
+      margin-top: 16px;
+      padding: 16px;
+      background: var(--bg);
+      border-radius: 12px;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    .sync-panel.open { display: block; }
+    .sync-panel label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .sync-panel input {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      font-family: monospace;
+      background: #fff;
+      color: var(--text-primary);
+    }
+    .sync-panel .btn-save-token {
+      width: 100%;
+      margin-top: 12px;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--primary);
+      color: #fff;
+      transition: all 0.2s;
+    }
+    .sync-panel .btn-save-token:hover { opacity: 0.9; }
+    .sync-panel .token-hint {
+      font-size: 11px;
+      color: #94a3b8;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+    .sync-status {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      margin-right: 4px;
+    }
+    .sync-status.connected { background: #10b981; }
+    .sync-status.disconnected { background: #f59e0b; }
   </style>
 </head>
 <body>
@@ -136,6 +206,20 @@
     <div class="login-body">
       <div class="welcome-text">欢迎进入兼职团队管理系统<br>点击下方按钮直接登录</div>
       <button class="btn-login" onclick="doLogin()">进入系统</button>
+      <button class="sync-toggle" onclick="toggleSyncPanel()">
+        <span class="sync-status" id="syncStatusDot"></span> ☁️ 同步设置
+      </button>
+      <div class="sync-panel" id="syncPanel">
+        <label>GitHub Personal Access Token</label>
+        <input type="password" id="syncTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
+        <div class="token-hint">
+          📌 用于跨设备数据同步<br>
+          需具备 <b>repo → Contents: read & write</b> 权限<br>
+          <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:var(--accent);">创建 Fine-grained token →</a>
+        </div>
+        <button class="btn-save-token" onclick="saveSyncToken()">💾 保存并验证</button>
+        <div id="syncMsg" style="margin-top:8px;font-size:12px;"></div>
+      </div>
     </div>
     <div class="login-footer">
       安福路 Salomon 旗舰店 · 数据截至2026年6月
@@ -153,6 +237,57 @@
       }));
       window.location.href = 'app.html';
     }
+
+    // ===== Sync Token 配置 =====
+    function toggleSyncPanel() {
+      const panel = document.getElementById('syncPanel');
+      panel.classList.toggle('open');
+    }
+
+    function updateSyncStatus() {
+      const dot = document.getElementById('syncStatusDot');
+      const token = localStorage.getItem('gh_sync_token');
+      dot.className = 'sync-status ' + (token ? 'connected' : 'disconnected');
+      dot.title = token ? '已配置同步' : '未配置同步';
+      if (token) {
+        document.getElementById('syncTokenInput').value = token;
+      }
+    }
+
+    async function saveSyncToken() {
+      const token = document.getElementById('syncTokenInput').value.trim();
+      const msgEl = document.getElementById('syncMsg');
+
+      if (!token) {
+        msgEl.innerHTML = '<span style="color:#e94560;">请输入 Token</span>';
+        return;
+      }
+
+      msgEl.innerHTML = '<span style="color:#f59e0b;">验证中...</span>';
+
+      try {
+        const resp = await fetch('https://api.github.com/repos/salomon-anfulu/salomon-management', {
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/vnd.github.v3+json',
+          }
+        });
+
+        if (resp.ok) {
+          localStorage.setItem('gh_sync_token', token);
+          msgEl.innerHTML = '<span style="color:#10b981;">✅ Token 验证成功！已启用云同步</span>';
+          updateSyncStatus();
+        } else {
+          const err = await resp.json().catch(() => ({}));
+          msgEl.innerHTML = '<span style="color:#e94560;">❌ Token 无效: ' + (err.message || '认证失败') + '</span>';
+        }
+      } catch (e) {
+        msgEl.innerHTML = '<span style="color:#e94560;">❌ 网络错误: ' + e.message + '</span>';
+      }
+    }
+
+    // 初始化同步状态显示
+    updateSyncStatus();
   </script>
 </body>
 </html>

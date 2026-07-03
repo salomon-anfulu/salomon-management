@@ -3944,6 +3944,7 @@ function saveDoorDay() {
   doorData.push({ date, slots: [] });
   doorData.sort((a, b) => a.date.localeCompare(b.date));
   Store.set('doorSchedule', doorData);
+  Sync.push(_auth.staffName || 'admin').catch(() => {});
   doorScheduleDate = date;
   closeDoorDayForm();
   Router.render();
@@ -4019,6 +4020,7 @@ function saveDoorSlot() {
   }
   day.slots.sort((a, b) => a.time.localeCompare(b.time));
   Store.set('doorSchedule', doorData);
+  Sync.push(staffName || 'unknown').catch(() => {});
   closeDoorSlotForm();
   Router.render();
   showToast(doorSlotEditingIdx !== null ? '班次已更新' : '班次已添加');
@@ -4115,6 +4117,8 @@ function saveSupport() {
   const newId = data.length > 0 ? Math.max(...data.map(s => s.id)) + 1 : 1;
   data.push({ id: newId, staff: staffName, date, type, duration, detail });
   Store.set('storeSupport', data);
+  // 云端同步推送
+  Sync.push(staffName).catch(() => {});
   closeSupportForm();
   Router.render();
   showToast('支援记录已添加');
@@ -4201,6 +4205,8 @@ function saveShift() {
   const newId = data.length > 0 ? Math.max(...data.map(s => s.id)) + 1 : 1;
   data.push({ id: newId, applicant, applyDate, applicantShift, target, targetShift });
   Store.set('shiftChanges', data);
+  // 云端同步推送
+  Sync.push(applicant).catch(() => {});
   closeShiftForm();
   Router.render();
   showToast('换班记录已添加');
@@ -4503,6 +4509,8 @@ function saveDateStatus(dayNum) {
   syncPersonLegacyFields(monthData[_availStaff], mon);
 
   Store.set('availability', avail);
+  // 云端同步推送（异步，不阻塞UI）
+  Sync.push(_availStaff).catch(() => {});
   document.getElementById('dateStatusOverlay').remove();
   Router.render();
   showToast(`${mon}/${dayNum} 已更新`);
@@ -4518,6 +4526,8 @@ function clearDateStatus(dayNum) {
     if (person.dates) delete person.dates[dateKey];
     syncPersonLegacyFields(person, mon);
     Store.set('availability', avail);
+    // 云端同步推送
+    Sync.push(_availStaff).catch(() => {});
   }
   document.getElementById('dateStatusOverlay').remove();
   Router.render();
