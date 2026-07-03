@@ -172,6 +172,7 @@ const Sync = {
             shared = {
               _meta: { version: 1, lastUpdated: null, lastUpdatedBy: null },
               availability: {},
+              staff: [],
               shiftChanges: [],
               storeSupport: [],
               doorSchedule: [],
@@ -337,6 +338,35 @@ const Sync = {
         Store.set('doorSchedule', merged);
       }
     }
+
+    // === 人员信息 (staff) — 按 id 合并，云端覆盖本地 ===
+    if (shared.staff && shared.staff.length > 0) {
+      const local = Store.get('staff') || [];
+      const merged = [...local];
+      let changed = false;
+      shared.staff.forEach(cloudStaff => {
+        if (!cloudStaff.id) return;
+        const idx = merged.findIndex(s => s.id === cloudStaff.id);
+        if (idx >= 0) {
+          // 只更新实际变化的字段（避免无意义的 set 触发缓存失效）
+          const localCopy = { ...merged[idx] };
+          Object.keys(cloudStaff).forEach(key => {
+            if (key === 'id') return; // id 是主键，不可覆盖
+            if (JSON.stringify(localCopy[key]) !== JSON.stringify(cloudStaff[key])) {
+              changed = true;
+            }
+          });
+          merged[idx] = { ...merged[idx], ...cloudStaff };
+        } else {
+          merged.push(cloudStaff);
+          changed = true;
+        }
+      });
+      if (changed) {
+        Store.set('staff', merged);
+        console.log(`[Sync] 人员信息已更新`);
+      }
+    }
   },
 
   /**
@@ -351,6 +381,7 @@ const Sync = {
         source: 'local'
       },
       availability: Store.get('availability'),
+      staff: Store.get('staff') || [],
       shiftChanges: Store.get('shiftChanges') || [],
       storeSupport: Store.get('storeSupport') || [],
       doorSchedule: Store.get('doorSchedule') || [],
@@ -368,6 +399,7 @@ const Sync = {
       if (dump.shiftChanges) Store.set('shiftChanges', dump.shiftChanges);
       if (dump.storeSupport) Store.set('storeSupport', dump.storeSupport);
       if (dump.doorSchedule) Store.set('doorSchedule', dump.doorSchedule);
+      if (dump.staff) Store.set('staff', dump.staff);
       console.log('[Sync] 导入成功');
       return { ok: true, data: dump };
     } catch (e) {
@@ -418,11 +450,12 @@ const Sync = {
         if (shared) delete shared.__sha;
       } catch (e) {
         if (!e.message.includes('Not Found') && !e.message.includes('404')) throw e;
-        shared = { _meta: {}, availability: {}, shiftChanges: [], storeSupport: [], doorSchedule: [] };
+        shared = { _meta: {}, availability: {}, staff: [], shiftChanges: [], storeSupport: [], doorSchedule: [] };
       }
 
       // 用本地覆盖
       shared.availability = localAvail?.months || {};
+      shared.staff = Store.get('staff') || [];
       shared.shiftChanges = localSC;
       shared.storeSupport = localSS;
       shared.doorSchedule = localDS;
@@ -614,6 +647,15 @@ const Sync = {
       shared.doorSchedule || [],
       Store.get('doorSchedule') || []
     );
+
+    // === staff (人员信息) — 同步状态/部门/备注等变更 ===
+    // 策略：用本地覆盖云端（按 id 合并），确保本地最新修改优先
+    const localStaff = Store.get('staff') || [];
+    const cloudStaff = shared.staff || [];
+    const staffMap = new Map();
+    cloudStaff.forEach(s => staffMap.set(s.id, s));
+    localStaff.forEach(s => staffMap.set(s.id, s)); // 本地优先
+    shared.staff = Array.from(staffMap.values()).sort((a, b) => (a.id || 0) - (b.id || 0));
   },
 
   /**
