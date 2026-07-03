@@ -19,7 +19,7 @@ function renderDashboard() {
   const serviceTeamStaff = staff.filter(s => s.dept === 'Service Team' && s.status === 'active').length;
   const warehouseStaff = staff.filter(s => s.dept === '仓库兼职' && s.status === 'active').length;
   const thisWeekSchedules = schedules.length;
-  const pendingRatings = activeStaff.length - ratings.filter(r => r.month === _scoringMonth).length;
+  const pendingRatings = Math.max(0, activeStaff.length - ratings.filter(r => r.month === _scoringMonth).length);
   const attendanceRate = attendance.length > 0
     ? Math.round(attendance.filter(a => a.status === 'normal').length / attendance.length * 100)
     : 100;
@@ -1688,15 +1688,20 @@ function calcBehaviorScore(staffName) {
 
   let score = 4.0;
   let belowDoor = false, belowSupport = false;
+  // If entire team has zero data, lower baseline to avoid giving everyone free high scores
+  const hasAnyData = data.avgDoor > 0 || data.avgSupport > 0;
+  if (!hasAnyData) score = 3.0;
   if (door < avgDoor) { score -= 0.5; belowDoor = true; }
   if (support < avgSupport) { score -= 0.5; belowSupport = true; }
 
-  // 排名加成
-  const rankIdx = data.ranking.findIndex(r => r.name === staffName);
+  // 排名加成 — only apply when there's actual behavior data
+  let rankIdx = data.ranking.findIndex(r => r.name === staffName);
   let rankBonus = 0;
-  if (rankIdx === 0) rankBonus = 1.0;
-  else if (rankIdx === 1) rankBonus = 0.7;
-  else if (rankIdx === 2) rankBonus = 0.4;
+  if (hasAnyData) {
+    if (rankIdx === 0) rankBonus = 1.0;
+    else if (rankIdx === 1) rankBonus = 0.7;
+    else if (rankIdx === 2) rankBonus = 0.4;
+  }
   score += rankBonus;
 
   score = Math.max(1, Math.min(5, parseFloat(score.toFixed(1))));
@@ -3451,7 +3456,10 @@ function renderPersonalDashboard() {
     return Object.values(ds).reduce((a, b) => a + b, 0) / Object.values(ds).length;
   })() : 0;
   const perfData = Store.get('performanceData') || {};
-  const junePerf = perfData.june?.records?.find(r => r.name === _auth.staffName);
+  const perfKeyMap = { '2026-04': 'april', '2026-05': 'may', '2026-06': 'june', '2026-07': 'july' };
+  const perfKey = perfKeyMap[_scoringMonth] || 'july';
+  const myPerf = perfData[perfKey]?.records?.find(r => r.name === _auth.staffName);
+  const perfMonthLabel = _scoringMonth ? parseInt(_scoringMonth.split('-')[1]) + '月' : '本月';
   const lgData = Store.get('linggongAttendance') || {};
   const myAttendance = (lgData.records || []).filter(r => r.name === _auth.staffName);
   const normalDays = myAttendance.filter(r => r.status === '打卡正常').length;
@@ -3494,11 +3502,11 @@ function renderPersonalDashboard() {
         <div class="stat-label">出勤天数</div>
         <div class="stat-trend up">累计 ${totalHours.toFixed(1)}h</div>
       </div>
-      <div class="stat-card ${junePerf ? (junePerf.hourlyOutput >= 210 ? 'success' : 'warning') : ''}">
+      <div class="stat-card ${myPerf ? (myPerf.hourlyOutput >= 210 ? 'success' : 'warning') : ''}">
         <div class="stat-icon">📊</div>
-        <div class="stat-value">${junePerf ? '¥' + junePerf.sales.toLocaleString() : '-'}</div>
-        <div class="stat-label">6月销售额</div>
-        <div class="stat-trend ${junePerf ? (junePerf.hourlyOutput >= 210 ? 'up' : 'down') : ''}">${junePerf ? '时产 ¥' + junePerf.hourlyOutput.toFixed(0) + '/h' : '暂无数据'}</div>
+        <div class="stat-value">${myPerf ? '¥' + myPerf.sales.toLocaleString() : '-'}</div>
+        <div class="stat-label">${perfMonthLabel}销售额</div>
+        <div class="stat-trend ${myPerf ? (myPerf.hourlyOutput >= 210 ? 'up' : 'down') : ''}">${myPerf ? '时产 ¥' + myPerf.hourlyOutput.toFixed(0) + '/h' : '暂无数据'}</div>
       </div>
     </div>
 
@@ -3569,22 +3577,22 @@ function renderPersonalDashboard() {
     </div>
     ` : ''}
 
-    ${junePerf ? `
+    ${myPerf ? `
     <!-- 业绩数据 -->
     <div class="card animate-in" style="margin-top: 20px;">
-      <div class="card-header"><h3>💰 6月业绩</h3></div>
+      <div class="card-header"><h3>💰 ${perfMonthLabel}业绩</h3></div>
       <div class="card-body">
         <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
           <div style="text-align: center; padding: 12px;">
-            <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);">¥${junePerf.sales.toLocaleString()}</div>
+            <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);">¥${myPerf.sales.toLocaleString()}</div>
             <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">销售额</div>
           </div>
           <div style="text-align: center; padding: 12px;">
-            <div style="font-size: 18px; font-weight: 800; color: ${junePerf.hourlyOutput >= 210 ? '#10b981' : '#f59e0b'};">¥${junePerf.hourlyOutput.toFixed(0)}/h</div>
-            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">时产 ${junePerf.hourlyOutput >= 210 ? '✓达标' : '✗未达标'}</div>
+            <div style="font-size: 18px; font-weight: 800; color: ${myPerf.hourlyOutput >= 210 ? '#10b981' : '#f59e0b'};">¥${myPerf.hourlyOutput.toFixed(0)}/h</div>
+            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">时产 ${myPerf.hourlyOutput >= 210 ? '✓达标' : '✗未达标'}</div>
           </div>
           <div style="text-align: center; padding: 12px;">
-            <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);">${junePerf.qty || '-'}件 / ${junePerf.tickets || '-'}单</div>
+            <div style="font-size: 18px; font-weight: 800; color: var(--text-primary);">${myPerf.qty || '-'}件 / ${myPerf.tickets || '-'}单</div>
             <div style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">件数 / 客单数</div>
           </div>
         </div>

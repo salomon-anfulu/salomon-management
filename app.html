@@ -144,8 +144,8 @@
   </div>
 
   <!-- Scripts (cache-buster: v=对应 DATA_VERSION, 每次升级 v17 时改成 v17) -->
-  <script src="js/app.js?v=33"></script>
-  <script src="js/pages.js?v=33"></script>
+  <script src="js/app.js?v=34"></script>
+  <script src="js/pages.js?v=34"></script>
   <script>
     // ===== Auth Module =====
     const Auth = {
@@ -160,7 +160,7 @@
       get staffId() { return this._data?.staffId; },
       get staffName() { return this._data?.staffName; },
       get dept() { return this._data?.dept; },
-      get isAdmin() { return true; },
+      get isAdmin() { return this._data?.role === 'admin'; },
       logout() { sessionStorage.removeItem('auth'); window.location.href = 'login.html'; }
     };
 

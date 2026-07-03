@@ -1563,7 +1563,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-03-v33';
+      const DATA_VERSION = '2026-07-03-v34';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -1667,7 +1667,14 @@ linggongAttendance: {
         localStorage.setItem(this.KEY, JSON.stringify(merged));
       }
     } catch (e) {
-      console.error('[Store] 数据解析失败，重置为默认值:', e);
+      console.error('[Store] 数据解析失败，尝试安全备份后重置:', e);
+      // Safety backup before reset to prevent total data loss
+      try {
+        const existing = localStorage.getItem(this.KEY);
+        if (existing) {
+          localStorage.setItem(this.KEY + '_error_backup_' + Date.now(), existing);
+        }
+      } catch (e2) { /* ignore backup errors */ }
       localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
     }
   },
@@ -1921,6 +1928,11 @@ function showToast(message, type = 'success') {
 // ===== Utility Functions =====
 function formatDate(dateStr) {
   if (!dateStr) return '-';
+  // Handle ISO date strings (YYYY-MM-DD) without timezone issues
+  if (typeof dateStr === 'string' && /^\d{4}-\d{2}-\d{2}/.test(dateStr)) {
+    const parts = dateStr.slice(0, 10).split('-');
+    return `${parseInt(parts[1])}月${parseInt(parts[2])}日`;
+  }
   const d = new Date(dateStr);
   return `${d.getMonth() + 1}月${d.getDate()}日`;
 }
@@ -1950,7 +1962,11 @@ function getWeekDates() {
   for (let i = 0; i < 7; i++) {
     const d = new Date(monday);
     d.setDate(monday.getDate() + i);
-    dates.push(d.toISOString().split('T')[0]);
+    // Build YYYY-MM-DD manually to avoid timezone offset from toISOString
+    const yy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    dates.push(`${yy}-${mm}-${dd}`);
   }
   return dates;
 }
