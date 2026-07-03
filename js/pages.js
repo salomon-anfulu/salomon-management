@@ -120,7 +120,7 @@ function renderDashboard() {
               ${attendance.slice(-3).reverse().map(a => `
                 <tr>
                   <td><span class="badge badge-info">考勤</span></td>
-                  <td>${Store.getStaffName(a.staffId)} - ${SHIFT_LABELS[a.shift]} ${a.status === 'normal' ? '正常' : '迟到'}</td>
+                  <td>${Store.getStaffName(a.staffId)} - ${a.hours ? a.hours + '小时' : ''} ${a.status === 'normal' ? '正常' : '迟到'}</td>
                   <td>${formatDate(a.date)}</td>
                   <td><span class="badge ${a.status === 'normal' ? 'badge-active' : 'badge-warning'}">${a.status === 'normal' ? '正常' : '异常'}</span></td>
                 </tr>
