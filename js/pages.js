@@ -2802,14 +2802,22 @@ function renderPerformance() {
           const catRecords = records.filter(r => r.categories);
           return catRecords.map(r => {
             // Parse categories: support both string format and object format
-            let cats = r.categories;
-            if (typeof cats === 'string') {
+            let cats;
+            if (typeof r.categories === 'string') {
               const parsed = {};
-              cats.split('/').forEach(part => {
+              r.categories.split('/').forEach(part => {
                 const m = part.trim().match(/^(.+?)\s+([\d.]+)%/);
                 if (m) parsed[m[1]] = { pct: parseFloat(m[2]), sales: 0, qty: 0 };
               });
               cats = parsed;
+            } else if (r.categories && typeof r.categories === 'object') {
+              // Deep copy to avoid mutating Store data
+              cats = {};
+              Object.keys(r.categories).forEach(k => {
+                cats[k] = { ...r.categories[k] };
+              });
+            } else {
+              cats = {};
             }
             const catNames = Object.keys(cats).filter(cn => cats[cn] && typeof cats[cn].pct === 'number');
             // 从总销售额和占比反算各品类金额和数量
@@ -4042,7 +4050,7 @@ function openSupportForm() {
           </div>
           <div>
             <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">日期 *</label>
-            <input id="supportDate" type="date" value="${today}" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
+            <input id="supportDate" type="date" value="${defaultDate}" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
           </div>
         </div>
         <div style="display:grid;grid-template-columns:2fr 1fr;gap:12px;">
@@ -4449,9 +4457,10 @@ function openDateStatusForm(dayNum) {
 }
 
 function saveDateStatus(dayNum) {
-  const available = document.querySelector('input[name="dateStatus"]:checked')?.value === 'true';
+  const checkedEl = document.querySelector('input[name="dateStatus"]:checked');
+  if (!checkedEl) { showToast('请先选择状态', 'warning'); return; }
+  const available = checkedEl.value === 'true';
   const note = document.getElementById('dateNote').value.trim();
-  if (available === undefined) { alert('请选择状态'); return; }
 
   const [year, mon] = _availMonth.split('-').map(Number);
   const dateKey = `${mon}/${dayNum}`;
