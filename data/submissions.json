@@ -1,9 +1,9 @@
 {
   "_meta": {
     "description": "安福路 Salomon 兼职管理系统 - 共享填报数据（GitHub云同步）",
-    "version": 17,
-    "lastUpdated": "2026-07-06T09:09:49.242Z",
-    "lastUpdatedBy": "迟骋"
+    "version": 18,
+    "lastUpdated": "2026-07-06T09:10:39.491Z",
+    "lastUpdatedBy": "孔祥宇"
   },
   "availability": {
     "2026-06": {
@@ -593,10 +593,135 @@
           "dates": {}
         },
         "孔祥宇": {
-          "total": 0,
+          "total": 31,
           "unavailable": [],
           "note": "",
-          "dates": {}
+          "dates": {
+            "7/1": {
+              "available": true,
+              "note": ""
+            },
+            "7/2": {
+              "available": true,
+              "note": ""
+            },
+            "7/3": {
+              "available": true,
+              "note": ""
+            },
+            "7/4": {
+              "available": true,
+              "note": ""
+            },
+            "7/5": {
+              "available": true,
+              "note": ""
+            },
+            "7/6": {
+              "available": true,
+              "note": ""
+            },
+            "7/7": {
+              "available": true,
+              "note": ""
+            },
+            "7/8": {
+              "available": true,
+              "note": ""
+            },
+            "7/9": {
+              "available": true,
+              "note": ""
+            },
+            "7/10": {
+              "available": true,
+              "note": ""
+            },
+            "7/11": {
+              "available": true,
+              "note": ""
+            },
+            "7/12": {
+              "available": true,
+              "note": ""
+            },
+            "7/13": {
+              "available": true,
+              "note": ""
+            },
+            "7/20": {
+              "available": true,
+              "note": ""
+            },
+            "7/27": {
+              "available": true,
+              "note": ""
+            },
+            "7/19": {
+              "available": true,
+              "note": ""
+            },
+            "7/26": {
+              "available": true,
+              "note": ""
+            },
+            "7/25": {
+              "available": true,
+              "note": ""
+            },
+            "7/18": {
+              "available": true,
+              "note": ""
+            },
+            "7/17": {
+              "available": true,
+              "note": ""
+            },
+            "7/14": {
+              "available": true,
+              "note": ""
+            },
+            "7/15": {
+              "available": true,
+              "note": ""
+            },
+            "7/16": {
+              "available": true,
+              "note": ""
+            },
+            "7/21": {
+              "available": true,
+              "note": ""
+            },
+            "7/22": {
+              "available": true,
+              "note": ""
+            },
+            "7/23": {
+              "available": true,
+              "note": ""
+            },
+            "7/24": {
+              "available": true,
+              "note": ""
+            },
+            "7/28": {
+              "available": true,
+              "note": ""
+            },
+            "7/29": {
+              "available": true,
+              "note": ""
+            },
+            "7/30": {
+              "available": true,
+              "note": ""
+            },
+            "7/31": {
+              "available": true,
+              "note": ""
+            }
+          }
         },
         "邓奇缘": {
           "total": 0,
@@ -1321,6 +1446,137 @@
           "note": "",
           "dates": {
             "7/1": {
+              "available": true,
+              "note": ""
+            }
+          }
+        },
+        "陈昕媛": {
+          "total": 31,
+          "unavailable": [],
+          "note": "",
+          "dates": {
+            "7/1": {
+              "available": true,
+              "note": ""
+            },
+            "7/2": {
+              "available": true,
+              "note": ""
+            },
+            "7/3": {
+              "available": true,
+              "note": ""
+            },
+            "7/4": {
+              "available": true,
+              "note": ""
+            },
+            "7/5": {
+              "available": true,
+              "note": ""
+            },
+            "7/6": {
+              "available": true,
+              "note": ""
+            },
+            "7/7": {
+              "available": true,
+              "note": ""
+            },
+            "7/8": {
+              "available": true,
+              "note": ""
+            },
+            "7/9": {
+              "available": true,
+              "note": ""
+            },
+            "7/10": {
+              "available": true,
+              "note": ""
+            },
+            "7/11": {
+              "available": true,
+              "note": ""
+            },
+            "7/12": {
+              "available": true,
+              "note": ""
+            },
+            "7/13": {
+              "available": true,
+              "note": ""
+            },
+            "7/14": {
+              "available": true,
+              "note": ""
+            },
+            "7/15": {
+              "available": true,
+              "note": ""
+            },
+            "7/20": {
+              "available": true,
+              "note": ""
+            },
+            "7/27": {
+              "available": true,
+              "note": ""
+            },
+            "7/28": {
+              "available": true,
+              "note": ""
+            },
+            "7/21": {
+              "available": true,
+              "note": ""
+            },
+            "7/22": {
+              "available": true,
+              "note": ""
+            },
+            "7/29": {
+              "available": true,
+              "note": ""
+            },
+            "7/19": {
+              "available": true,
+              "note": ""
+            },
+            "7/16": {
+              "available": true,
+              "note": ""
+            },
+            "7/17": {
+              "available": true,
+              "note": ""
+            },
+            "7/18": {
+              "available": true,
+              "note": ""
+            },
+            "7/23": {
+              "available": true,
+              "note": ""
+            },
+            "7/30": {
+              "available": true,
+              "note": ""
+            },
+            "7/31": {
+              "available": true,
+              "note": ""
+            },
+            "7/24": {
+              "available": true,
+              "note": ""
+            },
+            "7/25": {
+              "available": true,
+              "note": ""
+            },
+            "7/26": {
               "available": true,
               "note": ""
             }
@@ -2380,7 +2636,7 @@
       "date": "2026-07-05",
       "type": "货品-辅助收货",
       "duration": "2小时",
-      "detail": ""
+      "detail": "查背诵产品知识"
     },
     {
       "id": 95,
@@ -3751,6 +4007,23 @@
         {
           "time": "10:00:00-11:00:00",
           "staff": "杨子豪"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "slots": [
+        {
+          "time": "12:00:00-13:00:00",
+          "staff": "孔祥宇"
+        },
+        {
+          "time": "18:00:00-19:00:00",
+          "staff": "孔祥宇"
+        },
+        {
+          "time": "19:00:00-20:00:00",
+          "staff": ""
         }
       ]
     },
