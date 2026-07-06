@@ -1,8 +1,8 @@
 {
   "_meta": {
     "description": "安福路 Salomon 兼职管理系统 - 共享填报数据（GitHub云同步）",
-    "version": 43,
-    "lastUpdated": "2026-07-06T09:32:31.025Z",
+    "version": 44,
+    "lastUpdated": "2026-07-06T09:33:44.638Z",
     "lastUpdatedBy": "何秋烨"
   },
   "availability": {
@@ -2847,6 +2847,14 @@
       "type": "陈列-翻场支援",
       "duration": "2小时",
       "detail": "1f模特更换陈列，1.5发f模特更换陈列，新品出样，撤样归仓"
+    },
+    {
+      "id": 104,
+      "staff": "何秋烨",
+      "date": "2026-07-05",
+      "type": "陈列-翻场支援",
+      "duration": "1.5小时",
+      "detail": "换模特 拍陈列图 调灯光"
     }
   ],
   "doorSchedule": [
