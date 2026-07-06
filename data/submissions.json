@@ -1,9 +1,9 @@
 {
   "_meta": {
     "description": "安福路 Salomon 兼职管理系统 - 共享填报数据（GitHub云同步）",
-    "version": 14,
-    "lastUpdated": "2026-07-06T09:02:42.265Z",
-    "lastUpdatedBy": "龚赟昊"
+    "version": 15,
+    "lastUpdated": "2026-07-06T09:08:17.630Z",
+    "lastUpdatedBy": "王靳毓"
   },
   "availability": {
     "2026-06": {
@@ -322,10 +322,137 @@
           "dates": {}
         },
         "王靳毓": {
-          "total": 0,
-          "unavailable": [],
+          "total": 30,
+          "unavailable": [
+            "7/2"
+          ],
           "note": "",
-          "dates": {}
+          "dates": {
+            "7/3": {
+              "available": true,
+              "note": ""
+            },
+            "7/2": {
+              "available": false,
+              "note": ""
+            },
+            "7/1": {
+              "available": true,
+              "note": ""
+            },
+            "7/4": {
+              "available": true,
+              "note": ""
+            },
+            "7/5": {
+              "available": true,
+              "note": ""
+            },
+            "7/6": {
+              "available": true,
+              "note": ""
+            },
+            "7/7": {
+              "available": true,
+              "note": ""
+            },
+            "7/8": {
+              "available": true,
+              "note": ""
+            },
+            "7/9": {
+              "available": true,
+              "note": ""
+            },
+            "7/10": {
+              "available": true,
+              "note": ""
+            },
+            "7/11": {
+              "available": true,
+              "note": ""
+            },
+            "7/12": {
+              "available": true,
+              "note": ""
+            },
+            "7/13": {
+              "available": true,
+              "note": ""
+            },
+            "7/14": {
+              "available": true,
+              "note": ""
+            },
+            "7/15": {
+              "available": true,
+              "note": ""
+            },
+            "7/16": {
+              "available": true,
+              "note": ""
+            },
+            "7/17": {
+              "available": true,
+              "note": ""
+            },
+            "7/18": {
+              "available": true,
+              "note": ""
+            },
+            "7/19": {
+              "available": true,
+              "note": ""
+            },
+            "7/20": {
+              "available": true,
+              "note": ""
+            },
+            "7/21": {
+              "available": true,
+              "note": ""
+            },
+            "7/22": {
+              "available": true,
+              "note": ""
+            },
+            "7/23": {
+              "available": true,
+              "note": ""
+            },
+            "7/24": {
+              "available": true,
+              "note": ""
+            },
+            "7/25": {
+              "available": true,
+              "note": ""
+            },
+            "7/26": {
+              "available": true,
+              "note": ""
+            },
+            "7/27": {
+              "available": true,
+              "note": ""
+            },
+            "7/28": {
+              "available": true,
+              "note": ""
+            },
+            "7/29": {
+              "available": true,
+              "note": ""
+            },
+            "7/30": {
+              "available": true,
+              "note": ""
+            },
+            "7/31": {
+              "available": true,
+              "note": ""
+            }
+          }
         },
         "朱凯赟": {
           "total": 0,
@@ -2130,6 +2257,14 @@
       "type": "货品-辅助收货",
       "duration": "8小时",
       "detail": "尖货核销"
+    },
+    {
+      "id": 96,
+      "staff": "王靳毓",
+      "date": "2026-07-06",
+      "type": "陈列-翻场支援",
+      "duration": "1小时",
+      "detail": "1f模特更换陈列，出样熨烫，撤样归仓"
     }
   ],
   "doorSchedule": [
@@ -3495,6 +3630,191 @@
           "staff": "杨子豪"
         }
       ]
+    },
+    {
+      "date": "2026-07-04",
+      "slots": [
+        {
+          "time": "12:00:00-13:00:00",
+          "staff": "王靳毓"
+        },
+        {
+          "time": "18:00:00-19:00:00",
+          "staff": "王靳毓"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-05",
+      "slots": []
+    },
+    {
+      "date": "2026-07-06",
+      "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "王靳毓"
+        }
+      ]
+    }
+  ],
+  "customerReviews": [
+    {
+      "id": 1,
+      "staffName": "陈昕媛",
+      "month": "2026-06",
+      "rating": 5,
+      "reviewDate": "2026-06-16",
+      "snippet": "逛街看到小白楼进来逛逛，Kelly的导览非常详细，带我了解到了很多新的活动和品牌历史，对Salomon有了新的了解。",
+      "keywords": [
+        "导览详细",
+        "品牌历史",
+        "新活动",
+        "超预期"
+      ],
+      "source": "大众点评（陆慧，Lv4）"
+    },
+    {
+      "id": 2,
+      "staffName": "迟骋",
+      "month": "2026-06",
+      "rating": 5,
+      "reviewDate": "2026-06-17",
+      "snippet": "店门口很适合拍照，店员都好帅。那天碰到一个小哥态度很好很和善，问他说是叫CC，下次还找他服务。",
+      "keywords": [
+        "态度好",
+        "和善",
+        "适合拍照",
+        "下次还找"
+      ],
+      "source": "大众点评（煤球斯基，Lv1）"
+    },
+    {
+      "id": 3,
+      "staffName": "迟骋",
+      "month": "2026-06",
+      "rating": 5,
+      "reviewDate": "2026-06-17",
+      "snippet": "本次购物体验很棒，导购小哥cc十分热情主动，详细介绍产品特点，耐心解答疑问，专业又贴心，感谢优质服务。",
+      "keywords": [
+        "热情主动",
+        "详细介绍",
+        "耐心解答",
+        "专业贴心"
+      ],
+      "source": "大众点评（yuki，Lv1）"
+    },
+    {
+      "id": 4,
+      "staffName": "朱凯赟",
+      "month": "2026-06",
+      "rating": 5,
+      "reviewDate": "2026-06-17",
+      "snippet": "导购小哥cc十分热情主动，详细介绍产品特点，耐心解答疑问，小朱帮忙挑选也很用心，专业又贴心，感谢优质服务。",
+      "keywords": [
+        "热情主动",
+        "详细介绍",
+        "耐心解答",
+        "专业贴心"
+      ],
+      "source": "大众点评（yuki，Lv1）"
+    },
+    {
+      "id": 5,
+      "staffName": "迟骋",
+      "month": "2026-06",
+      "rating": 5,
+      "reviewDate": "2026-06-17",
+      "snippet": "特别感谢店员朱凯赟和迟骋，两人全程热情耐心，细致讲解鞋款功能，主动拿多款尺码试穿，专业给出选购建议，没有半点推销感。",
+      "keywords": [
+        "热情耐心",
+        "细致讲解",
+        "主动拿尺码",
+        "专业建议",
+        "无推销感"
+      ],
+      "source": "大众点评（我是可乐我会冒泡，Lv3）"
+    },
+    {
+      "id": 6,
+      "staffName": "朱凯赟",
+      "month": "2026-06",
+      "rating": 5,
+      "reviewDate": "2026-06-17",
+      "snippet": "特别感谢店员朱凯赟和迟骋，两人全程热情耐心，细致讲解鞋款功能，主动拿多款尺码试穿，专业给出选购建议，服务贴心周到。",
+      "keywords": [
+        "热情耐心",
+        "细致讲解",
+        "主动拿尺码",
+        "专业建议",
+        "贴心周到"
+      ],
+      "source": "大众点评（我是可乐我会冒泡，Lv3）"
+    },
+    {
+      "id": 7,
+      "staffName": "李若彤",
+      "month": "2026-06",
+      "rating": 5,
+      "reviewDate": "2026-06-20",
+      "snippet": "买了两双安福路店限定whisper，来上海旅游的目的就是这两双，店员好亲切，进来了两次，第一次试穿店员并不会因为我来试试而置之不理，非常惊讶。特别点名小和，非常非常非常用心！",
+      "keywords": [
+        "服务态度好",
+        "热情亲切",
+        "耐心接待",
+        "小和用心",
+        "购买转化"
+      ],
+      "source": "大众点评（匿名用户，Lv2）"
+    },
+    {
+      "id": 8,
+      "staffName": "迟骋",
+      "month": "2026-06",
+      "rating": 5,
+      "reviewDate": "2026-06-21",
+      "snippet": "来Salomon安福路店逛街，CC接待的我，人特别热情，讲鞋子都讲得很细，耐心跟我说各个款式的区别，选鞋给的建议也很实在，逛着很舒服，体验挺好的～",
+      "keywords": [
+        "热情",
+        "讲解细致",
+        "耐心介绍",
+        "建议实在",
+        "体验好"
+      ],
+      "source": "大众点评（勇善可爱的小柔，Lv1）"
+    },
+    {
+      "id": 9,
+      "staffName": "杨子豪",
+      "month": "2026-06",
+      "rating": 5,
+      "reviewDate": "2026-06-26",
+      "snippet": "第一次光临很愉快的购物体验，子豪很热情，耐心介绍产品，非常专业，店内环境也很好，有空再来逛一逛。",
+      "keywords": [
+        "热情",
+        "耐心介绍",
+        "非常专业",
+        "店内环境好"
+      ],
+      "source": "大众点评（匿名用户，Lv2）"
+    },
+    {
+      "id": 10,
+      "staffName": "杨子豪",
+      "month": "2026-06",
+      "rating": 5,
+      "reviewDate": "2026-06-26",
+      "snippet": "门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～",
+      "keywords": [
+        "环境很好",
+        "非常热情",
+        "耐心介绍",
+        "贴心拿尺码",
+        "推荐专业",
+        "舒适",
+        "愉快体验"
+      ],
+      "source": "大众点评（匿名用户，Lv1）"
     }
   ]
 }
