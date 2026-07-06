@@ -1,9 +1,9 @@
 {
   "_meta": {
     "description": "安福路 Salomon 兼职管理系统 - 共享填报数据（GitHub云同步）",
-    "version": 12,
-    "lastUpdated": "2026-07-06T08:59:48.863Z",
-    "lastUpdatedBy": "龚赟昊"
+    "version": 13,
+    "lastUpdated": "2026-07-06T09:00:42.082Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "2026-06": {
@@ -501,11 +501,89 @@
           "dates": {}
         },
         "龚赟昊": {
-          "total": 1,
-          "unavailable": [],
+          "total": 19,
+          "unavailable": [
+            "7/19"
+          ],
           "note": "",
           "dates": {
             "7/1": {
+              "available": true,
+              "note": ""
+            },
+            "7/19": {
+              "available": false,
+              "note": ""
+            },
+            "7/18": {
+              "available": true,
+              "note": ""
+            },
+            "7/17": {
+              "available": true,
+              "note": ""
+            },
+            "7/16": {
+              "available": true,
+              "note": ""
+            },
+            "7/15": {
+              "available": true,
+              "note": ""
+            },
+            "7/14": {
+              "available": true,
+              "note": ""
+            },
+            "7/13": {
+              "available": true,
+              "note": ""
+            },
+            "7/20": {
+              "available": true,
+              "note": ""
+            },
+            "7/21": {
+              "available": true,
+              "note": ""
+            },
+            "7/22": {
+              "available": true,
+              "note": ""
+            },
+            "7/23": {
+              "available": true,
+              "note": ""
+            },
+            "7/24": {
+              "available": true,
+              "note": ""
+            },
+            "7/25": {
+              "available": true,
+              "note": ""
+            },
+            "7/26": {
+              "available": true,
+              "note": ""
+            },
+            "7/27": {
+              "available": true,
+              "note": ""
+            },
+            "7/28": {
+              "available": true,
+              "note": ""
+            },
+            "7/30": {
+              "available": true,
+              "note": ""
+            },
+            "7/29": {
+              "available": true,
+              "note": ""
+            },
+            "7/31": {
               "available": true,
               "note": ""
             }
