@@ -241,23 +241,36 @@ const Sync = {
           throw putErr;
         }
       }
-      // 3 轮都失败
-      throw new Error('连续 3 次 SHA 冲突，请稍后重试');
-    } catch (e) {
-      console.warn('[Sync] 推送失败:', e.message);
-      this._pendingSync = true; // 标记待同步，下次 pull 成功后会触发补偿
-      // 显示用户友好的错误提示
-      const msg = e.message || '未知错误';
-      if (msg.includes('401') || msg.includes('Bad credentials')) {
-        showToast('☁️ 同步失败: Token无效，请在设置中重新配置', 'error');
-      } else if (msg.includes('403') || msg.includes('resource not accessible')) {
-        showToast('☁️ 同步失败: Token权限不足，需开启 Contents → Read & Write', 'error');
-      } else if (msg.includes('does not match') || msg.includes('409') || msg.includes('连续')) {
-        showToast('☁️ 多人同时保存中，已暂存本地，系统将自动重试', 'warning');
-      } else {
-        showToast('☁️ 同步未成功: ' + msg, 'warning');
+      // 3 轮都冲突 → 拉一次云端验证数据是否已写入
+      console.log('[Sync] 3轮冲突重试均未成功，验证云端是否已有数据...');
+      const verified = await this._verifyDataInCloud();
+      if (verified) {
+        // 数据已在云端（某轮 PUT 实际成功只是响应延迟，或他人包含了同样改动）
+        console.log('[Sync] 云端验证通过，数据已同步');
+        this._pendingSync = false;
+        this._lastSyncTime = Date.now();
+        return true;
       }
-      return { success: false, error: e.message };
+      // 云端确实没有，标记待同步，下次 pull 成功后自动补偿
+      throw new Error('continuous_sh conflict');
+    } catch (e) {
+      if (e.message === 'continuous_sh conflict') {
+        // 确实是暂时性冲突，静默标记，不弹 toast 打扰用户
+        console.log('[Sync] 云端暂无此数据，已标记待同步，将在下次自动补偿');
+        this._pendingSync = true;
+      } else {
+        console.warn('[Sync] 推送失败:', e.message);
+        this._pendingSync = true;
+        const msg = e.message || '未知错误';
+        if (msg.includes('401') || msg.includes('Bad credentials')) {
+          showToast('☁️ 同步失败: Token无效，请在设置中重新配置', 'error');
+        } else if (msg.includes('403') || msg.includes('resource not accessible')) {
+          showToast('☁️ 同步失败: Token权限不足，需开启 Contents → Read & Write', 'error');
+        } else {
+          showToast('☁️ 同步未成功: ' + msg, 'warning');
+        }
+      }
+      return { success: false, error: e.message || 'conflict' };
     }
   },
 
@@ -678,6 +691,39 @@ const Sync = {
       shared.doorSchedule || [],
       Store.get('doorSchedule') || []
     );
+  },
+
+  /**
+   * 3 轮 push 全部冲突后，验证云端是否已有本地数据（v46a）
+   * 原理：拉取最新云端 → 合入本地数据 → 对比合并前后是否一致
+   * 如果一致 = 数据已在云端（某次 PUT 实际成功、或他人也推送了同样数据）
+   */
+  async _verifyDataInCloud() {
+    try {
+      // 强制拉取最新云端数据（忽略防抖）
+      this._lastPull = null;
+      const cloud = await this._fetchSharedData();
+      if (!cloud) return false;
+      delete cloud.__sha;
+
+      // 深拷贝一份「合并前」的云端数据
+      const before = JSON.stringify(cloud);
+
+      // 把本地数据合入云端副本
+      this._mergeLocalIntoShared(cloud);
+
+      // 对比合并前后
+      const after = JSON.stringify(cloud);
+      if (before === after) {
+        // 合并没有改变云端 → 说明本地改动已经在云端了
+        return true;
+      }
+      console.log('[Sync] 云端验证：本地有未同步的数据');
+      return false;
+    } catch (e) {
+      console.warn('[Sync] 云端验证失败:', e.message);
+      return false;
+    }
   },
 
   /**
