@@ -27,7 +27,11 @@ const Sync = {
   /** 上次同部拉取时间戳 */
   _lastPull: null,
   /** 拉取间隔（毫秒），避免频繁请求 */
-  PULL_INTERVAL: 30000,
+  PULL_INTERVAL: 15000,
+  /** push 失败后标记，下次 pull 成功时清除 */
+  _pendingSync: false,
+  /** 上次同步（push 或 pull）成功的时间戳，用于 UI 显示 */
+  _lastSyncTime: null,
 
   /**
    * 获取存储的 Token
@@ -153,6 +157,13 @@ const Sync = {
 
       this._mergeIntoLocal(shared);
       this._lastPull = Date.now();
+      this._lastSyncTime = Date.now();
+      // 如果之前有 push 失败，pull 成功后触发一次补偿推送
+      if (this._pendingSync) {
+        console.log('[Sync] 检测到待同步数据，触发补偿推送');
+        this._pendingSync = false;
+        this.push('auto-retry').catch(() => { this._pendingSync = true; });
+      }
       console.log('[Sync] 拉取成功', new Date().toLocaleTimeString());
       return true;
     } catch (e) {
@@ -239,9 +250,12 @@ const Sync = {
       }
 
       console.log('[Sync] 推送成功 v' + shared._meta.version);
+      this._pendingSync = false;
+      this._lastSyncTime = Date.now();
       return true;
     } catch (e) {
       console.warn('[Sync] 推送失败:', e.message);
+      this._pendingSync = true; // 标记待同步，下次 pull 成功后会清除
       // 显示用户友好的错误提示
       const msg = e.message || '未知错误';
       if (msg.includes('401') || msg.includes('Bad credentials')) {
@@ -361,7 +375,8 @@ const Sync = {
     if (shared.shiftChanges && shared.shiftChanges.length > 0) {
       const local = Store.get('shiftChanges') || [];
       const merged = this._mergeArraysById(local, shared.shiftChanges);
-      if (merged.length > local.length) {
+      // v46: 字段级合并不一定增加 length，用 JSON 比较判断是否变化
+      if (JSON.stringify(merged) !== JSON.stringify(local)) {
         Store.set('shiftChanges', merged);
       }
     }
@@ -370,7 +385,7 @@ const Sync = {
     if (shared.storeSupport && shared.storeSupport.length > 0) {
       const local = Store.get('storeSupport') || [];
       const merged = this._mergeArraysById(local, shared.storeSupport);
-      if (merged.length > local.length) {
+      if (JSON.stringify(merged) !== JSON.stringify(local)) {
         Store.set('storeSupport', merged);
       }
     }
@@ -379,39 +394,12 @@ const Sync = {
     if (shared.doorSchedule && shared.doorSchedule.length > 0) {
       const local = Store.get('doorSchedule') || [];
       const merged = this._mergeArraysByDate(local, shared.doorSchedule);
-      if (merged.length > local.length) {
+      if (JSON.stringify(merged) !== JSON.stringify(local)) {
         Store.set('doorSchedule', merged);
       }
     }
 
-    // === 人员信息 (staff) — 按 id 合并，云端覆盖本地 ===
-    if (shared.staff && shared.staff.length > 0) {
-      const local = Store.get('staff') || [];
-      const merged = [...local];
-      let changed = false;
-      shared.staff.forEach(cloudStaff => {
-        if (!cloudStaff.id) return;
-        const idx = merged.findIndex(s => s.id === cloudStaff.id);
-        if (idx >= 0) {
-          // 只更新实际变化的字段（避免无意义的 set 触发缓存失效）
-          const localCopy = { ...merged[idx] };
-          Object.keys(cloudStaff).forEach(key => {
-            if (key === 'id') return; // id 是主键，不可覆盖
-            if (JSON.stringify(localCopy[key]) !== JSON.stringify(cloudStaff[key])) {
-              changed = true;
-            }
-          });
-          merged[idx] = { ...merged[idx], ...cloudStaff };
-        } else {
-          merged.push(cloudStaff);
-          changed = true;
-        }
-      });
-      if (changed) {
-        Store.set('staff', merged);
-        console.log(`[Sync] 人员信息已更新`);
-      }
-    }
+    // 注: staff 合并已在上方完成（字段级），不再重复处理（v46 移除冗余）
   },
 
   /**
@@ -703,23 +691,57 @@ const Sync = {
   },
 
   /**
-   * 按 id 去重合并数组
+   * 按 id 去重合并数组 — 字段级合并（v46）
+   * 同一条记录被两人各自修改了不同字段时，不丢失任何一个字段。
+   * 策略：以 _updatedAt 时间戳判断新旧，取更新一方的字段值；
+   *       无 _updatedAt 时退化为「非空字段覆盖」。
    */
   _mergeArraysById(local, remote) {
     const map = new Map();
-    local.forEach(item => map.set(item.id, item));
-    remote.forEach(item => map.set(item.id, item));
+    local.forEach(item => { if (item && item.id != null) map.set(item.id, { ...item }); });
+    remote.forEach(item => {
+      if (!item || item.id == null) return;
+      const existing = map.get(item.id);
+      map.set(item.id, existing ? this._mergeFields(existing, item) : { ...item });
+    });
     return Array.from(map.values()).sort((a, b) => (a.id || 0) - (b.id || 0));
   },
 
   /**
-   * 按 date 去重合并数组（用于 doorSchedule）
+   * 按 date 去重合并数组（用于 doorSchedule）— 字段级合并（v46）
    */
   _mergeArraysByDate(local, remote) {
     const map = new Map();
-    local.forEach(item => map.set(item.date, item));
-    remote.forEach(item => map.set(item.date, item));
+    local.forEach(item => { if (item && item.date) map.set(item.date, { ...item }); });
+    remote.forEach(item => {
+      if (!item || !item.date) return;
+      const existing = map.get(item.date);
+      map.set(item.date, existing ? this._mergeFields(existing, item) : { ...item });
+    });
     return Array.from(map.values()).sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+  },
+
+  /**
+   * 字段级合并两条记录（v46 新增）
+   * - 有 _updatedAt：取更新的一方字段
+   * - 无 _updatedAt：remote 非空字段覆盖 local（兼容旧数据）
+   */
+  _mergeFields(localItem, remoteItem) {
+    const merged = { ...localItem };
+    const lTs = localItem._updatedAt || 0;
+    const rTs = remoteItem._updatedAt || 0;
+    const remoteNewer = rTs >= lTs;
+    Object.keys(remoteItem).forEach(key => {
+      if (key === 'id' || key === 'date') return; // 主键不可覆盖
+      const rv = remoteItem[key];
+      if (rv === null || rv === undefined || rv === '') return; // 空值不覆盖
+      if (remoteNewer || merged[key] === undefined || merged[key] === null || merged[key] === '') {
+        merged[key] = rv;
+      }
+    });
+    // 取更新的 _updatedAt
+    if (rTs || lTs) merged._updatedAt = String(Math.max(rTs, lTs));
+    return merged;
   },
 
   /**
@@ -753,12 +775,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 1500);
 });
 
-// ===== 定期自动拉取（每60秒） =====
+// ===== 定期自动拉取（每15秒） =====
 setInterval(() => {
   if (Sync.isEnabled()) {
     Sync.pull(true).then(() => Sync._updateIndicator()).catch(() => {});
   }
-}, 60000);
+}, 15000);
 
 // ===== UI 状态指示器更新 =====
 /**
@@ -770,10 +792,27 @@ Sync._updateIndicator = function() {
   const indicator = document.getElementById('syncIndicator');
   if (!dot || !label) return;
 
+  // 辅助：格式化"上次同步时间"
+  const _fmtTime = (ts) => {
+    if (!ts) return null;
+    const diff = Date.now() - ts;
+    if (diff < 60000) return '刚刚';
+    if (diff < 3600000) return Math.floor(diff / 60000) + '分钟前';
+    return new Date(ts).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+  };
+
     if (this.isEnabled()) {
-    dot.style.background = '#10b981';
-    label.textContent = '已同步';
-    indicator.title = '云端同步已启用 · 点击手动拉取 · 右键配置Token';
+    // 待同步状态（push 失败）
+    if (this._pendingSync) {
+      dot.style.background = '#f59e0b';
+      label.textContent = '待同步';
+      indicator.title = '上次推送未成功，已暂存本地，下次拉取后自动重试';
+    } else {
+      dot.style.background = '#10b981';
+      label.textContent = '已同步';
+      const lastTime = _fmtTime(this._lastSyncTime);
+      indicator.title = '云端同步已启用' + (lastTime ? ' · 上次同步: ' + lastTime : '') + ' · 点击手动拉取 · 右键配置Token';
+    }
     indicator.style.cursor = 'pointer';
     indicator.onclick = async () => {
       label.textContent = '拉取中...';
