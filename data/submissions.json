@@ -1,9 +1,9 @@
 {
   "_meta": {
     "description": "安福路 Salomon 兼职管理系统 - 共享填报数据（GitHub云同步）",
-    "version": 49,
-    "lastUpdated": "2026-07-06T10:13:42.878Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 50,
+    "lastUpdated": "2026-07-06T10:14:41.916Z",
+    "lastUpdatedBy": "龚赟昊"
   },
   "availability": {
     "2026-06": {
@@ -4251,6 +4251,10 @@
         {
           "time": "10:00:00-11:00:00",
           "staff": "王靳毓"
+        },
+        {
+          "time": "11:00:00-12:00:00",
+          "staff": "龚赟昊"
         },
         {
           "time": "12:00:00-13:00:00",
