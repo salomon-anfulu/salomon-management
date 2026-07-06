@@ -4677,6 +4677,16 @@ function renderOverviewMatrix() {
   }).join('');
 
   const staffRows = staff.map(s => {
+    // 收集本周不可上班备注（v47e 新增：专门一列展示）
+    const weekNotes = [];
+    weekDays.forEach(d => {
+      const status = getDateStatus(_availMonth, s.name, d);
+      if (status && !status.available && status.note && status.note.trim()) {
+        const mon2 = parseInt(_availMonth.split('-')[1]);
+        weekNotes.push(`${mon2}/${d}: ${status.note.trim()}`);
+      }
+    });
+
     const cells = weekDays.map((d, i) => {
       const status = getDateStatus(_availMonth, s.name, d);
       const date = new Date(year, mon - 1, d);
@@ -4685,20 +4695,20 @@ function renderOverviewMatrix() {
       if (status === null) {
         return `<td style="text-align:center;padding:6px;background:${isWeekend ? 'rgba(233,69,96,0.03)' : 'transparent'};"><span style="color:var(--text-muted);font-size:14px;">—</span></td>`;
       }
-      const note = status.note && status.note.trim() ? status.note.trim() : '';
-      const noteDisplay = note.length > 6 ? note.slice(0, 6) + '…' : note;
       if (status.available) {
-        return `<td style="text-align:center;padding:6px;background:${isWeekend ? 'rgba(233,69,96,0.03)' : 'transparent'};" title="${note}">
+        return `<td style="text-align:center;padding:6px;background:${isWeekend ? 'rgba(233,69,96,0.03)' : 'transparent'};">
           <div style="font-size:15px;">✅</div>
-          ${noteDisplay ? `<div style="font-size:9px;color:var(--text-secondary);max-width:55px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${noteDisplay}</div>` : ''}
         </td>`;
       } else {
-        return `<td style="text-align:center;padding:6px;background:${isWeekend ? 'rgba(233,69,96,0.03)' : 'transparent'};" title="${note}">
+        return `<td style="text-align:center;padding:6px;background:${isWeekend ? 'rgba(233,69,96,0.03)' : 'transparent'};">
           <div style="font-size:15px;">❌</div>
-          ${noteDisplay ? `<div style="font-size:9px;color:#ef4444;max-width:55px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${noteDisplay}</div>` : ''}
         </td>`;
       }
     }).join('');
+
+    const notesCell = weekNotes.length > 0
+      ? weekNotes.map(n => `<div style="font-size:11px;color:var(--text-secondary);line-height:1.6;padding:1px 0;">${n}</div>`).join('')
+      : '<span style="font-size:12px;color:var(--text-muted);">—</span>';
 
     return `
       <tr style="border-bottom:1px solid var(--border-light);">
@@ -4709,6 +4719,9 @@ function renderOverviewMatrix() {
           </div>
         </td>
         ${cells}
+        <td style="padding:6px 10px;min-width:140px;max-width:220px;background:var(--bg-secondary);border-left:1px solid var(--border-light);">
+          ${notesCell}
+        </td>
       </tr>
     `;
   }).join('');
@@ -4740,6 +4753,7 @@ function renderOverviewMatrix() {
             <tr style="border-bottom:2px solid var(--border);">
               <th style="text-align:left;padding:8px 12px;min-width:90px;position:sticky;left:0;background:var(--bg-card,#fff);z-index:2;">姓名</th>
               ${headerCells}
+              <th style="text-align:left;padding:8px 12px;min-width:140px;background:var(--bg-secondary);border-left:2px solid var(--border);">📝 不可上班备注</th>
             </tr>
           </thead>
           <tbody>
@@ -4749,6 +4763,7 @@ function renderOverviewMatrix() {
             <tr style="border-top:2px solid var(--border);background:var(--bg-secondary);">
               <td style="padding:8px 12px;font-size:12px;font-weight:700;position:sticky;left:0;background:var(--bg-secondary);z-index:1;">可供人数</td>
               ${countRow}
+              <td style="background:var(--bg-secondary);border-left:2px solid var(--border);"></td>
             </tr>
           </tfoot>
         </table>
