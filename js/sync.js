@@ -763,6 +763,7 @@ const Sync = {
 
   /**
    * 按 date 去重合并数组（用于 doorSchedule）— 字段级合并（v46）
+   * v47c: slots 数组按 time 子级合并，不再整段覆盖
    */
   _mergeArraysByDate(local, remote) {
     const map = new Map();
@@ -770,9 +771,31 @@ const Sync = {
     remote.forEach(item => {
       if (!item || !item.date) return;
       const existing = map.get(item.date);
-      map.set(item.date, existing ? this._mergeFields(existing, item) : { ...item });
+      if (!existing) { map.set(item.date, { ...item }); return; }
+      // 字段级合并（除 slots 外）
+      const merged = this._mergeFields(existing, item);
+      // slots 数组按 time 子级合并
+      if (existing.slots || item.slots) {
+        merged.slots = this._mergeSlotsByTime(existing.slots || [], item.slots || []);
+      }
+      map.set(item.date, merged);
     });
     return Array.from(map.values()).sort((a, b) => (a.date || '').localeCompare(b.date || ''));
+  },
+
+  /**
+   * 按 time 字段合并 slots 数组（v47c 新增）
+   * 同 time 的 slot 做字段级合并，不同 time 的并集。
+   */
+  _mergeSlotsByTime(aSlots, bSlots) {
+    const m = new Map();
+    aSlots.forEach(s => { if (s && s.time) m.set(s.time, { ...s }); });
+    bSlots.forEach(s => {
+      if (!s || !s.time) return;
+      const existing = m.get(s.time);
+      m.set(s.time, existing ? this._mergeFields(existing, s) : { ...s });
+    });
+    return Array.from(m.values()).sort((a, b) => (a.time || '').localeCompare(b.time || ''));
   },
 
   /**
