@@ -1,9 +1,9 @@
 {
   "_meta": {
     "description": "安福路 Salomon 兼职管理系统 - 共享填报数据（GitHub云同步）",
-    "version": 13,
-    "lastUpdated": "2026-07-06T09:00:42.082Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 14,
+    "lastUpdated": "2026-07-06T09:02:42.265Z",
+    "lastUpdatedBy": "龚赟昊"
   },
   "availability": {
     "2026-06": {
@@ -2122,6 +2122,14 @@
       "type": "货品-辅助收货",
       "duration": "2小时",
       "detail": ""
+    },
+    {
+      "id": 95,
+      "staff": "龚赟昊",
+      "date": "2026-07-04",
+      "type": "货品-辅助收货",
+      "duration": "8小时",
+      "detail": "尖货核销"
     }
   ],
   "doorSchedule": [
