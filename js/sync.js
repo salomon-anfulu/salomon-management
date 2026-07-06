@@ -935,8 +935,16 @@ Sync._showConfigDialog = function() {
       });
       if (resp.ok) {
         Sync.setToken(token);
-        msgEl.innerHTML = '<span style="color:#10b981;">✅ 验证成功！1.5秒后自动刷新...</span>';
-        setTimeout(() => { overlay.remove(); Sync._updateIndicator(); Sync.pull(true); }, 1500);
+        msgEl.innerHTML = '<span style="color:#10b981;">✅ 验证成功！正在同步本地数据...</span>';
+        Sync._enabled = true;
+        // 关键：push() 内部会先拉取云端 → 合并本地 → 推送合并结果
+        // 这样本地已有的填报不会丢失，云端已有的也不会被覆盖
+        Sync.push('initial-setup').catch(e => {
+          console.warn('[Sync] 初始同步失败:', e.message);
+        }).finally(() => {
+          overlay.remove();
+          Sync._updateIndicator();
+        });
       } else {
         const err = await resp.json().catch(() => ({}));
         msgEl.innerHTML = '<span style="color:#e94560;">❌ ' + (err.message || 'Token无效') + '</span>';

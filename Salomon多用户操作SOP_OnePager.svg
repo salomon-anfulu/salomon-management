@@ -30,17 +30,19 @@
 <text class="t" x="110" y="132" text-anchor="middle" dominant-baseline="central" fill="#0C447C">打开网址</text>
 <line x1="170" y1="132" x2="195" y2="132" stroke="#378ADD" stroke-width="1.5" marker-end="url(#arrow)"/>
 <rect x="195" y="110" width="120" height="44" rx="8" fill="#B5D4F4" stroke="#378ADD" stroke-width="0.5"/>
-<text class="t" x="255" y="132" text-anchor="middle" dominant-baseline="central" fill="#0C447C">选姓名登录</text>
+<text class="t" x="255" y="127" text-anchor="middle" dominant-baseline="central" fill="#0C447C">点「进入系统」</text>
+<text class="ts" x="255" y="143" text-anchor="middle" dominant-baseline="central" fill="#3B6D11">直接登录</text>
 <line x1="315" y1="132" x2="340" y2="132" stroke="#378ADD" stroke-width="1.5" marker-end="url(#arrow)"/>
 <rect x="340" y="110" width="140" height="44" rx="8" fill="#B5D4F4" stroke="#378ADD" stroke-width="0.5"/>
-<text class="t" x="410" y="132" text-anchor="middle" dominant-baseline="central" fill="#0C447C">点「同步设置」</text>
+<text class="t" x="410" y="127" text-anchor="middle" dominant-baseline="central" fill="#0C447C">点「同步设置」</text>
+<text class="ts" x="410" y="143" text-anchor="middle" dominant-baseline="central" fill="#3B6D11">右下角云朵图标</text>
 <line x1="480" y1="132" x2="505" y2="132" stroke="#378ADD" stroke-width="1.5" marker-end="url(#arrow)"/>
 <rect x="505" y="110" width="120" height="44" rx="8" fill="#185FA5" stroke="#185FA5" stroke-width="0.5"/>
 <text class="tc" x="565" y="127" text-anchor="middle" dominant-baseline="central">输入 Token</text>
 <text class="tcs" x="565" y="143" text-anchor="middle" dominant-baseline="central">粘贴群里的 ghp_...</text>
 <text class="note" x="50" y="178">网址: salomon-anfulu.github.io/salomon-management</text>
-<text class="note" x="50" y="196">Token 问管理员要（群里发过），粘贴后点「保存」→ 小圆点变绿 = 成功</text>
-<text class="note" x="50" y="214">只需做一次，浏览器会记住。换设备或清缓存时重复此步骤。</text>
+<text class="note" x="50" y="196">点「进入系统」直接登录（不用选姓名），Token 问管理员要（群里发过）</text>
+<text class="note" x="50" y="214">粘贴 Token 后点「保存」→ 小圆点变绿 = 成功。只需做一次，浏览器会记住</text>
 <rect x="30" y="240" width="620" height="185" rx="12" fill="#EAF3DE" stroke="#97C459" stroke-width="0.5"/>
 <circle cx="55" cy="265" r="14" fill="#639922"/>
 <text class="num" x="55" y="270" text-anchor="middle" dominant-baseline="central">2</text>
