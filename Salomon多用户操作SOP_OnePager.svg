@@ -1,0 +1,120 @@
+<svg viewBox="0 0 680 980" width="680" height="980" xmlns="http://www.w3.org/2000/svg">
+<title>Salomon 兼职管理系统 — 多用户操作 SOP</title>
+<desc>面向兼职员工的 One-Pager 操作指南</desc>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+<path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</marker>
+<style>
+.t{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;fill:#2C2C2A;font-size:13px}
+.th{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;fill:#444;font-size:14px;font-weight:500}
+.ts{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;fill:#888;font-size:12px}
+.tc{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;fill:#fff;font-size:13px;font-weight:500}
+.tcs{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;fill:#fff;font-size:11px;opacity:0.85}
+.title{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;fill:#26215C;font-size:18px;font-weight:500}
+.subtitle{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;fill:#534AB7;font-size:12px}
+.num{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;fill:#fff;font-size:16px;font-weight:500}
+.note{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;fill:#5F5E5A;font-size:11px}
+.tip{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;fill:#27500A;font-size:11px}
+.warn{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif;fill:#791F1F;font-size:11px}
+</style>
+</defs>
+<rect x="0" y="0" width="680" height="980" fill="#fff"/>
+<text class="title" x="40" y="32">Salomon 兼职管理系统 — 多用户操作 SOP</text>
+<text class="subtitle" x="40" y="50">v46 · 2026-07-06 · 多设备实时同步版</text>
+<rect x="30" y="65" width="620" height="160" rx="12" fill="#E6F1FB" stroke="#85B7EB" stroke-width="0.5"/>
+<circle cx="55" cy="90" r="14" fill="#378ADD"/>
+<text class="num" x="55" y="95" text-anchor="middle" dominant-baseline="central">1</text>
+<text class="th" x="78" y="90" dominant-baseline="central" fill="#0C447C">首次配置（每人做一次）</text>
+<rect x="50" y="110" width="120" height="44" rx="8" fill="#B5D4F4" stroke="#378ADD" stroke-width="0.5"/>
+<text class="t" x="110" y="132" text-anchor="middle" dominant-baseline="central" fill="#0C447C">打开网址</text>
+<line x1="170" y1="132" x2="195" y2="132" stroke="#378ADD" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="195" y="110" width="120" height="44" rx="8" fill="#B5D4F4" stroke="#378ADD" stroke-width="0.5"/>
+<text class="t" x="255" y="132" text-anchor="middle" dominant-baseline="central" fill="#0C447C">选姓名登录</text>
+<line x1="315" y1="132" x2="340" y2="132" stroke="#378ADD" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="340" y="110" width="140" height="44" rx="8" fill="#B5D4F4" stroke="#378ADD" stroke-width="0.5"/>
+<text class="t" x="410" y="132" text-anchor="middle" dominant-baseline="central" fill="#0C447C">点「同步设置」</text>
+<line x1="480" y1="132" x2="505" y2="132" stroke="#378ADD" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="505" y="110" width="120" height="44" rx="8" fill="#185FA5" stroke="#185FA5" stroke-width="0.5"/>
+<text class="tc" x="565" y="127" text-anchor="middle" dominant-baseline="central">输入 Token</text>
+<text class="tcs" x="565" y="143" text-anchor="middle" dominant-baseline="central">粘贴群里的 ghp_...</text>
+<text class="note" x="50" y="178">网址: salomon-anfulu.github.io/salomon-management</text>
+<text class="note" x="50" y="196">Token 问管理员要（群里发过），粘贴后点「保存」→ 小圆点变绿 = 成功</text>
+<text class="note" x="50" y="214">只需做一次，浏览器会记住。换设备或清缓存时重复此步骤。</text>
+<rect x="30" y="240" width="620" height="185" rx="12" fill="#EAF3DE" stroke="#97C459" stroke-width="0.5"/>
+<circle cx="55" cy="265" r="14" fill="#639922"/>
+<text class="num" x="55" y="270" text-anchor="middle" dominant-baseline="central">2</text>
+<text class="th" x="78" y="265" dominant-baseline="central" fill="#27500A">日常填报（每天/每次排班变更）</text>
+<rect x="50" y="285" width="110" height="44" rx="8" fill="#C0DD97" stroke="#639922" stroke-width="0.5"/>
+<text class="t" x="105" y="307" text-anchor="middle" dominant-baseline="central" fill="#27500A">我的填报</text>
+<line x1="160" y1="307" x2="185" y2="307" stroke="#639922" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="185" y="285" width="110" height="44" rx="8" fill="#C0DD97" stroke="#639922" stroke-width="0.5"/>
+<text class="t" x="240" y="302" text-anchor="middle" dominant-baseline="central" fill="#27500A">填日期/换班</text>
+<text class="ts" x="240" y="318" text-anchor="middle" dominant-baseline="central" fill="#3B6D11">点格子切换</text>
+<line x1="295" y1="307" x2="320" y2="307" stroke="#639922" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="320" y="285" width="110" height="44" rx="8" fill="#639922" stroke="#639922" stroke-width="0.5"/>
+<text class="tc" x="375" y="302" text-anchor="middle" dominant-baseline="central">保存</text>
+<text class="tcs" x="375" y="318" text-anchor="middle" dominant-baseline="central">自动上传云端</text>
+<line x1="430" y1="307" x2="455" y2="307" stroke="#639922" stroke-width="1.5" marker-end="url(#arrow)"/>
+<rect x="455" y="285" width="170" height="44" rx="8" fill="#3B6D11" stroke="#3B6D11" stroke-width="0.5"/>
+<text class="tc" x="540" y="302" text-anchor="middle" dominant-baseline="central">看右上角小圆点</text>
+<text class="tcs" x="540" y="318" text-anchor="middle" dominant-baseline="central">绿 = 已同步</text>
+<text class="tip" x="50" y="354">4 个 Tab：可上班时间（日历点格子）| 换班登记 | 店务支援 | 门迎排班</text>
+<text class="tip" x="50" y="372">保存后数据自动上传云端，其他同事 15 秒内能看到</text>
+<text class="tip" x="50" y="390">不用手动刷新，系统每 15 秒自动拉取最新数据</text>
+<text class="tip" x="50" y="408">手机也能用，操作完全一样</text>
+<rect x="30" y="440" width="620" height="170" rx="12" fill="#FAEEDA" stroke="#EF9F27" stroke-width="0.5"/>
+<circle cx="55" cy="465" r="14" fill="#BA7517"/>
+<text class="num" x="55" y="470" text-anchor="middle" dominant-baseline="central">3</text>
+<text class="th" x="78" y="465" dominant-baseline="central" fill="#633806">多人协作注意事项</text>
+<circle cx="70" cy="500" r="16" fill="#FAC775" stroke="#EF9F27" stroke-width="0.5"/>
+<text class="th" x="70" y="502" text-anchor="middle" dominant-baseline="central" fill="#412402" font-size="12px">A</text>
+<circle cx="70" cy="545" r="16" fill="#FAC775" stroke="#EF9F27" stroke-width="0.5"/>
+<text class="th" x="70" y="547" text-anchor="middle" dominant-baseline="central" fill="#412402" font-size="12px">B</text>
+<ellipse cx="290" cy="522" rx="60" ry="32" fill="#EF9F27" stroke="#854F0B" stroke-width="0.5"/>
+<text class="tc" x="290" y="517" text-anchor="middle" dominant-baseline="central">GitHub 云端</text>
+<text class="tcs" x="290" y="533" text-anchor="middle" dominant-baseline="central">15 秒同步</text>
+<line x1="86" y1="500" x2="225" y2="515" stroke="#EF9F27" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text class="note" x="120" y="492">保存 → 上传</text>
+<line x1="86" y1="545" x2="225" y2="530" stroke="#EF9F27" stroke-width="1.5" marker-end="url(#arrow)"/>
+<text class="note" x="120" y="558">保存 → 上传</text>
+<line x1="355" y1="515" x2="470" y2="500" stroke="#EF9F27" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<line x1="355" y1="530" x2="470" y2="545" stroke="#EF9F27" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
+<circle cx="490" cy="500" r="16" fill="#FAC775" stroke="#EF9F27" stroke-width="0.5"/>
+<text class="th" x="490" y="502" text-anchor="middle" dominant-baseline="central" fill="#412402" font-size="12px">A</text>
+<circle cx="490" cy="545" r="16" fill="#FAC775" stroke="#EF9F27" stroke-width="0.5"/>
+<text class="th" x="490" y="547" text-anchor="middle" dominant-baseline="central" fill="#412402" font-size="12px">B</text>
+<text class="note" x="400" y="492">← 自动拉取</text>
+<text class="note" x="530" y="505">设备 1</text>
+<text class="note" x="530" y="550">设备 2</text>
+<text class="tip" x="50" y="595">两人同时改不同字段（如 A 改备注、B 改工时）→ 两边都保留，不覆盖</text>
+<rect x="30" y="625" width="620" height="185" rx="12" fill="#FCEBEB" stroke="#F09595" stroke-width="0.5"/>
+<circle cx="55" cy="650" r="14" fill="#E24B4A"/>
+<text class="num" x="55" y="655" text-anchor="middle" dominant-baseline="central">4</text>
+<text class="th" x="78" y="650" dominant-baseline="central" fill="#791F1F">遇到问题怎么办</text>
+<rect x="50" y="675" width="180" height="56" rx="8" fill="#fff" stroke="#F09595" stroke-width="0.5"/>
+<circle cx="70" cy="690" r="6" fill="#10b981"/>
+<text class="t" x="84" y="690" dominant-baseline="central" fill="#27500A">绿色「已同步」</text>
+<text class="ts" x="70" y="712" dominant-baseline="central">一切正常，数据已上云</text>
+<rect x="250" y="675" width="180" height="56" rx="8" fill="#fff" stroke="#F09595" stroke-width="0.5"/>
+<circle cx="270" cy="690" r="6" fill="#f59e0b"/>
+<text class="t" x="284" y="690" dominant-baseline="central" fill="#633806">橙色「待同步」</text>
+<text class="ts" x="270" y="712" dominant-baseline="central">网络断了，已暂存本地</text>
+<rect x="450" y="675" width="170" height="56" rx="8" fill="#fff" stroke="#F09595" stroke-width="0.5"/>
+<circle cx="470" cy="690" r="6" fill="#f59e0b"/>
+<text class="t" x="484" y="690" dominant-baseline="central" fill="#633806">黄色「仅本地」</text>
+<text class="ts" x="470" y="712" dominant-baseline="central">没配 Token，不同步</text>
+<text class="warn" x="50" y="755">橙色「待同步」→ 不用慌，数据没丢。等网络恢复后会自动上传</text>
+<text class="warn" x="50" y="773">黄色「仅本地」→ 点右上角小圆点 → 右键 → 粘贴 Token → 保存</text>
+<text class="warn" x="50" y="791">数据看起来不对 → 点右上角小圆点手动拉取一次</text>
+<rect x="30" y="830" width="620" height="130" rx="12" fill="#F1EFE8" stroke="#B4B2A9" stroke-width="0.5"/>
+<text class="th" x="50" y="855" dominant-baseline="central" fill="#444">速查表</text>
+<text class="t" x="50" y="880" fill="#444">网址</text>
+<text class="ts" x="110" y="880">salomon-anfulu.github.io/salomon-management</text>
+<text class="t" x="50" y="902" fill="#444">同步</text>
+<text class="ts" x="110" y="902">每 15 秒自动拉取 · 保存即上传 · 字段级合并不覆盖</text>
+<text class="t" x="50" y="924" fill="#444">手机</text>
+<text class="ts" x="110" y="924">浏览器打开网址即可，和电脑操作一样</text>
+<text class="t" x="50" y="946" fill="#444">帮助</text>
+<text class="ts" x="110" y="946">数据问题找管理员 · Token 过期找管理员重新获取</text>
+</svg>

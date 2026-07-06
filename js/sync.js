@@ -175,95 +175,85 @@ const Sync = {
 
   /**
    * 保存后推送数据到 GitHub
+   * 冲突重试策略：最多 3 轮"拉-合-写"，每轮失败都重新拉取最新 SHA
    */
   async push(changedBy) {
     if (!this.isEnabled()) return false;
 
+    const MAX_ROUNDS = 3;
     try {
-      // 1. 先拉取最新共享数据（防止覆盖他人提交）
-      //    冲突时（409）自动重试一次
-      let shared = null;
-      let sha = null;
-      for (let attempt = 0; attempt < 3; attempt++) {
+      for (let round = 0; round < MAX_ROUNDS; round++) {
+        // 1. 拉取最新云端数据 + SHA
+        let shared = null;
+        let sha = null;
+        for (let attempt = 0; attempt < 2; attempt++) {
+          try {
+            shared = await this._fetchSharedData();
+            sha = shared?.__sha || null;
+            if (shared) delete shared.__sha;
+            break;
+          } catch (e) {
+            if (e.message.includes('Not Found') || e.message.includes('404')) {
+              shared = { _meta: { version: 0 }, availability: {}, staff: [], shiftChanges: [], storeSupport: [], doorSchedule: [] };
+              sha = null;
+              break;
+            }
+            if (e.message.includes('does not match') && attempt === 0) {
+              // 拉取时 SHA 不匹配，强制重试
+              continue;
+            }
+            throw e;
+          }
+        }
+        if (!shared) throw new Error('无法拉取云端数据');
+
+        // 2. 合入本地最新数据
+        this._mergeLocalIntoShared(shared);
+
+        // 3. 更新时间戳
+        shared._meta.lastUpdated = new Date().toISOString();
+        shared._meta.lastUpdatedBy = changedBy || 'unknown';
+        shared._meta.version = (shared._meta.version || 0) + 1;
+
+        // 4. 写回 GitHub
+        const body = {
+          message: `sync: ${changedBy || 'unknown'} 更新数据 [v${shared._meta.version}]`,
+          content: btoa(unescape(encodeURIComponent(JSON.stringify(shared, null, 2)))),
+          branch: this.BRANCH,
+        };
+        if (sha) body.sha = sha;
+
+        const url = `${this.API_BASE}/repos/${this.REPO}/contents/${this.FILE_PATH}`;
         try {
-          shared = await this._fetchSharedData();
-          sha = shared?.__sha || null;
-          if (shared) delete shared.__sha;
-          break;
-        } catch (e) {
-          if (e.message.includes('does not match') && attempt < 2) {
-            // SHA 不匹配说明文件刚被他人修改，强制重新拉取
-            console.warn('[Sync] SHA冲突，强制重新拉取', attempt + 1);
-            this._lastPull = null; // 忽略防抖，重新拉取
+          await this._api('PUT', url, body);
+          // 成功
+          console.log('[Sync] 推送成功 v' + shared._meta.version + (round > 0 ? ` (第${round + 1}轮重试)` : ''));
+          this._pendingSync = false;
+          this._lastSyncTime = Date.now();
+          return true;
+        } catch (putErr) {
+          if (putErr.message.includes('does not match') || putErr.message.includes('409')) {
+            // 本轮冲突，下一轮重新拉最新 SHA 再试
+            console.warn(`[Sync] 写回冲突 (第${round + 1}/${MAX_ROUNDS}轮)，准备重试...`);
+            this._lastPull = null;
             continue;
           }
-          // 不是冲突错或重试次数用完
-          if (e.message.includes('Not Found') || e.message.includes('404')) {
-            // 文件不存在（首次推送）
-            shared = {
-              _meta: { version: 1, lastUpdated: null, lastUpdatedBy: null },
-              availability: {},
-              staff: [],
-              shiftChanges: [],
-              storeSupport: [],
-              doorSchedule: [],
-            };
-            sha = null;
-            break;
-          }
-          throw e;
-        }
-      }
-
-      // 2. 合入本地最新数据
-      this._mergeLocalIntoShared(shared);
-
-      // 3. 更新时间戳
-      shared._meta.lastUpdated = new Date().toISOString();
-      shared._meta.lastUpdatedBy = changedBy || 'unknown';
-      shared._meta.version = (shared._meta.version || 0) + 1;
-
-      // 4. 写回 GitHub
-      const body = {
-        message: `sync: ${changedBy || 'unknown'} 更新数据 [v${shared._meta.version}]`,
-        content: btoa(unescape(encodeURIComponent(JSON.stringify(shared, null, 2)))),
-        branch: this.BRANCH,
-      };
-      if (sha) body.sha = sha;
-
-      const url = `${this.API_BASE}/repos/${this.REPO}/contents/${this.FILE_PATH}`;
-      try {
-        await this._api('PUT', url, body);
-      } catch (putErr) {
-        if (putErr.message.includes('does not match') || putErr.message.includes('409')) {
-          // 写回时还是冲突，强制重新拉取重试
-          console.warn('[Sync] 写回时冲突，重新拉取再试一次');
-          this._lastPull = null;
-          // 重新跑一次
-          const fresh = await this._fetchSharedData();
-          const freshSha = fresh?.__sha;
-          if (freshSha) body.sha = freshSha;
-          await this._api('PUT', url, body);
-        } else {
           throw putErr;
         }
       }
-
-      console.log('[Sync] 推送成功 v' + shared._meta.version);
-      this._pendingSync = false;
-      this._lastSyncTime = Date.now();
-      return true;
+      // 3 轮都失败
+      throw new Error('连续 3 次 SHA 冲突，请稍后重试');
     } catch (e) {
       console.warn('[Sync] 推送失败:', e.message);
-      this._pendingSync = true; // 标记待同步，下次 pull 成功后会清除
+      this._pendingSync = true; // 标记待同步，下次 pull 成功后会触发补偿
       // 显示用户友好的错误提示
       const msg = e.message || '未知错误';
       if (msg.includes('401') || msg.includes('Bad credentials')) {
         showToast('☁️ 同步失败: Token无效，请在设置中重新配置', 'error');
       } else if (msg.includes('403') || msg.includes('resource not accessible')) {
         showToast('☁️ 同步失败: Token权限不足，需开启 Contents → Read & Write', 'error');
-      } else if (msg.includes('409')) {
-        showToast('☁️ 同步冲突，将在下次自动重试', 'warning');
+      } else if (msg.includes('does not match') || msg.includes('409') || msg.includes('连续')) {
+        showToast('☁️ 多人同时保存中，已暂存本地，系统将自动重试', 'warning');
       } else {
         showToast('☁️ 同步未成功: ' + msg, 'warning');
       }
