@@ -4018,7 +4018,7 @@ function saveDoorSlot() {
   const doorData = Store.get('doorSchedule') || [];
   let day = doorData.find(d => d.date === doorScheduleDate);
   if (!day) { day = { date: doorScheduleDate, slots: [] }; doorData.push(day); }
-  const newSlot = { time: start + '-' + end, staff: staffName };
+  const newSlot = { time: start + '-' + end, staff: staffName, _updatedAt: String(Date.now()) };
   if (doorSlotEditingIdx !== null) {
     day.slots[doorSlotEditingIdx] = newSlot;
   } else {
@@ -5041,7 +5041,7 @@ function saveDoorSlotInline() {
   const doorData = Store.get('doorSchedule') || [];
   let day = doorData.find(d => d.date === doorScheduleDate);
   if (!day) { day = { date: doorScheduleDate, slots: [] }; doorData.push(day); }
-  const newSlot = { time, staff: staffName };
+  const newSlot = { time, staff: staffName, _updatedAt: String(Date.now()) };
   if (doorSlotEditingIdx !== null) {
     day.slots[doorSlotEditingIdx] = newSlot;
   } else {

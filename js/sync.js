@@ -32,6 +32,8 @@ const Sync = {
   _pendingSync: false,
   /** 上次同步（push 或 pull）成功的时间戳，用于 UI 显示 */
   _lastSyncTime: null,
+  /** push 正在进行中（防止 pull 拉到旧数据覆盖本地新写入） */
+  _pushInFlight: false,
 
   /**
    * 获取存储的 Token
@@ -146,6 +148,12 @@ const Sync = {
       return false;
     }
 
+    // v47d: 如果 push 正在进行中，跳过 pull（防止 push 还没写完云端时 pull 拉到旧数据覆盖本地）
+    if (this._pushInFlight) {
+      console.log('[Sync] push 正在进行中，跳过本次 pull');
+      return true;
+    }
+
     // 防止频繁拉取
     if (this._lastPull && (Date.now() - this._lastPull) < this.PULL_INTERVAL) {
       return true;
@@ -179,6 +187,9 @@ const Sync = {
    */
   async push(changedBy) {
     if (!this.isEnabled()) return false;
+
+    // v47d: 标记 push 进行中，阻止 pull 干扰
+    this._pushInFlight = true;
 
     const MAX_ROUNDS = 3;
     try {
@@ -230,6 +241,7 @@ const Sync = {
           console.log('[Sync] 推送成功 v' + shared._meta.version + (round > 0 ? ` (第${round + 1}轮重试)` : ''));
           this._pendingSync = false;
           this._lastSyncTime = Date.now();
+          this._pushInFlight = false;  // v47d: 释放 pull 锁
           return true;
         } catch (putErr) {
           if (putErr.message.includes('does not match') || putErr.message.includes('409')) {
@@ -249,11 +261,13 @@ const Sync = {
         console.log('[Sync] 云端验证通过，数据已同步');
         this._pendingSync = false;
         this._lastSyncTime = Date.now();
+        this._pushInFlight = false;  // v47d: 释放 pull 锁
         return true;
       }
       // 云端确实没有，标记待同步，下次 pull 成功后自动补偿
       throw new Error('continuous_sh conflict');
     } catch (e) {
+      this._pushInFlight = false;  // v47d: 无论成败都释放 pull 锁
       if (e.message === 'continuous_sh conflict') {
         // 确实是暂时性冲突，静默标记，不弹 toast 打扰用户
         console.log('[Sync] 云端暂无此数据，已标记待同步，将在下次自动补偿');
@@ -812,6 +826,8 @@ const Sync = {
       if (key === 'id' || key === 'date') return; // 主键不可覆盖
       const rv = remoteItem[key];
       if (rv === null || rv === undefined || rv === '') return; // 空值不覆盖
+      // v47d: 如果本地有更新的 _updatedAt，remote 不能覆盖本地非空字段
+      if (lTs > rTs && merged[key] !== undefined && merged[key] !== null && merged[key] !== '') return;
       if (remoteNewer || merged[key] === undefined || merged[key] === null || merged[key] === '') {
         merged[key] = rv;
       }
