@@ -358,6 +358,7 @@ function saveStaff() {
   }
 
   Store.set('staff', staff);
+  Sync.push(_auth.staffName || 'admin');
 
   // === 级联初始化：新增 Service Team 兼职 或 从仓库转部门为 Service Team ===
   if (dept === 'Service Team' && (isNewStaff || isDeptChanged)) {
@@ -443,6 +444,7 @@ function toggleStaffStatus(id) {
   if (idx >= 0) {
     staff[idx].status = staff[idx].status === 'active' ? 'inactive' : 'active';
     Store.set('staff', staff);
+    Sync.push(_auth.staffName || 'admin');
     showToast(`${staff[idx].name} 已${staff[idx].status === 'active' ? '恢复在职' : '标记离职'}`);
     Router.render();
   }
@@ -454,6 +456,7 @@ function promoteStaff(id) {
   if (idx >= 0) {
     staff[idx].status = 'full_time';
     Store.set('staff', staff);
+    Sync.push(_auth.staffName || 'admin');
     showToast(`${staff[idx].name} 已转正为全职员工`);
     Router.render();
   }
@@ -2275,6 +2278,7 @@ function saveRating() {
     staffId, month, scores, comment: comment || '综合表现良好', avgScore, hourlyRate
   });
   Store.set('ratings', ratings);
+  Sync.push(_auth.staffName || 'admin');
 
   document.getElementById('ratingModal').classList.remove('active');
   showToast(`${Store.getStaffName(staffId)} ${month} 评分已提交，综合 ${avgScore.toFixed(1)} 分 → ¥${hourlyRate}/h`);
@@ -3887,6 +3891,7 @@ function saveReviewForm() {
   }
 
   Store.set('customerReviews', reviews);
+  Sync.push(_auth.staffName || 'admin');
   closeReviewForm();
   Router.render();
 }
@@ -3895,6 +3900,7 @@ function deleteReview(id) {
   if (!confirm('确定删除这条好评记录吗？')) return;
   const reviews = Store.get('customerReviews') || [];
   Store.set('customerReviews', reviews.filter(r => r.id !== id));
+  Sync.push(_auth.staffName || 'admin');
   Router.render();
 }
 
@@ -4033,6 +4039,7 @@ function deleteDoorSlot(idx) {
   if (day) {
     day.slots.splice(idx, 1);
     Store.set('doorSchedule', doorData);
+    Sync.push(_auth.staffName || 'admin');
     Router.render();
     showToast('班次已删除');
   }
@@ -4128,6 +4135,7 @@ function deleteSupport(id) {
   if (!confirm('确定删除这条支援记录吗？')) return;
   const data = Store.get('storeSupport') || [];
   Store.set('storeSupport', data.filter(s => s.id !== id));
+  Sync.push(_auth.staffName || 'admin');
   Router.render();
   showToast('记录已删除');
 }
@@ -4216,6 +4224,7 @@ function deleteShift(id) {
   if (!confirm('确定删除这条换班记录吗？')) return;
   const data = Store.get('shiftChanges') || [];
   Store.set('shiftChanges', data.filter(s => s.id !== id));
+  Sync.push(_auth.staffName || 'admin');
   Router.render();
   showToast('换班记录已删除');
 }
@@ -5040,6 +5049,7 @@ function saveDoorSlotInline() {
   day.slots.sort((a, b) => a.time.localeCompare(b.time));
   doorData.sort((a, b) => a.date.localeCompare(b.date));
   Store.set('doorSchedule', doorData);
+  Sync.push(staffName || _auth.staffName || 'unknown');
   closeDoorSlotForm();
   Router.render();
   showToast(doorSlotEditingIdx !== null ? '班次已更新' : '班次已添加');
@@ -5052,6 +5062,7 @@ function deleteDoorSlotInline() {
   if (day && doorSlotEditingIdx !== null) {
     day.slots.splice(doorSlotEditingIdx, 1);
     Store.set('doorSchedule', doorData);
+    Sync.push(_auth.staffName || 'admin');
     closeDoorSlotForm();
     Router.render();
     showToast('班次已删除');

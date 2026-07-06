@@ -402,6 +402,18 @@ const Sync = {
       }
     }
 
+    // === 顾客好评 (customerReviews) — v47 新增 ===
+    if (shared.customerReviews && shared.customerReviews.length > 0) {
+      const local = Store.get('customerReviews') || [];
+      const merged = this._mergeArraysById(local, shared.customerReviews);
+      if (JSON.stringify(merged) !== JSON.stringify(local)) {
+        Store.set('customerReviews', merged);
+      }
+    }
+
+    // === 人员档案变更 (staff) — v47 新增：非填报类的 staff 编辑（人员管理页） ===
+    // 注: 上方 availability/staff 合并已处理填报路径，此处不再重复
+
     // 注: staff 合并已在上方完成（字段级），不再重复处理（v46 移除冗余）
   },
 
@@ -690,6 +702,12 @@ const Sync = {
     shared.doorSchedule = this._mergeArraysByDate(
       shared.doorSchedule || [],
       Store.get('doorSchedule') || []
+    );
+
+    // === customerReviews (顾客好评) — v47 新增 ===
+    shared.customerReviews = this._mergeArraysById(
+      shared.customerReviews || [],
+      Store.get('customerReviews') || []
     );
   },
 
