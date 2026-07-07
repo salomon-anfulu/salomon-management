@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 6,
-    "lastUpdated": "2026-07-07T08:32:19.566Z",
-    "lastUpdatedBy": "王雅澜"
+    "version": 7,
+    "lastUpdated": "2026-07-07T08:33:04.503Z",
+    "lastUpdatedBy": "田佳乐"
   },
   "availability": {
     "2026-06": {
@@ -214,11 +214,134 @@
             "7/3": {
               "available": true,
               "note": ""
+            },
+            "7/4": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413148377
+            },
+            "7/5": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413150813
+            },
+            "7/6": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413152754
+            },
+            "7/8": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413153998
+            },
+            "7/9": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413154962
+            },
+            "7/10": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413156121
+            },
+            "7/11": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413157430
+            },
+            "7/12": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413158660
+            },
+            "7/13": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783413162609
+            },
+            "7/14": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413163754
+            },
+            "7/15": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413164748
+            },
+            "7/16": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783413167394
+            },
+            "7/17": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413168801
+            },
+            "7/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413170109
+            },
+            "7/19": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413172501
+            },
+            "7/20": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413175194
+            },
+            "7/21": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413176352
+            },
+            "7/22": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413177382
+            },
+            "7/23": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413178296
+            },
+            "7/24": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413179382
+            },
+            "7/25": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413180499
+            },
+            "7/26": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413181750
+            },
+            "7/27": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413183395
+            },
+            "7/28": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413184472
             }
           },
           "note": "",
-          "total": 4,
-          "unavailable": []
+          "total": 26,
+          "unavailable": [
+            "7/13",
+            "7/16"
+          ]
         },
         "迟骋": {
           "dates": {
@@ -1963,9 +2086,6 @@
           ]
         },
         "王雅澜": {
-          "total": 31,
-          "unavailable": [],
-          "note": "",
           "dates": {
             "7/1": {
               "available": true,
@@ -2092,7 +2212,10 @@
               "available": true,
               "note": ""
             }
-          }
+          },
+          "note": "",
+          "total": 31,
+          "unavailable": []
         }
       }
     }
