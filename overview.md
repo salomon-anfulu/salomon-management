@@ -1,66 +1,49 @@
-# v51: 多用户同步根因修复
+# v51c/v51d 对抗性审查报告 — 多用户同步修复
 
-## 问题现象
-员工填写数据后，其他设备/用户无法看到最新数据。
+## 审查范围
+对 v51/v51b 的三项同步修复（pull后自动渲染、availability逐日合并、push队列化、手动同步按钮）进行两轮对抗性审查。
 
-## 第一性原理分析
+## 第一轮发现（v51c 修复）
 
-从数据流最底层逐环节追踪「用户A填写 → 用户B看到」的完整链路：
+### 🔴 P0-A: `_snapshotForCompare()` 粒度致命错误
+- **问题**: 原实现用 `Object.keys(v).length` 做快照，但 availability 结构 `{ currentMonth, months }` 的 key 数量永远是 2，不管多少人填了什么数据
+- **后果**: `dataChanged = false` → `Router.render()` 永远不被调用 → pull 后页面不刷新（v51 最核心的修复对 availability 不生效）
+- **修复**: 重写为深度遍历：`months → data → 每人dates数量 + 最新_updatedAt`，数组类每条记录的 `id + _updatedAt`
 
-```
-A.saveDateStatus() → Store.set() → Sync.push() → GitHub API
-                                                      ↓
-B.Router.render() ← Store._cache ← _mergeIntoLocal ← Sync.pull()
-```
+### 🟡 P1-B: 手动同步按钮的 pull 被 PULL_INTERVAL 吞掉
+- **问题**: 按钮先 push 再 pull，但 pull 检查 15 秒防抖，如果自动 pull 刚执行过，手动 pull 直接 return true
+- **后果**: 用户点"同步"看到"同步完成"，但实际没拉到别人的新数据
+- **修复**: `pull(silent, force)` 新增 force 参数，手动按钮用 `pull(false, true)` 绕过防抖
 
-## 发现的 3 个根因
+### 🟡 P1-C: push 运行时手动按钮的 pull 被跳过
+- **问题**: push 队列化后，如果已有 push 在运行，`push()` 立即返回 true，按钮 await 瞬间完成，随后 pull 检查 `_pushInFlight=true` 被跳过
+- **修复**: 按钮 onclick 中 `while(Sync._pushRunning)` 轮询等待 push 真正完成再 pull（上限 10 秒）
 
-### P0-1: pull 后不刷新页面（最关键）
-**位置**: `js/sync.js` → `pull()` 方法
+### 🔴 P0-D: availability 日期级无时间戳
+- **问题**: `saveDateStatus` 保存时没有 `_updatedAt`，逐日合并无法判断哪个版本更新
+- **修复**: 保存时加 `_updatedAt: Date.now()`，push 端和 pull 端的 dates 合并都改为按时间戳取新版本
 
-`_mergeIntoLocal()` 把云端数据写入了 `Store._cache`，但**没有调用 `Router.render()`**。
-结果：用户B 的 LocalStorage 已经有最新数据，但页面 DOM 上仍然显示旧数据。
-只有在用户B手动切换页面或刷新浏览器时才能看到新数据。
+## 第二轮发现（v51d 修复）
 
-**修复**: pull 后对关键数据做快照对比，如果发生变化则 `requestAnimationFrame(() => Router.render())` 自动刷新页面。
+### 🔴 P0-E: `_doPush` 返回值类型不一致
+- **问题**: `_doPush` 成功返回 `true`，但失败时返回 `{ success: false, error: ... }`（对象是 truthy）
+- **后果**: `_processPushQueue` 中 `if (!result)` 对 `{ success: false }` 判断为 false → 循环不 break → `_pendingSync` 不设置 → 失败的数据不会补偿推送
+- **修复**: `_doPush` 统一返回 `true/false`，`_processPushQueue` 用 `result !== true` 判断
 
-### P0-2: push 时 availability 整体覆盖
-**位置**: `js/sync.js` → `_mergeLocalIntoShared()` 方法
+### 🟢 P2-F: 快照空 dates 的 `Math.max` 边界
+- **问题**: `Math.max(...[])` 返回 `-Infinity`，空 dates 对象时快照值异常
+- **修复**: 空数组时兜底返回 0
 
-```javascript
-// 旧逻辑（有Bug）:
-shared.availability[monthKey].data[staffName] = personData;  // 直接覆盖！
-```
+## 最终状态
 
-场景：用户A 填了 7/3 可用 → push 到云端。用户B 同时填了 7/4 可用 → push 时把**自己的完整 personData** 覆盖了云端的，导致 A 的 7/3 数据丢失。
+| 缺陷 | 严重性 | 状态 |
+|------|--------|------|
+| P0-A 快照粒度错误 | 🔴 致命 | ✅ 已修复 |
+| P0-D 日期级无时间戳 | 🔴 致命 | ✅ 已修复 |
+| P0-E 返回值类型不一致 | 🔴 致命 | ✅ 已修复 |
+| P1-B force pull | 🟡 高 | ✅ 已修复 |
+| P1-C 等待push完成 | 🟡 高 | ✅ 已修复 |
+| P2-F 空数组兜底 | 🟢 低 | ✅ 已修复 |
 
-pull 端（`_mergeIntoLocal`）有逐日合并逻辑，但 push 端（`_mergeLocalIntoShared`）没有——**两端不对称**。
-
-**修复**: push 端也改为逐日合并 `dates` 字段，保留双方填写的日期。
-
-### P1: push 并发竞态
-**位置**: `js/sync.js` → `push()` 方法
-
-多次快速保存（如连续点击多个日期）会触发多个 `push()` 并发执行：
-- push #1 拉取云端 v65 → 合并本地 → 准备写
-- push #2 拉取云端 v65 → 合并本地 → 准备写（本地此时已有新数据）
-- push #1 写入 v66
-- push #2 用旧 SHA 写入 → 冲突 → 重试 → 再拉 → 再写
-
-`_pushInFlight` 标记在多个并发 push 之间共享，导致状态混乱。
-
-**修复**: push 队列化。多次调用 `push()` 只入队，由 `_processPushQueue()` 串行处理。队列中只执行最后一条（因为后保存的数据已包含前面的）。
-
-## 修改文件
-
-| 文件 | 修改内容 |
-|------|----------|
-| `js/sync.js` | +130 行：pull 后自动 render、availability 逐日合并、push 队列化 |
-| `js/app.js` | DATA_VERSION → v51 |
-| `index.html` | cache-buster ?v=51 |
-
-## 验证方式
-
-1. 用户A 在手机上填写可上班时间 → 保存
-2. 用户B 在电脑上等待 ≤15 秒（自动 pull 间隔）
-3. 用户B 的页面应自动刷新显示 A 填写的数据（无需手动切换页面）
+**版本**: v51 → v51b（手动按钮）→ v51c（第一轮审查）→ v51d（第二轮审查）
+**提交**: `8a6482f` (v51c) + `5f0b4ab` (v51d)

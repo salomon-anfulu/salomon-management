@@ -1082,8 +1082,7 @@ Sync._updateIndicator = function() {
       const who = (typeof _auth !== 'undefined' && _auth && _auth.staffName) ? _auth.staffName : 'manual-sync';
       try {
         // v51c: push 改为 await 等待真正完成（队列化后 push 可能只是入队返回）
-        // 用 _doPushFinish 标记等待队列排空
-        await Sync.push(who).catch(e => console.warn('[Sync] 手动push失败:', e.message));
+        const pushOk = await Sync.push(who).catch(e => { console.warn('[Sync] 手动push失败:', e.message); return false; });
         // v51c: 如果 push 还在运行，等它完成再 pull（否则 pull 会被 _pushInFlight 跳过）
         let waitCount = 0;
         while (Sync._pushRunning && waitCount < 50) {
@@ -1091,8 +1090,19 @@ Sync._updateIndicator = function() {
           waitCount++;
         }
         // v51c: force=true 绕过 PULL_INTERVAL 防抖
-        await Sync.pull(false, true);
-        if (typeof showToast === 'function') showToast('☁️ 同步完成', 'success');
+        const pullOk = await Sync.pull(false, true);
+        // v51e: 根据实际结果反馈，避免"失败+成功"矛盾提示
+        if (typeof showToast === 'function') {
+          if (pushOk && pullOk) {
+            showToast('☁️ 同步完成', 'success');
+          } else if (!pushOk && !pullOk) {
+            showToast('☁️ 上传和拉取均失败，请检查网络', 'error');
+          } else if (!pushOk) {
+            showToast('☁️ 上传失败，已拉取最新数据', 'warning');
+          } else {
+            showToast('☁️ 已上传，但拉取最新数据失败', 'warning');
+          }
+        }
       } catch (e) {
         if (typeof showToast === 'function') showToast('同步失败: ' + e.message, 'error');
       } finally {
