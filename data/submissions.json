@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 2,
-    "lastUpdated": "2026-07-07T07:04:04.959Z",
-    "lastUpdatedBy": "王龙宇"
+    "version": 3,
+    "lastUpdated": "2026-07-07T07:05:17.740Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "2026-06": {
@@ -22,10 +22,115 @@
             "7/14": {
               "available": true,
               "note": ""
+            },
+            "7/8": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407859434
+            },
+            "7/11": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407871261
+            },
+            "7/12": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407872629
+            },
+            "7/13": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407874030
+            },
+            "7/15": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407875361
+            },
+            "7/16": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407876560
+            },
+            "7/17": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407877776
+            },
+            "7/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407878993
+            },
+            "7/19": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407880282
+            },
+            "7/20": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407881582
+            },
+            "7/21": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407882803
+            },
+            "7/22": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407883965
+            },
+            "7/23": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407885318
+            },
+            "7/24": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407886505
+            },
+            "7/25": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407887678
+            },
+            "7/26": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407888840
+            },
+            "7/27": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407890075
+            },
+            "7/28": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407891334
+            },
+            "7/29": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407892600
+            },
+            "7/30": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407893862
+            },
+            "7/31": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783407895226
             }
           },
           "note": "",
-          "total": 1,
+          "total": 22,
           "unavailable": []
         }
       }
