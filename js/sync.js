@@ -144,6 +144,24 @@ const Sync = {
   },
 
   /**
+   * v52: 乱码人名守卫
+   * 检测一个字符串是否是 UTF-8 编码错误产生的乱码
+   * 乱码特征：包含 Latin-1 补充区字符（Ã, Â, § 等）且不包含正常中文
+   * @param {string} name - 待检测的人名
+   * @returns {boolean} true=有效，false=乱码
+   */
+  _isValidName(name) {
+    if (!name || typeof name !== 'string') return false;
+    // 空字符串或纯空白
+    if (name.trim().length === 0) return false;
+    // 包含 Latin-1 补充区连续字符（Ã, Â, §, © 等）→ 典型乱码特征
+    if (/[\u00c0-\u00ff]{2,}/.test(name)) return false;
+    // 包含大量非打印/控制字符
+    if (/[\u0000-\u001f]{3,}/.test(name)) return false;
+    return true;
+  },
+
+  /**
    * 从 GitHub 拉取共享文件
    * @returns {object} 共享数据对象，失败返回 null
    */
@@ -152,6 +170,11 @@ const Sync = {
     const fileData = await this._api('GET', url);
 
     if (!fileData.content) {
+      // v52: GitHub Contents API 对 >1MB 的文件不返回 content 字段
+      const sizeMB = fileData.size ? (fileData.size / 1024 / 1024).toFixed(2) : '?';
+      if (fileData.size && fileData.size > 1000000) {
+        throw new Error(`共享文件过大(${sizeMB}MB)，超过GitHub API 1MB限制，请联系管理员清理数据`);
+      }
       console.warn('[Sync] 共享文件为空');
       return null;
     }
@@ -460,6 +483,12 @@ const Sync = {
         const localMonthData = localAvail.months[monthKey].data;
 
         Object.entries(monthData.data).forEach(([sharedName, sharedPerson]) => {
+          // v52: 乱码人名守卫 — 防止 UTF-8 编码错误产生的乱码 key 污染本地数据
+          if (!Sync._isValidName(sharedName)) {
+            console.warn('[Sync] 拉取时跳过乱码人名:', sharedName.slice(0, 30));
+            return;
+          }
+
           // 深拷贝避免引用污染
           const clonedShared = JSON.parse(JSON.stringify(sharedPerson));
 
@@ -829,6 +858,12 @@ const Sync = {
         Object.entries(monthData.data).forEach(([staffName, personData]) => {
           // 只上传有实际数据的条目（有 dates 或有备注）
           if (!personData) return;
+
+          // v52: 乱码人名守卫 — 防止本地残留的乱码 key 被推到云端
+          if (!Sync._isValidName(staffName)) {
+            console.warn('[Sync] 推送时跳过乱码人名:', staffName.slice(0, 30));
+            return;
+          }
 
           // v51: 逐日合并而非整体覆盖
           // 场景：用户A填了7/3可用，用户B同时填了7/4可用
