@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 17,
-    "lastUpdated": "2026-07-07T08:56:32.747Z",
+    "version": 18,
+    "lastUpdated": "2026-07-07T08:56:50.722Z",
     "lastUpdatedBy": "玛依拉"
   },
   "availability": {
@@ -2460,16 +2460,66 @@
           ]
         },
         "玛依拉": {
-          "total": 1,
-          "unavailable": [],
-          "note": "",
           "dates": {
             "7/13": {
               "available": true,
               "note": "",
               "_updatedAt": 1783414591285
+            },
+            "7/14": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414594400
+            },
+            "7/15": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414595880
+            },
+            "7/16": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414597394
+            },
+            "7/17": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414598744
+            },
+            "7/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414600096
+            },
+            "7/19": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414601380
+            },
+            "7/20": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414606442
+            },
+            "7/21": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414607710
+            },
+            "7/22": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414608978
+            },
+            "7/23": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414610426
             }
-          }
+          },
+          "note": "",
+          "total": 11,
+          "unavailable": []
         }
       }
     }
