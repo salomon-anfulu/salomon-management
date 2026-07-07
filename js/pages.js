@@ -4532,7 +4532,7 @@ function saveDateStatus(dayNum) {
   if (!monthData[_availStaff].dates) {
     monthData[_availStaff].dates = {};
   }
-  monthData[_availStaff].dates[dateKey] = { available, note };
+  monthData[_availStaff].dates[dateKey] = { available, note, _updatedAt: Date.now() };
 
   // Sync legacy fields
   syncPersonLegacyFields(monthData[_availStaff], mon);

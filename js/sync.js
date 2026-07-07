@@ -99,18 +99,41 @@ const Sync = {
   },
 
   /**
-   * 快照当前关键数据用于比较（v51 新增）
+   * 快照当前关键数据用于比较（v51c 重写）
    * 用于 pull 后判断是否有新数据需要刷新页面
+   * 关键：必须深入到实际数据内容层面，不能只看顶层 key 数量
    */
   _snapshotForCompare() {
     try {
-      const keys = ['availability', 'shiftChanges', 'storeSupport', 'doorSchedule', 'customerReviews'];
-      const snap = {};
-      keys.forEach(k => {
-        const v = Store.get(k);
-        if (v) snap[k] = (typeof v === 'object') ? Object.keys(v).length + (Array.isArray(v) ? '-' + v.length : '') : String(v);
+      const parts = [];
+
+      // availability: 遍历 months → data → 每人的 dates 数量 + 最新 _updatedAt
+      const avail = Store.get('availability');
+      if (avail && avail.months) {
+        Object.entries(avail.months).forEach(([mk, mv]) => {
+          if (!mv || !mv.data) return;
+          const persons = Object.keys(mv.data);
+          // 每人 dates 条数 + 最后一条的 _updatedAt
+          persons.forEach(name => {
+            const p = mv.data[name];
+            const dateCount = p?.dates ? Object.keys(p.dates).length : 0;
+            const ts = p?.dates ? Math.max(...Object.values(p.dates).map(d => d._updatedAt || 0)) : 0;
+            parts.push(`${mk}/${name}:${dateCount}:${ts}`);
+          });
+        });
+      }
+
+      // 数组类数据: 每条记录的 id + _updatedAt
+      ['shiftChanges', 'storeSupport', 'doorSchedule', 'customerReviews'].forEach(k => {
+        const arr = Store.get(k);
+        if (arr && Array.isArray(arr)) {
+          arr.forEach(item => {
+            if (item) parts.push(`${k}#${item.id || item.date || '?'}:${item._updatedAt || 0}`);
+          });
+        }
       });
-      return JSON.stringify(snap);
+
+      return parts.join('|');
     } catch (e) {
       return '';
     }
@@ -163,7 +186,13 @@ const Sync = {
    * 拉取共享数据并合并到 LocalStorage
    * 静默执行，失败不影响正常使用
    */
-  async pull(silent = true) {
+  /**
+   * 拉取共享数据并合并到 LocalStorage
+   * 静默执行，失败不影响正常使用
+   * @param {boolean} silent - 是否静默（不弹 toast）
+   * @param {boolean} force - v51c: 强制拉取，跳过 PULL_INTERVAL 防抖（手动同步按钮使用）
+   */
+  async pull(silent = true, force = false) {
     if (!this.isEnabled()) {
       if (!silent) showToast('未配置同步Token，请先在设置中配置', 'warning');
       return false;
@@ -175,8 +204,8 @@ const Sync = {
       return true;
     }
 
-    // 防止频繁拉取
-    if (this._lastPull && (Date.now() - this._lastPull) < this.PULL_INTERVAL) {
+    // 防止频繁拉取（v51c: force 参数可绕过）
+    if (!force && this._lastPull && (Date.now() - this._lastPull) < this.PULL_INTERVAL) {
       return true;
     }
 
@@ -434,10 +463,22 @@ const Sync = {
             if (!localPerson.dates || localPerson.dates === null || typeof localPerson.dates !== 'object') {
               localPerson.dates = {};
             }
-            // 逐日合并：共享数据覆盖本地已有日期，但保留本地独有日期
+            // 逐日合并：v51c 按 _updatedAt 时间戳决定每个日期用哪个版本
             const before = Object.keys(localPerson.dates).length;
-            Object.entries(clonedShared.dates).forEach(([dateKey, dateVal]) => {
-              localPerson.dates[dateKey] = dateVal;
+            Object.entries(clonedShared.dates).forEach(([dateKey, cloudVal]) => {
+              const localVal = localPerson.dates[dateKey];
+              if (!localVal) {
+                // 本地没有这个日期 → 云端直接写入
+                localPerson.dates[dateKey] = cloudVal;
+              } else {
+                // 双方都有 → 按 _updatedAt 取新版本
+                const lTs = localVal._updatedAt || 0;
+                const cTs = cloudVal._updatedAt || 0;
+                if (cTs > lTs) {
+                  localPerson.dates[dateKey] = cloudVal;
+                }
+                // cTs <= lTs 时本地保留（不覆盖）
+              }
             });
             const after = Object.keys(localPerson.dates).length;
             console.log(`[Sync] 拉取合并 ${monthKey}/${sharedName} dates: +${after - before}天 → 共${after}天`);
@@ -784,10 +825,23 @@ const Sync = {
             const cloudDates = cloudPerson.dates || {};
             const localDates = personData.dates || {};
 
-            // 合并 dates：本地日期覆盖同名云端日期，保留云端独有的日期
+            // v51c: 按 _updatedAt 时间戳判断每个日期用哪个版本
             const mergedDates = { ...cloudDates };
-            Object.entries(localDates).forEach(([dateKey, val]) => {
-              mergedDates[dateKey] = val;
+            Object.entries(localDates).forEach(([dateKey, localVal]) => {
+              const cloudVal = cloudDates[dateKey];
+              if (!cloudVal) {
+                // 云端没有这个日期 → 本地直接写入
+                mergedDates[dateKey] = localVal;
+              } else {
+                // 双方都有 → 按 _updatedAt 时间戳取新版本
+                const lTs = localVal._updatedAt || 0;
+                const cTs = cloudVal._updatedAt || 0;
+                if (lTs >= cTs) {
+                  mergedDates[dateKey] = localVal;
+                } else {
+                  mergedDates[dateKey] = cloudVal;
+                }
+              }
             });
 
             // 备注取非空的一方（优先本地新备注）
@@ -1024,8 +1078,17 @@ Sync._updateIndicator = function() {
       dot.style.background = '#3b82f6';
       const who = (typeof _auth !== 'undefined' && _auth && _auth.staffName) ? _auth.staffName : 'manual-sync';
       try {
+        // v51c: push 改为 await 等待真正完成（队列化后 push 可能只是入队返回）
+        // 用 _doPushFinish 标记等待队列排空
         await Sync.push(who).catch(e => console.warn('[Sync] 手动push失败:', e.message));
-        await Sync.pull(false);
+        // v51c: 如果 push 还在运行，等它完成再 pull（否则 pull 会被 _pushInFlight 跳过）
+        let waitCount = 0;
+        while (Sync._pushRunning && waitCount < 50) {
+          await new Promise(r => setTimeout(r, 200));
+          waitCount++;
+        }
+        // v51c: force=true 绕过 PULL_INTERVAL 防抖
+        await Sync.pull(false, true);
         if (typeof showToast === 'function') showToast('☁️ 同步完成', 'success');
       } catch (e) {
         if (typeof showToast === 'function') showToast('同步失败: ' + e.message, 'error');
