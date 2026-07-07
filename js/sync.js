@@ -1016,13 +1016,22 @@ Sync._updateIndicator = function() {
       dot.style.background = '#10b981';
       label.textContent = '已同步';
       const lastTime = _fmtTime(this._lastSyncTime);
-      indicator.title = '云端同步已启用' + (lastTime ? ' · 上次同步: ' + lastTime : '') + ' · 点击手动拉取 · 右键配置Token';
+      indicator.title = '云端同步已启用' + (lastTime ? ' · 上次同步: ' + lastTime : '') + ' · 点击双向同步(上传+拉取) · 右键配置Token';
     }
     indicator.style.cursor = 'pointer';
     indicator.onclick = async () => {
-      label.textContent = '拉取中...';
-      const ok = await Sync.pull(false);
-      Sync._updateIndicator();
+      label.textContent = '同步中...';
+      dot.style.background = '#3b82f6';
+      const who = (typeof _auth !== 'undefined' && _auth && _auth.staffName) ? _auth.staffName : 'manual-sync';
+      try {
+        await Sync.push(who).catch(e => console.warn('[Sync] 手动push失败:', e.message));
+        await Sync.pull(false);
+        if (typeof showToast === 'function') showToast('☁️ 同步完成', 'success');
+      } catch (e) {
+        if (typeof showToast === 'function') showToast('同步失败: ' + e.message, 'error');
+      } finally {
+        Sync._updateIndicator();
+      }
     };
     indicator.oncontextmenu = (e) => { e.preventDefault(); Sync._showConfigDialog(); };
   } else {

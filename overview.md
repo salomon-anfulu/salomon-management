@@ -1,58 +1,66 @@
-# 云同步系统全面复查报告 v44
+# v51: 多用户同步根因修复
 
-## 检查时间
-2026-07-03 18:27
+## 问题现象
+员工填写数据后，其他设备/用户无法看到最新数据。
 
-## 发现并修复的问题
+## 第一性原理分析
 
-### 🔴 P0 严重: data/submissions.json git合并冲突
-- **问题**: 文件包含5组未解决的git合并冲突标记（`<<<<<<< HEAD` / `=======` / `>>>>>>>`），且已被commit到本地和远端
-- **影响**: 每次Sync.push/pull读写此文件都会失败，JSON.parse会抛异常
-- **根因**: 某次merge操作中冲突未被解决就直接commit了
-- **HEAD侧**: 包含大量UTF-8乱码残留（如 `çé¾å®` 应为王龙宇）
-- **修复**: Python脚本逐行解析，保留incoming(清理后)侧数据，过滤所有mojibake
-- **修复后**: 0冲突标记, 0乱码, 有效JSON
+从数据流最底层逐环节追踪「用户A填写 → 用户B看到」的完整链路：
 
-## 各项检查结果
+```
+A.saveDateStatus() → Store.set() → Sync.push() → GitHub API
+                                                      ↓
+B.Router.render() ← Store._cache ← _mergeIntoLocal ← Sync.pull()
+```
 
-### ✅ sync.js 编解码对称性
-| 操作 | 代码 | 状态 |
-|------|------|------|
-| Push编码 | `btoa(unescape(encodeURIComponent(JSON.stringify(shared))))` | ✅ |
-| Pull解码 | `decodeURIComponent(escape(atob(content)))` | ✅ |
-| ForcePush编码 | 同Push | ✅ |
+## 发现的 3 个根因
 
-### ✅ pages.js 同步调用点 (7处)
-- `Sync.push()` × 6 (availability保存×2, shiftChanges, storeSupport, doorSchedule, staff编辑)
-- `Sync.pull()` × 1 (renderMyForms入口)
+### P0-1: pull 后不刷新页面（最关键）
+**位置**: `js/sync.js` → `pull()` 方法
 
-### ✅ 版本号一致性
-| 位置 | 值 |
-|------|-----|
-| `_dataVersion` (defaults) | `2026-07-03-v44` |
-| `DATA_VERSION` (init) | `2026-07-03-v44` |
-| HTML `?v=` (index/app) | `v=44` |
+`_mergeIntoLocal()` 把云端数据写入了 `Store._cache`，但**没有调用 `Router.render()`**。
+结果：用户B 的 LocalStorage 已经有最新数据，但页面 DOM 上仍然显示旧数据。
+只有在用户B手动切换页面或刷新浏览器时才能看到新数据。
 
-### ✅ CI/CD 配置
-- `deploy.yml`: 有 `cancel-in-progress: true` ✅
-- `deploy.yml`: 有 `environment: github-pages` ✅
-- `.gitignore`: `data/` 排除但 `!data/submissions.json` 放行 ✅
+**修复**: pull 后对关键数据做快照对比，如果发生变化则 `requestAnimationFrame(() => Router.render())` 自动刷新页面。
 
-### ✅ submissions.json 数据完整性 (修复后)
-| 数据集 | 记录数 |
-|--------|--------|
-| availability 2026-06 | 15人 |
-| availability 2026-07 | 14人 |
-| shiftChanges | 9条 |
-| staff | 20人 |
-| storeSupport | 0条 (原数据全乱码，已清空) |
-| doorSchedule | 0天 (原数据全乱码，已清空) |
+### P0-2: push 时 availability 整体覆盖
+**位置**: `js/sync.js` → `_mergeLocalIntoShared()` 方法
 
-### ⚠️ 注意事项
-- storeSupport和doorSchedule在云端为空，但这些数据在本地localStorage中存在(app.js defaults)
-- 用户下次打开系统后，Sync.push会自动将本地完整数据上传到云端
-- 也可以手动使用「高级同步工具 → 强制推送」立即上传
+```javascript
+// 旧逻辑（有Bug）:
+shared.availability[monthKey].data[staffName] = personData;  // 直接覆盖！
+```
 
-## Git提交
-- Commit: `1d77d8d` - fix(v44): 修复submissions.json git合并冲突 + 清理所有UTF-8乱码
-- 已推送到 origin/main
+场景：用户A 填了 7/3 可用 → push 到云端。用户B 同时填了 7/4 可用 → push 时把**自己的完整 personData** 覆盖了云端的，导致 A 的 7/3 数据丢失。
+
+pull 端（`_mergeIntoLocal`）有逐日合并逻辑，但 push 端（`_mergeLocalIntoShared`）没有——**两端不对称**。
+
+**修复**: push 端也改为逐日合并 `dates` 字段，保留双方填写的日期。
+
+### P1: push 并发竞态
+**位置**: `js/sync.js` → `push()` 方法
+
+多次快速保存（如连续点击多个日期）会触发多个 `push()` 并发执行：
+- push #1 拉取云端 v65 → 合并本地 → 准备写
+- push #2 拉取云端 v65 → 合并本地 → 准备写（本地此时已有新数据）
+- push #1 写入 v66
+- push #2 用旧 SHA 写入 → 冲突 → 重试 → 再拉 → 再写
+
+`_pushInFlight` 标记在多个并发 push 之间共享，导致状态混乱。
+
+**修复**: push 队列化。多次调用 `push()` 只入队，由 `_processPushQueue()` 串行处理。队列中只执行最后一条（因为后保存的数据已包含前面的）。
+
+## 修改文件
+
+| 文件 | 修改内容 |
+|------|----------|
+| `js/sync.js` | +130 行：pull 后自动 render、availability 逐日合并、push 队列化 |
+| `js/app.js` | DATA_VERSION → v51 |
+| `index.html` | cache-buster ?v=51 |
+
+## 验证方式
+
+1. 用户A 在手机上填写可上班时间 → 保存
+2. 用户B 在电脑上等待 ≤15 秒（自动 pull 间隔）
+3. 用户B 的页面应自动刷新显示 A 填写的数据（无需手动切换页面）
