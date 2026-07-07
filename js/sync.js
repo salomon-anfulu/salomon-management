@@ -34,6 +34,9 @@ const Sync = {
   _lastSyncTime: null,
   /** push 正在进行中（防止 pull 拉到旧数据覆盖本地新写入） */
   _pushInFlight: false,
+  /** v51: push 队列，防止并发 push 互相覆盖 */
+  _pushQueue: [],
+  _pushRunning: false,
 
   /**
    * 获取存储的 Token
@@ -93,6 +96,24 @@ const Sync = {
     }
 
     return resp.json();
+  },
+
+  /**
+   * 快照当前关键数据用于比较（v51 新增）
+   * 用于 pull 后判断是否有新数据需要刷新页面
+   */
+  _snapshotForCompare() {
+    try {
+      const keys = ['availability', 'shiftChanges', 'storeSupport', 'doorSchedule', 'customerReviews'];
+      const snap = {};
+      keys.forEach(k => {
+        const v = Store.get(k);
+        if (v) snap[k] = (typeof v === 'object') ? Object.keys(v).length + (Array.isArray(v) ? '-' + v.length : '') : String(v);
+      });
+      return JSON.stringify(snap);
+    } catch (e) {
+      return '';
+    }
   },
 
   /**
@@ -163,7 +184,11 @@ const Sync = {
       const shared = await this._fetchSharedData();
       if (!shared) return false;
 
+      const beforeStr = this._snapshotForCompare();
       this._mergeIntoLocal(shared);
+      const afterStr = this._snapshotForCompare();
+      const dataChanged = beforeStr !== afterStr;
+
       this._lastPull = Date.now();
       this._lastSyncTime = Date.now();
       // 如果之前有 push 失败，pull 成功后触发一次补偿推送
@@ -172,7 +197,20 @@ const Sync = {
         this._pendingSync = false;
         this.push('auto-retry').catch(() => { this._pendingSync = true; });
       }
-      console.log('[Sync] 拉取成功', new Date().toLocaleTimeString());
+      console.log('[Sync] 拉取成功', new Date().toLocaleTimeString(), dataChanged ? '(有新数据)' : '(无变化)');
+
+      // v51: 如果数据有变化，触发页面刷新（用户B才能看到用户A的填报）
+      if (dataChanged && typeof Router !== 'undefined' && Router.render) {
+        // 延迟一帧执行，避免在 fetch 回调中直接操作 DOM
+        requestAnimationFrame(() => {
+          try {
+            Router.render();
+            console.log('[Sync] 数据已更新，页面已自动刷新');
+          } catch (e) {
+            console.warn('[Sync] 自动刷新页面失败:', e.message);
+          }
+        });
+      }
       return true;
     } catch (e) {
       console.warn('[Sync] 拉取失败:', e.message);
@@ -183,13 +221,58 @@ const Sync = {
 
   /**
    * 保存后推送数据到 GitHub
+   * v51: 队列化，多次快速保存只产生一次有效 push（最后一条包含所有本地数据）
    * 冲突重试策略：最多 3 轮"拉-合-写"，每轮失败都重新拉取最新 SHA
    */
   async push(changedBy) {
     if (!this.isEnabled()) return false;
 
-    // v47d: 标记 push 进行中，阻止 pull 干扰
+    // v51: 入队而非直接执行
+    this._pushQueue.push(changedBy || 'unknown');
+
+    // 如果已有 push 在运行，等它完成后自然会处理队列中最新的一条
+    if (this._pushRunning) {
+      console.log(`[Sync] push 队列: 已有 push 进行中，排队 (队列长度: ${this._pushQueue.length})`);
+      return true;
+    }
+
+    return this._processPushQueue();
+  },
+
+  /**
+   * v51: 实际执行 push 的内部方法
+   * 循环处理队列，但每轮只取最后一条（合并了所有中间请求）
+   */
+  async _processPushQueue() {
+    this._pushRunning = true;
     this._pushInFlight = true;
+
+    while (this._pushQueue.length > 0) {
+      // 取最后一条（之前的请求中包含的数据已经被后续保存覆盖了）
+      const changedBy = this._pushQueue[this._pushQueue.length - 1];
+      this._pushQueue = [];
+
+      const result = await this._doPush(changedBy);
+      if (!result) {
+        // push 失败，标记待同步，退出循环（下次 pull 成功后补偿）
+        this._pendingSync = true;
+        break;
+      }
+      // 成功后短暂等待（100ms），让可能新入队的请求有机会被收集
+      if (this._pushQueue.length > 0) {
+        await new Promise(r => setTimeout(r, 100));
+      }
+    }
+
+    this._pushRunning = false;
+    this._pushInFlight = false;
+    return true;
+  },
+
+  /**
+   * v51: 实际推送逻辑（从原 push 方法拆出）
+   */
+  async _doPush(changedBy) {
 
     const MAX_ROUNDS = 3;
     try {
@@ -241,7 +324,6 @@ const Sync = {
           console.log('[Sync] 推送成功 v' + shared._meta.version + (round > 0 ? ` (第${round + 1}轮重试)` : ''));
           this._pendingSync = false;
           this._lastSyncTime = Date.now();
-          this._pushInFlight = false;  // v47d: 释放 pull 锁
           return true;
         } catch (putErr) {
           if (putErr.message.includes('does not match') || putErr.message.includes('409')) {
@@ -261,13 +343,12 @@ const Sync = {
         console.log('[Sync] 云端验证通过，数据已同步');
         this._pendingSync = false;
         this._lastSyncTime = Date.now();
-        this._pushInFlight = false;  // v47d: 释放 pull 锁
         return true;
       }
       // 云端确实没有，标记待同步，下次 pull 成功后自动补偿
       throw new Error('continuous_sh conflict');
     } catch (e) {
-      this._pushInFlight = false;  // v47d: 无论成败都释放 pull 锁
+      // v51: _pushInFlight 由 _processPushQueue 统一管理，这里不释放
       if (e.message === 'continuous_sh conflict') {
         // 确实是暂时性冲突，静默标记，不弹 toast 打扰用户
         console.log('[Sync] 云端暂无此数据，已标记待同步，将在下次自动补偿');
@@ -691,10 +772,41 @@ const Sync = {
 
         Object.entries(monthData.data).forEach(([staffName, personData]) => {
           // 只上传有实际数据的条目（有 dates 或有备注）
-          if (personData.dates && Object.keys(personData.dates).length > 0) {
-            shared.availability[monthKey].data[staffName] = personData;
-          } else if (personData.note && personData.note.trim()) {
-            shared.availability[monthKey].data[staffName] = personData;
+          if (!personData) return;
+
+          // v51: 逐日合并而非整体覆盖
+          // 场景：用户A填了7/3可用，用户B同时填了7/4可用
+          // 旧逻辑：B 的 personData 直接覆盖 A 的 → A 的 7/3 数据丢失
+          // 新逻辑：逐日合并 dates，保留双方填写的日期
+          const cloudPerson = shared.availability[monthKey].data[staffName];
+          if (cloudPerson) {
+            // 云端已有该人数据 → 逐日合并
+            const cloudDates = cloudPerson.dates || {};
+            const localDates = personData.dates || {};
+
+            // 合并 dates：本地日期覆盖同名云端日期，保留云端独有的日期
+            const mergedDates = { ...cloudDates };
+            Object.entries(localDates).forEach(([dateKey, val]) => {
+              mergedDates[dateKey] = val;
+            });
+
+            // 备注取非空的一方（优先本地新备注）
+            const mergedNote = (personData.note && personData.note.trim())
+              ? personData.note
+              : (cloudPerson.note || '');
+
+            shared.availability[monthKey].data[staffName] = {
+              dates: mergedDates,
+              note: mergedNote,
+              total: Object.values(mergedDates).filter(d => d.available).length,
+              unavailable: Object.entries(mergedDates).filter(([_, d]) => !d.available).map(([k]) => k),
+            };
+          } else {
+            // 云端没有该人数据 → 直接写入（但需有实际内容）
+            if ((personData.dates && Object.keys(personData.dates).length > 0) ||
+                (personData.note && personData.note.trim())) {
+              shared.availability[monthKey].data[staffName] = personData;
+            }
           }
         });
       });
