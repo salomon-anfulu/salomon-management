@@ -1,39 +1,17 @@
 {
   "_meta": {
-    "version": 1,
-    "lastUpdated": "2026-07-07T11:42:34.695Z",
-    "lastUpdatedBy": "王龙宇"
+    "version": 2,
+    "lastUpdated": "2026-07-07T11:42:48.804Z",
+    "lastUpdatedBy": "admin"
   },
   "availability": {
     "2026-06": {
       "data": {
         "王龙宇": {
-          "total": 10,
-          "unavailable": [
-            "6/2",
-            "6/3",
-            "6/7",
-            "6/9",
-            "6/12",
-            "6/13",
-            "6/14",
-            "6/16",
-            "6/18",
-            "6/19",
-            "6/20",
-            "6/21",
-            "6/22",
-            "6/23",
-            "6/24",
-            "6/25",
-            "6/26",
-            "6/27",
-            "6/28",
-            "6/29",
-            "6/30"
-          ],
+          "dates": {},
           "note": "19日到30日出差，请假",
-          "dates": {}
+          "total": 0,
+          "unavailable": []
         },
         "çé¾å®": {
           "dates": {},
@@ -64,11 +42,6 @@
     "2026-07": {
       "data": {
         "田佳乐": {
-          "total": 30,
-          "unavailable": [
-            "7/16"
-          ],
-          "note": "",
           "dates": {
             "7/2": {
               "available": true,
@@ -222,9 +195,140 @@
               "_updatedAt": 1783413187448
             }
           },
-          "_noteUpdatedAt": 1783415253535
+          "note": "",
+          "total": 30,
+          "unavailable": [
+            "7/16"
+          ]
         },
         "迟骋": {
+          "dates": {
+            "7/1": {
+              "available": true,
+              "note": ""
+            },
+            "7/2": {
+              "available": true,
+              "note": ""
+            },
+            "7/3": {
+              "available": true,
+              "note": ""
+            },
+            "7/4": {
+              "available": true,
+              "note": ""
+            },
+            "7/5": {
+              "available": true,
+              "note": ""
+            },
+            "7/6": {
+              "available": true,
+              "note": ""
+            },
+            "7/8": {
+              "available": true,
+              "note": ""
+            },
+            "7/9": {
+              "available": true,
+              "note": ""
+            },
+            "7/10": {
+              "available": true,
+              "note": ""
+            },
+            "7/11": {
+              "available": true,
+              "note": ""
+            },
+            "7/12": {
+              "available": true,
+              "note": ""
+            },
+            "7/13": {
+              "available": false,
+              "note": ""
+            },
+            "7/14": {
+              "available": false,
+              "note": ""
+            },
+            "7/15": {
+              "available": false,
+              "note": ""
+            },
+            "7/16": {
+              "available": false,
+              "note": ""
+            },
+            "7/17": {
+              "available": false,
+              "note": ""
+            },
+            "7/18": {
+              "available": true,
+              "note": ""
+            },
+            "7/19": {
+              "available": true,
+              "note": ""
+            },
+            "7/7": {
+              "available": false,
+              "note": ""
+            },
+            "7/20": {
+              "available": true,
+              "note": ""
+            },
+            "7/21": {
+              "available": true,
+              "note": ""
+            },
+            "7/22": {
+              "available": true,
+              "note": ""
+            },
+            "7/23": {
+              "available": true,
+              "note": ""
+            },
+            "7/24": {
+              "available": true,
+              "note": ""
+            },
+            "7/25": {
+              "available": true,
+              "note": ""
+            },
+            "7/26": {
+              "available": true,
+              "note": ""
+            },
+            "7/27": {
+              "available": true,
+              "note": ""
+            },
+            "7/28": {
+              "available": true,
+              "note": ""
+            },
+            "7/29": {
+              "available": true,
+              "note": ""
+            },
+            "7/30": {
+              "available": true,
+              "note": ""
+            },
+            "7/31": {
+              "available": true,
+              "note": ""
+            }
+          },
+          "note": "",
           "total": 25,
           "unavailable": [
             "7/13",
@@ -233,18 +337,19 @@
             "7/16",
             "7/17",
             "7/7"
-          ],
-          "note": "",
+          ]
+        },
+        "王靳毓": {
           "dates": {
-            "7/1": {
+            "7/3": {
               "available": true,
               "note": ""
             },
             "7/2": {
-              "available": true,
+              "available": false,
               "note": ""
             },
-            "7/3": {
+            "7/1": {
               "available": true,
               "note": ""
             },
@@ -257,6 +362,10 @@
               "note": ""
             },
             "7/6": {
+              "available": true,
+              "note": ""
+            },
+            "7/7": {
               "available": true,
               "note": ""
             },
@@ -281,15 +390,15 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/15": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/16": {
@@ -297,7 +406,7 @@
               "note": ""
             },
             "7/17": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/18": {
@@ -306,10 +415,6 @@
             },
             "7/19": {
               "available": true,
-              "note": ""
-            },
-            "7/7": {
-              "available": false,
               "note": ""
             },
             "7/20": {
@@ -361,153 +466,14 @@
               "note": ""
             }
           },
-          "_noteUpdatedAt": 1783415253536
-        },
-        "王靳毓": {
+          "note": "",
           "total": 29,
           "unavailable": [
             "7/2",
             "7/16"
-          ],
-          "note": "",
-          "dates": {
-            "7/3": {
-              "available": true,
-              "note": ""
-            },
-            "7/2": {
-              "available": false,
-              "note": ""
-            },
-            "7/1": {
-              "available": true,
-              "note": ""
-            },
-            "7/4": {
-              "available": true,
-              "note": ""
-            },
-            "7/5": {
-              "available": true,
-              "note": ""
-            },
-            "7/6": {
-              "available": true,
-              "note": ""
-            },
-            "7/7": {
-              "available": true,
-              "note": ""
-            },
-            "7/8": {
-              "available": true,
-              "note": ""
-            },
-            "7/9": {
-              "available": true,
-              "note": ""
-            },
-            "7/10": {
-              "available": true,
-              "note": ""
-            },
-            "7/11": {
-              "available": true,
-              "note": ""
-            },
-            "7/12": {
-              "available": true,
-              "note": ""
-            },
-            "7/13": {
-              "available": true,
-              "note": ""
-            },
-            "7/14": {
-              "available": true,
-              "note": ""
-            },
-            "7/15": {
-              "available": true,
-              "note": ""
-            },
-            "7/16": {
-              "available": false,
-              "note": ""
-            },
-            "7/17": {
-              "available": true,
-              "note": ""
-            },
-            "7/18": {
-              "available": true,
-              "note": ""
-            },
-            "7/19": {
-              "available": true,
-              "note": ""
-            },
-            "7/20": {
-              "available": true,
-              "note": ""
-            },
-            "7/21": {
-              "available": true,
-              "note": ""
-            },
-            "7/22": {
-              "available": true,
-              "note": ""
-            },
-            "7/23": {
-              "available": true,
-              "note": ""
-            },
-            "7/24": {
-              "available": true,
-              "note": ""
-            },
-            "7/25": {
-              "available": true,
-              "note": ""
-            },
-            "7/26": {
-              "available": true,
-              "note": ""
-            },
-            "7/27": {
-              "available": true,
-              "note": ""
-            },
-            "7/28": {
-              "available": true,
-              "note": ""
-            },
-            "7/29": {
-              "available": true,
-              "note": ""
-            },
-            "7/30": {
-              "available": true,
-              "note": ""
-            },
-            "7/31": {
-              "available": true,
-              "note": ""
-            }
-          },
-          "_noteUpdatedAt": 1783415253536
+          ]
         },
         "朱凯赟": {
-          "total": 26,
-          "unavailable": [
-            "7/6",
-            "7/8",
-            "7/14",
-            "7/16",
-            "7/26"
-          ],
-          "note": "",
           "dates": {
             "7/1": {
               "available": true,
@@ -653,12 +619,17 @@
               "_updatedAt": 1783414421378
             }
           },
-          "_noteUpdatedAt": 1783415253536
+          "note": "",
+          "total": 26,
+          "unavailable": [
+            "7/6",
+            "7/8",
+            "7/14",
+            "7/16",
+            "7/26"
+          ]
         },
         "孔祥宇": {
-          "total": 31,
-          "unavailable": [],
-          "note": "",
           "dates": {
             "7/1": {
               "available": true,
@@ -785,14 +756,11 @@
               "note": ""
             }
           },
-          "_noteUpdatedAt": 1783415253536
+          "note": "",
+          "total": 31,
+          "unavailable": []
         },
         "杨子豪": {
-          "total": 30,
-          "unavailable": [
-            "7/13"
-          ],
-          "note": "",
           "dates": {
             "7/1": {
               "available": true,
@@ -920,12 +888,13 @@
               "note": ""
             }
           },
-          "_noteUpdatedAt": 1783415253536
+          "note": "",
+          "total": 30,
+          "unavailable": [
+            "7/13"
+          ]
         },
         "王雅澜": {
-          "total": 31,
-          "unavailable": [],
-          "note": "",
           "dates": {
             "7/1": {
               "available": true,
@@ -1053,21 +1022,11 @@
               "note": ""
             }
           },
-          "_noteUpdatedAt": 1783415253536
+          "note": "",
+          "total": 31,
+          "unavailable": []
         },
         "李若彤": {
-          "total": 23,
-          "unavailable": [
-            "7/2",
-            "7/3",
-            "7/4",
-            "7/5",
-            "7/13",
-            "7/14",
-            "7/15",
-            "7/16"
-          ],
-          "note": "",
           "dates": {
             "7/1": {
               "available": true,
@@ -1194,15 +1153,20 @@
               "note": ""
             }
           },
-          "_noteUpdatedAt": 1783415253536
+          "note": "",
+          "total": 23,
+          "unavailable": [
+            "7/2",
+            "7/3",
+            "7/4",
+            "7/5",
+            "7/13",
+            "7/14",
+            "7/15",
+            "7/16"
+          ]
         },
         "王龙宇": {
-          "total": 20,
-          "unavailable": [
-            "7/21",
-            "7/22"
-          ],
-          "note": "",
           "dates": {
             "7/14": {
               "available": true,
@@ -1314,16 +1278,14 @@
               "_updatedAt": 1783407895226
             }
           },
-          "_noteUpdatedAt": 1783407999703
+          "note": "",
+          "total": 20,
+          "unavailable": [
+            "7/21",
+            "7/22"
+          ]
         },
         "何秋烨": {
-          "total": 28,
-          "unavailable": [
-            "7/13",
-            "7/14",
-            "7/16"
-          ],
-          "note": "",
           "dates": {
             "7/1": {
               "available": true,
@@ -1450,14 +1412,15 @@
               "note": ""
             }
           },
-          "_noteUpdatedAt": 1783415253536
+          "note": "",
+          "total": 28,
+          "unavailable": [
+            "7/13",
+            "7/14",
+            "7/16"
+          ]
         },
         "龚赟昊": {
-          "total": 19,
-          "unavailable": [
-            "7/19"
-          ],
-          "note": "",
           "dates": {
             "7/1": {
               "available": true,
@@ -1540,12 +1503,13 @@
               "note": ""
             }
           },
-          "_noteUpdatedAt": 1783415253536
+          "note": "",
+          "total": 19,
+          "unavailable": [
+            "7/19"
+          ]
         },
         "唐蓉": {
-          "total": 21,
-          "unavailable": [],
-          "note": "",
           "dates": {
             "7/13": {
               "available": true,
@@ -1632,12 +1596,11 @@
               "note": ""
             }
           },
-          "_noteUpdatedAt": 1783415253536
+          "note": "",
+          "total": 21,
+          "unavailable": []
         },
         "玛依拉": {
-          "total": 19,
-          "unavailable": [],
-          "note": "",
           "dates": {
             "7/13": {
               "available": true,
@@ -1735,7 +1698,9 @@
               "_updatedAt": 1783414620872
             }
           },
-          "_noteUpdatedAt": 1783415253536
+          "note": "",
+          "total": 19,
+          "unavailable": []
         },
         "严佳铮": {
           "dates": {
@@ -1891,8 +1856,7 @@
             "7/30",
             "7/31",
             "7/24"
-          ],
-          "_noteUpdatedAt": 1783415253535
+          ]
         },
         "ç°ä½³ä¹": {
           "dates": {
@@ -1909,8 +1873,7 @@
           "total": 1,
           "unavailable": [
             "7/2"
-          ],
-          "_noteUpdatedAt": 1783415253536
+          ]
         },
         "Ã§ÂÂ°Ã¤Â½Â³Ã¤Â¹Â": {
           "dates": {
@@ -1927,8 +1890,7 @@
           "total": 1,
           "unavailable": [
             "7/2"
-          ],
-          "_noteUpdatedAt": 1783415253536
+          ]
         },
         "æ¨å­è±ª": {
           "dates": {
@@ -2061,8 +2023,7 @@
           "total": 30,
           "unavailable": [
             "7/1"
-          ],
-          "_noteUpdatedAt": 1783415253536
+          ]
         },
         "ÃÂ§ÃÂÃÂ°ÃÂ¤ÃÂ½ÃÂ³ÃÂ¤ÃÂ¹ÃÂ": {
           "dates": {
@@ -2073,8 +2034,7 @@
           },
           "note": "",
           "total": 1,
-          "unavailable": [],
-          "_noteUpdatedAt": 1783415253536
+          "unavailable": []
         },
         "Ã¦ÂÂ¨Ã¥Â­ÂÃ¨Â±Âª": {
           "dates": {
@@ -2207,8 +2167,7 @@
           "total": 30,
           "unavailable": [
             "7/1"
-          ],
-          "_noteUpdatedAt": 1783415253536
+          ]
         },
         "ÃÂÃÂ§ÃÂÃÂÃÂÃÂ°ÃÂÃÂ¤ÃÂÃÂ½ÃÂÃÂ³ÃÂÃÂ¤ÃÂÃÂ¹ÃÂÃÂ": {
           "dates": {
@@ -2219,8 +2178,7 @@
           },
           "note": "",
           "total": 1,
-          "unavailable": [],
-          "_noteUpdatedAt": 1783415253536
+          "unavailable": []
         },
         "ÃÂ¦ÃÂÃÂ¨ÃÂ¥ÃÂ­ÃÂÃÂ¨ÃÂ±ÃÂª": {
           "dates": {
@@ -2353,8 +2311,7 @@
           "total": 30,
           "unavailable": [
             "7/1"
-          ],
-          "_noteUpdatedAt": 1783415253536
+          ]
         },
         "æ±å¯èµ": {
           "dates": {
@@ -2365,8 +2322,7 @@
           },
           "note": "",
           "total": 1,
-          "unavailable": [],
-          "_noteUpdatedAt": 1783415253536
+          "unavailable": []
         },
         "陈昕媛": {
           "dates": {
@@ -2497,8 +2453,7 @@
           },
           "note": "",
           "total": 31,
-          "unavailable": [],
-          "_noteUpdatedAt": 1783415253536
+          "unavailable": []
         },
         "贾长乐": {
           "dates": {
@@ -2595,8 +2550,7 @@
           "total": 21,
           "unavailable": [
             "7/16"
-          ],
-          "_noteUpdatedAt": 1783415253536
+          ]
         },
         "梁实秋": {
           "dates": {
@@ -2727,8 +2681,7 @@
           },
           "note": "",
           "total": 31,
-          "unavailable": [],
-          "_noteUpdatedAt": 1783415253536
+          "unavailable": []
         }
       }
     }
@@ -5452,11 +5405,6 @@
           "staff": "王靳毓"
         },
         {
-          "time": "17:00:00-18:00:00",
-          "staff": "王龙宇",
-          "_updatedAt": "1783424553753"
-        },
-        {
           "time": "18:00:00-19:00:00",
           "staff": "何秋烨"
         },
@@ -5649,5 +5597,10 @@
       ],
       "source": "大众点评（匿名用户，Lv1）"
     }
-  ]
+  ],
+  "_deletedDoorSlots": {
+    "2026-07-06": [
+      "17:00:00-18:00:00"
+    ]
+  }
 }
