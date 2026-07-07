@@ -1,54 +1,72 @@
-# v52: 同步失败根因修复
+# v53: 同步失败第二层根因修复
 
 ## 问题
-用户点击同步按钮显示"❌ 上传和拉取均失败"
+v52 修复后用户再次点击同步，仍然显示 "❌ 上传和拉取均失败" + "共享文件过大(1.44MB)"
 
-## 根因（第一性原理排查）
-**不是代码逻辑问题，是数据膨胀问题！**
+## 根因（更深一层）
 
-`data/submissions.json` 文件膨胀到 **1.43MB**，超过了 **GitHub Contents API 的 1MB 硬限制**。GitHub 对 >1MB 的文件返回 HTTP 200 但 **content 字段为空**，导致 `_fetchSharedData()` 收到空内容 → 返回 null → push 和 pull 全部失败。
+### 1. 死锁
+- 云端文件 > 1MB → GitHub API 不返回 content
+- v52 的 `_fetchSharedData()` 检测到 > 1MB 抛错
+- push 端**先拉云端再合并** → 拉不到云端 → 无法 push
+- 形成了**"拉不到 → 推不上去"**的死锁
 
-这种失败模式极其隐蔽：HTTP 状态码是 200（成功），但实际数据为空。
+### 2. note 字段无限追加
+pull 端的 note 合并逻辑：
+```javascript
+if (!localPerson.note.includes(clonedShared.note)) {
+  localPerson.note = localPerson.note + '; ' + clonedShared.note;  // ← 追加
+}
+```
+当云端 note 被双重 UTF-8 编码污染时：
+- "19日~30日出差" 和 "19Ã¦ÂÃ¥ÂÂ..." 是同一文本的不同损坏形态
+- `includes()` 检查返回 false → 每次 pull 都追加
+- 王龙宇的 6/19-6/30 出差备注被重复了几千次
+- 单个 note 字段就达到 **142KB**
 
-## 膨胀原因
-availability.data 中累积了 **12 个乱码人名条目**（UTF-8 编码错误的历史遗留）：
-
-| 乱码 key | 实际人名 | 占用空间 |
-|---------|---------|---------|
-| `çé¾å®` | 王龙宇 | 111KB |
-| `Ã§ÂÂÃ©Â¾ÂÂÃ¥ÂÂ` | 王龙宇 | 208KB |
-| `ÃÃÂ§ÃÂÂÃÂÃÂ©ÃÂÂ¾ÃÂÂÃÂ¥ÃÂÂ` | 王龙宇 | **389KB** |
-| `ç°ä½³ä¹` | 田佳乐 | 0.1KB |
-| `æ¨å­è±ª` | 杨子豪 | 1.1KB |
-| ... 共 12 个 | | **总计 727KB** |
-
-乱码来自多次 push/pull 循环中 UTF-8 编码错误的累积，每个乱码 key 都是同一个人名的不同损坏程度版本。
+### 3. 污染源确认
+git log 显示有 commit `2e0b1b8 sync: auto-retry 更新数据 [v66]`，是**用户浏览器自动推送**的 v52 之前的旧代码，把 localStorage 里的 1.44MB 脏数据推上了云端。
 
 ## 修复内容
 
-### 1. 数据清理
-删除 12 个乱码条目：**1.43MB → 46KB（瘦身 97%）**
-
-### 2. 乱码守卫（防止复发）
-新增 `Sync._isValidName()` 函数：
+### 代码修复（v53）
+1. **note 字段追加改时间戳仲裁**：
 ```javascript
-_isValidName(name) {
-  if (/[\u00c0-\u00ff]{2,}/.test(name)) return false; // Latin-1 补充区连续字符
-  if (/[\u0000-\u001f]{3,}/.test(name)) return false; // 控制字符
-  return true;
+if (clonedShared.note !== undefined) {
+  const cloudTs = clonedShared._noteUpdatedAt || 0;
+  const localTs = localPerson._noteUpdatedAt || 0;
+  if (!localPerson.note || cloudTs > localTs) {
+    localPerson.note = clonedShared.note;  // ← 直接覆盖，不再追加
+    localPerson._noteUpdatedAt = cloudTs || Date.now();
+  }
 }
 ```
 
-### 3. push/pull 两端过滤
-- `_mergeIntoLocal` (pull端): 跳过乱码人名 key
-- `_mergeLocalIntoShared` (push端): 跳过乱码人名 key
+2. **死锁恢复机制**：push 端遇到云端 > 1MB 时自动 DELETE + 重建
+```javascript
+if (e.message.includes('超过GitHub API 1MB限制')) {
+  await this._deleteRemoteFile();  // 删除污染文件
+  shared = { _meta: { version: 0 }, ... };  // 用空数据重新开始
+  sha = null;
+  break;
+}
+```
 
-### 4. >1MB 明确报错
-`_fetchSharedData` 检测到文件 >1MB 时抛出明确错误信息
+3. **新增 `_deleteRemoteFile()` 方法**
+
+### 数据恢复
+- 用 `git push --force-with-lease` 强制覆盖云端污染文件
+- GitHub 文件大小：**1.44MB → 101KB**
+- content 字段正常返回
 
 ## 验证
-GitHub 上文件已从 1.43MB → 101KB，content 字段恢复正常返回 ✓
+- GitHub 上文件：101KB（之前 1.44MB）✓
+- content 字段：正常返回 ✓
+- 用户刷新页面后点击同步应该能正常工作
+
+## 教训
+**v52 的修复不完整**！只过滤了乱码 key，没改 note 字段的追加逻辑。**修复同步问题必须从数据契约层面入手**——所有"累加"操作都要用时间戳或版本号仲裁。
 
 ## 提交
-- commit: `bccb321` v52
-- 已 push 到 GitHub main
+- commit: `d6c31dc` v53
+- 已 force push 到 GitHub main
