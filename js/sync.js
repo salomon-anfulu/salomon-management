@@ -116,8 +116,10 @@ const Sync = {
           // 每人 dates 条数 + 最后一条的 _updatedAt
           persons.forEach(name => {
             const p = mv.data[name];
-            const dateCount = p?.dates ? Object.keys(p.dates).length : 0;
-            const ts = p?.dates ? Math.max(...Object.values(p.dates).map(d => d._updatedAt || 0)) : 0;
+            const dateVals = p?.dates ? Object.values(p.dates) : [];
+            const dateCount = dateVals.length;
+            // Math.max() 无参数返回 -Infinity，用兜底 0 避免
+            const ts = dateVals.length > 0 ? Math.max(...dateVals.map(d => d._updatedAt || 0)) : 0;
             parts.push(`${mk}/${name}:${dateCount}:${ts}`);
           });
         });
@@ -282,7 +284,7 @@ const Sync = {
       this._pushQueue = [];
 
       const result = await this._doPush(changedBy);
-      if (!result) {
+      if (result !== true) {
         // push 失败，标记待同步，退出循环（下次 pull 成功后补偿）
         this._pendingSync = true;
         break;
@@ -394,7 +396,8 @@ const Sync = {
           showToast('☁️ 同步未成功: ' + msg, 'warning');
         }
       }
-      return { success: false, error: e.message || 'conflict' };
+      // 统一返回 false（历史遗留曾返回 { success: false }，现已统一为布尔值）
+      return false;
     }
   },
 
