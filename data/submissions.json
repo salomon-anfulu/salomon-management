@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 18,
-    "lastUpdated": "2026-07-07T08:56:50.722Z",
+    "version": 19,
+    "lastUpdated": "2026-07-07T08:57:04.872Z",
     "lastUpdatedBy": "玛依拉"
   },
   "availability": {
@@ -2515,10 +2515,50 @@
               "available": true,
               "note": "",
               "_updatedAt": 1783414610426
+            },
+            "7/24": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414611793
+            },
+            "7/25": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414613024
+            },
+            "7/26": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414614290
+            },
+            "7/27": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414615641
+            },
+            "7/28": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414616892
+            },
+            "7/29": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414618158
+            },
+            "7/30": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414619508
+            },
+            "7/31": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414620872
             }
           },
           "note": "",
-          "total": 11,
+          "total": 19,
           "unavailable": []
         }
       }
