@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 2,
-    "lastUpdated": "2026-07-07T11:42:48.804Z",
-    "lastUpdatedBy": "admin"
+    "version": 3,
+    "lastUpdated": "2026-07-07T11:43:46.486Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "2026-06": {
@@ -5412,6 +5412,11 @@
           "time": "19:00:00-20:00:00",
           "staff": "",
           "_updatedAt": "1783341125074"
+        },
+        {
+          "time": "20:00:00-21:00:00",
+          "staff": "王龙宇",
+          "_updatedAt": "1783424610998"
         }
       ]
     },
