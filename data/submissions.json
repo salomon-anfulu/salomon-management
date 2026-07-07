@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 2,
-    "lastUpdated": "2026-07-07T10:21:17.564Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 3,
+    "lastUpdated": "2026-07-07T10:21:50.236Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "2026-06": {
@@ -16,7 +16,35 @@
       }
     },
     "2026-07": {
-      "data": {}
+      "data": {
+        "龚赟昊": {
+          "total": 4,
+          "unavailable": [],
+          "note": "",
+          "dates": {
+            "7/13": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419686208
+            },
+            "7/14": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419687608
+            },
+            "7/15": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419688590
+            },
+            "7/17": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419690061
+            }
+          }
+        }
+      }
     }
   },
   "staff": [
