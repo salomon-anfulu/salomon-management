@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 5,
-    "lastUpdated": "2026-07-07T08:32:00.571Z",
-    "lastUpdatedBy": "initial-setup"
+    "version": 6,
+    "lastUpdated": "2026-07-07T08:32:19.566Z",
+    "lastUpdatedBy": "王雅澜"
   },
   "availability": {
     "2026-06": {
@@ -1961,6 +1961,138 @@
             "7/15",
             "7/16"
           ]
+        },
+        "王雅澜": {
+          "total": 31,
+          "unavailable": [],
+          "note": "",
+          "dates": {
+            "7/1": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413139518
+            },
+            "7/2": {
+              "available": true,
+              "note": ""
+            },
+            "7/3": {
+              "available": true,
+              "note": ""
+            },
+            "7/4": {
+              "available": true,
+              "note": ""
+            },
+            "7/5": {
+              "available": true,
+              "note": ""
+            },
+            "7/6": {
+              "available": true,
+              "note": ""
+            },
+            "7/7": {
+              "available": true,
+              "note": ""
+            },
+            "7/15": {
+              "available": true,
+              "note": ""
+            },
+            "7/9": {
+              "available": true,
+              "note": ""
+            },
+            "7/8": {
+              "available": true,
+              "note": ""
+            },
+            "7/10": {
+              "available": true,
+              "note": ""
+            },
+            "7/12": {
+              "available": true,
+              "note": ""
+            },
+            "7/11": {
+              "available": true,
+              "note": ""
+            },
+            "7/13": {
+              "available": true,
+              "note": ""
+            },
+            "7/14": {
+              "available": true,
+              "note": ""
+            },
+            "7/16": {
+              "available": true,
+              "note": ""
+            },
+            "7/17": {
+              "available": true,
+              "note": ""
+            },
+            "7/18": {
+              "available": true,
+              "note": ""
+            },
+            "7/20": {
+              "available": true,
+              "note": ""
+            },
+            "7/19": {
+              "available": true,
+              "note": ""
+            },
+            "7/21": {
+              "available": true,
+              "note": ""
+            },
+            "7/22": {
+              "available": true,
+              "note": ""
+            },
+            "7/23": {
+              "available": true,
+              "note": ""
+            },
+            "7/24": {
+              "available": true,
+              "note": ""
+            },
+            "7/25": {
+              "available": true,
+              "note": ""
+            },
+            "7/26": {
+              "available": true,
+              "note": ""
+            },
+            "7/27": {
+              "available": true,
+              "note": ""
+            },
+            "7/28": {
+              "available": true,
+              "note": ""
+            },
+            "7/29": {
+              "available": true,
+              "note": ""
+            },
+            "7/30": {
+              "available": true,
+              "note": ""
+            },
+            "7/31": {
+              "available": true,
+              "note": ""
+            }
+          }
         }
       }
     }
@@ -2271,6 +2403,14 @@
       "applicantShift": "7/10 12:15-21:00",
       "target": "田佳乐",
       "targetShift": "7/6 12:15-21:00"
+    },
+    {
+      "id": 11,
+      "applicant": "王雅澜",
+      "applyDate": "2026-06-30",
+      "applicantShift": "7/3 11:30-20:30",
+      "target": "杨子豪",
+      "targetShift": "7/4 12:15-21:00"
     }
   ],
   "storeSupport": [
@@ -4556,7 +4696,7 @@
         },
         {
           "time": "19:00:00-20:00:00",
-          "staff": "",
+          "staff": "王雅澜",
           "_updatedAt": "1783338680949"
         },
         {
@@ -4571,6 +4711,10 @@
         {
           "time": "11:00:00-12:00:00",
           "staff": "何秋烨"
+        },
+        {
+          "time": "12:00:00-13:00:00",
+          "staff": "王雅澜"
         },
         {
           "time": "13:00:00-14:00:00",
