@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 7,
-    "lastUpdated": "2026-07-07T08:33:04.503Z",
-    "lastUpdatedBy": "田佳乐"
+    "version": 8,
+    "lastUpdated": "2026-07-07T08:34:06.873Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "2026-06": {
@@ -334,10 +334,25 @@
               "available": true,
               "note": "",
               "_updatedAt": 1783413184472
+            },
+            "7/29": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413185537
+            },
+            "7/30": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413186483
+            },
+            "7/31": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783413187448
             }
           },
           "note": "",
-          "total": 26,
+          "total": 29,
           "unavailable": [
             "7/13",
             "7/16"
