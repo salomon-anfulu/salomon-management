@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 8,
-    "lastUpdated": "2026-07-07T08:34:06.873Z",
+    "version": 9,
+    "lastUpdated": "2026-07-07T08:35:12.128Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -4807,6 +4807,11 @@
     {
       "date": "2026-07-04",
       "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "田佳乐",
+          "_updatedAt": "1783413290891"
+        },
         {
           "time": "11:00:00-12:00:00",
           "staff": "迟骋"
