@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 13,
-    "lastUpdated": "2026-07-07T08:45:08.454Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 14,
+    "lastUpdated": "2026-07-07T08:53:22.342Z",
+    "lastUpdatedBy": "朱凯赟"
   },
   "availability": {
     "2026-06": {
@@ -2302,6 +2302,144 @@
           "note": "",
           "total": 31,
           "unavailable": []
+        },
+        "朱凯赟": {
+          "total": 26,
+          "unavailable": [
+            "7/6",
+            "7/8",
+            "7/14",
+            "7/16",
+            "7/26"
+          ],
+          "note": "",
+          "dates": {
+            "7/1": {
+              "available": true,
+              "note": ""
+            },
+            "7/2": {
+              "available": true,
+              "note": ""
+            },
+            "7/3": {
+              "available": true,
+              "note": ""
+            },
+            "7/4": {
+              "available": true,
+              "note": ""
+            },
+            "7/5": {
+              "available": true,
+              "note": ""
+            },
+            "7/6": {
+              "available": false,
+              "note": ""
+            },
+            "7/7": {
+              "available": true,
+              "note": ""
+            },
+            "7/8": {
+              "available": false,
+              "note": ""
+            },
+            "7/9": {
+              "available": true,
+              "note": ""
+            },
+            "7/10": {
+              "available": true,
+              "note": ""
+            },
+            "7/11": {
+              "available": true,
+              "note": ""
+            },
+            "7/12": {
+              "available": true,
+              "note": ""
+            },
+            "7/13": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783414402293
+            },
+            "7/14": {
+              "available": false,
+              "note": ""
+            },
+            "7/15": {
+              "available": true,
+              "note": ""
+            },
+            "7/16": {
+              "available": false,
+              "note": ""
+            },
+            "7/17": {
+              "available": true,
+              "note": ""
+            },
+            "7/18": {
+              "available": true,
+              "note": ""
+            },
+            "7/19": {
+              "available": true,
+              "note": ""
+            },
+            "7/20": {
+              "available": true,
+              "note": ""
+            },
+            "7/21": {
+              "available": true,
+              "note": ""
+            },
+            "7/22": {
+              "available": true,
+              "note": ""
+            },
+            "7/23": {
+              "available": true,
+              "note": ""
+            },
+            "7/24": {
+              "available": true,
+              "note": ""
+            },
+            "7/25": {
+              "available": true,
+              "note": ""
+            },
+            "7/26": {
+              "available": false,
+              "note": ""
+            },
+            "7/27": {
+              "available": true,
+              "note": ""
+            },
+            "7/28": {
+              "available": true,
+              "note": ""
+            },
+            "7/29": {
+              "available": true,
+              "note": ""
+            },
+            "7/30": {
+              "available": true,
+              "note": ""
+            },
+            "7/31": {
+              "available": true,
+              "note": ""
+            }
+          }
         }
       }
     }
@@ -4827,12 +4965,22 @@
           "staff": "龚赟昊"
         },
         {
+          "time": "12:00:00-13:00:00",
+          "staff": "朱凯赟",
+          "_updatedAt": "1783341354964"
+        },
+        {
           "time": "14:00:00-15:00:00",
           "staff": "迟骋"
         },
         {
           "time": "16:00:00-17:00:00",
           "staff": "龚赟昊"
+        },
+        {
+          "time": "19:00:00-20:00:00",
+          "staff": "朱凯赟",
+          "_updatedAt": "1783341359898"
         },
         {
           "time": "20:00:00-21:00:00",
@@ -4877,9 +5025,19 @@
           "staff": "杨子豪"
         },
         {
+          "time": "13:00:00-14:00:00",
+          "staff": "朱凯赟",
+          "_updatedAt": "1783341363781"
+        },
+        {
           "time": "16:00:00-17:00:00",
           "staff": "龚赟昊",
           "_updatedAt": "1783334849377"
+        },
+        {
+          "time": "18:00:00-19:00:00",
+          "staff": "朱凯赟",
+          "_updatedAt": "1783341361414"
         }
       ]
     },
@@ -4935,6 +5093,11 @@
     {
       "date": "2026-07-05",
       "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "朱凯赟",
+          "_updatedAt": "1783341365559"
+        },
         {
           "time": "11:00:00-12:00:00",
           "staff": "何秋烨"
@@ -5006,7 +5169,7 @@
         },
         {
           "time": "13:00:00-14:00:00",
-          "staff": "",
+          "staff": "朱凯赟",
           "_updatedAt": "1783413891659"
         },
         {
