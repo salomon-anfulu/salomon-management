@@ -1238,7 +1238,61 @@ linggongAttendance: {
         { "name": "田佳乐", "date": "2026-07-02", "signIn": "12:57", "signOut": "21:33", "status": "打卡正常", "totalHours": "8" },
         { "name": "祖白代·阿不利孜", "date": "2026-07-02", "signIn": "10:20", "signOut": "19:00", "status": "打卡正常", "totalHours": "8" },
         { "name": "贾长乐", "date": "2026-07-02", "signIn": "16:50", "signOut": "21:02", "status": "打卡正常", "totalHours": "4" },
-        { "name": "邓奇缘", "date": "2026-07-02", "signIn": "10:19", "signOut": "15:32", "status": "打卡正常", "totalHours": "5" }
+        { "name": "邓奇缘", "date": "2026-07-02", "signIn": "10:19", "signOut": "15:32", "status": "打卡正常", "totalHours": "5" },
+        { "name": "何秋烨", "date": "2026-07-03", "signIn": "07:59", "signOut": "09:39", "status": "打卡正常", "totalHours": "1.5" },
+        { "name": "唐蓉", "date": "2026-07-03", "signIn": "07:56", "signOut": "09:36", "status": "打卡正常", "totalHours": "1.5" },
+        { "name": "唐蓉", "date": "2026-07-03", "signIn": "09:39", "signOut": "19:02", "status": "打卡正常", "totalHours": "8" },
+        { "name": "孔祥宇", "date": "2026-07-03", "signIn": "07:36", "signOut": "09:31", "status": "打卡正常", "totalHours": "1.5" },
+        { "name": "朱凯赟", "date": "2026-07-03", "signIn": "07:55", "signOut": "09:30", "status": "打卡正常", "totalHours": "1.5" },
+        { "name": "朱凯赟", "date": "2026-07-03", "signIn": "09:46", "signOut": "20:30", "status": "打卡正常", "totalHours": "7.5" },
+        { "name": "李若彤", "date": "2026-07-03", "signIn": "07:51", "signOut": "09:38", "status": "打卡正常", "totalHours": "1.5" },
+        { "name": "杨子豪", "date": "2026-07-03", "signIn": "07:48", "signOut": "09:32", "status": "打卡正常", "totalHours": "1.5" },
+        { "name": "杨子豪", "date": "2026-07-03", "signIn": "09:32", "signOut": "21:33", "status": "打卡正常", "totalHours": "9.5" },
+        { "name": "梁实秋", "date": "2026-07-03", "signIn": "07:48", "signOut": "09:39", "status": "打卡正常", "totalHours": "1.5" },
+        { "name": "梁实秋", "date": "2026-07-03", "signIn": "10:28", "signOut": "19:00", "status": "打卡正常", "totalHours": "8" },
+        { "name": "王雅澜", "date": "2026-07-03", "signIn": "07:35", "signOut": "09:39", "status": "打卡正常", "totalHours": "1.5" },
+        { "name": "王靳毓", "date": "2026-07-03", "signIn": "07:45", "signOut": "09:30", "status": "打卡正常", "totalHours": "1.5" },
+        { "name": "王靳毓", "date": "2026-07-03", "signIn": "09:30", "signOut": "16:17", "status": "打卡正常", "totalHours": "6" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-07-03", "signIn": "07:52", "signOut": "09:39", "status": "打卡正常", "totalHours": "1.5" },
+        { "name": "玛依拉·努尔夏提", "date": "2026-07-03", "signIn": "12:02", "signOut": "21:01", "status": "打卡正常", "totalHours": "8" },
+        { "name": "田佳乐", "date": "2026-07-03", "signIn": "缺卡", "signOut": "缺卡", "status": "缺勤", "totalHours": "0" },
+        { "name": "祖白代·阿不利孜", "date": "2026-07-03", "signIn": "07:47", "signOut": "09:39", "status": "打卡正常", "totalHours": "1.5" },
+        { "name": "邓奇缘", "date": "2026-07-03", "signIn": "13:28", "signOut": "22:00", "status": "打卡正常", "totalHours": "8" },
+        { "name": "陈广权", "date": "2026-07-03", "signIn": "13:00", "signOut": "21:30", "status": "打卡正常", "totalHours": "8" },
+        { "name": "龚赟昊", "date": "2026-07-03", "signIn": "07:47", "signOut": "09:40", "status": "打卡正常", "totalHours": "1.5" },
+        { "name": "龚赟昊", "date": "2026-07-03", "signIn": "09:43", "signOut": "17:00", "status": "打卡正常", "totalHours": "6" },
+        { "name": "严佳铮", "date": "2026-07-04", "signIn": "10:20", "signOut": "21:30", "status": "打卡正常", "totalHours": "10" },
+        { "name": "何秋烨", "date": "2026-07-04", "signIn": "13:27", "signOut": "22:02", "status": "打卡正常", "totalHours": "8" },
+        { "name": "孔祥宇", "date": "2026-07-04", "signIn": "12:11", "signOut": "21:00", "status": "打卡正常", "totalHours": "8" },
+        { "name": "杨子豪", "date": "2026-07-04", "signIn": "12:00", "signOut": "21:00", "status": "打卡正常", "totalHours": "8.5" },
+        { "name": "梁实秋", "date": "2026-07-04", "signIn": "12:19", "signOut": "21:00", "status": "打卡正常", "totalHours": "8" },
+        { "name": "王雅澜", "date": "2026-07-04", "signIn": "12:01", "signOut": "21:01", "status": "打卡正常", "totalHours": "8" },
+        { "name": "王靳毓", "date": "2026-07-04", "signIn": "11:18", "signOut": "20:31", "status": "打卡正常", "totalHours": "8.5" },
+        { "name": "田佳乐", "date": "2026-07-04", "signIn": "09:53", "signOut": "18:35", "status": "打卡正常", "totalHours": "8" },
+        { "name": "祖白代·阿不利孜", "date": "2026-07-04", "signIn": "10:42", "signOut": "20:00", "status": "打卡正常", "totalHours": "8.5" },
+        { "name": "迟骋", "date": "2026-07-04", "signIn": "10:20", "signOut": "19:03", "status": "打卡正常", "totalHours": "8" },
+        { "name": "陈广权", "date": "2026-07-04", "signIn": "09:30", "signOut": "18:30", "status": "打卡正常", "totalHours": "8.5" },
+        { "name": "龚赟昊", "date": "2026-07-04", "signIn": "09:58", "signOut": "18:55", "status": "打卡正常", "totalHours": "8" },
+        { "name": "严佳铮", "date": "2026-07-05", "signIn": "10:23", "signOut": "21:30", "status": "打卡正常", "totalHours": "10" },
+        { "name": "何秋烨", "date": "2026-07-05", "signIn": "10:28", "signOut": "17:30", "status": "打卡正常", "totalHours": "7" },
+        { "name": "唐蓉", "date": "2026-07-05", "signIn": "12:12", "signOut": "21:02", "status": "打卡正常", "totalHours": "8" },
+        { "name": "朱凯赟", "date": "2026-07-05", "signIn": "09:53", "signOut": "17:30", "status": "打卡正常", "totalHours": "7.5" },
+        { "name": "杨子豪", "date": "2026-07-05", "signIn": "13:19", "signOut": "19:21", "status": "打卡正常", "totalHours": "5.5" },
+        { "name": "王雅澜", "date": "2026-07-05", "signIn": "10:41", "signOut": "17:30", "status": "打卡正常", "totalHours": "6.5" },
+        { "name": "王靳毓", "date": "2026-07-05", "signIn": "13:00", "signOut": "22:00", "status": "打卡正常", "totalHours": "8.5" },
+        { "name": "贾长乐", "date": "2026-07-05", "signIn": "12:22", "signOut": "19:21", "status": "打卡正常", "totalHours": "6.5" },
+        { "name": "迟骋", "date": "2026-07-05", "signIn": "11:23", "signOut": "19:21", "status": "打卡正常", "totalHours": "7.5" },
+        { "name": "邓奇缘", "date": "2026-07-05", "signIn": "12:09", "signOut": "21:00", "status": "打卡正常", "totalHours": "8" },
+        { "name": "陈广权", "date": "2026-07-05", "signIn": "11:00", "signOut": "13:00", "status": "打卡异常", "totalHours": "2" },
+        { "name": "龚赟昊", "date": "2026-07-05", "signIn": "12:09", "signOut": "21:02", "status": "打卡正常", "totalHours": "8" },
+        { "name": "何秋烨", "date": "2026-07-06", "signIn": "12:14", "signOut": "21:01", "status": "打卡正常", "totalHours": "8" },
+        { "name": "唐蓉", "date": "2026-07-06", "signIn": "11:28", "signOut": "20:30", "status": "打卡正常", "totalHours": "8.5" },
+        { "name": "孔祥宇", "date": "2026-07-06", "signIn": "11:26", "signOut": "20:33", "status": "打卡正常", "totalHours": "8.5" },
+        { "name": "梁实秋", "date": "2026-07-06", "signIn": "10:21", "signOut": "19:00", "status": "打卡正常", "totalHours": "8" },
+        { "name": "王靳毓", "date": "2026-07-06", "signIn": "09:41", "signOut": "18:31", "status": "打卡正常", "totalHours": "8" },
+        { "name": "王龙宇", "date": "2026-07-06", "signIn": "12:50", "signOut": "21:32", "status": "打卡正常", "totalHours": "8" },
+        { "name": "迟骋", "date": "2026-07-06", "signIn": "10:27", "signOut": "19:01", "status": "打卡正常", "totalHours": "8" },
+        { "name": "陈广权", "date": "2026-07-06", "signIn": "12:30", "signOut": "21:00", "status": "打卡正常", "totalHours": "8" }
       ]
     },
 
@@ -1553,7 +1607,7 @@ linggongAttendance: {
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-06-v47e',
+        _dataVersion: '2026-07-07-v48',
   },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
@@ -1566,7 +1620,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-06-v47e';
+      const DATA_VERSION = '2026-07-07-v48';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -1846,7 +1900,7 @@ linggongAttendance: {
 };
 
 // ===== Global scoring month — controls which month's data all rating functions use =====
-let _scoringMonth = '2026-06'; // default to latest month with complete data
+let _scoringMonth = '2026-07'; // default to latest month with complete data
 
 // ===== Global schedule view month — controls which month renderSchedule displays =====
 let _scheduleMonth = null; // null = follow availability.currentMonth; set to 'YYYY-MM' to lock
