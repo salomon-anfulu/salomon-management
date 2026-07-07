@@ -37,6 +37,8 @@ const Sync = {
   /** v51: push 队列，防止并发 push 互相覆盖 */
   _pushQueue: [],
   _pushRunning: false,
+  /** v51g: 上次 push 失败的错误信息，用于 manualSync 按钮精确反馈 */
+  _lastPushError: null,
 
   /**
    * 获取存储的 Token
@@ -278,6 +280,9 @@ const Sync = {
     this._pushRunning = true;
     this._pushInFlight = true;
 
+    // 记录最终结果：默认成功，失败时改为 false
+    let finalResult = true;
+
     while (this._pushQueue.length > 0) {
       // 取最后一条（之前的请求中包含的数据已经被后续保存覆盖了）
       const changedBy = this._pushQueue[this._pushQueue.length - 1];
@@ -287,6 +292,7 @@ const Sync = {
       if (result !== true) {
         // push 失败，标记待同步，退出循环（下次 pull 成功后补偿）
         this._pendingSync = true;
+        finalResult = false;  // v51g: 修复 _processPushQueue 永远返回 true 的 bug
         break;
       }
       // 成功后短暂等待（100ms），让可能新入队的请求有机会被收集
@@ -297,7 +303,7 @@ const Sync = {
 
     this._pushRunning = false;
     this._pushInFlight = false;
-    return true;
+    return finalResult;
   },
 
   /**
@@ -387,13 +393,19 @@ const Sync = {
       } else {
         console.warn('[Sync] 推送失败:', e.message);
         this._pendingSync = true;
-        const msg = e.message || '未知错误';
-        if (msg.includes('401') || msg.includes('Bad credentials')) {
-          showToast('☁️ 同步失败: Token无效，请在设置中重新配置', 'error');
-        } else if (msg.includes('403') || msg.includes('resource not accessible')) {
-          showToast('☁️ 同步失败: Token权限不足，需开启 Contents → Read & Write', 'error');
-        } else {
-          showToast('☁️ 同步未成功: ' + msg, 'warning');
+        // v51g: 记录错误消息，manualSync 按钮检测到不再重复 toast
+        this._lastPushError = e.message || '未知错误';
+        // 自动保存场景需要 toast（用户没有其他反馈渠道）
+        // manualSync 主动点击会自己 toast 详细分类提示，所以这里 toast 简短版
+        if (typeof _suppressInternalToast === 'undefined' || !_suppressInternalToast) {
+          const msg = this._lastPushError;
+          if (msg.includes('401') || msg.includes('Bad credentials')) {
+            showToast('☁️ 同步失败: Token无效，请在设置中重新配置', 'error');
+          } else if (msg.includes('403') || msg.includes('resource not accessible')) {
+            showToast('☁️ 同步失败: Token权限不足，需开启 Contents → Read & Write', 'error');
+          } else {
+            showToast('☁️ 同步未成功: ' + msg, 'warning');
+          }
         }
       }
       // 统一返回 false（历史遗留曾返回 { success: false }，现已统一为布尔值）
@@ -1107,14 +1119,19 @@ Sync.manualSync = async function() {
   if (label) label.textContent = '同步中...';
 
   const who = (typeof _auth !== 'undefined' && _auth && _auth.staffName) ? _auth.staffName : 'manual-sync';
+  // v51g: 抑制 _doPush 内部 toast，由按钮统一反馈
+  window._suppressInternalToast = true;
+  let pushErrorMsg = null;
   try {
-    const pushOk = await Sync.push(who).catch(e => { console.warn('[Sync] 手动push失败:', e.message); return false; });
+    const pushOk = await Sync.push(who).catch(e => { console.warn('[Sync] 手动push失败:', e.message); pushErrorMsg = e.message; return false; });
     // 等待 push 队列排空
     let waitCount = 0;
     while (Sync._pushRunning && waitCount < 50) {
       await new Promise(r => setTimeout(r, 200));
       waitCount++;
     }
+    // 取 _doPush 内部记录的精确错误信息
+    if (!pushOk) pushErrorMsg = Sync._lastPushError || pushErrorMsg;
     const pullOk = await Sync.pull(false, true);
     if (typeof showToast === 'function') {
       if (pushOk && pullOk) {
@@ -1122,7 +1139,9 @@ Sync.manualSync = async function() {
       } else if (!pushOk && !pullOk) {
         showToast('☁️ 上传和拉取均失败，请检查网络', 'error');
       } else if (!pushOk) {
-        showToast('☁️ 上传失败，已拉取最新数据', 'warning');
+        // v51g: 显示 push 失败的具体原因（来自 _doPush 内部）
+        const detail = pushErrorMsg ? ` (${pushErrorMsg})` : '';
+        showToast('☁️ 上传失败' + detail, 'error');
       } else {
         showToast('☁️ 已上传，但拉取最新数据失败', 'warning');
       }
@@ -1130,6 +1149,8 @@ Sync.manualSync = async function() {
   } catch (e) {
     if (typeof showToast === 'function') showToast('同步失败: ' + e.message, 'error');
   } finally {
+    // v51g: 清除抑制标记（自动保存场景会再次 toast）
+    window._suppressInternalToast = false;
     if (btn) { btn.disabled = false; btn.style.opacity = '1'; btn.textContent = '🔄 同步'; }
     Sync._updateIndicator();
   }
