@@ -570,10 +570,11 @@ const Sync = {
           // 更新 total（基于 dates 重新计算）
           if (localPerson.dates && Object.keys(localPerson.dates).length > 0) {
             let avail = 0;
-            Object.values(localPerson.dates).forEach(d => { if (d.available) avail++; });
+            // v54: _deleted 标记的日期不计入统计
+            Object.values(localPerson.dates).forEach(d => { if (d.available && !d._deleted) avail++; });
             localPerson.total = avail;
             localPerson.unavailable = Object.entries(localPerson.dates)
-              .filter(([_, v]) => !v.available)
+              .filter(([_, v]) => !v.available && !v._deleted)
               .map(([k]) => k);
           } else if (clonedShared.total && !localPerson.total) {
             localPerson.total = clonedShared.total;
@@ -584,41 +585,70 @@ const Sync = {
       Store.set('availability', localAvail);
     }
 
-    // === 换班记录 (shiftChanges) ===
+    // === 换班记录 (shiftChanges) ===（v54: 传 deletedIds）
     if (shared.shiftChanges && shared.shiftChanges.length > 0) {
       const local = Store.get('shiftChanges') || [];
-      const merged = this._mergeArraysById(local, shared.shiftChanges);
+      const merged = this._mergeArraysById(local, shared.shiftChanges, this._getDeletedIds(shared, 'shiftChanges'));
       // v46: 字段级合并不一定增加 length，用 JSON 比较判断是否变化
       if (JSON.stringify(merged) !== JSON.stringify(local)) {
         Store.set('shiftChanges', merged);
       }
     }
 
-    // === 店务支援 (storeSupport) ===
+    // === 店务支援 (storeSupport) ===（v54）
     if (shared.storeSupport && shared.storeSupport.length > 0) {
       const local = Store.get('storeSupport') || [];
-      const merged = this._mergeArraysById(local, shared.storeSupport);
+      const merged = this._mergeArraysById(local, shared.storeSupport, this._getDeletedIds(shared, 'storeSupport'));
       if (JSON.stringify(merged) !== JSON.stringify(local)) {
         Store.set('storeSupport', merged);
       }
     }
 
-    // === 门迎排班 (doorSchedule) ===
+    // === 门迎排班 (doorSchedule) ===（v54）
     if (shared.doorSchedule && shared.doorSchedule.length > 0) {
       const local = Store.get('doorSchedule') || [];
-      const merged = this._mergeArraysByDate(local, shared.doorSchedule);
+      const merged = this._mergeArraysByDate(local, shared.doorSchedule, this._getDeletedDoorSlots(shared));
       if (JSON.stringify(merged) !== JSON.stringify(local)) {
         Store.set('doorSchedule', merged);
       }
     }
 
-    // === 顾客好评 (customerReviews) — v47 新增 ===
+    // === 顾客好评 (customerReviews) — v47 新增 ===（v54）
     if (shared.customerReviews && shared.customerReviews.length > 0) {
       const local = Store.get('customerReviews') || [];
-      const merged = this._mergeArraysById(local, shared.customerReviews);
+      const merged = this._mergeArraysById(local, shared.customerReviews, this._getDeletedIds(shared, 'customerReviews'));
       if (JSON.stringify(merged) !== JSON.stringify(local)) {
         Store.set('customerReviews', merged);
       }
+    }
+
+    // v54: 同步本地 _deletedIds 缓存（用于本地删除时也能防复活）
+    if (shared._deletedIds) {
+      const localDeleted = Store.get('__deletedIds') || {};
+      let changed = false;
+      Object.keys(shared._deletedIds).forEach(col => {
+        if (col === '_meta') return;
+        const cloudIds = shared._deletedIds[col] || [];
+        const localIds = localDeleted[col] || [];
+        cloudIds.forEach(id => {
+          if (!localIds.includes(id)) {
+            localIds.push(id);
+            changed = true;
+          }
+        });
+        if (localIds.length > 0) localDeleted[col] = localIds;
+      });
+      if (shared._deletedDoorSlots) {
+        localDeleted._doorSlots = localDeleted._doorSlots || {};
+        Object.entries(shared._deletedDoorSlots).forEach(([date, times]) => {
+          const existing = localDeleted._doorSlots[date] || [];
+          (times || []).forEach(t => {
+            if (!existing.includes(t)) { existing.push(t); changed = true; }
+          });
+          if (existing.length > 0) localDeleted._doorSlots[date] = existing;
+        });
+      }
+      if (changed) Store.set('__deletedIds', localDeleted);
     }
 
     // === 人员档案变更 (staff) — v47 新增：非填报类的 staff 编辑（人员管理页） ===
@@ -867,6 +897,37 @@ const Sync = {
    * 将本地数据合并到共享数据对象（用于推送前）
    */
   _mergeLocalIntoShared(shared) {
+    // === v54: 合并本地 __deletedIds → shared._deletedIds（union，push 方向）===
+    // 这是关键桥接：删除函数写入 Store.__deletedIds，这里把它推到云端
+    const localDeleted = Store.get('__deletedIds') || {};
+    if (!shared._deletedIds) shared._deletedIds = {};
+    if (!shared._deletedIds._meta) shared._deletedIds._meta = {};
+    Object.keys(localDeleted).forEach(col => {
+      if (col === '_meta' || col === '_doorSlots') return;
+      if (!shared._deletedIds[col]) shared._deletedIds[col] = [];
+      (localDeleted[col] || []).forEach(id => {
+        const idStr = String(id);
+        if (!shared._deletedIds[col].includes(idStr)) {
+          shared._deletedIds[col].push(idStr);
+        }
+        if (!shared._deletedIds._meta[idStr]) {
+          shared._deletedIds._meta[idStr] = Date.now();
+        }
+      });
+    });
+    // doorSlots tombstone
+    if (localDeleted._doorSlots) {
+      if (!shared._deletedDoorSlots) shared._deletedDoorSlots = {};
+      Object.entries(localDeleted._doorSlots).forEach(([date, times]) => {
+        if (!shared._deletedDoorSlots[date]) shared._deletedDoorSlots[date] = [];
+        (times || []).forEach(t => {
+          if (!shared._deletedDoorSlots[date].includes(t)) {
+            shared._deletedDoorSlots[date].push(t);
+          }
+        });
+      });
+    }
+
     // === staff（人员信息）— 优先合并，确保 staff 名称最新 ===
     const localStaff = Store.get('staff') || [];
     const cloudStaff = shared.staff || [];
@@ -932,8 +993,9 @@ const Sync = {
             shared.availability[monthKey].data[staffName] = {
               dates: mergedDates,
               note: mergedNote,
-              total: Object.values(mergedDates).filter(d => d.available).length,
-              unavailable: Object.entries(mergedDates).filter(([_, d]) => !d.available).map(([k]) => k),
+              // v54: _deleted 标记的日期不计入统计
+              total: Object.values(mergedDates).filter(d => d.available && !d._deleted).length,
+              unavailable: Object.entries(mergedDates).filter(([_, d]) => !d.available && !d._deleted).map(([k]) => k),
             };
           } else {
             // 云端没有该人数据 → 直接写入（但需有实际内容）
@@ -946,29 +1008,36 @@ const Sync = {
       });
     }
 
-    // === shiftChanges ===
+    // === shiftChanges ===（v54: 传 deletedIds 防复活）
     shared.shiftChanges = this._mergeArraysById(
       shared.shiftChanges || [],
-      Store.get('shiftChanges') || []
+      Store.get('shiftChanges') || [],
+      this._getDeletedIds(shared, 'shiftChanges')
     );
 
-    // === storeSupport ===
+    // === storeSupport ===（v54）
     shared.storeSupport = this._mergeArraysById(
       shared.storeSupport || [],
-      Store.get('storeSupport') || []
+      Store.get('storeSupport') || [],
+      this._getDeletedIds(shared, 'storeSupport')
     );
 
-    // === doorSchedule ===
+    // === doorSchedule ===（v54: 传 deletedSlotsByDate）
     shared.doorSchedule = this._mergeArraysByDate(
       shared.doorSchedule || [],
-      Store.get('doorSchedule') || []
+      Store.get('doorSchedule') || [],
+      this._getDeletedDoorSlots(shared)
     );
 
-    // === customerReviews (顾客好评) — v47 新增 ===
+    // === customerReviews ===（v54）
     shared.customerReviews = this._mergeArraysById(
       shared.customerReviews || [],
-      Store.get('customerReviews') || []
+      Store.get('customerReviews') || [],
+      this._getDeletedIds(shared, 'customerReviews')
     );
+
+    // v54: GC 过期 tombstone
+    this._gcTombstones(shared);
   },
 
   /**
@@ -1006,15 +1075,19 @@ const Sync = {
 
   /**
    * 按 id 去重合并数组 — 字段级合并（v46）
-   * 同一条记录被两人各自修改了不同字段时，不丢失任何一个字段。
-   * 策略：以 _updatedAt 时间戳判断新旧，取更新一方的字段值；
-   *       无 _updatedAt 时退化为「非空字段覆盖」。
+   * v54: 支持 tombstone 删除防复活
+   *   deletedIds = Set of id → 这些 id 对应的记录即使 remote 有也不复活
+   * 策略：并集合并 + 字段级合取，但跳过 deletedIds 中的记录
    */
-  _mergeArraysById(local, remote) {
+  _mergeArraysById(local, remote, deletedIds) {
+    const delSet = deletedIds instanceof Set ? deletedIds : new Set(deletedIds || []);
     const map = new Map();
-    local.forEach(item => { if (item && item.id != null) map.set(item.id, { ...item }); });
+    local.forEach(item => {
+      if (item && item.id != null && !delSet.has(item.id)) map.set(item.id, { ...item });
+    });
     remote.forEach(item => {
       if (!item || item.id == null) return;
+      if (delSet.has(item.id)) return; // tombstone: 不复活
       const existing = map.get(item.id);
       map.set(item.id, existing ? this._mergeFields(existing, item) : { ...item });
     });
@@ -1024,8 +1097,9 @@ const Sync = {
   /**
    * 按 date 去重合并数组（用于 doorSchedule）— 字段级合并（v46）
    * v47c: slots 数组按 time 子级合并，不再整段覆盖
+   * v54: 传入 deletedSlotsByDate = { '2026-07-01': Set('10:00-12:00', ...), ... }
    */
-  _mergeArraysByDate(local, remote) {
+  _mergeArraysByDate(local, remote, deletedSlotsByDate) {
     const map = new Map();
     local.forEach(item => { if (item && item.date) map.set(item.date, { ...item }); });
     remote.forEach(item => {
@@ -1034,9 +1108,10 @@ const Sync = {
       if (!existing) { map.set(item.date, { ...item }); return; }
       // 字段级合并（除 slots 外）
       const merged = this._mergeFields(existing, item);
-      // slots 数组按 time 子级合并
+      // slots 数组按 time 子级合并（v54: 传 deletedTimes）
       if (existing.slots || item.slots) {
-        merged.slots = this._mergeSlotsByTime(existing.slots || [], item.slots || []);
+        const delTimes = deletedSlotsByDate && deletedSlotsByDate[item.date];
+        merged.slots = this._mergeSlotsByTime(existing.slots || [], item.slots || [], delTimes);
       }
       map.set(item.date, merged);
     });
@@ -1045,13 +1120,18 @@ const Sync = {
 
   /**
    * 按 time 字段合并 slots 数组（v47c 新增）
+   * v54: 支持 tombstone 删除防复活（按 time 作为删除键）
    * 同 time 的 slot 做字段级合并，不同 time 的并集。
    */
-  _mergeSlotsByTime(aSlots, bSlots) {
+  _mergeSlotsByTime(aSlots, bSlots, deletedTimes) {
+    const delSet = deletedTimes instanceof Set ? deletedTimes : new Set(deletedTimes || []);
     const m = new Map();
-    aSlots.forEach(s => { if (s && s.time) m.set(s.time, { ...s }); });
+    aSlots.forEach(s => {
+      if (s && s.time && !delSet.has(s.time)) m.set(s.time, { ...s });
+    });
     bSlots.forEach(s => {
       if (!s || !s.time) return;
+      if (delSet.has(s.time)) return; // tombstone: 不复活
       const existing = m.get(s.time);
       m.set(s.time, existing ? this._mergeFields(existing, s) : { ...s });
     });
@@ -1081,6 +1161,84 @@ const Sync = {
     // 取更新的 _updatedAt
     if (rTs || lTs) merged._updatedAt = String(Math.max(rTs, lTs));
     return merged;
+  },
+
+  /**
+   * ====== v54: Tombstone 删除防复活机制 ======
+   * 分布式删除的第一性原理：本地删除 ≠ 通知所有人删除。
+   * 方案：把删除的 id 存入 shared._deletedIds，合并时跳过这些 id。
+   */
+
+  /** 从 shared 中读取某集合的 deletedIds */
+  _getDeletedIds(shared, collection) {
+    if (!shared._deletedIds || !shared._deletedIds[collection]) return new Set();
+    return new Set(shared._deletedIds[collection]);
+  },
+
+  /** 从 shared 中读取某日期下被删除的 door slot times */
+  _getDeletedDoorSlots(shared) {
+    const result = {};
+    if (!shared._deletedDoorSlots) return result;
+    Object.entries(shared._deletedDoorSlots).forEach(([date, times]) => {
+      result[date] = new Set(times || []);
+    });
+    return result;
+  },
+
+  /**
+   * 标记一条记录为已删除（写入 shared._deletedIds）
+   * @param collection: 'shiftChanges' | 'storeSupport' | 'customerReviews' | 'ratings'
+   * @param id: 记录 id
+   * @param shared: 共享数据对象（push 时传入）
+   */
+  _markDeleted(shared, collection, id) {
+    if (!shared._deletedIds) shared._deletedIds = {};
+    if (!shared._deletedIds[collection]) shared._deletedIds[collection] = [];
+    const arr = shared._deletedIds[collection];
+    const idStr = String(id);
+    if (!arr.includes(idStr)) {
+      arr.push(idStr);
+      // 记录删除时间，用于 GC（超过 30 天的 tombstone 可清理）
+      shared._deletedIds._meta = shared._deletedIds._meta || {};
+      shared._deletedIds._meta[idStr] = Date.now();
+    }
+  },
+
+  /**
+   * 标记一个 door slot 为已删除
+   * @param date: 日期 'YYYY-MM-DD'
+   * @param time: 时间段 'HH:MM-HH:MM'
+   * @param shared: 共享数据对象
+   */
+  _markDoorSlotDeleted(shared, date, time) {
+    if (!shared._deletedDoorSlots) shared._deletedDoorSlots = {};
+    if (!shared._deletedDoorSlots[date]) shared._deletedDoorSlots[date] = [];
+    const arr = shared._deletedDoorSlots[date];
+    if (!arr.includes(time)) arr.push(time);
+  },
+
+  /**
+   * 清理超过 30 天的 tombstone（GC）
+   * 在 push 时调用，保持 shared 文件不会无限增长
+   */
+  _gcTombstones(shared) {
+    if (!shared._deletedIds || !shared._deletedIds._meta) return;
+    const now = Date.now();
+    const GC_AGE = 30 * 24 * 60 * 60 * 1000; // 30 天
+    const meta = shared._deletedIds._meta;
+    let changed = false;
+    Object.entries(meta).forEach(([id, ts]) => {
+      if (now - ts > GC_AGE) {
+        delete meta[id];
+        // 从各集合数组中也移除
+        Object.keys(shared._deletedIds).forEach(col => {
+          if (col === '_meta') return;
+          shared._deletedIds[col] = shared._deletedIds[col].filter(x => x !== id);
+        });
+        changed = true;
+      }
+    });
+    if (changed) console.log('[Sync] GC: 清理过期 tombstone');
   },
 
   /**

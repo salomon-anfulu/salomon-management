@@ -8,6 +8,31 @@
 // ===== Auth Helper (defined in index.html, safe fallback) =====
 const _auth = typeof Auth !== 'undefined' ? Auth : { isAdmin: true, staffId: null, staffName: null, role: 'admin' };
 
+/**
+ * v54: Tombstone 辅助函数 — 标记记录已删除（防跨设备复活）
+ * 原理：本地物理删除 + Store.__deletedIds 标记 → push 时自动同步到云端 → pull 时合并函数跳过被标记的 id
+ */
+function _markDeleted(collection, id) {
+  const deleted = Store.get('__deletedIds') || {};
+  if (!deleted[collection]) deleted[collection] = [];
+  const idStr = String(id);
+  if (!deleted[collection].includes(idStr)) {
+    deleted[collection].push(idStr);
+    Store.set('__deletedIds', deleted);
+  }
+}
+
+/** v54: 标记门迎 slot 已删除 */
+function _markDoorSlotDeleted(date, time) {
+  const deleted = Store.get('__deletedIds') || {};
+  if (!deleted._doorSlots) deleted._doorSlots = {};
+  if (!deleted._doorSlots[date]) deleted._doorSlots[date] = [];
+  if (!deleted._doorSlots[date].includes(time)) {
+    deleted._doorSlots[date].push(time);
+    Store.set('__deletedIds', deleted);
+  }
+}
+
 // ===== Month key mapper (dynamic, not hardcoded) =====
 // Maps 'YYYY-MM' string to performanceData object key (april/may/june/july/august...)
 function _monthKeyToPerfKey(ym) {
@@ -1333,6 +1358,8 @@ function calcAvailabilityScore(staffName) {
   if (availData.dates && typeof availData.dates === 'object') {
     // Use granular dates structure
     Object.entries(availData.dates).forEach(([dateKey, status]) => {
+      // v54: 跳过 _deleted 标记的日期（视为未填写）
+      if (status && status._deleted) return;
       if (status && status.available === false) {
         const dayNum = parseInt(String(dateKey).split('/')[1]);
         if (!isNaN(dayNum)) unavailableDays.add(dayNum);
@@ -3885,11 +3912,13 @@ function saveReviewForm() {
   if (reviewEditingId) {
     const idx = reviews.findIndex(r => r.id === reviewEditingId);
     if (idx >= 0) {
-      reviews[idx] = { ...reviews[idx], staffName, month, reviewDate, rating, snippet, keywords, source };
+      // v54: 编辑也加 _updatedAt，确保字段合并时能正确判断新旧
+      reviews[idx] = { ...reviews[idx], staffName, month, reviewDate, rating, snippet, keywords, source, _updatedAt: Date.now() };
     }
   } else {
-    const newId = reviews.length > 0 ? Math.max(...reviews.map(r => r.id)) + 1 : 1;
-    reviews.push({ id: newId, staffName, month, reviewDate, rating, snippet, keywords, source });
+    // v54: ID 改用时间戳+随机数，消除并发碰撞
+    const newId = Date.now() + Math.floor(Math.random() * 1000);
+    reviews.push({ id: newId, staffName, month, reviewDate, rating, snippet, keywords, source, _updatedAt: Date.now() });
   }
 
   Store.set('customerReviews', reviews);
@@ -3900,6 +3929,8 @@ function saveReviewForm() {
 
 function deleteReview(id) {
   if (!confirm('确定删除这条好评记录吗？')) return;
+  // v54: tombstone 标记
+  _markDeleted('customerReviews', id);
   const reviews = Store.get('customerReviews') || [];
   Store.set('customerReviews', reviews.filter(r => r.id !== id));
   Sync.push(_auth.staffName || 'admin');
@@ -4123,8 +4154,9 @@ function saveSupport() {
   if (!staffName || !date || !type) { showToast('请填写必填字段', 'warning'); return; }
 
   const data = Store.get('storeSupport') || [];
-  const newId = data.length > 0 ? Math.max(...data.map(s => s.id)) + 1 : 1;
-  data.push({ id: newId, staff: staffName, date, type, duration, detail });
+  // v54: ID 改用时间戳+随机数，消除并发碰撞
+  const newId = Date.now() + Math.floor(Math.random() * 1000);
+  data.push({ id: newId, staff: staffName, date, type, duration, detail, _updatedAt: Date.now() });
   Store.set('storeSupport', data);
   // 云端同步推送
   Sync.push(staffName);
@@ -4135,6 +4167,8 @@ function saveSupport() {
 
 function deleteSupport(id) {
   if (!confirm('确定删除这条支援记录吗？')) return;
+  // v54: tombstone 标记
+  _markDeleted('storeSupport', id);
   const data = Store.get('storeSupport') || [];
   Store.set('storeSupport', data.filter(s => s.id !== id));
   Sync.push(_auth.staffName || 'admin');
@@ -4212,8 +4246,9 @@ function saveShift() {
   if (!applicant || !applyDate || !applicantShift || !target) { showToast('请填写必填字段', 'warning'); return; }
 
   const data = Store.get('shiftChanges') || [];
-  const newId = data.length > 0 ? Math.max(...data.map(s => s.id)) + 1 : 1;
-  data.push({ id: newId, applicant, applyDate, applicantShift, target, targetShift });
+  // v54: ID 改用时间戳+随机数，消除并发碰撞
+  const newId = Date.now() + Math.floor(Math.random() * 1000);
+  data.push({ id: newId, applicant, applyDate, applicantShift, target, targetShift, _updatedAt: Date.now() });
   Store.set('shiftChanges', data);
   // 云端同步推送
   Sync.push(applicant);
@@ -4224,6 +4259,8 @@ function saveShift() {
 
 function deleteShift(id) {
   if (!confirm('确定删除这条换班记录吗？')) return;
+  // v54: tombstone 标记（防跨设备复活）+ 物理删除
+  _markDeleted('shiftChanges', id);
   const data = Store.get('shiftChanges') || [];
   Store.set('shiftChanges', data.filter(s => s.id !== id));
   Sync.push(_auth.staffName || 'admin');
@@ -4329,7 +4366,10 @@ function getDateStatus(monthKey, staffName, dayNum) {
   if (person.dates) {
     const mon = parseInt(monthKey.split('-')[1]);
     const dateKey = `${mon}/${dayNum}`;
-    return person.dates[dateKey] || null;
+    const val = person.dates[dateKey];
+    // v54: _deleted 标记的日期视为"未填写"
+    if (val && val._deleted) return null;
+    return val || null;
   }
 
   // Legacy: infer from unavailable array
@@ -4552,7 +4592,10 @@ function clearDateStatus(dayNum) {
   const avail = Store.get('availability');
   if (avail.months && avail.months[_availMonth] && avail.months[_availMonth].data[_availStaff]) {
     const person = avail.months[_availMonth].data[_availStaff];
-    if (person.dates) delete person.dates[dateKey];
+    // v54: tombstone 删除 — 标记为 _deleted 而非物理删除，防跨设备复活
+    // 合并时 _deleted: true + 最新 _updatedAt 的版本会赢，渲染时过滤掉
+    if (!person.dates) person.dates = {};
+    person.dates[dateKey] = { available: false, _deleted: true, _updatedAt: Date.now() };
     syncPersonLegacyFields(person, mon);
     Store.set('availability', avail);
     // 云端同步推送
@@ -4568,6 +4611,8 @@ function syncPersonLegacyFields(person, mon) {
   if (!person.dates) { person.total = person.total || 0; person.unavailable = person.unavailable || []; return; }
   let avail = 0, unavail = [];
   Object.entries(person.dates).forEach(([dateKey, val]) => {
+    // v54: _deleted 标记的日期不计入统计
+    if (val._deleted) return;
     if (val.available) avail++;
     else unavail.push(dateKey);
   });
@@ -5080,6 +5125,11 @@ function deleteDoorSlotInline() {
   const doorData = Store.get('doorSchedule') || [];
   const day = doorData.find(d => d.date === doorScheduleDate);
   if (day && doorSlotEditingIdx !== null) {
+    // v54: tombstone 标记（按 time 作为删除键）
+    const slot = day.slots[doorSlotEditingIdx];
+    if (slot && slot.time) {
+      _markDoorSlotDeleted(doorScheduleDate, slot.time);
+    }
     day.slots.splice(doorSlotEditingIdx, 1);
     Store.set('doorSchedule', doorData);
     Sync.push(_auth.staffName || 'admin');
