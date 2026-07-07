@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 3,
-    "lastUpdated": "2026-07-07T10:21:50.236Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 4,
+    "lastUpdated": "2026-07-07T10:35:41.880Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "2026-06": {
@@ -18,9 +18,6 @@
     "2026-07": {
       "data": {
         "龚赟昊": {
-          "total": 4,
-          "unavailable": [],
-          "note": "",
           "dates": {
             "7/13": {
               "available": true,
@@ -41,8 +38,88 @@
               "available": true,
               "note": "",
               "_updatedAt": 1783419690061
+            },
+            "7/16": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419728676
+            },
+            "7/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419730094
+            },
+            "7/19": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783419732270
+            },
+            "7/20": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419733674
+            },
+            "7/21": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419734881
+            },
+            "7/22": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419736025
+            },
+            "7/23": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419737364
+            },
+            "7/24": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419738584
+            },
+            "7/25": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419739684
+            },
+            "7/26": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419740802
+            },
+            "7/27": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419742034
+            },
+            "7/28": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419743338
+            },
+            "7/29": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419744488
+            },
+            "7/30": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419745764
+            },
+            "7/31": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783419747014
             }
-          }
+          },
+          "note": "",
+          "total": 18,
+          "unavailable": [
+            "7/19"
+          ]
         }
       }
     }
