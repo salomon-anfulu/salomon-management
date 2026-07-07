@@ -1814,6 +1814,8 @@ function renderRatings() {
   const visibleRatings = sortedRatings.filter(r => {
     const s = Store.getStaff(r.staffId);
     if (!s) return true;
+    // 转正/离职的成员不参与兼职评分展示（第一性原则：只管理兼职）
+    if (s.status !== 'active') return false;
     if (!s.serviceTeamStartDate) return true; // 老成员无此字段，始终显示
     return _scoringMonth >= s.serviceTeamStartDate.slice(0, 7);
   });

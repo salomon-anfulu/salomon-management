@@ -926,7 +926,6 @@ ratings: [
     }
     // ===== 7月评分条目（初始空白，随数据录入动态计算） =====
     ,
-    { "id": 101, "staffId": 1, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
     { "id": 102, "staffId": 2, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
     { "id": 103, "staffId": 3, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
     { "id": 104, "staffId": 4, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
@@ -1662,7 +1661,7 @@ linggongAttendance: {
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-07-v49',
+        _dataVersion: '2026-07-07-v50',
   },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
@@ -1675,7 +1674,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-07-v49';
+      const DATA_VERSION = '2026-07-07-v50';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -1712,10 +1711,17 @@ linggongAttendance: {
 
         // ratings: 保留用户添加的自定义评分（staffId不在默认列表中的）
         const defaultRatingKeys = new Set(this.defaults.ratings.map(r => `${r.staffId}-${r.month}`));
+        // v50: 陈昕媛转正，清除其7月评分残留（id:101, staffId:1-month:2026-07）
+        const _isFullTimeStaff = (staffId) => {
+          const s = this.defaults.staff.find(s => s.id === staffId);
+          return s && s.status === 'full_time';
+        };
         if (Array.isArray(data.ratings)) {
           data.ratings.forEach(r => {
             const key = `${r.staffId}-${r.month}`;
             if (!defaultRatingKeys.has(key)) {
+              // 跳过已转正成员的评分条目
+              if (_isFullTimeStaff(r.staffId)) return;
               merged.ratings.push(r);
             }
           });
