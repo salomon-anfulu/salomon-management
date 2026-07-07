@@ -210,9 +210,23 @@ const Sync = {
   },
 
   /**
-   * 拉取共享数据并合并到 LocalStorage
-   * 静默执行，失败不影响正常使用
+   * v52: 删除云端文件（用于修复 >1MB 污染数据）
+   * 需要先获取 SHA 才能删除
    */
+  async _deleteRemoteFile() {
+    const url = `${this.API_BASE}/repos/${this.REPO}/contents/${this.FILE_PATH}?ref=${this.BRANCH}`;
+    const fileData = await this._api('GET', url);
+    if (!fileData.sha) throw new Error('无法获取云端文件SHA');
+
+    const body = {
+      message: 'sync: 自动清理过大的污染文件 [recovery]',
+      sha: fileData.sha,
+      branch: this.BRANCH,
+    };
+    await this._api('DELETE', url, body);
+    console.log('[Sync] 云端文件已删除');
+  },
+
   /**
    * 拉取共享数据并合并到 LocalStorage
    * 静默执行，失败不影响正常使用
@@ -348,6 +362,17 @@ const Sync = {
             break;
           } catch (e) {
             if (e.message.includes('Not Found') || e.message.includes('404')) {
+              shared = { _meta: { version: 0 }, availability: {}, staff: [], shiftChanges: [], storeSupport: [], doorSchedule: [] };
+              sha = null;
+              break;
+            }
+            // v52: 云端文件过大（>1MB GitHub API 限制）→ 视为污染数据，先删除再重建
+            if (e.message.includes('超过GitHub API 1MB限制') || e.message.includes('共享文件过大')) {
+              console.warn('[Sync] 云端文件过大，视为污染数据，将删除后重建');
+              await this._deleteRemoteFile().catch(delErr => {
+                console.warn('[Sync] 删除云端文件失败:', delErr.message);
+                throw new Error('云端文件过大且无法删除，请联系管理员手动处理');
+              });
               shared = { _meta: { version: 0 }, availability: {}, staff: [], shiftChanges: [], storeSupport: [], doorSchedule: [] };
               sha = null;
               break;
@@ -529,11 +554,16 @@ const Sync = {
           }
 
           // 合并备注
-          if (clonedShared.note && clonedShared.note.trim()) {
-            if (!localPerson.note || !localPerson.note.includes(clonedShared.note)) {
-              localPerson.note = localPerson.note
-                ? localPerson.note + '; ' + clonedShared.note
-                : clonedShared.note;
+          // v52: 修复 note 无限追加 bug — 原逻辑用 includes() 检测重复
+          // 但当云端 note 已被双重 UTF-8 编码污染时，不同损坏形态的"同一文本"
+          // 会绕过 includes 检查 → 每次 pull 都追加一份 → 指数级膨胀
+          // 修复：按时间戳取新版本（用 _noteUpdatedAt 字段），不要追加
+          if (clonedShared.note !== undefined) {
+            const cloudTs = clonedShared._noteUpdatedAt || 0;
+            const localTs = localPerson._noteUpdatedAt || 0;
+            if (!localPerson.note || cloudTs > localTs) {
+              localPerson.note = clonedShared.note;
+              localPerson._noteUpdatedAt = cloudTs || Date.now();
             }
           }
 
