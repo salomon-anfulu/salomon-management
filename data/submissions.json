@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 9,
-    "lastUpdated": "2026-07-07T08:35:12.128Z",
+    "version": 10,
+    "lastUpdated": "2026-07-07T08:36:11.697Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -4828,6 +4828,11 @@
         {
           "time": "15:00:00-16:00:00",
           "staff": "何秋烨"
+        },
+        {
+          "time": "16:00:00-17:00:00",
+          "staff": "田佳乐",
+          "_updatedAt": "1783413326643"
         },
         {
           "time": "17:00:00-18:00:00",
