@@ -144,9 +144,9 @@
   </div>
 
   <!-- Scripts (cache-buster: v=对应 DATA_VERSION, 每次升级 v17 时改成 v17) -->
-  <script src="js/app.js?v=51c"></script>
-  <script src="js/sync.js?v=51c"></script>
-  <script src="js/pages.js?v=51c"></script>
+  <script src="js/app.js?v=51f"></script>
+  <script src="js/sync.js?v=51f"></script>
+  <script src="js/pages.js?v=51f"></script>
   <script>
     // ===== Auth Module =====
     const Auth = {
@@ -179,10 +179,11 @@
       <div class="user-avatar" style="background:${avatarColor};">${initial}</div>
       <span class="user-name">${displayName}</span>
       <span class="user-role">${displayDept}</span>
-      <span id="syncIndicator" style="font-size:11px;margin-left:8px;opacity:0.7;cursor:default;" title="云端同步状态">
+      <span id="syncIndicator" style="font-size:11px;margin-left:8px;opacity:0.7;cursor:default;" title="云端同步状态 · 右键配置Token">
         <span id="syncDot" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#9ca3af;margin-right:3px;"></span>
         <span id="syncLabel">--</span>
       </span>
+      <button id="syncBtn" onclick="Sync.manualSync()" style="font-size:11px;padding:3px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;margin-left:4px;transition:all 0.2s;" title="点击上传本地数据并拉取最新" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">🔄 同步</button>
       <button class="btn-logout" onclick="Auth.logout()">退出登录</button>
     `;
 

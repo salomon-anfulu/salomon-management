@@ -1068,55 +1068,70 @@ Sync._updateIndicator = function() {
     if (this._pendingSync) {
       dot.style.background = '#f59e0b';
       label.textContent = '待同步';
-      indicator.title = '上次推送未成功，已暂存本地，下次拉取后自动重试';
+      indicator.title = '上次推送未成功，已暂存本地，下次拉取后自动重试 · 右键配置Token';
     } else {
       dot.style.background = '#10b981';
       label.textContent = '已同步';
       const lastTime = _fmtTime(this._lastSyncTime);
-      indicator.title = '云端同步已启用' + (lastTime ? ' · 上次同步: ' + lastTime : '') + ' · 点击双向同步(上传+拉取) · 右键配置Token';
+      indicator.title = '云端同步已启用' + (lastTime ? ' · 上次同步: ' + lastTime : '') + ' · 右键配置Token';
     }
-    indicator.style.cursor = 'pointer';
-    indicator.onclick = async () => {
-      label.textContent = '同步中...';
-      dot.style.background = '#3b82f6';
-      const who = (typeof _auth !== 'undefined' && _auth && _auth.staffName) ? _auth.staffName : 'manual-sync';
-      try {
-        // v51c: push 改为 await 等待真正完成（队列化后 push 可能只是入队返回）
-        const pushOk = await Sync.push(who).catch(e => { console.warn('[Sync] 手动push失败:', e.message); return false; });
-        // v51c: 如果 push 还在运行，等它完成再 pull（否则 pull 会被 _pushInFlight 跳过）
-        let waitCount = 0;
-        while (Sync._pushRunning && waitCount < 50) {
-          await new Promise(r => setTimeout(r, 200));
-          waitCount++;
-        }
-        // v51c: force=true 绕过 PULL_INTERVAL 防抖
-        const pullOk = await Sync.pull(false, true);
-        // v51e: 根据实际结果反馈，避免"失败+成功"矛盾提示
-        if (typeof showToast === 'function') {
-          if (pushOk && pullOk) {
-            showToast('☁️ 同步完成', 'success');
-          } else if (!pushOk && !pullOk) {
-            showToast('☁️ 上传和拉取均失败，请检查网络', 'error');
-          } else if (!pushOk) {
-            showToast('☁️ 上传失败，已拉取最新数据', 'warning');
-          } else {
-            showToast('☁️ 已上传，但拉取最新数据失败', 'warning');
-          }
-        }
-      } catch (e) {
-        if (typeof showToast === 'function') showToast('同步失败: ' + e.message, 'error');
-      } finally {
-        Sync._updateIndicator();
-      }
-    };
+    // v51f: 指示器只显示状态，点击不触发同步（用独立按钮）
+    indicator.style.cursor = 'default';
+    indicator.onclick = null;
     indicator.oncontextmenu = (e) => { e.preventDefault(); Sync._showConfigDialog(); };
   } else {
     dot.style.background = '#f59e0b';
     label.textContent = '仅本地';
-    indicator.title = '云端同步未配置 · 点击配置';
-    indicator.style.cursor = 'pointer';
-    indicator.onclick = () => Sync._showConfigDialog();
-    indicator.oncontextmenu = null;
+    indicator.title = '云端同步未配置 · 右键配置';
+    indicator.style.cursor = 'default';
+    indicator.onclick = null;
+    indicator.oncontextmenu = (e) => { e.preventDefault(); Sync._showConfigDialog(); };
+  }
+};
+
+/**
+ * v51f: 手动同步（独立按钮触发）
+ * 先 push 上传本地数据，再 pull 拉取最新
+ */
+Sync.manualSync = async function() {
+  if (!Sync.isEnabled()) {
+    Sync._showConfigDialog();
+    return;
+  }
+  // 按钮即时反馈
+  const btn = document.getElementById('syncBtn');
+  const dot = document.getElementById('syncDot');
+  const label = document.getElementById('syncLabel');
+  if (btn) { btn.disabled = true; btn.style.opacity = '0.6'; btn.textContent = '⏳ 同步中'; }
+  if (dot) dot.style.background = '#3b82f6';
+  if (label) label.textContent = '同步中...';
+
+  const who = (typeof _auth !== 'undefined' && _auth && _auth.staffName) ? _auth.staffName : 'manual-sync';
+  try {
+    const pushOk = await Sync.push(who).catch(e => { console.warn('[Sync] 手动push失败:', e.message); return false; });
+    // 等待 push 队列排空
+    let waitCount = 0;
+    while (Sync._pushRunning && waitCount < 50) {
+      await new Promise(r => setTimeout(r, 200));
+      waitCount++;
+    }
+    const pullOk = await Sync.pull(false, true);
+    if (typeof showToast === 'function') {
+      if (pushOk && pullOk) {
+        showToast('☁️ 同步完成', 'success');
+      } else if (!pushOk && !pullOk) {
+        showToast('☁️ 上传和拉取均失败，请检查网络', 'error');
+      } else if (!pushOk) {
+        showToast('☁️ 上传失败，已拉取最新数据', 'warning');
+      } else {
+        showToast('☁️ 已上传，但拉取最新数据失败', 'warning');
+      }
+    }
+  } catch (e) {
+    if (typeof showToast === 'function') showToast('同步失败: ' + e.message, 'error');
+  } finally {
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; btn.textContent = '🔄 同步'; }
+    Sync._updateIndicator();
   }
 };
 
