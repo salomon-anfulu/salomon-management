@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 3,
-    "lastUpdated": "2026-07-08T07:02:21.098Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 4,
+    "lastUpdated": "2026-07-08T07:23:50.426Z",
+    "lastUpdatedBy": "王靳毓"
   },
   "availability": {
     "2026-06": {
@@ -4038,6 +4038,15 @@
       "duration": "1小时",
       "detail": "检查产品知识背诵",
       "_updatedAt": "1783473420473"
+    },
+    {
+      "id": 1783495430457,
+      "staff": "王靳毓",
+      "date": "2026-07-08",
+      "type": "货品-辅助收货",
+      "duration": "0.5小时",
+      "detail": "新品贴标签价格尺码",
+      "_updatedAt": 1783495430378
     }
   ],
   "doorSchedule": [
