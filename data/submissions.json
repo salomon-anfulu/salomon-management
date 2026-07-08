@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 10,
-    "lastUpdated": "2026-07-08T11:30:45.413Z",
+    "version": 11,
+    "lastUpdated": "2026-07-08T11:31:22.164Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -4105,7 +4105,16 @@
       "type": "陈列-翻场支援",
       "duration": "1小时",
       "detail": "换陈列模特",
-      "_updatedAt": 1783510208504
+      "_updatedAt": "1783510208504"
+    },
+    {
+      "id": 1783510253160,
+      "staff": "王雅澜",
+      "date": "2026-07-05",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "辅助发售搬货运货",
+      "_updatedAt": 1783510252608
     }
   ],
   "doorSchedule": [
