@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 9,
-    "lastUpdated": "2026-07-08T11:30:14.388Z",
+    "version": 10,
+    "lastUpdated": "2026-07-08T11:30:45.413Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -2657,8 +2657,9 @@
               "note": ""
             },
             "7/28": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783510220459
             },
             "7/22": {
               "available": true,
@@ -2674,8 +2675,9 @@
               "note": ""
             },
             "7/20": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783510208080
             },
             "7/27": {
               "available": true,
@@ -2690,8 +2692,9 @@
               "note": ""
             },
             "7/24": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783510211904
             },
             "7/25": {
               "available": true,
@@ -2706,8 +2709,9 @@
               "note": ""
             },
             "7/18": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783510200453
             },
             "7/8": {
               "available": true,
@@ -2747,9 +2751,13 @@
             }
           },
           "note": "",
-          "total": 30,
+          "total": 26,
           "unavailable": [
-            "7/15"
+            "7/28",
+            "7/15",
+            "7/20",
+            "7/24",
+            "7/18"
           ]
         },
         "祖白代": {
