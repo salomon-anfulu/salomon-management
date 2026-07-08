@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 19,
-    "lastUpdated": "2026-07-08T11:44:45.166Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 20,
+    "lastUpdated": "2026-07-08T11:45:46.913Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "2026-06": {
@@ -3234,7 +3234,7 @@
       "applicantShift": "7/3 11:30-20:30",
       "target": "杨子豪",
       "targetShift": "7/4 12:15-21:00",
-      "_updatedAt": 1783511067104
+      "_updatedAt": "1783511067104"
     }
   ],
   "storeSupport": [
