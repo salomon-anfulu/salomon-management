@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 12,
-    "lastUpdated": "2026-07-08T11:32:22.169Z",
+    "version": 13,
+    "lastUpdated": "2026-07-08T11:33:40.783Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -2641,8 +2641,9 @@
               "note": ""
             },
             "7/14": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783510367322
             },
             "7/31": {
               "available": true,
@@ -2666,13 +2667,14 @@
               "note": ""
             },
             "7/15": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1783510196307
+              "_updatedAt": 1783510363710
             },
             "7/21": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783510316644
             },
             "7/20": {
               "available": false,
@@ -2746,18 +2748,20 @@
               "note": ""
             },
             "7/26": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783510333515
             }
           },
           "note": "",
-          "total": 26,
+          "total": 25,
           "unavailable": [
+            "7/14",
             "7/28",
-            "7/15",
             "7/20",
             "7/24",
-            "7/18"
+            "7/18",
+            "7/26"
           ]
         },
         "祖白代": {
@@ -4123,7 +4127,7 @@
       "type": "货品-整理仓库",
       "duration": "1小时",
       "detail": "整理内仓",
-      "_updatedAt": 1783510294761
+      "_updatedAt": "1783510294761"
     }
   ],
   "doorSchedule": [
