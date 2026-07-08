@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 5,
-    "lastUpdated": "2026-07-08T08:29:54.057Z",
+    "version": 6,
+    "lastUpdated": "2026-07-08T08:30:53.257Z",
     "lastUpdatedBy": "王雅澜"
   },
   "availability": {
@@ -5463,6 +5463,11 @@
         {
           "time": "19:00:00-20:00:00",
           "staff": ""
+        },
+        {
+          "time": "20:00:00-21:00:00",
+          "staff": "王雅澜",
+          "_updatedAt": "1783499453191"
         }
       ]
     },
