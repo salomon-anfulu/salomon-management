@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 7,
-    "lastUpdated": "2026-07-08T11:29:12.954Z",
-    "lastUpdatedBy": "王雅澜"
+    "version": 8,
+    "lastUpdated": "2026-07-08T11:29:57.108Z",
+    "lastUpdatedBy": "梁实秋"
   },
   "availability": {
     "2026-06": {
@@ -2665,8 +2665,9 @@
               "note": ""
             },
             "7/15": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783510196307
             },
             "7/21": {
               "available": true,
@@ -2746,8 +2747,10 @@
             }
           },
           "note": "",
-          "total": 31,
-          "unavailable": []
+          "total": 30,
+          "unavailable": [
+            "7/15"
+          ]
         },
         "祖白代": {
           "dates": {
@@ -4085,7 +4088,7 @@
       "type": "陈列-翻场支援",
       "duration": "0.5小时",
       "detail": "熨烫衣服",
-      "_updatedAt": 1783510152122
+      "_updatedAt": "1783510152122"
     }
   ],
   "doorSchedule": [
