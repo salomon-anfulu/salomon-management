@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 11,
-    "lastUpdated": "2026-07-08T11:31:22.164Z",
+    "version": 12,
+    "lastUpdated": "2026-07-08T11:32:22.169Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -4114,7 +4114,16 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "辅助发售搬货运货",
-      "_updatedAt": 1783510252608
+      "_updatedAt": "1783510252608"
+    },
+    {
+      "id": 1783510295646,
+      "staff": "王雅澜",
+      "date": "2026-07-08",
+      "type": "货品-整理仓库",
+      "duration": "1小时",
+      "detail": "整理内仓",
+      "_updatedAt": 1783510294761
     }
   ],
   "doorSchedule": [
