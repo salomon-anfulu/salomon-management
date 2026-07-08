@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 13,
-    "lastUpdated": "2026-07-08T11:33:40.783Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 14,
+    "lastUpdated": "2026-07-08T11:35:50.139Z",
+    "lastUpdatedBy": "梁实秋"
   },
   "availability": {
     "2026-06": {
@@ -2707,13 +2707,14 @@
               "note": ""
             },
             "7/17": {
-              "available": true,
-              "note": ""
-            },
-            "7/18": {
               "available": false,
               "note": "",
-              "_updatedAt": 1783510200453
+              "_updatedAt": 1783510472536
+            },
+            "7/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783510468339
             },
             "7/8": {
               "available": true,
@@ -2750,7 +2751,7 @@
             "7/26": {
               "available": false,
               "note": "",
-              "_updatedAt": 1783510333515
+              "_updatedAt": 1783510488346
             }
           },
           "note": "",
@@ -2760,7 +2761,7 @@
             "7/28",
             "7/20",
             "7/24",
-            "7/18",
+            "7/17",
             "7/26"
           ]
         },
