@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 9,
-    "lastUpdated": "2026-07-08T01:20:44.146Z",
+    "version": 10,
+    "lastUpdated": "2026-07-08T03:58:25.643Z",
     "lastUpdatedBy": "孔祥宇"
   },
   "availability": {
@@ -5609,6 +5609,16 @@
           "time": "15:00:00-16:00:00",
           "staff": "",
           "_updatedAt": "1783413007711"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-08",
+      "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "孔祥宇",
+          "_updatedAt": "1783483105592"
         }
       ]
     }
