@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 6,
-    "lastUpdated": "2026-07-08T08:30:53.257Z",
+    "version": 7,
+    "lastUpdated": "2026-07-08T11:29:12.954Z",
     "lastUpdatedBy": "王雅澜"
   },
   "availability": {
@@ -4077,6 +4077,15 @@
       "duration": "0.5小时",
       "detail": "新品贴标签价格尺码",
       "_updatedAt": "1783495430378"
+    },
+    {
+      "id": 1783510152683,
+      "staff": "王雅澜",
+      "date": "2026-07-02",
+      "type": "陈列-翻场支援",
+      "duration": "0.5小时",
+      "detail": "熨烫衣服",
+      "_updatedAt": 1783510152122
     }
   ],
   "doorSchedule": [
