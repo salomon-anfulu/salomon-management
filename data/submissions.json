@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 17,
-    "lastUpdated": "2026-07-08T11:42:51.599Z",
+    "version": 18,
+    "lastUpdated": "2026-07-08T11:43:48.076Z",
     "lastUpdatedBy": "王雅澜"
   },
   "availability": {
@@ -3216,7 +3216,16 @@
       "applicantShift": "11:30-20:30",
       "target": "杨子豪",
       "targetShift": "7/4 12:15-21:00",
-      "_updatedAt": 1783510971548
+      "_updatedAt": "1783510971548"
+    },
+    {
+      "id": 1783511022870,
+      "applicant": "王雅澜",
+      "applyDate": "2026-06-30",
+      "applicantShift": "7/3 11:30-20:30",
+      "target": "杨子豪",
+      "targetShift": "7/4 12:15-21:00",
+      "_updatedAt": 1783511022102
     }
   ],
   "storeSupport": [
@@ -5783,10 +5792,14 @@
   ],
   "_deletedIds": {
     "_meta": {
-      "1783510175396": 1783510214387
+      "1783510175396": 1783510214387,
+      "1783510971597": 1783511028076
     },
     "storeSupport": [
       "1783510175396"
+    ],
+    "shiftChanges": [
+      "1783510971597"
     ]
   },
   "customerReviews": [
