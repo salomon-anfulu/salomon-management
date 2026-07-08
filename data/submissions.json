@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 5,
-    "lastUpdated": "2026-07-08T01:16:33.417Z",
-    "lastUpdatedBy": "admin"
+    "version": 6,
+    "lastUpdated": "2026-07-08T01:17:02.580Z",
+    "lastUpdatedBy": "孔祥宇"
   },
   "availability": {
     "2026-06": {
@@ -4020,6 +4020,15 @@
       "duration": "2小时",
       "detail": "",
       "_updatedAt": "1783412947618"
+    },
+    {
+      "id": 1783473420624,
+      "staff": "孔祥宇",
+      "date": "2026-07-06",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "检查产品知识背诵",
+      "_updatedAt": 1783473420473
     }
   ],
   "doorSchedule": [
