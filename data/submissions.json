@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 22,
-    "lastUpdated": "2026-07-08T12:33:30.882Z",
-    "lastUpdatedBy": "李若彤"
+    "version": 23,
+    "lastUpdated": "2026-07-08T12:34:19.536Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "2026-06": {
@@ -1117,8 +1117,9 @@
               "_updatedAt": 1783514010835
             },
             "7/15": {
-              "available": false,
-              "note": ""
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783514016484
             },
             "7/16": {
               "available": false,
@@ -1186,13 +1187,12 @@
             }
           },
           "note": "",
-          "total": 25,
+          "total": 26,
           "unavailable": [
             "7/2",
             "7/3",
             "7/4",
             "7/5",
-            "7/15",
             "7/16"
           ]
         },
