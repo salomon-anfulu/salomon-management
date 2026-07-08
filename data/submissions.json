@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 8,
-    "lastUpdated": "2026-07-08T11:29:57.108Z",
-    "lastUpdatedBy": "梁实秋"
+    "version": 9,
+    "lastUpdated": "2026-07-08T11:30:14.388Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "2026-06": {
@@ -4089,6 +4089,15 @@
       "duration": "0.5小时",
       "detail": "熨烫衣服",
       "_updatedAt": "1783510152122"
+    },
+    {
+      "id": 1783510209385,
+      "staff": "王雅澜",
+      "date": "2026-07-04",
+      "type": "陈列-翻场支援",
+      "duration": "1小时",
+      "detail": "换陈列模特",
+      "_updatedAt": 1783510208504
     }
   ],
   "doorSchedule": [
@@ -5733,7 +5742,12 @@
     }
   ],
   "_deletedIds": {
-    "_meta": {}
+    "_meta": {
+      "1783510175396": 1783510214387
+    },
+    "storeSupport": [
+      "1783510175396"
+    ]
   },
   "customerReviews": [
     {
