@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 11,
-    "lastUpdated": "2026-07-09T07:25:34.793Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 12,
+    "lastUpdated": "2026-07-09T07:26:36.949Z",
+    "lastUpdatedBy": "杨子豪"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2600,7 +2600,7 @@
         "王龙宇": {
           "dates": {},
           "note": "19日到30日出差，请假",
-          "_noteUpdatedAt": 1783581934791,
+          "_noteUpdatedAt": 1783581996948,
           "total": 0,
           "unavailable": []
         }
@@ -2712,7 +2712,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 23,
           "unavailable": [
             "7/7",
@@ -2874,7 +2874,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934791,
+          "_noteUpdatedAt": 1783581996948,
           "total": 30,
           "unavailable": [
             "7/16"
@@ -3008,7 +3008,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 25,
           "unavailable": [
             "7/13",
@@ -3147,7 +3147,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 29,
           "unavailable": [
             "7/2",
@@ -3301,7 +3301,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 26,
           "unavailable": [
             "7/6",
@@ -3439,7 +3439,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 31,
           "unavailable": []
         },
@@ -3572,7 +3572,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 30,
           "unavailable": [
             "7/13"
@@ -3737,7 +3737,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 31,
           "unavailable": []
         },
@@ -3873,7 +3873,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 27,
           "unavailable": [
             "7/2",
@@ -3995,7 +3995,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 20,
           "unavailable": [
             "7/21",
@@ -4130,7 +4130,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 28,
           "unavailable": [
             "7/13",
@@ -4222,7 +4222,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 19,
           "unavailable": [
             "7/19"
@@ -4316,7 +4316,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 21,
           "unavailable": []
         },
@@ -4419,7 +4419,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 19,
           "unavailable": []
         },
@@ -4551,7 +4551,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 31,
           "unavailable": []
         },
@@ -4683,7 +4683,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 30,
           "unavailable": [
             "7/16"
@@ -4826,7 +4826,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 25,
           "unavailable": [
             "7/14",
@@ -4965,7 +4965,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 7,
           "unavailable": [
             "7/1",
@@ -5108,7 +5108,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581934792,
+          "_noteUpdatedAt": 1783581996948,
           "total": 22,
           "unavailable": []
         }
@@ -8111,7 +8111,7 @@
         {
           "time": "12:00:00-13:00:00",
           "staff": "杨子豪",
-          "_updatedAt": "1783581816949"
+          "_updatedAt": "1783581996931"
         },
         {
           "time": "13:00:00-14:00:00",
