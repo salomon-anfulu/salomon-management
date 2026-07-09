@@ -2015,9 +2015,13 @@ linggongAttendance: {
       { id: 9, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '第一次光临很愉快的购物体验，子豪很热情，耐心介绍产品，非常专业，店内环境也很好，有空再来逛一逛。', keywords: ['热情', '耐心介绍', '非常专业', '店内环境好'], source: '大众点评（匿名用户，Lv2）' },
       { id: 10, staffName: '杨子豪', month: '2026-06', rating: 5, reviewDate: '2026-06-26', snippet: '门店环境很好，一进门导购非常热情，店员杨子豪小哥哥耐心的介绍产品，非常贴心拿尺码给我试穿，根据我的需求给我推荐的鞋子，穿起来还蛮舒服的，很用心，也是很愉快的购物体验～', keywords: ['环境很好', '非常热情', '耐心介绍', '贴心拿尺码', '推荐专业', '舒适', '愉快体验'], source: '大众点评（匿名用户，Lv1）' },
       { id: 11, staffName: '朱凯赟', month: '2026-07', rating: 5, reviewDate: '2026-07-03', snippet: '今天来到了上海萨洛蒙旗舰店 小朱服务的特别好买了一双 xt6', keywords: ['服务特别好', '超预期', 'xt6'], source: '大众点评（嘟嘟_9163，Lv3）', amount: 1398 },
+      { id: 12, staffName: '田佳乐', month: '2026-07', rating: 5, reviewDate: '2026-07-09', snippet: '在萨洛蒙挑鞋，全程是佳乐小哥接待的。试了好几双，纠结特别久 但是这位佳乐小伙全程不催，聊得很轻松。懂每款鞋子的上脚区别，给出的建议很实在，不会一味主推贵。购物体验很舒服，想买萨洛蒙直接找他就行!!', keywords: ['耐心', '轻松', '懂鞋', '建议实在', '不推销'], source: '大众点评（土拨鼠哥哥）' },
+      { id: 13, staffName: '田佳乐', month: '2026-07', rating: 5, reviewDate: '2026-07-09', snippet: '特意来评价下佳乐，人挺好相处的。选鞋的时候很有耐心，会真心实意给建议，不会一味硬推款式，全程聊得很轻松，服务细心靠谱，下次还来找他买鞋嘿嘿', keywords: ['好相处', '耐心', '真心建议', '不硬推', '细心靠谱'], source: '大众点评（蛤蜊小公举～）' },
+      { id: 14, staffName: '王靳毓', month: '2026-07', rating: 5, reviewDate: '2026-07-09', snippet: '这里有一些特别款，看上去很酷。小哥哥 JINYU 服务的挺好，爽快买单', keywords: ['特别款', '服务挺好', '爽快买单'], source: '大众点评（拾荒_3520，打卡后评价）' },
+      { id: 15, staffName: '王靳毓', month: '2026-07', rating: 5, reviewDate: '2026-07-09', snippet: '小哥哥的服务很有耐心，JINYU 小哥哥，下次来还找他。这幢楼也是一个不错的打卡点', keywords: ['服务耐心', '下次还找', '打卡点'], source: '大众点评（绿豆棒冰，打卡后评价）' },
     ],
 
-        _dataVersion: '2026-07-09-v60',  },
+        _dataVersion: '2026-07-09-v61',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -2029,7 +2033,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-09-v60';
+      const DATA_VERSION = '2026-07-09-v61';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
