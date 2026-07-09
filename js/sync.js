@@ -127,6 +127,15 @@ const Sync = {
         });
       }
 
+      // staff: 每条记录的 id + name（v58: 修复遗漏——原来不追踪 staff 变化，
+      // 导致 pull 合并了新 staff 后 dataChanged=false，页面不刷新，其他端看不到新人）
+      const staffArr = Store.get('staff');
+      if (staffArr && Array.isArray(staffArr)) {
+        staffArr.forEach(s => {
+          if (s) parts.push(`staff#${s.id || '?'}:${s.name || ''}`);
+        });
+      }
+
       // 数组类数据: 每条记录的 id + _updatedAt
       ['shiftChanges', 'storeSupport', 'doorSchedule', 'customerReviews'].forEach(k => {
         const arr = Store.get(k);
@@ -470,6 +479,7 @@ const Sync = {
     // === 人员信息 (staff) — 按 id 合并，最先处理，让 staff 名称早于 availability/shiftChanges 解析 ===
     if (shared.staff && Array.isArray(shared.staff) && shared.staff.length > 0) {
       const local = Store.get('staff') || [];
+      const localCount = local.length;
       const staffMap = new Map();
       local.forEach(s => staffMap.set(s.id, { ...s }));
       shared.staff.forEach(cloud => {
@@ -489,6 +499,11 @@ const Sync = {
         }
       });
       const merged = Array.from(staffMap.values()).sort((a, b) => (a.id || 0) - (b.id || 0));
+      // v58: staff 合并日志——便于诊断"新兼职不同步"问题
+      if (merged.length !== localCount) {
+        const newNames = merged.filter(m => !local.find(l => l.id === m.id)).map(m => m.name);
+        console.log(`[Sync] staff 合并: ${localCount} → ${merged.length} (新增: ${newNames.join(', ') || '无'})`);
+      }
       Store.set('staff', merged);
     }
 
@@ -931,10 +946,16 @@ const Sync = {
     // === staff（人员信息）— 优先合并，确保 staff 名称最新 ===
     const localStaff = Store.get('staff') || [];
     const cloudStaff = shared.staff || [];
+    const _cloudStaffIds = new Set(cloudStaff.map(s => s.id));
     const staffMap = new Map();
     cloudStaff.forEach(s => staffMap.set(s.id, s));
     localStaff.forEach(s => staffMap.set(s.id, s));
     shared.staff = Array.from(staffMap.values()).sort((a, b) => (a.id || 0) - (b.id || 0));
+    // v58: push 端 staff 合并日志
+    if (shared.staff.length > cloudStaff.length) {
+      const newNames = shared.staff.filter(s => !_cloudStaffIds.has(s.id)).map(s => s.name);
+      console.log(`[Sync] push staff: ${cloudStaff.length} → ${shared.staff.length} (新增: ${newNames.join(', ')})`);
+    }
 
     // === availability ===
     const localAvail = Store.get('availability');

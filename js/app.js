@@ -1994,7 +1994,7 @@ linggongAttendance: {
       { id: 11, staffName: '朱凯赟', month: '2026-07', rating: 5, reviewDate: '2026-07-03', snippet: '今天来到了上海萨洛蒙旗舰店 小朱服务的特别好买了一双 xt6', keywords: ['服务特别好', '超预期', 'xt6'], source: '大众点评（嘟嘟_9163，Lv3）', amount: 1398 },
     ],
 
-        _dataVersion: '2026-07-09-v57',  },
+        _dataVersion: '2026-07-09-v58',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -2006,7 +2006,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-09-v57';
+      const DATA_VERSION = '2026-07-09-v58';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
