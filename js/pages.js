@@ -4136,7 +4136,8 @@ function deleteSupport(id) {
   // v54: tombstone 标记
   _markDeleted('storeSupport', id);
   const data = Store.get('storeSupport') || [];
-  Store.set('storeSupport', data.filter(s => s.id !== id));
+  // v68: 同时处理 number/string 类型 id
+  Store.set('storeSupport', data.filter(s => s.id !== id && String(s.id) !== String(id)));
   Sync.push(_auth.staffName || 'admin');
   Router.render();
   showToast('记录已删除');
@@ -4228,7 +4229,8 @@ function deleteShift(id) {
   // v54: tombstone 标记（防跨设备复活）+ 物理删除
   _markDeleted('shiftChanges', id);
   const data = Store.get('shiftChanges') || [];
-  Store.set('shiftChanges', data.filter(s => s.id !== id));
+  // v68: 同时处理 number/string 类型 id（早期数据可能是 string）
+  Store.set('shiftChanges', data.filter(s => s.id !== id && String(s.id) !== String(id)));
   Sync.push(_auth.staffName || 'admin');
   Router.render();
   showToast('换班记录已删除');
@@ -5025,6 +5027,7 @@ function saveDoorSlotInline() {
   const time = document.getElementById('doorSlotTimeInline').value;
   const staffName = document.getElementById('doorSlotStaffInline').value;
   if (!time) { showToast('请选择时间段', 'warning'); return; }
+  if (!staffName) { showToast('请选择值班人员', 'warning'); return; }
 
   const doorData = Store.get('doorSchedule') || [];
   let day = doorData.find(d => d.date === doorScheduleDate);
@@ -5033,10 +5036,21 @@ function saveDoorSlotInline() {
   if (doorSlotEditingIdx !== null) {
     day.slots[doorSlotEditingIdx] = newSlot;
   } else {
-    // Check for duplicate time slot
-    if (day.slots.find(s => s.time === time)) { showToast('该时间段已有班次，请编辑已有班次', 'warning'); return; }
-    day.slots.push(newSlot);
+    // v68: 检查重复（先忽略空 staff 的"幽灵"记录）
+    if (day.slots.find(s => s.time === time && s.staff)) {
+      showToast('该时间段已有班次，请编辑已有班次', 'warning');
+      return;
+    }
+    // v68: 物理替换"幽灵"（staff=''）的空记录
+    const ghostIdx = day.slots.findIndex(s => s.time === time && !s.staff);
+    if (ghostIdx >= 0) {
+      day.slots[ghostIdx] = newSlot;
+    } else {
+      day.slots.push(newSlot);
+    }
   }
+  // v68: 清理历史遗留的幽灵空 slot
+  day.slots = day.slots.filter(s => s.staff);
   day.slots.sort((a, b) => a.time.localeCompare(b.time));
   doorData.sort((a, b) => a.date.localeCompare(b.date));
   Store.set('doorSchedule', doorData);
