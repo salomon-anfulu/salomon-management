@@ -737,42 +737,26 @@ const Sync = {
       Store.set('availability', localAvail);
     }
 
-    // === 换班记录 (shiftChanges) ===（v54: 传 deletedIds）
-    if (shared.shiftChanges && shared.shiftChanges.length > 0) {
-      const local = Store.get('shiftChanges') || [];
-      const merged = this._mergeArraysById(local, shared.shiftChanges, this._getDeletedIds(shared, 'shiftChanges'));
-      // v46: 字段级合并不一定增加 length，用 JSON 比较判断是否变化
-      if (JSON.stringify(merged) !== JSON.stringify(local)) {
-        Store.set('shiftChanges', merged);
+    // === v68: 数组合并统一循环 ===
+    const _arrayMergeConfig = [
+      { storeKey: 'shiftChanges', mergeFn: '_mergeArraysById', deletedKey: 'shiftChanges' },
+      { storeKey: 'storeSupport', mergeFn: '_mergeArraysById', deletedKey: 'storeSupport' },
+      { storeKey: 'doorSchedule', mergeFn: '_mergeArraysByDate', deletedKey: '_doorSlots' },
+      { storeKey: 'customerReviews', mergeFn: '_mergeArraysById', deletedKey: 'customerReviews' },
+    ];
+    _arrayMergeConfig.forEach(({ storeKey, mergeFn, deletedKey }) => {
+      const sharedArray = shared[storeKey];
+      if (sharedArray && sharedArray.length > 0) {
+        const local = Store.get(storeKey) || [];
+        const deletedArg = deletedKey === '_doorSlots'
+          ? this._getDeletedDoorSlots(shared)
+          : this._getDeletedIds(shared, deletedKey);
+        const merged = this[mergeFn](local, sharedArray, deletedArg);
+        if (JSON.stringify(merged) !== JSON.stringify(local)) {
+          Store.set(storeKey, merged);
+        }
       }
-    }
-
-    // === 店务支援 (storeSupport) ===（v54）
-    if (shared.storeSupport && shared.storeSupport.length > 0) {
-      const local = Store.get('storeSupport') || [];
-      const merged = this._mergeArraysById(local, shared.storeSupport, this._getDeletedIds(shared, 'storeSupport'));
-      if (JSON.stringify(merged) !== JSON.stringify(local)) {
-        Store.set('storeSupport', merged);
-      }
-    }
-
-    // === 门迎排班 (doorSchedule) ===（v54）
-    if (shared.doorSchedule && shared.doorSchedule.length > 0) {
-      const local = Store.get('doorSchedule') || [];
-      const merged = this._mergeArraysByDate(local, shared.doorSchedule, this._getDeletedDoorSlots(shared));
-      if (JSON.stringify(merged) !== JSON.stringify(local)) {
-        Store.set('doorSchedule', merged);
-      }
-    }
-
-    // === 顾客好评 (customerReviews) — v47 新增 ===（v54）
-    if (shared.customerReviews && shared.customerReviews.length > 0) {
-      const local = Store.get('customerReviews') || [];
-      const merged = this._mergeArraysById(local, shared.customerReviews, this._getDeletedIds(shared, 'customerReviews'));
-      if (JSON.stringify(merged) !== JSON.stringify(local)) {
-        Store.set('customerReviews', merged);
-      }
-    }
+    });
 
     // v54: 同步本地 _deletedIds 缓存（用于本地删除时也能防复活）
     if (shared._deletedIds) {
@@ -1128,33 +1112,22 @@ const Sync = {
       });
     }
 
-    // === shiftChanges ===（v54: 传 deletedIds 防复活）
-    shared.shiftChanges = this._mergeArraysById(
-      shared.shiftChanges || [],
-      Store.get('shiftChanges') || [],
-      this._getDeletedIds(shared, 'shiftChanges')
-    );
-
-    // === storeSupport ===（v54）
-    shared.storeSupport = this._mergeArraysById(
-      shared.storeSupport || [],
-      Store.get('storeSupport') || [],
-      this._getDeletedIds(shared, 'storeSupport')
-    );
-
-    // === doorSchedule ===（v54: 传 deletedSlotsByDate）
-    shared.doorSchedule = this._mergeArraysByDate(
-      shared.doorSchedule || [],
-      Store.get('doorSchedule') || [],
-      this._getDeletedDoorSlots(shared)
-    );
-
-    // === customerReviews ===（v54）
-    shared.customerReviews = this._mergeArraysById(
-      shared.customerReviews || [],
-      Store.get('customerReviews') || [],
-      this._getDeletedIds(shared, 'customerReviews')
-    );
+    // === v68: 数组合并统一循环（push 方向） ===
+    [
+      { key: 'shiftChanges', mergeFn: '_mergeArraysById', deletedKey: 'shiftChanges' },
+      { key: 'storeSupport', mergeFn: '_mergeArraysById', deletedKey: 'storeSupport' },
+      { key: 'doorSchedule', mergeFn: '_mergeArraysByDate', deletedKey: '_doorSlots' },
+      { key: 'customerReviews', mergeFn: '_mergeArraysById', deletedKey: 'customerReviews' },
+    ].forEach(({ key, mergeFn, deletedKey }) => {
+      const deletedArg = deletedKey === '_doorSlots'
+        ? this._getDeletedDoorSlots(shared)
+        : this._getDeletedIds(shared, deletedKey);
+      shared[key] = this[mergeFn](
+        shared[key] || [],
+        Store.get(key) || [],
+        deletedArg
+      );
+    });
 
     // v54: GC 过期 tombstone
     this._gcTombstones(shared);
@@ -1392,12 +1365,36 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 1500);
 });
 
-// ===== 定期自动拉取（每15秒） =====
-setInterval(() => {
-  if (Sync.isEnabled()) {
-    Sync.pull(true).then(() => Sync._updateIndicator()).catch(() => {});
+// ===== 定期自动拉取（每15秒） — v68: 页面隐藏时暂停，节省API配额 =====
+let _syncTimer = null;
+
+function _startSyncTimer() {
+  if (_syncTimer) return;
+  _syncTimer = setInterval(() => {
+    if (Sync.isEnabled() && !document.hidden) {
+      Sync.pull(true).then(() => Sync._updateIndicator()).catch(() => {});
+    }
+  }, 15000);
+}
+
+function _stopSyncTimer() {
+  if (_syncTimer) { clearInterval(_syncTimer); _syncTimer = null; }
+}
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    _stopSyncTimer();
+  } else {
+    // 页面恢复可见时立即拉一次，然后恢复定时
+    if (Sync.isEnabled()) {
+      Sync.pull(true).then(() => Sync._updateIndicator()).catch(() => {});
+    }
+    _startSyncTimer();
   }
-}, 15000);
+});
+
+// 初始启动
+_startSyncTimer();
 
 // ===== UI 状态指示器更新 =====
 /**
