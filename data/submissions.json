@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 18,
-    "lastUpdated": "2026-07-09T13:05:54.745Z",
+    "version": 19,
+    "lastUpdated": "2026-07-09T13:07:32.712Z",
     "lastUpdatedBy": "田佳乐"
   },
   "availability": {
@@ -5817,7 +5817,16 @@
       "applicantShift": "7/13 13:00-21:30",
       "target": "王雅澜",
       "targetShift": "7/14 10:30-19:00",
-      "_updatedAt": 1783602354714
+      "_updatedAt": "1783602354714"
+    },
+    {
+      "id": 1783602453241,
+      "applicant": "田佳乐",
+      "applyDate": "2026-07-09",
+      "applicantShift": "7/13 13:00-21:30",
+      "target": "王雅澜",
+      "targetShift": "7/14 10:30-19:00",
+      "_updatedAt": 1783602452684
     }
   ],
   "storeSupport": [
