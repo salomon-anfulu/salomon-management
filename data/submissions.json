@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 2,
-    "lastUpdated": "2026-07-09T04:41:09.968Z",
+    "version": 3,
+    "lastUpdated": "2026-07-09T04:42:13.191Z",
     "lastUpdatedBy": "manual-sync"
   },
   "availability": {
@@ -4156,6 +4156,15 @@
       "duration": "1小时",
       "detail": "整理内仓",
       "_updatedAt": "1783510294761"
+    },
+    {
+      "id": 1783572120419,
+      "staff": "田佳乐",
+      "date": "2026-07-09",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "协助退仓换陈列",
+      "_updatedAt": 1783572119752
     }
   ],
   "doorSchedule": [
