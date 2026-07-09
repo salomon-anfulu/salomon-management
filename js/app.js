@@ -26,6 +26,8 @@ const Store = {
       { id: 12, name: '何秋烨', gender: '女', dept: 'Service Team', joinDate: '2026-03-15', status: 'active', avatar_color: '#f97316', availableDays: 23, mbti: '' },
       { id: 13, name: '龚赟昊', gender: '男', dept: 'Service Team', joinDate: '2026-02-25', status: 'active', avatar_color: '#84cc16', availableDays: 25, mbti: '' },
       { id: 20, name: '唐蓉', gender: '女', dept: 'Service Team', joinDate: '2026-07-01', status: 'active', avatar_color: '#ec4899', availableDays: 0, mbti: '', serviceTeamStartDate: '2026-07-01' },
+      { id: 21, name: '李健华', gender: '男', dept: '仓库兼职', joinDate: '2026-07-08', status: 'active', avatar_color: '#10b981', availableDays: 0, mbti: '' },
+      { id: 22, name: '吴嘉莹', gender: '女', dept: '仓库兼职', joinDate: '2026-07-08', status: 'active', avatar_color: '#06b6d4', availableDays: 0, mbti: '' },
       // ===== 仓库兼职 =====
       { id: 14, name: '严佳铮', gender: '男', dept: '仓库兼职', joinDate: '2026-03-01', status: 'active', avatar_color: '#22d3ee', availableDays: 7, mbti: '' },
       { id: 15, name: '祖白代', gender: '女', dept: '仓库兼职', joinDate: '2026-01-20', status: 'active', avatar_color: '#fb923c', availableDays: 29, mbti: '' },
@@ -2022,7 +2024,7 @@ linggongAttendance: {
       { id: 16, staffName: '田佳乐', month: '2026-07', rating: 5, reviewDate: '2026-07-09', snippet: '好久没逛街了 路过安福路过来挑鞋，接待我的是佳乐小哥哥。人特别随和，全程不会刻意推销，会结合喜好耐心帮忙挑选，说话舒服接地气，服务很贴心，这次购物体验很不错，想买鞋可以找他～', keywords: ['随和', '不刻意推销', '耐心', '接地气', '贴心'], source: '大众点评（尘尘，Lv3）' },
     ],
 
-        _dataVersion: '2026-07-09-v63',  },
+        _dataVersion: '2026-07-09-v64',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -2034,7 +2036,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-09-v63';
+      const DATA_VERSION = '2026-07-09-v64';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
