@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 11,
-    "lastUpdated": "2026-07-09T08:59:13.292Z",
+    "version": 12,
+    "lastUpdated": "2026-07-09T09:12:50.528Z",
     "lastUpdatedBy": "吴嘉莹"
   },
   "availability": {
@@ -2600,7 +2600,7 @@
         "王龙宇": {
           "dates": {},
           "note": "19日到30日出差，请假",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370522,
           "total": 0,
           "unavailable": []
         }
@@ -2763,7 +2763,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370523,
           "total": 30,
           "unavailable": [
             "7/16"
@@ -2897,7 +2897,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370523,
           "total": 25,
           "unavailable": [
             "7/13",
@@ -3036,7 +3036,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370523,
           "total": 29,
           "unavailable": [
             "7/2",
@@ -3190,7 +3190,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370523,
           "total": 26,
           "unavailable": [
             "7/6",
@@ -3328,7 +3328,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370523,
           "total": 31,
           "unavailable": []
         },
@@ -3461,7 +3461,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370523,
           "total": 30,
           "unavailable": [
             "7/13"
@@ -3626,7 +3626,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 31,
           "unavailable": []
         },
@@ -3762,7 +3762,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 27,
           "unavailable": [
             "7/2",
@@ -3884,7 +3884,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 20,
           "unavailable": [
             "7/21",
@@ -4019,7 +4019,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 28,
           "unavailable": [
             "7/13",
@@ -4130,7 +4130,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 19,
           "unavailable": [
             "7/19"
@@ -4224,7 +4224,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 21,
           "unavailable": []
         },
@@ -4327,7 +4327,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 19,
           "unavailable": []
         },
@@ -4459,7 +4459,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 31,
           "unavailable": []
         },
@@ -4591,7 +4591,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 30,
           "unavailable": [
             "7/16"
@@ -4725,7 +4725,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 7,
           "unavailable": [
             "7/1",
@@ -4891,7 +4891,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 25,
           "unavailable": [
             "7/14",
@@ -5016,7 +5016,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 22,
           "unavailable": []
         },
@@ -5124,7 +5124,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 24,
           "unavailable": [
             "7/7"
@@ -5210,7 +5210,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 17,
           "unavailable": [
             "7/18",
@@ -5231,7 +5231,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
+          "_noteUpdatedAt": 1783588370524,
           "total": 2,
           "unavailable": []
         },
@@ -5268,14 +5268,14 @@
               "_updatedAt": 1783587518167
             },
             "7/19": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1783587545203
+              "_updatedAt": 1783588369104
             },
             "7/20": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1783587547335
+              "_updatedAt": 1783588367437
             },
             "7/21": {
               "available": true,
@@ -5296,14 +5296,49 @@
               "available": true,
               "note": "",
               "_updatedAt": 1783587553286
+            },
+            "7/25": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587555138
+            },
+            "7/26": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783588024429
+            },
+            "7/27": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783588026013
+            },
+            "7/28": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587559887
+            },
+            "7/29": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587561009
+            },
+            "7/30": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783588020199
+            },
+            "7/31": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783588018405
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587553292,
-          "total": 10,
+          "_noteUpdatedAt": 1783588370524,
+          "total": 17,
           "unavailable": [
-            "7/19",
-            "7/20"
+            "7/30",
+            "7/31"
           ]
         }
       }
