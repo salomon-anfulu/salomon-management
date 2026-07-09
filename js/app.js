@@ -2022,7 +2022,7 @@ linggongAttendance: {
       { id: 16, staffName: '田佳乐', month: '2026-07', rating: 5, reviewDate: '2026-07-09', snippet: '好久没逛街了 路过安福路过来挑鞋，接待我的是佳乐小哥哥。人特别随和，全程不会刻意推销，会结合喜好耐心帮忙挑选，说话舒服接地气，服务很贴心，这次购物体验很不错，想买鞋可以找他～', keywords: ['随和', '不刻意推销', '耐心', '接地气', '贴心'], source: '大众点评（尘尘，Lv3）' },
     ],
 
-        _dataVersion: '2026-07-09-v61',  },
+        _dataVersion: '2026-07-09-v63',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -2034,7 +2034,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-09-v61';
+      const DATA_VERSION = '2026-07-09-v63';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -2115,22 +2115,51 @@ linggongAttendance: {
         });
 
         // availability: 保留用户编辑的月份数据
-        if (data.availability && data.availability.months) {
+        // v63: 同时处理标准 months 结构和历史扁平结构
+        const userAvail = data.availability || {};
+        if (userAvail) {
           if (!merged.availability) merged.availability = { currentMonth: '2026-07', months: {} };
-          // 保留用户编辑过的所有月份
-          Object.keys(data.availability.months).forEach(mk => {
-            if (data.availability.months[mk] && data.availability.months[mk].data) {
-              // 确保新 staff（唐蓉、玛依拉）在所有月份有空条目
-              const existingData = data.availability.months[mk].data;
-              this.defaults.staff.filter(s => s.dept === 'Service Team' && s.status === 'active').forEach(s => {
-                if (!existingData[s.name]) {
-                  existingData[s.name] = { total: 0, unavailable: [], note: '', dates: {} };
-                }
-              });
-              merged.availability.months[mk] = { data: existingData };
+
+          // 1. 收集所有月份数据（标准 months + 扁平结构）
+          const monthMap = {};
+          if (userAvail.months) {
+            Object.keys(userAvail.months).forEach(mk => {
+              monthMap[mk] = userAvail.months[mk];
+            });
+          }
+          Object.keys(userAvail).forEach(mk => {
+            if (mk === 'currentMonth' || mk === 'months') return;
+            // 扁平结构: avail['2026-07'] = { data: {...} } 或 { person: data }
+            if (userAvail[mk] && typeof userAvail[mk] === 'object') {
+              if (!monthMap[mk]) monthMap[mk] = userAvail[mk];
             }
           });
-          merged.availability.currentMonth = data.availability.currentMonth || '2026-07';
+
+          // 2. 合并每个月份数据，清理乱码 key
+          Object.keys(monthMap).forEach(mk => {
+            const mv = monthMap[mk];
+            if (!mv || typeof mv !== 'object') return;
+            const personMap = (mv.data && typeof mv.data === 'object') ? mv.data : mv;
+            const cleanedData = {};
+            Object.entries(personMap).forEach(([name, pdata]) => {
+              // 简单乱码过滤
+              if (/[\u00a0-\u00ff]{2,}/.test(name)) {
+                console.warn('[Store] init 跳过乱码人名:', name.slice(0, 30));
+                return;
+              }
+              cleanedData[name] = pdata;
+            });
+
+            // 确保新 staff 在所有月份有空条目
+            this.defaults.staff.filter(s => s.dept === 'Service Team' && s.status === 'active').forEach(s => {
+              if (!cleanedData[s.name]) {
+                cleanedData[s.name] = { total: 0, unavailable: [], note: '', dates: {} };
+              }
+            });
+            merged.availability.months[mk] = { data: cleanedData };
+          });
+
+          merged.availability.currentMonth = userAvail.currentMonth || '2026-07';
         }
 
         // performanceData: 以默认数据为准（含最新录入），但保留用户可能在其他月份录入的自定义数据
