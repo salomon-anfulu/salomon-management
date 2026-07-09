@@ -263,10 +263,15 @@ const Sync = {
       const shared = await this._fetchSharedData();
       if (!shared) return false;
 
+      // v59b: pull 前显式记录 staff 数量，不依赖 _snapshotForCompare
+      const beforeStaffCount = (Store.get('staff') || []).length;
       const beforeStr = this._snapshotForCompare();
       this._mergeIntoLocal(shared);
       const afterStr = this._snapshotForCompare();
+      const afterStaffCount = (Store.get('staff') || []).length;
       const dataChanged = beforeStr !== afterStr;
+      // v59b: staff 数量变化是硬性条件——即使快照对比遗漏也强制视为有变化
+      const staffChanged = beforeStaffCount !== afterStaffCount;
 
       this._lastPull = Date.now();
       this._lastSyncTime = Date.now();
@@ -276,10 +281,11 @@ const Sync = {
         this._pendingSync = false;
         this.push('auto-retry').catch(() => { this._pendingSync = true; });
       }
-      console.log('[Sync] 拉取成功', new Date().toLocaleTimeString(), dataChanged ? '(有新数据)' : '(无变化)');
+      console.log('[Sync] 拉取成功', new Date().toLocaleTimeString(), (dataChanged || staffChanged) ? '(有新数据)' : '(无变化)', staffChanged ? `[staff: ${beforeStaffCount}→${afterStaffCount}]` : '');
 
       // v51: 如果数据有变化，触发页面刷新（用户B才能看到用户A的填报）
-      if (dataChanged && typeof Router !== 'undefined' && Router.render) {
+      // v59b: staffChanged 也作为硬性触发条件
+      if ((dataChanged || staffChanged) && typeof Router !== 'undefined' && Router.render) {
         // 延迟一帧执行，避免在 fetch 回调中直接操作 DOM
         requestAnimationFrame(() => {
           try {
