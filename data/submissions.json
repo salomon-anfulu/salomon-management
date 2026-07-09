@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 14,
-    "lastUpdated": "2026-07-09T07:29:00.491Z",
+    "version": 15,
+    "lastUpdated": "2026-07-09T07:30:00.252Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -2600,7 +2600,7 @@
         "王龙宇": {
           "dates": {},
           "note": "19日到30日出差，请假",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 0,
           "unavailable": []
         }
@@ -2712,7 +2712,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 23,
           "unavailable": [
             "7/7",
@@ -2874,7 +2874,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 30,
           "unavailable": [
             "7/16"
@@ -3008,7 +3008,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 25,
           "unavailable": [
             "7/13",
@@ -3147,7 +3147,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 29,
           "unavailable": [
             "7/2",
@@ -3301,7 +3301,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 26,
           "unavailable": [
             "7/6",
@@ -3439,7 +3439,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 31,
           "unavailable": []
         },
@@ -3572,7 +3572,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 30,
           "unavailable": [
             "7/13"
@@ -3737,7 +3737,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 31,
           "unavailable": []
         },
@@ -3873,7 +3873,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 27,
           "unavailable": [
             "7/2",
@@ -3995,7 +3995,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 20,
           "unavailable": [
             "7/21",
@@ -4130,7 +4130,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 28,
           "unavailable": [
             "7/13",
@@ -4222,7 +4222,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 19,
           "unavailable": [
             "7/19"
@@ -4316,7 +4316,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 21,
           "unavailable": []
         },
@@ -4419,7 +4419,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 19,
           "unavailable": []
         },
@@ -4551,7 +4551,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 31,
           "unavailable": []
         },
@@ -4683,7 +4683,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 30,
           "unavailable": [
             "7/16"
@@ -4826,7 +4826,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 25,
           "unavailable": [
             "7/14",
@@ -4965,7 +4965,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 7,
           "unavailable": [
             "7/1",
@@ -5108,7 +5108,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783582140490,
+          "_noteUpdatedAt": 1783582200251,
           "total": 22,
           "unavailable": []
         }
