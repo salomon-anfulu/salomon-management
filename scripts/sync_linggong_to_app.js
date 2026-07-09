@@ -83,7 +83,7 @@ arrStr = arrStr.replace(/\n\]/, '\n        ]');
 
 const newBlock = m[0]
   .replace(m[1], arrStr)
-  .replace(/lastSync:[^\n,]*/, 'lastSync: new Date().toISOString(),');
+  .replace(/lastSync:[^\n]*/, 'lastSync: new Date().toISOString(),');
 
 fs.writeFileSync(appPath, src.replace(m[0], newBlock));
 console.log('\n💾 已写入 js/app.js');
