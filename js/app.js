@@ -1847,24 +1847,25 @@ linggongAttendance: {
         ]
       },
 
-      // ===== 7月数据（7/1-7/6，含退货追溯） =====
+      // ===== 7月数据（7/1-7/8，含退货追溯） =====
       july: {
         month: '2026-07',
-        totalSales: 55898,
-        avgUPT: 1.27,
-        avgHourlyOutput: 209.0,
+        totalSales: 59052,
+        avgUPT: 1.24,
+        avgHourlyOutput: 83.1,
         records: [
           {
             name: "龚赟昊",
-            sales: 13556,
-            qty: 12,
+            sales: 12158,
+            qty: 11,
             tickets: 8,
-            upt: 1.50,
-            avgPrice: 1130,
-            workHours: 30.5,
-            hourlyOutput: 444.5,
-            salesShare: 0.243,
-            categories: "鞋履 100.0%"
+            upt: 1.38,
+            avgPrice: 1105,
+            workHours: 78.0,
+            workDays: 6,
+            hourlyOutput: 155.9,
+            salesShare: 0.206,
+            categories: "鞋履 95.8% / 服装 3.7% / 配件 0.6%"
           },
           {
             name: "王雅澜",
@@ -1873,9 +1874,23 @@ linggongAttendance: {
             tickets: 7,
             upt: 1.14,
             avgPrice: 1123,
-            workHours: 24.0,
-            hourlyOutput: 374.3,
-            salesShare: 0.161,
+            workHours: 65.0,
+            workDays: 5,
+            hourlyOutput: 138.2,
+            salesShare: 0.152,
+            categories: "鞋履 88.9% / 服装 11.1%"
+          },
+          {
+            name: "王靳毓",
+            sales: 8792,
+            qty: 5,
+            tickets: 4,
+            upt: 1.25,
+            avgPrice: 1758,
+            workHours: 81.0,
+            workDays: 5,
+            hourlyOutput: 108.5,
+            salesShare: 0.149,
             categories: "鞋履 100.0%"
           },
           {
@@ -1885,10 +1900,11 @@ linggongAttendance: {
             tickets: 7,
             upt: 1.14,
             avgPrice: 1073,
-            workHours: 30.0,
-            hourlyOutput: 286.1,
-            salesShare: 0.154,
-            categories: "鞋履 100.0%"
+            workHours: 70.0,
+            workDays: 6,
+            hourlyOutput: 122.6,
+            salesShare: 0.145,
+            categories: "鞋履 61.2% / 服装 38.8%"
           },
           {
             name: "孔祥宇",
@@ -1897,33 +1913,23 @@ linggongAttendance: {
             tickets: 4,
             upt: 1.75,
             avgPrice: 1071,
-            workHours: 34.5,
-            hourlyOutput: 217.3,
-            salesShare: 0.134,
-            categories: "鞋履 100.0%"
-          },
-          {
-            name: "王靳毓",
-            sales: 5996,
-            qty: 3,
-            tickets: 2,
-            upt: 1.50,
-            avgPrice: 1999,
-            workHours: 32.5,
-            hourlyOutput: 184.5,
-            salesShare: 0.107,
-            categories: "鞋履 100.0%"
+            workHours: 81.0,
+            workDays: 6,
+            hourlyOutput: 92.5,
+            salesShare: 0.127,
+            categories: "鞋履 98.6% / 配件 1.4%"
           },
           {
             name: "田佳乐",
             sales: 4194,
             qty: 3,
             tickets: 3,
-            upt: 1.00,
+            upt: 1.0,
             avgPrice: 1398,
-            workHours: 16.0,
-            hourlyOutput: 262.1,
-            salesShare: 0.075,
+            workHours: 32.0,
+            workDays: 4,
+            hourlyOutput: 131.1,
+            salesShare: 0.071,
             categories: "鞋履 100.0%"
           },
           {
@@ -1931,23 +1937,38 @@ linggongAttendance: {
             sales: 3294,
             qty: 3,
             tickets: 3,
-            upt: 1.00,
+            upt: 1.0,
             avgPrice: 1098,
-            workHours: 25.0,
-            hourlyOutput: 131.8,
-            salesShare: 0.059,
-            categories: "鞋履 100.0%"
+            workHours: 64.0,
+            workDays: 4,
+            hourlyOutput: 51.5,
+            salesShare: 0.056,
+            categories: "鞋履 84.9% / 服装 15.1%"
+          },
+          {
+            name: "邓奇缘",
+            sales: 1756,
+            qty: 2,
+            tickets: 1,
+            upt: 2.0,
+            avgPrice: 878,
+            workHours: 58.0,
+            workDays: 5,
+            hourlyOutput: 30.3,
+            salesShare: 0.03,
+            categories: "鞋履 79.6% / 配件 20.4%"
           },
           {
             name: "迟骋",
             sales: 1498,
             qty: 1,
             tickets: 1,
-            upt: 1.00,
+            upt: 1.0,
             avgPrice: 1498,
-            workHours: 31.5,
-            hourlyOutput: 47.6,
-            salesShare: 0.027,
+            workHours: 63.0,
+            workDays: 4,
+            hourlyOutput: 23.8,
+            salesShare: 0.025,
             categories: "鞋履 100.0%"
           },
           {
@@ -1955,11 +1976,12 @@ linggongAttendance: {
             sales: 1398,
             qty: 1,
             tickets: 1,
-            upt: 1.00,
+            upt: 1.0,
             avgPrice: 1398,
-            workHours: 35.5,
-            hourlyOutput: 39.4,
-            salesShare: 0.025,
+            workHours: 87.0,
+            workDays: 7,
+            hourlyOutput: 16.1,
+            salesShare: 0.024,
             categories: "鞋履 100.0%"
           },
           {
@@ -1967,13 +1989,14 @@ linggongAttendance: {
             sales: 898,
             qty: 1,
             tickets: 1,
-            upt: 1.00,
+            upt: 1.0,
             avgPrice: 898,
-            workHours: 8.0,
-            hourlyOutput: 112.2,
-            salesShare: 0.016,
-            categories: "鞋履 100.0%"
-          }
+            workHours: 32.0,
+            workDays: 2,
+            hourlyOutput: 28.1,
+            salesShare: 0.015,
+            categories: "服装 100.0%"
+          },
         ]
       },
 
@@ -1994,7 +2017,7 @@ linggongAttendance: {
       { id: 11, staffName: '朱凯赟', month: '2026-07', rating: 5, reviewDate: '2026-07-03', snippet: '今天来到了上海萨洛蒙旗舰店 小朱服务的特别好买了一双 xt6', keywords: ['服务特别好', '超预期', 'xt6'], source: '大众点评（嘟嘟_9163，Lv3）', amount: 1398 },
     ],
 
-        _dataVersion: '2026-07-09-v58',  },
+        _dataVersion: '2026-07-09-v59',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -2006,7 +2029,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-09-v58';
+      const DATA_VERSION = '2026-07-09-v59';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
