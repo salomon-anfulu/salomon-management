@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 5,
-    "lastUpdated": "2026-07-09T07:52:05.494Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 6,
+    "lastUpdated": "2026-07-09T08:44:09.600Z",
+    "lastUpdatedBy": "admin"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2598,32 +2598,11 @@
     "2026-06": {
       "data": {
         "王龙宇": {
-          "total": 10,
-          "unavailable": [
-            "6/2",
-            "6/3",
-            "6/7",
-            "6/9",
-            "6/12",
-            "6/13",
-            "6/14",
-            "6/16",
-            "6/18",
-            "6/19",
-            "6/20",
-            "6/21",
-            "6/22",
-            "6/23",
-            "6/24",
-            "6/25",
-            "6/26",
-            "6/27",
-            "6/28",
-            "6/29",
-            "6/30"
-          ],
+          "dates": {},
           "note": "19日到30日出差，请假",
-          "dates": {}
+          "_noteUpdatedAt": 1783586649596,
+          "total": 0,
+          "unavailable": []
         }
       }
     },
@@ -2784,11 +2763,11 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649596,
           "total": 30,
           "unavailable": [
             "7/16"
-          ],
-          "_noteUpdatedAt": 1783568895164
+          ]
         },
         "迟骋": {
           "dates": {
@@ -2918,6 +2897,7 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649596,
           "total": 25,
           "unavailable": [
             "7/13",
@@ -2926,8 +2906,7 @@
             "7/16",
             "7/17",
             "7/7"
-          ],
-          "_noteUpdatedAt": 1783568895164
+          ]
         },
         "王靳毓": {
           "dates": {
@@ -3057,12 +3036,12 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649596,
           "total": 29,
           "unavailable": [
             "7/2",
             "7/16"
-          ],
-          "_noteUpdatedAt": 1783568895164
+          ]
         },
         "朱凯赟": {
           "dates": {
@@ -3211,6 +3190,7 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649596,
           "total": 26,
           "unavailable": [
             "7/6",
@@ -3218,8 +3198,7 @@
             "7/14",
             "7/16",
             "7/26"
-          ],
-          "_noteUpdatedAt": 1783568895164
+          ]
         },
         "孔祥宇": {
           "dates": {
@@ -3349,9 +3328,9 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649596,
           "total": 31,
-          "unavailable": [],
-          "_noteUpdatedAt": 1783568895164
+          "unavailable": []
         },
         "杨子豪": {
           "dates": {
@@ -3482,11 +3461,11 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649596,
           "total": 30,
           "unavailable": [
             "7/13"
-          ],
-          "_noteUpdatedAt": 1783568895164
+          ]
         },
         "王雅澜": {
           "dates": {
@@ -3647,9 +3626,9 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649596,
           "total": 31,
-          "unavailable": [],
-          "_noteUpdatedAt": 1783568895164
+          "unavailable": []
         },
         "李若彤": {
           "dates": {
@@ -3783,14 +3762,14 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649596,
           "total": 27,
           "unavailable": [
             "7/2",
             "7/3",
             "7/4",
             "7/5"
-          ],
-          "_noteUpdatedAt": 1783568895164
+          ]
         },
         "王龙宇": {
           "dates": {
@@ -3905,12 +3884,12 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649596,
           "total": 20,
           "unavailable": [
             "7/21",
             "7/22"
-          ],
-          "_noteUpdatedAt": 1783568895164
+          ]
         },
         "何秋烨": {
           "dates": {
@@ -4040,13 +4019,13 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649596,
           "total": 28,
           "unavailable": [
             "7/13",
             "7/14",
             "7/16"
-          ],
-          "_noteUpdatedAt": 1783568895164
+          ]
         },
         "龚赟昊": {
           "dates": {
@@ -4056,87 +4035,106 @@
             },
             "7/19": {
               "available": false,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419732270
             },
             "7/18": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419730094
             },
             "7/17": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419690061
             },
             "7/16": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419728676
             },
             "7/15": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419688590
             },
             "7/14": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419687608
             },
             "7/13": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419686208
             },
             "7/20": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419733674
             },
             "7/21": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419734881
             },
             "7/22": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419736025
             },
             "7/23": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419737364
             },
             "7/24": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419738584
             },
             "7/25": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419739684
             },
             "7/26": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419740802
             },
             "7/27": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419742034
             },
             "7/28": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419743338
             },
             "7/30": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419745764
             },
             "7/29": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419744488
             },
             "7/31": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783419747014
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649597,
           "total": 19,
           "unavailable": [
             "7/19"
-          ],
-          "_noteUpdatedAt": 1783568895164
+          ]
         },
         "唐蓉": {
           "dates": {
@@ -4226,9 +4224,9 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649597,
           "total": 21,
-          "unavailable": [],
-          "_noteUpdatedAt": 1783568895164
+          "unavailable": []
         },
         "玛依拉": {
           "dates": {
@@ -4329,9 +4327,9 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649597,
           "total": 19,
-          "unavailable": [],
-          "_noteUpdatedAt": 1783568895164
+          "unavailable": []
         },
         "陈昕媛": {
           "dates": {
@@ -4461,9 +4459,9 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649597,
           "total": 31,
-          "unavailable": [],
-          "_noteUpdatedAt": 1783568895164
+          "unavailable": []
         },
         "贾长乐": {
           "dates": {
@@ -4593,11 +4591,11 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649597,
           "total": 30,
           "unavailable": [
             "7/16"
-          ],
-          "_noteUpdatedAt": 1783568895164
+          ]
         },
         "严佳铮": {
           "dates": {
@@ -4727,6 +4725,7 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649597,
           "total": 7,
           "unavailable": [
             "7/1",
@@ -4753,8 +4752,7 @@
             "7/30",
             "7/31",
             "7/24"
-          ],
-          "_noteUpdatedAt": 1783568895164
+          ]
         },
         "梁实秋": {
           "dates": {
@@ -4893,6 +4891,7 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649597,
           "total": 25,
           "unavailable": [
             "7/14",
@@ -4901,8 +4900,7 @@
             "7/24",
             "7/17",
             "7/26"
-          ],
-          "_noteUpdatedAt": 1783568895164
+          ]
         },
         "祖白代": {
           "dates": {
@@ -5018,9 +5016,218 @@
             }
           },
           "note": "",
+          "_noteUpdatedAt": 1783586649597,
           "total": 22,
+          "unavailable": []
+        },
+        "邓奇缘": {
+          "total": 24,
+          "unavailable": [
+            "7/7"
+          ],
+          "note": "",
+          "dates": {
+            "7/7": {
+              "available": false,
+              "note": ""
+            },
+            "7/8": {
+              "available": true,
+              "note": ""
+            },
+            "7/9": {
+              "available": true,
+              "note": ""
+            },
+            "7/10": {
+              "available": true,
+              "note": ""
+            },
+            "7/11": {
+              "available": true,
+              "note": ""
+            },
+            "7/12": {
+              "available": true,
+              "note": ""
+            },
+            "7/13": {
+              "available": true,
+              "note": ""
+            },
+            "7/14": {
+              "available": true,
+              "note": ""
+            },
+            "7/15": {
+              "available": true,
+              "note": ""
+            },
+            "7/16": {
+              "available": true,
+              "note": ""
+            },
+            "7/17": {
+              "available": true,
+              "note": ""
+            },
+            "7/18": {
+              "available": true,
+              "note": ""
+            },
+            "7/19": {
+              "available": true,
+              "note": ""
+            },
+            "7/20": {
+              "available": true,
+              "note": ""
+            },
+            "7/21": {
+              "available": true,
+              "note": ""
+            },
+            "7/22": {
+              "available": true,
+              "note": ""
+            },
+            "7/25": {
+              "available": true,
+              "note": ""
+            },
+            "7/23": {
+              "available": true,
+              "note": ""
+            },
+            "7/24": {
+              "available": true,
+              "note": ""
+            },
+            "7/26": {
+              "available": true,
+              "note": ""
+            },
+            "7/27": {
+              "available": true,
+              "note": ""
+            },
+            "7/28": {
+              "available": true,
+              "note": ""
+            },
+            "7/29": {
+              "available": true,
+              "note": ""
+            },
+            "7/30": {
+              "available": true,
+              "note": ""
+            },
+            "7/31": {
+              "available": true,
+              "note": ""
+            }
+          },
+          "_noteUpdatedAt": 1783582285194
+        },
+        "陈广权": {
+          "total": 17,
+          "unavailable": [
+            "7/18",
+            "7/25"
+          ],
+          "note": "",
+          "dates": {
+            "7/13": {
+              "available": true,
+              "note": ""
+            },
+            "7/14": {
+              "available": true,
+              "note": ""
+            },
+            "7/15": {
+              "available": true,
+              "note": ""
+            },
+            "7/16": {
+              "available": true,
+              "note": ""
+            },
+            "7/17": {
+              "available": true,
+              "note": ""
+            },
+            "7/18": {
+              "available": false,
+              "note": ""
+            },
+            "7/19": {
+              "available": true,
+              "note": ""
+            },
+            "7/20": {
+              "available": true,
+              "note": ""
+            },
+            "7/21": {
+              "available": true,
+              "note": ""
+            },
+            "7/22": {
+              "available": true,
+              "note": ""
+            },
+            "7/23": {
+              "available": true,
+              "note": ""
+            },
+            "7/24": {
+              "available": true,
+              "note": ""
+            },
+            "7/25": {
+              "available": false,
+              "note": ""
+            },
+            "7/26": {
+              "available": true,
+              "note": ""
+            },
+            "7/27": {
+              "available": true,
+              "note": ""
+            },
+            "7/28": {
+              "available": true,
+              "note": ""
+            },
+            "7/29": {
+              "available": true,
+              "note": ""
+            },
+            "7/30": {
+              "available": true,
+              "note": ""
+            },
+            "7/31": {
+              "available": true,
+              "note": ""
+            }
+          },
+          "_noteUpdatedAt": 1783421594646
+        },
+        "李健华": {
+          "total": 1,
           "unavailable": [],
-          "_noteUpdatedAt": 1783568895164
+          "note": "",
+          "dates": {
+            "7/13": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783568894025
+            }
+          }
         }
       }
     }
@@ -6257,6 +6464,14 @@
       "detail": "货架1-3号查鞋盒"
     },
     {
+      "id": 108,
+      "staff": "邓奇缘",
+      "date": "2026-07-05",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "调整灯光，更换成列"
+    },
+    {
       "id": 1783412947683,
       "staff": "李若彤",
       "date": "2026-07-07",
@@ -6282,6 +6497,15 @@
       "duration": "0.5小时",
       "detail": "新品贴标签价格尺码",
       "_updatedAt": "1783495430378"
+    },
+    {
+      "id": 1783504772025,
+      "staff": "邓奇缘",
+      "date": "2026-07-08",
+      "type": "货品-辅助收货",
+      "duration": "1.5小时",
+      "detail": "查鞋盒7，8货架➕收货",
+      "_updatedAt": "1783504771128"
     },
     {
       "id": 1783510152683,
@@ -6327,6 +6551,15 @@
       "duration": "1小时",
       "detail": "协助退仓换陈列",
       "_updatedAt": "1783572119752"
+    },
+    {
+      "id": 1783580149477,
+      "staff": "邓奇缘",
+      "date": "2026-07-09",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "退仓",
+      "_updatedAt": "1783580149238"
     }
   ],
   "doorSchedule": [
@@ -7698,6 +7931,11 @@
           "staff": "何秋烨"
         },
         {
+          "time": "11:00:00-12:00:00",
+          "staff": "邓奇缘",
+          "_updatedAt": "1783339655789"
+        },
+        {
           "time": "12:00:00-13:00:00",
           "staff": "孔祥宇"
         },
@@ -7742,6 +7980,11 @@
           "_updatedAt": "1783341363781"
         },
         {
+          "time": "15:00:00-16:00:00",
+          "staff": "邓奇缘",
+          "_updatedAt": "1783339670295"
+        },
+        {
           "time": "16:00:00-17:00:00",
           "staff": "龚赟昊",
           "_updatedAt": "1783334849377"
@@ -7750,6 +7993,11 @@
           "time": "18:00:00-19:00:00",
           "staff": "朱凯赟",
           "_updatedAt": "1783341361414"
+        },
+        {
+          "time": "20:00:00-21:00:00",
+          "staff": "邓奇缘",
+          "_updatedAt": "1783339680365"
         }
       ]
     },
@@ -7826,6 +8074,11 @@
         {
           "time": "13:00:00-14:00:00",
           "staff": "迟骋"
+        },
+        {
+          "time": "14:00:00-15:00:00",
+          "staff": "邓奇缘",
+          "_updatedAt": "1783339709194"
         },
         {
           "time": "15:00:00-16:00:00",
@@ -7931,7 +8184,7 @@
         {
           "time": "11:00:00-12:00:00",
           "staff": "邓奇缘",
-          "_updatedAt": "1783483118460"
+          "_updatedAt": "1783487987932"
         },
         {
           "time": "12:00:00-13:00:00",
@@ -7956,7 +8209,7 @@
         {
           "time": "16:00:00-17:00:00",
           "staff": "邓奇缘",
-          "_updatedAt": "1783483140914"
+          "_updatedAt": "1783496714578"
         },
         {
           "time": "17:00:00-18:00:00",
@@ -7967,11 +8220,47 @@
     },
     {
       "date": "2026-07-09",
-      "slots": []
+      "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "龚赟昊",
+          "_updatedAt": "1783581646320"
+        },
+        {
+          "time": "11:00:00-12:00:00",
+          "staff": "李若彤",
+          "_updatedAt": "1783581810465"
+        },
+        {
+          "time": "12:00:00-13:00:00",
+          "staff": "杨子豪",
+          "_updatedAt": "1783581996931"
+        },
+        {
+          "time": "13:00:00-14:00:00",
+          "staff": "",
+          "_updatedAt": "1783581652342"
+        },
+        {
+          "time": "14:00:00-15:00:00",
+          "staff": "龚赟昊",
+          "_updatedAt": "1783581639282"
+        },
+        {
+          "time": "15:00:00-16:00:00",
+          "staff": "邓奇缘",
+          "_updatedAt": "1783580171421"
+        }
+      ]
     }
   ],
   "_deletedIds": {
-    "_meta": {}
+    "_meta": {
+      "1783510971597": 1783586649595
+    },
+    "shiftChanges": [
+      "1783510971597"
+    ]
   },
   "customerReviews": [
     {
