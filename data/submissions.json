@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 13,
-    "lastUpdated": "2026-07-09T09:25:40.038Z",
+    "version": 14,
+    "lastUpdated": "2026-07-09T09:25:54.166Z",
     "lastUpdatedBy": "李健华"
   },
   "availability": {
@@ -5273,13 +5273,55 @@
               "available": false,
               "note": "",
               "_updatedAt": 1783589140008
+            },
+            "7/16": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783589142256
+            },
+            "7/18": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783589144108
+            },
+            "7/20": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783589146257
+            },
+            "7/22": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783589148057
+            },
+            "7/24": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783589149790
+            },
+            "7/26": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783589151456
+            },
+            "7/28": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783589153190
             }
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
           "total": 10,
           "unavailable": [
-            "7/14"
+            "7/14",
+            "7/16",
+            "7/18",
+            "7/20",
+            "7/22",
+            "7/24",
+            "7/26",
+            "7/28"
           ]
         },
         "吴嘉莹": {
