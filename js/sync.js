@@ -181,7 +181,9 @@ const Sync = {
    */
   _normalizeAvailabilityStructure(avail) {
     if (!avail || typeof avail !== 'object') {
-      return { currentMonth: '2026-07', months: {} };
+      const now = new Date();
+      const defaultMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+      return { currentMonth: defaultMonth, months: {} };
     }
 
     const normalized = { currentMonth: avail.currentMonth || '2026-07', months: {} };
@@ -469,9 +471,11 @@ const Sync = {
     let finalResult = true;
 
     while (this._pushQueue.length > 0) {
-      // 取最后一条（之前的请求中包含的数据已经被后续保存覆盖了）
-      const changedBy = this._pushQueue[this._pushQueue.length - 1];
+      // v65: 先拷贝引用再清空，避免 push() 在清空瞬间写入被丢弃
+      const queue = this._pushQueue;
       this._pushQueue = [];
+      // 取最后一条（之前的请求中包含的数据已经被后续保存覆盖了）
+      const changedBy = queue[queue.length - 1];
 
       const result = await this._doPush(changedBy);
       if (result !== true) {

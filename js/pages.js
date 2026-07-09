@@ -1228,23 +1228,6 @@ function syncLinggongData() {
   input.click();
 }
 
-function filterAttendanceByDate(selectedDate) {
-  const rows = document.querySelectorAll('.attendance-row');
-  let visibleCount = 0;
-  rows.forEach(row => {
-    if (selectedDate === 'all' || row.dataset.date === selectedDate) {
-      row.style.display = '';
-      visibleCount++;
-    } else {
-      row.style.display = 'none';
-    }
-  });
-  const hint = document.getElementById('attendanceFilterHint');
-  if (hint) {
-    hint.textContent = selectedDate === 'all' ? '显示全部记录' : `显示 ${selectedDate.replace(/^2026\//, '')} 的记录`;
-  }
-}
-
 /**
  * ========================================
  * Ratings Page - Fun Edition
