@@ -3644,7 +3644,7 @@ function renderPersonalDashboard() {
 }
 
 // ===== 顾客好评 =====
-let reviewsMonthFilter = '2026-06';
+let reviewsMonthFilter = null;  // null = 自动选最新月份
 let reviewsStaffFilter = 'all';
 let reviewEditingId = null;
 
@@ -3652,10 +3652,11 @@ function renderCustomerReviews() {
   const reviews = Store.get('customerReviews') || [];
   const staff = Store.get('staff');
 
-  // 月份列表
+  // 月份列表（最新月份在前）
   const months = [...new Set(reviews.map(r => r.month))].sort().reverse();
-  if (months.length === 0) months.push('2026-06');
-  if (!months.includes(reviewsMonthFilter)) reviewsMonthFilter = months[0];
+  if (months.length === 0) months.push('2026-07');
+  // 默认显示当前最新月份（7月优先），用户切换月份后保持选择
+  if (!reviewsMonthFilter || !months.includes(reviewsMonthFilter)) reviewsMonthFilter = months[0];
 
   // 筛选
   let filtered = reviews.filter(r => r.month === reviewsMonthFilter);
