@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 25,
-    "lastUpdated": "2026-07-08T12:40:26.589Z",
+    "version": 26,
+    "lastUpdated": "2026-07-09T03:45:47.668Z",
     "lastUpdatedBy": "manual-sync"
   },
   "availability": {
@@ -5968,6 +5968,21 @@
         "愉快体验"
       ],
       "source": "大众点评（匿名用户，Lv1）"
+    },
+    {
+      "id": 11,
+      "staffName": "朱凯赟",
+      "month": "2026-07",
+      "rating": 5,
+      "reviewDate": "2026-07-03",
+      "snippet": "今天来到了上海萨洛蒙旗舰店 小朱服务的特别好买了一双 xt6",
+      "keywords": [
+        "服务特别好",
+        "超预期",
+        "xt6"
+      ],
+      "source": "大众点评（嘟嘟_9163，Lv3）",
+      "amount": 1398
     }
   ],
   "_deletedDoorSlots": {
