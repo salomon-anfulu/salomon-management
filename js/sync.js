@@ -614,6 +614,61 @@ const Sync = {
   },
 
   /**
+
+  /**
+   * v67: 合并单个 person 的 availability 数据（pull/push 双方复用）
+   * @param {object} target - 被合并到的目标 person 数据（原地修改）
+   * @param {object} source - 合并来源的 person 数据
+   * @param {object} opts
+   * @param {boolean} opts.sourceWinsTie - _updatedAt 相同时 source 是否覆盖 target
+   * @param {string} opts.direction - 'pull' | 'push'（日志用）
+   */
+  _mergePersonAvailability(target, source, opts) {
+    if (!source || !target) return;
+
+    const { sourceWinsTie = false, direction = 'pull' } = opts || {};
+
+    // 合并 dates
+    if (source.dates && typeof source.dates === 'object') {
+      if (!target.dates || typeof target.dates !== 'object') target.dates = {};
+      Object.entries(source.dates).forEach(([dateKey, sourceVal]) => {
+        const targetVal = target.dates[dateKey];
+        if (!targetVal) {
+          target.dates[dateKey] = sourceVal;
+        } else {
+          const sTs = sourceVal._updatedAt || 0;
+          const tTs = targetVal._updatedAt || 0;
+          if (sourceWinsTie ? sTs >= tTs : sTs > tTs) {
+            target.dates[dateKey] = sourceVal;
+          }
+        }
+      });
+    }
+
+    // 合并备注（按 _noteUpdatedAt 时间戳，取较新版本）
+    if (source.note !== undefined) {
+      const sTs = source._noteUpdatedAt || 0;
+      const tTs = target._noteUpdatedAt || 0;
+      if (!target.note || sTs > tTs) {
+        target.note = source.note;
+        target._noteUpdatedAt = sTs || Date.now();
+      }
+    }
+
+    // 更新 total/unavailable
+    if (target.dates && Object.keys(target.dates).length > 0) {
+      let avail = 0;
+      Object.values(target.dates).forEach(d => { if (d.available && !d._deleted) avail++; });
+      target.total = avail;
+      target.unavailable = Object.entries(target.dates)
+        .filter(([_, v]) => !v.available && !v._deleted)
+        .map(([k]) => k);
+    } else if (source.total && !target.total) {
+      target.total = source.total;
+    }
+  },
+
+  /**
    * 将共享数据合并到 LocalStorage
    * 合并策略：availability 按人名深度合并（保留 dates 字段）；
    *           数组类数据按 id 去重
@@ -650,83 +705,32 @@ const Sync = {
       Store.set('staff', merged);
     }
 
-    // === 可上班时间 (availability) ===
+    // === 可上班时间 (availability) — v67: 抽取 _mergePersonAvailability 复用 ===
     if (shared.availability && Object.keys(shared.availability).length > 0) {
-      // v63: 先规范化本地结构（处理扁平结构 + 清理乱码/超大 note）
       let localAvail = this._normalizeAvailabilityStructure(Store.get('availability'));
 
       Object.entries(shared.availability).forEach(([monthKey, monthData]) => {
         if (!monthData || !monthData.data) return;
-
-        // 确保本地有该月份
-        if (!localAvail.months[monthKey]) {
-          localAvail.months[monthKey] = { data: {} };
-        }
+        if (!localAvail.months[monthKey]) localAvail.months[monthKey] = { data: {} };
 
         const localMonthData = localAvail.months[monthKey].data;
-
         Object.entries(monthData.data).forEach(([sharedName, sharedPerson]) => {
-          // v52/v63: 乱码人名守卫 — 防止 UTF-8 编码错误产生的乱码 key 污染本地数据
           if (!Sync._isValidName(sharedName)) {
             console.warn('[Sync] 拉取时跳过乱码人名:', sharedName.slice(0, 30));
             return;
           }
+          const cleanedShared = this._cleanPersonData(JSON.parse(JSON.stringify(sharedPerson)));
 
-          // v63: 清理云端 person 数据（超大 note 等）
-          const clonedShared = this._cleanPersonData(JSON.parse(JSON.stringify(sharedPerson)));
-
-          // 如果本地没有该人数据，直接写入
           if (!localMonthData[sharedName]) {
-            localMonthData[sharedName] = clonedShared;
+            localMonthData[sharedName] = cleanedShared;
             console.log(`[Sync] 拉取新增: ${monthKey} / ${sharedName}`);
             return;
           }
 
-          const localPerson = localMonthData[sharedName];
-
-          // 合并 dates
-          if (clonedShared.dates && typeof clonedShared.dates === 'object') {
-            if (!localPerson.dates || localPerson.dates === null || typeof localPerson.dates !== 'object') {
-              localPerson.dates = {};
-            }
-            const before = Object.keys(localPerson.dates).length;
-            Object.entries(clonedShared.dates).forEach(([dateKey, cloudVal]) => {
-              const localVal = localPerson.dates[dateKey];
-              if (!localVal) {
-                localPerson.dates[dateKey] = cloudVal;
-              } else {
-                const lTs = localVal._updatedAt || 0;
-                const cTs = cloudVal._updatedAt || 0;
-                if (cTs > lTs) {
-                  localPerson.dates[dateKey] = cloudVal;
-                }
-              }
-            });
-            const after = Object.keys(localPerson.dates).length;
-            console.log(`[Sync] 拉取合并 ${monthKey}/${sharedName} dates: +${after - before}天 → 共${after}天`);
-          }
-
-          // 合并备注（v52: 按 _noteUpdatedAt 时间戳，禁止追加）
-          if (clonedShared.note !== undefined) {
-            const cloudTs = clonedShared._noteUpdatedAt || 0;
-            const localTs = localPerson._noteUpdatedAt || 0;
-            if (!localPerson.note || cloudTs > localTs) {
-              localPerson.note = clonedShared.note;
-              localPerson._noteUpdatedAt = cloudTs || Date.now();
-            }
-          }
-
-          // 更新 total（基于 dates 重新计算）
-          if (localPerson.dates && Object.keys(localPerson.dates).length > 0) {
-            let avail = 0;
-            Object.values(localPerson.dates).forEach(d => { if (d.available && !d._deleted) avail++; });
-            localPerson.total = avail;
-            localPerson.unavailable = Object.entries(localPerson.dates)
-              .filter(([_, v]) => !v.available && !v._deleted)
-              .map(([k]) => k);
-          } else if (clonedShared.total && !localPerson.total) {
-            localPerson.total = clonedShared.total;
-          }
+          // v67: 共用合并逻辑
+          this._mergePersonAvailability(localMonthData[sharedName], cleanedShared, {
+            sourceWinsTie: false, direction: 'pull'
+          });
         });
       });
 
@@ -1091,73 +1095,30 @@ const Sync = {
       console.log(`[Sync] push staff: ${cloudStaff.length} → ${shared.staff.length} (新增: ${newNames.join(', ')})`);
     }
 
-    // === availability ===
-    // v63: 先规范化本地结构（扁平→months，清理乱码/超大 note）
+    // === availability — v67: 抽取 _mergePersonAvailability 复用 ===
     const localAvail = this._normalizeAvailabilityStructure(Store.get('availability'));
     if (localAvail && localAvail.months && Object.keys(localAvail.months).length > 0) {
       if (!shared.availability) shared.availability = {};
       Object.entries(localAvail.months).forEach(([monthKey, monthData]) => {
         if (!monthData || !monthData.data) return;
-        if (!shared.availability[monthKey]) {
-          shared.availability[monthKey] = { data: {} };
-        }
+        if (!shared.availability[monthKey]) shared.availability[monthKey] = { data: {} };
 
         Object.entries(monthData.data).forEach(([staffName, personData]) => {
-          // 只上传有实际数据的条目（有 dates 或有备注）
           if (!personData) return;
-
-          // v52/v63: 乱码人名守卫 — 防止本地残留的乱码 key 被推到云端
           if (!Sync._isValidName(staffName)) {
             console.warn('[Sync] 推送时跳过乱码人名:', staffName.slice(0, 30));
             return;
           }
 
-          // v63: 清理超大 note / 乱码
           const cleanedPerson = this._cleanPersonData(personData);
-          // 场景：用户A填了7/3可用，用户B同时填了7/4可用
-          // 旧逻辑：B 的 personData 直接覆盖 A 的 → A 的 7/3 数据丢失
-          // 新逻辑：逐日合并 dates，保留双方填写的日期
           const cloudPerson = shared.availability[monthKey].data[staffName];
+
           if (cloudPerson) {
-            // 云端已有该人数据 → 逐日合并
-            const cloudDates = cloudPerson.dates || {};
-            const localDates = cleanedPerson.dates || {};
-
-            // v51c: 按 _updatedAt 时间戳判断每个日期用哪个版本
-            const mergedDates = { ...cloudDates };
-            Object.entries(localDates).forEach(([dateKey, localVal]) => {
-              const cloudVal = cloudDates[dateKey];
-              if (!cloudVal) {
-                // 云端没有这个日期 → 本地直接写入
-                mergedDates[dateKey] = localVal;
-              } else {
-                // 双方都有 → 按 _updatedAt 时间戳取新版本
-                const lTs = localVal._updatedAt || 0;
-                const cTs = cloudVal._updatedAt || 0;
-                if (lTs >= cTs) {
-                  mergedDates[dateKey] = localVal;
-                } else {
-                  mergedDates[dateKey] = cloudVal;
-                }
-              }
+            // v67: 共用合并逻辑（push 方向 local 胜）
+            this._mergePersonAvailability(cloudPerson, cleanedPerson, {
+              sourceWinsTie: true, direction: 'push'
             });
-
-            // 备注取非空的一方（优先本地新备注），但做长度限制
-            let mergedNote = (cleanedPerson.note && cleanedPerson.note.trim())
-              ? cleanedPerson.note
-              : (cloudPerson.note || '');
-            if (mergedNote.length > 500) mergedNote = mergedNote.slice(0, 500);
-
-            shared.availability[monthKey].data[staffName] = {
-              dates: mergedDates,
-              note: mergedNote,
-              _noteUpdatedAt: Date.now(),
-              // v54: _deleted 标记的日期不计入统计
-              total: Object.values(mergedDates).filter(d => d.available && !d._deleted).length,
-              unavailable: Object.entries(mergedDates).filter(([_, d]) => !d.available && !d._deleted).map(([k]) => k),
-            };
           } else {
-            // 云端没有该人数据 → 直接写入（但需有实际内容）
             if ((cleanedPerson.dates && Object.keys(cleanedPerson.dates).length > 0) ||
                 (cleanedPerson.note && cleanedPerson.note.trim())) {
               shared.availability[monthKey].data[staffName] = cleanedPerson;

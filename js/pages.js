@@ -492,6 +492,39 @@ function promoteStaff(id) {
  * Schedule Page
  * ========================================
  */
+
+// ===== Shared: build month weeks (Mon-Sun) =====
+function _buildMonthWeeks(monthKey) {
+  const [year, mon] = monthKey.split("-").map(Number);
+  const totalDays = new Date(year, mon, 0).getDate();
+  const weeks = [];
+  let wkStart = new Date(year, mon - 1, 1);
+  const dow = wkStart.getDay() || 7;
+  wkStart = new Date(year, mon - 1, 1 - (dow - 1));
+  while (true) {
+    const wkEnd = new Date(wkStart);
+    wkEnd.setDate(wkEnd.getDate() + 6);
+    const ovStart = new Date(Math.max(wkStart.getTime(), new Date(year, mon - 1, 1).getTime()));
+    const ovEnd = new Date(Math.min(wkEnd.getTime(), new Date(year, mon - 1, totalDays).getTime()));
+    if (ovStart > ovEnd) break;
+    const days = [];
+    const weekends = [];
+    for (let d = 1; d <= totalDays; d++) {
+      const dt = new Date(year, mon - 1, d);
+      if (dt >= wkStart && dt <= wkEnd) {
+        days.push(d);
+        const ddow = dt.getDay();
+        if (ddow === 0 || ddow === 6) weekends.push(d);
+      }
+    }
+    if (days.length > 0) {
+      weeks.push({ days, weekends, startDay: days[0], endDay: days[days.length - 1], daysCount: days.length });
+    }
+    wkStart.setDate(wkStart.getDate() + 7);
+  }
+  return weeks;
+}
+
 function renderSchedule() {
   const staff = Store.get('staff').filter(s => s.status === 'active');
   const serviceTeam = staff.filter(s => s.dept === 'Service Team');
@@ -515,38 +548,12 @@ function renderSchedule() {
   const totalDays = new Date(year, mon, 0).getDate();
 
   // 按自然周拆分（周一至周日）
-  const weeks = [];
-  let currentWeekStart = new Date(year, mon - 1, 1);
-  // 调整到本周一
-  const dayOfWeek = currentWeekStart.getDay() || 7;
-  currentWeekStart = new Date(year, mon - 1, 1 - (dayOfWeek - 1));
-
-  while (true) {
-    const weekEnd = new Date(currentWeekStart);
-    weekEnd.setDate(weekEnd.getDate() + 6);
-    // 该周与本月是否有交集
-    const overlapStart = new Date(Math.max(currentWeekStart.getTime(), new Date(year, mon - 1, 1).getTime()));
-    const overlapEnd = new Date(Math.min(weekEnd.getTime(), new Date(year, mon - 1, totalDays).getTime()));
-    if (overlapStart > overlapEnd) break;
-
-    const daysInRange = [];
-    for (let d = 1; d <= totalDays; d++) {
-      const date = new Date(year, mon - 1, d);
-      if (date >= currentWeekStart && date <= weekEnd) {
-        daysInRange.push(d);
-      }
-    }
-    if (daysInRange.length > 0) {
-      weeks.push({
-        label: `${formatDate(`${year}-${String(mon).padStart(2, '0')}-${String(daysInRange[0]).padStart(2, '0')}`)} - ${formatDate(`${year}-${String(mon).padStart(2, '0')}-${String(daysInRange[daysInRange.length - 1]).padStart(2, '0')}`)}`,
-        days: daysInRange,
-        startDay: daysInRange[0],
-        endDay: daysInRange[daysInRange.length - 1],
-        daysCount: daysInRange.length,
-      });
-    }
-    currentWeekStart.setDate(currentWeekStart.getDate() + 7);
-  }
+  const monthForWeeks = _scheduleMonth || availability.currentMonth || '2026-07';
+  const weeks = _buildMonthWeeks(monthForWeeks)
+    .map(w => ({
+      ...w,
+      label: `${formatDate(`${year}-${String(mon).padStart(2, '0')}-${String(w.startDay).padStart(2, '0')}`)} - ${formatDate(`${year}-${String(mon).padStart(2, '0')}-${String(w.endDay).padStart(2, '0')}`)}`,
+    }));
 
   // === 为每个 Service Team 成员计算每周供班情况 ===
   const staffWeeklyData = serviceTeam.map(s => {
@@ -1358,37 +1365,12 @@ function calcAvailabilityScore(staffName) {
 
   // Dynamically compute weeks for the availability month (Mon-Sun)
   const [yr, mn] = monthKey.split('-').map(Number);
-  const totalDaysInMonth = new Date(yr, mn, 0).getDate();
-  const weeks = [];
-  let wkStart = new Date(yr, mn - 1, 1);
-  const dow1 = wkStart.getDay() || 7;
-  wkStart = new Date(yr, mn - 1, 1 - (dow1 - 1));
-  while (true) {
-    const wkEnd = new Date(wkStart);
-    wkEnd.setDate(wkEnd.getDate() + 6);
-    const ovStart = new Date(Math.max(wkStart.getTime(), new Date(yr, mn - 1, 1).getTime()));
-    const ovEnd = new Date(Math.min(wkEnd.getTime(), new Date(yr, mn - 1, totalDaysInMonth).getTime()));
-    if (ovStart > ovEnd) break;
-    const daysIn = [];
-    const weekendsIn = [];
-    for (let d = 1; d <= totalDaysInMonth; d++) {
-      const dt = new Date(yr, mn - 1, d);
-      if (dt >= wkStart && dt <= wkEnd) {
-        daysIn.push(d);
-        const ddow = dt.getDay();
-        if (ddow === 0 || ddow === 6) weekendsIn.push(d);
-      }
-    }
-    if (daysIn.length > 0) {
-      weeks.push({
-        name: 'W' + (weeks.length + 1),
-        label: `${mn}/${daysIn[0]}-${mn}/${daysIn[daysIn.length-1]}`,
-        days: daysIn,
-        weekends: weekendsIn,
-      });
-    }
-    wkStart.setDate(wkStart.getDate() + 7);
-  }
+  const weeks = _buildMonthWeeks(monthKey).map((w, i) => ({
+    name: 'W' + (i + 1),
+    label: `${mn}/${w.days[0]}-${mn}/${w.days[w.days.length - 1]}`,
+    days: w.days,
+    weekends: w.weekends,
+  }));
 
   const weekResults = weeks.map(w => {
     const availDays = w.days.filter(d => !unavailableDays.has(d)).length;
@@ -4607,31 +4589,9 @@ function syncPersonLegacyFields(person, mon) {
 // ===== Overview (weekly matrix) =====
 function renderWeekSwitcher() {
   const [year, mon] = _availMonth.split('-').map(Number);
-  const totalDays = new Date(year, mon, 0).getDate();
 
   // Build weeks (Mon-Sun)
-  const weeks = [];
-  let currentWeekStart = new Date(year, mon - 1, 1);
-  const dayOfWeek = currentWeekStart.getDay() || 7;
-  currentWeekStart = new Date(year, mon - 1, 1 - (dayOfWeek - 1));
-
-  while (true) {
-    const weekEnd = new Date(currentWeekStart);
-    weekEnd.setDate(weekEnd.getDate() + 6);
-    const overlapStart = new Date(Math.max(currentWeekStart.getTime(), new Date(year, mon - 1, 1).getTime()));
-    const overlapEnd = new Date(Math.min(weekEnd.getTime(), new Date(year, mon - 1, totalDays).getTime()));
-    if (overlapStart > overlapEnd) break;
-
-    const daysInRange = [];
-    for (let d = 1; d <= totalDays; d++) {
-      const date = new Date(year, mon - 1, d);
-      if (date >= currentWeekStart && date <= weekEnd) daysInRange.push(d);
-    }
-    if (daysInRange.length > 0) {
-      weeks.push({ days: daysInRange, start: daysInRange[0], end: daysInRange[daysInRange.length - 1] });
-    }
-    currentWeekStart.setDate(currentWeekStart.getDate() + 7);
-  }
+  const weeks = _buildMonthWeeks(_availMonth);
 
   if (_availOverviewWeek >= weeks.length) _availOverviewWeek = 0;
   if (_availOverviewWeek < 0) _availOverviewWeek = weeks.length - 1;
@@ -4644,7 +4604,7 @@ function renderWeekSwitcher() {
         <button onclick="_availOverviewDept='仓库兼职';Router.render()" style="padding:6px 12px;border-radius:6px;border:1px solid ${_availOverviewDept==='仓库兼职'?'var(--accent)':'var(--border)'};background:${_availOverviewDept==='仓库兼职'?'var(--accent)':'var(--bg-secondary)'};color:${_availOverviewDept==='仓库兼职'?'#fff':'var(--text-primary)'};font-size:12px;font-weight:${_availOverviewDept==='仓库兼职'?'700':'400'};cursor:pointer;">📦 仓库兼职</button>
       </div>
       <button onclick="_availOverviewWeek--;Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">‹</button>
-      <span style="font-size:13px;font-weight:700;min-width:140px;text-align:center;">第${_availOverviewWeek + 1}周 ${mon}/${w.start}-${mon}/${w.end}</span>
+      <span style="font-size:13px;font-weight:700;min-width:140px;text-align:center;">第${_availOverviewWeek + 1}周 ${mon}/${w.startDay}-${mon}/${w.endDay}</span>
       <button onclick="_availOverviewWeek++;Router.render()" style="width:32px;height:32px;border-radius:8px;border:1px solid var(--border);background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;font-size:16px;">›</button>
       <span style="font-size:12px;color:var(--text-muted);margin-left:4px;">共${weeks.length}周</span>
       ${renderMonthSwitcher()}
@@ -4655,28 +4615,10 @@ function renderWeekSwitcher() {
 function renderOverviewMatrix() {
   const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === _availOverviewDept);
   const [year, mon] = _availMonth.split('-').map(Number);
-  const totalDays = new Date(year, mon, 0).getDate();
 
   // Build weeks
-  const weeks = [];
-  let currentWeekStart = new Date(year, mon - 1, 1);
-  const dayOfWeek = currentWeekStart.getDay() || 7;
-  currentWeekStart = new Date(year, mon - 1, 1 - (dayOfWeek - 1));
-
-  while (true) {
-    const weekEnd = new Date(currentWeekStart);
-    weekEnd.setDate(weekEnd.getDate() + 6);
-    const overlapStart = new Date(Math.max(currentWeekStart.getTime(), new Date(year, mon - 1, 1).getTime()));
-    const overlapEnd = new Date(Math.min(weekEnd.getTime(), new Date(year, mon - 1, totalDays).getTime()));
-    if (overlapStart > overlapEnd) break;
-    const daysInRange = [];
-    for (let d = 1; d <= totalDays; d++) {
-      const date = new Date(year, mon - 1, d);
-      if (date >= currentWeekStart && date <= weekEnd) daysInRange.push(d);
-    }
-    if (daysInRange.length > 0) weeks.push(daysInRange);
-    currentWeekStart.setDate(currentWeekStart.getDate() + 7);
-  }
+  const weekObjects = _buildMonthWeeks(_availMonth);
+  const weeks = weekObjects.map(w => w.days);
 
   if (_availOverviewWeek >= weeks.length) _availOverviewWeek = 0;
   const weekDays = weeks[_availOverviewWeek] || [];
