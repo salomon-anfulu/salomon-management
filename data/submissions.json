@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 12,
-    "lastUpdated": "2026-07-09T09:12:50.528Z",
-    "lastUpdatedBy": "吴嘉莹"
+    "version": 13,
+    "lastUpdated": "2026-07-09T09:25:40.038Z",
+    "lastUpdatedBy": "李健华"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2601,7 +2601,7 @@
           "dates": {},
           "note": "19日到30日出差，请假",
           "_noteUpdatedAt": 1783588370522,
-          "total": 0,
+          "total": 10,
           "unavailable": []
         }
       }
@@ -5228,12 +5228,59 @@
               "available": true,
               "note": "",
               "_updatedAt": 1783587372390
+            },
+            "7/17": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587382257
+            },
+            "7/19": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587385779
+            },
+            "7/21": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587400088
+            },
+            "7/23": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587401872
+            },
+            "7/25": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587403605
+            },
+            "7/27": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587407522
+            },
+            "7/29": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587408989
+            },
+            "7/31": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587410173
+            },
+            "7/14": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783589140008
             }
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 2,
-          "unavailable": []
+          "total": 10,
+          "unavailable": [
+            "7/14"
+          ]
         },
         "吴嘉莹": {
           "dates": {
