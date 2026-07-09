@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 7,
-    "lastUpdated": "2026-07-09T07:20:56.361Z",
-    "lastUpdatedBy": "龚赟昊"
+    "version": 8,
+    "lastUpdated": "2026-07-09T07:22:36.030Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2600,7 +2600,7 @@
         "王龙宇": {
           "dates": {},
           "note": "19日到30日出差，请假",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 0,
           "unavailable": []
         }
@@ -2712,7 +2712,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 23,
           "unavailable": [
             "7/7",
@@ -2874,7 +2874,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 30,
           "unavailable": [
             "7/16"
@@ -3008,7 +3008,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 25,
           "unavailable": [
             "7/13",
@@ -3147,7 +3147,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 29,
           "unavailable": [
             "7/2",
@@ -3301,7 +3301,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 26,
           "unavailable": [
             "7/6",
@@ -3439,7 +3439,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 31,
           "unavailable": []
         },
@@ -3572,7 +3572,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 30,
           "unavailable": [
             "7/13"
@@ -3587,127 +3587,157 @@
             },
             "7/2": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413142817
             },
             "7/3": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413143951
             },
             "7/4": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413144972
             },
             "7/5": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413145866
             },
             "7/6": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413146932
             },
             "7/7": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413147782
             },
             "7/15": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413154330
             },
             "7/9": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413149522
             },
             "7/8": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413148521
             },
             "7/10": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413150450
             },
             "7/12": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413152317
             },
             "7/11": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413151399
             },
             "7/13": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413153085
             },
             "7/14": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413153732
             },
             "7/16": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413154908
             },
             "7/17": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413155572
             },
             "7/18": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413156288
             },
             "7/20": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413158169
             },
             "7/19": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413157008
             },
             "7/21": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413158917
             },
             "7/22": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413159589
             },
             "7/23": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413160283
             },
             "7/24": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413161003
             },
             "7/25": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413161841
             },
             "7/26": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413162584
             },
             "7/27": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413163652
             },
             "7/28": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413164373
             },
             "7/29": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413165065
             },
             "7/30": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413165715
             },
             "7/31": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783413166489
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 31,
           "unavailable": []
         },
@@ -3762,20 +3792,24 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
-              "note": ""
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783513962475
             },
             "7/14": {
-              "available": false,
-              "note": ""
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783514010835
             },
             "7/15": {
-              "available": false,
-              "note": ""
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783514016484
             },
             "7/16": {
-              "available": false,
-              "note": ""
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783514406640
             },
             "7/17": {
               "available": true,
@@ -3839,17 +3873,13 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
-          "total": 23,
+          "_noteUpdatedAt": 1783581756029,
+          "total": 27,
           "unavailable": [
             "7/2",
             "7/3",
             "7/4",
-            "7/5",
-            "7/13",
-            "7/14",
-            "7/15",
-            "7/16"
+            "7/5"
           ]
         },
         "王龙宇": {
@@ -3965,7 +3995,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 20,
           "unavailable": [
             "7/21",
@@ -4100,7 +4130,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 28,
           "unavailable": [
             "7/13",
@@ -4192,7 +4222,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 19,
           "unavailable": [
             "7/19"
@@ -4286,7 +4316,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 21,
           "unavailable": []
         },
@@ -4389,7 +4419,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 19,
           "unavailable": []
         },
@@ -4521,7 +4551,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756029,
           "total": 31,
           "unavailable": []
         },
@@ -4653,7 +4683,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756030,
           "total": 30,
           "unavailable": [
             "7/16"
@@ -4682,8 +4712,9 @@
               "note": ""
             },
             "7/14": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783510367322
             },
             "7/31": {
               "available": true,
@@ -4698,8 +4729,9 @@
               "note": ""
             },
             "7/28": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783510220459
             },
             "7/22": {
               "available": true,
@@ -4707,15 +4739,18 @@
             },
             "7/15": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783510363710
             },
             "7/21": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783510316644
             },
             "7/20": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783510208080
             },
             "7/27": {
               "available": true,
@@ -4730,8 +4765,9 @@
               "note": ""
             },
             "7/24": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783510211904
             },
             "7/25": {
               "available": true,
@@ -4742,12 +4778,14 @@
               "note": ""
             },
             "7/17": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783510472536
             },
             "7/18": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783510468339
             },
             "7/8": {
               "available": true,
@@ -4782,14 +4820,22 @@
               "note": ""
             },
             "7/26": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783510488346
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
-          "total": 31,
-          "unavailable": []
+          "_noteUpdatedAt": 1783581756030,
+          "total": 25,
+          "unavailable": [
+            "7/14",
+            "7/28",
+            "7/20",
+            "7/24",
+            "7/17",
+            "7/26"
+          ]
         },
         "严佳铮": {
           "dates": {
@@ -4919,7 +4965,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756030,
           "total": 7,
           "unavailable": [
             "7/1",
@@ -5062,7 +5108,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783581656361,
+          "_noteUpdatedAt": 1783581756030,
           "total": 22,
           "unavailable": []
         }
