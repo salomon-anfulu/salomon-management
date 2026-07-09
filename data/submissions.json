@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 19,
-    "lastUpdated": "2026-07-09T13:07:32.712Z",
-    "lastUpdatedBy": "田佳乐"
+    "version": 20,
+    "lastUpdated": "2026-07-09T13:08:01.982Z",
+    "lastUpdatedBy": "admin"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -8484,10 +8484,12 @@
   ],
   "_deletedIds": {
     "_meta": {
-      "1783510971597": 1783586649595
+      "1783510971597": 1783586649595,
+      "1783602453241": 1783602481981
     },
     "shiftChanges": [
-      "1783510971597"
+      "1783510971597",
+      "1783602453241"
     ]
   },
   "customerReviews": [
