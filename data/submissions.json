@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 17,
-    "lastUpdated": "2026-07-09T11:41:32.124Z",
+    "version": 18,
+    "lastUpdated": "2026-07-09T13:05:54.745Z",
     "lastUpdatedBy": "田佳乐"
   },
   "availability": {
@@ -5809,6 +5809,15 @@
       "target": "杨子豪",
       "targetShift": "7/4 12:15-21:00",
       "_updatedAt": "1783511067104"
+    },
+    {
+      "id": 1783602355187,
+      "applicant": "田佳乐",
+      "applyDate": "2026-07-09",
+      "applicantShift": "7/13 13:00-21:30",
+      "target": "王雅澜",
+      "targetShift": "7/14 10:30-19:00",
+      "_updatedAt": 1783602354714
     }
   ],
   "storeSupport": [
