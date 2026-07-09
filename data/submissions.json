@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 9,
-    "lastUpdated": "2026-07-09T08:56:33.491Z",
+    "version": 10,
+    "lastUpdated": "2026-07-09T08:58:44.168Z",
     "lastUpdatedBy": "吴嘉莹"
   },
   "availability": {
@@ -2600,7 +2600,7 @@
         "王龙宇": {
           "dates": {},
           "note": "19日到30日出差，请假",
-          "_noteUpdatedAt": 1783587393487,
+          "_noteUpdatedAt": 1783587524164,
           "total": 0,
           "unavailable": []
         }
@@ -2763,7 +2763,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393487,
+          "_noteUpdatedAt": 1783587524164,
           "total": 30,
           "unavailable": [
             "7/16"
@@ -2897,7 +2897,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393487,
+          "_noteUpdatedAt": 1783587524164,
           "total": 25,
           "unavailable": [
             "7/13",
@@ -3036,7 +3036,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393487,
+          "_noteUpdatedAt": 1783587524164,
           "total": 29,
           "unavailable": [
             "7/2",
@@ -3190,7 +3190,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393487,
+          "_noteUpdatedAt": 1783587524164,
           "total": 26,
           "unavailable": [
             "7/6",
@@ -3328,7 +3328,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393487,
+          "_noteUpdatedAt": 1783587524164,
           "total": 31,
           "unavailable": []
         },
@@ -3461,7 +3461,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393487,
+          "_noteUpdatedAt": 1783587524164,
           "total": 30,
           "unavailable": [
             "7/13"
@@ -3626,7 +3626,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 31,
           "unavailable": []
         },
@@ -3762,7 +3762,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 27,
           "unavailable": [
             "7/2",
@@ -3884,7 +3884,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 20,
           "unavailable": [
             "7/21",
@@ -4019,7 +4019,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 28,
           "unavailable": [
             "7/13",
@@ -4130,7 +4130,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 19,
           "unavailable": [
             "7/19"
@@ -4224,7 +4224,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 21,
           "unavailable": []
         },
@@ -4327,7 +4327,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 19,
           "unavailable": []
         },
@@ -4459,7 +4459,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 31,
           "unavailable": []
         },
@@ -4591,7 +4591,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 30,
           "unavailable": [
             "7/16"
@@ -4725,7 +4725,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 7,
           "unavailable": [
             "7/1",
@@ -4891,7 +4891,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 25,
           "unavailable": [
             "7/14",
@@ -5016,7 +5016,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 22,
           "unavailable": []
         },
@@ -5124,7 +5124,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 24,
           "unavailable": [
             "7/7"
@@ -5210,7 +5210,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 17,
           "unavailable": [
             "7/18",
@@ -5231,14 +5231,11 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783587393488,
+          "_noteUpdatedAt": 1783587524165,
           "total": 2,
           "unavailable": []
         },
         "吴嘉莹": {
-          "total": 3,
-          "unavailable": [],
-          "note": "",
           "dates": {
             "7/13": {
               "available": true,
@@ -5254,8 +5251,27 @@
               "available": true,
               "note": "",
               "_updatedAt": 1783587392992
+            },
+            "7/16": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587394593
+            },
+            "7/17": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587396143
+            },
+            "7/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1783587518167
             }
-          }
+          },
+          "note": "",
+          "_noteUpdatedAt": 1783587524165,
+          "total": 6,
+          "unavailable": []
         }
       }
     }
