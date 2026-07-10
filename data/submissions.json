@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 22,
-    "lastUpdated": "2026-07-10T02:36:05.268Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 23,
+    "lastUpdated": "2026-07-10T04:17:02.783Z",
+    "lastUpdatedBy": "initial-setup"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5669,7 +5669,7 @@
       "dept": "仓库兼职",
       "joinDate": "2026-07-08",
       "status": "active",
-      "avatar_color": "#ec4899",
+      "avatar_color": "#10b981",
       "availableDays": 0,
       "mbti": ""
     },
@@ -5680,7 +5680,7 @@
       "dept": "仓库兼职",
       "joinDate": "2026-07-08",
       "status": "active",
-      "avatar_color": "#f43f5e",
+      "avatar_color": "#06b6d4",
       "availableDays": 0,
       "mbti": ""
     }
