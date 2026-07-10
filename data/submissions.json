@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 23,
-    "lastUpdated": "2026-07-10T04:17:02.783Z",
-    "lastUpdatedBy": "initial-setup"
+    "version": 24,
+    "lastUpdated": "2026-07-10T04:25:06.955Z",
+    "lastUpdatedBy": "朱凯赟"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -3104,9 +3104,9 @@
               "_updatedAt": 1783414404043
             },
             "7/15": {
-              "available": true,
+              "available": false,
               "note": "",
-              "_updatedAt": 1783414405558
+              "_updatedAt": 1783415692159
             },
             "7/16": {
               "available": false,
@@ -3191,11 +3191,12 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370523,
-          "total": 26,
+          "total": 25,
           "unavailable": [
             "7/6",
             "7/8",
             "7/14",
+            "7/15",
             "7/16",
             "7/26"
           ]
@@ -6783,6 +6784,15 @@
       "duration": "1小时",
       "detail": "退仓",
       "_updatedAt": "1783580149238"
+    },
+    {
+      "id": 1783657507719,
+      "staff": "朱凯赟",
+      "date": "2026-07-10",
+      "type": "陈列-翻场支援",
+      "duration": "0.5小时",
+      "detail": "补货收获vm日常支援",
+      "_updatedAt": 1783657506919
     }
   ],
   "doorSchedule": [
