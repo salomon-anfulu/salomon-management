@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 25,
-    "lastUpdated": "2026-07-10T05:28:43.511Z",
-    "lastUpdatedBy": "孔祥宇"
+    "version": 26,
+    "lastUpdated": "2026-07-10T06:20:58.749Z",
+    "lastUpdatedBy": "李若彤"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2817,7 +2817,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2845,7 +2845,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -6793,6 +6793,15 @@
       "duration": "0.5小时",
       "detail": "补货收获vm日常支援",
       "_updatedAt": "1783657506919"
+    },
+    {
+      "id": 1783664459100,
+      "staff": "李若彤",
+      "date": "2026-07-09",
+      "type": "货品-查鞋盒",
+      "duration": "1小时",
+      "detail": "",
+      "_updatedAt": 1783664458717
     }
   ],
   "doorSchedule": [
