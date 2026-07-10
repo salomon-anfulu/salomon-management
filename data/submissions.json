@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 31,
-    "lastUpdated": "2026-07-10T08:07:22.928Z",
+    "version": 32,
+    "lastUpdated": "2026-07-10T08:08:24.584Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -6811,6 +6811,15 @@
       "duration": "1小时",
       "detail": "补货贴价签",
       "_updatedAt": "1783664575940"
+    },
+    {
+      "id": 1783670860336,
+      "staff": "田佳乐",
+      "date": "2026-07-10",
+      "type": "陈列-翻场支援",
+      "duration": "1小时",
+      "detail": "整理陈列",
+      "_updatedAt": 1783670859664
     }
   ],
   "doorSchedule": [
