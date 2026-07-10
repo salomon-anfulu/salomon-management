@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 33,
-    "lastUpdated": "2026-07-10T08:58:07.969Z",
-    "lastUpdatedBy": "initial-setup"
+    "version": 34,
+    "lastUpdated": "2026-07-10T09:00:30.602Z",
+    "lastUpdatedBy": "龚赟昊"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -6819,7 +6819,7 @@
       "type": "陈列-翻场支援",
       "duration": "1小时",
       "detail": "整理陈列",
-      "_updatedAt": 1783670859664
+      "_updatedAt": "1783670859664"
     }
   ],
   "doorSchedule": [
@@ -8536,6 +8536,11 @@
           "time": "13:00:00-14:00:00",
           "staff": "田佳乐",
           "_updatedAt": "1783670792387"
+        },
+        {
+          "time": "14:00:00-15:00:00",
+          "staff": "龚赟昊",
+          "_updatedAt": "1783674028993"
         },
         {
           "time": "15:00:00-16:00:00",
