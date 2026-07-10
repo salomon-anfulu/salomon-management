@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 26,
-    "lastUpdated": "2026-07-10T06:20:58.749Z",
-    "lastUpdatedBy": "李若彤"
+    "version": 27,
+    "lastUpdated": "2026-07-10T06:21:58.445Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2821,19 +2821,19 @@
             },
             "7/14": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/15": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/16": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/17": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/18": {
               "available": true,
