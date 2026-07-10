@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 28,
-    "lastUpdated": "2026-07-10T06:23:14.387Z",
+    "version": 29,
+    "lastUpdated": "2026-07-10T06:54:30.034Z",
     "lastUpdatedBy": "迟骋"
   },
   "availability": {
@@ -6810,7 +6810,7 @@
       "type": "货品-辅助收货",
       "duration": "1小时",
       "detail": "补货贴价签",
-      "_updatedAt": 1783664575940
+      "_updatedAt": "1783664575940"
     }
   ],
   "doorSchedule": [
@@ -8522,6 +8522,11 @@
           "time": "12:00:00-13:00:00",
           "staff": "孔祥宇",
           "_updatedAt": "1783661323462"
+        },
+        {
+          "time": "15:00:00-16:00:00",
+          "staff": "迟骋",
+          "_updatedAt": "1783666469986"
         }
       ]
     }
