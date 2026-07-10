@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 38,
-    "lastUpdated": "2026-07-10T12:11:08.188Z",
+    "version": 39,
+    "lastUpdated": "2026-07-10T12:32:05.863Z",
     "lastUpdatedBy": "manual-sync"
   },
   "availability": {
@@ -2817,23 +2817,23 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/15": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/16": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/17": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/18": {
               "available": true,
@@ -2845,7 +2845,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -6795,6 +6795,15 @@
       "_updatedAt": "1783657506919"
     },
     {
+      "id": 1783661385348,
+      "staff": "孔祥宇",
+      "date": "2026-07-10",
+      "type": "陈列-翻场支援",
+      "duration": "0.5小时",
+      "detail": "熨衣服",
+      "_updatedAt": 1783661384476
+    },
+    {
       "id": 1783664459100,
       "staff": "李若彤",
       "date": "2026-07-09",
@@ -8551,6 +8560,11 @@
           "time": "16:00:00-17:00:00",
           "staff": "王雅澜",
           "_updatedAt": "1783674410093"
+        },
+        {
+          "time": "18:00:00-19:00:00",
+          "staff": "孔祥宇",
+          "_updatedAt": "1783661338279"
         },
         {
           "time": "20:00:00-21:00:00",
