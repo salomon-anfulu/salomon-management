@@ -4363,7 +4363,16 @@ let _doorViewMonth = null;        // 'YYYY-MM' for door schedule calendar view
 // Min month for personal availability entry: July 2026
 const AVAIL_MIN_MONTH = '2026-07';
 
+// v84: 可上班时间冻结线 —— 7月19日（含）之前不可修改
+const AVAIL_FREEZE_DATE = '2026-07-19';
+
 function _ymKey(y, m) { return `${y}-${String(m).padStart(2,'0')}`; }
+
+// 检查某天是否被冻结（不可编辑）
+function _isAvailFrozen(year, mon, day) {
+  const dateStr = `${year}-${String(mon).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+  return dateStr <= AVAIL_FREEZE_DATE;
+}
 
 function renderMyForms() {
   // 进入"我的填报"时强制拉取最新云端数据，确保看到其他人的更新
@@ -4519,9 +4528,10 @@ function renderPersonalCalendar() {
     const isWeekend = dow === 0 || dow === 6;
     const status = getDateStatus(_availMonth, _availStaff, d);
     const hasNote = status && status.note && status.note.trim();
+    const frozen = _isAvailFrozen(year, mon, d);
     let bg, border, icon, noteText;
     if (status === null) {
-      bg = 'var(--bg-secondary)'; border = '1px dashed var(--border)'; icon = '○'; noteText = '';
+      bg = 'var(--bg-secondary)'; border = '1px dashed var(--border)'; icon = frozen ? '🔒' : '○'; noteText = '';
     } else if (status.available) {
       bg = 'rgba(16,185,129,0.12)'; border = '1px solid rgba(16,185,129,0.3)'; icon = '✅'; noteText = hasNote ? status.note : '';
     } else {
@@ -4529,7 +4539,8 @@ function renderPersonalCalendar() {
     }
     const noteDisplay = noteText && noteText.length > 5 ? noteText.slice(0, 5) + '…' : (noteText || '');
     cells += `
-      <div onclick="openDateStatusForm(${d})" style="aspect-ratio:1;background:${bg};border:${border};border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;position:relative;${isWeekend?'box-shadow:inset 0 0 0 10px rgba(233,69,96,0.03);':''}">
+      <div ${frozen ? '' : `onclick="openDateStatusForm(${d})"`} style="aspect-ratio:1;background:${bg};border:${border};border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:${frozen?'default':'pointer'};transition:all 0.2s;position:relative;${isWeekend?'box-shadow:inset 0 0 0 10px rgba(233,69,96,0.03);':''}${frozen?'opacity:0.6;':''}">
+        ${frozen ? '<div style="position:absolute;top:3px;left:3px;font-size:10px;">🔒</div>' : ''}
         ${hasNote ? '<div style="position:absolute;top:4px;right:4px;width:6px;height:6px;border-radius:50%;background:#f59e0b;"></div>' : ''}
         <div style="font-size:16px;font-weight:700;color:${status===null?'var(--text-muted)':status.available?'#10b981':'#ef4444'};">${d}</div>
         <div style="font-size:9px;color:var(--text-muted);margin-top:2px;">${icon}</div>
@@ -4570,6 +4581,7 @@ function renderPersonalCalendar() {
           <span style="color:#10b981;">绿色 = 可供班</span>
           <span style="color:#ef4444;">红色 = 不可上班</span>
           <span>🟡 圆点 = 有备注</span>
+          <span style="color:#f59e0b;">🔒 19日及之前已冻结</span>
         </div>
       </div>
     </div>
@@ -4579,8 +4591,13 @@ function renderPersonalCalendar() {
 // ===== Date status form (popup for each day) =====
 function openDateStatusForm(dayNum) {
   if (!_availStaff) { showToast('请先选择姓名', 'warning'); return; }
-  const status = getDateStatus(_availMonth, _availStaff, dayNum);
   const [year, mon] = _availMonth.split('-').map(Number);
+  // v84: 冻结检查
+  if (_isAvailFrozen(year, mon, dayNum)) {
+    showToast('该日期已冻结，不可修改', 'warning');
+    return;
+  }
+  const status = getDateStatus(_availMonth, _availStaff, dayNum);
   const date = new Date(year, mon - 1, dayNum);
   const dow = ['日','一','二','三','四','五','六'][date.getDay()];
   const currentAvail = status ? status.available : true;
@@ -4630,6 +4647,8 @@ function saveDateStatus(dayNum) {
   const note = document.getElementById('dateNote').value.trim();
 
   const [year, mon] = _availMonth.split('-').map(Number);
+  // v84: 冻结安全检查
+  if (_isAvailFrozen(year, mon, dayNum)) { showToast('该日期已冻结，不可修改', 'warning'); return; }
   const dateKey = `${mon}/${dayNum}`;
 
   const avail = Store.get('availability');
@@ -4663,6 +4682,8 @@ function saveDateStatus(dayNum) {
 
 function clearDateStatus(dayNum) {
   const [year, mon] = _availMonth.split('-').map(Number);
+  // v84: 冻结安全检查
+  if (_isAvailFrozen(year, mon, dayNum)) { showToast('该日期已冻结，不可修改', 'warning'); return; }
   const dateKey = `${mon}/${dayNum}`;
 
   const avail = Store.get('availability');
