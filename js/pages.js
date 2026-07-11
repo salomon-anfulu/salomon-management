@@ -2703,7 +2703,11 @@ function renderPerformance() {
     const matchedName = _matchLgName(name);
     const lgPerson = matchedName ? lgRecords.filter(x => x.name === matchedName && (x.date || '').startsWith(_perfYearMonth)) : [];
     const workDays = new Set(lgPerson.map(x => x.date)).size;
-    const workHours = lgPerson.reduce((sum, x) => sum + (x.totalHours || 0), 0);
+    // v82: 强制数值化（防止 LocalStorage 缓存了字符串导致 sum 拼接）
+    const workHours = lgPerson.reduce((sum, x) => {
+      const h = parseFloat(x.totalHours);
+      return sum + (isNaN(h) ? 0 : h);
+    }, 0);
     const sales = r.sales || 0;
     r.workDays = workDays;
     r.workHours = workHours;
@@ -2825,8 +2829,8 @@ function renderPerformance() {
                       : !showFull ? `<td class="text-sm">¥${((r.prevMonthSales || 0) / 10000).toFixed(2)}万</td>` : ''
                     }
                     <td>${(r.salesShare * 100).toFixed(1)}%</td>
-                    <td>${showFull ? (r.workDays || 0) + '天' : r.workHours + 'h'}</td>
-                    ${showFull ? `<td>${r.workHours}h</td>` : ''}
+                    <td>${showFull ? (r.workDays || 0) + '天' : (parseFloat(r.workHours) || 0).toFixed(1) + 'h'}</td>
+                    ${showFull ? `<td>${(parseFloat(r.workHours) || 0).toFixed(1)}h</td>` : ''}
                     <td>
                       <span style="font-weight: 600; color: ${hourlyPass ? 'var(--success)' : 'var(--danger)'};">
                         ¥${r.hourlyOutput.toFixed(0)}
