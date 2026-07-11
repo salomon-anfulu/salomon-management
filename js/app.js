@@ -8163,7 +8163,6 @@ linggongAttendance: {
           { name: '孔祥宇', sales: 13476, qty: 12, tickets: 9, upt: 1.33, avgPrice: 1123, workHours: 0, hourlyOutput: 0, salesShare: 0.03, categories: '鞋履 76.3% / 服装 17.0% / 配件 6.7%' },
           { name: '夏思源', sales: 9100, qty: 10, tickets: 7, upt: 1.43, avgPrice: 910, workHours: 0, hourlyOutput: 0, salesShare: 0.02, categories: '鞋履 29.6% / 服装 64.7% / 配件 5.6%' },
           { name: '王靳毓', sales: 7888, qty: 6, tickets: 5, upt: 1.2, avgPrice: 1315, workHours: 0, hourlyOutput: 0, salesShare: 0.018, categories: '鞋履 70.9% / 服装 29.1%' },
-          { name: '赵文瑞', sales: 2396, qty: 2, tickets: 2, upt: 1.0, avgPrice: 1198, workHours: 0, hourlyOutput: 0, salesShare: 0.005, categories: '鞋履 100.0%' },
         ]
       },
       june: {
@@ -8195,7 +8194,6 @@ linggongAttendance: {
           { name: '田佳乐', sales: 7706, qty: 7, tickets: 4, upt: 1.75, avgPrice: 1101, workHours: 0, hourlyOutput: 0, salesShare: 0.107, categories: '鞋履 89.4% / 配件 10.6%' },
           { name: '朱凯赟', sales: 4692, qty: 4, tickets: 4, upt: 1.0, avgPrice: 1173, workHours: 0, hourlyOutput: 0, salesShare: 0.065, categories: '鞋履 89.4% / 服装 10.6%' },
           { name: '迟骋', sales: 2996, qty: 2, tickets: 2, upt: 1.0, avgPrice: 1498, workHours: 0, hourlyOutput: 0, salesShare: 0.042, categories: '鞋履 100.0%' },
-          { name: '赵文瑞', sales: 2796, qty: 2, tickets: 2, upt: 1.0, avgPrice: 1398, workHours: 0, hourlyOutput: 0, salesShare: 0.039, categories: '鞋履 100.0%' },
           { name: '杨子豪', sales: 2396, qty: 2, tickets: 2, upt: 1.0, avgPrice: 1198, workHours: 0, hourlyOutput: 0, salesShare: 0.033, categories: '鞋履 100.0%' },
           { name: '邓奇缘', sales: 1756, qty: 2, tickets: 1, upt: 2.0, avgPrice: 878, workHours: 0, hourlyOutput: 0, salesShare: 0.024, categories: '鞋履 79.6% / 配件 20.4%' },
           { name: '王龙宇', sales: 898, qty: 1, tickets: 1, upt: 1.0, avgPrice: 898, workHours: 0, hourlyOutput: 0, salesShare: 0.013, categories: '服装 100.0%' },
@@ -8224,7 +8222,7 @@ linggongAttendance: {
       { id: 17, staffName: '孔祥宇', month: '2026-07', rating: 5, reviewDate: '2026-07-11', snippet: '来这边旅游，逛到了这家salomon小白楼，在外面看就感觉很漂亮，有小孔导览员（孔祥宇）带着我们逛了整栋楼，全程都很热情，耐心。整栋楼的装修很像韩国那边的店很精致，漂亮，听说是亚洲最大的旗舰店，喜欢salomon的可以来感受一下氛围。', keywords: ['热情', '耐心导览', '旗舰氛围', '装修精致', '韩国风格', '超预期'], source: '大众点评（海参拌黑松露，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-11-v74',  },
+        _dataVersion: '2026-07-11-v76',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -8236,7 +8234,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-11-v74';
+      const DATA_VERSION = '2026-07-11-v76';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -8384,9 +8382,11 @@ linggongAttendance: {
             records: [...defaultRecords, ...extraRecords]
           };
         }
-        // customerReviews: 保留用户数据
-        if (data.customerReviews) {
-          merged.customerReviews = data.customerReviews;
+        // customerReviews: defaults 为准（好评是手工录入的权威数据），合并用户手动添加的
+        {
+          const defaultIds = new Set((this.defaults.customerReviews || []).map(r => r.id));
+          const userExtras = (data.customerReviews || []).filter(r => !defaultIds.has(r.id));
+          merged.customerReviews = [...this.defaults.customerReviews, ...userExtras];
         }
         // staffStats: 保留
         if (data.staffStats) {

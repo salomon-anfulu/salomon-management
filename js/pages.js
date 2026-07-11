@@ -1441,9 +1441,9 @@ function calcPerformanceScore(staffName) {
 
   const SALES_TARGET = 20000; // 月销售额目标 2万
 
-  // Fallback：找不到数据则返回静态评分
+  // Fallback：找不到数据则返回1分（无产出=不达标）
   if (!record) {
-    return { score: 3, hourlyScore: 0, uptScore: 0, hourly: 0, upt: 0, sales: 0, qty: 0, tickets: 0, targetMet: false, targetBonus: 0, bonusDetail: '', salesTarget: SALES_TARGET, fallback: true };
+    return { score: 1, hourlyScore: 0, uptScore: 0, hourly: 0, upt: 0, sales: 0, qty: 0, tickets: 0, targetMet: false, targetBonus: 0, bonusDetail: '', salesTarget: SALES_TARGET, fallback: true };
   }
 
   const hourly = record.hourlyOutput || 0;
@@ -1816,7 +1816,8 @@ function renderRatings() {
   // 当查看的历史月份早于该成员 serviceTeamStartDate 时，不参与评分展示与统计
   const visibleRatings = sortedRatings.filter(r => {
     const s = Store.getStaff(r.staffId);
-    if (!s) return true;
+    // 不在 staff 列表的人（如全职赵文瑞）不参与兼职评分
+    if (!s) return false;
     // 转正/离职的成员不参与兼职评分展示（第一性原则：只管理兼职）
     if (s.status !== 'active') return false;
     if (!s.serviceTeamStartDate) return true; // 老成员无此字段，始终显示
