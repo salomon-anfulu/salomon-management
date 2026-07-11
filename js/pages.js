@@ -4929,10 +4929,24 @@ function renderDoorTab() {
                     const nextH = DOOR_HOURS[DOOR_HOURS.indexOf(h) + 1];
                     const slotKey = h + ':00-' + nextH + ':00';
                     const staffName = day[slotKey];
+
+                    // v74: 冻结规则——本周日之前不可编辑（含本周日），同时 7/5 前永久冻结
+                    const doorFreezeLine = (() => {
+                      const today = new Date();
+                      const dow = today.getDay(); // 0=Sun
+                      const daysSinceSun = dow === 0 ? 0 : dow; // 上周日是 today - daysSinceSun
+                      const lastSunday = new Date(today);
+                      lastSunday.setDate(today.getDate() - daysSinceSun);
+                      // 冻结线 = max(上周日, 2026-07-05)
+                      const hardFreeze = new Date('2026-07-05');
+                      return lastSunday > hardFreeze ? lastSunday : hardFreeze;
+                    })();
+                    const isFrozen = dateStr <= doorFreezeLine.toISOString().slice(0, 10);
+
                     if (staffName) {
                       return `
-                        <td style="text-align:center;padding:4px;">
-                          <div onclick="editDoorCell('${dateStr}','${slotKey}')" style="cursor:pointer;background:linear-gradient(135deg,#10b98133,#10b98111);border:1px solid #10b98155;border-radius:6px;padding:4px 6px;font-size:11px;font-weight:600;color:#10b981;">
+                        <td style="text-align:center;padding:4px;opacity:${isFrozen ? 0.5 : 1};">
+                          <div ${isFrozen ? '' : `onclick="editDoorCell('${dateStr}','${slotKey}')"`} style="${isFrozen ? '' : 'cursor:pointer;'}background:linear-gradient(135deg,#10b98133,#10b98111);border:1px solid #10b98155;border-radius:6px;padding:4px 6px;font-size:11px;font-weight:600;color:#10b981;">
                             ${staffName}
                           </div>
                         </td>
@@ -4940,7 +4954,8 @@ function renderDoorTab() {
                     } else {
                       return `
                         <td style="text-align:center;padding:4px;">
-                          <div onclick="addDoorCell('${dateStr}','${h}','${nextH}')" style="cursor:pointer;border:1px dashed var(--border);border-radius:6px;padding:4px 6px;font-size:10px;color:var(--text-muted);min-height:22px;display:flex;align-items:center;justify-content:center;">+</div>
+                          ${isFrozen ? `<div style="border:1px dashed #e5e7eb;border-radius:6px;padding:4px 6px;font-size:10px;color:#ccc;min-height:22px;display:flex;align-items:center;justify-content:center;">—</div>` :
+                          `<div onclick="addDoorCell('${dateStr}','${h}','${nextH}')" style="cursor:pointer;border:1px dashed var(--border);border-radius:6px;padding:4px 6px;font-size:10px;color:var(--text-muted);min-height:22px;display:flex;align-items:center;justify-content:center;">+</div>`}
                         </td>
                       `;
                     }
