@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 45,
-    "lastUpdated": "2026-07-11T08:50:43.297Z",
-    "lastUpdatedBy": "龚赟昊"
+    "version": 46,
+    "lastUpdated": "2026-07-11T09:29:04.094Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2821,19 +2821,19 @@
             },
             "7/14": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/15": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/16": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/17": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/18": {
               "available": true,
@@ -5048,7 +5048,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5126,9 +5126,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -5790,15 +5791,6 @@
       "_updatedAt": "1783491475852"
     },
     {
-      "id": 1783510971597,
-      "applicant": "王雅澜",
-      "applyDate": "2026-07-03",
-      "applicantShift": "11:30-20:30",
-      "target": "杨子豪",
-      "targetShift": "7/4 12:15-21:00",
-      "_updatedAt": "1783510971548"
-    },
-    {
       "id": 1783511022870,
       "applicant": "王雅澜",
       "applyDate": "2026-06-30",
@@ -5824,15 +5816,6 @@
       "target": "王雅澜",
       "targetShift": "7/14 10:30-19:00",
       "_updatedAt": "1783602354714"
-    },
-    {
-      "id": 1783602453241,
-      "applicant": "田佳乐",
-      "applyDate": "2026-07-09",
-      "applicantShift": "7/13 13:00-21:30",
-      "target": "王雅澜",
-      "targetShift": "7/14 10:30-19:00",
-      "_updatedAt": "1783602452684"
     }
   ],
   "storeSupport": [
@@ -8565,6 +8548,11 @@
           "time": "16:00:00-17:00:00",
           "staff": "王雅澜",
           "_updatedAt": "1783674410093"
+        },
+        {
+          "time": "17:00:00-18:00:00",
+          "staff": "田佳乐",
+          "_updatedAt": "1783682105147"
         },
         {
           "time": "18:00:00-19:00:00",
