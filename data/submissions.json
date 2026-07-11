@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 49,
-    "lastUpdated": "2026-07-11T11:25:58.324Z",
+    "version": 50,
+    "lastUpdated": "2026-07-11T11:26:57.069Z",
     "lastUpdatedBy": "孔祥宇"
   },
   "availability": {
@@ -6817,6 +6817,15 @@
       "duration": "1小时",
       "detail": "整理陈列",
       "_updatedAt": "1783670859664"
+    },
+    {
+      "id": 1783769208042,
+      "staff": "孔祥宇",
+      "date": "2026-07-11",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录楼层客流",
+      "_updatedAt": 1783769207643
     }
   ],
   "doorSchedule": [
