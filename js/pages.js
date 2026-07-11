@@ -560,22 +560,28 @@ function renderSchedule() {
   // === 为每个 Service Team 成员计算每周供班情况 ===
   const staffWeeklyData = serviceTeam.map(s => {
     const personAvail = availData[s.name];
-    const unavailableSet = new Set();
-    if (personAvail && personAvail.unavailable) {
+    // v79: 直接用 dates 中 available: true 的天，不再用 unavailable + total 截断
+    const availableSet = new Set();
+    if (personAvail && personAvail.dates && typeof personAvail.dates === 'object') {
+      Object.entries(personAvail.dates).forEach(([dateKey, status]) => {
+        if (status && status._deleted) return;
+        if (status && status.available === true) {
+          const dayNum = parseInt(String(dateKey).split('/')[1]);
+          if (!isNaN(dayNum)) availableSet.add(dayNum);
+        }
+      });
+    } else if (personAvail && personAvail.unavailable) {
+      // Fallback: legacy unavailable list → 反推
+      const unavailableSet = new Set();
       personAvail.unavailable.forEach(d => {
         const dayNum = parseInt(d.split('/')[1]);
         unavailableSet.add(dayNum);
       });
+      for (let d = 1; d <= totalDays; d++) {
+        if (!unavailableSet.has(d)) availableSet.add(d);
+      }
     }
-    const monthlyTotal = personAvail ? personAvail.total : 0;
-
-    // 构建实际可供班日期集合：从非unavailable天中按日期顺序取前total个
-    // 未填写的天数默认视为不能供班
-    const candidates = [];
-    for (let d = 1; d <= totalDays; d++) {
-      if (!unavailableSet.has(d)) candidates.push(d);
-    }
-    const availableSet = new Set(candidates.slice(0, monthlyTotal));
+    const monthlyTotal = availableSet.size; // 动态计算，不依赖 total 字段
 
     const weekResults = weeks.map(w => {
       const availableDays = w.days.filter(d => availableSet.has(d));
@@ -609,9 +615,9 @@ function renderSchedule() {
       avatarColor: s.avatar_color,
       monthlyTotal,
       monthlyDays: totalDays,
-      unavailableCount: unavailableSet.size,
-      unwrittenCount: Math.max(0, totalDays - unavailableSet.size - monthlyTotal),
-      unwrittenDates: candidates.slice(monthlyTotal).map(d => `${mon}/${d}`),
+      unavailableCount: 0, // v79: 不再单独统计 unavailable
+      unwrittenCount: Math.max(0, totalDays - monthlyTotal), // 未填写 = 总天数 - 已标记可供班
+      unwrittenDates: [], // v79: 不再需要
       weekResults,
       passWeeks,
       failWeeks,
@@ -1343,26 +1349,32 @@ function calcAvailabilityScore(staffName) {
     availData = (availability && availability.data && availability.data[staffName]) || { total: 0, unavailable: [] };
   }
 
-  // Parse unavailable days → Set of day-of-month numbers
-  // Priority: dates{} object (granular per-day status) > unavailable[] (legacy)
-  const unavailableDays = new Set();
+  // v79: 改为"只统计明确 available: true 的天"
+  // 旧逻辑（非 unavailable = 可供班）有 bug：未填写的天也被误算为可供班
+  const availableDaysSet = new Set(); // 明确标记 available: true 的天
   const [availMonNum] = monthKey.split('-').map(n => parseInt(n));
   if (availData.dates && typeof availData.dates === 'object') {
-    // Use granular dates structure
     Object.entries(availData.dates).forEach(([dateKey, status]) => {
-      // v54: 跳过 _deleted 标记的日期（视为未填写）
       if (status && status._deleted) return;
-      if (status && status.available === false) {
+      if (status && status.available === true) {
         const dayNum = parseInt(String(dateKey).split('/')[1]);
-        if (!isNaN(dayNum)) unavailableDays.add(dayNum);
+        if (!isNaN(dayNum)) availableDaysSet.add(dayNum);
       }
     });
   } else {
-    // Fallback to legacy unavailable array
+    // Fallback to legacy: unavailable list → 反推（全月天 - unavailable = 可供班）
+    // 旧数据没有 dates 字段，unavailable 反推
+    const _yr2 = parseInt(monthKey.slice(0, 4));
+    const _mn2 = parseInt(monthKey.slice(5, 7));
+    const _totalDaysInMonth = new Date(_yr2, _mn2, 0).getDate();
+    const _unavailableSet = new Set();
     (availData.unavailable || []).forEach(d => {
       const dayNum = parseInt(String(d).split('/')[1]);
-      if (!isNaN(dayNum)) unavailableDays.add(dayNum);
+      if (!isNaN(dayNum)) _unavailableSet.add(dayNum);
     });
+    for (let d = 1; d <= _totalDaysInMonth; d++) {
+      if (!_unavailableSet.has(d)) availableDaysSet.add(d);
+    }
   }
 
   // Dynamically compute weeks for the availability month (Mon-Sun)
@@ -1378,8 +1390,8 @@ function calcAvailabilityScore(staffName) {
   }));
 
   const weekResults = weeks.map(w => {
-    const availDays = w.days.filter(d => !unavailableDays.has(d)).length;
-    const weekendAvail = w.weekends.some(d => !unavailableDays.has(d));
+    const availDays = w.days.filter(d => availableDaysSet.has(d)).length;
+    const weekendAvail = w.weekends.some(d => availableDaysSet.has(d));
     // 达标标准与供班总览显示页一致：
     // - 天数要求：该周在月内≥5天时需≥4天；不足5天时按实际天数（至少有供班即可）
     // - 周末要求：该周有周末日时需至少供1天；无周末日则免除
