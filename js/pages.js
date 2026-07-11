@@ -581,7 +581,16 @@ function renderSchedule() {
         if (!unavailableSet.has(d)) availableSet.add(d);
       }
     }
-    const monthlyTotal = availableSet.size; // 动态计算，不依赖 total 字段
+    const monthlyTotalAll = availableSet.size; // 全月可供班天数
+    // v81: 7月只统计第3周起（7/13-7/31），分母和分子都按统计周计算
+    // weeks 变量已经是 slice(2) 后的统计周数组
+    const isJULY = month === '2026-07';
+    const statDays = isJULY ? weeks.reduce((s, w) => s + w.days.length, 0) : totalDays;
+    const statAvailableDays = isJULY
+      ? weeks.reduce((s, w) => s + w.days.filter(d => availableSet.has(d)).length, 0)
+      : monthlyTotalAll;
+    const monthlyTotal = statAvailableDays; // 用于显示的月总供班
+    const monthlyDays = statDays; // 分母：统计周内的总天数
 
     const weekResults = weeks.map(w => {
       const availableDays = w.days.filter(d => availableSet.has(d));
@@ -621,7 +630,7 @@ function renderSchedule() {
       weekResults,
       passWeeks,
       failWeeks,
-      overallPass: failWeeks === 0 && monthlyTotal >= 20,
+      overallPass: failWeeks === 0, // v81: 周维度全达标即合格，移除非统计周的供班数门槛
     };
   });
 
