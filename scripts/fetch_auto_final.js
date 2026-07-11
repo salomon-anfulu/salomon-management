@@ -26,7 +26,7 @@ function log(msg) { console.log(`[${new Date().toLocaleTimeString()}] ${msg}`); 
     process.exit(1);
   }
 
-  const browser = await chromium.launch({ headless: true });
+  const browser = await chromium.launch({ headless: true, channel: "chrome" });
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, locale: 'zh-CN' });
   const authState = JSON.parse(fs.readFileSync(AUTH_FILE, 'utf8'));
   await context.addCookies(authState.cookies);
