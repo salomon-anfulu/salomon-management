@@ -1460,7 +1460,7 @@ function calcPerformanceScore(staffName) {
     workHours = lgRecords.reduce((sum, r) => sum + (r.totalHours || 0), 0);
   }
   // 用动态计算的工时覆盖 hourly（如果原值为0且有新工时）
-  const effectiveHourly = (hourly === 0 && workHours > 0) ? round(sales / workHours, 1) : hourly;
+  const effectiveHourly = (hourly === 0 && workHours > 0) ? Math.round((sales / workHours) * 10) / 10 : hourly;
 
   // 时产评分（v2调整：2026-07-01）
   let hourlyScore;
