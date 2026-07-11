@@ -8224,7 +8224,7 @@ linggongAttendance: {
       { id: 17, staffName: '孔祥宇', month: '2026-07', rating: 5, reviewDate: '2026-07-11', snippet: '来这边旅游，逛到了这家salomon小白楼，在外面看就感觉很漂亮，有小孔导览员（孔祥宇）带着我们逛了整栋楼，全程都很热情，耐心。整栋楼的装修很像韩国那边的店很精致，漂亮，听说是亚洲最大的旗舰店，喜欢salomon的可以来感受一下氛围。', keywords: ['热情', '耐心导览', '旗舰氛围', '装修精致', '韩国风格', '超预期'], source: '大众点评（海参拌黑松露，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-09-v64',  },
+        _dataVersion: '2026-07-11-v74',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -8236,7 +8236,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-09-v64';
+      const DATA_VERSION = '2026-07-11-v74';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
