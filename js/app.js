@@ -8163,6 +8163,9 @@ linggongAttendance: {
           { name: '孔祥宇', sales: 13476, qty: 12, tickets: 9, upt: 1.33, avgPrice: 1123, workHours: 0, hourlyOutput: 0, salesShare: 0.03, categories: '鞋履 76.3% / 服装 17.0% / 配件 6.7%' },
           { name: '夏思源', sales: 9100, qty: 10, tickets: 7, upt: 1.43, avgPrice: 910, workHours: 0, hourlyOutput: 0, salesShare: 0.02, categories: '鞋履 29.6% / 服装 64.7% / 配件 5.6%' },
           { name: '王靳毓', sales: 7888, qty: 6, tickets: 5, upt: 1.2, avgPrice: 1315, workHours: 0, hourlyOutput: 0, salesShare: 0.018, categories: '鞋履 70.9% / 服装 29.1%' },
+          { name: '李若彤', sales: 0, qty: 0, tickets: 0, upt: 0, avgPrice: 0, workHours: 0, hourlyOutput: 0, salesShare: 0, categories: '-' },
+          { name: '唐蓉', sales: 0, qty: 0, tickets: 0, upt: 0, avgPrice: 0, workHours: 0, hourlyOutput: 0, salesShare: 0, categories: '-' },
+          { name: '玛依拉', sales: 0, qty: 0, tickets: 0, upt: 0, avgPrice: 0, workHours: 0, hourlyOutput: 0, salesShare: 0, categories: '-' },
         ]
       },
       june: {
@@ -8222,7 +8225,7 @@ linggongAttendance: {
       { id: 17, staffName: '孔祥宇', month: '2026-07', rating: 5, reviewDate: '2026-07-11', snippet: '来这边旅游，逛到了这家salomon小白楼，在外面看就感觉很漂亮，有小孔导览员（孔祥宇）带着我们逛了整栋楼，全程都很热情，耐心。整栋楼的装修很像韩国那边的店很精致，漂亮，听说是亚洲最大的旗舰店，喜欢salomon的可以来感受一下氛围。', keywords: ['热情', '耐心导览', '旗舰氛围', '装修精致', '韩国风格', '超预期'], source: '大众点评（海参拌黑松露，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-11-v76',  },
+        _dataVersion: '2026-07-11-v77',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -8234,7 +8237,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-11-v76';
+      const DATA_VERSION = '2026-07-11-v77';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
