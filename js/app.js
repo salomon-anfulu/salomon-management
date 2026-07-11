@@ -8225,7 +8225,7 @@ linggongAttendance: {
       { id: 17, staffName: '孔祥宇', month: '2026-07', rating: 5, reviewDate: '2026-07-11', snippet: '来这边旅游，逛到了这家salomon小白楼，在外面看就感觉很漂亮，有小孔导览员（孔祥宇）带着我们逛了整栋楼，全程都很热情，耐心。整栋楼的装修很像韩国那边的店很精致，漂亮，听说是亚洲最大的旗舰店，喜欢salomon的可以来感受一下氛围。', keywords: ['热情', '耐心导览', '旗舰氛围', '装修精致', '韩国风格', '超预期'], source: '大众点评（海参拌黑松露，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-11-v82',  },
+        _dataVersion: '2026-07-11-v83',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -8237,7 +8237,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-11-v82';
+      const DATA_VERSION = '2026-07-11-v83';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -8420,11 +8420,30 @@ linggongAttendance: {
   get(key) {
     try {
       const data = this._cache || JSON.parse(localStorage.getItem(this.KEY) || '{}');
-      return data[key] !== undefined ? data[key] : (this.defaults[key] || []);
+      let val = data[key];
+      // P0 fix: null/undefined → 回退到 defaults
+      if (val === undefined || val === null) {
+        val = this.defaults[key];
+      }
+      // 再次兜底：确保 array 类型的 key 永远返回数组
+      if ((val === undefined || val === null) && Array.isArray(this.defaults[key])) {
+        val = [];
+      }
+      if (val === undefined || val === null) {
+        val = {};
+      }
+      return val;
     } catch (e) {
       console.error('[Store.get] 读取失败，返回默认值:', key, e);
-      return this.defaults[key] || [];
+      const fallback = this.defaults[key];
+      return fallback !== undefined ? fallback : (Array.isArray(this.defaults[key]) ? [] : {});
     }
+  },
+
+  // P0 fix: 安全获取数组，保证永远返回 Array
+  getList(key) {
+    const val = this.get(key);
+    return Array.isArray(val) ? val : [];
   },
 
   set(key, value) {
@@ -8538,7 +8557,8 @@ linggongAttendance: {
 
   // Helper: get staff by id
   getStaff(id) {
-    return this.get('staff').find(s => s.id === id);
+    const staff = this.getList('staff');
+    return staff.find(s => s.id === id) || null;
   },
 
   // Helper: get staff name
@@ -8549,7 +8569,7 @@ linggongAttendance: {
 
   // Helper: next id for a collection
   nextId(collection) {
-    const items = this.get(collection);
+    const items = this.getList(collection);
     return items.length > 0 ? Math.max(...items.map(i => i.id)) + 1 : 1;
   }
 };
@@ -8590,6 +8610,18 @@ const Router = {
 
   render() {
     const content = document.getElementById('page-content');
+    
+    // P0-2 fix: 重绘前销毁所有 Chart.js 实例，防止内存泄漏
+    if (typeof Chart !== 'undefined' && Chart.helpers && Chart.helpers.each) {
+      Chart.helpers.each(Chart.instances, function(instance) {
+        instance.destroy();
+      });
+    }
+    
+    // P0-2 fix: 同一页面 re-render 时保存滚动位置
+    const isSamePage = this._lastPage === this.current;
+    const savedScroll = isSamePage ? (content.scrollTop || content.parentElement?.scrollTop || window.scrollY) : 0;
+    
     const pages = {
       dashboard: () => renderDashboard(),
       staff: () => renderStaff(),
@@ -8608,6 +8640,15 @@ const Router = {
     if (pages[this.current]) {
       try {
         content.innerHTML = pages[this.current]();
+        this._lastPage = this.current;
+        
+        // P0-2 fix: 恢复滚动位置
+        if (isSamePage && savedScroll > 0) {
+          requestAnimationFrame(() => {
+            content.scrollTop = savedScroll;
+            window.scrollTo(0, savedScroll);
+          });
+        }
         if (this.current === 'dashboard') initDashboardCharts();
       } catch (e) {
         console.error('[App.render] 页面渲染失败:', this.current, e);

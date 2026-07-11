@@ -159,12 +159,16 @@ function renderDashboard() {
 }
 
 function initDashboardCharts() {
-  const staff = Store.get('staff').filter(s => s.status === 'active');
+  const staff = Store.getList('staff').filter(s => s.status === 'active');
   const serviceTeam = staff.filter(s => s.dept === 'Service Team').length;
   const warehouse = staff.filter(s => s.dept === '仓库兼职').length;
 
   const ctx = document.getElementById('deptChart');
   if (!ctx) return;
+
+  // P0-2 fix: 先销毁同 canvas 上已有的 Chart 实例
+  const existing = Chart.getChart(ctx);
+  if (existing) existing.destroy();
 
   new Chart(ctx, {
     type: 'doughnut',
@@ -526,7 +530,7 @@ function _buildMonthWeeks(monthKey) {
 }
 
 function renderSchedule() {
-  const staff = Store.get('staff').filter(s => s.status === 'active');
+  const staff = Store.getList('staff').filter(s => s.status === 'active');
   const serviceTeam = staff.filter(s => s.dept === 'Service Team');
   const availability = Store.get('availability');
   // Month to display: _scheduleMonth if set, otherwise availability.currentMonth
@@ -936,7 +940,7 @@ let _attMonth = null; // 考勤页面月份切换
 
 function renderAttendance() {
   const ATT_MIN_MONTH = '2026-06';
-  const allStaff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const allStaff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
   const linggongData = Store.get('linggongAttendance') || { lastSync: null, records: [] };
   const allLgRecords = linggongData.records || [];
 
@@ -1666,7 +1670,7 @@ function getBehaviorData() {
   if (_behaviorCache) return _behaviorCache;
 
   const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : '2026-07';
-  const allStaff = Store.get('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
+  const allStaff = Store.getList('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
   const names = allStaff.map(s => s.name);
 
   // 门迎时长 — filter by scoring month
@@ -1765,7 +1769,7 @@ function renderRatings() {
   _behaviorCache = null;
   
   const allRatings = Store.get('ratings');
-  const staff = Store.get('staff').filter(s => s.status === 'active');
+  const staff = Store.getList('staff').filter(s => s.status === 'active');
 
   // Available months from ratings — ensure current month always shows
   const availableMonths = [...new Set(allRatings.map(r => r.month))];
@@ -2675,7 +2679,7 @@ function renderPerformance() {
   const _perfYearMonth = _perfMonthMap[perfMonth] || '2026-07';
 
   // v80: 补 Service Team 无产出成员（从 staff 列表中补齐）
-  const _serviceTeam = Store.get('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
+  const _serviceTeam = Store.getList('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
   const _existingNames = new Set(currentData.records.map(r => r.name));
   const _missing = _serviceTeam.filter(s => !_existingNames.has(s.name));
   if (_missing.length > 0) {
@@ -2974,7 +2978,7 @@ const DOOR_PAGE_MIN_MONTH = '2026-06'; // 门迎排班最早月份
 
 function renderDoorSchedule() {
   const allDoorData = Store.get('doorSchedule') || [];
-  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
 
   // === 月份切换：确定可用月份列表（限定最早6月） ===
   const allMonths = [...new Set(allDoorData.map(d => (d.date || '').slice(0, 7)))].filter(m => m >= DOOR_PAGE_MIN_MONTH).sort();
@@ -3342,7 +3346,7 @@ function renderSupportTable(data) {
 }
 
 function renderStaffStatsTable(staffStats, staffSupportCount) {
-  const allStaff = Store.get('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
+  const allStaff = Store.getList('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
   const allSupportData = Store.get('storeSupport') || [];
   const monthSupportData = allSupportData.filter(s => (s.date || '').startsWith(_supportPageMonth));
 
@@ -3534,10 +3538,10 @@ function renderShiftChanges(changes) {
  * ========================================
  */
 function renderPersonalDashboard() {
-  const me = Store.get('staff').find(s => s.id === _auth.staffId);
+  const me = Store.getList('staff').find(s => s.id === _auth.staffId);
   if (!me) return '<div class="card animate-in"><div class="card-body"><p>未找到你的信息</p></div></div>';
 
-  const ratings = Store.get('ratings').filter(r => r.staffId === _auth.staffId);
+  const ratings = Store.getList('ratings').filter(r => r.staffId === _auth.staffId);
   const myRating = ratings.length > 0 ? ratings[ratings.length - 1] : null;
   // 动态计算综合分（全五维度）
   _behaviorCache = null;
@@ -4049,7 +4053,7 @@ function openDoorSlotForm(idx) {
   const doorData = Store.get('doorSchedule') || [];
   const day = doorData.find(d => d.date === doorScheduleDate);
   const slot = (doorSlotEditingIdx !== null && day && day.slots[doorSlotEditingIdx]) ? day.slots[doorSlotEditingIdx] : null;
-  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
 
   const overlay = document.createElement('div');
   overlay.id = 'doorSlotFormOverlay';
@@ -4138,7 +4142,7 @@ function deleteDoorSlot(idx) {
  * ========================================
  */
 function openSupportForm() {
-  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
   const supportTypes = ['货品-整理仓库', '货品-查鞋盒', '货品-辅助收货', '陈列-翻场支援', '陈列-全楼标签复核', '其他'];
   const today = new Date();
   const defaultDate = _supportMonth + '-' + String(today.getDate()).padStart(2, '0');
@@ -4237,7 +4241,7 @@ function deleteSupport(id) {
  * ========================================
  */
 function openShiftForm() {
-  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
   const today = new Date();
   const defaultDate = _shiftsMonth + '-' + String(today.getDate()).padStart(2, '0');
 
@@ -4367,8 +4371,8 @@ function renderMyForms() {
     _availMonth = AVAIL_MIN_MONTH; // default to July 2026
   }
   if (!_availStaff) {
-    const me = Store.get('staff').find(s => s.id === _auth.staffId);
-    _availStaff = me ? me.name : (Store.get('staff').find(s => s.status === 'active') || {}).name || '';
+    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    _availStaff = me ? me.name : (Store.getList('staff').find(s => s.status === 'active') || {}).name || '';
   }
 
   const tabs = [
@@ -4471,7 +4475,7 @@ function renderMonthSwitcher() {
 
 // ===== Personal calendar view =====
 function renderPersonalCalendar() {
-  const staff = Store.get('staff').filter(s => s.status === 'active');
+  const staff = Store.getList('staff').filter(s => s.status === 'active');
   const [year, mon] = _availMonth.split('-').map(Number);
   const totalDays = new Date(year, mon, 0).getDate();
   const firstDay = new Date(year, mon - 1, 1).getDay() || 7; // 1=Mon ... 7=Sun
@@ -4703,7 +4707,7 @@ function renderWeekSwitcher() {
 }
 
 function renderOverviewMatrix() {
-  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === _availOverviewDept);
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === _availOverviewDept);
   const [year, mon] = _availMonth.split('-').map(Number);
 
   // Build weeks
@@ -4972,7 +4976,7 @@ function renderDoorTab() {
     days.push(dateStr);
   }
 
-  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
 
   return `
     <div class="card animate-in" style="margin-bottom: 20px;">
@@ -5080,7 +5084,7 @@ function openDoorSlotFormInline(prefillStart, prefillEnd, editIdx) {
   const doorData = Store.get('doorSchedule') || [];
   const day = doorData.find(d => d.date === doorScheduleDate);
   const slot = (doorSlotEditingIdx !== null && day && day.slots[doorSlotEditingIdx]) ? day.slots[doorSlotEditingIdx] : null;
-  const staff = Store.get('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
 
   // Generate 1-hour slot dropdown from 10:00-22:00
   const slotOptions = [];
