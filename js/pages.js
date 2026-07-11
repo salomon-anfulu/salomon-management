@@ -1452,12 +1452,22 @@ function calcPerformanceScore(staffName) {
   const upt = tickets > 0 ? qty / tickets : 0;
   const sales = record.sales || 0;
 
+  // v75: workHours=0 时，从灵工打卡动态计算工时
+  let workHours = record.workHours || 0;
+  if (workHours === 0 && sales > 0) {
+    const lgData = Store.get('linggongAttendance') || {};
+    const lgRecords = (lgData.records || []).filter(r => r.name === staffName && (r.date || '').startsWith(scoreMonth));
+    workHours = lgRecords.reduce((sum, r) => sum + (r.totalHours || 0), 0);
+  }
+  // 用动态计算的工时覆盖 hourly（如果原值为0且有新工时）
+  const effectiveHourly = (hourly === 0 && workHours > 0) ? round(sales / workHours, 1) : hourly;
+
   // 时产评分（v2调整：2026-07-01）
   let hourlyScore;
-  if (hourly >= 300) hourlyScore = 5;       // 顶级
-  else if (hourly >= 240) hourlyScore = 4;   // 优秀
-  else if (hourly >= 180) hourlyScore = 3;   // 合格
-  else if (hourly >= 120) hourlyScore = 2;   // 偏低
+  if (effectiveHourly >= 300) hourlyScore = 5;       // 顶级
+  else if (effectiveHourly >= 240) hourlyScore = 4;   // 优秀
+  else if (effectiveHourly >= 180) hourlyScore = 3;   // 合格
+  else if (effectiveHourly >= 120) hourlyScore = 2;   // 偏低
   else hourlyScore = 1;                      // 不达标
 
   // UPT评分（v2调整：2026-07-01）
@@ -1501,11 +1511,12 @@ function calcPerformanceScore(staffName) {
     score: finalScore,
     hourlyScore,
     uptScore,
-    hourly,
+    hourly: effectiveHourly,
     upt: parseFloat(upt.toFixed(2)),
     sales,
     qty,
     tickets,
+    workHours,
     targetMet,
     targetBonus,
     bonusDetail,
