@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 39,
-    "lastUpdated": "2026-07-10T12:32:05.863Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 40,
+    "lastUpdated": "2026-07-11T03:00:41.248Z",
+    "lastUpdatedBy": "王雅澜"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2817,7 +2817,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2845,7 +2845,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -6801,7 +6801,7 @@
       "type": "陈列-翻场支援",
       "duration": "0.5小时",
       "detail": "熨衣服",
-      "_updatedAt": 1783661384476
+      "_updatedAt": "1783661384476"
     },
     {
       "id": 1783664459100,
@@ -8570,6 +8570,16 @@
           "time": "20:00:00-21:00:00",
           "staff": "迟骋",
           "_updatedAt": "1783682098061"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-11",
+      "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "王雅澜",
+          "_updatedAt": "1783738841212"
         }
       ]
     }
