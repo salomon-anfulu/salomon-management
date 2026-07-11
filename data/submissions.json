@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 40,
-    "lastUpdated": "2026-07-11T03:00:41.248Z",
-    "lastUpdatedBy": "王雅澜"
+    "version": 41,
+    "lastUpdated": "2026-07-11T03:49:42.997Z",
+    "lastUpdatedBy": "admin"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5048,7 +5048,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5126,10 +5126,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -5310,6 +5309,11 @@
               "available": false,
               "note": "",
               "_updatedAt": 1783589153190
+            },
+            "7/30": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1783589154891
             }
           },
           "note": "",
@@ -5323,7 +5327,8 @@
             "7/22",
             "7/24",
             "7/26",
-            "7/28"
+            "7/28",
+            "7/30"
           ]
         },
         "吴嘉莹": {
@@ -5669,7 +5674,7 @@
       "gender": "男",
       "dept": "仓库兼职",
       "joinDate": "2026-07-08",
-      "status": "active",
+      "status": "full_time",
       "avatar_color": "#10b981",
       "availableDays": 0,
       "mbti": ""
