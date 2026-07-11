@@ -8225,7 +8225,7 @@ linggongAttendance: {
       { id: 17, staffName: '孔祥宇', month: '2026-07', rating: 5, reviewDate: '2026-07-11', snippet: '来这边旅游，逛到了这家salomon小白楼，在外面看就感觉很漂亮，有小孔导览员（孔祥宇）带着我们逛了整栋楼，全程都很热情，耐心。整栋楼的装修很像韩国那边的店很精致，漂亮，听说是亚洲最大的旗舰店，喜欢salomon的可以来感受一下氛围。', keywords: ['热情', '耐心导览', '旗舰氛围', '装修精致', '韩国风格', '超预期'], source: '大众点评（海参拌黑松露，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-11-v85',  },
+        _dataVersion: '2026-07-11-v86',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -8237,7 +8237,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-11-v85';
+      const DATA_VERSION = '2026-07-11-v86';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -8321,7 +8321,9 @@ linggongAttendance: {
         // v63: 同时处理标准 months 结构和历史扁平结构
         const userAvail = data.availability || {};
         if (userAvail) {
-          if (!merged.availability) merged.availability = { currentMonth: '2026-07', months: {} };
+          // v86 P1-1: dynamic current month fallback
+          const _nowYM = (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`; })();
+          if (!merged.availability) merged.availability = { currentMonth: _nowYM, months: {} };
 
           // 1. 收集所有月份数据（标准 months + 扁平结构）
           const monthMap = {};
@@ -8362,7 +8364,12 @@ linggongAttendance: {
             merged.availability.months[mk] = { data: cleanedData };
           });
 
-          merged.availability.currentMonth = userAvail.currentMonth || '2026-07';
+          // v86 P1-1: dynamic current month fallback
+          {
+            const _d = new Date();
+            const _ym = `${_d.getFullYear()}-${String(_d.getMonth()+1).padStart(2,'0')}`;
+            merged.availability.currentMonth = userAvail.currentMonth || _ym;
+          }
         }
 
         // performanceData: 以默认数据为准（含最新录入），但保留用户可能在其他月份录入的自定义数据
@@ -8419,7 +8426,11 @@ linggongAttendance: {
 
   get(key) {
     try {
-      const data = this._cache || JSON.parse(localStorage.getItem(this.KEY) || '{}');
+      // v86 P1-3: _cache may be null after cross-tab invalidation — re-parse and repopulate
+      if (!this._cache) {
+        this._cache = JSON.parse(localStorage.getItem(this.KEY) || '{}');
+      }
+      const data = this._cache;
       let val = data[key];
       // P0 fix: null/undefined → 回退到 defaults
       if (val === undefined || val === null) {
@@ -8448,18 +8459,29 @@ linggongAttendance: {
 
   set(key, value) {
     try {
-      const data = this._cache || JSON.parse(localStorage.getItem(this.KEY) || '{}');
+      // v86 P1-3: 深拷贝后写入，避免引用污染导致 quota 异常时 cache/localStorage 反向不一致
+      const data = this._cache
+        ? JSON.parse(JSON.stringify(this._cache))
+        : JSON.parse(localStorage.getItem(this.KEY) || '{}');
       data[key] = value;
       localStorage.setItem(this.KEY, JSON.stringify(data));
-      this._cache = data;  // update cache
+      this._cache = data;  // only update cache after successful write
     } catch (e) {
       console.error('[Store.set] 写入失败:', key, e);
+      // quota exceeded 等 — cache 保持旧值，不污染
+      if (typeof showToast === 'function') {
+        showToast('存储空间已满，请清理旧数据', 'error');
+      }
     }
   },
 
   getAll() {
     try {
-      return this._cache || JSON.parse(localStorage.getItem(this.KEY) || JSON.stringify(this.defaults));
+      // v86 P1-3: reparse if cache invalidated
+      if (!this._cache) {
+        this._cache = JSON.parse(localStorage.getItem(this.KEY) || JSON.stringify(this.defaults));
+      }
+      return this._cache;
     } catch (e) {
       console.error('[Store.getAll] 读取失败，返回默认数据:', e);
       return this.defaults;
@@ -8575,7 +8597,8 @@ linggongAttendance: {
 };
 
 // ===== Global scoring month — controls which month's data all rating functions use =====
-let _scoringMonth = '2026-07'; // default to latest month with complete data
+// v86 P1-1: 默认值在 Store.init() 后由 MonthConfig 动态推导（原硬编码 '2026-07'）
+let _scoringMonth = null; // null = auto-derive on first render
 
 // ===== Global schedule view month — controls which month renderSchedule displays =====
 let _scheduleMonth = null; // null = follow availability.currentMonth; set to 'YYYY-MM' to lock
@@ -8655,7 +8678,7 @@ const Router = {
         content.innerHTML = '<div style="padding:40px;text-align:center;color:#666;">' +
           '<p style="font-size:16px;margin-bottom:8px;">该页面加载出错</p>' +
           '<p style="font-size:13px;color:#999;">' + (e.message || 'Unknown error') + '</p>' +
-          '<button onclick="location.reload()" style="margin-top:16px;padding:8px 20px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;">刷新重试</button></div>';
+          '<button data-action="reload" style="margin-top:16px;padding:8px 20px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;">刷新重试</button></div>';
       }
     }
 
@@ -8683,6 +8706,57 @@ const Router = {
     if (headerTitle) headerTitle.textContent = titles[this.current] || '';
   }
 };
+
+// ===== v86 P1-2: Event Delegation System =====
+// 第一性原则：onclick 挂在 HTML 字符串上 → 通过全局变量查找 → 不可测试。
+// 解法：在 document 上注册一个委托监听器，用 data-action 属性路由。
+// 新代码用 <button data-action="foo" data-params='{"id":123}'>，
+// 老代码的 onclick 继续工作（双轨并行），渐进迁移。
+const ActionHandler = {
+  _handlers: {},
+
+  // 注册一个 handler
+  register(actionName, fn) {
+    this._handlers[actionName] = fn;
+  },
+
+  // 批量注册
+  registerAll(map) {
+    Object.assign(this._handlers, map);
+  },
+
+  // 内部：解析 data-params，兼容 JSON 字符串和原始字符串
+  _parseParams(el) {
+    const raw = el.dataset.params;
+    if (!raw) return {};
+    try { return JSON.parse(raw); } catch (_) { return { value: raw }; }
+  },
+
+  // 初始化全局委托监听（只调用一次）
+  init() {
+    document.addEventListener('click', (e) => {
+      const el = e.target.closest('[data-action]');
+      if (!el) return;
+      const action = el.dataset.action;
+      const handler = this._handlers[action];
+      if (handler) {
+        e.preventDefault();
+        const params = this._parseParams(el);
+        handler(params, el, e);
+      }
+    });
+  }
+};
+
+// 注册通用 handlers（替代 window.xxx 模式）
+ActionHandler.registerAll({
+  navigate: (p) => Router.navigate(p.page),
+  switchScoringMonth: (p) => { _scoringMonth = p.month; Router.render(); },
+  switchScheduleMonth: (p) => { _scheduleMonth = p.month; Router.render(); },
+  switchAttMonth: (p) => { _attMonth = p.month; Router.render(); },
+  switchPerfMonth: (p) => { perfMonth = p.month; Router.render(); },
+  reload: () => location.reload(),
+});
 
 // ===== Toast Notification =====
 function showToast(message, type = 'success') {
@@ -8806,3 +8880,18 @@ window.addEventListener('error', function(e) {
 });
 
 Store.init();
+
+// v86 P1-3: cross-tab cache invalidation — another tab writes to localStorage, this tab's _cache goes stale
+window.addEventListener('storage', function(e) {
+  if (e.key === Store.KEY) {
+    Store._cache = null;  // invalidate; next get() will re-parse from localStorage
+  }
+});
+
+// v86 P1-2: 启动事件委托
+ActionHandler.init();
+
+// v86 P1-1: 启动时自动推导评分月份（原硬编码 '2026-07'）
+if (!_scoringMonth && typeof MonthConfig !== 'undefined') {
+  _scoringMonth = MonthConfig.getActiveScoringMonth();
+}

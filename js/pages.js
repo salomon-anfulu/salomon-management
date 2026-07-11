@@ -45,6 +45,72 @@ function _monthKeyToPerfKey(ym) {
   return null;
 }
 
+// ===== v86 P1-1: MonthConfig — 月份业务规则配置层 =====
+// 第一性原则：'2026-07' 的特殊逻辑（跳过前两周、冻结日期等）本质是业务规则，
+// 而非代码逻辑。把规则从代码中抽出为配置，新增月份只需改配置不改代码。
+const MonthConfig = {
+  // 每个月的业务规则
+  rules: {
+    '2026-04': { skipWeeks: 0 },
+    '2026-05': { skipWeeks: 0 },
+    '2026-06': { skipWeeks: 0 },
+    '2026-07': { skipWeeks: 2 },   // 7月团队正式运行从第3周(7/13)起，前两周过渡期不计入考核
+    '2026-08': { skipWeeks: 0 },
+  },
+
+  // 获取某月跳过的周数（默认0）
+  getSkipWeeks(monthKey) {
+    const rule = this.rules[monthKey];
+    return (rule && typeof rule.skipWeeks === 'number') ? rule.skipWeeks : 0;
+  },
+
+  // 判断某月是否需要跳过前几周（替代 isJULY === '2026-07' 判断）
+  hasSkipWeeks(monthKey) {
+    return this.getSkipWeeks(monthKey) > 0;
+  },
+
+  // 自动推导当前应评分的月份（取有数据的最近月份）
+  getActiveScoringMonth() {
+    const perfData = (typeof Store !== 'undefined') ? Store.get('performanceData') : null;
+    if (perfData) {
+      const monthEN = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+      const now = new Date();
+      const ym = _ymKey(now.getFullYear(), now.getMonth() + 1);
+      // 如果当前月有数据就用当前月，否则取上个月
+      const perfKey = _monthKeyToPerfKey(ym);
+      if (perfData[perfKey] && perfData[perfKey].records && perfData[perfKey].records.length > 0) return ym;
+      // fallback: 取有数据的最近月份
+      for (let i = monthEN.length - 1; i >= 0; i--) {
+        const mk = _ymKey(now.getFullYear(), i + 1);
+        const pk = monthEN[i];
+        if (perfData[pk] && perfData[pk].records && perfData[pk].records.length > 0) return mk;
+      }
+    }
+    // final fallback: 当前月
+    const now2 = new Date();
+    return _ymKey(now2.getFullYear(), now2.getMonth() + 1);
+  },
+
+  // 动态生成业绩页月份 tab（从 performanceData 有数据的月份中提取）
+  getAvailablePerfMonths() {
+    const perfData = (typeof Store !== 'undefined') ? Store.get('performanceData') : null;
+    const monthEN = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+    const result = [];
+    if (perfData) {
+      monthEN.forEach((pk, idx) => {
+        if (perfData[pk] && perfData[pk].records && perfData[pk].records.length > 0) {
+          result.push({ key: pk, monthNum: idx + 1, ym: `2026-${String(idx+1).padStart(2,'0')}` });
+        }
+      });
+    }
+    // fallback: 至少返回 7月
+    if (result.length === 0) {
+      result.push({ key: 'july', monthNum: 7, ym: '2026-07' });
+    }
+    return result.sort((a, b) => b.monthNum - a.monthNum); // 最新月份在前
+  },
+};
+
 function renderDashboard() {
   const staff = Store.get('staff');
   const activeStaff = staff.filter(s => s.status === 'active');
@@ -98,10 +164,10 @@ function renderDashboard() {
           <h3>⚡ 快捷操作</h3>
         </div>
         <div class="card-body" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
-          <button class="btn btn-primary w-full" onclick="Router.navigate('schedule')">📅 新增排班</button>
-          <button class="btn btn-outline w-full" onclick="Router.navigate('attendance')">✅ 考勤签到</button>
-          <button class="btn btn-outline w-full" onclick="Router.navigate('ratings')">⭐ 表现评分</button>
-          <button class="btn btn-outline w-full" onclick="Router.navigate('support')">🔧 店务支援</button>
+          <button class="btn btn-primary w-full" data-action="navigate" data-params='{"page":"schedule"}'>📅 新增排班</button>
+          <button class="btn btn-outline w-full" data-action="navigate" data-params='{"page":"attendance"}'>✅ 考勤签到</button>
+          <button class="btn btn-outline w-full" data-action="navigate" data-params='{"page":"ratings"}'>⭐ 表现评分</button>
+          <button class="btn btn-outline w-full" data-action="navigate" data-params='{"page":"support"}'>🔧 店务支援</button>
         </div>
       </div>
 
@@ -552,10 +618,11 @@ function renderSchedule() {
   const totalDays = new Date(year, mon, 0).getDate();
 
   // 按自然周拆分（周一至周日）
-  const monthForWeeks = _scheduleMonth || availability.currentMonth || '2026-07';
+  const monthForWeeks = _scheduleMonth || availability.currentMonth || MonthConfig.getActiveScoringMonth();
   const allWeeks = _buildMonthWeeks(monthForWeeks);
-  // 7月只统计第3周起（7/13+），前两周（7/1-7/12）为过渡期不纳入供班考核
-  const weeks = (allWeeks && monthForWeeks === '2026-07' ? allWeeks.slice(2) : allWeeks)
+  // v86 P1-1: 跳过周数由 MonthConfig 配置驱动（原硬编码 '2026-07' ? slice(2) : allWeeks）
+  const skipWeeks = MonthConfig.getSkipWeeks(monthForWeeks);
+  const weeks = (allWeeks ? allWeeks.slice(skipWeeks) : allWeeks)
     .map(w => ({
       ...w,
       label: `${formatDate(`${year}-${String(mon).padStart(2, '0')}-${String(w.startDay).padStart(2, '0')}`)} - ${formatDate(`${year}-${String(mon).padStart(2, '0')}-${String(w.endDay).padStart(2, '0')}`)}`,
@@ -586,11 +653,11 @@ function renderSchedule() {
       }
     }
     const monthlyTotalAll = availableSet.size; // 全月可供班天数
-    // v81: 7月只统计第3周起（7/13-7/31），分母和分子都按统计周计算
-    // weeks 变量已经是 slice(2) 后的统计周数组
-    const isJULY = month === '2026-07';
-    const statDays = isJULY ? weeks.reduce((s, w) => s + w.days.length, 0) : totalDays;
-    const statAvailableDays = isJULY
+    // v86 P1-1: 是否跳过周由 MonthConfig 驱动（原 isJULY 硬编码判断）
+    // weeks 变量已经是 slice(skipWeeks) 后的统计周数组
+    const hasSkip = MonthConfig.hasSkipWeeks(month);
+    const statDays = hasSkip ? weeks.reduce((s, w) => s + w.days.length, 0) : totalDays;
+    const statAvailableDays = hasSkip
       ? weeks.reduce((s, w) => s + w.days.filter(d => availableSet.has(d)).length, 0)
       : monthlyTotalAll;
     const monthlyTotal = statAvailableDays; // 用于显示的月总供班
@@ -1349,7 +1416,8 @@ function calcAvailabilityScore(staffName) {
   const shiftChanges = Store.get('shiftChanges') || [];
 
   // Use _scoringMonth for consistency with other calc functions
-  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : '2026-07';
+  // v86 P1-1: 默认月由 MonthConfig 自动推导（原硬编码 '2026-07'）
+  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : MonthConfig.getActiveScoringMonth();
 
   // Support both new (months) and old (month/data) structures
   let availData;
@@ -1392,9 +1460,10 @@ function calcAvailabilityScore(staffName) {
 
   // Dynamically compute weeks for the availability month (Mon-Sun)
   const [yr, mn] = monthKey.split('-').map(Number);
-  // 7月只统计第3周起（前两周为过渡期）
+  // v86 P1-1: 跳过周数由 MonthConfig 配置驱动（原硬编码 monthKey === '2026-07' ? slice(2)）
   const _allWeeks = _buildMonthWeeks(monthKey);
-  const _filteredWeeks = monthKey === '2026-07' ? _allWeeks.slice(2) : _allWeeks;
+  const _skipWk = MonthConfig.getSkipWeeks(monthKey);
+  const _filteredWeeks = _allWeeks.slice(_skipWk);
   const weeks = _filteredWeeks.map((w, i) => ({
     name: 'W' + (i + 1),
     label: `${mn}/${w.days[0]}-${mn}/${w.days[w.days.length - 1]}`,
@@ -1463,7 +1532,7 @@ function calcAvailabilityScore(staffName) {
 function calcPerformanceScore(staffName) {
   const perfData = Store.get('performanceData') || {};
   // Month-aware: map _scoringMonth 'YYYY-MM' to perfData key (april/may/june/july)
-  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : '2026-07';
+  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : MonthConfig.getActiveScoringMonth();
   const perfKey = _monthKeyToPerfKey(scoreMonth) || 'july';
   const monthData = perfData[perfKey] || {};
   const records = monthData.records || [];
@@ -1565,7 +1634,7 @@ function calcPerformanceScore(staffName) {
  */
 function calcCustomerReviewScore(staffName) {
   const reviews = Store.get('customerReviews') || [];
-  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : '2026-07';
+  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : MonthConfig.getActiveScoringMonth();
   const myReviews = reviews.filter(r => r.staffName === staffName && r.month === scoreMonth);
   const count = myReviews.length;
 
@@ -1590,7 +1659,7 @@ function calcCustomerReviewScore(staffName) {
  */
 function getLinggongAttStats(staffName) {
   const lgData = Store.get('linggongAttendance') || { records: [] };
-  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : '2026-07';
+  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : MonthConfig.getActiveScoringMonth();
   // Filter records to current scoring month
   const records = (lgData.records || []).filter(r => r.name === staffName && (r.date || '').startsWith(scoreMonth));
 
@@ -1669,7 +1738,7 @@ let _behaviorCache = null;
 function getBehaviorData() {
   if (_behaviorCache) return _behaviorCache;
 
-  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : '2026-07';
+  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : MonthConfig.getActiveScoringMonth();
   const allStaff = Store.getList('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
   const names = allStaff.map(s => s.name);
 
@@ -1875,7 +1944,7 @@ function renderRatings() {
   // Month label display
   const [yr, mn] = _scoringMonth.split('-');
   const monthLabel = `${yr}年${parseInt(mn)}月`;
-  const isCurrentMonth = _scoringMonth === '2026-07';
+  const isCurrentMonth = _scoringMonth === MonthConfig.getActiveScoringMonth();
   // Check if this month has no performance data (placeholder month)
   const isPlaceholderMonth = !hasPerfData;
 
@@ -2653,34 +2722,62 @@ function renderHandbookChecklist() {
  * Performance Page - 业绩数据
  * ========================================
  */
-let perfMonth = 'july';
+// v86 P1-1: perfMonth 默认值动态推导（原硬编码 'july'）
+let perfMonth = null; // null = 自动选择最新月份
 let perfSort = 'sales';
 let perfSortDir = 'desc';
 
+// v86 P1-1: 辅助函数 — 从月份英文名获取月号
+function _perfKeyToMonthNum(pk) {
+  const monthEN = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+  const idx = monthEN.indexOf(pk);
+  return idx >= 0 ? idx + 1 : 7;
+}
+
+// v86 P1-1: 辅助函数 — 从月份英文名获取 'YYYY-MM' 格式
+function _monthKeyToPerfKey_inv(pk) {
+  const monthEN = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+  const idx = monthEN.indexOf(pk);
+  return idx >= 0 ? `2026-${String(idx + 1).padStart(2, '0')}` : null;
+}
+
+// v86 P1-1: 确保 perfMonth 有值（首次渲染时自动选最新月份）
+function _ensurePerfMonth() {
+  if (!perfMonth) {
+    const months = MonthConfig.getAvailablePerfMonths();
+    perfMonth = months.length > 0 ? months[0].key : 'july';
+  }
+}
+
 function renderPerformance() {
+  _ensurePerfMonth();
   const perfData = Store.get('performanceData') || {};
   const currentData = perfData[perfMonth];
-  const _mLabel = perfMonth === 'july' ? '7月' : perfMonth === 'june' ? '6月' : perfMonth === 'may' ? '5月' : '4月';
+  // v86 P1-1: 动态月份标签
+  const _monthNum = _perfKeyToMonthNum(perfMonth);
+  const _mLabel = `${_monthNum}月`;
+  // v86 P1-1: 动态生成月份 tab 按钮
+  const _availableMonths = MonthConfig.getAvailablePerfMonths();
+  const _monthTabsHTML = _availableMonths.map(m =>
+    `<button class="tab ${perfMonth === m.key ? 'active' : ''}" data-action="switchPerfMonth" data-params='{"month":"${m.key}"}'>\u{1F4C5} ${m.monthNum}\u6708\u6570\u636E</button>`
+  ).join('');
   if (!currentData || !currentData.records || currentData.records.length === 0) {
     return `
     <div class="animate-in" style="margin-bottom: 24px;">
       <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%); border-radius: var(--radius-lg); padding: 24px; color: #fff;">
-        <h2 style="font-size: 20px; font-weight: 800;">💰 兼职业绩数据</h2>
-        <p style="font-size: 13px; opacity: 0.7;">2026年${perfMonth === 'july' ? '7' : perfMonth === 'june' ? '6' : perfMonth === 'may' ? '5' : '4'}月 · 数据采集中</p>
+        <h2 style="font-size: 20px; font-weight: 800;">\u{1F4B0} \u517C\u804C\u4E1A\u7EE9\u6570\u636E</h2>
+        <p style="font-size: 13px; opacity: 0.7;">2026\u5E74${_monthNum}\u6708 \u00B7 \u6570\u636E\u91C7\u96C6\u4E2D</p>
       </div>
     </div>
     <!-- Month Tabs -->
     <div class="tabs animate-in" style="margin-top: 20px;">
-      <button class="tab ${perfMonth === 'july' ? 'active' : ''}" onclick="perfMonth='july';Router.render()">📅 7月数据</button>
-      <button class="tab ${perfMonth === 'june' ? 'active' : ''}" onclick="perfMonth='june';Router.render()">📅 6月数据</button>
-      <button class="tab ${perfMonth === 'may' ? 'active' : ''}" onclick="perfMonth='may';Router.render()">📅 5月数据</button>
-      <button class="tab ${perfMonth === 'april' ? 'active' : ''}" onclick="perfMonth='april';Router.render()">📅 4月数据</button>
+      ${_monthTabsHTML}
     </div>
     <div class="card animate-in" style="margin-top:20px;">
       <div class="card-body" style="text-align:center;padding:40px;">
-        <div style="font-size:36px;margin-bottom:12px;">📊</div>
-        <div style="font-size:15px;font-weight:700;color:var(--text-primary);">${_mLabel}数据采集中</div>
-        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">数据录入后将自动展示。点击上方月份切换查看排行。</div>
+        <div style="font-size:36px;margin-bottom:12px;">\u{1F4CA}</div>
+        <div style="font-size:15px;font-weight:700;color:var(--text-primary);">${_mLabel}\u6570\u636E\u91C7\u96C6\u4E2D</div>
+        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">\u6570\u636E\u5F55\u5165\u540E\u5C06\u81EA\u52A8\u5C55\u793A\u3002\u70B9\u51FB\u4E0A\u65B9\u6708\u4EFD\u5207\u6362\u67E5\u770B\u6392\u884C\u3002</div>
       </div>
     </div>
     `;
@@ -2690,9 +2787,8 @@ function renderPerformance() {
   // 业绩数据里写死的 workHours=0/hourlyOutput=0 只是占位，运行时动态补
   const lgAll = Store.get('linggongAttendance') || { records: [] };
   const lgRecords = lgAll.records || [];
-  // 解析 perfMonth 到 YYYY-MM
-  const _perfMonthMap = { april: '2026-04', may: '2026-05', june: '2026-06', july: '2026-07' };
-  const _perfYearMonth = _perfMonthMap[perfMonth] || '2026-07';
+  // v86 P1-1: 动态解析 perfMonth 到 YYYY-MM（原硬编码 _perfMonthMap 只支持4个月）
+  const _perfYearMonth = _monthKeyToPerfKey_inv(perfMonth) || '2026-07';
 
   // v80: 补 Service Team 无产出成员（从 staff 列表中补齐）
   const _serviceTeam = Store.getList('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
@@ -2742,19 +2838,20 @@ function renderPerformance() {
     return perfSortDir === 'desc' ? valB - valA : valA - valB;
   });
 
-  const isMay = perfMonth === 'may';
-  const isJune = perfMonth === 'june';
-  const isJuly = perfMonth === 'july';
-  const showFull = isJune || isJuly;   // 6月/7月: 完整列(件数/客单/UPT/件均价/出勤天数+工时)
-  const showUpt = isMay || isJune || isJuly;  // UPT相关展示
-  const monthLabel = isJuly ? '7月' : isJune ? '6月' : isMay ? '5月' : '4月';
-  const monthDate = isJuly ? '2026年7月' : isJune ? '2026年6月（截至6/17）' : isMay ? '2026年5月' : '2026年4月';
+  // v86 P1-1: 用 monthNum 替代 isMay/isJune/isJuly 硬编码判断
+  // showFull = 月号 >= 6（6月及以后有完整数据字段）
+  // showUpt = 月号 >= 5（5月及以后有 UPT 数据）
+  const _mNum = _perfKeyToMonthNum(perfMonth);
+  const showFull = _mNum >= 6;   // 6月+: 完整列(件数/客单/UPT/件均价/出勤天数+工时)
+  const showUpt = _mNum >= 5;    // 5月+: UPT相关展示
+  const monthLabel = `${_mNum}月`;
+  const monthDate = `2026年${_mNum}月`;
 
   return `
     <div class="animate-in" style="margin-bottom: 24px;">
       <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%); border-radius: var(--radius-lg); padding: 24px; color: #fff;">
-        <h2 style="font-size: 20px; font-weight: 800;">💰 兼职业绩数据</h2>
-        <p style="font-size: 13px; opacity: 0.7;">数据来源：${isJune || isJuly ? '收银系统（备注栏缩写）' : '安福路兼职数据表'} · ${monthDate}</p>
+        <h2 style="font-size: 20px; font-weight: 800;">\u{1F4B0} \u517C\u804C\u4E1A\u7EE9\u6570\u636E</h2>
+        <p style="font-size: 13px; opacity: 0.7;">\u6570\u636E\u6765\u6E90\uFF1A${showFull ? '\u6536\u94F6\u7CFB\u7EDF\uFF08\u5907\u6CE8\u680F\u7F29\u5199\uFF09' : '\u5B89\u798F\u8DEF\u517C\u804C\u6570\u636E\u8868'} \u00B7 ${monthDate}</p>
       </div>
     </div>
 
@@ -2785,10 +2882,7 @@ function renderPerformance() {
 
     <!-- Month Tabs -->
     <div class="tabs animate-in" style="margin-top: 20px;">
-      <button class="tab ${perfMonth === 'july' ? 'active' : ''}" onclick="perfMonth='july';Router.render()">📅 7月数据</button>
-      <button class="tab ${perfMonth === 'june' ? 'active' : ''}" onclick="perfMonth='june';Router.render()">📅 6月数据</button>
-      <button class="tab ${perfMonth === 'may' ? 'active' : ''}" onclick="perfMonth='may';Router.render()">📅 5月数据</button>
-      <button class="tab ${perfMonth === 'april' ? 'active' : ''}" onclick="perfMonth='april';Router.render()">📅 4月数据</button>
+      ${_monthTabsHTML}
     </div>
 
     <!-- Performance Table -->
