@@ -549,7 +549,9 @@ function renderSchedule() {
 
   // 按自然周拆分（周一至周日）
   const monthForWeeks = _scheduleMonth || availability.currentMonth || '2026-07';
-  const weeks = _buildMonthWeeks(monthForWeeks)
+  const allWeeks = _buildMonthWeeks(monthForWeeks);
+  // 7月只统计第3周起（7/13+），前两周（7/1-7/12）为过渡期不纳入供班考核
+  const weeks = (allWeeks && monthForWeeks === '2026-07' ? allWeeks.slice(2) : allWeeks)
     .map(w => ({
       ...w,
       label: `${formatDate(`${year}-${String(mon).padStart(2, '0')}-${String(w.startDay).padStart(2, '0')}`)} - ${formatDate(`${year}-${String(mon).padStart(2, '0')}-${String(w.endDay).padStart(2, '0')}`)}`,
@@ -1365,7 +1367,10 @@ function calcAvailabilityScore(staffName) {
 
   // Dynamically compute weeks for the availability month (Mon-Sun)
   const [yr, mn] = monthKey.split('-').map(Number);
-  const weeks = _buildMonthWeeks(monthKey).map((w, i) => ({
+  // 7月只统计第3周起（前两周为过渡期）
+  const _allWeeks = _buildMonthWeeks(monthKey);
+  const _filteredWeeks = monthKey === '2026-07' ? _allWeeks.slice(2) : _allWeeks;
+  const weeks = _filteredWeeks.map((w, i) => ({
     name: 'W' + (i + 1),
     label: `${mn}/${w.days[0]}-${mn}/${w.days[w.days.length - 1]}`,
     days: w.days,
