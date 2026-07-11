@@ -42,8 +42,8 @@ const Sync = {
 
   /**
    * 获取存储的 Token
-   * P0-3 fix: Token 从 localStorage 明文迁移到 sessionStorage + base64 混淆
-   * - sessionStorage: 关闭标签页自动清除，降低被 XSS/扩展窃取的风险
+   * P0-3 fix: localStorage 持久化 + base64 混淆（非明文，防遍历工具直接读取）
+   * - 持久化: 关闭浏览器后仍然有效，无需每次重新输入
    * - base64: 防止 LocalStorage 遍历工具直接读到明文（非加密，仅混淆）
    * - 向后兼容: 自动迁移旧 localStorage 明文 token
    */
@@ -52,9 +52,9 @@ const Sync = {
   getToken() {
     // 优先从内存变量读取
     if (this._tokenCache) return this._tokenCache;
-    // 从 sessionStorage 读取（base64 编码）
+    // 从 localStorage 读取（base64 编码）
     let raw = null;
-    try { raw = sessionStorage.getItem(this._tokenKey); } catch(e) {}
+    try { raw = localStorage.getItem(this._tokenKey); } catch(e) {}
     if (raw) {
       try {
         // base64 解码
@@ -63,7 +63,7 @@ const Sync = {
         return decoded;
       } catch(e) {
         // 解码失败，清除脏数据
-        try { sessionStorage.removeItem(this._tokenKey); } catch(e2) {}
+        try { localStorage.removeItem(this._tokenKey); } catch(e2) {}
       }
     }
     // 向后兼容：迁移旧的 localStorage 明文 token
@@ -85,11 +85,11 @@ const Sync = {
     this._tokenCache = token;
     try {
       if (token) {
-        // base64 编码后存入 sessionStorage
+        // base64 编码后存入 localStorage（持久化）
         const encoded = btoa(unescape(encodeURIComponent(token)));
-        sessionStorage.setItem(this._tokenKey, encoded);
+        localStorage.setItem(this._tokenKey, encoded);
       } else {
-        sessionStorage.removeItem(this._tokenKey);
+        localStorage.removeItem(this._tokenKey);
       }
     } catch(e) {
       console.error('[Sync] Token 保存失败:', e);
@@ -102,7 +102,7 @@ const Sync = {
    */
   clearToken() {
     this._tokenCache = null;
-    try { sessionStorage.removeItem(this._tokenKey); } catch(e) {}
+    try { localStorage.removeItem(this._tokenKey); } catch(e) {}
     try { localStorage.removeItem('gh_sync_token'); } catch(e) {} // 清理旧版
     this._enabled = false;
   },
