@@ -1217,14 +1217,20 @@ const Sync = {
    * 策略：并集合并 + 字段级合取，但跳过 deletedIds 中的记录
    */
   _mergeArraysById(local, remote, deletedIds) {
-    const delSet = deletedIds instanceof Set ? deletedIds : new Set(deletedIds || []);
+    // v84: 统一转字符串比对 — _markDeleted 推入的是 String(id)，
+    // 但 shiftChanges/storeSupport/customerReviews 的 id 可能是数字（nextId 返回 +1）
+    // Set.has(数字) !== Set.has(字符串)，会导致删除标记永远命中不到
+    const delSet = deletedIds instanceof Set
+      ? new Set([...deletedIds].map(x => String(x)))
+      : new Set((deletedIds || []).map(x => String(x)));
+    const isDeleted = (id) => delSet.has(String(id));
     const map = new Map();
     local.forEach(item => {
-      if (item && item.id != null && !delSet.has(item.id)) map.set(item.id, { ...item });
+      if (item && item.id != null && !isDeleted(item.id)) map.set(item.id, { ...item });
     });
     remote.forEach(item => {
       if (!item || item.id == null) return;
-      if (delSet.has(item.id)) return; // tombstone: 不复活
+      if (isDeleted(item.id)) return; // tombstone: 不复活
       const existing = map.get(item.id);
       map.set(item.id, existing ? this._mergeFields(existing, item) : { ...item });
     });
