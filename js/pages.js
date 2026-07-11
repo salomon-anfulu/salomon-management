@@ -1768,15 +1768,31 @@ function renderRatings() {
   // 清除所有月份相关缓存，确保切月后数据正确
   _behaviorCache = null;
   
-  const allRatings = Store.get('ratings');
+  // 合并 LocalStorage 和 defaults 的 ratings（防止 sync 清空后丢失历史月份）
+  const _storedRatings = Store.get('ratings') || [];
+  const _defaultRatings = (Store.defaults && Store.defaults.ratings) || [];
+  const _defaultKeys = new Set(_defaultRatings.map(r => `${r.staffId}-${r.month}`));
+  const _userCustom = _storedRatings.filter(r => {
+    const s = Store.getStaff(r.staffId);
+    if (s && s.status === 'full_time') return false; // 跳过转正
+    return !_defaultKeys.has(`${r.staffId}-${r.month}`);
+  });
+  const allRatings = [..._defaultRatings, ..._userCustom];
   const staff = Store.getList('staff').filter(s => s.status === 'active');
 
   // Available months from ratings — ensure current month always shows
-  const availableMonths = [...new Set(allRatings.map(r => r.month))];
+  // 同时从 performanceData 和 defaults.ratings 补充月份选项
+  const _perfData = Store.get('performanceData') || {};
+  const _perfMonths = Object.keys(_perfData).map(k => {
+    const monthMap = { january:'2026-01', february:'2026-02', march:'2026-03', april:'2026-04', may:'2026-05', june:'2026-06', july:'2026-07', august:'2026-08', september:'2026-09', october:'2026-10', november:'2026-11', december:'2026-12' };
+    return monthMap[k];
+  }).filter(Boolean);
+  const _defaultMonths = (Store.defaults && Store.defaults.ratings || []).map(r => r.month);
+  let availableMonths = [...new Set([...allRatings.map(r => r.month), ..._perfMonths, ..._defaultMonths])];
   if (!availableMonths.includes(_scoringMonth)) {
     availableMonths.push(_scoringMonth);
   }
-  availableMonths.sort().reverse();
+  availableMonths = availableMonths.filter(m => m && m.startsWith('2026-')).sort().reverse();
 
   // Filter ratings by current scoring month
   let ratings = allRatings.filter(r => r.month === _scoringMonth);
