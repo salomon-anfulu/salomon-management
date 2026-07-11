@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 46,
-    "lastUpdated": "2026-07-11T09:29:04.094Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 47,
+    "lastUpdated": "2026-07-11T09:35:53.067Z",
+    "lastUpdatedBy": "admin"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2821,19 +2821,19 @@
             },
             "7/14": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/15": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/16": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/17": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/18": {
               "available": true,
@@ -5048,7 +5048,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5126,10 +5126,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -5816,6 +5815,15 @@
       "target": "王雅澜",
       "targetShift": "7/14 10:30-19:00",
       "_updatedAt": "1783602354714"
+    },
+    {
+      "id": 1783602453241,
+      "applicant": "田佳乐",
+      "applyDate": "2026-07-09",
+      "applicantShift": "7/13 13:00-21:30",
+      "target": "王雅澜",
+      "targetShift": "7/14 10:30-19:00",
+      "_updatedAt": "1783602452684"
     }
   ],
   "storeSupport": [
