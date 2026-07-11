@@ -2657,6 +2657,52 @@ function renderPerformance() {
     `;
   }
 
+  // v80: 动态从灵工打卡计算每个 record 的 workDays/workHours/hourlyOutput
+  // 业绩数据里写死的 workHours=0/hourlyOutput=0 只是占位，运行时动态补
+  const lgAll = Store.get('linggongAttendance') || { records: [] };
+  const lgRecords = lgAll.records || [];
+  // 解析 perfMonth 到 YYYY-MM
+  const _perfMonthMap = { april: '2026-04', may: '2026-05', june: '2026-06', july: '2026-07' };
+  const _perfYearMonth = _perfMonthMap[perfMonth] || '2026-07';
+
+  // v80: 补 Service Team 无产出成员（从 staff 列表中补齐）
+  const _serviceTeam = Store.get('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
+  const _existingNames = new Set(currentData.records.map(r => r.name));
+  const _missing = _serviceTeam.filter(s => !_existingNames.has(s.name));
+  if (_missing.length > 0) {
+    currentData.records = [...currentData.records, ..._missing.map(s => ({
+      name: s.name,
+      sales: 0, qty: 0, tickets: 0, upt: 0, avgPrice: 0,
+      workHours: 0, hourlyOutput: 0, salesShare: 0, categories: '-'
+    }))];
+  }
+
+  // v80: 动态计算 workDays/workHours/hourlyOutput
+  // 名字模糊匹配：staff 中的'玛依拉'对应灵工的'玛依拉·努尔夏提'，'祖白代'对应'祖白代·阿不利孜'
+  const _matchLgName = (recordName) => {
+    const exact = lgRecords.find(x => x.name === recordName && (x.date || '').startsWith(_perfYearMonth));
+    if (exact) return exact.name;
+    for (const lg of lgRecords) {
+      if ((lg.date || '').startsWith(_perfYearMonth) && (lg.name.includes(recordName) || recordName.includes(lg.name))) {
+        return lg.name;
+      }
+    }
+    return null;
+  };
+  currentData.records.forEach(r => {
+    const name = r.name;
+    const matchedName = _matchLgName(name);
+    const lgPerson = matchedName ? lgRecords.filter(x => x.name === matchedName && (x.date || '').startsWith(_perfYearMonth)) : [];
+    const workDays = new Set(lgPerson.map(x => x.date)).size;
+    const workHours = lgPerson.reduce((sum, x) => sum + (x.totalHours || 0), 0);
+    const sales = r.sales || 0;
+    r.workDays = workDays;
+    r.workHours = workHours;
+    if (sales > 0 && workHours > 0) {
+      r.hourlyOutput = Math.round((sales / workHours) * 10) / 10;
+    }
+  });
+
   let records = [...currentData.records].sort((a, b) => {
     const valA = a[perfSort] || 0;
     const valB = b[perfSort] || 0;
