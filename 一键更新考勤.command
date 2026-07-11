@@ -31,7 +31,7 @@ if [ -z "$PASSWORD" ]; then
 fi
 
 echo ""
-echo ">>> [1/4] 正在启动浏览器抓取考勤数据..."
+echo ">>> [1/5] 正在启动浏览器抓取考勤数据..."
 echo ">>> 浏览器弹出后，请输入手机验证码并点登录"
 echo ""
 
@@ -51,7 +51,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo ""
-echo ">>> [2/4] 合并数据到 app.js..."
+echo ">>> [2/5] 合并数据到 app.js..."
 
 # Step 2: 合并到 app.js
 /Users/a86137/.workbuddy/binaries/node/versions/22.22.2/bin/node \
@@ -65,7 +65,7 @@ if [ $? -ne 0 ]; then
 fi
 
 echo ""
-echo ">>> [3/4] 验证语法..."
+echo ">>> [3/5] 验证语法..."
 
 # Step 3: 验证语法
 /Users/a86137/.workbuddy/binaries/node/versions/22.22.2/bin/node -c js/app.js
@@ -84,7 +84,26 @@ fi
 echo "✅ 语法正确"
 
 echo ""
-echo ">>> [4/4] 提交并部署到 GitHub Pages..."
+echo ">>> [4/5] 同步 auth_state 到 GitHub Secret..."
+
+# Step 4: 将 auth_state.json 更新到 GitHub Secret，让 CI 也能用最新 cookie
+if command -v gh &> /dev/null && [ -f data/auth_state.json ]; then
+    # 用 gh CLI 更新 Secret（需要 gh 已登录）
+    CONTENT=$(cat data/auth_state.json)
+    echo "$CONTENT" | gh secret set LINGGONG_AUTH_STATE --repo salomon-anfulu/salomon-management 2>/dev/null
+    if [ $? -eq 0 ]; then
+        echo "✅ auth_state 已同步到 GitHub Secret (LINGGONG_AUTH_STATE)"
+    else
+        echo "⚠️ Secret 同步失败（可能 gh 未登录），CI 仍可使用旧 cookie"
+        echo "   如需手动同步: gh secret set LINGGONG_AUTH_STATE < data/auth_state.json"
+    fi
+else
+    echo "⚠️ 跳过 Secret 同步（gh CLI 未安装或 auth_state.json 不存在）"
+    echo "   CI 将继续使用上次的 cookie 直到过期"
+fi
+
+echo ""
+echo ">>> [5/5] 提交并部署到 GitHub Pages..."
 
 # Step 4: Git commit & push
 git add -A
