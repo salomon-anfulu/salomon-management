@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 54,
-    "lastUpdated": "2026-07-12T04:26:59.247Z",
-    "lastUpdatedBy": "何秋烨"
+    "version": 55,
+    "lastUpdated": "2026-07-12T06:43:32.258Z",
+    "lastUpdatedBy": "李若彤"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -6834,7 +6834,16 @@
       "type": "陈列-翻场支援",
       "duration": "0.5小时",
       "detail": "换3楼叠装陈列",
-      "_updatedAt": 1783830419207
+      "_updatedAt": "1783830419207"
+    },
+    {
+      "id": 1783838612222,
+      "staff": "李若彤",
+      "date": "2026-07-12",
+      "type": "货品-整理仓库",
+      "duration": "1小时",
+      "detail": "",
+      "_updatedAt": 1783838612222
     }
   ],
   "doorSchedule": [
