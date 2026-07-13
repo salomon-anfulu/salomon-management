@@ -17,28 +17,34 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20.x
 
       - name: Restore auth state from Secret
         env:
           LINGGONG_AUTH_STATE: ${{ secrets.LINGGONG_AUTH_STATE }}
         run: |
           if [ -z "$LINGGONG_AUTH_STATE" ]; then
-            echo "::warning::LINGGONG_AUTH_STATE Secret 未配置，跳过"
-            echo "::notice::请在 GitHub Settings → Secrets 中配置 LINGGONG_AUTH_STATE（auth_state.json 的完整内容）"
+            echo "::error::LINGGONG_AUTH_STATE Secret 未配置"
+            echo "请在 GitHub Settings → Secrets 中配置 LINGGONG_AUTH_STATE（auth_state.json 的 base64 编码）"
             exit 1
           fi
           mkdir -p data
-          echo "$LINGGONG_AUTH_STATE" > data/auth_state.json
-          echo "✅ auth_state.json 已从 Secret 恢复"
+          # 自动检测编码：以 { 开头为纯 JSON，否则按 base64 解码
+          if [ "${LINGGONG_AUTH_STATE:0:1}" = "{" ]; then
+            echo "📖 检测到纯 JSON"
+            echo "$LINGGONG_AUTH_STATE" > data/auth_state.json
+          else
+            echo "📖 检测到 base64 编码，解码中..."
+            echo "$LINGGONG_AUTH_STATE" | base64 -d > data/auth_state.json
+          fi
+          echo "✅ auth_state.json 已恢复"
+          echo "   大小: $(wc -c < data/auth_state.json) 字节"
+          node -e "const d=require('./data/auth_state.json');console.log('   Cookie 数:', (d.cookies||[]).length)"
 
       - name: Fetch attendance via API
-        env:
-          LINGGONG_AUTH_STATE: ${{ secrets.LINGGONG_AUTH_STATE }}
-        run: node scripts/linggong_ci.js
-
-      # 如果 fetch 失败（退出码 10 = token 过期），停止后续步骤
-      # GitHub Actions 会自动通过邮件通知仓库 owner
+        run: |
+          node --version
+          node scripts/linggong_ci.js
 
       - name: Sync to app.js
         run: node scripts/sync_linggong_to_app.js
@@ -61,21 +67,3 @@ jobs:
             git push
             echo "✅ 已推送！GitHub Pages 将在 1-2 分钟内生效"
           fi
-
-      - name: Save refreshed auth state to Secret
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          if [ ! -f data/auth_state.json ]; then
-            echo "ℹ️ 无 auth_state.json 可保存"
-            exit 0
-          fi
-          # 检查 gh CLI 是否可用且 token 有 secrets 权限
-          if ! command -v gh &> /dev/null; then
-            echo "ℹ️ gh CLI 不可用，跳过 auth state 回写"
-            exit 0
-          fi
-          # 将更新后的 auth_state 回写到 Secret（GITHUB_TOKEN 可能无 secrets 权限，忽略错误）
-          CONTENT=$(cat data/auth_state.json | base64 -w 0)
-          gh secret set LINGGONG_AUTH_STATE --body "$CONTENT" 2>/dev/null || \
-            echo "ℹ️ Secret 更新跳过（GITHUB_TOKEN 默认无 secrets 写权限，需要 PAT）"

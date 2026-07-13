@@ -87,15 +87,15 @@ echo ""
 echo ">>> [4/5] 同步 auth_state 到 GitHub Secret..."
 
 # Step 4: 将 auth_state.json 更新到 GitHub Secret，让 CI 也能用最新 cookie
+# 用 base64 编码避免 JSON 引号/换行被 shell 解释
 if command -v gh &> /dev/null && [ -f data/auth_state.json ]; then
-    # 用 gh CLI 更新 Secret（需要 gh 已登录）
-    CONTENT=$(cat data/auth_state.json)
-    echo "$CONTENT" | gh secret set LINGGONG_AUTH_STATE --repo salomon-anfulu/salomon-management 2>/dev/null
+    B64=$(base64 < data/auth_state.json | tr -d '\n')
+    echo "$B64" | gh secret set LINGGONG_AUTH_STATE --repo salomon-anfulu/salomon-management 2>/dev/null
     if [ $? -eq 0 ]; then
-        echo "✅ auth_state 已同步到 GitHub Secret (LINGGONG_AUTH_STATE)"
+        echo "✅ auth_state 已同步到 GitHub Secret (LINGGONG_AUTH_STATE, base64)"
     else
         echo "⚠️ Secret 同步失败（可能 gh 未登录），CI 仍可使用旧 cookie"
-        echo "   如需手动同步: gh secret set LINGGONG_AUTH_STATE < data/auth_state.json"
+        echo "   如需手动同步: cat data/auth_state.json | base64 | gh secret set LINGGONG_AUTH_STATE"
     fi
 else
     echo "⚠️ 跳过 Secret 同步（gh CLI 未安装或 auth_state.json 不存在）"

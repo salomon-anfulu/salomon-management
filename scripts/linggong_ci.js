@@ -34,13 +34,27 @@ function log(msg) { console.log(`[${new Date().toLocaleTimeString('zh-CN')}] ${m
 function loadAuthState() {
   let authJson;
 
-  // CI 环境：从环境变量读
+  // CI 环境：从环境变量读（兼容 base64 编码 + 纯 JSON 两种方式）
   if (process.env.LINGGONG_AUTH_STATE) {
-    log('📖 从环境变量 LINGGONG_AUTH_STATE 读取 cookie');
+    const raw = process.env.LINGGONG_AUTH_STATE.trim();
+    let content = raw;
+
+    // 自动检测：如果是 base64 编码（没有 { 开头）就解码
+    if (!raw.startsWith('{') && !raw.startsWith('[')) {
+      try {
+        content = Buffer.from(raw, 'base64').toString('utf8');
+        log('📖 检测到 base64 编码，已解码');
+      } catch (e) {
+        log('⚠️ base64 解码失败，按原文尝试');
+      }
+    } else {
+      log('📖 检测到纯 JSON');
+    }
+
     try {
-      authJson = JSON.parse(process.env.LINGGONG_AUTH_STATE);
+      authJson = JSON.parse(content);
     } catch (e) {
-      log('❌ LINGGONG_AUTH_STATE 不是有效的 JSON');
+      log(`❌ LINGGONG_AUTH_STATE 不是有效的 JSON: ${e.message}`);
       process.exit(10);
     }
   } else {
