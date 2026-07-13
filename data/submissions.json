@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 65,
-    "lastUpdated": "2026-07-13T09:21:58.508Z",
+    "version": 66,
+    "lastUpdated": "2026-07-13T09:22:17.181Z",
     "lastUpdatedBy": "王靳毓"
   },
   "availability": {
@@ -6919,7 +6919,16 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "1.5f记客流",
-      "_updatedAt": 1783934518455
+      "_updatedAt": "1783934518455"
+    },
+    {
+      "id": 1783934535383,
+      "staff": "王靳毓",
+      "date": "2026-07-13",
+      "type": "其他",
+      "duration": "0.5小时",
+      "detail": "当模特",
+      "_updatedAt": 1783934535299
     }
   ],
   "doorSchedule": [
