@@ -203,9 +203,9 @@ function renderDashboard() {
               ${storeSupport.slice(-5).reverse().map(s => `
                 <tr>
                   <td><span class="badge badge-info">支援</span></td>
-                  <td>${s.staff} - ${s.type}（${s.detail}）</td>
-                  <td>${s.date.replace('2026-', '')}</td>
-                  <td><span class="badge badge-active">${s.duration}</span></td>
+                  <td>${s.staff || '-'} - ${s.type || ''}（${s.detail || '-'}）</td>
+                  <td>${(s.date || '').replace('2026-', '')}</td>
+                  <td><span class="badge badge-active">${s.duration || '-'}</span></td>
                 </tr>
               `).join('')}
               ${attendance.slice(-3).reverse().map(a => `
@@ -1875,7 +1875,7 @@ function renderRatings() {
       staffId: s.id,
       month: _scoringMonth,
       scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 },
-      comment: _scoringMonth.split('-')[1] + '月待评',
+      comment: (_scoringMonth || '2026-07').split('-')[1] + '月待评',
       avgScore: 0,
       hourlyRate: 28,
       _placeholder: true,
@@ -1896,7 +1896,7 @@ function renderRatings() {
         staffId: s.id,
         month: _scoringMonth,
         scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 },
-        comment: _scoringMonth.split('-')[1] + '月待评',
+        comment: (_scoringMonth || '2026-07').split('-')[1] + '月待评',
         avgScore: 0,
         hourlyRate: 28,
         _placeholder: true,
@@ -1942,7 +1942,7 @@ function renderRatings() {
   const visibleStaffIds = new Set(visibleRatings.map(r => r.staffId));
 
   // Month label display
-  const [yr, mn] = _scoringMonth.split('-');
+  const [yr, mn] = (_scoringMonth || '2026-07').split('-');
   const monthLabel = `${yr}年${parseInt(mn)}月`;
   const isCurrentMonth = _scoringMonth === MonthConfig.getActiveScoringMonth();
   // Check if this month has no performance data (placeholder month)
