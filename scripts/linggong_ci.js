@@ -268,11 +268,80 @@ async function main() {
     } catch (e) {}
   }
 
-  const map = new Map();
+  // 先按 name+date+scheduleTime 去重（保留最新）
+  const dedupMap = new Map();
   [...existing, ...records].forEach(r => {
-    map.set(`${r.name}_${r.date}_${r.scheduleTime}`, r);
+    dedupMap.set(`${r.name}_${r.date}_${r.scheduleTime}`, r);
   });
-  const unique = Array.from(map.values());
+
+  // === 合并同一天同一个人的多条班次为一条 ===
+  // 规则：
+  //   1. 丢弃 signIn/signOut 都为空 且 status 非"打卡正常"的记录（未开始/排班但没打卡）
+  //   2. 丢弃 "打卡进行中" 快照（signOut 为空但有 "打卡正常" 的完整记录）
+  //   3. 对同一人同一天的多个有效班次：取最早的 signIn、最晚的 signOut、工时累加
+  //   4. status 取最严重的一条（正常 < 异常 < 缺勤）
+  const dayGroups = new Map();
+  for (const r of dedupMap.values()) {
+    const key = `${r.name}_${r.date}`;
+    if (!dayGroups.has(key)) dayGroups.set(key, []);
+    dayGroups.get(key).push(r);
+  }
+
+  const unique = [];
+  for (const [key, recs] of dayGroups) {
+    if (recs.length === 1) {
+      // 只有一条，过滤掉无效记录
+      const r = recs[0];
+      const isEmpty = (!r.signIn || r.signIn === '') && (!r.signOut || r.signOut === '');
+      if (isEmpty && r.status !== '打卡正常') continue; // 跳过未开始打卡
+      unique.push(r);
+    } else {
+      // 多条班次需要合并
+      // 先过滤掉无效记录
+      const valid = recs.filter(r => {
+        const isEmpty = (!r.signIn || r.signIn === '') && (!r.signOut || r.signOut === '');
+        if (isEmpty && r.status !== '打卡正常') return false;
+        // "打卡进行中" 但有完整记录 -> 丢弃进行中
+        if (r.status === '打卡进行中' && (!r.signOut || r.signOut === '')) {
+          const hasComplete = recs.some(x => x.status === '打卡正常' && x.signOut);
+          if (hasComplete) return false;
+        }
+        return true;
+      });
+
+      if (valid.length === 0) continue;
+      if (valid.length === 1) { unique.push(valid[0]); continue; }
+
+      // 合并多条有效班次
+      valid.sort((a, b) => (a.signIn || '99:99').localeCompare(b.signIn || '99:99'));
+      const merged = { ...valid[0] }; // 基础信息取第一条
+
+      // 找最早 signIn 和最晚 signOut
+      const signIns = valid.map(r => r.signIn).filter(s => s && s !== '');
+      const signOuts = valid.map(r => r.signOut).filter(s => s && s !== '');
+      merged.signIn = signIns.length > 0 ? signIns.sort()[0] : '';
+      merged.signOut = signOuts.length > 0 ? signOuts.sort().reverse()[0] : '';
+
+      // 工时累加
+      merged.totalHours = valid.reduce((s, r) => s + (parseFloat(r.totalHours) || 0), 0);
+
+      // 排班时间拼接
+      const schedules = valid.map(r => r.scheduleTime).filter(s => s && s !== '');
+      merged.scheduleTime = [...new Set(schedules)].join(' / ');
+
+      // status 取最严重的
+      const statusPriority = { '打卡正常': 0, '打卡进行中': 1, '打卡异常': 2, '缺勤': 3, '取消': 3 };
+      merged.status = valid.reduce((worst, r) =>
+        (statusPriority[r.status] || 99) > (statusPriority[worst] || 99) ? r.status : worst
+      , '打卡正常');
+
+      // 迟到/早退取最大
+      merged.lateMin = Math.max(0, ...valid.map(r => r.lateMin || 0));
+      merged.leaveMin = Math.max(0, ...valid.map(r => r.leaveMin || 0));
+
+      unique.push(merged);
+    }
+  }
   unique.sort((a, b) => a.date.localeCompare(b.date) || a.name.localeCompare(b.name));
 
   // 5. 汇总

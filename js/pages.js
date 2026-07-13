@@ -1278,22 +1278,23 @@ function renderAttendance() {
       </div>
     </div>
 
-    <!-- 考勤明细表（精简三列：日期 / 工时 / 状态） -->
+    <!-- 考勤明细表 -->
     <div class="card animate-in" style="margin-bottom: 24px;">
       <div class="card-header">
         <h3>📝 考勤明细</h3>
-        <span style="font-size: 12px; color: var(--text-secondary);">Service Team · ${mY}年${mM}月</span>
+        <span style="font-size: 12px; color: var(--text-secondary);">Service Team · ${mY}年${mM}月 · 每人每天一条</span>
       </div>
       <div class="card-body" style="padding: 0;">
         <div class="table-container">
           <table class="data-table" style="font-size: 13px;">
             <thead>
               <tr>
-                <th style="width: 30%;">姓名</th>
-                <th style="width: 20%;">日期</th>
-                <th style="width: 15%;">工时</th>
-                <th style="width: 20%;">状态</th>
-                <th style="width: 15%;">备注</th>
+                <th style="width: 20%;">姓名</th>
+                <th style="width: 12%;">日期</th>
+                <th style="width: 20%;">上班 → 下班</th>
+                <th style="width: 10%;">工时</th>
+                <th style="width: 16%;">状态</th>
+                <th style="width: 22%;">备注</th>
               </tr>
             </thead>
             <tbody>
@@ -1317,10 +1318,15 @@ function renderAttendance() {
                 const notes = [];
                 if (r.lateMin > 0) notes.push(`迟到${r.lateMin}min`);
                 if (r.leaveMin > 0) notes.push(`早退${r.leaveMin}min`);
-                const signIn = r.signIn || r.clockIn || '';
-                const signOut = r.signOut || r.clockOut || '';
-                if (signIn === '缺卡') notes.push('上班缺卡');
-                if (signOut === '缺卡') notes.push('下班缺卡');
+                const signInRaw = r.signIn || r.clockIn || '';
+                const signOutRaw = r.signOut || r.clockOut || '';
+                if (signInRaw === '缺卡') notes.push('上班缺卡');
+                if (signOutRaw === '缺卡') notes.push('下班缺卡');
+
+                // 格式化上下班时间
+                const fmtTime = t => (t && t !== '缺卡') ? t : '<span style="color:#ef4444;">缺卡</span>';
+                const inDisplay = signInRaw ? fmtTime(signInRaw) : '<span style="color:var(--text-muted);">—</span>';
+                const outDisplay = signOutRaw ? fmtTime(signOutRaw) : '<span style="color:var(--text-muted);">—</span>';
 
                 return `
                   <tr style="${statusLabel === '正常' ? '' : 'background: rgba(245,158,11,0.02);'}">
@@ -1331,6 +1337,9 @@ function renderAttendance() {
                       </div>
                     </td>
                     <td><span style="font-weight: 500;">${dateStr}</span></td>
+                    <td>
+                      <span style="font-family: monospace; font-size: 12px; color: var(--text-secondary);">${inDisplay} <span style="color:var(--text-muted);">→</span> ${outDisplay}</span>
+                    </td>
                     <td>
                       <span style="font-weight: 700; color: ${(parseFloat(r.totalHours) || 0) >= 8 ? '#10b981' : (parseFloat(r.totalHours) || 0) > 0 ? 'var(--text-primary)' : 'var(--text-muted)'};">
                         ${(parseFloat(r.totalHours) || 0) > 0 ? r.totalHours + 'h' : '-'}
@@ -1388,7 +1397,7 @@ function syncLinggongData() {
         }
 
         // 标准化数据格式
-        const normalizedRecords = data.records.map(r => ({
+        const rawRecords = data.records.map(r => ({
           name: r.name || '',
           date: r.date || '',
           scheduleTime: r.scheduleTime || '',
@@ -1403,6 +1412,40 @@ function syncLinggongData() {
           department: r.department || '',
           project: r.project || '',
         }));
+
+        // === 合并同一天同一个人的多条班次为一条 ===
+        const dayMap = {};
+        rawRecords.forEach(r => {
+          const k = r.name + '|' + r.date;
+          if (!dayMap[k]) dayMap[k] = [];
+          dayMap[k].push(r);
+        });
+        const normalizedRecords = [];
+        Object.values(dayMap).forEach(recs => {
+          // 过滤无效记录
+          const valid = recs.filter(r => {
+            const isEmpty = (!r.signIn && !r.clockIn) && (!r.signOut && !r.clockOut);
+            if (isEmpty && r.status !== '打卡正常') return false;
+            return true;
+          });
+          if (valid.length === 0) return;
+          if (valid.length === 1) { normalizedRecords.push(valid[0]); return; }
+
+          // 合并多条
+          const base = { ...valid[0] };
+          const signIns = valid.map(r => r.signIn || r.clockIn || '').filter(s => s);
+          const signOuts = valid.map(r => r.signOut || r.clockOut || '').filter(s => s);
+          base.signIn = signIns.length > 0 ? signIns.sort()[0] : '';
+          base.signOut = signOuts.length > 0 ? signOuts.sort().reverse()[0] : '';
+          base.clockIn = base.signIn;
+          base.clockOut = base.signOut;
+          base.totalHours = valid.reduce((s, r) => s + (parseFloat(r.totalHours) || 0), 0);
+          const sp = { '打卡正常': 0, '打卡进行中': 1, '打卡异常': 2, '缺勤': 3, '取消': 3 };
+          base.status = valid.reduce((w, r) => (sp[r.status] || 99) > (sp[w] || 99) ? r.status : w, '打卡正常');
+          base.lateMin = Math.max(0, ...valid.map(r => r.lateMin || 0));
+          base.leaveMin = Math.max(0, ...valid.map(r => r.leaveMin || 0));
+          normalizedRecords.push(base);
+        });
 
         Store.set('linggongAttendance', {
           lastSync: new Date().toISOString(),
