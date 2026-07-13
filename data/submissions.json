@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 74,
-    "lastUpdated": "2026-07-13T09:49:12.291Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 75,
+    "lastUpdated": "2026-07-13T10:12:25.942Z",
+    "lastUpdatedBy": "唐蓉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2682,9 +2682,9 @@
               "_updatedAt": 1783413164748
             },
             "7/16": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1783413167394
+              "_updatedAt": 1783413535561
             },
             "7/17": {
               "available": true,
@@ -2764,10 +2764,8 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370523,
-          "total": 30,
-          "unavailable": [
-            "7/16"
-          ]
+          "total": 31,
+          "unavailable": []
         },
         "迟骋": {
           "dates": {
@@ -2817,7 +2815,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2845,7 +2843,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -5049,7 +5047,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5127,10 +5125,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -6858,6 +6855,15 @@
       "duration": "1小时",
       "detail": "仓库支援",
       "_updatedAt": "1783750835436"
+    },
+    {
+      "id": 1783769067254,
+      "staff": "唐蓉",
+      "date": "2026-07-11",
+      "type": "货品-查鞋盒",
+      "duration": "1小时",
+      "detail": "货架24-26",
+      "_updatedAt": 1783769067048
     },
     {
       "id": 1783769208042,
@@ -8632,6 +8638,11 @@
           "_updatedAt": "1783580171421"
         },
         {
+          "time": "16:00:00-17:00:00",
+          "staff": "唐蓉",
+          "_updatedAt": "1783769130891"
+        },
+        {
           "time": "18:00:00-19:00:00",
           "staff": "田佳乐",
           "_updatedAt": "1783597292082"
@@ -8717,6 +8728,11 @@
           "_updatedAt": "1783772548485"
         },
         {
+          "time": "16:00:00-17:00:00",
+          "staff": "唐蓉",
+          "_updatedAt": "1783769161531"
+        },
+        {
           "time": "18:00:00-19:00:00",
           "staff": "孔祥宇",
           "_updatedAt": "1783769158305"
@@ -8726,6 +8742,11 @@
     {
       "date": "2026-07-13",
       "slots": [
+        {
+          "time": "11:00:00-12:00:00",
+          "staff": "唐蓉",
+          "_updatedAt": "1783937545894"
+        },
         {
           "time": "12:00:00-13:00:00",
           "staff": "王靳毓",
