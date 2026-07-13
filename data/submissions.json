@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 63,
-    "lastUpdated": "2026-07-13T06:02:15.746Z",
+    "version": 64,
+    "lastUpdated": "2026-07-13T06:03:03.669Z",
     "lastUpdatedBy": "王靳毓"
   },
   "availability": {
@@ -6856,7 +6856,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "仓库支援",
-      "_updatedAt": 1783750835436
+      "_updatedAt": "1783750835436"
     },
     {
       "id": 1783769208042,
@@ -6902,6 +6902,15 @@
       "duration": "2小时",
       "detail": "记录客流",
       "_updatedAt": "1783909625307"
+    },
+    {
+      "id": 1783922582111,
+      "staff": "王靳毓",
+      "date": "2026-07-13",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "2f换样➕熨烫",
+      "_updatedAt": 1783922581909
     }
   ],
   "doorSchedule": [
