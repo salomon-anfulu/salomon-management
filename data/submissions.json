@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 79,
-    "lastUpdated": "2026-07-13T10:23:47.484Z",
+    "version": 80,
+    "lastUpdated": "2026-07-13T10:24:25.717Z",
     "lastUpdatedBy": "朱凯赟"
   },
   "availability": {
@@ -6963,7 +6963,16 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记录上楼人数",
-      "_updatedAt": 1783938227442
+      "_updatedAt": "1783938227442"
+    },
+    {
+      "id": 1783938242195,
+      "staff": "朱凯赟",
+      "date": "2026-07-13",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录上楼人数",
+      "_updatedAt": 1783938241226
     }
   ],
   "doorSchedule": [
@@ -8776,6 +8785,11 @@
     {
       "date": "2026-07-13",
       "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "朱凯赟",
+          "_updatedAt": "1783938262761"
+        },
         {
           "time": "11:00:00-12:00:00",
           "staff": "唐蓉",
