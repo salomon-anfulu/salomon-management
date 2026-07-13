@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 58,
-    "lastUpdated": "2026-07-12T17:39:01.012Z",
+    "version": 59,
+    "lastUpdated": "2026-07-13T02:25:23.897Z",
     "lastUpdatedBy": "manual-sync"
   },
   "availability": {
@@ -2817,7 +2817,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2845,7 +2845,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
