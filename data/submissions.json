@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 77,
-    "lastUpdated": "2026-07-13T10:13:09.885Z",
-    "lastUpdatedBy": "李若彤"
+    "version": 78,
+    "lastUpdated": "2026-07-13T10:14:22.343Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -6864,7 +6864,7 @@
       "type": "货品-查鞋盒",
       "duration": "1小时",
       "detail": "货架24-26",
-      "_updatedAt": 1783769067048
+      "_updatedAt": "1783769067048"
     },
     {
       "id": 1783769208042,
@@ -6954,7 +6954,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "客流记录",
-      "_updatedAt": 1783937589263
+      "_updatedAt": "1783937589263"
     }
   ],
   "doorSchedule": [
@@ -8752,6 +8752,11 @@
     {
       "date": "2026-07-12",
       "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "李若彤",
+          "_updatedAt": "1783937644902"
+        },
         {
           "time": "17:00:00-18:00:00",
           "staff": "王雅澜",
