@@ -2829,7 +2829,8 @@ function _ensurePerfMonth() {
 function renderPerformance() {
   _ensurePerfMonth();
   const perfData = Store.get('performanceData') || {};
-  const currentData = perfData[perfMonth];
+  // v93: 防御 currentData 为 undefined/null（浏览器缓存旧数据时 perfMonth 可能指向空月份）
+  const currentData = perfData[perfMonth] || { records: [], totalSales: 0, avgUPT: 0, avgHourlyOutput: 0 };
   // v86 P1-1: 动态月份标签
   const _monthNum = _perfKeyToMonthNum(perfMonth);
   const _mLabel = `${_monthNum}月`;
@@ -2935,7 +2936,7 @@ function renderPerformance() {
     <!-- Summary Stats -->
     <div class="stats-grid animate-in" style="grid-template-columns: repeat(${showFull ? '5' : '4'}, 1fr);">
       <div class="stat-card accent">
-        <div class="stat-value">¥${(currentData.totalSales / 10000).toFixed(1)}万</div>
+        <div class="stat-value">¥${((currentData.totalSales || 0) / 10000).toFixed(1)}万</div>
         <div class="stat-label">${monthLabel}总业绩</div>
       </div>
       <div class="stat-card info">
@@ -2943,11 +2944,11 @@ function renderPerformance() {
         <div class="stat-label">在册兼职</div>
       </div>
       <div class="stat-card success">
-        <div class="stat-value">${showUpt ? (currentData.avgUPT || 0).toFixed(2) : '-'}</div>
+        <div class="stat-value">${showUpt ? ((currentData.avgUPT || 0)).toFixed(2) : '-'}</div>
         <div class="stat-label">平均 UPT</div>
       </div>
       <div class="stat-card warning">
-        <div class="stat-value">¥${(currentData.avgHourlyOutput || 0).toFixed(0)}</div>
+        <div class="stat-value">¥${((currentData.avgHourlyOutput || 0)).toFixed(0)}</div>
         <div class="stat-label">平均时产</div>
       </div>
       ${showFull ? `
@@ -3003,7 +3004,7 @@ function renderPerformance() {
               ${records.map((r, i) => {
                 const rank = i + 1;
                 const rankIcon = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank;
-                const hourlyPass = r.hourlyOutput >= KPI.hourlySalesTarget;
+                const hourlyPass = (r.hourlyOutput || 0) >= KPI.hourlySalesTarget;
                 return `
                   <tr>
                     <td style="font-weight: 700; font-size: 16px;">${rankIcon}</td>
@@ -3019,12 +3020,12 @@ function renderPerformance() {
                       ? `<td><span class="badge ${(r.upt || 0) >= KPI.uptTarget ? 'badge-active' : 'badge-danger'}">${r.upt}</span></td>`
                       : !showFull ? `<td class="text-sm">¥${((r.prevMonthSales || 0) / 10000).toFixed(2)}万</td>` : ''
                     }
-                    <td>${(r.salesShare * 100).toFixed(1)}%</td>
+                    <td>${((r.salesShare || 0) * 100).toFixed(1)}%</td>
                     <td>${showFull ? (r.workDays || 0) + '天' : (parseFloat(r.workHours) || 0).toFixed(1) + 'h'}</td>
                     ${showFull ? `<td>${(parseFloat(r.workHours) || 0).toFixed(1)}h</td>` : ''}
                     <td>
                       <span style="font-weight: 600; color: ${hourlyPass ? 'var(--success)' : 'var(--danger)'};">
-                        ¥${r.hourlyOutput.toFixed(0)}
+                        ¥${(r.hourlyOutput || 0).toFixed(0)}
                       </span>
                       ${!hourlyPass ? '<span style="font-size: 11px; color: var(--danger);"> ⚠️</span>' : ''}
                     </td>
@@ -3051,7 +3052,7 @@ function renderPerformance() {
       <div class="card-body">
         <div class="grid-3" style="gap: 16px;">
           ${records.map(r => {
-            const hourlyPass = r.hourlyOutput >= KPI.hourlySalesTarget;
+            const hourlyPass = (r.hourlyOutput || 0) >= KPI.hourlySalesTarget;
             const uptPass = showUpt ? (r.upt || 0) >= KPI.uptTarget : showFull ? ((r.qty || 0) / Math.max(r.tickets || 1, 1)) >= KPI.uptTarget : true;
             const allPass = hourlyPass && uptPass;
             return `
@@ -3062,7 +3063,7 @@ function renderPerformance() {
                 <div style="flex: 1; min-width: 0;">
                   <div style="font-weight: 600; font-size: 14px;">${r.name}</div>
                   <div style="font-size: 12px; color: var(--text-secondary);">
-                    时产 ¥${r.hourlyOutput.toFixed(0)} ${hourlyPass ? '✓' : '✗'}
+                    时产 ¥${(r.hourlyOutput || 0).toFixed(0)} ${hourlyPass ? '✓' : '✗'}
                     ${showUpt ? `· UPT ${r.upt} ${(r.upt || 0) >= KPI.uptTarget ? '✓' : '✗'}` : ''}
                     ${showFull ? `· UPT ${((r.qty || 0) / Math.max(r.tickets || 1, 1)).toFixed(2)} ${uptPass ? '✓' : '✗'}` : ''}
                   </div>
