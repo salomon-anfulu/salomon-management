@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 89,
-    "lastUpdated": "2026-07-13T11:06:19.270Z",
+    "version": 90,
+    "lastUpdated": "2026-07-13T11:28:15.765Z",
     "lastUpdatedBy": "王雅澜"
   },
   "availability": {
@@ -6990,7 +6990,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记录客流",
-      "_updatedAt": 1783940779231
+      "_updatedAt": "1783940779231"
     }
   ],
   "doorSchedule": [
