@@ -92,14 +92,18 @@ const MonthConfig = {
   },
 
   // 动态生成业绩页月份 tab（从 performanceData 有数据的月份中提取）
+  // v93: 只显示6月及以后（4月、5月不再展示）
   getAvailablePerfMonths() {
     const perfData = (typeof Store !== 'undefined') ? Store.get('performanceData') : null;
     const monthEN = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+    const MIN_MONTH_NUM = 6; // v93: 最低显示6月
     const result = [];
     if (perfData) {
       monthEN.forEach((pk, idx) => {
+        const monthNum = idx + 1;
+        if (monthNum < MIN_MONTH_NUM) return; // v93: 跳过4月、5月
         if (perfData[pk] && perfData[pk].records && perfData[pk].records.length > 0) {
-          result.push({ key: pk, monthNum: idx + 1, ym: `2026-${String(idx+1).padStart(2,'0')}` });
+          result.push({ key: pk, monthNum, ym: `2026-${String(monthNum).padStart(2,'0')}` });
         }
       });
     }
@@ -675,7 +679,26 @@ function renderSchedule() {
   const availability = Store.get('availability');
   // Month to display: _scheduleMonth if set, otherwise availability.currentMonth
   // Available months from availability.months keys
-  const availableAvailMonths = (availability && availability.months) ? Object.keys(availability.months).sort().reverse() : ['2026-06'];
+  // v93: 规范化月份 key 并去重（防止 '2026-07' 和 '2026-7' 共存导致重复 Tab）
+  const _rawMonths = (availability && availability.months) ? Object.keys(availability.months) : ['2026-06'];
+  const _normalizedMonths = [];
+  const _seen = new Set();
+  _rawMonths.forEach(mk => {
+    // 规范化：'2026-7' → '2026-07'
+    const parts = String(mk).split('-');
+    if (parts.length === 2) {
+      const y = parseInt(parts[0]);
+      const m = parseInt(parts[1]);
+      if (y > 2000 && m >= 1 && m <= 12) {
+        const normalized = `${y}-${String(m).padStart(2, '0')}`;
+        if (!_seen.has(normalized)) {
+          _seen.add(normalized);
+          _normalizedMonths.push(normalized);
+        }
+      }
+    }
+  });
+  const availableAvailMonths = _normalizedMonths.sort().reverse();
   // Determine display month
   let month, availData;
   const displayMonth = _scheduleMonth || (availability && availability.currentMonth) || availableAvailMonths[0] || '2026-06';
