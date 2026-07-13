@@ -5153,18 +5153,8 @@ function renderDoorTab() {
                     const slotKey = h + ':00-' + nextH + ':00';
                     const staffName = day[slotKey];
 
-                    // v74: 冻结规则——本周日之前不可编辑（含本周日），同时 7/5 前永久冻结
-                    const doorFreezeLine = (() => {
-                      const today = new Date();
-                      const dow = today.getDay(); // 0=Sun
-                      const daysSinceSun = dow === 0 ? 0 : dow; // 上周日是 today - daysSinceSun
-                      const lastSunday = new Date(today);
-                      lastSunday.setDate(today.getDate() - daysSinceSun);
-                      // 冻结线 = max(上周日, 2026-07-05)
-                      const hardFreeze = new Date('2026-07-05');
-                      return lastSunday > hardFreeze ? lastSunday : hardFreeze;
-                    })();
-                    const isFrozen = dateStr <= doorFreezeLine.toISOString().slice(0, 10);
+                    // v90: 冻结线固定为 2026-07-10（含），7/11 起可编辑
+                    const isFrozen = dateStr <= '2026-07-10';
 
                     if (staffName) {
                       return `
