@@ -8337,12 +8337,28 @@ linggongAttendance: {
                 "totalHours": "0"
         },
         {
+                "name": "唐蓉",
+                "date": "2026-07-13",
+                "signIn": "10:26",
+                "signOut": "19:04",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
                 "name": "孔祥宇",
                 "date": "2026-07-13",
                 "signIn": "12:11",
                 "signOut": "",
                 "status": "打卡进行中",
                 "totalHours": "0"
+        },
+        {
+                "name": "孔祥宇",
+                "date": "2026-07-13",
+                "signIn": "12:11",
+                "signOut": "21:00",
+                "status": "打卡正常",
+                "totalHours": "8"
         },
         {
                 "name": "朱凯赟",
@@ -8353,12 +8369,28 @@ linggongAttendance: {
                 "totalHours": "0"
         },
         {
+                "name": "朱凯赟",
+                "date": "2026-07-13",
+                "signIn": "09:50",
+                "signOut": "18:30",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
                 "name": "李健华",
                 "date": "2026-07-13",
                 "signIn": "12:30",
                 "signOut": "",
                 "status": "打卡进行中",
                 "totalHours": "0"
+        },
+        {
+                "name": "李健华",
+                "date": "2026-07-13",
+                "signIn": "12:30",
+                "signOut": "21:00",
+                "status": "打卡正常",
+                "totalHours": "8"
         },
         {
                 "name": "梁实秋",
@@ -8377,12 +8409,36 @@ linggongAttendance: {
                 "totalHours": "0"
         },
         {
+                "name": "梁实秋",
+                "date": "2026-07-13",
+                "signIn": "12:23",
+                "signOut": "21:00",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "梁实秋",
+                "date": "2026-07-13",
+                "signIn": "21:00",
+                "signOut": "",
+                "status": "打卡进行中",
+                "totalHours": "0"
+        },
+        {
                 "name": "王雅澜",
                 "date": "2026-07-13",
                 "signIn": "12:40",
                 "signOut": "",
                 "status": "打卡进行中",
                 "totalHours": "0"
+        },
+        {
+                "name": "王雅澜",
+                "date": "2026-07-13",
+                "signIn": "12:40",
+                "signOut": "21:30",
+                "status": "打卡正常",
+                "totalHours": "8"
         },
         {
                 "name": "王靳毓",
@@ -8393,12 +8449,28 @@ linggongAttendance: {
                 "totalHours": "0"
         },
         {
+                "name": "王靳毓",
+                "date": "2026-07-13",
+                "signIn": "11:13",
+                "signOut": "20:30",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
                 "name": "祖白代·阿不利孜",
                 "date": "2026-07-13",
                 "signIn": "10:20",
                 "signOut": "",
                 "status": "打卡进行中",
                 "totalHours": "0"
+        },
+        {
+                "name": "祖白代·阿不利孜",
+                "date": "2026-07-13",
+                "signIn": "10:20",
+                "signOut": "19:00",
+                "status": "打卡正常",
+                "totalHours": "8"
         }
         ]
     },
@@ -8498,7 +8570,7 @@ linggongAttendance: {
       { id: 17, staffName: '孔祥宇', month: '2026-07', rating: 5, reviewDate: '2026-07-11', snippet: '来这边旅游，逛到了这家salomon小白楼，在外面看就感觉很漂亮，有小孔导览员（孔祥宇）带着我们逛了整栋楼，全程都很热情，耐心。整栋楼的装修很像韩国那边的店很精致，漂亮，听说是亚洲最大的旗舰店，喜欢salomon的可以来感受一下氛围。', keywords: ['热情', '耐心导览', '旗舰氛围', '装修精致', '韩国风格', '超预期'], source: '大众点评（海参拌黑松露，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-13-v94',  },
+        _dataVersion: '2026-07-13-v95',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -8510,7 +8582,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-13-v94';
+      const DATA_VERSION = '2026-07-13-v95';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
