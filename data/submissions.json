@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 101,
-    "lastUpdated": "2026-07-13T15:33:14.047Z",
-    "lastUpdatedBy": "initial-setup"
+    "version": 102,
+    "lastUpdated": "2026-07-13T15:39:22.951Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5013,11 +5013,47 @@
               "available": true,
               "note": "",
               "_updatedAt": 1783415827112
+            },
+            "7/23": {
+              "available": true,
+              "note": ""
+            },
+            "7/24": {
+              "available": true,
+              "note": ""
+            },
+            "7/25": {
+              "available": true,
+              "note": ""
+            },
+            "7/26": {
+              "available": true,
+              "note": ""
+            },
+            "7/28": {
+              "available": true,
+              "note": ""
+            },
+            "7/27": {
+              "available": true,
+              "note": ""
+            },
+            "7/30": {
+              "available": true,
+              "note": ""
+            },
+            "7/29": {
+              "available": true,
+              "note": ""
+            },
+            "7/31": {
+              "available": true,
+              "note": ""
             }
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 22,
+          "total": 31,
           "unavailable": []
         },
         "邓奇缘": {
