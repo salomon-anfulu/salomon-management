@@ -114,10 +114,10 @@ const MonthConfig = {
 function renderDashboard() {
   const staff = Store.get('staff');
   const activeStaff = staff.filter(s => s.status === 'active');
-  const schedules = Store.get('schedules');
-  const ratings = Store.get('ratings');
+  const schedules = Store.get('schedules') || [];
+  const ratings = Store.get('ratings') || [];
   const violations = Store.get('violations') || [];
-  const attendance = Store.get('attendance');
+  const attendance = Store.get('attendance') || [];
 
   const serviceTeamStaff = staff.filter(s => s.dept === 'Service Team' && s.status === 'active').length;
   const warehouseStaff = staff.filter(s => s.dept === '仓库兼职' && s.status === 'active').length;
@@ -140,14 +140,14 @@ function renderDashboard() {
       <div class="stat-card info">
         <div class="stat-icon">📅</div>
         <div class="stat-value">${thisWeekSchedules}</div>
-        <div class="stat-label">${_scoringMonth.split('-')[1]}月排班</div>
+        <div class="stat-label">${(_scoringMonth || '2026-07').split('-')[1]}月排班</div>
         <div class="stat-trend up">已排班次</div>
       </div>
       <div class="stat-card warning">
         <div class="stat-icon">🔧</div>
         <div class="stat-value">${storeSupport.length}</div>
         <div class="stat-label">店务支援</div>
-        <div class="stat-trend up">${_scoringMonth.split('-')[1]}月累计记录</div>
+        <div class="stat-trend up">${(_scoringMonth || '2026-07').split('-')[1]}月累计记录</div>
       </div>
       <div class="stat-card success">
         <div class="stat-icon">⭐</div>
@@ -5534,5 +5534,20 @@ function restoreSafetyBackup() {
     setTimeout(() => location.reload(), 1500);
   } else {
     showToast('未找到安全备份', 'error');
+  }
+}
+
+// ===== v88 bugfix: _scoringMonth 初始化时序问题 =====
+// app.js 末尾的初始化在 app.js 执行时 MonthConfig 还未定义（pages.js 之后才加载）
+// 必须在 MonthConfig 定义后、Router.render() 之前再次确保 _scoringMonth 已初始化
+if (typeof _scoringMonth === 'undefined' || _scoringMonth === null) {
+  if (typeof MonthConfig !== 'undefined' && typeof MonthConfig.getActiveScoringMonth === 'function') {
+    _scoringMonth = MonthConfig.getActiveScoringMonth();
+  } else if (typeof _ymKey === 'function') {
+    // 最终 fallback：使用当前年月
+    const _now = new Date();
+    _scoringMonth = _ymKey(_now.getFullYear(), _now.getMonth() + 1);
+  } else {
+    _scoringMonth = '2026-07';
   }
 }
