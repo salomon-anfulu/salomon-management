@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 60,
-    "lastUpdated": "2026-07-13T02:27:05.348Z",
-    "lastUpdatedBy": "田佳乐"
+    "version": 61,
+    "lastUpdated": "2026-07-13T02:27:55.939Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -6862,7 +6862,7 @@
       "type": "其他",
       "duration": "2小时",
       "detail": "记录客流",
-      "_updatedAt": 1783909625307
+      "_updatedAt": "1783909625307"
     }
   ],
   "doorSchedule": [
