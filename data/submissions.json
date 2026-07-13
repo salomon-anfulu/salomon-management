@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 76,
-    "lastUpdated": "2026-07-13T10:12:51.463Z",
-    "lastUpdatedBy": "王雅澜"
+    "version": 77,
+    "lastUpdated": "2026-07-13T10:13:09.885Z",
+    "lastUpdatedBy": "李若彤"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -6946,6 +6946,15 @@
       "duration": "1小时",
       "detail": "记录客流",
       "_updatedAt": "1783935746396"
+    },
+    {
+      "id": 1783937589857,
+      "staff": "李若彤",
+      "date": "2026-07-11",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "客流记录",
+      "_updatedAt": 1783937589263
     }
   ],
   "doorSchedule": [
@@ -8779,11 +8788,15 @@
   "_deletedIds": {
     "_meta": {
       "1783510971597": 1783586649595,
-      "1783602453241": 1783602481981
+      "1783602453241": 1783602481981,
+      "1783937559655": 1783937589884
     },
     "shiftChanges": [
       "1783510971597",
       "1783602453241"
+    ],
+    "storeSupport": [
+      "1783937559655"
     ]
   },
   "customerReviews": [
