@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 95,
-    "lastUpdated": "2026-07-13T13:58:08.692Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 96,
+    "lastUpdated": "2026-07-13T13:58:43.071Z",
+    "lastUpdatedBy": "迟骋"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -6991,6 +6991,15 @@
       "duration": "1.5小时",
       "detail": "记录客流",
       "_updatedAt": "1783942976071"
+    },
+    {
+      "id": 1783951110271,
+      "staff": "迟骋",
+      "date": "2026-07-11",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录客流",
+      "_updatedAt": 1783951109694
     }
   ],
   "doorSchedule": [
