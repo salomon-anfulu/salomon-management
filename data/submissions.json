@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 78,
-    "lastUpdated": "2026-07-13T10:14:22.343Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 79,
+    "lastUpdated": "2026-07-13T10:23:47.484Z",
+    "lastUpdatedBy": "朱凯赟"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -6955,6 +6955,15 @@
       "duration": "1小时",
       "detail": "客流记录",
       "_updatedAt": "1783937589263"
+    },
+    {
+      "id": 1783938228099,
+      "staff": "朱凯赟",
+      "date": "2026-07-11",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录上楼人数",
+      "_updatedAt": 1783938227442
     }
   ],
   "doorSchedule": [
