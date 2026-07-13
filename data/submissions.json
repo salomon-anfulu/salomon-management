@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 68,
-    "lastUpdated": "2026-07-13T09:42:14.610Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 69,
+    "lastUpdated": "2026-07-13T09:45:07.379Z",
+    "lastUpdatedBy": "王雅澜"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2817,7 +2817,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2845,7 +2845,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
