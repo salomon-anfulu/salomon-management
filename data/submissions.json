@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 75,
-    "lastUpdated": "2026-07-13T10:12:25.942Z",
-    "lastUpdatedBy": "唐蓉"
+    "version": 76,
+    "lastUpdated": "2026-07-13T10:12:51.463Z",
+    "lastUpdatedBy": "王雅澜"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2815,7 +2815,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2843,7 +2843,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -5047,7 +5047,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5125,9 +5125,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -8736,6 +8737,16 @@
           "time": "18:00:00-19:00:00",
           "staff": "孔祥宇",
           "_updatedAt": "1783769158305"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-12",
+      "slots": [
+        {
+          "time": "17:00:00-18:00:00",
+          "staff": "王雅澜",
+          "_updatedAt": "1783937563279"
         }
       ]
     },
