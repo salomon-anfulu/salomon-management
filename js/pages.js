@@ -111,6 +111,80 @@ const MonthConfig = {
   },
 };
 
+// ===== v92: 安全工具函数（第一性原则修复） =====
+// 根因：JS 原生 .split()/.replace()/.slice() 在 null/undefined 上会崩溃。
+// 所有月份变量声明为 null，渲染时直接 .split('-') 导致 50+ 个潜在崩溃点。
+// 修复策略：建立安全工具层，所有调用点统一使用。
+
+/**
+ * 安全 split —— 永远不会崩溃
+ * @param {string|null|undefined} str
+ * @param {string} separator
+ * @returns {string[]} 解析结果，输入无效时返回 []
+ */
+function _safeSplit(str, separator) {
+  if (str === null || str === undefined || typeof str !== 'string') return [];
+  return str.split(separator);
+}
+
+/**
+ * 安全 replace —— 永远不会崩溃
+ * @param {string|null|undefined} str
+ * @param {string|RegExp} pattern
+ * @param {string} replacement
+ * @returns {string} 替换后的字符串，输入无效时返回 ''
+ */
+function _safeReplace(str, pattern, replacement) {
+  if (str === null || str === undefined || typeof str !== 'string') return '';
+  return str.replace(pattern, replacement);
+}
+
+/**
+ * 安全 slice —— 永远不会崩溃
+ * @param {Array|null|undefined} arr
+ * @param {number} start
+ * @param {number} [end]
+ * @returns {Array} 切片结果，输入无效时返回 []
+ */
+function _safeSlice(arr, start, end) {
+  if (!Array.isArray(arr)) return [];
+  return end !== undefined ? arr.slice(start, end) : arr.slice(start);
+}
+
+/**
+ * 从 'YYYY-MM' 中提取月份数字 —— 永远不会崩溃
+ * @param {string|null|undefined} ym
+ * @param {number} [fallback] 默认值
+ * @returns {number} 月份(1-12)，输入无效时返回 fallback 或当前月
+ */
+function _monthNum(ym, fallback) {
+  if (!ym || typeof ym !== 'string') return fallback || (new Date().getMonth() + 1);
+  const parts = ym.split('-');
+  if (parts.length < 2) return fallback || (new Date().getMonth() + 1);
+  const n = parseInt(parts[1]);
+  return isNaN(n) ? (fallback || (new Date().getMonth() + 1)) : n;
+}
+
+/**
+ * 从 'YYYY-MM' 中提取年份数字 —— 永远不会崩溃
+ */
+function _yearNum(ym, fallback) {
+  if (!ym || typeof ym !== 'string') return fallback || new Date().getFullYear();
+  const parts = ym.split('-');
+  if (parts.length < 1) return fallback || new Date().getFullYear();
+  const n = parseInt(parts[0]);
+  return isNaN(n) ? (fallback || new Date().getFullYear()) : n;
+}
+
+/**
+ * 安全解析 'YYYY-MM' 为 [year, month] —— 永远不会崩溃
+ */
+function _parseYM(ym, fallbackY, fallbackM) {
+  const y = _yearNum(ym, fallbackY);
+  const m = _monthNum(ym, fallbackM);
+  return [y, m];
+}
+
 function renderDashboard() {
   const staff = Store.get('staff');
   const activeStaff = staff.filter(s => s.status === 'active');
@@ -140,14 +214,14 @@ function renderDashboard() {
       <div class="stat-card info">
         <div class="stat-icon">📅</div>
         <div class="stat-value">${thisWeekSchedules}</div>
-        <div class="stat-label">${(_scoringMonth || '2026-07').split('-')[1]}月排班</div>
+        <div class="stat-label">${_monthNum(_scoringMonth, 7)}月排班</div>
         <div class="stat-trend up">已排班次</div>
       </div>
       <div class="stat-card warning">
         <div class="stat-icon">🔧</div>
         <div class="stat-value">${storeSupport.length}</div>
         <div class="stat-label">店务支援</div>
-        <div class="stat-trend up">${(_scoringMonth || '2026-07').split('-')[1]}月累计记录</div>
+        <div class="stat-trend up">${_monthNum(_scoringMonth, 7)}月累计记录</div>
       </div>
       <div class="stat-card success">
         <div class="stat-icon">⭐</div>
@@ -519,7 +593,7 @@ function initStaffCascadeData(staffName) {
         staffId: newStaff.id,
         month: month,
         scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 },
-        comment: month.split('-')[1] + '月待评',
+        comment: _monthNum(month) + '月待评',
         avgScore: 0,
         hourlyRate: 28,
         _placeholder: true,
@@ -565,7 +639,7 @@ function promoteStaff(id) {
 
 // ===== Shared: build month weeks (Mon-Sun) =====
 function _buildMonthWeeks(monthKey) {
-  const [year, mon] = monthKey.split("-").map(Number);
+  const [year, mon] = _parseYM(monthKey, 2026, new Date().getMonth()+1);
   const totalDays = new Date(year, mon, 0).getDate();
   const weeks = [];
   let wkStart = new Date(year, mon - 1, 1);
@@ -614,7 +688,7 @@ function renderSchedule() {
   }
 
   // === 计算月份每周的日期范围 ===
-  const [year, mon] = month.split('-').map(Number);
+  const [year, mon] = _parseYM(month, 2026, 6);
   const totalDays = new Date(year, mon, 0).getDate();
 
   // 按自然周拆分（周一至周日）
@@ -723,7 +797,8 @@ function renderSchedule() {
       </div>
       <div style="display:flex; gap:6px; align-items:center;">
         ${availableAvailMonths.map(m => {
-          const [y, mm] = m.split('-');
+          const y = _yearNum(m);
+          const mm = _monthNum(m);
           const active = m === month;
           const monthData = (availability && availability.months && availability.months[m] && availability.months[m].data) || {};
           const hasData = Object.keys(monthData).length > 0;
@@ -754,7 +829,7 @@ function renderSchedule() {
       <div class="stat-card info">
         <div class="stat-icon">📅</div>
         <div class="stat-value">${totalAvailDays}</div>
-        <div class="stat-label">${parseInt(month.split('-')[1])}月总可供天次</div>
+        <div class="stat-label">${_monthNum(month)}月总可供天次</div>
         <div class="stat-trend">人均 ${avgAvailDays} 天</div>
       </div>
       <div class="stat-card success">
@@ -1019,7 +1094,7 @@ function renderAttendance() {
   if (!_attMonth) {
     _attMonth = allMonths.length > 0 ? allMonths[allMonths.length - 1] : _ymKey(new Date().getFullYear(), new Date().getMonth() + 1);
   }
-  const [aY, aM] = _attMonth.split('-').map(Number);
+  const [aY, aM] = _parseYM(_attMonth);
   const prevMonth = _ymKey(aM === 1 ? (aY - 1) : aY, aM === 1 ? 12 : (aM - 1));
   const nextMonth = _ymKey(aM === 12 ? (aY + 1) : aY, aM === 12 ? 1 : (aM + 1));
   const canGoPrev = prevMonth >= ATT_MIN_MONTH;
@@ -1067,7 +1142,7 @@ function renderAttendance() {
 
   const sortedDates = Array.from(uniqueDates).sort();
   const sortedPersonStats = Object.values(personStats).sort((a, b) => b.totalHours - a.totalHours);
-  const [mY, mM] = _attMonth.split('-').map(Number);
+  const [mY, mM] = _parseYM(_attMonth);
 
   return `
     <div class="flex justify-between items-center mb-4 animate-in">
@@ -1123,7 +1198,7 @@ function renderAttendance() {
         <div style="display: flex; gap: 8px; overflow-x: auto; flex-wrap: wrap;">
           ${sortedDates.map(d => {
             const s = dateStats[d];
-            const dayLabel = d.replace(/^2026-0?/, '').replace('-', '/');
+            const dayLabel = _safeReplace(_safeReplace(d, /^2026-0?/, ''), '-', '/');
             const hasIssue = s.abnormal > 0;
             return `
               <div style="min-width: 100px; background: ${hasIssue ? 'rgba(239,68,68,0.06)' : 'rgba(16,185,129,0.06)'}; border: 1px solid ${hasIssue ? 'rgba(239,68,68,0.15)' : 'rgba(16,185,129,0.15)'}; border-radius: var(--radius); padding: 10px; text-align: center;">
@@ -1148,7 +1223,7 @@ function renderAttendance() {
         ${sortedPersonStats.map((p, i) => {
           const s = staffMap[p.name];
           const avatarColor = s ? s.avatar_color : '#6366f1';
-          const initials = s ? getInitials(s.name) : p.name.slice(-2);
+          const initials = s ? getInitials(s.name) : (p.name || '??').slice(-2);
           const avgHours = p.count > 0 ? (p.totalHours / p.count).toFixed(1) : '0.0';
           return `
             <div class="flex justify-between items-center" style="padding: 10px 0; border-bottom: 1px solid var(--border-light);">
@@ -1433,7 +1508,7 @@ function calcAvailabilityScore(staffName) {
   // v79: 改为"只统计明确 available: true 的天"
   // 旧逻辑（非 unavailable = 可供班）有 bug：未填写的天也被误算为可供班
   const availableDaysSet = new Set(); // 明确标记 available: true 的天
-  const [availMonNum] = monthKey.split('-').map(n => parseInt(n));
+  const availMonNum = _monthNum(monthKey);
   if (availData.dates && typeof availData.dates === 'object') {
     Object.entries(availData.dates).forEach(([dateKey, status]) => {
       if (status && status._deleted) return;
@@ -1459,7 +1534,7 @@ function calcAvailabilityScore(staffName) {
   }
 
   // Dynamically compute weeks for the availability month (Mon-Sun)
-  const [yr, mn] = monthKey.split('-').map(Number);
+  const [yr, mn] = _parseYM(monthKey);
   // v86 P1-1: 跳过周数由 MonthConfig 配置驱动（原硬编码 monthKey === '2026-07' ? slice(2)）
   const _allWeeks = _buildMonthWeeks(monthKey);
   const _skipWk = MonthConfig.getSkipWeeks(monthKey);
@@ -1875,7 +1950,7 @@ function renderRatings() {
       staffId: s.id,
       month: _scoringMonth,
       scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 },
-      comment: (_scoringMonth || '2026-07').split('-')[1] + '月待评',
+      comment: _monthNum(_scoringMonth, 7) + '月待评',
       avgScore: 0,
       hourlyRate: 28,
       _placeholder: true,
@@ -1896,7 +1971,7 @@ function renderRatings() {
         staffId: s.id,
         month: _scoringMonth,
         scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 },
-        comment: (_scoringMonth || '2026-07').split('-')[1] + '月待评',
+        comment: _monthNum(_scoringMonth, 7) + '月待评',
         avgScore: 0,
         hourlyRate: 28,
         _placeholder: true,
@@ -1942,7 +2017,8 @@ function renderRatings() {
   const visibleStaffIds = new Set(visibleRatings.map(r => r.staffId));
 
   // Month label display
-  const [yr, mn] = (_scoringMonth || '2026-07').split('-');
+  const yr = _yearNum(_scoringMonth);
+  const mn = _monthNum(_scoringMonth);
   const monthLabel = `${yr}年${parseInt(mn)}月`;
   const isCurrentMonth = _scoringMonth === MonthConfig.getActiveScoringMonth();
   // Check if this month has no performance data (placeholder month)
@@ -1963,7 +2039,8 @@ function renderRatings() {
           <!-- Month switcher -->
           <div style="display:flex;gap:6px;align-items:center;">
             ${availableMonths.map(m => {
-              const [y, mm] = m.split('-');
+              const y = _yearNum(m);
+              const mm = _monthNum(m);
               const active = m === _scoringMonth;
               return `<button onclick="switchScoringMonth('${m}')" style="padding:6px 14px;border-radius:8px;border:1px solid ${active ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.15)'};background:${active ? 'rgba(255,255,255,0.15)' : 'transparent'};color:#fff;font-size:12px;font-weight:${active ? '700' : '500'};cursor:pointer;transition:all 0.2s;">${parseInt(mm)}月</button>`;
             }).join('')}
@@ -2893,11 +2970,11 @@ function renderPerformance() {
           <select onchange="perfSort=this.value;Router.render()" style="padding: 4px 12px; border-radius: var(--radius-md); border: 1px solid var(--border); font-size: 13px;">
             <option value="sales" ${perfSort === 'sales' ? 'selected' : ''}>按销售额</option>
             <option value="hourlyOutput" ${perfSort === 'hourlyOutput' ? 'selected' : ''}>按时产</option>
-            ${isMay ? `<option value="upt" ${perfSort === 'upt' ? 'selected' : ''}>按 UPT</option>` : ''}
+            ${showUpt ? `<option value="upt" ${perfSort === 'upt' ? 'selected' : ''}>按 UPT</option>` : ''}
             ${showFull ? `<option value="tickets" ${perfSort === 'tickets' ? 'selected' : ''}>按客单数</option>` : ''}
             ${showFull ? `<option value="avgPrice" ${perfSort === 'avgPrice' ? 'selected' : ''}>按件均价</option>` : ''}
             <option value="salesShare" ${perfSort === 'salesShare' ? 'selected' : ''}>按占比</option>
-            ${isMay || isJune ? `<option value="efficiency" ${perfSort === 'efficiency' ? 'selected' : ''}>按效率值</option>` : ''}
+            ${showFull ? `<option value="efficiency" ${perfSort === 'efficiency' ? 'selected' : ''}>按效率值</option>` : ''}
           </select>
           <button class="btn btn-sm btn-outline" onclick="perfSortDir=perfSortDir==='desc'?'asc':'desc';Router.render()">
             ${perfSortDir === 'desc' ? '↓ 降序' : '↑ 升序'}
@@ -2913,12 +2990,12 @@ function renderPerformance() {
                 <th>姓名</th>
                 <th>销售额</th>
                 ${showFull ? '<th>件数</th><th>客单</th><th>UPT</th><th>件均价</th>' : ''}
-                ${isMay ? '<th>UPT</th>' : !showFull ? '<th>3月业绩</th>' : ''}
+                ${showUpt ? '<th>UPT</th>' : !showFull ? '<th>3月业绩</th>' : ''}
                 <th>业绩占比</th>
                 <th>${showFull ? '出勤天数' : '出勤工时'}</th>
                 ${showFull ? '<th>出勤工时</th>' : ''}
                 <th>时产(元/h)</th>
-                ${isMay || isJune ? '<th>效率值</th>' : ''}
+                ${showFull ? '<th>效率值</th>' : ''}
                 ${!showFull ? '<th>占比变化</th>' : ''}
               </tr>
             </thead>
@@ -2938,7 +3015,7 @@ function renderPerformance() {
                       <td><span class="badge ${((r.qty || 0) / Math.max(r.tickets || 1, 1) >= KPI.uptTarget ? 'badge-active' : 'badge-danger')}">${((r.qty || 0) / Math.max(r.tickets || 1, 1)).toFixed(2)}</span></td>
                       <td>¥${(r.avgPrice || 0).toLocaleString()}</td>
                     ` : ''}
-                    ${isMay 
+                    ${showUpt 
                       ? `<td><span class="badge ${(r.upt || 0) >= KPI.uptTarget ? 'badge-active' : 'badge-danger'}">${r.upt}</span></td>`
                       : !showFull ? `<td class="text-sm">¥${((r.prevMonthSales || 0) / 10000).toFixed(2)}万</td>` : ''
                     }
@@ -2951,8 +3028,8 @@ function renderPerformance() {
                       </span>
                       ${!hourlyPass ? '<span style="font-size: 11px; color: var(--danger);"> ⚠️</span>' : ''}
                     </td>
-                    ${isMay || isJune
-                      ? `<td><span style="color: ${r.efficiency >= 0 ? 'var(--success)' : 'var(--danger)'}; font-weight: 600;">${r.efficiency >= 0 ? '+' : ''}${(r.efficiency * 100).toFixed(1)}%</span></td>`
+                    ${showFull
+                      ? `<td><span style="color: ${(r.efficiency||0) >= 0 ? 'var(--success)' : 'var(--danger)'}; font-weight: 600;">${(r.efficiency||0) >= 0 ? '+' : ''}${((r.efficiency||0) * 100).toFixed(1)}%</span></td>`
                       : ''
                     }
                     ${!showFull ? `<td><span style="color: ${(r.shareGrowth || 0) > 0 ? 'var(--success)' : 'var(--danger)'}; font-weight: 500;">${(r.shareGrowth || 0) > 0 ? '↑' : '↓'} ${Math.abs((r.shareGrowth || 0) * 100).toFixed(1)}%</span></td>` : ''}
@@ -2975,7 +3052,7 @@ function renderPerformance() {
         <div class="grid-3" style="gap: 16px;">
           ${records.map(r => {
             const hourlyPass = r.hourlyOutput >= KPI.hourlySalesTarget;
-            const uptPass = isMay ? (r.upt || 0) >= KPI.uptTarget : showFull ? ((r.qty || 0) / Math.max(r.tickets || 1, 1)) >= KPI.uptTarget : true;
+            const uptPass = showUpt ? (r.upt || 0) >= KPI.uptTarget : showFull ? ((r.qty || 0) / Math.max(r.tickets || 1, 1)) >= KPI.uptTarget : true;
             const allPass = hourlyPass && uptPass;
             return `
               <div style="display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--bg-secondary); border-radius: var(--radius-md); border-left: 3px solid ${allPass ? 'var(--success)' : 'var(--danger)'};">
@@ -2986,7 +3063,7 @@ function renderPerformance() {
                   <div style="font-weight: 600; font-size: 14px;">${r.name}</div>
                   <div style="font-size: 12px; color: var(--text-secondary);">
                     时产 ¥${r.hourlyOutput.toFixed(0)} ${hourlyPass ? '✓' : '✗'}
-                    ${isMay ? `· UPT ${r.upt} ${(r.upt || 0) >= KPI.uptTarget ? '✓' : '✗'}` : ''}
+                    ${showUpt ? `· UPT ${r.upt} ${(r.upt || 0) >= KPI.uptTarget ? '✓' : '✗'}` : ''}
                     ${showFull ? `· UPT ${((r.qty || 0) / Math.max(r.tickets || 1, 1)).toFixed(2)} ${uptPass ? '✓' : '✗'}` : ''}
                   </div>
                 </div>
@@ -3019,7 +3096,7 @@ function renderPerformance() {
             let cats;
             if (typeof r.categories === 'string') {
               const parsed = {};
-              r.categories.split('/').forEach(part => {
+              _safeSplit(r.categories, '/').forEach(part => {
                 const m = part.trim().match(/^(.+?)\s+([\d.]+)%/);
                 if (m) parsed[m[1]] = { pct: parseFloat(m[2]), sales: 0, qty: 0 };
               });
@@ -3095,7 +3172,7 @@ function renderDoorSchedule() {
   if (!_doorPageMonth || _doorPageMonth < DOOR_PAGE_MIN_MONTH) {
     _doorPageMonth = allMonths.length > 0 ? allMonths[allMonths.length - 1] : DOOR_PAGE_MIN_MONTH;
   }
-  const [dY, dM] = _doorPageMonth.split('-').map(Number);
+  const [dY, dM] = _parseYM(_doorPageMonth);
   const prevMonth = _ymKey(dM === 1 ? (dY - 1) : dY, dM === 1 ? 12 : (dM - 1));
   const nextMonth = _ymKey(dM === 12 ? (dY + 1) : dY, dM === 12 ? 1 : (dM + 1));
   const canGoPrev = prevMonth >= DOOR_PAGE_MIN_MONTH;
@@ -3116,11 +3193,11 @@ function renderDoorSchedule() {
   doorData.forEach(day => {
     day.slots.forEach(slot => {
       if (!slot.staff || !slot.staff.trim()) return;
-      const parts = slot.time.split('-');
-      const startH = parseInt(parts[0].split(':')[0]);
-      const startM = parseInt(parts[0].split(':')[1]) || 0;
-      const endH = parseInt(parts[1].split(':')[0]);
-      const endM = parseInt(parts[1].split(':')[1]) || 0;
+      const parts = _safeSplit(slot.time, '-');
+      const startH = parseInt(_safeSplit(parts[0], ':')[0]) || 0;
+      const startM = parseInt(_safeSplit(parts[0], ':')[1]) || 0;
+      const endH = parseInt(_safeSplit(parts[1], ':')[0]) || 0;
+      const endM = parseInt(_safeSplit(parts[1], ':')[1]) || 0;
       const duration = (endH + endM / 60) - (startH + startM / 60);
       if (duration <= 0) return;
 
@@ -3152,11 +3229,11 @@ function renderDoorSchedule() {
   selectedDay.slots.forEach(slot => {
     if (!slot.staff || !slot.staff.trim()) return;
     if (slot.staff.includes('/')) return;
-    const parts = slot.time.split('-');
-    const startH = parseInt(parts[0].split(':')[0]);
-    const startM = parseInt(parts[0].split(':')[1]) || 0;
-    const endH = parseInt(parts[1].split(':')[0]);
-    const endM = parseInt(parts[1].split(':')[1]) || 0;
+    const parts = _safeSplit(slot.time, '-');
+    const startH = parseInt(_safeSplit(parts[0], ':')[0]) || 0;
+    const startM = parseInt(_safeSplit(parts[0], ':')[1]) || 0;
+    const endH = parseInt(_safeSplit(parts[1], ':')[0]) || 0;
+    const endM = parseInt(_safeSplit(parts[1], ':')[1]) || 0;
     const duration = (endH + endM / 60) - (startH + startM / 60);
     if (duration <= 0) return;
     selectedDayStaff++;
@@ -3165,7 +3242,7 @@ function renderDoorSchedule() {
 
   // 日期显示辅助：YYYY-MM-DD → M/D
   const fmtDate = (dateStr) => {
-    const p = dateStr.split('-');
+    const p = _safeSplit(dateStr, '-');
     return parseInt(p[1]) + '/' + parseInt(p[2]);
   };
 
@@ -3254,8 +3331,8 @@ function renderDoorSchedule() {
               <tbody>
                 ${selectedDay.slots && selectedDay.slots.length > 0 ? selectedDay.slots.map((slot) => {
                   const hasStaff = slot.staff && slot.staff.trim();
-                  const parts = slot.time.split('-');
-                  const dur = (parseInt(parts[1].split(':')[0]) + (parseInt(parts[1].split(':')[1])||0)/60) - (parseInt(parts[0].split(':')[0]) + (parseInt(parts[0].split(':')[1])||0)/60);
+                  const parts = _safeSplit(slot.time, '-');
+                  const dur = (parseInt(_safeSplit(parts[1], ':')[0]) + (parseInt(_safeSplit(parts[1], ':')[1])||0)/60) - (parseInt(_safeSplit(parts[0], ':')[0]) + (parseInt(_safeSplit(parts[0], ':')[1])||0)/60);
                   return `
                     <tr>
                       <td><span style="font-weight: 600;">${slot.time}</span></td>
@@ -3339,7 +3416,7 @@ function renderSupport() {
   if (!_supportPageMonth || _supportPageMonth < SUPPORT_PAGE_MIN_MONTH) {
     _supportPageMonth = allMonths.length > 0 ? allMonths[allMonths.length - 1] : SUPPORT_PAGE_MIN_MONTH;
   }
-  const [dY, dM] = _supportPageMonth.split('-').map(Number);
+  const [dY, dM] = _parseYM(_supportPageMonth);
   const prevMonth = _ymKey(dM === 1 ? (dY - 1) : dY, dM === 1 ? 12 : (dM - 1));
   const nextMonth = _ymKey(dM === 12 ? (dY + 1) : dY, dM === 12 ? 1 : (dM + 1));
   const canGoPrev = prevMonth >= SUPPORT_PAGE_MIN_MONTH;
@@ -3359,7 +3436,7 @@ function renderSupport() {
     staffSupportCount[s.staff] = (staffSupportCount[s.staff] || 0) + 1;
   });
 
-  const supportTypes = [...new Set(supportData.map(s => s.type.split('-')[0]))];
+  const supportTypes = [...new Set(supportData.map(s => _safeSplit(s.type, '-')[0] || '其他'))];
 
   return `
     <div class="animate-in" style="margin-bottom: 24px;">
@@ -3548,7 +3625,7 @@ function renderStaffStatsTable(staffStats, staffSupportCount) {
       <div class="card animate-in">
         <div class="card-header">
           <h3>📋 个人支援统计</h3>
-          <span class="text-sm text-secondary">按总时长排序 · ${_supportPageMonth ? _supportPageMonth.replace('-', '年') + '月' : ''}</span>
+          <span class="text-sm text-secondary">按总时长排序 · ${_supportPageMonth ? _safeReplace(_supportPageMonth, '-', '年') + '月' : ''}</span>
         </div>
         <div class="card-body" style="padding: 0;">
           <div class="table-container">
@@ -3667,7 +3744,7 @@ function renderPersonalDashboard() {
   const perfData = Store.get('performanceData') || {};
   const perfKey = _monthKeyToPerfKey(_scoringMonth) || 'july';
   const myPerf = perfData[perfKey]?.records?.find(r => r.name === _auth.staffName);
-  const perfMonthLabel = _scoringMonth ? parseInt(_scoringMonth.split('-')[1]) + '月' : '本月';
+  const perfMonthLabel = _scoringMonth ? _monthNum(_scoringMonth) + '月' : '本月';
   const lgData = Store.get('linggongAttendance') || {};
   const myAttendance = (lgData.records || []).filter(r => r.name === _auth.staffName);
   const normalDays = myAttendance.filter(r => r.status === '打卡正常').length;
@@ -3865,7 +3942,7 @@ function renderCustomerReviews() {
     <div class="stats-grid animate-in" style="grid-template-columns: repeat(4, 1fr);">
       <div class="stat-card accent">
         <div class="stat-value">${totalCount}</div>
-        <div class="stat-label">${reviewsMonthFilter.replace('2026-', '')}月好评数</div>
+        <div class="stat-label">${_safeReplace(reviewsMonthFilter, '2026-', '')}月好评数</div>
       </div>
       <div class="stat-card success">
         <div class="stat-value">${reviewedStaff}</div>
@@ -3883,7 +3960,7 @@ function renderCustomerReviews() {
 
     <!-- Filters -->
     <div class="tabs animate-in" style="margin-top: 20px;">
-      ${months.map(m => `<button class="tab ${reviewsMonthFilter === m ? 'active' : ''}" onclick="reviewsMonthFilter='${m}';reviewsStaffFilter='all';Router.render()">${m.replace('2026-', '')}月</button>`).join('')}
+      ${months.map(m => `<button class="tab ${reviewsMonthFilter === m ? 'active' : ''}" onclick="reviewsMonthFilter='${m}';reviewsStaffFilter='all';Router.render()">${_safeReplace(m, '2026-', '')}月</button>`).join('')}
       <button class="tab" onclick="openReviewForm()" style="margin-left: auto; background: var(--accent); color: #fff;">+ 添加好评</button>
     </div>
 
@@ -4178,11 +4255,11 @@ function openDoorSlotForm(idx) {
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
           <div>
             <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">开始时间 *</label>
-            <input id="doorSlotStart" type="time" value="${slot ? slot.time.split('-')[0] : '10:00'}" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
+            <input id="doorSlotStart" type="time" value="${slot ? _safeSplit(slot.time, '-')[0] || '10:00' : '10:00'}" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
           </div>
           <div>
             <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">结束时间 *</label>
-            <input id="doorSlotEnd" type="time" value="${slot ? slot.time.split('-')[1] : '11:00'}" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
+            <input id="doorSlotEnd" type="time" value="${slot ? _safeSplit(slot.time, '-')[1] || '11:00' : '11:00'}" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);" />
           </div>
         </div>
         <div>
@@ -4543,7 +4620,7 @@ function getDateStatus(monthKey, staffName, dayNum) {
 
   // New dates structure
   if (person.dates) {
-    const mon = parseInt(monthKey.split('-')[1]);
+    const mon = _monthNum(monthKey);
     const dateKey = `${mon}/${dayNum}`;
     const val = person.dates[dateKey];
     // v54: _deleted 标记的日期视为"未填写"
@@ -4552,7 +4629,7 @@ function getDateStatus(monthKey, staffName, dayNum) {
   }
 
   // Legacy: infer from unavailable array
-  const mon = parseInt(monthKey.split('-')[1]);
+  const mon = _monthNum(monthKey);
   const dateStr = `${mon}/${dayNum}`;
   const isUnavailable = (person.unavailable || []).some(d => {
     const parts = String(d).split('/');
@@ -4579,7 +4656,7 @@ function renderAvailabilityTab() {
 
 // ===== Month switcher =====
 function renderMonthSwitcher() {
-  const [y, m] = _availMonth.split('-').map(Number);
+  const [y, m] = _parseYM(_availMonth, 2026, 7);
   const prevMonth = _ymKey(m === 1 ? (y - 1) : y, m === 1 ? 12 : (m - 1));
   const nextMonth = _ymKey(m === 12 ? (y + 1) : y, m === 12 ? 1 : (m + 1));
   const canGoPrev = prevMonth >= AVAIL_MIN_MONTH;
@@ -4595,7 +4672,7 @@ function renderMonthSwitcher() {
 // ===== Personal calendar view =====
 function renderPersonalCalendar() {
   const staff = Store.getList('staff').filter(s => s.status === 'active');
-  const [year, mon] = _availMonth.split('-').map(Number);
+  const [year, mon] = _parseYM(_availMonth, 2026, 7);
   const totalDays = new Date(year, mon, 0).getDate();
   const firstDay = new Date(year, mon - 1, 1).getDay() || 7; // 1=Mon ... 7=Sun
 
@@ -4685,7 +4762,7 @@ function renderPersonalCalendar() {
 // ===== Date status form (popup for each day) =====
 function openDateStatusForm(dayNum) {
   if (!_availStaff) { showToast('请先选择姓名', 'warning'); return; }
-  const [year, mon] = _availMonth.split('-').map(Number);
+  const [year, mon] = _parseYM(_availMonth, 2026, 7);
   // v84: 冻结检查
   if (_isAvailFrozen(year, mon, dayNum)) {
     showToast('该日期已冻结，不可修改', 'warning');
@@ -4740,7 +4817,7 @@ function saveDateStatus(dayNum) {
   const available = checkedEl.value === 'true';
   const note = document.getElementById('dateNote').value.trim();
 
-  const [year, mon] = _availMonth.split('-').map(Number);
+  const [year, mon] = _parseYM(_availMonth, 2026, 7);
   // v84: 冻结安全检查
   if (_isAvailFrozen(year, mon, dayNum)) { showToast('该日期已冻结，不可修改', 'warning'); return; }
   const dateKey = `${mon}/${dayNum}`;
@@ -4775,7 +4852,7 @@ function saveDateStatus(dayNum) {
 }
 
 function clearDateStatus(dayNum) {
-  const [year, mon] = _availMonth.split('-').map(Number);
+  const [year, mon] = _parseYM(_availMonth, 2026, 7);
   // v84: 冻结安全检查
   if (_isAvailFrozen(year, mon, dayNum)) { showToast('该日期已冻结，不可修改', 'warning'); return; }
   const dateKey = `${mon}/${dayNum}`;
@@ -4813,7 +4890,7 @@ function syncPersonLegacyFields(person, mon) {
 
 // ===== Overview (weekly matrix) =====
 function renderWeekSwitcher() {
-  const [year, mon] = _availMonth.split('-').map(Number);
+  const [year, mon] = _parseYM(_availMonth, 2026, 7);
 
   // Build weeks (Mon-Sun)
   const weeks = _buildMonthWeeks(_availMonth);
@@ -4839,7 +4916,7 @@ function renderWeekSwitcher() {
 
 function renderOverviewMatrix() {
   const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === _availOverviewDept);
-  const [year, mon] = _availMonth.split('-').map(Number);
+  const [year, mon] = _parseYM(_availMonth, 2026, 7);
 
   // Build weeks
   const weekObjects = _buildMonthWeeks(_availMonth);
@@ -4880,7 +4957,7 @@ function renderOverviewMatrix() {
     weekDays.forEach(d => {
       const status = getDateStatus(_availMonth, s.name, d);
       if (status && !status.available && status.note && status.note.trim()) {
-        const mon2 = parseInt(_availMonth.split('-')[1]);
+        const mon2 = _monthNum(_availMonth, 7);
         weekNotes.push(`${mon2}/${d}: ${status.note.trim()}`);
       }
     });
@@ -4982,7 +5059,7 @@ function renderShiftsTab() {
   const allChanges = Store.get('shiftChanges') || [];
   const changes = allChanges.filter(c => (c.applyDate || '').startsWith(_shiftsMonth));
 
-  const [y, m] = _shiftsMonth.split('-').map(Number);
+  const [y, m] = _parseYM(_shiftsMonth, 2026, 7);
   const prevMonth = _ymKey(m === 1 ? (y - 1) : y, m === 1 ? 12 : (m - 1));
   const nextMonth = _ymKey(m === 12 ? (y + 1) : y, m === 12 ? 1 : (m + 1));
   const canGoPrev = prevMonth >= AVAIL_MIN_MONTH;
@@ -5034,7 +5111,7 @@ function renderSupportTab() {
   const allData = Store.get('storeSupport') || [];
   const data = allData.filter(s => (s.date || '').startsWith(_supportMonth));
 
-  const [y, m] = _supportMonth.split('-').map(Number);
+  const [y, m] = _parseYM(_supportMonth, 2026, 7);
   const prevMonth = _ymKey(m === 1 ? (y - 1) : y, m === 1 ? 12 : (m - 1));
   const nextMonth = _ymKey(m === 12 ? (y + 1) : y, m === 12 ? 1 : (m + 1));
   const canGoPrev = prevMonth >= AVAIL_MIN_MONTH;
@@ -5061,11 +5138,11 @@ function renderSupportTab() {
             <tbody>
               ${data.length > 0 ? data.slice().reverse().map(s => `
                 <tr>
-                  <td>${s.date.replace('2026-', '')}</td>
-                  <td><span style="font-weight:600;">${s.staff}</span></td>
-                  <td><span class="badge ${s.type.includes('货品') ? 'badge-info' : s.type.includes('陈列') ? 'badge-active' : 'badge-warning'}">${s.type}</span></td>
-                  <td>${s.duration}</td>
-                  <td class="text-sm text-secondary">${s.detail}</td>
+                  <td>${_safeReplace(s.date, '2026-', '')}</td>
+                  <td><span style="font-weight:600;">${s.staff || ''}</span></td>
+                  <td><span class="badge ${(s.type||'').includes('货品') ? 'badge-info' : (s.type||'').includes('陈列') ? 'badge-active' : 'badge-warning'}">${s.type || ''}</span></td>
+                  <td>${s.duration || ''}</td>
+                  <td class="text-sm text-secondary">${s.detail || ''}</td>
                   <td><button onclick="deleteSupport(${s.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button></td>
                 </tr>
               `).join('') : '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">本月暂无支援记录，点击「+ 新增支援」录入</td></tr>'}
@@ -5085,7 +5162,7 @@ function renderDoorTab() {
   const allDoorData = Store.get('doorSchedule') || [];
   const doorData = allDoorData.filter(d => (d.date || '').startsWith(_doorViewMonth));
 
-  const [y, m] = _doorViewMonth.split('-').map(Number);
+  const [y, m] = _parseYM(_doorViewMonth, 2026, 7);
   const prevMonth = _ymKey(m === 1 ? (y - 1) : y, m === 1 ? 12 : (m - 1));
   const nextMonth = _ymKey(m === 12 ? (y + 1) : y, m === 12 ? 1 : (m + 1));
   const canGoPrev = prevMonth >= AVAIL_MIN_MONTH;
@@ -5134,7 +5211,7 @@ function renderDoorTab() {
             ${days.map(dateStr => {
               const daySlots = doorMap[dateStr] || {};
               const day = daySlots;
-              const d = parseInt(dateStr.split('-')[2]);
+              const d = parseInt(_safeSplit(dateStr, '-')[2]) || 1;
               const weekday = new Date(y, m - 1, d).getDay();
               const weekdayNames = ['日','一','二','三','四','五','六'];
               const isWeekend = weekday === 0 || weekday === 6;
