@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 112,
-    "lastUpdated": "2026-07-14T06:08:34.326Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 113,
+    "lastUpdated": "2026-07-14T07:01:44.763Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2815,7 +2815,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2843,7 +2843,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -7058,13 +7058,22 @@
       "_updatedAt": "1783963662839"
     },
     {
+      "id": 1783997341610,
+      "staff": "田佳乐",
+      "date": "2026-07-12",
+      "type": "其他",
+      "duration": "2小时",
+      "detail": "记录客流",
+      "_updatedAt": 1783997341521
+    },
+    {
       "id": 1784009275754,
       "staff": "孔祥宇",
       "date": "2026-07-13",
       "type": "陈列-翻场支援",
       "duration": "0.5小时",
       "detail": "夜盘翻吊牌",
-      "_updatedAt": 1784009275726
+      "_updatedAt": "1784009275726"
     }
   ],
   "doorSchedule": [
