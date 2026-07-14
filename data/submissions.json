@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 113,
-    "lastUpdated": "2026-07-14T07:01:44.763Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 114,
+    "lastUpdated": "2026-07-14T08:28:49.221Z",
+    "lastUpdatedBy": "邓奇缘"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7064,7 +7064,7 @@
       "type": "其他",
       "duration": "2小时",
       "detail": "记录客流",
-      "_updatedAt": 1783997341521
+      "_updatedAt": "1783997341521"
     },
     {
       "id": 1784009275754,
@@ -8965,6 +8965,16 @@
           "time": "20:00:00-21:00:00",
           "staff": "王雅澜",
           "_updatedAt": "1783936087485"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-14",
+      "slots": [
+        {
+          "time": "14:00:00-15:00:00",
+          "staff": "邓奇缘",
+          "_updatedAt": "1784017729170"
         }
       ]
     }
