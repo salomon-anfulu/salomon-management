@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 114,
-    "lastUpdated": "2026-07-14T08:28:49.221Z",
+    "version": 115,
+    "lastUpdated": "2026-07-14T08:30:03.790Z",
     "lastUpdatedBy": "邓奇缘"
   },
   "availability": {
@@ -7074,6 +7074,15 @@
       "duration": "0.5小时",
       "detail": "夜盘翻吊牌",
       "_updatedAt": "1784009275726"
+    },
+    {
+      "id": 1784017804094,
+      "staff": "邓奇缘",
+      "date": "2026-07-14",
+      "type": "其他",
+      "duration": "1.5小时",
+      "detail": "客流统计，更换成列",
+      "_updatedAt": 1784017803751
     }
   ],
   "doorSchedule": [
