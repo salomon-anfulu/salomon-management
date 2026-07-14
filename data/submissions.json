@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 122,
-    "lastUpdated": "2026-07-14T14:26:30.272Z",
-    "lastUpdatedBy": "initial-setup"
+    "version": 123,
+    "lastUpdated": "2026-07-14T14:28:53.187Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -4099,7 +4099,7 @@
             "7/25": {
               "available": true,
               "note": "",
-              "_updatedAt": 1783419739684
+              "_updatedAt": 1784039223527
             },
             "7/26": {
               "available": true,
