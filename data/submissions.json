@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 108,
-    "lastUpdated": "2026-07-14T04:06:49.061Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 109,
+    "lastUpdated": "2026-07-14T04:59:22.637Z",
+    "lastUpdatedBy": "玛依拉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -4291,9 +4291,9 @@
               "_updatedAt": 1783414611793
             },
             "7/25": {
-              "available": true,
+              "available": false,
               "note": "",
-              "_updatedAt": 1783414613024
+              "_updatedAt": 1784005162612
             },
             "7/26": {
               "available": true,
@@ -4328,8 +4328,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 19,
-          "unavailable": []
+          "total": 18,
+          "unavailable": [
+            "7/25"
+          ]
         },
         "陈昕媛": {
           "dates": {
@@ -5083,7 +5085,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5161,9 +5163,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -7044,6 +7047,15 @@
       "duration": "1小时",
       "detail": "记录客流",
       "_updatedAt": "1783951109694"
+    },
+    {
+      "id": 1783963662877,
+      "staff": "邓奇缘",
+      "date": "2026-07-12",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录客流",
+      "_updatedAt": 1783963662839
     }
   ],
   "doorSchedule": [
@@ -8885,6 +8897,11 @@
           "time": "18:00:00-19:00:00",
           "staff": "何秋烨",
           "_updatedAt": "1783940440441"
+        },
+        {
+          "time": "19:00:00-20:00:00",
+          "staff": "邓奇缘",
+          "_updatedAt": "1783963629433"
         },
         {
           "time": "20:00:00-21:00:00",
