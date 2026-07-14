@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 116,
-    "lastUpdated": "2026-07-14T08:44:37.753Z",
-    "lastUpdatedBy": "initial-setup"
+    "version": 117,
+    "lastUpdated": "2026-07-14T08:45:38.385Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7082,7 +7082,16 @@
       "type": "其他",
       "duration": "1.5小时",
       "detail": "客流统计，更换成列",
-      "_updatedAt": 1784017803751
+      "_updatedAt": "1784017803751"
+    },
+    {
+      "id": 1784018716117,
+      "staff": "龚赟昊",
+      "date": "2026-07-14",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "客流计数",
+      "_updatedAt": 1784018715560
     }
   ],
   "doorSchedule": [
@@ -8980,6 +8989,11 @@
     {
       "date": "2026-07-14",
       "slots": [
+        {
+          "time": "13:00:00-14:00:00",
+          "staff": "龚赟昊",
+          "_updatedAt": "1784018697826"
+        },
         {
           "time": "14:00:00-15:00:00",
           "staff": "邓奇缘",
