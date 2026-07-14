@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 117,
-    "lastUpdated": "2026-07-14T08:45:38.385Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 118,
+    "lastUpdated": "2026-07-14T09:48:52.134Z",
+    "lastUpdatedBy": "田佳乐"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2712,9 +2712,9 @@
               "_updatedAt": 1783413176352
             },
             "7/22": {
-              "available": true,
+              "available": false,
               "note": "",
-              "_updatedAt": 1783413177382
+              "_updatedAt": 1784022532118
             },
             "7/23": {
               "available": true,
@@ -2764,8 +2764,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370523,
-          "total": 31,
-          "unavailable": []
+          "total": 30,
+          "unavailable": [
+            "7/22"
+          ]
         },
         "迟骋": {
           "dates": {
@@ -2815,7 +2817,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2843,7 +2845,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -5018,39 +5020,48 @@
             },
             "7/23": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783415828474
             },
             "7/24": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783415829825
             },
             "7/25": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783415831145
             },
             "7/26": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783415832361
             },
             "7/28": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783415835028
             },
             "7/27": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783415833626
             },
             "7/30": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783415837593
             },
             "7/29": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783415836328
             },
             "7/31": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783415838911
             }
           },
           "note": "",
@@ -7091,7 +7102,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "客流计数",
-      "_updatedAt": 1784018715560
+      "_updatedAt": "1784018715560"
     }
   ],
   "doorSchedule": [
