@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 137,
-    "lastUpdated": "2026-07-15T08:05:11.985Z",
+    "version": 138,
+    "lastUpdated": "2026-07-15T08:06:08.402Z",
     "lastUpdatedBy": "唐蓉"
   },
   "availability": {
@@ -7161,6 +7161,15 @@
       "duration": "1.5小时",
       "detail": "",
       "_updatedAt": "1784100655057"
+    },
+    {
+      "id": 1784102769295,
+      "staff": "唐蓉",
+      "date": "2026-07-15",
+      "type": "其他",
+      "duration": "0.5小时",
+      "detail": "贴标签",
+      "_updatedAt": 1784102768355
     }
   ],
   "doorSchedule": [
