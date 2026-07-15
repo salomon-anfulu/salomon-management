@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 152,
-    "lastUpdated": "2026-07-15T13:27:14.276Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 153,
+    "lastUpdated": "2026-07-15T14:35:15.886Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2822,19 +2822,19 @@
             },
             "7/14": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/15": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/16": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/17": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/18": {
               "available": true,
