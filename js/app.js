@@ -12,7 +12,6 @@ const Store = {
   defaults: {
     staff: [
       // ===== Service Team (门店兼职) =====
-      { id: 1, name: '陈昕媛', gender: '女', dept: 'Service Team', joinDate: '2026-01-15', status: 'full_time', avatar_color: '#3b82f6', availableDays: 29, mbti: '' },
       { id: 2, name: '田佳乐', gender: '男', dept: 'Service Team', joinDate: '2026-02-01', status: 'active', avatar_color: '#8b5cf6', availableDays: 27, mbti: '' },
       { id: 3, name: '迟骋', gender: '男', dept: 'Service Team', joinDate: '2026-01-20', status: 'active', avatar_color: '#ec4899', availableDays: 26, mbti: '' },
       { id: 4, name: '王靳毓', gender: '女', dept: 'Service Team', joinDate: '2026-03-01', status: 'active', avatar_color: '#f59e0b', availableDays: 25, mbti: '' },
@@ -44,7 +43,6 @@ const Store = {
       months: {
         '2026-06': {
           data: {
-            '陈昕媛': { total: 27, unavailable: ['6/15', '6/25', '6/26'], note: '', dates: null },
             '田佳乐': { total: 26, unavailable: ['6/1', '6/7', '6/13', '6/15'], note: '', dates: null },
             '迟骋': { total: 26, unavailable: ['6/3', '6/9', '6/16', '6/30'], note: '', dates: null },
             '王靳毓': { total: 25, unavailable: ['6/3', '6/13', '6/14', '6/15', '6/18'], note: '', dates: null },
@@ -68,12 +66,10 @@ const Store = {
     // 门迎排班数据（6月1日-20日，来源：腾讯文档PT供班）
 doorSchedule: [
       { date: '2026-06-01', slots: [
-        { time: '10:00-11:00', staff: '陈昕媛' },
         { time: '11:00-12:00', staff: '邓奇缘' },
         { time: '12:00-13:00', staff: '李若彤' },
         { time: '13:00-14:00', staff: '杨子豪' },
         { time: '14:00-15:00', staff: '王靳毓' },
-        { time: '15:00-16:00', staff: '陈昕媛' },
         { time: '16:00-17:00', staff: '邓奇缘' },
         { time: '17:00-18:00', staff: '杨子豪' },
         { time: '18:00-19:00', staff: '王靳毓' },
@@ -84,7 +80,6 @@ doorSchedule: [
         { time: '11:00-12:00', staff: '孔祥宇' },
         { time: '12:00-13:00', staff: '王靳毓' },
         { time: '13:00-14:00', staff: '龚赟昊' },
-        { time: '14:00-15:00', staff: '陈昕媛' },
         { time: '15:00-16:00', staff: '李若彤' },
         { time: '17:00-18:00', staff: '孔祥宇' },
         { time: '18:00-19:00', staff: '王靳毓' },
@@ -136,11 +131,8 @@ doorSchedule: [
         { time: '12:00-13:00', staff: '孔祥宇' },
         { time: '13:00-14:00', staff: '朱凯赟' },
         { time: '14:00-15:00', staff: '邓奇缘' },
-        { time: '16:00-17:00', staff: '陈昕媛' },
         { time: '18:00-19:00', staff: '孔祥宇' },
-        { time: '19:00-20:00', staff: '朱凯赟' },
-        { time: '20:00-21:00', staff: '陈昕媛' },
-        { time: '21:00-21:30', staff: '陈昕媛' }
+        { time: '19:00-20:00', staff: '朱凯赟' }
       ]},
       { date: '2026-06-08', slots: [
         { time: '10:00-11:00', staff: '王龙宇' },
@@ -154,12 +146,10 @@ doorSchedule: [
       ]},
       { date: '2026-06-09', slots: [
         { time: '10:00-11:00', staff: '王靳毓' },
-        { time: '11:00-12:00', staff: '陈昕媛' },
         { time: '12:00-13:00', staff: '孔祥宇' },
         { time: '13:00-14:00', staff: '王雅澜' },
         { time: '14:00-15:00', staff: '邓奇缘' },
         { time: '15:00-16:00', staff: '王靳毓' },
-        { time: '16:00-17:00', staff: '陈昕媛' },
         { time: '17:00-18:00', staff: '孔祥宇' },
         { time: '18:00-19:00', staff: '王雅澜' },
         { time: '19:00-20:00', staff: '邓奇缘' }
@@ -179,12 +169,10 @@ doorSchedule: [
       { date: '2026-06-11', slots: [
         { time: '10:00-11:00', staff: '孔祥宇' },
         { time: '11:00-12:00', staff: '李若彤' },
-        { time: '12:00-13:00', staff: '陈昕媛' },
         { time: '13:00-14:00', staff: '王靳毓' },
         { time: '14:00-15:00', staff: '田佳乐' },
         { time: '15:00-16:00', staff: '孔祥宇' },
         { time: '16:00-17:00', staff: '李若彤' },
-        { time: '17:00-18:00', staff: '陈昕媛' },
         { time: '18:00-19:00', staff: '王靳毓' },
         { time: '19:00-20:00', staff: '田佳乐' },
         { time: '20:00-21:00', staff: '田佳乐' }
@@ -193,11 +181,9 @@ doorSchedule: [
         { time: '10:00-11:00', staff: '何秋烨' },
         { time: '11:00-12:00', staff: '王龙宇' },
         { time: '12:00-13:00', staff: '王龙宇' },
-        { time: '13:00-14:00', staff: '陈昕媛' },
         { time: '15:00-16:00', staff: '王雅澜' },
         { time: '16:00-17:00', staff: '何秋烨' },
         { time: '17:00-18:00', staff: '邓奇缘' },
-        { time: '18:00-19:00', staff: '陈昕媛' },
         { time: '19:00-20:00', staff: '王雅澜' },
         { time: '20:00-21:00', staff: '邓奇缘' }
       ]},
@@ -229,7 +215,6 @@ doorSchedule: [
       { date: '2026-06-19', slots: [
         { time: '10:00-11:00', staff: '邓奇缘' },
         { time: '11:00-12:00', staff: '孔祥宇' },
-        { time: '12:00-13:00', staff: '陈昕媛' },
         { time: '13:00-14:00', staff: '王雅澜' },
         { time: '14:00-15:00', staff: '杨子豪' },
         { time: '15:00-16:00', staff: '何秋烨' },
@@ -242,7 +227,6 @@ doorSchedule: [
       { date: '2026-06-20', slots: [
         { time: '10:00-11:00', staff: '田佳乐' },
         { time: '11:00-12:00', staff: '朱凯赟' },
-        { time: '12:00-13:00', staff: '陈昕媛' },
         { time: '13:00-14:00', staff: '迟骋' },
         { time: '14:00-15:00', staff: '王靳毓' },
         { time: '15:00-16:00', staff: '何秋烨' },
@@ -257,7 +241,6 @@ doorSchedule: [
         { time: '11:00-12:00', staff: '王雅澜' },
         { time: '12:00-13:00', staff: '何秋烨' },
         { time: '13:00-14:00', staff: '朱凯赟' },
-        { time: '14:00-15:00', staff: '陈昕媛' },
         { time: '15:00-16:00', staff: '何秋烨' },
         { time: '16:00-17:00', staff: '龚赟昊' },
         { time: '17:00-18:00', staff: '杨子豪' },
@@ -277,13 +260,11 @@ doorSchedule: [
         { time: '19:00-20:00', staff: '邓奇缘' }
       ]},
       { date: '2026-06-23', slots: [
-        { time: '10:00-11:00', staff: '陈昕媛' },
         { time: '11:00-12:00', staff: '田佳乐' },
         { time: '12:00-13:00', staff: '何秋烨' },
         { time: '13:00-14:00', staff: '李若彤' },
         { time: '14:00-15:00', staff: '朱凯赟' },
         { time: '15:00-16:00', staff: '杨子豪' },
-        { time: '16:00-17:00', staff: '陈昕媛' },
         { time: '17:00-18:00', staff: '田佳乐' },
         { time: '18:00-19:00', staff: '何秋烨' },
         { time: '19:00-20:00', staff: '李若彤' },
@@ -293,13 +274,11 @@ doorSchedule: [
         { time: '10:00-11:00', staff: '田佳乐' },
         { time: '11:00-12:00', staff: '邓奇缘' },
         { time: '12:00-13:00', staff: '迟骋' },
-        { time: '13:00-14:00', staff: '陈昕媛' },
         { time: '14:00-15:00', staff: '王雅澜' },
         { time: '15:00-16:00', staff: '朱凯赟' },
         { time: '16:00-17:00', staff: '田佳乐' },
         { time: '17:00-18:00', staff: '邓奇缘' },
         { time: '18:00-19:00', staff: '迟骋' },
-        { time: '19:00-20:00', staff: '陈昕媛' },
         { time: '20:00-21:00', staff: '王雅澜' }
       ]},
       { date: '2026-06-25', slots: [
@@ -336,7 +315,6 @@ doorSchedule: [
         { time: '14:00-15:00', staff: '迟骋' },
         { time: '15:00-16:00', staff: '邓奇缘' },
         { time: '16:00-17:00', staff: '田佳乐' },
-        { time: '17:00-18:00', staff: '陈昕媛' },
         { time: '18:00-19:00', staff: '王靳毓' },
         { time: '20:00-21:00', staff: '邓奇缘' }
       ]},
@@ -390,7 +368,6 @@ doorSchedule: [
       { id: 1, staff: '李若彤', date: '2026-06-02', type: '货品-整理仓库', duration: '0.5小时', detail: '整理1.5衣服仓' },
       { id: 2, staff: '田佳乐', date: '2026-06-02', type: '货品-查鞋盒', duration: '1小时', detail: '货架1号，2号' },
       { id: 3, staff: '孔祥宇', date: '2026-06-02', type: '货品-查鞋盒', duration: '1小时', detail: '货架3、4、5-3、5-4号' },
-      { id: 4, staff: '陈昕媛', date: '2026-06-02', type: '货品-查鞋盒', duration: '0.5小时', detail: '货架5-1、5-2' },
       { id: 5, staff: '龚赟昊', date: '2026-06-02', type: '陈列-翻场支援', duration: '1小时', detail: '换1楼模特衣服' },
       { id: 6, staff: '孔祥宇', date: '2026-06-02', type: '货品-整理仓库', duration: '1小时', detail: '送鞋' },
       { id: 7, staff: '李若彤', date: '2026-06-02', type: '货品-整理仓库', duration: '1小时', detail: '送鞋' },
@@ -408,8 +385,7 @@ doorSchedule: [
       { id: 19, staff: '孔祥宇', date: '2026-06-09', type: '货品-整理仓库', duration: '0.5小时', detail: '送鞋' },
       { id: 20, staff: '王靳毓', date: '2026-06-09', type: '货品-整理仓库', duration: '0.5小时', detail: '仓库人还没上班帮忙送鞋' },
       { id: 21, staff: '王靳毓', date: '2026-06-09', type: '陈列-翻场支援', duration: '0.5小时', detail: '补陈列衣服，换陈列小包' },
-      { id: 22, staff: '陈昕媛', date: '2026-06-09', type: '货品-整理仓库', duration: '1.5小时', detail: '盘点鞋花' },
-      { id: 23, staff: '陈昕媛', date: '2026-06-09', type: '货品-查鞋盒', duration: '0.5小时', detail: '2号货架' },
+
       { id: 24, staff: '邓奇缘', date: '2026-06-09', type: '货品-查鞋盒', duration: '1小时', detail: '4号货架' },
       { id: 25, staff: '龚赟昊', date: '2026-06-10', type: '陈列-翻场支援', duration: '0.5小时', detail: '2.5楼衣服重新叠' },
       { id: 26, staff: '王雅澜', date: '2026-06-10', type: '货品-整理仓库', duration: '0.5小时', detail: '贴标签' },
@@ -423,7 +399,6 @@ doorSchedule: [
       { id: 34, staff: '孔祥宇', date: '2026-06-13', type: '货品-整理仓库', duration: '0.5小时', detail: '1.5理仓库' },
       { id: 35, staff: '朱凯赟', date: '2026-06-13', type: '货品-整理仓库', duration: '1小时', detail: '1.5理仓库' },
       { id: 36, staff: '李若彤', date: '2026-06-13', type: '陈列-翻场支援', duration: '1小时', detail: '整理钥匙' },
-      { id: 37, staff: '陈昕媛', date: '2026-06-13', type: '货品-整理仓库', duration: '0.5小时', detail: '整理1.5内舱' },
       { id: 38, staff: '孔祥宇', date: '2026-06-13', type: '陈列-翻场支援', duration: '1.2小时', detail: '理小票' },
       { id: 39, staff: '邓奇缘', date: '2026-06-13', type: '货品-整理仓库', duration: '1小时', detail: '新品贴价签' },
       { id: 40, staff: '李若彤', date: '2026-06-13', type: '货品-整理仓库', duration: '1小时', detail: '新品贴价签及熨烫' },
@@ -466,7 +441,6 @@ doorSchedule: [
       { id: 77, staff: '迟骋', date: '2026-06-24', type: '货品-辅助收货', duration: '1小时', detail: '拆货' },
       { id: 78, staff: '田佳乐', date: '2026-06-24', type: '货品-辅助收货', duration: '1.5小时', detail: '到货拆货' },
       { id: 79, staff: '田佳乐', date: '2026-06-24', type: '陈列-翻场支援', duration: '0.5小时', detail: '整理陈列' },
-      { id: 80, staff: '陈昕媛', date: '2026-06-24', type: '货品-辅助收货', duration: '0.5小时', detail: '收货贴标签' },
       { id: 81, staff: '王靳毓', date: '2026-06-25', type: '陈列-翻场支援', duration: '0.5小时', detail: '陈列熨烫 衣服归仓' },
       { id: 82, staff: '龚赟昊', date: '2026-06-25', type: '陈列-新品熨烫', duration: '1.5小时', detail: '拆包装 烫衣服' },
       { id: 83, staff: '田佳乐', date: '2026-06-25', type: '陈列-翻场支援', duration: '0.5小时', detail: '补货品调陈列' },
@@ -476,13 +450,11 @@ doorSchedule: [
       { id: 87, staff: '田佳乐', date: '2026-06-27', type: '陈列-翻场支援', duration: '0.5小时', detail: '叠陈列整理内仓' },
       { id: 88, staff: '邓奇缘', date: '2026-06-27', type: '货品-整理仓库', duration: '0.5小时', detail: '贴袜子价签' },
       { id: 89, staff: '田佳乐', date: '2026-06-28', type: '陈列-新品熨烫', duration: '0.5小时', detail: '出样熨烫' },
-      { id: 90, staff: '陈昕媛', date: '2026-06-28', type: '货品-整理仓库', duration: '0.5小时', detail: '整理仓库' },
       { id: 91, staff: '王雅澜', date: '2026-06-28', type: '货品-查鞋盒', duration: '1小时', detail: '查鞋盒' }
     ],
 
     // 换班统计（缺卡/迟到/旷工已改为从灵工打卡动态计算，门迎/点评已移至各自模块）
                 staffStats: {
-      '陈昕媛': { doorCount: 20, shiftChange: 0, shiftedCount: 0 },
       '田佳乐': { doorCount: 22, shiftChange: 1, shiftedCount: 0 },
       '迟骋': { doorCount: 16, shiftChange: 1, shiftedCount: 0 },
       '王靳毓': { doorCount: 19, shiftChange: 1, shiftedCount: 2 },
@@ -1055,14 +1027,6 @@ linggongAttendance: {
                 "totalHours": "8.5"
         },
         {
-                "name": "陈昕媛",
-                "date": "2026-06-01",
-                "signIn": "07:29",
-                "signOut": "18:32",
-                "status": "打卡正常",
-                "totalHours": "10"
-        },
-        {
                 "name": "何秋烨",
                 "date": "2026-06-02",
                 "signIn": "09:00",
@@ -1117,14 +1081,6 @@ linggongAttendance: {
                 "signOut": "20:30",
                 "status": "打卡正常",
                 "totalHours": "8.5"
-        },
-        {
-                "name": "陈昕媛",
-                "date": "2026-06-02",
-                "signIn": "08:55",
-                "signOut": "17:33",
-                "status": "打卡正常",
-                "totalHours": "8"
         },
         {
                 "name": "龚赟昊",
@@ -1197,14 +1153,6 @@ linggongAttendance: {
                 "signOut": "20:34",
                 "status": "打卡正常",
                 "totalHours": "8.5"
-        },
-        {
-                "name": "陈昕媛",
-                "date": "2026-06-03",
-                "signIn": "09:00",
-                "signOut": "15:00",
-                "status": "打卡正常",
-                "totalHours": "6"
         },
         {
                 "name": "杨子豪",
@@ -1303,14 +1251,6 @@ linggongAttendance: {
                 "totalHours": "5.5"
         },
         {
-                "name": "陈昕媛",
-                "date": "2026-06-05",
-                "signIn": "09:57",
-                "signOut": "20:02",
-                "status": "打卡正常",
-                "totalHours": "9.5"
-        },
-        {
                 "name": "龚赟昊",
                 "date": "2026-06-05",
                 "signIn": "17:17",
@@ -1391,14 +1331,6 @@ linggongAttendance: {
                 "totalHours": "8.5"
         },
         {
-                "name": "陈昕媛",
-                "date": "2026-06-06",
-                "signIn": "09:42",
-                "signOut": "18:32",
-                "status": "打卡正常",
-                "totalHours": "8"
-        },
-        {
                 "name": "严佳铮",
                 "date": "2026-06-07",
                 "signIn": "10:22",
@@ -1459,14 +1391,6 @@ linggongAttendance: {
                 "date": "2026-06-07",
                 "signIn": "12:07",
                 "signOut": "21:00",
-                "status": "打卡正常",
-                "totalHours": "8"
-        },
-        {
-                "name": "陈昕媛",
-                "date": "2026-06-07",
-                "signIn": "12:57",
-                "signOut": "21:39",
                 "status": "打卡正常",
                 "totalHours": "8"
         },
@@ -1599,14 +1523,6 @@ linggongAttendance: {
                 "totalHours": "8.5"
         },
         {
-                "name": "陈昕媛",
-                "date": "2026-06-09",
-                "signIn": "10:20",
-                "signOut": "19:01",
-                "status": "打卡正常",
-                "totalHours": "8"
-        },
-        {
                 "name": "何秋烨",
                 "date": "2026-06-10",
                 "signIn": "11:21",
@@ -1711,14 +1627,6 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "陈昕媛",
-                "date": "2026-06-11",
-                "signIn": "11:15",
-                "signOut": "20:50",
-                "status": "打卡正常",
-                "totalHours": "8.5"
-        },
-        {
                 "name": "何秋烨",
                 "date": "2026-06-12",
                 "signIn": "09:58",
@@ -1771,14 +1679,6 @@ linggongAttendance: {
                 "date": "2026-06-12",
                 "signIn": "12:52",
                 "signOut": "21:30",
-                "status": "打卡正常",
-                "totalHours": "8"
-        },
-        {
-                "name": "陈昕媛",
-                "date": "2026-06-12",
-                "signIn": "10:42",
-                "signOut": "19:44",
                 "status": "打卡正常",
                 "totalHours": "8"
         },
@@ -1845,14 +1745,6 @@ linggongAttendance: {
                 "signOut": "20:00",
                 "status": "打卡正常",
                 "totalHours": "8.5"
-        },
-        {
-                "name": "陈昕媛",
-                "date": "2026-06-13",
-                "signIn": "11:54",
-                "signOut": "21:02",
-                "status": "打卡正常",
-                "totalHours": "8"
         },
         {
                 "name": "龚赟昊",
@@ -2050,14 +1942,6 @@ linggongAttendance: {
                 "name": "陈广权",
                 "date": "2026-06-16",
                 "signIn": "12:30",
-                "signOut": "21:00",
-                "status": "打卡正常",
-                "totalHours": "8"
-        },
-        {
-                "name": "陈昕媛",
-                "date": "2026-06-16",
-                "signIn": "11:44",
                 "signOut": "21:00",
                 "status": "打卡正常",
                 "totalHours": "8"
@@ -2287,14 +2171,6 @@ linggongAttendance: {
                 "totalHours": "8.5"
         },
         {
-                "name": "陈昕媛",
-                "date": "2026-06-19",
-                "signIn": "10:46",
-                "signOut": "19:31",
-                "status": "打卡正常",
-                "totalHours": "8"
-        },
-        {
                 "name": "龚赟昊",
                 "date": "2026-06-19",
                 "signIn": "12:11",
@@ -2383,14 +2259,6 @@ linggongAttendance: {
                 "totalHours": "8.5"
         },
         {
-                "name": "陈昕媛",
-                "date": "2026-06-20",
-                "signIn": "10:29",
-                "signOut": "19:02",
-                "status": "打卡正常",
-                "totalHours": "8"
-        },
-        {
                 "name": "龚赟昊",
                 "date": "2026-06-20",
                 "signIn": "09:54",
@@ -2469,14 +2337,6 @@ linggongAttendance: {
                 "signOut": "20:03",
                 "status": "打卡正常",
                 "totalHours": "8.5"
-        },
-        {
-                "name": "陈昕媛",
-                "date": "2026-06-21",
-                "signIn": "12:01",
-                "signOut": "17:05",
-                "status": "打卡正常",
-                "totalHours": "4.5"
         },
         {
                 "name": "龚赟昊",
@@ -2607,14 +2467,6 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "陈昕媛",
-                "date": "2026-06-23",
-                "signIn": "09:58",
-                "signOut": "18:34",
-                "status": "打卡正常",
-                "totalHours": "8"
-        },
-        {
                 "name": "朱凯赟",
                 "date": "2026-06-24",
                 "signIn": "12:51",
@@ -2669,14 +2521,6 @@ linggongAttendance: {
                 "signOut": "21:00",
                 "status": "打卡正常",
                 "totalHours": "8"
-        },
-        {
-                "name": "陈昕媛",
-                "date": "2026-06-24",
-                "signIn": "11:28",
-                "signOut": "20:31",
-                "status": "打卡正常",
-                "totalHours": "8.5"
         },
         {
                 "name": "孔祥宇",
@@ -2911,14 +2755,6 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "陈昕媛",
-                "date": "2026-06-27",
-                "signIn": "10:51",
-                "signOut": "19:14",
-                "status": "打卡正常",
-                "totalHours": "7.5"
-        },
-        {
                 "name": "严佳铮",
                 "date": "2026-06-28",
                 "signIn": "10:23",
@@ -2997,14 +2833,6 @@ linggongAttendance: {
                 "signOut": "21:00",
                 "status": "打卡正常",
                 "totalHours": "4.5"
-        },
-        {
-                "name": "陈昕媛",
-                "date": "2026-06-28",
-                "signIn": "09:57",
-                "signOut": "17:05",
-                "status": "打卡正常",
-                "totalHours": "7"
         },
         {
                 "name": "龚赟昊",
@@ -3285,14 +3113,6 @@ linggongAttendance: {
                 "signOut": "15:32",
                 "status": "打卡正常",
                 "totalHours": "5"
-        },
-        {
-                "name": "陈昕媛",
-                "date": "2026-07-02",
-                "signIn": "09:00",
-                "signOut": "15:00",
-                "status": "打卡正常",
-                "totalHours": "6"
         },
         {
                 "name": "何秋烨",
@@ -4356,7 +4176,6 @@ linggongAttendance: {
             performanceData: {
       april: { month: '2026-04', totalSales: 407876, avgHourlyOutput: 285.0,
         records: [
-          { name: '陈昕媛', sales: 62456, salesShare: 0.1531, workHours: 0, hourlyOutput: 0 },
           { name: '田佳乐', sales: 58772, salesShare: 0.1441, workHours: 0, hourlyOutput: 0 },
           { name: '迟骋', sales: 45330, salesShare: 0.1111, workHours: 0, hourlyOutput: 0 },
           { name: '王靳毓', sales: 44876, salesShare: 0.1100, workHours: 0, hourlyOutput: 0 },
@@ -4373,7 +4192,6 @@ linggongAttendance: {
         records: [
           { name: '李若彤', sales: 61848, qty: 41, tickets: 32, upt: 1.28, avgPrice: 1508, workHours: 0, hourlyOutput: 0, salesShare: 0.138, categories: '鞋履 96.0% / 服装 3.4% / 配件 0.6%' },
           { name: '何秋烨', sales: 58358, qty: 47, tickets: 31, upt: 1.52, avgPrice: 1242, workHours: 0, hourlyOutput: 0, salesShare: 0.13, categories: '鞋履 75.4% / 服装 23.1% / 配件 1.5%' },
-          { name: '陈昕媛', sales: 58280, qty: 51, tickets: 40, upt: 1.27, avgPrice: 1143, workHours: 0, hourlyOutput: 0, salesShare: 0.13, categories: '鞋履 77.5% / 服装 20.0% / 配件 2.5%' },
           { name: '邓奇缘', sales: 39526, qty: 33, tickets: 21, upt: 1.57, avgPrice: 1198, workHours: 0, hourlyOutput: 0, salesShare: 0.088, categories: '鞋履 75.9% / 服装 21.8% / 配件 2.3%' },
           { name: '杨子豪', sales: 38000, qty: 30, tickets: 24, upt: 1.25, avgPrice: 1267, workHours: 0, hourlyOutput: 0, salesShare: 0.085, categories: '鞋履 77.8% / 服装 21.3% / 配件 0.9%' },
           { name: '龚赟昊', sales: 34856, qty: 32, tickets: 25, upt: 1.28, avgPrice: 1089, workHours: 0, hourlyOutput: 0, salesShare: 0.078, categories: '鞋履 67.3% / 服装 28.1% / 配件 4.6%' },
@@ -4394,7 +4212,6 @@ linggongAttendance: {
         month: '2026-06', totalSales: 296252, avgUPT: 1.41,
         records: [
           { name: '杨子豪', sales: 35502, qty: 29, tickets: 22, upt: 1.32, avgPrice: 1224, workHours: 0, hourlyOutput: 0, salesShare: 0.12, categories: '鞋履 93.0% / 服装 6.7% / 配件 0.3%' },
-          { name: '陈昕媛', sales: 34468, qty: 28, tickets: 26, upt: 1.08, avgPrice: 1231, workHours: 0, hourlyOutput: 0, salesShare: 0.116, categories: '鞋履 85.4% / 服装 8.5% / 配件 6.2%' },
           { name: '李若彤', sales: 33698, qty: 31, tickets: 23, upt: 1.35, avgPrice: 1087, workHours: 0, hourlyOutput: 0, salesShare: 0.114, categories: '鞋履 84.4% / 服装 9.2% / 配件 6.4%' },
           { name: '王雅澜', sales: 33466, qty: 27, tickets: 22, upt: 1.23, avgPrice: 1239, workHours: 0, hourlyOutput: 0, salesShare: 0.113, categories: '鞋履 86.5% / 服装 11.3% / 配件 2.1%' },
           { name: '王靳毓', sales: 26228, qty: 22, tickets: 15, upt: 1.47, avgPrice: 1192, workHours: 0, hourlyOutput: 0, salesShare: 0.089, categories: '鞋履 77.7% / 服装 18.3% / 配件 4.1%' },
@@ -4497,18 +4314,6 @@ linggongAttendance: {
     "categories": "鞋履 87.9%, 服装 11.0%, 配件 1.1%"
   },
   {
-    "name": "陈昕媛",
-    "sales": 4692,
-    "qty": 4,
-    "tickets": 4,
-    "upt": 1,
-    "avgPrice": 1173,
-    "workHours": 0,
-    "hourlyOutput": 0,
-    "salesShare": 0.0043,
-    "categories": "鞋履 100.0%"
-  },
-  {
     "name": "杨子豪",
     "sales": 2396,
     "qty": 2,
@@ -4586,7 +4391,6 @@ linggongAttendance: {
 
     // 顾客好评记录（大众点评5星好评）
     customerReviews: [
-      { id: 1, staffName: '陈昕媛', month: '2026-06', rating: 5, reviewDate: '2026-06-16', snippet: '逛街看到小白楼进来逛逛，Kelly的导览非常详细，带我了解到了很多新的活动和品牌历史，对Salomon有了新的了解。', keywords: ['导览详细', '品牌历史', '新活动', '超预期'], source: '大众点评（陆慧，Lv4）' },
       { id: 2, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '店门口很适合拍照，店员都好帅。那天碰到一个小哥态度很好很和善，问他说是叫CC，下次还找他服务。', keywords: ['态度好', '和善', '适合拍照', '下次还找'], source: '大众点评（煤球斯基，Lv1）' },
       { id: 3, staffName: '迟骋', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '本次购物体验很棒，导购小哥cc十分热情主动，详细介绍产品特点，耐心解答疑问，专业又贴心，感谢优质服务。', keywords: ['热情主动', '详细介绍', '耐心解答', '专业贴心'], source: '大众点评（yuki，Lv1）' },
       { id: 4, staffName: '朱凯赟', month: '2026-06', rating: 5, reviewDate: '2026-06-17', snippet: '导购小哥cc十分热情主动，详细介绍产品特点，耐心解答疑问，小朱帮忙挑选也很用心，专业又贴心，感谢优质服务。', keywords: ['热情主动', '详细介绍', '耐心解答', '专业贴心'], source: '大众点评（yuki，Lv1）' },
@@ -4605,7 +4409,7 @@ linggongAttendance: {
       { id: 17, staffName: '孔祥宇', month: '2026-07', rating: 5, reviewDate: '2026-07-11', snippet: '来这边旅游，逛到了这家salomon小白楼，在外面看就感觉很漂亮，有小孔导览员（孔祥宇）带着我们逛了整栋楼，全程都很热情，耐心。整栋楼的装修很像韩国那边的店很精致，漂亮，听说是亚洲最大的旗舰店，喜欢salomon的可以来感受一下氛围。', keywords: ['热情', '耐心导览', '旗舰氛围', '装修精致', '韩国风格', '超预期'], source: '大众点评（海参拌黑松露，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-15-v99',  },
+        _dataVersion: '2026-07-15-v100',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -4617,7 +4421,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-15-v99';
+      const DATA_VERSION = '2026-07-15-v100';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
