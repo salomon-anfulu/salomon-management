@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 143,
-    "lastUpdated": "2026-07-15T10:04:09.348Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 144,
+    "lastUpdated": "2026-07-15T10:05:14.106Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -9162,13 +9162,18 @@
         },
         {
           "time": "14:00:00-15:00:00",
-          "staff": "田佳乐",
-          "_updatedAt": "1784109756923"
+          "staff": "玛依拉",
+          "_updatedAt": "1784109866693"
         },
         {
           "time": "15:00:00-16:00:00",
           "staff": "田佳乐",
           "_updatedAt": "1784109847277"
+        },
+        {
+          "time": "16:00:00-17:00:00",
+          "staff": "唐蓉",
+          "_updatedAt": "1784109856860"
         }
       ]
     }
