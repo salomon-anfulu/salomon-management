@@ -155,9 +155,16 @@ function getMonthRange() {
 }
 
 // ========== 4. 数据转换 ==========
+// 灵工 API 返回全名，系统统一用短名
+const NAME_MAP = {
+  '玛依拉·努尔夏提': '玛依拉',
+  '祖白代·阿不利孜': '祖白代',
+};
+const normName = n => NAME_MAP[n] || n;
+
 function transformRecord(r) {
   return {
-    name: r.workerName,
+    name: normName(r.workerName),
     date: r.effectiveDay,
     scheduleTime: r.arrangedTimeDetail || '',
     restTime: r.restTimeDetail || '',

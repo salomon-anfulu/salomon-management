@@ -33,8 +33,15 @@ const newRaw = json.records || [];
 // 2026/07/07 -> 2026-07-07
 const normDate = d => (d ? String(d).replace(/\//g, '-') : d);
 
+// 灵工 API 返回全名，系统统一用短名
+const NAME_MAP = {
+  '玛依拉·努尔夏提': '玛依拉',
+  '祖白代·阿不利孜': '祖白代',
+};
+const normName = n => NAME_MAP[n] || n;
+
 const mapRec = r => ({
-  name: r.name,
+  name: normName(r.name),
   date: normDate(r.date),
   signIn: r.signIn || '',
   signOut: r.signOut || '',

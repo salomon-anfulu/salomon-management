@@ -32,7 +32,7 @@ const Store = {
       { id: 15, name: '祖白代', gender: '女', dept: '仓库兼职', joinDate: '2026-01-20', status: 'active', avatar_color: '#fb923c', availableDays: 29, mbti: '' },
       { id: 16, name: '陈广权', gender: '男', dept: '仓库兼职', joinDate: '2026-02-05', status: 'active', avatar_color: '#a78bfa', availableDays: 26, mbti: '' },
       { id: 17, name: '贾长乐', gender: '男', dept: '仓库兼职', joinDate: '2026-03-10', status: 'active', avatar_color: '#f472b6', availableDays: 13, mbti: '' },
-      { id: 18, name: '玛依拉·努尔夏提', gender: '女', dept: 'Service Team', joinDate: '2026-02-15', status: 'active', avatar_color: '#34d399', availableDays: 23, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-01' },
+      { id: 18, name: '玛依拉', gender: '女', dept: 'Service Team', joinDate: '2026-02-15', status: 'active', avatar_color: '#34d399', availableDays: 23, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-01' },
       { id: 19, name: '梁实秋', gender: '男', dept: '仓库兼职', joinDate: '2026-01-25', status: 'active', avatar_color: '#fbbf24', availableDays: 19, mbti: '' },
     ],
 
@@ -1059,7 +1059,7 @@ linggongAttendance: {
                 "totalHours": "8.5"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-02",
                 "signIn": "取消",
                 "signOut": "取消",
@@ -1131,7 +1131,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-03",
                 "signIn": "11:23",
                 "signOut": "20:30",
@@ -1371,7 +1371,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-07",
                 "signIn": "11:16",
                 "signOut": "20:30",
@@ -1427,7 +1427,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-08",
                 "signIn": "12:17",
                 "signOut": "21:00",
@@ -1667,7 +1667,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-12",
                 "signIn": "10:20",
                 "signOut": "19:04",
@@ -1715,7 +1715,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-13",
                 "signIn": "11:14",
                 "signOut": "20:30",
@@ -1995,7 +1995,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-17",
                 "signIn": "10:57",
                 "signOut": "20:00",
@@ -2043,7 +2043,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-18",
                 "signIn": "10:07",
                 "signOut": "19:01",
@@ -2147,7 +2147,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-19",
                 "signIn": "12:09",
                 "signOut": "21:01",
@@ -2307,7 +2307,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-21",
                 "signIn": "10:26",
                 "signOut": "19:00",
@@ -2483,7 +2483,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-24",
                 "signIn": "10:28",
                 "signOut": "19:01",
@@ -2563,7 +2563,7 @@ linggongAttendance: {
                 "totalHours": "6.5"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-25",
                 "signIn": "12:12",
                 "signOut": "21:03",
@@ -2635,7 +2635,7 @@ linggongAttendance: {
                 "totalHours": "8.5"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-26",
                 "signIn": "12:47",
                 "signOut": "22:17",
@@ -2867,7 +2867,7 @@ linggongAttendance: {
                 "totalHours": "8.5"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-29",
                 "signIn": "10:26",
                 "signOut": "19:00",
@@ -2947,7 +2947,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-06-30",
                 "signIn": "12:11",
                 "signOut": "21:00",
@@ -3075,7 +3075,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-07-02",
                 "signIn": "10:23",
                 "signOut": "18:07",
@@ -3187,7 +3187,7 @@ linggongAttendance: {
                 "totalHours": "15"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-07-03",
                 "signIn": "07:52",
                 "signOut": "21:01",
@@ -3523,7 +3523,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-07-07",
                 "signIn": "11:14",
                 "signOut": "20:31",
@@ -3667,7 +3667,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-07-09",
                 "signIn": "09:53",
                 "signOut": "17:34",
@@ -3923,7 +3923,7 @@ linggongAttendance: {
                 "totalHours": "5.5"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-07-12",
                 "signIn": "10:14",
                 "signOut": "16:00",
@@ -4051,7 +4051,7 @@ linggongAttendance: {
                 "totalHours": "8"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-07-14",
                 "signIn": "12:32",
                 "signOut": "21:30",
@@ -4131,7 +4131,7 @@ linggongAttendance: {
                 "totalHours": "5"
         },
         {
-                "name": "玛依拉·努尔夏提",
+                "name": "玛依拉",
                 "date": "2026-07-15",
                 "signIn": "12:07",
                 "signOut": "",
@@ -4205,7 +4205,7 @@ linggongAttendance: {
           { name: '王靳毓', sales: 7888, qty: 6, tickets: 5, upt: 1.2, avgPrice: 1315, workHours: 0, hourlyOutput: 0, salesShare: 0.018, categories: '鞋履 70.9% / 服装 29.1%' },
           { name: '李若彤', sales: 0, qty: 0, tickets: 0, upt: 0, avgPrice: 0, workHours: 0, hourlyOutput: 0, salesShare: 0, categories: '-' },
           { name: '唐蓉', sales: 0, qty: 0, tickets: 0, upt: 0, avgPrice: 0, workHours: 0, hourlyOutput: 0, salesShare: 0, categories: '-' },
-          { name: '玛依拉·努尔夏提', sales: 0, qty: 0, tickets: 0, upt: 0, avgPrice: 0, workHours: 0, hourlyOutput: 0, salesShare: 0, categories: '-' },
+          { name: '玛依拉', sales: 0, qty: 0, tickets: 0, upt: 0, avgPrice: 0, workHours: 0, hourlyOutput: 0, salesShare: 0, categories: '-' },
         ]
       },
       june: {
@@ -4362,7 +4362,7 @@ linggongAttendance: {
     "categories": "鞋履 100.0%"
   },
   {
-    "name": "玛依拉·努尔夏提",
+    "name": "玛依拉",
     "sales": 1298,
     "qty": 1,
     "tickets": 1,
@@ -4409,7 +4409,7 @@ linggongAttendance: {
       { id: 17, staffName: '孔祥宇', month: '2026-07', rating: 5, reviewDate: '2026-07-11', snippet: '来这边旅游，逛到了这家salomon小白楼，在外面看就感觉很漂亮，有小孔导览员（孔祥宇）带着我们逛了整栋楼，全程都很热情，耐心。整栋楼的装修很像韩国那边的店很精致，漂亮，听说是亚洲最大的旗舰店，喜欢salomon的可以来感受一下氛围。', keywords: ['热情', '耐心导览', '旗舰氛围', '装修精致', '韩国风格', '超预期'], source: '大众点评（海参拌黑松露，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-15-v101',  },
+        _dataVersion: '2026-07-15-v102',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -4421,7 +4421,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-15-v101';
+      const DATA_VERSION = '2026-07-15-v102';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
