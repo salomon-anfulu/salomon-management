@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 126,
-    "lastUpdated": "2026-07-15T02:06:16.280Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 127,
+    "lastUpdated": "2026-07-15T05:01:06.023Z",
+    "lastUpdatedBy": "杨子豪"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -8716,6 +8716,11 @@
           "_updatedAt": "1783413891659"
         },
         {
+          "time": "14:00:00-15:00:00",
+          "staff": "杨子豪",
+          "_updatedAt": "1783414693292"
+        },
+        {
           "time": "15:00:00-16:00:00",
           "staff": "",
           "_updatedAt": "1783413007711"
@@ -9005,6 +9010,11 @@
     {
       "date": "2026-07-14",
       "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "杨子豪",
+          "_updatedAt": "1784091665979"
+        },
         {
           "time": "13:00:00-14:00:00",
           "staff": "龚赟昊",
