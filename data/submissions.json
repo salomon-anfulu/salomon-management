@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 133,
-    "lastUpdated": "2026-07-15T07:11:44.303Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 134,
+    "lastUpdated": "2026-07-15T07:30:55.899Z",
+    "lastUpdatedBy": "王龙宇"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7152,7 +7152,16 @@
       "type": "陈列-翻场支援",
       "duration": "0.5小时",
       "detail": "调整陈列",
-      "_updatedAt": 1784094330740
+      "_updatedAt": "1784094330740"
+    },
+    {
+      "id": 1784100655688,
+      "staff": "王龙宇",
+      "date": "2026-07-15",
+      "type": "货品-辅助收货",
+      "duration": "1.5小时",
+      "detail": "",
+      "_updatedAt": 1784100655057
     }
   ],
   "doorSchedule": [
