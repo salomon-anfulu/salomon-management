@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 136,
-    "lastUpdated": "2026-07-15T07:33:09.441Z",
-    "lastUpdatedBy": "王龙宇"
+    "version": 137,
+    "lastUpdated": "2026-07-15T08:05:11.985Z",
+    "lastUpdatedBy": "唐蓉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5101,7 +5101,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5179,10 +5179,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -9055,6 +9054,11 @@
           "_updatedAt": "1783938276196"
         },
         {
+          "time": "17:00:00-18:00:00",
+          "staff": "唐蓉",
+          "_updatedAt": "1783937572927"
+        },
+        {
           "time": "19:00:00-20:00:00",
           "staff": "孔祥宇",
           "_updatedAt": "1783935719989"
@@ -9118,6 +9122,11 @@
           "time": "12:00:00-13:00:00",
           "staff": "杨子豪",
           "_updatedAt": "1784091695791"
+        },
+        {
+          "time": "15:00:00-16:00:00",
+          "staff": "唐蓉",
+          "_updatedAt": "1784102711940"
         }
       ]
     }
