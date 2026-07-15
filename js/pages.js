@@ -2947,7 +2947,7 @@ function renderPerformance() {
   }
 
   // v80: 动态计算 workDays/workHours/hourlyOutput
-  // 名字模糊匹配：staff 中的'玛依拉'对应灵工的'玛依拉·努尔夏提'，'祖白代'对应'祖白代·阿不利孜'
+  // 名字匹配：先精确匹配，再模糊匹配（contains）作为后备
   const _matchLgName = (recordName) => {
     const exact = lgRecords.find(x => x.name === recordName && (x.date || '').startsWith(_perfYearMonth));
     if (exact) return exact.name;

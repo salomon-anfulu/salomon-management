@@ -32,7 +32,7 @@ const Store = {
       { id: 15, name: '祖白代', gender: '女', dept: '仓库兼职', joinDate: '2026-01-20', status: 'active', avatar_color: '#fb923c', availableDays: 29, mbti: '' },
       { id: 16, name: '陈广权', gender: '男', dept: '仓库兼职', joinDate: '2026-02-05', status: 'active', avatar_color: '#a78bfa', availableDays: 26, mbti: '' },
       { id: 17, name: '贾长乐', gender: '男', dept: '仓库兼职', joinDate: '2026-03-10', status: 'active', avatar_color: '#f472b6', availableDays: 13, mbti: '' },
-      { id: 18, name: '玛依拉', gender: '女', dept: 'Service Team', joinDate: '2026-02-15', status: 'active', avatar_color: '#34d399', availableDays: 23, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-01' },
+      { id: 18, name: '玛依拉·努尔夏提', gender: '女', dept: 'Service Team', joinDate: '2026-02-15', status: 'active', avatar_color: '#34d399', availableDays: 23, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-01' },
       { id: 19, name: '梁实秋', gender: '男', dept: '仓库兼职', joinDate: '2026-01-25', status: 'active', avatar_color: '#fbbf24', availableDays: 19, mbti: '' },
     ],
 
@@ -4205,7 +4205,7 @@ linggongAttendance: {
           { name: '王靳毓', sales: 7888, qty: 6, tickets: 5, upt: 1.2, avgPrice: 1315, workHours: 0, hourlyOutput: 0, salesShare: 0.018, categories: '鞋履 70.9% / 服装 29.1%' },
           { name: '李若彤', sales: 0, qty: 0, tickets: 0, upt: 0, avgPrice: 0, workHours: 0, hourlyOutput: 0, salesShare: 0, categories: '-' },
           { name: '唐蓉', sales: 0, qty: 0, tickets: 0, upt: 0, avgPrice: 0, workHours: 0, hourlyOutput: 0, salesShare: 0, categories: '-' },
-          { name: '玛依拉', sales: 0, qty: 0, tickets: 0, upt: 0, avgPrice: 0, workHours: 0, hourlyOutput: 0, salesShare: 0, categories: '-' },
+          { name: '玛依拉·努尔夏提', sales: 0, qty: 0, tickets: 0, upt: 0, avgPrice: 0, workHours: 0, hourlyOutput: 0, salesShare: 0, categories: '-' },
         ]
       },
       june: {
@@ -4409,7 +4409,7 @@ linggongAttendance: {
       { id: 17, staffName: '孔祥宇', month: '2026-07', rating: 5, reviewDate: '2026-07-11', snippet: '来这边旅游，逛到了这家salomon小白楼，在外面看就感觉很漂亮，有小孔导览员（孔祥宇）带着我们逛了整栋楼，全程都很热情，耐心。整栋楼的装修很像韩国那边的店很精致，漂亮，听说是亚洲最大的旗舰店，喜欢salomon的可以来感受一下氛围。', keywords: ['热情', '耐心导览', '旗舰氛围', '装修精致', '韩国风格', '超预期'], source: '大众点评（海参拌黑松露，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-15-v100',  },
+        _dataVersion: '2026-07-15-v101',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -4421,7 +4421,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-15-v100';
+      const DATA_VERSION = '2026-07-15-v101';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
