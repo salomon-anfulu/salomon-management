@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 125,
-    "lastUpdated": "2026-07-14T15:49:09.229Z",
-    "lastUpdatedBy": "玛依拉"
+    "version": 126,
+    "lastUpdated": "2026-07-15T02:06:16.280Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -4098,8 +4098,8 @@
             },
             "7/25": {
               "available": true,
-              "note": "",
-              "_updatedAt": 1784039223527
+              "note": "如排班下午要请假一个小时",
+              "_updatedAt": 1784039426283
             },
             "7/26": {
               "available": true,
