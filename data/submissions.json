@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 149,
-    "lastUpdated": "2026-07-15T10:10:34.285Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 150,
+    "lastUpdated": "2026-07-15T12:08:56.070Z",
+    "lastUpdatedBy": "杨子豪"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -7198,6 +7198,24 @@
       "duration": "1小时",
       "detail": "记录客流",
       "_updatedAt": "1784102873318"
+    },
+    {
+      "id": 1784109544052,
+      "staff": "杨子豪",
+      "date": "2026-07-15",
+      "type": "货品-整理仓库",
+      "duration": "0.5小时",
+      "detail": "搬鞋子",
+      "_updatedAt": 1784109543192
+    },
+    {
+      "id": 1784117337001,
+      "staff": "杨子豪",
+      "date": "2026-07-15",
+      "type": "陈列-全楼标签复核",
+      "duration": "1小时",
+      "detail": "",
+      "_updatedAt": 1784117336041
     }
   ],
   "doorSchedule": [
