@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 142,
-    "lastUpdated": "2026-07-15T10:02:02.171Z",
+    "version": 143,
+    "lastUpdated": "2026-07-15T10:04:09.348Z",
     "lastUpdatedBy": "manual-sync"
   },
   "availability": {
@@ -9161,9 +9161,14 @@
           "_updatedAt": "1784091695791"
         },
         {
+          "time": "14:00:00-15:00:00",
+          "staff": "田佳乐",
+          "_updatedAt": "1784109756923"
+        },
+        {
           "time": "15:00:00-16:00:00",
-          "staff": "唐蓉",
-          "_updatedAt": "1784102711940"
+          "staff": "田佳乐",
+          "_updatedAt": "1784109847277"
         }
       ]
     }
