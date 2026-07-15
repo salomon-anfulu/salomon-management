@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 153,
-    "lastUpdated": "2026-07-15T14:35:15.886Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 154,
+    "lastUpdated": "2026-07-15T15:00:37.870Z",
+    "lastUpdatedBy": "admin"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,23 +2818,23 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/15": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/16": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/17": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/18": {
               "available": true,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -4077,9 +4077,9 @@
               "_updatedAt": 1783419733674
             },
             "7/21": {
-              "available": true,
+              "available": false,
               "note": "",
-              "_updatedAt": 1783419734881
+              "_updatedAt": 1784100571000
             },
             "7/22": {
               "available": true,
@@ -4134,9 +4134,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 19,
+          "total": 18,
           "unavailable": [
-            "7/19"
+            "7/19",
+            "7/21"
           ]
         },
         "唐蓉": {
@@ -9235,7 +9236,8 @@
       "1783940779626": 1783942976194,
       "1784009241799": 1784009248145,
       "1784091742083": 1784091771533,
-      "1784102822192": 1784102875982
+      "1784102822192": 1784102875982,
+      "1784099536705": 1784127637869
     },
     "shiftChanges": [
       "1783510971597",
@@ -9247,7 +9249,8 @@
       "1783940779626",
       "1784009241799",
       "1784091742083",
-      "1784102822192"
+      "1784102822192",
+      "1784099536705"
     ]
   },
   "customerReviews": [
