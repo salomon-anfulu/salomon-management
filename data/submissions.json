@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 144,
-    "lastUpdated": "2026-07-15T10:05:14.106Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 145,
+    "lastUpdated": "2026-07-15T10:06:58.290Z",
+    "lastUpdatedBy": "玛依拉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -9159,6 +9159,11 @@
           "time": "12:00:00-13:00:00",
           "staff": "杨子豪",
           "_updatedAt": "1784091695791"
+        },
+        {
+          "time": "13:00:00-14:00:00",
+          "staff": "玛依拉",
+          "_updatedAt": "1784110018242"
         },
         {
           "time": "14:00:00-15:00:00",
