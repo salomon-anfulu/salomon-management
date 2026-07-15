@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 129,
-    "lastUpdated": "2026-07-15T05:02:51.534Z",
+    "version": 130,
+    "lastUpdated": "2026-07-15T05:03:52.560Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -7116,7 +7116,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记录客流",
-      "_updatedAt": 1784091726206
+      "_updatedAt": "1784091726206"
     },
     {
       "id": 1784091768851,
@@ -7125,7 +7125,16 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记录客流",
-      "_updatedAt": 1784091768630
+      "_updatedAt": "1784091768630"
+    },
+    {
+      "id": 1784091815623,
+      "staff": "杨子豪",
+      "date": "2026-07-12",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录客流，晚上9点开始的",
+      "_updatedAt": 1784091815271
     }
   ],
   "doorSchedule": [
