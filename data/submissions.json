@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 134,
-    "lastUpdated": "2026-07-15T07:30:55.899Z",
+    "version": 135,
+    "lastUpdated": "2026-07-15T07:32:00.808Z",
     "lastUpdatedBy": "王龙宇"
   },
   "availability": {
@@ -7161,7 +7161,7 @@
       "type": "货品-辅助收货",
       "duration": "1.5小时",
       "detail": "",
-      "_updatedAt": 1784100655057
+      "_updatedAt": "1784100655057"
     }
   ],
   "doorSchedule": [
@@ -9104,6 +9104,11 @@
     {
       "date": "2026-07-15",
       "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "王龙宇",
+          "_updatedAt": "1784100713390"
+        },
         {
           "time": "12:00:00-13:00:00",
           "staff": "杨子豪",
