@@ -4409,21 +4409,178 @@ linggongAttendance: {
         ]
       },
             july: {
-        month: '2026-07', totalSales: 1020270, avgUPT: 1.33,
+        month: '2026-07', totalSales: 1082922, avgUPT: 1.33,
         note: '数据截至7月13日，来源：收银系统徐铮名下备注栏缩写匹配',
         records: [
-          { name: '龚赟昊', sales: 14254, qty: 13, tickets: 9, upt: 1.4, avgPrice: 1096, workHours: 0, hourlyOutput: 0, salesShare: 0.1794, categories: '鞋履 91.0%, 服装 8.4%, 配件 0.6%' },
-          { name: '何秋烨', sales: 10282, qty: 9, tickets: 7, upt: 1.3, avgPrice: 1142, workHours: 0, hourlyOutput: 0, salesShare: 0.1294, categories: '鞋履 61.2%, 服装 38.8%' },
-          { name: '孔祥宇', sales: 9992, qty: 9, tickets: 6, upt: 1.5, avgPrice: 1110, workHours: 0, hourlyOutput: 0, salesShare: 0.1258, categories: '鞋履 98.9%, 配件 1.1%' },
-          { name: '王靳毓', sales: 9990, qty: 6, tickets: 5, upt: 1.2, avgPrice: 1665, workHours: 0, hourlyOutput: 0, salesShare: 0.1258, categories: '鞋履 88.0%, 服装 12.0%' },
-          { name: '田佳乐', sales: 9762, qty: 9, tickets: 5, upt: 1.8, avgPrice: 1085, workHours: 0, hourlyOutput: 0, salesShare: 0.1229, categories: '鞋履 91.6%, 配件 8.4%' },
-          { name: '朱凯赟', sales: 9542, qty: 9, tickets: 7, upt: 1.3, avgPrice: 1060, workHours: 0, hourlyOutput: 0, salesShare: 0.1201, categories: '鞋履 90.0%, 服装 5.2%, 配件 4.8%' },
-          { name: '王雅澜', sales: 9092, qty: 9, tickets: 8, upt: 1.1, avgPrice: 1010, workHours: 0, hourlyOutput: 0, salesShare: 0.1144, categories: '鞋履 87.9%, 服装 11.0%, 配件 1.1%' },
-          { name: '杨子豪', sales: 2396, qty: 2, tickets: 2, upt: 1.0, avgPrice: 1198, workHours: 0, hourlyOutput: 0, salesShare: 0.0302, categories: '鞋履 100.0%' },
-          { name: '邓奇缘', sales: 1756, qty: 2, tickets: 1, upt: 2.0, avgPrice: 878, workHours: 0, hourlyOutput: 0, salesShare: 0.0221, categories: '鞋履 79.6%, 配件 20.4%' },
-          { name: '迟骋', sales: 1498, qty: 1, tickets: 1, upt: 1.0, avgPrice: 1498, workHours: 0, hourlyOutput: 0, salesShare: 0.0189, categories: '鞋履 100.0%' },
-          { name: '王龙宇', sales: 878, qty: 1, tickets: 1, upt: 1.0, avgPrice: 878, workHours: 0, hourlyOutput: 0, salesShare: 0.0111, categories: '服装 100.0%' },
-        ]
+  {
+    "name": "龚赟昊",
+    "sales": 16250,
+    "qty": 15,
+    "tickets": 10,
+    "upt": 1.5,
+    "avgPrice": 1083,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.015,
+    "categories": "鞋履 92.1%, 服装 7.4%, 配件 0.5%"
+  },
+  {
+    "name": "王靳毓",
+    "sales": 11068,
+    "qty": 7,
+    "tickets": 6,
+    "upt": 1.2,
+    "avgPrice": 1581,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.0102,
+    "categories": "鞋履 79.4%, 服装 20.6%"
+  },
+  {
+    "name": "朱凯赟",
+    "sales": 10940,
+    "qty": 10,
+    "tickets": 8,
+    "upt": 1.3,
+    "avgPrice": 1094,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.0101,
+    "categories": "鞋履 91.3%, 服装 4.5%, 配件 4.2%"
+  },
+  {
+    "name": "何秋烨",
+    "sales": 10282,
+    "qty": 9,
+    "tickets": 7,
+    "upt": 1.3,
+    "avgPrice": 1142,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.0095,
+    "categories": "鞋履 61.2%, 服装 38.8%"
+  },
+  {
+    "name": "孔祥宇",
+    "sales": 9992,
+    "qty": 9,
+    "tickets": 6,
+    "upt": 1.5,
+    "avgPrice": 1110,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.0092,
+    "categories": "鞋履 98.9%, 配件 1.1%"
+  },
+  {
+    "name": "田佳乐",
+    "sales": 9762,
+    "qty": 9,
+    "tickets": 5,
+    "upt": 1.8,
+    "avgPrice": 1085,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.009,
+    "categories": "鞋履 91.6%, 配件 8.4%"
+  },
+  {
+    "name": "王雅澜",
+    "sales": 9092,
+    "qty": 9,
+    "tickets": 8,
+    "upt": 1.1,
+    "avgPrice": 1010,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.0084,
+    "categories": "鞋履 87.9%, 服装 11.0%, 配件 1.1%"
+  },
+  {
+    "name": "陈昕媛",
+    "sales": 4692,
+    "qty": 4,
+    "tickets": 4,
+    "upt": 1,
+    "avgPrice": 1173,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.0043,
+    "categories": "鞋履 100.0%"
+  },
+  {
+    "name": "杨子豪",
+    "sales": 2396,
+    "qty": 2,
+    "tickets": 2,
+    "upt": 1,
+    "avgPrice": 1198,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.0022,
+    "categories": "鞋履 100.0%"
+  },
+  {
+    "name": "邓奇缘",
+    "sales": 1756,
+    "qty": 2,
+    "tickets": 1,
+    "upt": 2,
+    "avgPrice": 878,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.0016,
+    "categories": "鞋履 79.6%, 配件 20.4%"
+  },
+  {
+    "name": "迟骋",
+    "sales": 1498,
+    "qty": 1,
+    "tickets": 1,
+    "upt": 1,
+    "avgPrice": 1498,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.0014,
+    "categories": "鞋履 100.0%"
+  },
+  {
+    "name": "李若彤",
+    "sales": 1398,
+    "qty": 1,
+    "tickets": 1,
+    "upt": 1,
+    "avgPrice": 1398,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.0013,
+    "categories": "鞋履 100.0%"
+  },
+  {
+    "name": "玛依拉·努尔夏提",
+    "sales": 1298,
+    "qty": 1,
+    "tickets": 1,
+    "upt": 1,
+    "avgPrice": 1298,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.0012,
+    "categories": "鞋履 100.0%"
+  },
+  {
+    "name": "王龙宇",
+    "sales": 878,
+    "qty": 1,
+    "tickets": 1,
+    "upt": 1,
+    "avgPrice": 878,
+    "workHours": 0,
+    "hourlyOutput": 0,
+    "salesShare": 0.0008,
+    "categories": "服装 100.0%"
+  }
+]
       },
     },
 
@@ -4448,7 +4605,7 @@ linggongAttendance: {
       { id: 17, staffName: '孔祥宇', month: '2026-07', rating: 5, reviewDate: '2026-07-11', snippet: '来这边旅游，逛到了这家salomon小白楼，在外面看就感觉很漂亮，有小孔导览员（孔祥宇）带着我们逛了整栋楼，全程都很热情，耐心。整栋楼的装修很像韩国那边的店很精致，漂亮，听说是亚洲最大的旗舰店，喜欢salomon的可以来感受一下氛围。', keywords: ['热情', '耐心导览', '旗舰氛围', '装修精致', '韩国风格', '超预期'], source: '大众点评（海参拌黑松露，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-15-v98',  },
+        _dataVersion: '2026-07-15-v99',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -4460,7 +4617,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-15-v98';
+      const DATA_VERSION = '2026-07-15-v99';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
