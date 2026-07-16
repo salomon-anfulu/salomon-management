@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 161,
-    "lastUpdated": "2026-07-16T08:47:56.325Z",
-    "lastUpdatedBy": "杨子豪"
+    "version": 162,
+    "lastUpdated": "2026-07-16T08:52:35.670Z",
+    "lastUpdatedBy": "邓奇缘"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -7234,7 +7234,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记录客流",
-      "_updatedAt": 1784187025493
+      "_updatedAt": "1784187025493"
     },
     {
       "id": 1784189365124,
@@ -9261,6 +9261,11 @@
     {
       "date": "2026-07-16",
       "slots": [
+        {
+          "time": "11:00:00-12:00:00",
+          "staff": "邓奇缘",
+          "_updatedAt": "1784191955619"
+        },
         {
           "time": "12:00:00-13:00:00",
           "staff": "孔祥宇",
