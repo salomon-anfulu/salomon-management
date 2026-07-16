@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 179,
-    "lastUpdated": "2026-07-16T13:46:04.300Z",
-    "lastUpdatedBy": "李若彤"
+    "version": 180,
+    "lastUpdated": "2026-07-16T14:36:48.037Z",
+    "lastUpdatedBy": "杨子豪"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -3431,8 +3431,9 @@
               "note": ""
             },
             "7/24": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784212608011
             },
             "7/25": {
               "available": true,
@@ -3465,9 +3466,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370523,
-          "total": 30,
+          "total": 29,
           "unavailable": [
-            "7/13"
+            "7/13",
+            "7/24"
           ]
         },
         "王雅澜": {
