@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 155,
-    "lastUpdated": "2026-07-16T03:58:10.457Z",
-    "lastUpdatedBy": "杨子豪"
+    "version": 156,
+    "lastUpdated": "2026-07-16T05:16:02.235Z",
+    "lastUpdatedBy": "王雅澜"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -9228,6 +9228,21 @@
           "time": "20:00:00-21:00:00",
           "staff": "唐蓉",
           "_updatedAt": "1784122016509"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-16",
+      "slots": [
+        {
+          "time": "12:00:00-13:00:00",
+          "staff": "孔祥宇",
+          "_updatedAt": "1784178950225"
+        },
+        {
+          "time": "14:00:00-15:00:00",
+          "staff": "王雅澜",
+          "_updatedAt": "1784178957627"
         }
       ]
     }
