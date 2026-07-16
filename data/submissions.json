@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 171,
-    "lastUpdated": "2026-07-16T10:27:11.465Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 172,
+    "lastUpdated": "2026-07-16T10:33:25.744Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -4804,9 +4804,9 @@
               "note": ""
             },
             "7/28": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1783510220459
+              "_updatedAt": 1783511549303
             },
             "7/22": {
               "available": true,
@@ -4823,9 +4823,9 @@
               "_updatedAt": 1783510316644
             },
             "7/20": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1783510208080
+              "_updatedAt": 1783511573392
             },
             "7/27": {
               "available": true,
@@ -4837,12 +4837,13 @@
             },
             "7/23": {
               "available": true,
-              "note": ""
+              "note": "",
+              "_updatedAt": 1783511546261
             },
             "7/24": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1783510211904
+              "_updatedAt": 1783510608899
             },
             "7/25": {
               "available": true,
@@ -4855,7 +4856,7 @@
             "7/17": {
               "available": false,
               "note": "",
-              "_updatedAt": 1783510472536
+              "_updatedAt": 1783511570839
             },
             "7/18": {
               "available": true,
@@ -4895,21 +4896,17 @@
               "note": ""
             },
             "7/26": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1783510488346
+              "_updatedAt": 1783511574901
             }
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 25,
+          "total": 29,
           "unavailable": [
             "7/14",
-            "7/28",
-            "7/20",
-            "7/24",
-            "7/17",
-            "7/26"
+            "7/17"
           ]
         },
         "祖白代": {
