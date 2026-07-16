@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 177,
-    "lastUpdated": "2026-07-16T12:00:37.422Z",
-    "lastUpdatedBy": "孔祥宇"
+    "version": 178,
+    "lastUpdated": "2026-07-16T12:42:47.266Z",
+    "lastUpdatedBy": "杨子豪"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7462,7 +7462,7 @@
       "type": "陈列-翻场支援",
       "duration": "0.5小时",
       "detail": "贴价签",
-      "_updatedAt": 1784197635578
+      "_updatedAt": "1784197635578"
     },
     {
       "id": 1784199695780,
@@ -7480,7 +7480,16 @@
       "type": "其他",
       "duration": "0.5小时",
       "detail": "记客流",
-      "_updatedAt": 1784203237374
+      "_updatedAt": "1784203237374"
+    },
+    {
+      "id": 1784205767263,
+      "staff": "杨子豪",
+      "date": "2026-07-16",
+      "type": "其他",
+      "duration": "0.5小时",
+      "detail": "记录客流",
+      "_updatedAt": 1784205767243
     }
   ],
   "doorSchedule": [
