@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 160,
-    "lastUpdated": "2026-07-16T08:13:12.603Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 161,
+    "lastUpdated": "2026-07-16T08:47:56.325Z",
+    "lastUpdatedBy": "杨子豪"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7228,6 +7228,15 @@
       "_updatedAt": "1784127655685"
     },
     {
+      "id": 1784187025686,
+      "staff": "杨子豪",
+      "date": "2026-07-16",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录客流",
+      "_updatedAt": 1784187025493
+    },
+    {
       "id": 1784189365124,
       "staff": "王雅澜",
       "date": "2026-07-16",
@@ -9266,6 +9275,11 @@
           "time": "14:00:00-15:00:00",
           "staff": "王雅澜",
           "_updatedAt": "1784178957627"
+        },
+        {
+          "time": "17:00:00-18:00:00",
+          "staff": "杨子豪",
+          "_updatedAt": "1784191676276"
         }
       ]
     }
