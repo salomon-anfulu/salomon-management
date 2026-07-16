@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 158,
-    "lastUpdated": "2026-07-16T08:09:59.908Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 159,
+    "lastUpdated": "2026-07-16T08:11:08.322Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7217,6 +7217,15 @@
       "duration": "1小时",
       "detail": "",
       "_updatedAt": "1784117336041"
+    },
+    {
+      "id": 1784127656368,
+      "staff": "龚赟昊",
+      "date": "2026-07-15",
+      "type": "其他",
+      "duration": "2小时",
+      "detail": "客流记录",
+      "_updatedAt": 1784127655685
     },
     {
       "id": 1784189365124,
