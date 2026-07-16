@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 159,
-    "lastUpdated": "2026-07-16T08:11:08.322Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 160,
+    "lastUpdated": "2026-07-16T08:13:12.603Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7225,7 +7225,7 @@
       "type": "其他",
       "duration": "2小时",
       "detail": "客流记录",
-      "_updatedAt": 1784127655685
+      "_updatedAt": "1784127655685"
     },
     {
       "id": 1784189365124,
@@ -7234,7 +7234,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记录客流",
-      "_updatedAt": 1784189364133
+      "_updatedAt": "1784189364133"
     }
   ],
   "doorSchedule": [
