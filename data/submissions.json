@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 169,
-    "lastUpdated": "2026-07-16T10:12:24.184Z",
-    "lastUpdatedBy": "杨子豪"
+    "version": 170,
+    "lastUpdated": "2026-07-16T10:26:05.974Z",
+    "lastUpdatedBy": "孔祥宇"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5543,6 +5543,24 @@
           "note": "19日到30日出差，请假"
         }
       }
+    },
+    "2026-08": {
+      "data": {
+        "孔祥宇": {
+          "total": 0,
+          "unavailable": [
+            "8/1"
+          ],
+          "note": "",
+          "dates": {
+            "8/1": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784197565942
+            }
+          }
+        }
+      }
     }
   },
   "staff": [
@@ -7286,7 +7304,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记录客流",
-      "_updatedAt": 1784196744156
+      "_updatedAt": "1784196744156"
     }
   ],
   "doorSchedule": [
@@ -9335,9 +9353,24 @@
           "_updatedAt": "1784191979171"
         },
         {
+          "time": "16:00:00-17:00:00",
+          "staff": "孔祥宇",
+          "_updatedAt": "1784192672217"
+        },
+        {
           "time": "17:00:00-18:00:00",
           "staff": "杨子豪",
           "_updatedAt": "1784191676276"
+        },
+        {
+          "time": "18:00:00-19:00:00",
+          "staff": "王雅澜",
+          "_updatedAt": "1784192680083"
+        },
+        {
+          "time": "19:00:00-20:00:00",
+          "staff": "孔祥宇",
+          "_updatedAt": "1784192689535"
         }
       ]
     }
