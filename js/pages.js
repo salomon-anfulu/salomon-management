@@ -2103,13 +2103,13 @@ function renderRatings() {
             </h2>
             <p style="font-size: 13px; opacity: 0.7; margin-top: 4px;">${monthLabel} · Service Team 全员评估 · 综合评分 ≥ 3.6 可享 ¥60/h 时薪</p>
           </div>
-          <!-- Month switcher -->
+          <!-- Month switcher (v106: 改用 onclick 直接绑定，兼容 window 函数 + 后备全局定义) -->
           <div style="display:flex;gap:6px;align-items:center;">
             ${availableMonths.map(m => {
               const y = _yearNum(m);
               const mm = _monthNum(m);
               const active = m === _scoringMonth;
-              return `<button onclick="switchScoringMonth('${m}')" style="padding:6px 14px;border-radius:8px;border:1px solid ${active ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.15)'};background:${active ? 'rgba(255,255,255,0.15)' : 'transparent'};color:#fff;font-size:12px;font-weight:${active ? '700' : '500'};cursor:pointer;transition:all 0.2s;">${parseInt(mm)}月</button>`;
+              return `<button onclick="switchScoringMonth('${m}')" data-action="switchScoringMonth" data-params='{"month":"${m}"}' style="padding:6px 14px;border-radius:8px;border:1px solid ${active ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.15)'};background:${active ? 'rgba(255,255,255,0.15)' : 'transparent'};color:#fff;font-size:12px;font-weight:${active ? '700' : '500'};cursor:pointer;transition:all 0.2s;">${parseInt(mm)}月</button>`;
             }).join('')}
           </div>
         </div>
@@ -5685,4 +5685,27 @@ if (typeof _scoringMonth === 'undefined' || _scoringMonth === null) {
   } else {
     _scoringMonth = '2026-07';
   }
+}
+
+// v106: 全局后备 — 确保 onclick="switchScoringMonth(...)" 在任何情况下都能找到函数
+// 即使 window.switchScoringMonth 因某种原因未生效，这里也提供一个全局定义
+if (typeof switchScoringMonth !== 'function') {
+  var switchScoringMonth = function(m) {
+    if (typeof _scoringMonth !== 'undefined') _scoringMonth = m;
+    if (typeof Router !== 'undefined' && Router.render) Router.render();
+  };
+}
+// 同理，确保 ActionHandler 的 switchScoringMonth 也能处理 onclick 传来的字符串参数
+if (typeof window !== 'undefined' && typeof ActionHandler !== 'undefined' && ActionHandler._handlers) {
+  const _orig = ActionHandler._handlers.switchScoringMonth;
+  ActionHandler._handlers.switchScoringMonth = function(p, el, e) {
+    // 兼容两种调用：onclick 字符串参数 和 data-action 对象参数
+    const month = typeof p === 'string' ? p : (p && p.month) || (el && el.textContent);
+    if (month && typeof month === 'string' && month.match(/^\d{4}-\d{2}$/)) {
+      _scoringMonth = month;
+      if (typeof Router !== 'undefined' && Router.render) Router.render();
+    } else if (_orig) {
+      _orig(p, el, e);
+    }
+  };
 }
