@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 165,
-    "lastUpdated": "2026-07-16T09:53:23.019Z",
+    "version": 166,
+    "lastUpdated": "2026-07-16T09:53:42.557Z",
     "lastUpdatedBy": "陈广权"
   },
   "availability": {
@@ -5233,45 +5233,59 @@
               "_updatedAt": 1784195602986
             },
             "7/24": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784195605463
             },
             "7/25": {
               "available": false,
               "note": ""
             },
             "7/26": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784195608467
             },
             "7/27": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784195610984
             },
             "7/28": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784195615630
             },
             "7/29": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784195617930
             },
             "7/30": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784195620246
             },
             "7/31": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784195622528
             }
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 16,
+          "total": 9,
           "unavailable": [
             "7/18",
             "7/23",
-            "7/25"
+            "7/24",
+            "7/25",
+            "7/26",
+            "7/27",
+            "7/28",
+            "7/29",
+            "7/30",
+            "7/31"
           ]
         },
         "李健华": {
