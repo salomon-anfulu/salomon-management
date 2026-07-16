@@ -2002,7 +2002,8 @@ function renderRatings() {
   if (!availableMonths.includes(_scoringMonth)) {
     availableMonths.push(_scoringMonth);
   }
-  availableMonths = availableMonths.filter(m => m && m.startsWith('2026-')).sort().reverse();
+  // v105: 评分模块也只显示6月及以后（与业绩页一致，去除4月、5月）
+  availableMonths = availableMonths.filter(m => m && m.startsWith('2026-') && parseInt(m.slice(5, 7)) >= 6).sort().reverse();
 
   // Filter ratings by current scoring month
   let ratings = allRatings.filter(r => r.month === _scoringMonth);
