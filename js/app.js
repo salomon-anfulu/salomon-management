@@ -4899,9 +4899,14 @@ linggongAttendance: {
       { id: 15, staffName: '王靳毓', month: '2026-07', rating: 5, reviewDate: '2026-07-09', snippet: '小哥哥的服务很有耐心，JINYU 小哥哥，下次来还找他。这幢楼也是一个不错的打卡点', keywords: ['服务耐心', '下次还找', '打卡点'], source: '大众点评（绿豆棒冰，打卡后评价）' },
       { id: 16, staffName: '田佳乐', month: '2026-07', rating: 5, reviewDate: '2026-07-09', snippet: '好久没逛街了 路过安福路过来挑鞋，接待我的是佳乐小哥哥。人特别随和，全程不会刻意推销，会结合喜好耐心帮忙挑选，说话舒服接地气，服务很贴心，这次购物体验很不错，想买鞋可以找他～', keywords: ['随和', '不刻意推销', '耐心', '接地气', '贴心'], source: '大众点评（尘尘，Lv3）' },
       { id: 17, staffName: '孔祥宇', month: '2026-07', rating: 5, reviewDate: '2026-07-11', snippet: '来这边旅游，逛到了这家salomon小白楼，在外面看就感觉很漂亮，有小孔导览员（孔祥宇）带着我们逛了整栋楼，全程都很热情，耐心。整栋楼的装修很像韩国那边的店很精致，漂亮，听说是亚洲最大的旗舰店，喜欢salomon的可以来感受一下氛围。', keywords: ['热情', '耐心导览', '旗舰氛围', '装修精致', '韩国风格', '超预期'], source: '大众点评（海参拌黑松露，Lv1）' },
+      { id: 18, staffName: '王雅澜', month: '2026-07', rating: 5, reviewDate: '2026-07-13', snippet: '今天来安福路偶然看到萨洛蒙小白楼，的很漂亮，是雅澜带着我们试的鞋，很耐心，店里很漂亮，小姐姐态度很好😊', keywords: ['耐心试鞋', '态度很好', '店内环境美'], source: '大众点评（Karen，Lv2）' },
+      { id: 19, staffName: '王雅澜', month: '2026-07', rating: 5, reviewDate: '2026-07-14', snippet: '早就听说萨洛蒙这个小白楼，今天来实地看了，装修很独特，款式也很多，进来高个子妹妹雅澜接待，态度非常好说话也很温柔，试了好几双也没有一点不耐烦，虽然最后没有购入，但全程给人感觉非常舒适，推荐大家来逛一逛。', keywords: ['态度温柔', '耐心试穿', '不催促', '装修独特', '款式多', '推荐'], source: '大众点评（dpuser_3495845063，Lv1）' },
+      { id: 20, staffName: '龚赟昊', month: '2026-07', rating: 5, reviewDate: '2026-07-15', snippet: '接待人员昊昊很热情推荐，买了喜欢的鞋，全程服务都很耐心，讲解的也超级仔细~总之购物体验超级棒！', keywords: ['热情推荐', '服务耐心', '讲解仔细', '购物体验棒'], source: '大众点评（香瓜子先生，Lv2）' },
+      { id: 21, staffName: '杨子豪', month: '2026-07', rating: 5, reviewDate: '2026-07-16', snippet: '杨子豪全程耐心周到，办事高效靠谱，服务很棒', keywords: ['耐心周到', '高效靠谱', '服务棒'], source: '大众点评（锅包肉，Lv1）' },
+      { id: 22, staffName: '杨子豪', month: '2026-07', rating: 5, reviewDate: '2026-07-16', snippet: '安福路萨洛蒙，店员杨子豪服务很好，介绍鞋子很专业，耐心帮我试穿，体验不错。对产品知识掌握得特别透彻，根据我的需求耐心选鞋，试穿全程细心，讲解清晰，全程无过度推销', keywords: ['专业介绍', '耐心试穿', '产品知识', '细心讲解', '无过度推销'], source: '大众点评（忠刚清香的小邹，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-17-v107',  },
+        _dataVersion: '2026-07-17-v108',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -4913,7 +4918,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-17-v107';
+      const DATA_VERSION = '2026-07-17-v108';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
