@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 212,
-    "lastUpdated": "2026-07-17T16:41:27.933Z",
+    "version": 213,
+    "lastUpdated": "2026-07-17T16:42:54.197Z",
     "lastUpdatedBy": "manual-sync"
   },
   "availability": {
@@ -7664,7 +7664,7 @@
       "type": "其他",
       "duration": "0.5小时",
       "detail": "记客流",
-      "_updatedAt": 1784296355896
+      "_updatedAt": "1784296355896"
     }
   ],
   "doorSchedule": [
