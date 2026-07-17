@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 187,
-    "lastUpdated": "2026-07-17T06:46:05.363Z",
-    "lastUpdatedBy": "admin"
+    "version": 188,
+    "lastUpdated": "2026-07-17T07:21:39.217Z",
+    "lastUpdatedBy": "孔祥宇"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -6105,7 +6105,7 @@
       "applicantShift": "7/18 11:30-20:30",
       "target": "李若彤",
       "targetShift": "7/21 12:15-21:00",
-      "_updatedAt": 1784270726886
+      "_updatedAt": "1784270726886"
     }
   ],
   "storeSupport": [
@@ -9612,6 +9612,11 @@
           "time": "11:00:00-12:00:00",
           "staff": "王靳毓",
           "_updatedAt": "1784261913276"
+        },
+        {
+          "time": "14:00:00-15:00:00",
+          "staff": "孔祥宇",
+          "_updatedAt": "1784272899164"
         }
       ]
     }
