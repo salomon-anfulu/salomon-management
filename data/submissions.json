@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 204,
-    "lastUpdated": "2026-07-17T12:51:45.700Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 205,
+    "lastUpdated": "2026-07-17T12:51:51.836Z",
+    "lastUpdatedBy": "玛依拉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7619,7 +7619,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "客流记录",
-      "_updatedAt": 1784292650197
+      "_updatedAt": "1784292650197"
     }
   ],
   "doorSchedule": [
@@ -9712,6 +9712,11 @@
     {
       "date": "2026-07-17",
       "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "玛依拉",
+          "_updatedAt": "1784292711013"
+        },
         {
           "time": "11:00:00-12:00:00",
           "staff": "王靳毓",
