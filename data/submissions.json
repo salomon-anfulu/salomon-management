@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 196,
-    "lastUpdated": "2026-07-17T11:25:26.085Z",
-    "lastUpdatedBy": "initial-setup"
+    "version": 197,
+    "lastUpdated": "2026-07-17T11:26:34.279Z",
+    "lastUpdatedBy": "何秋烨"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7583,7 +7583,16 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "客流记录",
-      "_updatedAt": 1784286232184
+      "_updatedAt": "1784286232184"
+    },
+    {
+      "id": 1784287560204,
+      "staff": "何秋烨",
+      "date": "2026-07-17",
+      "type": "其他",
+      "duration": "3小时",
+      "detail": "客流统计",
+      "_updatedAt": 1784287560115
     }
   ],
   "doorSchedule": [
@@ -9682,6 +9691,11 @@
           "_updatedAt": "1784261913276"
         },
         {
+          "time": "12:00:00-13:00:00",
+          "staff": "何秋烨",
+          "_updatedAt": "1784287572211"
+        },
+        {
           "time": "13:00:00-14:00:00",
           "staff": "朱凯赟",
           "_updatedAt": "1784286246218"
@@ -9695,6 +9709,11 @@
           "time": "15:00:00-16:00:00",
           "staff": "李若彤",
           "_updatedAt": "1784272910531"
+        },
+        {
+          "time": "17:00:00-18:00:00",
+          "staff": "何秋烨",
+          "_updatedAt": "1784287586948"
         },
         {
           "time": "19:00:00-20:00:00",
