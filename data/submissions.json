@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 210,
-    "lastUpdated": "2026-07-17T13:11:41.707Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 211,
+    "lastUpdated": "2026-07-17T13:52:35.939Z",
+    "lastUpdatedBy": "李若彤"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7565,7 +7565,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记客流",
-      "_updatedAt": 1784277631899
+      "_updatedAt": "1784277631899"
     },
     {
       "id": 1784285898163,
@@ -7655,7 +7655,16 @@
       "type": "其他",
       "duration": "1.5小时",
       "detail": "记客流",
-      "_updatedAt": 1784293252920
+      "_updatedAt": "1784293252920"
+    },
+    {
+      "id": 1784296355950,
+      "staff": "李若彤",
+      "date": "2026-07-17",
+      "type": "其他",
+      "duration": "0.5小时",
+      "detail": "记客流",
+      "_updatedAt": 1784296355896
     }
   ],
   "doorSchedule": [
