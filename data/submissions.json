@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 206,
-    "lastUpdated": "2026-07-17T12:52:01.532Z",
+    "version": 207,
+    "lastUpdated": "2026-07-17T12:54:06.488Z",
     "lastUpdatedBy": "玛依拉"
   },
   "availability": {
@@ -7620,6 +7620,15 @@
       "duration": "1小时",
       "detail": "客流记录",
       "_updatedAt": "1784292650197"
+    },
+    {
+      "id": 1784292835420,
+      "staff": "玛依拉",
+      "date": "2026-07-15",
+      "type": "其他",
+      "duration": "1.5小时",
+      "detail": "仓库送鞋",
+      "_updatedAt": 1784292835078
     }
   ],
   "doorSchedule": [
