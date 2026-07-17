@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 207,
-    "lastUpdated": "2026-07-17T12:54:06.488Z",
+    "version": 208,
+    "lastUpdated": "2026-07-17T12:54:27.002Z",
     "lastUpdatedBy": "玛依拉"
   },
   "availability": {
@@ -7628,7 +7628,16 @@
       "type": "其他",
       "duration": "1.5小时",
       "detail": "仓库送鞋",
-      "_updatedAt": 1784292835078
+      "_updatedAt": "1784292835078"
+    },
+    {
+      "id": 1784292853035,
+      "staff": "玛依拉",
+      "date": "2026-07-17",
+      "type": "货品-查鞋盒",
+      "duration": "1小时",
+      "detail": "",
+      "_updatedAt": 1784292852654
     }
   ],
   "doorSchedule": [
