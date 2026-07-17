@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 192,
-    "lastUpdated": "2026-07-17T08:40:14.580Z",
-    "lastUpdatedBy": "孔祥宇"
+    "version": 193,
+    "lastUpdated": "2026-07-17T10:58:18.142Z",
+    "lastUpdatedBy": "李若彤"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -7541,13 +7541,31 @@
       "_updatedAt": "1784275384687"
     },
     {
+      "id": 1784276977972,
+      "staff": "李若彤",
+      "date": "2026-07-17",
+      "type": "其他",
+      "duration": "0.5小时",
+      "detail": "带活动方",
+      "_updatedAt": 1784276977115
+    },
+    {
       "id": 1784277615481,
       "staff": "孔祥宇",
       "date": "2026-07-17",
       "type": "其他",
       "duration": "1.5小时",
       "detail": "跑货",
-      "_updatedAt": 1784277614529
+      "_updatedAt": "1784277614529"
+    },
+    {
+      "id": 1784285898163,
+      "staff": "李若彤",
+      "date": "2026-07-17",
+      "type": "其他",
+      "duration": "0.5小时",
+      "detail": "辅助更换陈列",
+      "_updatedAt": 1784285898094
     }
   ],
   "doorSchedule": [
