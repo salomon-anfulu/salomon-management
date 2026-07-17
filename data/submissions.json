@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 197,
-    "lastUpdated": "2026-07-17T11:26:34.279Z",
-    "lastUpdatedBy": "何秋烨"
+    "version": 198,
+    "lastUpdated": "2026-07-17T11:27:39.887Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7592,7 +7592,7 @@
       "type": "其他",
       "duration": "3小时",
       "detail": "客流统计",
-      "_updatedAt": 1784287560115
+      "_updatedAt": "1784287560115"
     }
   ],
   "doorSchedule": [
