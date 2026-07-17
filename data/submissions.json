@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 193,
-    "lastUpdated": "2026-07-17T10:58:18.142Z",
-    "lastUpdatedBy": "李若彤"
+    "version": 194,
+    "lastUpdated": "2026-07-17T11:03:32.937Z",
+    "lastUpdatedBy": "朱凯赟"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7547,7 +7547,7 @@
       "type": "其他",
       "duration": "0.5小时",
       "detail": "带活动方",
-      "_updatedAt": 1784276977115
+      "_updatedAt": "1784276977115"
     },
     {
       "id": 1784277615481,
@@ -7565,7 +7565,16 @@
       "type": "其他",
       "duration": "0.5小时",
       "detail": "辅助更换陈列",
-      "_updatedAt": 1784285898094
+      "_updatedAt": "1784285898094"
+    },
+    {
+      "id": 1784286213238,
+      "staff": "朱凯赟",
+      "date": "2026-07-17",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "客流记录",
+      "_updatedAt": 1784286212890
     }
   ],
   "doorSchedule": [
