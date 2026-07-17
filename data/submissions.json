@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 202,
-    "lastUpdated": "2026-07-17T12:49:42.027Z",
-    "lastUpdatedBy": "admin"
+    "version": 203,
+    "lastUpdated": "2026-07-17T12:50:45.180Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7602,6 +7602,15 @@
       "duration": "1小时",
       "detail": "客流记录",
       "_updatedAt": "1784292479280"
+    },
+    {
+      "id": 1784292592929,
+      "staff": "玛依拉",
+      "date": "2026-07-15",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "客流记录",
+      "_updatedAt": 1784292592354
     }
   ],
   "doorSchedule": [
