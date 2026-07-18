@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 241,
-    "lastUpdated": "2026-07-18T12:00:24.731Z",
+    "version": 242,
+    "lastUpdated": "2026-07-18T12:02:03.331Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -7727,7 +7727,7 @@
       "type": "货品-整理仓库",
       "duration": "0.5小时",
       "detail": "1.5层整理",
-      "_updatedAt": 1784372518476
+      "_updatedAt": "1784372518476"
     },
     {
       "id": 1784372803494,
@@ -9923,6 +9923,11 @@
           "time": "18:00:00-19:00:00",
           "staff": "邓奇缘",
           "_updatedAt": "1784372833036"
+        },
+        {
+          "time": "19:00:00-20:00:00",
+          "staff": "李若彤",
+          "_updatedAt": "1784376049234"
         }
       ]
     }
