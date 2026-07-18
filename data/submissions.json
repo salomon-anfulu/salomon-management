@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 219,
-    "lastUpdated": "2026-07-18T04:11:13.022Z",
-    "lastUpdatedBy": "王雅澜"
+    "version": 220,
+    "lastUpdated": "2026-07-18T04:11:57.549Z",
+    "lastUpdatedBy": "邓奇缘"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -9834,6 +9834,11 @@
           "time": "10:00:00-11:00:00",
           "staff": "唐蓉",
           "_updatedAt": "1784345784902"
+        },
+        {
+          "time": "12:00:00-13:00:00",
+          "staff": "邓奇缘",
+          "_updatedAt": "1784347916146"
         }
       ]
     }
