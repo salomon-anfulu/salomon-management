@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 220,
-    "lastUpdated": "2026-07-18T04:11:57.549Z",
-    "lastUpdatedBy": "邓奇缘"
+    "version": 221,
+    "lastUpdated": "2026-07-18T04:15:30.694Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -9839,6 +9839,11 @@
           "time": "12:00:00-13:00:00",
           "staff": "邓奇缘",
           "_updatedAt": "1784347916146"
+        },
+        {
+          "time": "13:00:00-14:00:00",
+          "staff": "李若彤",
+          "_updatedAt": "1784347920896"
         }
       ]
     }
