@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 229,
-    "lastUpdated": "2026-07-18T06:02:05.946Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 230,
+    "lastUpdated": "2026-07-18T06:17:15.354Z",
+    "lastUpdatedBy": "邓奇缘"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -7692,6 +7692,15 @@
       "duration": "1小时",
       "detail": "计客流",
       "_updatedAt": "1784351331423"
+    },
+    {
+      "id": 1784355435490,
+      "staff": "邓奇缘",
+      "date": "2026-07-18",
+      "type": "货品-整理仓库",
+      "duration": "1小时",
+      "detail": "",
+      "_updatedAt": 1784355435297
     }
   ],
   "doorSchedule": [
