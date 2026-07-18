@@ -4984,7 +4984,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-18-v115';
+      const DATA_VERSION = '2026-07-18-v116';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -4997,24 +4997,32 @@ linggongAttendance: {
         const merged = JSON.parse(JSON.stringify(this.defaults));
         merged._dataVersion = DATA_VERSION;
         
-        // staff: 以 name 为唯一键合并（保留用户的编辑/新增/删除）
+        // staff: 以 id 为主键、name 为兜底键合并（P1-2 fix: 原 name-only 导致改名后数据重复）
+        const defaultStaffIds = new Set(this.defaults.staff.map(s => String(s.id)));
         const defaultStaffNames = new Set(this.defaults.staff.map(s => s.name));
-        const existingStaffMap = new Map();
+        // 构建两个索引：id→userVersion 和 name→userVersion
+        const existingById = new Map();
+        const existingByName = new Map();
         if (Array.isArray(data.staff)) {
-          // 保留用户添加的（不在默认列表中的）+ 保留用户编辑过的默认成员
-          data.staff.forEach(s => existingStaffMap.set(s.name, s));
+          data.staff.forEach(s => {
+            if (s.id != null) existingById.set(String(s.id), s);
+            if (s.name) existingByName.set(s.name, s);
+          });
         }
         // 默认数据覆盖同名条目，但保留用户自定义新增的
         // 对默认成员：dept / transferredFrom / status 始终取默认值（防止旧用户数据覆盖部门调整）
         // 其他字段（mbti, avatar_color 等）保留用户编辑
+        // 匹配优先级：id 相同 > name 相同（兼容旧数据 id 缺失的场景）
         merged.staff = merged.staff.map(s => {
-          const userVersion = existingStaffMap.get(s.name);
+          // 优先按 id 匹配用户版本（健壮的主键），回退到 name 匹配（兼容历史数据）
+          const userVersion = existingById.get(String(s.id)) || existingByName.get(s.name);
           if (!userVersion) return s;
           return { ...s, ...userVersion, id: s.id, dept: s.dept, transferredFrom: s.transferredFrom || userVersion.transferredFrom, serviceTeamStartDate: s.serviceTeamStartDate || userVersion.serviceTeamStartDate };
         });
-        // 追加用户自定义新增的（不在默认列表中的）
+        // 追加用户自定义新增的（id 和 name 都不在默认列表中的）
         data.staff.forEach(s => {
-          if (!defaultStaffNames.has(s.name)) {
+          const _inDefault = (s.id != null && defaultStaffIds.has(String(s.id))) || defaultStaffNames.has(s.name);
+          if (!_inDefault) {
             merged.staff.push(s);
           }
         });
@@ -5023,7 +5031,8 @@ linggongAttendance: {
         const defaultRatingKeys = new Set(this.defaults.ratings.map(r => `${r.staffId}-${r.month}`));
         // v50: 陈昕媛转正，清除其7月评分残留（id:101, staffId:1-month:2026-07）
         const _isFullTimeStaff = (staffId) => {
-          const s = this.defaults.staff.find(s => s.id === staffId);
+          const _sid = String(staffId);
+          const s = this.defaults.staff.find(s => String(s.id) === _sid);
           return s && s.status === 'full_time';
         };
         if (Array.isArray(data.ratings)) {
@@ -5121,17 +5130,17 @@ linggongAttendance: {
 
         // performanceData: 以默认数据为准（含最新录入），但保留用户可能在其他月份录入的自定义数据
         if (data.performanceData) {
-          // 默认数据覆盖用户数据中的同名月份
+          // 默认数据覆盖用户数据中的同名月份（P1-5 fix: 深拷贝，避免修改污染 defaults.performanceData）
           Object.keys(this.defaults.performanceData).forEach(mk => {
-            data.performanceData[mk] = this.defaults.performanceData[mk];
+            data.performanceData[mk] = JSON.parse(JSON.stringify(this.defaults.performanceData[mk]));
           });
           merged.performanceData = data.performanceData;
         }
         // linggongAttendance: 以默认数据为准（含最新拉取的考勤），但保留用户可能手动添加的自定义记录
         if (data.linggongAttendance && data.linggongAttendance.records) {
-          // 用默认记录作为基础
-          const defaultRecords = this.defaults.linggongAttendance.records || [];
-          const defaultKeys = new Set(defaultRecords.map(r => `${r.name}-${r.date}`));
+          // 用默认记录作为基础（P1-5 fix: 深拷贝 records，避免引用污染 defaults）
+          const defaultRecords = JSON.parse(JSON.stringify(this.defaults.linggongAttendance.records || []));
+          const defaultKeys = new Set(this.defaults.linggongAttendance.records.map(r => `${r.name}-${r.date}`));
           // 保留用户数据中不在默认列表里的记录（手动添加的）
           const extraRecords = data.linggongAttendance.records.filter(r => !defaultKeys.has(`${r.name}-${r.date}`));
           merged.linggongAttendance = {
@@ -5186,9 +5195,12 @@ linggongAttendance: {
       }
       const data = this._cache;
       let val = data[key];
-      // P0 fix: null/undefined → 回退到 defaults
+      // P0 fix: null/undefined → 回退到 defaults（P1-4 fix: 深拷贝避免污染 defaults）
       if (val === undefined || val === null) {
-        val = this.defaults[key];
+        const _def = this.defaults[key];
+        val = (typeof _def === 'object' && _def !== null)
+          ? JSON.parse(JSON.stringify(_def))
+          : _def;
       }
       // 再次兜底：确保 array 类型的 key 永远返回数组
       if ((val === undefined || val === null) && Array.isArray(this.defaults[key])) {
@@ -5200,8 +5212,12 @@ linggongAttendance: {
       return val;
     } catch (e) {
       console.error('[Store.get] 读取失败，返回默认值:', key, e);
+      // P1-4 fix: 深拷贝 defaults，避免调用方修改污染默认数据
       const fallback = this.defaults[key];
-      return fallback !== undefined ? fallback : (Array.isArray(this.defaults[key]) ? [] : {});
+      if (fallback === undefined) return Array.isArray(this.defaults[key]) ? [] : {};
+      return typeof fallback === 'object' && fallback !== null
+        ? JSON.parse(JSON.stringify(fallback))
+        : fallback;
     }
   },
 
@@ -5334,10 +5350,11 @@ linggongAttendance: {
     }
   },
 
-  // Helper: get staff by id
+  // Helper: get staff by id (P1-1 fix: 类型归一，DOM data-id 传字符串也能匹配 Number id)
   getStaff(id) {
     const staff = this.getList('staff');
-    return staff.find(s => s.id === id) || null;
+    const _id = String(id);
+    return staff.find(s => String(s.id) === _id) || null;
   },
 
   // Helper: get staff name
@@ -5368,19 +5385,31 @@ window.switchScoringMonth = function(m) {
   Router.render();
 };
 window.switchScheduleMonth = function(m) {
-  _scheduleMonth = m;
-  Router.render();
+  if (typeof _scheduleMonth !== 'undefined') _scheduleMonth = m;
+  if (typeof Router !== 'undefined' && Router.render) Router.render();
 };
 window.switchAttMonth = function(m) {
-  _attMonth = m;
-  Router.render();
+  // P1-3 fix: 安全赋值，避免 _attMonth 仍在 TDZ 时报错（_attMonth 在 pages.js 中 let 声明）
+  if (typeof _attMonth !== 'undefined') _attMonth = m;
+  if (typeof Router !== 'undefined' && Router.render) Router.render();
 };
 
 // ===== Router =====
+// P1-7 fix: 渲染状态标记（提前声明，避免 TDZ；用于全局 error handler 判断是否渲染失败）
+let _lastRenderOk = true;
+
 const Router = {
   current: 'dashboard',
 
   navigate(page) {
+    // P1-6 fix: 同步 hash 到 URL，让浏览器前进/后退生效
+    if (page && page !== this.current) {
+      const newHash = '#/' + page;
+      if (location.hash !== newHash) {
+        location.hash = newHash;  // 触发 hashchange → render，避免重复渲染
+        return;
+      }
+    }
     this.current = page;
     this.render();
     // Close mobile sidebar
@@ -5420,6 +5449,7 @@ const Router = {
     if (pages[this.current]) {
       try {
         content.innerHTML = pages[this.current]();
+        _lastRenderOk = true;  // P1-7 fix: 标记渲染成功
         this._lastPage = this.current;
         
         // P0-2 fix: 恢复滚动位置
@@ -5431,6 +5461,7 @@ const Router = {
         }
         if (this.current === 'dashboard') initDashboardCharts();
       } catch (e) {
+        _lastRenderOk = false;  // P1-7 fix: 标记渲染失败，供全局 error handler 判断
         console.error('[App.render] 页面渲染失败:', this.current, e);
         content.innerHTML = '<div style="padding:40px;text-align:center;color:#666;">' +
           '<p style="font-size:16px;margin-bottom:8px;">该页面加载出错</p>' +
@@ -5506,12 +5537,13 @@ const ActionHandler = {
 };
 
 // 注册通用 handlers（替代 window.xxx 模式）
+// P1-3 fix: 所有跨文件 let 变量用 typeof 守卫，避免 TDZ 引用错误
 ActionHandler.registerAll({
   navigate: (p) => Router.navigate(p.page),
-  switchScoringMonth: (p) => { _scoringMonth = p.month; Router.render(); },
-  switchScheduleMonth: (p) => { _scheduleMonth = p.month; Router.render(); },
-  switchAttMonth: (p) => { _attMonth = p.month; Router.render(); },
-  switchPerfMonth: (p) => { perfMonth = p.month; Router.render(); },
+  switchScoringMonth: (p) => { if (typeof _scoringMonth !== 'undefined') _scoringMonth = p.month; Router.render(); },
+  switchScheduleMonth: (p) => { if (typeof _scheduleMonth !== 'undefined') _scheduleMonth = p.month; Router.render(); },
+  switchAttMonth: (p) => { if (typeof _attMonth !== 'undefined') _attMonth = p.month; Router.render(); },
+  switchPerfMonth: (p) => { if (typeof perfMonth !== 'undefined') perfMonth = p.month; Router.render(); },
   reload: () => location.reload(),
 });
 
@@ -5625,10 +5657,16 @@ const DAILY_CHECKLIST = [
 
 // ===== Initialize =====
 // Global error handler - prevents white screen on data corruption
+// P1-7 fix: 放宽触发条件 — 不仅看 children.length===0，还检测当前页面渲染失败或错误内容为空
+// _lastRenderOk 已在 Router 定义前声明（避免 TDZ）
 window.addEventListener('error', function(e) {
   console.error('[Global Error]', e.message, e.filename + ':' + e.lineno);
   const main = document.getElementById('main-content') || document.querySelector('main');
-  if (main && main.children.length === 0) {
+  if (!main) return;
+  // 条件：内容为空，或最近一次渲染失败，或错误发生在 page-content 渲染过程中
+  const isEmpty = !main.innerHTML.trim() || (main.children.length === 0);
+  const renderFailed = !_lastRenderOk;
+  if (isEmpty || renderFailed) {
     main.innerHTML = '<div style="padding:40px;text-align:center;color:#666;">' +
       '<p style="font-size:18px;margin-bottom:12px;">页面加载出错了</p>' +
       '<p style="font-size:14px;">请刷新页面重试，如问题持续请清除浏览器缓存。</p>' +
@@ -5651,4 +5689,28 @@ ActionHandler.init();
 // v86 P1-1: 启动时自动推导评分月份（原硬编码 '2026-07'）
 if (!_scoringMonth && typeof MonthConfig !== 'undefined') {
   _scoringMonth = MonthConfig.getActiveScoringMonth();
+}
+
+// P1-6 fix: hashchange 路由 — 支持浏览器前进/后退，并在首次加载时恢复 hash 指定的页面
+if (typeof window !== 'undefined') {
+  const _validPages = ['dashboard','staff','schedule','doorSchedule','attendance','ratings','performance','support','reviews','handbook','myforms','dataManage'];
+  const _parseHash = () => {
+    const m = (location.hash || '').match(/^#\/(\w+)/);
+    return m ? m[1] : null;
+  };
+  // 首次加载：如果 URL 带 hash 且是合法页面，切换到该页
+  const _initialPage = _parseHash();
+  if (_initialPage && _validPages.indexOf(_initialPage) !== -1) {
+    Router.current = _initialPage;
+  }
+  // 监听 hashchange（前进/后退/手动改 URL）
+  window.addEventListener('hashchange', function() {
+    const page = _parseHash();
+    if (page && _validPages.indexOf(page) !== -1 && Router.current !== page) {
+      Router.current = page;
+      Router.render();
+      document.querySelector('.sidebar')?.classList.remove('open');
+      document.querySelector('.sidebar-overlay')?.classList.remove('active');
+    }
+  });
 }
