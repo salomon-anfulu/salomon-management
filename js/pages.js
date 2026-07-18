@@ -1692,6 +1692,11 @@ function calcPerformanceScore(staffName) {
   const upt = tickets > 0 ? qty / tickets : 0;
   const sales = record.sales || 0;
 
+  // 销售单数门控（v112）：销售单数 ≤ 5，直接评1分（产出过低不达标）
+  if (tickets <= 5) {
+    return { score: 1, hourlyScore: 0, uptScore: 0, hourly, upt, sales, qty, tickets, avgPrice: tickets > 0 ? parseFloat((sales / tickets).toFixed(1)) : 0, workHours: record.workHours || 0, targetMet: false, targetBonus: 0, bonusDetail: '销售单数≤5', salesTarget: SALES_TARGET, lowTickets: true };
+  }
+
   // v75: workHours=0 时，从灵工打卡动态计算工时
   let workHours = record.workHours || 0;
   if (workHours === 0 && sales > 0) {
@@ -2329,7 +2334,7 @@ function renderRatings() {
                     </div>
                   </div>
                   <div style="margin-top: 8px; display: flex; justify-content: space-between; font-size: 11px;">
-                    <span style="color: var(--text-muted);">(时产 <b>${perfCalc.hourlyScore}</b> + UPT <b>${perfCalc.uptScore}</b>) ÷ 2 = <b>${((perfCalc.hourlyScore + perfCalc.uptScore) / 2).toFixed(1)}</b>${perfCalc.targetBonus ? ` <span style="color:#10b981;">+ ${perfCalc.targetBonus}</span>` : ''} = <b style="color: ${perfCalc.score >= 4 ? '#10b981' : '#f59e0b'};">${perfCalc.score.toFixed(1)}</b></span>
+                    <span style="color: var(--text-muted);">${perfCalc.lowTickets ? `<span style="color:#ef4444;">⚠ 销售单数≤5，业绩评分为1分</span>` : `(时产 <b>${perfCalc.hourlyScore}</b> + UPT <b>${perfCalc.uptScore}</b>) ÷ 2 = <b>${((perfCalc.hourlyScore + perfCalc.uptScore) / 2).toFixed(1)}</b>${perfCalc.targetBonus ? ` <span style="color:#10b981;">+ ${perfCalc.targetBonus}</span>` : ''} = <b style="color: ${perfCalc.score >= 4 ? '#10b981' : '#f59e0b'};">${perfCalc.score.toFixed(1)}</b>`}</span>
                     <span style="color: var(--text-muted); font-size: 10px;">目标 ¥${perfCalc.salesTarget.toLocaleString()}</span>
                   </div>
                 </div>
