@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 228,
-    "lastUpdated": "2026-07-18T06:01:04.632Z",
-    "lastUpdatedBy": "initial-setup"
+    "version": 229,
+    "lastUpdated": "2026-07-18T06:02:05.946Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -9848,6 +9848,11 @@
           "time": "10:00:00-11:00:00",
           "staff": "唐蓉",
           "_updatedAt": "1784345784902"
+        },
+        {
+          "time": "11:00:00-12:00:00",
+          "staff": "龚赟昊",
+          "_updatedAt": "1784354507950"
         },
         {
           "time": "12:00:00-13:00:00",
