@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 216,
-    "lastUpdated": "2026-07-18T03:37:21.885Z",
-    "lastUpdatedBy": "唐蓉"
+    "version": 217,
+    "lastUpdated": "2026-07-18T04:04:04.988Z",
+    "lastUpdatedBy": "王雅澜"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5103,7 +5103,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5181,9 +5181,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -7681,7 +7682,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "11:00到12:00记录客流",
-      "_updatedAt": 1784345834561
+      "_updatedAt": "1784345834561"
     }
   ],
   "doorSchedule": [
