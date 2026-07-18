@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 215,
-    "lastUpdated": "2026-07-18T03:36:24.958Z",
+    "version": 216,
+    "lastUpdated": "2026-07-18T03:37:21.885Z",
     "lastUpdatedBy": "唐蓉"
   },
   "availability": {
@@ -7402,7 +7402,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "5:00到6:00记录客流",
-      "_updatedAt": 1784102899527
+      "_updatedAt": "1784102899527"
     },
     {
       "id": 1784109544052,
@@ -7673,6 +7673,15 @@
       "duration": "0.5小时",
       "detail": "记客流",
       "_updatedAt": "1784296355896"
+    },
+    {
+      "id": 1784345835152,
+      "staff": "唐蓉",
+      "date": "2026-07-18",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "11:00到12:00记录客流",
+      "_updatedAt": 1784345834561
     }
   ],
   "doorSchedule": [
