@@ -1694,7 +1694,7 @@ function calcPerformanceScore(staffName) {
 
   // 销售单数门控（v112）：销售单数 ≤ 5，直接评1分（产出过低不达标）
   if (tickets <= 5) {
-    return { score: 1, hourlyScore: 0, uptScore: 0, hourly, upt, sales, qty, tickets, avgPrice: tickets > 0 ? parseFloat((sales / tickets).toFixed(1)) : 0, workHours: record.workHours || 0, targetMet: false, targetBonus: 0, bonusDetail: '销售单数≤5', salesTarget: SALES_TARGET, lowTickets: true };
+    return { score: 1, hourlyScore: 0, uptScore: 0, hourly, upt, sales, qty, tickets, workHours: record.workHours || 0, targetMet: false, targetBonus: 0, bonusDetail: '销售单数≤5', salesTarget: SALES_TARGET, lowTickets: true };
   }
 
   // v75: workHours=0 时，从灵工打卡动态计算工时
@@ -1878,13 +1878,15 @@ function calcAttendanceScore(staffName) {
 }
 
 /**
- * 计算行为规范评分辅助 - 汇总团队时长数据（全局缓存，每次渲染只算一次）
+ * 计算行为规范评分辅助 - 汇总团队时长数据（全局缓存，绑定 scoreMonth 自动失效）
  */
 let _behaviorCache = null;
+let _behaviorCacheMonth = null;
 function getBehaviorData() {
-  if (_behaviorCache) return _behaviorCache;
-
   const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : MonthConfig.getActiveScoringMonth();
+  // P1修复：缓存绑定 scoreMonth，切月或数据变更时自动失效
+  if (_behaviorCache && _behaviorCacheMonth === scoreMonth) return _behaviorCache;
+  _behaviorCacheMonth = scoreMonth;
   const allStaff = Store.getList('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
   const names = allStaff.map(s => s.name);
 
@@ -1912,9 +1914,11 @@ function getBehaviorData() {
     supportHours[r.staff] += parseFloat(m[1]);
   });
 
-  // 计算团队平均
-  const avgDoor = names.reduce((s, n) => s + (doorHours[n] || 0), 0) / names.length;
-  const avgSupport = names.reduce((s, n) => s + (supportHours[n] || 0), 0) / names.length;
+  // 计算团队平均（P0修复：除零保护）
+  const totalDoor = names.reduce((s, n) => s + (doorHours[n] || 0), 0);
+  const totalSupport = names.reduce((s, n) => s + (supportHours[n] || 0), 0);
+  const avgDoor = names.length > 0 ? totalDoor / names.length : 0;
+  const avgSupport = names.length > 0 ? totalSupport / names.length : 0;
 
   // 综合排名
   const ranking = names.map(name => ({
@@ -2312,31 +2316,39 @@ function renderRatings() {
               <!-- 销售业绩详情（可展开） -->
               <div class="perf-detail" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease; margin-bottom: 0;">
                 <div style="padding: 10px; background: var(--bg-secondary); border-radius: var(--radius-md); margin-bottom: 10px;">
+                  ${perfCalc.lowTickets ? `
+                    <div style="text-align: center; padding: 16px; border-radius: 8px; background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.15);">
+                      <div style="font-size: 14px; font-weight: 700; color: #ef4444;">⚠ 销售单数 ${perfCalc.tickets} ≤ 5</div>
+                      <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">业绩评分直接判定为 <b style="color:#ef4444;">1分</b>，不适用时产/UPT/月销规则</div>
+                      <div style="font-size: 11px; color: var(--text-muted); margin-top: 8px;">销售额 ¥${(perfCalc.sales || 0).toLocaleString()} · ${perfCalc.qty || 0}件 / ${perfCalc.tickets}单</div>
+                    </div>
+                  ` : `
                   <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 8px;">🎯 时产 + UPT 各50% · 月销2万达标加0.5</div>
                   <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px;">
                     <!-- 时产 -->
-                    <div style="padding: 8px; border-radius: 6px; background: ${perfCalc.hourly >= 240 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)'}; border: 1px solid ${perfCalc.hourly >= 240 ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)'};">
+                    <div style="padding: 8px; border-radius: 6px; background: ${(perfCalc.hourly || 0) >= 240 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)'}; border: 1px solid ${(perfCalc.hourly || 0) >= 240 ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)'};">
                       <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">💰 时产</div>
-                      <div style="font-size: 16px; font-weight: 800; color: ${perfCalc.hourly >= 240 ? '#10b981' : '#f59e0b'};">¥${perfCalc.hourly}<span style="font-size: 11px; font-weight: 400; opacity: 0.6;">/h</span></div>
-                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">得分 <b style="color: ${perfCalc.hourlyScore >= 4 ? '#10b981' : perfCalc.hourlyScore >= 3 ? '#f59e0b' : '#ef4444'};">${perfCalc.hourlyScore}</b>/5 ${perfCalc.hourly >= 240 ? '✓' : '✗'}</div>
+                      <div style="font-size: 16px; font-weight: 800; color: ${(perfCalc.hourly || 0) >= 240 ? '#10b981' : '#f59e0b'};">¥${perfCalc.hourly || 0}<span style="font-size: 11px; font-weight: 400; opacity: 0.6;">/h</span></div>
+                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">得分 <b style="color: ${(perfCalc.hourlyScore || 0) >= 4 ? '#10b981' : (perfCalc.hourlyScore || 0) >= 3 ? '#f59e0b' : '#ef4444'};">${perfCalc.hourlyScore || 0}</b>/5 ${(perfCalc.hourly || 0) >= 240 ? '✓' : '✗'}</div>
                     </div>
                     <!-- UPT -->
-                    <div style="padding: 8px; border-radius: 6px; background: ${perfCalc.upt >= 1.4 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)'}; border: 1px solid ${perfCalc.upt >= 1.4 ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)'};">
+                    <div style="padding: 8px; border-radius: 6px; background: ${(perfCalc.upt || 0) >= 1.4 ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)'}; border: 1px solid ${(perfCalc.upt || 0) >= 1.4 ? 'rgba(16,185,129,0.15)' : 'rgba(245,158,11,0.15)'};">
                       <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">📦 UPT</div>
-                      <div style="font-size: 16px; font-weight: 800; color: ${perfCalc.upt >= 1.4 ? '#10b981' : '#f59e0b'};">${perfCalc.upt}</div>
-                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">得分 <b style="color: ${perfCalc.uptScore >= 4 ? '#10b981' : perfCalc.uptScore >= 3 ? '#f59e0b' : '#ef4444'};">${perfCalc.uptScore}</b>/5 · ${perfCalc.qty}件/${perfCalc.tickets}单</div>
+                      <div style="font-size: 16px; font-weight: 800; color: ${(perfCalc.upt || 0) >= 1.4 ? '#10b981' : '#f59e0b'};">${perfCalc.upt || 0}</div>
+                      <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">得分 <b style="color: ${(perfCalc.uptScore || 0) >= 4 ? '#10b981' : (perfCalc.uptScore || 0) >= 3 ? '#f59e0b' : '#ef4444'};">${perfCalc.uptScore || 0}</b>/5 · ${perfCalc.qty || 0}件/${perfCalc.tickets || 0}单</div>
                     </div>
                     <!-- 月销售额达标 -->
                     <div style="padding: 8px; border-radius: 6px; background: ${perfCalc.targetMet ? 'rgba(16,185,129,0.08)' : 'rgba(100,116,139,0.06)'}; border: 1px solid ${perfCalc.targetMet ? 'rgba(16,185,129,0.15)' : 'rgba(100,116,139,0.1)'};">
                       <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">🏆 月销加成</div>
-                      <div style="font-size: 16px; font-weight: 800; color: ${perfCalc.targetMet ? '#10b981' : 'var(--text-muted)'};">¥${(perfCalc.sales / 10000).toFixed(1)}<span style="font-size: 11px; font-weight: 400; opacity: 0.6;">万</span></div>
+                      <div style="font-size: 16px; font-weight: 800; color: ${perfCalc.targetMet ? '#10b981' : 'var(--text-muted)'};">¥${((perfCalc.sales || 0) / 10000).toFixed(1)}<span style="font-size: 11px; font-weight: 400; opacity: 0.6;">万</span></div>
                       <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">${perfCalc.targetBonus ? `<b style="color:#10b981;">+${perfCalc.targetBonus}</b> ${perfCalc.bonusDetail || '✓达标'}` : '未达标(不加分)'}</div>
                     </div>
                   </div>
                   <div style="margin-top: 8px; display: flex; justify-content: space-between; font-size: 11px;">
-                    <span style="color: var(--text-muted);">${perfCalc.lowTickets ? `<span style="color:#ef4444;">⚠ 销售单数≤5，业绩评分为1分</span>` : `(时产 <b>${perfCalc.hourlyScore}</b> + UPT <b>${perfCalc.uptScore}</b>) ÷ 2 = <b>${((perfCalc.hourlyScore + perfCalc.uptScore) / 2).toFixed(1)}</b>${perfCalc.targetBonus ? ` <span style="color:#10b981;">+ ${perfCalc.targetBonus}</span>` : ''} = <b style="color: ${perfCalc.score >= 4 ? '#10b981' : '#f59e0b'};">${perfCalc.score.toFixed(1)}</b>`}</span>
-                    <span style="color: var(--text-muted); font-size: 10px;">目标 ¥${perfCalc.salesTarget.toLocaleString()}</span>
+                    <span style="color: var(--text-muted);">(时产 <b>${perfCalc.hourlyScore || 0}</b> + UPT <b>${perfCalc.uptScore || 0}</b>) ÷ 2 = <b>${(((perfCalc.hourlyScore || 0) + (perfCalc.uptScore || 0)) / 2).toFixed(1)}</b>${perfCalc.targetBonus ? ` <span style="color:#10b981;">+ ${perfCalc.targetBonus}</span>` : ''} = <b style="color: ${perfCalc.score >= 4 ? '#10b981' : '#f59e0b'};">${perfCalc.score.toFixed(1)}</b></span>
+                    <span style="color: var(--text-muted); font-size: 10px;">目标 ¥${(perfCalc.salesTarget || 20000).toLocaleString()}</span>
                   </div>
+                  `}
                 </div>
               </div>
 
