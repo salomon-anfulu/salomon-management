@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 225,
-    "lastUpdated": "2026-07-18T04:19:07.387Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 227,
+    "lastUpdated": "2026-07-18T05:55:39.329Z",
+    "lastUpdatedBy": "王雅澜"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7683,6 +7683,15 @@
       "duration": "1小时",
       "detail": "11:00到12:00记录客流",
       "_updatedAt": "1784345834561"
+    },
+    {
+      "id": 1784351332154,
+      "staff": "邓奇缘",
+      "date": "2026-07-18",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "计客流",
+      "_updatedAt": "1784351331423"
     }
   ],
   "doorSchedule": [
@@ -9849,6 +9858,11 @@
           "time": "13:00:00-14:00:00",
           "staff": "李若彤",
           "_updatedAt": "1784347920896"
+        },
+        {
+          "time": "15:00:00-16:00:00",
+          "staff": "王雅澜",
+          "_updatedAt": "1784354124822"
         }
       ]
     }
