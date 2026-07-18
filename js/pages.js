@@ -189,6 +189,67 @@ function _parseYM(ym, fallbackY, fallbackM) {
   return [y, m];
 }
 
+/**
+ * 纯算术计算某年某月的天数 —— 替代 new Date(y, m, 0).getDate()
+ * 规避 UTC+8 偏移导致的 toISOString 时区坑（MEMORY.md 记录的 v93 教训）
+ * @param {number} year - 四位数年份
+ * @param {number} month - 月份（1-12）
+ * @returns {number} 该月天数（28/29/30/31）
+ */
+function _daysInMonth(year, month) {
+  // 二月：闰年判断
+  if (month === 2) {
+    const isLeap = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+    return isLeap ? 29 : 28;
+  }
+  // 4/6/9/11 月 30 天，其余 31 天
+  return [4, 6, 9, 11].includes(month) ? 30 : 31;
+}
+
+/**
+ * 销售业绩评分阈值集中管理（原 calcPerformanceScore 内硬编码魔法数字，v114 提取）
+ * 修改阈值只需改这一处
+ */
+const SCORE_THRESHOLDS = {
+  // 销售单数门控：≤5 单直接1分
+  lowTicketsGate: 5,
+  // 时产评分阈值（元/小时）
+  hourly: [
+    { min: 300, score: 5 },
+    { min: 240, score: 4 },
+    { min: 180, score: 3 },
+    { min: 120, score: 2 },
+    { min: 0,   score: 1 },
+  ],
+  // UPT 评分阈值（连带率）
+  upt: [
+    { min: 1.6,  score: 5 },
+    { min: 1.4,  score: 4 },
+    { min: 1.25, score: 3 },
+    { min: 1.1,  score: 2 },
+    { min: 0,    score: 1 },
+  ],
+  // 月销阶梯加成
+  sales: {
+    target: 20000,   // 目标额（达标2万 +0.5）
+    tier2: 30000,    // 二档（达标3万 再+0.5）
+    step: 2000,      // 三档以上每2千 +0.1
+  },
+  // 工时支持倒扣
+  availability: {
+    baseScore: 5,
+    deductionPerWeek: 1,
+    minDaysLongWeek: 4,   // ≥5天周需≥4天达标
+    // 短周（<5天）需≥实际天数
+  },
+  // 行为规范（对标团队平均）
+  behavior: {
+    baseScore: 4,      // 达标基础分
+    bonus: 1,          // 超10%加1
+    penalty: 1,        // 低10%扣1
+  },
+};
+
 function renderDashboard() {
   const staff = Store.get('staff');
   const activeStaff = staff.filter(s => s.status === 'active');
@@ -1555,6 +1616,7 @@ const DIMENSION_META = {
 function calcAvailabilityScore(staffName) {
   const availability = Store.get('availability');
   const shiftChanges = Store.get('shiftChanges') || [];
+  const T_avail = SCORE_THRESHOLDS.availability;
 
   // Use _scoringMonth for consistency with other calc functions
   // v86 P1-1: 默认月由 MonthConfig 自动推导（原硬编码 '2026-07'）
@@ -1586,9 +1648,10 @@ function calcAvailabilityScore(staffName) {
   } else {
     // Fallback to legacy: unavailable list → 反推（全月天 - unavailable = 可供班）
     // 旧数据没有 dates 字段，unavailable 反推
-    const _yr2 = parseInt(monthKey.slice(0, 4));
-    const _mn2 = parseInt(monthKey.slice(5, 7));
-    const _totalDaysInMonth = new Date(_yr2, _mn2, 0).getDate();
+    // P1-2修复(v114): 用 _daysInMonth 纯算术替代 new Date(_yr2, _mn2, 0) 规避 UTC+8 时区坑
+    const _yr2 = _yearNum(monthKey);
+    const _mn2 = _monthNum(monthKey);
+    const _totalDaysInMonth = _daysInMonth(_yr2, _mn2);
     const _unavailableSet = new Set();
     (availData.unavailable || []).forEach(d => {
       const dayNum = parseInt(String(d).split('/')[1]);
@@ -1618,7 +1681,7 @@ function calcAvailabilityScore(staffName) {
     // 达标标准与供班总览显示页一致：
     // - 天数要求：该周在月内≥5天时需≥4天；不足5天时按实际天数（至少有供班即可）
     // - 周末要求：该周有周末日时需至少供1天；无周末日则免除
-    const meetMinDays = w.days.length >= 5 ? availDays >= 4 : availDays >= w.days.length;
+    const meetMinDays = w.days.length >= 5 ? availDays >= T_avail.minDaysLongWeek : availDays >= w.days.length;
     const meetWeekend = w.weekends.length > 0 ? weekendAvail : true;
     const passed = meetMinDays && meetWeekend;
     return { ...w, availDays, weekendAvail, meetMinDays, meetWeekend, passed };
@@ -1628,8 +1691,8 @@ function calcAvailabilityScore(staffName) {
   const failedCount = weeks.length - passedCount; // 未达标周数
 
   // 倒扣制：基础5分，每有一周未达标扣1分
-  const BASE_SCORE = 5;
-  const weekDeduction = failedCount * 1; // -1 per unmet week
+  const BASE_SCORE = T_avail.baseScore;
+  const weekDeduction = failedCount * T_avail.deductionPerWeek;
   const weekScore = Math.max(1, BASE_SCORE - weekDeduction);
 
   // Shift change stats — filter by scoring month
@@ -1679,7 +1742,8 @@ function calcPerformanceScore(staffName) {
   const records = monthData.records || [];
   const record = records.find(r => r.name === staffName);
 
-  const SALES_TARGET = 20000; // 月销售额目标 2万
+  const T = SCORE_THRESHOLDS; // 阈值引用简写
+  const SALES_TARGET = T.sales.target;
 
   // Fallback：找不到数据则返回1分（无产出=不达标）
   if (!record) {
@@ -1688,13 +1752,17 @@ function calcPerformanceScore(staffName) {
 
   const hourly = record.hourlyOutput || 0;
   const qty = record.qty || 0;
-  const tickets = record.tickets || 1;
+  // P1修复：tickets=0 时标记数据异常，不再静默 fallback 为1（原 ||1 会让缺字段误触发门控）
+  const rawTickets = record.tickets;
+  const ticketsMissing = rawTickets === undefined || rawTickets === null;
+  const tickets = ticketsMissing ? 0 : rawTickets;
   const upt = tickets > 0 ? qty / tickets : 0;
   const sales = record.sales || 0;
 
-  // 销售单数门控（v112）：销售单数 ≤ 5，直接评1分（产出过低不达标）
-  if (tickets <= 5) {
-    return { score: 1, hourlyScore: 0, uptScore: 0, hourly, upt, sales, qty, tickets, workHours: record.workHours || 0, targetMet: false, targetBonus: 0, bonusDetail: '销售单数≤5', salesTarget: SALES_TARGET, lowTickets: true };
+  // 销售单数门控（v112）：销售单数 ≤ lowTicketsGate，直接评1分（产出过低不达标）
+  // P1修复：tickets 字段缺失（undefined）不触发门控，按无数据 fallback 处理
+  if (!ticketsMissing && tickets <= T.lowTicketsGate) {
+    return { score: 1, hourlyScore: 0, uptScore: 0, hourly, upt, sales, qty, tickets, workHours: record.workHours || 0, targetMet: false, targetBonus: 0, bonusDetail: `销售单数≤${T.lowTicketsGate}`, salesTarget: SALES_TARGET, lowTickets: true };
   }
 
   // v75: workHours=0 时，从灵工打卡动态计算工时
@@ -1707,32 +1775,21 @@ function calcPerformanceScore(staffName) {
   // 用动态计算的工时覆盖 hourly（如果原值为0且有新工时）
   const effectiveHourly = (hourly === 0 && workHours > 0) ? Math.round((sales / workHours) * 10) / 10 : hourly;
 
-  // 时产评分（v2调整：2026-07-01）
-  let hourlyScore;
-  if (effectiveHourly >= 300) hourlyScore = 5;       // 顶级
-  else if (effectiveHourly >= 240) hourlyScore = 4;   // 优秀
-  else if (effectiveHourly >= 180) hourlyScore = 3;   // 合格
-  else if (effectiveHourly >= 120) hourlyScore = 2;   // 偏低
-  else hourlyScore = 1;                      // 不达标
+  // 时产评分（v114: 阈值数据化，从 SCORE_THRESHOLDS 查表）
+  const hourlyScore = (T.hourly.find(t => effectiveHourly >= t.min) || { score: 1 }).score;
 
-  // UPT评分（v2调整：2026-07-01）
-  let uptScore;
-  if (upt >= 1.6) uptScore = 5;       // 顶级
-  else if (upt >= 1.4) uptScore = 4;   // 优秀
-  else if (upt >= 1.25) uptScore = 3;  // 合格
-  else if (upt >= 1.1) uptScore = 2;   // 偏低
-  else uptScore = 1;                   // 不达标
+  // UPT评分（v114: 阈值数据化）
+  const uptScore = (T.upt.find(t => upt >= t.min) || { score: 1 }).score;
 
   // 双维度各50%
   const rawAvg = (hourlyScore + uptScore) / 2;
 
-  // 月销售额阶梯加成（2026-07-02升级）
-  // ≥2万 +0.5；≥3万 再+0.5；3万以上每多2千 再+0.1
-  const targetMet = sales >= SALES_TARGET;
-  const TIER2 = 30000;      // 3万门槛
-  const STEP = 2000;        // 每2千一档
+  // 月销售额阶梯加成（v114: 阈值数据化）
+  const targetMet = sales >= T.sales.target;
+  const TIER2 = T.sales.tier2;
+  const STEP = T.sales.step;
   let targetBonus = 0;
-  let bonusDetail = '';     // UI展示用
+  let bonusDetail = '';
   if (targetMet) {
     targetBonus += 0.5;
     bonusDetail = '+0.5(达标2万)';
@@ -1950,6 +2007,7 @@ function calcBehaviorScore(staffName) {
   const support = data.supportHours[staffName] || 0;
   const avgDoor = data.avgDoor;
   const avgSupport = data.avgSupport;
+  const T_beh = SCORE_THRESHOLDS.behavior;
 
   let score = 4.0;
   let belowDoor = false, belowSupport = false;
