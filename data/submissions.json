@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 235,
-    "lastUpdated": "2026-07-18T09:55:32.195Z",
-    "lastUpdatedBy": "李若彤"
+    "version": 236,
+    "lastUpdated": "2026-07-18T10:59:02.959Z",
+    "lastUpdatedBy": "王雅澜"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -7718,7 +7718,16 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记客流",
-      "_updatedAt": 1784368532150
+      "_updatedAt": "1784368532150"
+    },
+    {
+      "id": 1784372343452,
+      "staff": "王雅澜",
+      "date": "2026-07-18",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录客流",
+      "_updatedAt": 1784372342907
     }
   ],
   "doorSchedule": [
