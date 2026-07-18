@@ -4972,19 +4972,51 @@ linggongAttendance: {
       { id: 22, staffName: '杨子豪', month: '2026-07', rating: 5, reviewDate: '2026-07-16', snippet: '安福路萨洛蒙，店员杨子豪服务很好，介绍鞋子很专业，耐心帮我试穿，体验不错。对产品知识掌握得特别透彻，根据我的需求耐心选鞋，试穿全程细心，讲解清晰，全程无过度推销', keywords: ['专业介绍', '耐心试穿', '产品知识', '细心讲解', '无过度推销'], source: '大众点评（忠刚清香的小邹，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-18-v115',  },
+    _dataVersion: '2026-07-18-v117',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
+  // P2-3 fix: localStorage 安全包装 — 隐私模式/配额耗尽时不崩溃，降级为内存模式
+  _lsAvailable: null,  // 缓存 localStorage 可用性检测结果
+  _checkLS() {
+    if (this._lsAvailable !== null) return this._lsAvailable;
+    try {
+      const _test = '__ls_test__';
+      localStorage.setItem(_test, '1');
+      localStorage.removeItem(_test);
+      this._lsAvailable = true;
+    } catch (e) {
+      this._lsAvailable = false;
+      console.warn('[Store] localStorage 不可用，降级为内存模式（数据不持久化）');
+    }
+    return this._lsAvailable;
+  },
+  _safeGetItem(key) {
+    try { return this._checkLS() ? localStorage.getItem(key) : null; }
+    catch (e) { return null; }
+  },
+  _safeSetItem(key, value) {
+    try {
+      if (this._checkLS()) { localStorage.setItem(key, value); return true; }
+    } catch (e) {
+      this._lsAvailable = false;  // 配额耗尽等情况，标记为不可用
+      console.warn('[Store] localStorage 写入失败，本次操作仅在内存生效:', e.message);
+    }
+    return false;
+  },
+  _safeRemoveItem(key) {
+    try { if (this._checkLS()) localStorage.removeItem(key); }
+    catch (e) { /* ignore */ }
+  },
   init() {
     try {
-      if (!localStorage.getItem(this.KEY)) {
-        localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
+      if (!this._safeGetItem(this.KEY)) {
+        this._safeSetItem(this.KEY, JSON.stringify(this.defaults));
         this._cache = JSON.parse(JSON.stringify(this.defaults));
         return;
       }
-      const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-18-v116';
+      const data = JSON.parse(this._safeGetItem(this.KEY));
+      const DATA_VERSION = '2026-07-18-v117';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -5159,29 +5191,22 @@ linggongAttendance: {
           merged.staffStats = data.staffStats;
         }
 
-        localStorage.setItem(this.KEY, JSON.stringify(merged));
+        this._safeSetItem(this.KEY, JSON.stringify(merged));
       }
     } catch (e) {
       console.error('[Store] 数据解析失败，尝试安全备份后重置:', e);
       // Safety backup before reset to prevent total data loss
       // v90: 改为固定 key 覆盖式备份，避免反复崩溃时无限堆积 error_backup 条目
-      try {
-        const existing = localStorage.getItem(this.KEY);
-        if (existing) {
-          localStorage.setItem(this.KEY + '_error_backup', existing);
-        }
-      } catch (e2) { /* ignore backup errors */ }
-      // P0-3 fix: localStorage 完全禁用（隐私模式/配额耗尽）时，
-      // 不能再 setItem 否则二次崩溃导致白屏；降级为内存模式
-      try {
-        localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
-      } catch (e3) {
-        console.warn('[Store] localStorage 不可用，降级为内存模式（数据不持久化）');
+      const existing = this._safeGetItem(this.KEY);
+      if (existing) {
+        this._safeSetItem(this.KEY + '_error_backup', existing);
       }
+      // P0-3 fix + P2-3 fix: 使用安全方法，隐私模式自动降级为内存模式
+      this._safeSetItem(this.KEY, JSON.stringify(this.defaults));
     }
     // Always populate cache after init
     try {
-      this._cache = JSON.parse(localStorage.getItem(this.KEY) || JSON.stringify(this.defaults));
+      this._cache = JSON.parse(this._safeGetItem(this.KEY) || JSON.stringify(this.defaults));
     } catch(e) {
       this._cache = JSON.parse(JSON.stringify(this.defaults));
     }
@@ -5191,7 +5216,7 @@ linggongAttendance: {
     try {
       // v86 P1-3: _cache may be null after cross-tab invalidation — re-parse and repopulate
       if (!this._cache) {
-        this._cache = JSON.parse(localStorage.getItem(this.KEY) || '{}');
+        this._cache = JSON.parse(this._safeGetItem(this.KEY) || '{}');
       }
       const data = this._cache;
       let val = data[key];
@@ -5235,10 +5260,15 @@ linggongAttendance: {
         : value;
       const data = this._cache
         ? JSON.parse(JSON.stringify(this._cache))
-        : JSON.parse(localStorage.getItem(this.KEY) || '{}');
+        : JSON.parse(this._safeGetItem(this.KEY) || '{}');
       data[key] = safeValue;
-      localStorage.setItem(this.KEY, JSON.stringify(data));
-      this._cache = data;  // only update cache after successful write
+      // P2-3 fix: 使用安全写入，隐私模式时至少更新内存 cache
+      if (this._safeSetItem(this.KEY, JSON.stringify(data))) {
+        this._cache = data;  // only update cache after successful write
+      } else {
+        // localStorage 不可用，降级为仅内存更新
+        this._cache = data;
+      }
     } catch (e) {
       console.error('[Store.set] 写入失败:', key, e);
       // quota exceeded 等 — cache 保持旧值，不污染
@@ -5252,7 +5282,7 @@ linggongAttendance: {
     try {
       // v86 P1-3: reparse if cache invalidated
       if (!this._cache) {
-        this._cache = JSON.parse(localStorage.getItem(this.KEY) || JSON.stringify(this.defaults));
+        this._cache = JSON.parse(this._safeGetItem(this.KEY) || JSON.stringify(this.defaults));
       }
       return this._cache;
     } catch (e) {
@@ -5262,13 +5292,14 @@ linggongAttendance: {
   },
 
   reset() {
-    localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
+    // P2-3 fix: 隐私模式安全处理
+    this._safeSetItem(this.KEY, JSON.stringify(this.defaults));
     this._cache = JSON.parse(JSON.stringify(this.defaults));
   },
 
   // ===== 数据导出/导入/备份 =====
   exportData() {
-    const data = localStorage.getItem(this.KEY);
+    const data = this._safeGetItem(this.KEY);
     if (!data) return null;
     const parsed = JSON.parse(data);
     const exportPayload = {
@@ -5317,8 +5348,11 @@ linggongAttendance: {
       if (!actualData.staff || !Array.isArray(actualData.staff)) {
         return { success: false, error: '文件格式不正确：缺少 staff 数据' };
       }
-      // Write to localStorage
-      localStorage.setItem(this.KEY, JSON.stringify(actualData));
+      // Write to localStorage (P2-3 fix: 隐私模式安全处理)
+      if (!this._safeSetItem(this.KEY, JSON.stringify(actualData))) {
+        // localStorage 不可用，至少更新内存 cache
+        this._cache = actualData;
+      }
       return { success: true, data: actualData };
     } catch (e) {
       return { success: false, error: 'JSON 解析失败: ' + e.message };
@@ -5328,22 +5362,38 @@ linggongAttendance: {
   // Create safety backup before version upgrade (called in Store.init)
   createSafetyBackup() {
     try {
-      const existing = localStorage.getItem(this.KEY);
+      const existing = this._safeGetItem(this.KEY);
       if (!existing) return;
       const backupKey = this.KEY + '_safety_backup';
-      localStorage.setItem(backupKey, existing);
+      this._safeSetItem(backupKey, existing);
     } catch (e) {
       console.warn('[Store] 安全备份创建失败:', e);
     }
   },
 
   restoreSafetyBackup() {
+    // P2-3 fix: 使用安全方法 + P2-4 fix: 数据完整性校验
     try {
       const backupKey = this.KEY + '_safety_backup';
-      const backup = localStorage.getItem(backupKey);
+      const backup = this._safeGetItem(backupKey);
       if (!backup) return false;
-      localStorage.setItem(this.KEY, backup);
-      localStorage.removeItem(backupKey);
+      // P2-4 fix: 校验备份数据完整性（防止恢复损坏备份导致循环崩溃）
+      let parsed;
+      try {
+        parsed = JSON.parse(backup);
+      } catch (parseErr) {
+        console.error('[Store] 安全备份 JSON 解析失败，丢弃损坏备份:', parseErr.message);
+        this._safeRemoveItem(backupKey);
+        return false;
+      }
+      // 基本结构校验：必须有 staff 数组（最小数据单元）
+      if (!parsed || typeof parsed !== 'object' || !Array.isArray(parsed.staff)) {
+        console.error('[Store] 安全备份结构无效（缺少 staff 数组），丢弃损坏备份');
+        this._safeRemoveItem(backupKey);
+        return false;
+      }
+      this._safeSetItem(this.KEY, backup);
+      this._safeRemoveItem(backupKey);
       return true;
     } catch (e) {
       return false;
@@ -5372,6 +5422,15 @@ linggongAttendance: {
 
 // ===== Global scoring month — controls which month's data all rating functions use =====
 // v86 P1-1: 默认值在 Store.init() 后由 MonthConfig 动态推导（原硬编码 '2026-07'）
+//
+// 【P2-5 全局月份变量分布说明】
+// 系统有 4 个跨文件共享的月份状态变量，分布在两个文件中：
+//   app.js:  _scoringMonth (本行), _scheduleMonth (下方)
+//   pages.js: _attMonth (pages.js:1189), perfMonth (pages.js:2969)
+// 这些变量用 let 声明在各自文件顶层，通过全局作用域共享。
+// 修改/读取时必须用 typeof 守卫（P1-3 fix），因为跨文件 let 在加载时序中可能处于 TDZ。
+// 收拢到单一对象（如 MonthState）理论更优雅，但会破坏几十处引用 + 闭包捕获，
+// 重构风险高于收益，故保留分散声明 + 集中文档说明。
 let _scoringMonth = null; // null = auto-derive on first render
 
 // ===== Global schedule view month — controls which month renderSchedule displays =====
@@ -5686,7 +5745,10 @@ window.addEventListener('storage', function(e) {
 // v86 P1-2: 启动事件委托
 ActionHandler.init();
 
-// v86 P1-1: 启动时自动推导评分月份（原硬编码 '2026-07'）
+// v86 P1-1 + P2-1 fix: 启动时自动推导评分月份
+// 注意：app.js 执行时 MonthConfig（定义在 pages.js）尚未加载，此分支正常情况下不执行。
+// 真正的初始化在 pages.js:5777（MonthConfig 定义之后）。此处保留作为防御性兜底，
+// 以防将来脚本加载顺序变化。typeof 守卫保证不会因 MonthConfig 未定义而崩溃。
 if (!_scoringMonth && typeof MonthConfig !== 'undefined') {
   _scoringMonth = MonthConfig.getActiveScoringMonth();
 }

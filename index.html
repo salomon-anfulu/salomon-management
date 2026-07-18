@@ -147,9 +147,13 @@
   </div>
 
   <!-- Scripts (cache-buster: v=对应 DATA_VERSION, 每次升级 v17 时改成 v17) -->
-  <script src="js/app.js?v=116"></script>
-  <script src="js/sync.js?v=116"></script>
-  <script src="js/pages.js?v=116"></script>
+  <!-- 注意：故意不加 defer/async。原因：后面的内联 <script> 定义了 Auth 模块，
+       pages.js 的 _auth getter 和内联脚本的 Auth.init() 都依赖执行顺序。
+       defer 脚本在 DOMContentLoaded 前执行，但内联脚本会立即执行 → 时序错乱。
+       body 末尾 + 默认同步加载是当前架构的最可靠方案。 -->
+  <script src="js/app.js?v=117"></script>
+  <script src="js/sync.js?v=117"></script>
+  <script src="js/pages.js?v=117"></script>
   <script>
     // ===== Auth Module =====
     const Auth = {
