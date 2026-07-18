@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 232,
-    "lastUpdated": "2026-07-18T06:56:36.811Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 233,
+    "lastUpdated": "2026-07-18T08:03:35.216Z",
+    "lastUpdatedBy": "唐蓉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -5103,7 +5103,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5181,10 +5181,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784357726924,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -7701,6 +7700,15 @@
       "duration": "1小时",
       "detail": "",
       "_updatedAt": "1784355435297"
+    },
+    {
+      "id": 1784361816036,
+      "staff": "唐蓉",
+      "date": "2026-07-18",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录客流4:00到5:00",
+      "_updatedAt": 1784361815151
     }
   ],
   "doorSchedule": [
