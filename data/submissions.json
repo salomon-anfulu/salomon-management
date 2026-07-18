@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 234,
-    "lastUpdated": "2026-07-18T09:03:48.512Z",
-    "lastUpdatedBy": "王靳毓"
+    "version": 235,
+    "lastUpdated": "2026-07-18T09:55:32.195Z",
+    "lastUpdatedBy": "李若彤"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -5103,7 +5103,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5181,9 +5181,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784357726924,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -7709,6 +7710,15 @@
       "duration": "1小时",
       "detail": "记录客流4:00到5:00",
       "_updatedAt": "1784361815151"
+    },
+    {
+      "id": 1784368532295,
+      "staff": "李若彤",
+      "date": "2026-07-18",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记客流",
+      "_updatedAt": 1784368532150
     }
   ],
   "doorSchedule": [
