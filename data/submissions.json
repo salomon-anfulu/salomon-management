@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 214,
-    "lastUpdated": "2026-07-18T00:46:08.895Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 215,
+    "lastUpdated": "2026-07-18T03:36:24.958Z",
+    "lastUpdatedBy": "唐蓉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5103,7 +5103,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5181,10 +5181,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -7395,6 +7394,15 @@
       "duration": "1小时",
       "detail": "记录客流",
       "_updatedAt": "1784102873318"
+    },
+    {
+      "id": 1784102899564,
+      "staff": "唐蓉",
+      "date": "2026-07-15",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "5:00到6:00记录客流",
+      "_updatedAt": 1784102899527
     },
     {
       "id": 1784109544052,
@@ -9806,6 +9814,16 @@
           "time": "20:00:00-21:00:00",
           "staff": "李若彤",
           "_updatedAt": "1784275360948"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-18",
+      "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "唐蓉",
+          "_updatedAt": "1784345784902"
         }
       ]
     }
