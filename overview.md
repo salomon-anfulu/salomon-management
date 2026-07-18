@@ -1,147 +1,195 @@
-# v112 对抗性审查报告
+# 全系统对抗性审查报告 (v114)
 
-> 审查时间：2026-07-18
-> 审查范围：calcPerformanceScore + 4 个评分函数 + renderRatings 渲染层
-> 审查方法：逐行代码审计 + 边界值推演 + 现有数据回扫
-
----
-
-## P0 必修（3 个）
-
-### P0-1: calcPerformanceScore 门控分支返回结构不一致
-
-**位置**：`js/pages.js:1697`
-
-**问题**：门控分支返回了 `avgPrice` 字段，但正常分支（1755-1769行）不返回。导致同一个函数两种返回 shape，违反一致性原则。虽然目前 UI 只读 `r.avgPrice`（业绩记录原始字段）不读 `perfCalc.avgPrice`，但这是隐患——未来有人引用 `perfCalc.avgPrice` 时，门控路径有值、正常路径 undefined。
-
-**修复**：门控分支移除 `avgPrice` 字段，或正常分支也加上 `avgPrice`。
-
-### P0-2: renderRatings 门控时 UI 卡片自相矛盾
-
-**位置**：`js/pages.js:2317-2328`
-
-**问题**：门控触发时（lowTickets=true），时产/UPT 三卡片仍然渲染：
-- 2318 行：`perfCalc.hourly >= 240` 判断用原始 hourly 值（可能很高）→ 卡片背景显示**绿色**
-- 2321 行：`得分 0/5 ✗` → 文字显示**红色叉**
-- 结果：绿色卡片 + 红色叉 + 底部"⚠ 销售单数≤5"，视觉矛盾
-
-**修复**：门控时隐藏时产/UPT/月销三卡片，仅显示门控提示横幅。
-
-### P0-3: calcBehaviorScore 除零风险
-
-**位置**：`js/pages.js:1916-1917`
-
-```js
-const avgDoor = names.reduce((s, n) => s + (doorHours[n] || 0), 0) / names.length;
-const avgSupport = names.reduce((s, n) => s + (supportHours[n] || 0), 0) / names.length;
-```
-
-**问题**：如果 `names.length === 0`（无 active Service Team 成员——如全员转正/离职/数据迁移中），`/ 0 = NaN`。后续 `door < avgDoor` → `0 < NaN` = false，`hasAnyData = NaN > 0 || NaN > 0 = false`，进入 `score = 3.0` 分支——虽然不会崩溃，但 `avgDoor/avgSupport = NaN` 会传递到 UI 显示 "NaN h"。
-
-**修复**：`const avgDoor = names.length > 0 ? ... / names.length : 0;`
+> 审查范围: app.js + pages.js + sync.js 全量扫描，6 维度覆盖
+> 审查日期: 2026-07-18
+> 代码量: app.js(9000+行) + pages.js(5786行) + sync.js(1582行)
 
 ---
 
-## P1 建议（4 个）
+## 一、审查结果概览
 
-### P1-1: tickets=0 走门控路径但语义不清
-
-**位置**：`js/pages.js:1691, 1696`
-
-```js
-const tickets = record.tickets || 1;  // 缺失时默认1
-// ...
-if (tickets <= 5) { ... }  // 但 tickets=1 也会被门控
-```
-
-**问题**：`tickets` 字段缺失时 fallback 到 1，然后 1≤5 触发门控。这在语义上是对的（无单数=不达标），但如果数据迁移/导入错误导致 tickets 字段意外缺失，会静默把所有人判1分。
-
-**建议**：门控前加 `record.tickets !== undefined` 判断，或日志告警。
-
-### P1-2: calcAvailabilityScore legacy fallback 使用 Date 构造（时区坑）
-
-**位置**：`js/pages.js:1591`
-
-```js
-const _totalDaysInMonth = new Date(_yr2, _mn2, 0).getDate();
-```
-
-**问题**：这是旧数据 fallback 路径。虽然 `_yr2/_mn2` 从 monthKey 解析（YYYY-MM），但如果 monthKey 格式异常（如空字符串），`parseInt('')` = NaN，`new Date(NaN, NaN, 0)` = Invalid Date，`.getDate()` 抛错。
-
-**建议**：加 NaN 守卫，或用 MEMORY.md 里记录的 `_ymKey` 纯算术替代。
-
-### P1-3: renderRatings 的 perfCalc.hourly 可能是 undefined
-
-**位置**：`js/pages.js:2320`
-
-```js
-<div>¥${perfCalc.hourly}<span>/h</span></div>
-```
-
-**问题**：fallback 分支（无业绩记录，1686行）返回 `hourly: 0`，正常。但如果 `calcPerformanceScore` 本身因异常返回了不完整对象（理论上不该，但防御深度原则），`perfCalc.hourly` = undefined → UI 显示 "¥undefined/h"。
-
-**建议**：`(perfCalc.hourly || 0)` 兜底。
-
-### P1-4: getBehaviorData 全局缓存无失效保护
-
-**位置**：`js/pages.js:1883-1885`
-
-```js
-let _behaviorCache = null;
-function getBehaviorData() {
-  if (_behaviorCache) return _behaviorCache;
-```
-
-**问题**：缓存在 renderRatings 开头清空（1984行），但如果 Store 数据在其他地方变更（如门迎排班/店务支援页面修改后），缓存不会自动失效。若用户先看评分页（缓存填充）→ 改门迎排班 → 回评分页，可能显示旧数据。
-
-**建议**：缓存 key 绑定数据版本，或在 Store.set 时清除缓存。
+| 维度 | P0 严重 | P1 中危 | P2 低危 | 状态 |
+|------|---------|---------|---------|------|
+| XSS 与输入安全 | **3** | 2 | — | 本轮发现 |
+| Store 数据层 | **1** | 2 | 3 | 本轮发现 |
+| 云同步 sync.js | — | — | — | ✅ 已加固 |
+| Router 与初始化 | — | 2 | 2 | 本轮发现 |
+| 渲染层 null 安全 | — | 1 | — | ✅ v114已修 |
+| 评分模块 | — | — | — | ✅ v113-v114已修 |
+| **合计** | **4** | **7** | **5** | |
 
 ---
 
-## P2 长期架构改进
+## 二、P0 严重问题（4 个，建议立即修复）
 
-### P2-1: 评分函数返回结构未统一
+### P0-1: XSS — 全系统无 HTML 转义层 ⚠️ 最高危
 
-5 个 calc 函数返回不同的 shape：
-- calcPerformanceScore: 15+ 字段
-- calcAvailabilityScore: 11 字段（含 weekResults 数组）
-- calcBehaviorScore: 10 字段
-- calcAttendanceScore: 9 字段
-- calcCustomerReviewScore: 3 字段
+**位置**: `js/pages.js` 全局，~30 处模板插值
 
-**建议**：统一为 `{ score, label, detail: {...}, breakdown: [...] }` 结构，便于 UI 泛化渲染和未来扩展。
+**问题**: 所有渲染函数返回 HTML 字符串直接赋值给 `innerHTML`，用户输入（姓名、评语、好评内容、支援详情等）直接 `${变量}` 插值，无任何 `escapeHtml` 或 `textContent` 转义。
 
-### P2-2: 评分逻辑无单元测试覆盖
+**攻击向量**: 在任何文本输入框输入 `<img src=x onerror=alert(1)>` 后保存，该内容会在所有引用该字段的页面执行。
 
-当前只有 v112 门控的5个边界值测试。其他4个维度（工时/行为/考勤/好评）的评分函数完全没有测试。
+**最高危字段**:
+| 字段 | 来源 | 危险行号 | 影响 |
+|------|------|----------|------|
+| `r.snippet`（好评内容） | textarea 自由文本 | pages.js:4182 | 渲染在好评详情页，完整内容无截断 |
+| `r.comment`（评语） | textarea 自由文本 | pages.js:2521, 3964 | 评分卡片+个人中心 |
+| `s.detail`（支援详情） | textarea 自由文本 | pages.js:345, 3667, 5288 | 3 处渲染 |
+| `c.applicantShift`（换班说明） | input 自由文本 | pages.js:3852, 3854 | 换班记录页 |
+| `s.name`（员工姓名） | input 自由文本 | ~15 处 | 全局影响 |
 
-**建议**：为每个 calc 函数建立边界值测试矩阵，纳入 CI。
+**特殊漏洞 — input 属性注入**:
+```javascript
+// pages.js:4253 — keywords 回填到 value 属性
+value="${review.keywords ? review.keywords.join(', ') : ''}"
+```
+如果 keywords 包含 `"` 可以闭合属性，注入 `onfocus=alert(1) autofocus`。
 
-### P2-3: 魔法数字未提取
+**修复方案**: 新增全局 `escapeHtml()` 函数，包装所有用户可控数据的模板插值。
 
-时产阈值（300/240/180/120）、UPT 阈值（1.6/1.4/1.25/1.1）、月销目标（20000）等都硬编码在函数体内。
+```javascript
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+```
 
-**建议**：提取到 `SCORING_CONFIG` 常量对象，便于统一调整和业务方查阅。
+### P0-2: Store.set() 引用污染
+
+**位置**: `js/app.js:5214`
+
+**问题**: `data[key] = value` 直接存入调用方引用。`JSON.stringify` 写入 localStorage 是安全的，但 `_cache = data` 后，cache 内部指向的是调用方原始对象。
+
+```javascript
+const list = Store.getList('staff');
+list[0].name = '<script>';  // 直接污染 _cache，且不持久化
+// 下次 Store.get('staff') 返回被污染的数据
+```
+
+**修复方案**: 第 5214 行改为深拷贝：
+```javascript
+data[key] = JSON.parse(JSON.stringify(value));
+```
+
+### P0-3: localStorage 异常处理路径二次崩溃
+
+**位置**: `js/app.js:5165`
+
+**问题**: `init()` 的 catch 块中，第 5162 行有 try/catch 保护备份操作，但第 5165 行的重置操作 `localStorage.setItem(this.KEY, JSON.stringify(this.defaults))` **没有 try/catch**。在隐私模式（localStorage 被禁用）下，这里会再次抛异常，导致整个应用启动失败白屏。
+
+```javascript
+} catch (e) {
+  // ...
+  try {
+    localStorage.setItem(this.KEY + '_error_backup', existing);  // 有保护
+  } catch (e2) { /* ignore */ }
+  localStorage.setItem(this.KEY, JSON.stringify(this.defaults));  // ❌ 无保护
+}
+```
+
+同样问题也在 `reset()`(5240) 和 `importData()`(5296) 中存在。
+
+**修复方案**:
+1. 文件开头增加 localStorage 可用性检测
+2. 第 5165 行包裹 try/catch
+3. 提供"内存模式"降级（不持久化但能用）
+
+### P0-4: _auth 跨文件初始化冻结
+
+**位置**: `js/pages.js:9` vs `js/index.html:155`
+
+**问题**: pages.js 第 9 行 `_auth = typeof Auth !== 'undefined' ? Auth : { fallback }`，此时 Auth（定义在 index.html 内联脚本，在 pages.js 之后加载）处于 TDZ。`typeof Auth` 在某些浏览器返回 `'undefined'`，导致 `_auth` 被冻结为 fallback 值（`staffName: null`）。
+
+结果：非管理员用户在"我的填报"页面无法正确过滤个人数据（`find(s => s.id === null)` 返回 undefined）。
+
+**修复方案**: 改为函数式获取 `getAuth()`，在运行时（而非加载时）读取 `Auth`。
 
 ---
 
-## 优化优先级
+## 三、P1 中危问题（7 个）
 
-| 优先级 | 数量 | 建议动作 | 预计工作量 |
-|--------|------|---------|-----------|
-| **P0 必修** | 3 | 立即修复并发布 v113 | ~15分钟 |
-| **P1 建议** | 4 | 下次数据更新时顺带修 | ~30分钟 |
-| **P2 长期** | 3 | 版本迭代中逐步重构 | 按需 |
+| # | 问题 | 位置 | 描述 |
+|---|------|------|------|
+| P1-1 | getStaff 类型不一致 | app.js:5331 | `s.id === id` 严格比较 Number id，DOM `data-id` 传字符串会静默返回 null |
+| P1-2 | staff 合并以 name 为键 | app.js:5005 | 用户改名导致数据重复 + 编辑丢失 |
+| P1-3 | switchAttMonth/switchPerfMonth TDZ | app.js:5366, 5504 | handler 引用后续脚本中 `let` 声明的变量 |
+| P1-4 | get() catch 返回 defaults 引用 | app.js:5197 | 调用方修改会污染 Store.defaults |
+| P1-5 | performanceData 浅引用赋值 | app.js:5126 | defaults 对象被 data.performanceData 引用，修改会污染 defaults |
+| P1-6 | Router 无 hashchange 路由 | app.js:5371 | 浏览器前进/后退无效，刷新丢失页面状态 |
+| P1-7 | 全局错误兜底条件过严 | app.js:5622 | `main.children.length === 0` 很少触发 |
 
 ---
 
-## 健康度评估
+## 四、P2 低危问题（5 个）
 
-| 模块 | 防御深度 | 逻辑一致性 | UI 一致性 | 总评 |
-|------|---------|-----------|----------|------|
-| calcPerformanceScore | 良好（有 fallback） | 门控 shape 不一致 | — | B+ |
-| calcAvailabilityScore | 良好（双路径兼容） | Date 构造有隐患 | — | A- |
-| calcBehaviorScore | 缺除零保护 | 逻辑清晰 | — | B |
-| calcAttendanceScore | 防御充分 | 清晰 | — | A |
-| calcCustomerReviewScore | 简洁安全 | 清晰 | — | A |
-| renderRatings | 多处直读无兜底 | 门控 UI 矛盾 | 有问题 | B- |
+| # | 问题 | 位置 | 描述 |
+|---|------|------|------|
+| P2-1 | _scoringMonth 跨文件初始化 | app.js:5643 | dead code（MonthConfig 此时未定义），真正初始化在 pages.js:5753 |
+| P2-2 | 脚本无 defer/async | index.html:150 | 因在 body 末尾所以无实际问题，但依赖位置 |
+| P2-3 | localStorage 隐私模式未全局检测 | 多处 | reset/importData 等 API 在隐私模式下崩溃 |
+| P2-4 | 无备份数据完整性校验 | app.js:5315 | restoreSafetyBackup 恢复损坏备份会触发循环崩溃 |
+| P2-5 | 全局变量散落 | app.js+pages.js | _scoringMonth/_scheduleMonth/_attMonth/perfMonth 分散在 4 处 |
+
+---
+
+## 五、已确认安全的模块
+
+### 云同步 sync.js ✅
+
+经逐行审查确认以下机制安全：
+
+| 机制 | 位置 | 状态 |
+|------|------|------|
+| push/pull 竞态保护 | `_pushInFlight` (sync.js:36) | ✅ push 进行中 pull 跳过 |
+| push 队列合并 | `_processPushQueue` (sync.js:510) | ✅ v65 修复引用拷贝+清空竞态 |
+| _mergeFields 字段仲裁 | sync.js:1289 | ✅ `_updatedAt` 时间戳取最新 |
+| tombstone 软删除 | sync.js:1309+ | ✅ distributed delete 不物理删除 |
+| Token 安全存储 | sync.js:84 | ✅ btoa 编码 + fine-grained scope |
+| 1MB 限制处理 | sync.js:566 | ✅ 超限自动删除+重建 |
+| 409 冲突重试 | sync.js:547 | ✅ MAX_ROUNDS=3 乐观锁重试 |
+
+### 评分模块 ✅（上轮已修）
+
+v113-v114 已修复全部 P0(3) + P1(4) + P2(1)，包括门控 shape 一致性、UI 视觉矛盾、除零保护、tickets fallback、时区坑、魔法数字提取。
+
+### 渲染层 ✅（上轮已修）
+
+v114 已修复 `perfCalc.hourly` 等字段无 `|| 0` 兜底的问题。
+
+---
+
+## 六、推荐修复优先级
+
+### 第一批（立即修，约 30 分钟）
+1. **P0-1**: 新增 `escapeHtml()` 函数 + 包装高危字段（snippet/comment/detail/name）
+2. **P0-2**: Store.set 深拷贝 value
+3. **P0-3**: init() catch 路径 + 隐私模式降级
+
+### 第二批（本周修，约 20 分钟）
+4. **P1-1**: getStaff 类型归一（`String(s.id) === String(id)`）
+5. **P0-4**: _auth 改为函数式获取
+6. **P1-4/P1-5**: get() catch 和 performanceData 浅引用修复
+
+### 第三批（后续迭代）
+7. **P1-6**: Router 增加 hashchange 支持
+8. **P1-2**: staff 合并键改为 id+name 双键
+9. **P1-3**: switchAttMonth handler 改用函数闭包延迟绑定
+10. P2 系列按需处理
+
+---
+
+## 七、总结
+
+系统核心架构（数据层、同步层、评分模块）经过 v89-v114 的持续加固，已经相当健壮。本轮新发现的 16 个问题中：
+
+- **P0 集中在 XSS 和引用安全**——这两个是纯前端应用最常见的系统性漏洞，需要在架构层面引入转义层和深拷贝规范
+- **sync.js 经审查确认安全**——竞态保护、版本仲裁、tombstone 机制设计成熟
+- **评分模块已完全加固**——上一轮 v113-v114 修复的 10 个问题覆盖了所有发现的缺陷
+
+建议优先处理 P0-1（XSS 转义层）和 P0-2/P0-3（Store 引用+降级），这三项修复后系统安全等级将显著提升。

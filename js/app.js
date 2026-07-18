@@ -4972,7 +4972,7 @@ linggongAttendance: {
       { id: 22, staffName: '杨子豪', month: '2026-07', rating: 5, reviewDate: '2026-07-16', snippet: '安福路萨洛蒙，店员杨子豪服务很好，介绍鞋子很专业，耐心帮我试穿，体验不错。对产品知识掌握得特别透彻，根据我的需求耐心选鞋，试穿全程细心，讲解清晰，全程无过度推销', keywords: ['专业介绍', '耐心试穿', '产品知识', '细心讲解', '无过度推销'], source: '大众点评（忠刚清香的小邹，Lv1）' },
     ],
 
-        _dataVersion: '2026-07-18-v114',  },
+        _dataVersion: '2026-07-18-v115',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -4984,7 +4984,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(localStorage.getItem(this.KEY));
-      const DATA_VERSION = '2026-07-18-v114';
+      const DATA_VERSION = '2026-07-18-v115';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -5162,7 +5162,13 @@ linggongAttendance: {
           localStorage.setItem(this.KEY + '_error_backup', existing);
         }
       } catch (e2) { /* ignore backup errors */ }
-      localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
+      // P0-3 fix: localStorage 完全禁用（隐私模式/配额耗尽）时，
+      // 不能再 setItem 否则二次崩溃导致白屏；降级为内存模式
+      try {
+        localStorage.setItem(this.KEY, JSON.stringify(this.defaults));
+      } catch (e3) {
+        console.warn('[Store] localStorage 不可用，降级为内存模式（数据不持久化）');
+      }
     }
     // Always populate cache after init
     try {
@@ -5207,11 +5213,14 @@ linggongAttendance: {
 
   set(key, value) {
     try {
-      // v86 P1-3: 深拷贝后写入，避免引用污染导致 quota 异常时 cache/localStorage 反向不一致
+      // P0-2 fix: 深拷贝写入值，防止调用方引用直接进入 cache 后被外部修改
+      const safeValue = typeof value === 'object' && value !== null
+        ? JSON.parse(JSON.stringify(value))
+        : value;
       const data = this._cache
         ? JSON.parse(JSON.stringify(this._cache))
         : JSON.parse(localStorage.getItem(this.KEY) || '{}');
-      data[key] = value;
+      data[key] = safeValue;
       localStorage.setItem(this.KEY, JSON.stringify(data));
       this._cache = data;  // only update cache after successful write
     } catch (e) {

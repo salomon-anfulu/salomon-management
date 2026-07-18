@@ -5,8 +5,16 @@
  * ========================================
  */
 
-// ===== Auth Helper (defined in index.html, safe fallback) =====
-const _auth = typeof Auth !== 'undefined' ? Auth : { isAdmin: true, staffId: null, staffName: null, role: 'admin' };
+// ===== Auth Helper =====
+// P0-4 fix: Auth 定义在 index.html 的后续 inline <script> 中，
+// pages.js 加载时 Auth 尚未声明（typeof 返回 'undefined'），
+// 导致 _auth 冻结为 fallback。改为 getter 动态读取，每次访问实时获取。
+const _auth = {
+  get isAdmin()    { return typeof Auth !== 'undefined' ? Auth.isAdmin : true; },
+  get staffId()    { return typeof Auth !== 'undefined' ? Auth.staffId : null; },
+  get staffName()  { return typeof Auth !== 'undefined' ? Auth.staffName : null; },
+  get role()       { return typeof Auth !== 'undefined' ? Auth.role : 'admin'; },
+};
 
 /**
  * v54: Tombstone 辅助函数 — 标记记录已删除（防跨设备复活）
@@ -207,6 +215,22 @@ function _daysInMonth(year, month) {
 }
 
 /**
+ * HTML 转义（v115 P0-1 XSS 防护层）
+ * 所有用户输入字段在拼入 innerHTML 前必须经过此函数
+ * @param {*} str - 待转义的值（非字符串会被 String() 转换）
+ * @returns {string} 转义后的安全字符串
+ */
+function _esc(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+/**
  * 销售业绩评分阈值集中管理（原 calcPerformanceScore 内硬编码魔法数字，v114 提取）
  * 修改阈值只需改这一处
  */
@@ -342,7 +366,7 @@ function renderDashboard() {
               ${storeSupport.slice(-5).reverse().map(s => `
                 <tr>
                   <td><span class="badge badge-info">支援</span></td>
-                  <td>${s.staff || '-'} - ${s.type || ''}（${s.detail || '-'}）</td>
+                  <td>${_esc(s.staff || '-')} - ${_esc(s.type || '')}（${_esc(s.detail || '-')}）</td>
                   <td>${(s.date || '').replace('2026-', '')}</td>
                   <td><span class="badge badge-active">${s.duration || '-'}</span></td>
                 </tr>
@@ -448,9 +472,9 @@ function renderStaff() {
                 <tr>
                   <td>
                     <div class="user-info">
-                      <div class="avatar" style="background: ${s.avatar_color}">${getInitials(s.name)}</div>
+                      <div class="avatar" style="background: ${s.avatar_color}">${_esc(getInitials(s.name))}</div>
                       <div>
-                        <div class="user-name">${s.name}</div>
+                        <div class="user-name">${_esc(s.name)}</div>
                         <div class="user-dept">${s.mbti ? s.mbti : '—'}</div>
                       </div>
                     </div>
@@ -679,7 +703,7 @@ function toggleStaffStatus(id) {
     staff[idx].status = staff[idx].status === 'active' ? 'inactive' : 'active';
     Store.set('staff', staff);
     Sync.push(_auth.staffName || 'admin');
-    showToast(`${staff[idx].name} 已${staff[idx].status === 'active' ? '恢复在职' : '标记离职'}`);
+    showToast(`${_esc(staff[idx].name)} 已${staff[idx].status === 'active' ? '恢复在职' : '标记离职'}`);
     Router.render();
   }
 }
@@ -691,7 +715,7 @@ function promoteStaff(id) {
     staff[idx].status = 'full_time';
     Store.set('staff', staff);
     Sync.push(_auth.staffName || 'admin');
-    showToast(`${staff[idx].name} 已转正为全职员工`);
+    showToast(`${_esc(staff[idx].name)} 已转正为全职员工`);
     Router.render();
   }
 }
@@ -982,8 +1006,8 @@ function renderSchedule() {
                 <tr>
                   <td style="position: sticky; left: 0; z-index: 1; background: var(--surface);">
                     <div style="display: flex; align-items: center; gap: 8px;">
-                      <div class="avatar" style="background: ${s.avatarColor}; width: 28px; height: 28px; font-size: 11px;">${getInitials(s.name)}</div>
-                      <span style="font-weight: 600;">${s.name}</span>
+                      <div class="avatar" style="background: ${s.avatarColor}; width: 28px; height: 28px; font-size: 11px;">${_esc(getInitials(s.name))}</div>
+                      <span style="font-weight: 600;">${_esc(s.name)}</span>
                     </div>
                   </td>
                   ${s.weekResults.map(w => {
@@ -1047,8 +1071,8 @@ function renderSchedule() {
             <div class="flex justify-between items-center" style="padding: 10px 0; border-bottom: 1px solid var(--border-light);">
               <div class="flex items-center gap-12">
                 <span style="width: 20px; text-align: center; font-weight: 700; font-size: 13px; color: ${i < 3 ? 'var(--primary)' : 'var(--text-secondary)'};">${i + 1}</span>
-                <div class="avatar" style="background: ${s.avatarColor}; width: 32px; height: 32px; font-size: 12px;">${getInitials(s.name)}</div>
-                <span class="font-semibold text-sm">${s.name}</span>
+                <div class="avatar" style="background: ${s.avatarColor}; width: 32px; height: 32px; font-size: 12px;">${_esc(getInitials(s.name))}</div>
+                <span class="font-semibold text-sm">${_esc(s.name)}</span>
               </div>
               <div class="flex items-center gap-8">
                 <span style="font-weight: 700; font-size: 15px; color: ${s.monthlyTotal >= 24 ? '#10b981' : s.monthlyTotal >= 18 ? 'var(--text-primary)' : '#ef4444'};">${s.monthlyTotal}</span>
@@ -1122,8 +1146,8 @@ function renderSchedule() {
                   <tr>
                     <td>
                       <div style="display: flex; align-items: center; gap: 8px;">
-                        <div class="avatar" style="background: ${s.avatarColor}; width: 28px; height: 28px; font-size: 11px;">${getInitials(s.name)}</div>
-                        <span style="font-weight: 600;">${s.name}</span>
+                        <div class="avatar" style="background: ${s.avatarColor}; width: 28px; height: 28px; font-size: 11px;">${_esc(getInitials(s.name))}</div>
+                        <span style="font-weight: 600;">${_esc(s.name)}</span>
                       </div>
                     </td>
                     <td>
@@ -1315,7 +1339,7 @@ function renderAttendance() {
                 <span style="width: 20px; text-align: center; font-weight: 700; font-size: 13px; color: ${i < 3 ? 'var(--primary)' : 'var(--text-secondary)'}">${i + 1}</span>
                 <div class="avatar" style="background: ${avatarColor}; width: 32px; height: 32px; font-size: 12px;">${initials}</div>
                 <div>
-                  <span class="font-semibold text-sm">${p.name}</span>
+                  <span class="font-semibold text-sm">${_esc(p.name)}</span>
                   <div style="font-size: 11px; color: var(--text-secondary);">出勤 ${p.count} 天 · 平均 ${avgHours}h/天</div>
                 </div>
               </div>
@@ -1394,7 +1418,7 @@ function renderAttendance() {
                     <td>
                       <div style="display: flex; align-items: center; gap: 8px;">
                         <div class="avatar" style="background: ${avatarColor}; width: 28px; height: 28px; font-size: 11px;">${initials}</div>
-                        <span style="font-weight: 600;">${r.name}</span>
+                        <span style="font-weight: 600;">${_esc(r.name)}</span>
                       </div>
                     </td>
                     <td><span style="font-weight: 500;">${dateStr}</span></td>
@@ -2240,8 +2264,8 @@ function renderRatings() {
                 <div style="position: absolute; top: 0; left: 0; right: 0; height: ${ps.height}; background: linear-gradient(180deg, ${ps.border}11, transparent); border-radius: var(--radius-lg) var(--radius-lg) 0 0;"></div>
                 <div style="font-size: 28px; margin-bottom: 4px; position: relative;">${ps.medal}</div>
                 <div style="font-size: 10px; font-weight: 700; color: ${ps.border}; letter-spacing: 1px; margin-bottom: 8px; position: relative;">${ps.label}</div>
-                ${s ? `<div class="avatar" style="background: ${s.avatar_color}; width: 36px; height: 36px; font-size: 13px; margin: 0 auto 6px; position: relative;">${getInitials(s.name)}</div>` : ''}
-                <div style="font-weight: 700; font-size: 14px; position: relative;">${s ? s.name : '未知'}</div>
+                ${s ? `<div class="avatar" style="background: ${s.avatar_color}; width: 36px; height: 36px; font-size: 13px; margin: 0 auto 6px; position: relative;">${_esc(getInitials(s.name))}</div>` : ''}
+                <div style="font-weight: 700; font-size: 14px; position: relative;">${s ? _esc(s.name) : '未知'}</div>
                 <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px; position: relative;">${ti.emoji} ${ti.title}</div>
                 <div style="font-size: 22px; font-weight: 800; color: ${ps.border}; margin-top: 4px; position: relative;">${r._dynamicAvg.toFixed(1)}</div>
               </div>
@@ -2292,10 +2316,10 @@ function renderRatings() {
               <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
                   ${medalIcon ? `<span style="font-size: 22px; animation: floatEmoji 2s ease-in-out infinite;">${medalIcon}</span>` : `<span class="rating-vs-label" style="width: 24px; text-align: center;">#${idx + 1}</span>`}
-                  ${s ? `<div class="avatar" style="background: ${s.avatar_color}; width: 42px; height: 42px; font-size: 14px;">${getInitials(s.name)}</div>` : ''}
+                  ${s ? `<div class="avatar" style="background: ${s.avatar_color}; width: 42px; height: 42px; font-size: 14px;">${_esc(getInitials(s.name))}</div>` : ''}
                   <div>
                     <div style="font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 6px;">
-                      ${s ? s.name : '未知'}
+                      ${s ? _esc(s.name) : '未知'}
                       ${r.scores.customerReview >= 5 && /大众点评好评/.test(r.comment) ? '<span style="font-size: 13px;" title="大众点评好评认证">✓</span>' : ''}
                     </div>
                     <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">${r.month}</div>
@@ -2354,7 +2378,7 @@ function renderRatings() {
                   <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px;">
                     ${availCalc.weekResults.map(w => `
                       <div style="text-align: center; padding: 6px 4px; border-radius: 6px; background: ${w.passed ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.08)'}; border: 1px solid ${w.passed ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.15)'};">
-                        <div style="font-size: 10px; font-weight: 700; color: var(--text-muted);">${w.name}</div>
+                        <div style="font-size: 10px; font-weight: 700; color: var(--text-muted);">${_esc(w.name)}</div>
                         <div style="font-size: 9px; color: var(--text-muted); margin-bottom: 3px;">${w.label}</div>
                         <div style="font-size: 16px; margin-bottom: 2px;">${w.passed ? '✅' : '❌'}</div>
                         <div style="font-size: 10px; font-weight: 600; color: ${w.passed ? '#10b981' : '#ef4444'};">${w.availDays}天</div>
@@ -2422,7 +2446,7 @@ function renderRatings() {
                             <span style="font-weight: 600; color: var(--text-secondary);">${'⭐'.repeat(rv.rating)}</span>
                             <span style="font-size: 10px; color: var(--text-muted);">${rv.reviewDate} · ${(rv.source||'').replace('大众点评（','').replace('）','')}</span>
                           </div>
-                          <div style="color: var(--text-muted); line-height: 1.5; font-size: 10px;">${(rv.snippet||'').slice(0,60)}${(rv.snippet||'').length > 60 ? '…' : ''}</div>
+                          <div style="color: var(--text-muted); line-height: 1.5; font-size: 10px;">${_esc((rv.snippet||'').slice(0,60))}${(rv.snippet||'').length > 60 ? '…' : ''}</div>
                         </div>
                       `).join('')}
                     </div>
@@ -2467,8 +2491,8 @@ function renderRatings() {
                     <div style="font-size: 10px; color: var(--text-muted); margin-bottom: 4px;">📋 异常明细</div>
                     ${attendCalc.records.map(rec => `<div style="font-size: 10px; display: flex; align-items: center; gap: 6px; padding: 2px 0;">
                       <span style="color: var(--text-muted); min-width: 70px;">${rec.date}</span>
-                      <span class="badge ${rec.type === '旷工' ? 'badge-danger' : rec.type === '迟到' ? 'badge-warning' : 'badge-info'}" style="font-size: 10px; padding: 1px 6px;">${rec.type}</span>
-                      ${rec.detail ? `<span style="color: var(--text-muted);">${rec.detail}</span>` : ''}
+                      <span class="badge ${rec.type === '旷工' ? 'badge-danger' : rec.type === '迟到' ? 'badge-warning' : 'badge-info'}" style="font-size: 10px; padding: 1px 6px;">${_esc(rec.type)}</span>
+                      ${rec.detail ? `<span style="color: var(--text-muted);">${_esc(rec.detail)}</span>` : ''}
                     </div>`).join('')}
                   </div>
                   ` : ''}
@@ -2504,7 +2528,7 @@ function renderRatings() {
               ${achievements.length > 0 ? `
                 <div style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px;">
                   ${achievements.map((a, i) => `
-                    <span class="rating-achievement" style="animation-delay: ${i * 0.08}s;" title="${a.desc}">
+                    <span class="rating-achievement" style="animation-delay: ${i * 0.08}s;" title="${_esc(a.desc)}">
                       ${a.icon} ${a.label}
                     </span>
                   `).join('')}
@@ -2518,7 +2542,7 @@ function renderRatings() {
 
               <!-- 评语 -->
               <div style="padding: 10px 12px; background: var(--bg-secondary); border-radius: var(--radius-md); font-size: 12px; color: var(--text-secondary); line-height: 1.6;">
-                📊 ${r.comment}
+                📊 ${_esc(r.comment)}
               </div>
             </div>
           </div>
@@ -2543,7 +2567,7 @@ function renderRatings() {
             <div class="form-group">
               <label class="form-label">选择人员 *</label>
               <select class="form-select" id="rate_staff">
-                ${staff.map(s => `<option value="${s.id}">${s.name} (${s.dept})</option>`).join('')}
+                ${staff.map(s => `<option value="${s.id}">${_esc(s.name)} (${s.dept})</option>`).join('')}
               </select>
             </div>
             <div class="form-group">
@@ -2557,7 +2581,7 @@ function renderRatings() {
                 <div class="flex justify-between items-center">
                   <div>
                     <span class="text-sm font-semibold">${d.label}</span>
-                    <span class="text-xs text-muted" style="margin-left: 6px;">${d.desc || ''}</span>
+                    <span class="text-xs text-muted" style="margin-left: 6px;">${_esc(d.desc || '')}</span>
                   </div>
                   <div class="rating-stars" id="rate_${d.key}">
                     ${[1,2,3,4,5].map(n => `<span class="star" data-value="${n}" onclick="setRating('${d.key}', ${n})">★</span>`).join('')}
@@ -2719,7 +2743,7 @@ function renderHandbookRoles() {
               <span style="font-size: 28px;">${role.icon}</span>
               <div>
                 <h3 style="font-size: 16px; font-weight: 700;">${role.label}</h3>
-                <p style="font-size: 13px; color: var(--text-secondary);">${role.desc}</p>
+                <p style="font-size: 13px; color: var(--text-secondary);">${_esc(role.desc)}</p>
               </div>
             </div>
           </div>
@@ -2764,7 +2788,7 @@ function renderHandbookKPI() {
                   <p style="font-size: 12px; color: var(--text-muted);">${['基础门槛', '核心指标', '素质要求', '基本底线', '专业加分'][i]}</p>
                 </div>
               </div>
-              <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.8; padding-left: 52px;">${dim.desc}</p>
+              <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.8; padding-left: 52px;">${_esc(dim.desc)}</p>
             </div>
           </div>
         `).join('')}
@@ -3150,7 +3174,7 @@ function renderPerformance() {
                 return `
                   <tr>
                     <td style="font-weight: 700; font-size: 16px;">${rankIcon}</td>
-                    <td><span style="font-weight: 600;">${r.name}</span></td>
+                    <td><span style="font-weight: 600;">${_esc(r.name)}</span></td>
                     <td><span style="font-weight: 700; color: var(--accent);">¥${showFull ? r.sales.toLocaleString() : (r.sales / 10000).toFixed(2) + '万'}</span></td>
                     ${showFull ? `
                       <td>${r.qty || 0}</td>
@@ -3203,7 +3227,7 @@ function renderPerformance() {
                   ${allPass ? '✅' : '⚠️'}
                 </div>
                 <div style="flex: 1; min-width: 0;">
-                  <div style="font-weight: 600; font-size: 14px;">${r.name}</div>
+                  <div style="font-weight: 600; font-size: 14px;">${_esc(r.name)}</div>
                   <div style="font-size: 12px; color: var(--text-secondary);">
                     时产 ¥${(r.hourlyOutput || 0).toFixed(0)} ${hourlyPass ? '✓' : '✗'}
                     ${showUpt ? `· UPT ${r.upt} ${(r.upt || 0) >= KPI.uptTarget ? '✓' : '✗'}` : ''}
@@ -3268,7 +3292,7 @@ function renderPerformance() {
             return `
               <div style="margin-bottom: 14px;">
                 <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
-                  <span style="font-weight: 600; font-size: 14px; min-width: 60px;">${r.name}</span>
+                  <span style="font-weight: 600; font-size: 14px; min-width: 60px;">${_esc(r.name)}</span>
                   <span style="font-size: 12px; color: var(--text-secondary);">¥${r.sales.toLocaleString()} · ${r.qty}件</span>
                 </div>
                 <div style="display: flex; height: 28px; border-radius: 6px; overflow: hidden; background: var(--bg-secondary);">
@@ -3480,7 +3504,7 @@ function renderDoorSchedule() {
                     <tr>
                       <td><span style="font-weight: 600;">${slot.time}</span></td>
                       <td>
-                        ${hasStaff ? `<span style="font-size: 14px; font-weight: 500;">${slot.staff}</span>` : '<span style="color: var(--text-muted);">— 未安排</span>'}
+                        ${hasStaff ? `<span style="font-size: 14px; font-weight: 500;">${_esc(slot.staff)}</span>` : '<span style="color: var(--text-muted);">— 未安排</span>'}
                       </td>
                       <td>
                         ${hasStaff && dur > 0
@@ -3661,10 +3685,10 @@ function renderSupportTable(data) {
               ${data.length > 0 ? data.slice().reverse().map(s => `
                 <tr>
                   <td>${s.date.replace(/^[0-9]{4}-/, '')}</td>
-                  <td><span style="font-weight: 600;">${s.staff}</span></td>
-                  <td><span class="badge ${s.type.includes('货品') ? 'badge-info' : s.type.includes('陈列') ? 'badge-active' : 'badge-warning'}">${s.type}</span></td>
+                  <td><span style="font-weight: 600;">${_esc(s.staff)}</span></td>
+                  <td><span class="badge ${s.type.includes('货品') ? 'badge-info' : s.type.includes('陈列') ? 'badge-active' : 'badge-warning'}">${_esc(s.type)}</span></td>
                   <td>${s.duration}</td>
-                  <td class="text-sm text-secondary">${s.detail}</td>
+                  <td class="text-sm text-secondary">${_esc(s.detail)}</td>
                 </tr>
               `).join('') : '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--text-muted);">本月暂无支援记录，请到「我的填报」录入</td></tr>'}
             </tbody>
@@ -3794,8 +3818,8 @@ function renderStaffStatsTable(staffStats, staffSupportCount) {
                       <td style="font-weight: 700; font-size: 16px;">${medal}</td>
                       <td>
                         <div style="display: flex; align-items: center; gap: 8px;">
-                          <div class="avatar" style="background: ${avatarColor}; width: 28px; height: 28px; font-size: 11px;">${stats.name[0]}</div>
-                          <span style="font-weight: 600;">${stats.name}</span>
+                          <div class="avatar" style="background: ${avatarColor}; width: 28px; height: 28px; font-size: 11px;">${_esc(stats.name[0])}</div>
+                          <span style="font-weight: 600;">${_esc(stats.name)}</span>
                         </div>
                       </td>
                       <td><span style="font-weight: 700;">${stats.total.count}</span></td>
@@ -3901,9 +3925,9 @@ function renderPersonalDashboard() {
         <div style="position: absolute; top: -20px; right: -20px; width: 120px; height: 120px; border-radius: 50%; background: rgba(255,255,255,0.08);"></div>
         <div style="position: absolute; bottom: -30px; right: 40px; width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.05);"></div>
         <div style="display: flex; align-items: center; gap: 16px; position: relative;">
-          <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; border: 2px solid rgba(255,255,255,0.3);">${me.name[0]}</div>
+          <div style="width: 56px; height: 56px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; border: 2px solid rgba(255,255,255,0.3);">${_esc(me.name[0])}</div>
           <div>
-            <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 2px;">${me.name}</h2>
+            <h2 style="font-size: 22px; font-weight: 800; margin-bottom: 2px;">${_esc(me.name)}</h2>
             <p style="font-size: 13px; opacity: 0.7;">${me.dept} · ${myRating ? myRating.month + ' 评估' : '暂无评分'}</p>
           </div>
         </div>
@@ -3961,7 +3985,7 @@ function renderPersonalDashboard() {
           })()}
         </div>
         <div style="background: rgba(0,0,0,0.02); border-radius: 8px; padding: 12px 14px; font-size: 13px; color: var(--text-secondary); line-height: 1.7;">
-          ${myRating.comment || '暂无评语'}
+          ${_esc(myRating.comment || '暂无评语')}
         </div>
       </div>
     </div>
@@ -4133,7 +4157,7 @@ function renderCustomerReviews() {
                 </div>
                 ${data.keywords.length > 0 ? `
                   <div style="display: flex; flex-wrap: wrap; gap: 6px;">
-                    ${[...new Set(data.keywords)].slice(0, 5).map(kw => `<span style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; font-size: 11px; padding: 3px 8px; border-radius: 6px; font-weight: 500;">${kw}</span>`).join('')}
+                    ${[...new Set(data.keywords)].slice(0, 5).map(kw => `<span style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; font-size: 11px; padding: 3px 8px; border-radius: 6px; font-weight: 500;">${_esc(kw)}</span>`).join('')}
                   </div>
                 ` : ''}
               </div>
@@ -4167,9 +4191,9 @@ function renderCustomerReviews() {
               <div class="card" style="padding: 20px;">
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;">
                   <div style="display: flex; align-items: center; gap: 10px; flex-shrink: 0;">
-                    <div style="width: 36px; height: 36px; border-radius: 50%; background: ${color}; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; font-weight: 700;">${r.staffName[0]}</div>
+                    <div style="width: 36px; height: 36px; border-radius: 50%; background: ${color}; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; font-weight: 700;">${_esc(r.staffName[0])}</div>
                     <div>
-                      <div style="font-weight: 700; font-size: 14px;">${r.staffName}</div>
+                      <div style="font-weight: 700; font-size: 14px;">${_esc(r.staffName)}</div>
                       <div style="font-size: 11px; color: var(--text-secondary);">${r.reviewDate || ''} · ${r.source || '大众点评'}</div>
                     </div>
                   </div>
@@ -4179,10 +4203,10 @@ function renderCustomerReviews() {
                     <button onclick="deleteReview(${r.id})" style="background: none; border: none; cursor: pointer; font-size: 14px; opacity: 0.5; padding: 4px;">🗑️</button>
                   </div>
                 </div>
-                ${r.snippet ? `<div style="margin-top: 12px; padding: 12px 16px; background: var(--bg-secondary); border-radius: 8px; font-size: 13px; line-height: 1.7; color: var(--text-primary); border-left: 3px solid ${color};">"${r.snippet}"</div>` : ''}
+                ${r.snippet ? `<div style="margin-top: 12px; padding: 12px 16px; background: var(--bg-secondary); border-radius: 8px; font-size: 13px; line-height: 1.7; color: var(--text-primary); border-left: 3px solid ${color};">"${_esc(r.snippet)}"</div>` : ''}
                 ${r.keywords && r.keywords.length > 0 ? `
                   <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
-                    ${r.keywords.map(kw => `<span style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; font-size: 11px; padding: 3px 8px; border-radius: 6px;">${kw}</span>`).join('')}
+                    ${r.keywords.map(kw => `<span style="background: rgba(245, 158, 11, 0.1); color: #f59e0b; font-size: 11px; padding: 3px 8px; border-radius: 6px;">${_esc(kw)}</span>`).join('')}
                   </div>
                 ` : ''}
               </div>
@@ -4216,7 +4240,7 @@ function openReviewForm(id) {
         <div>
           <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">员工姓名 *</label>
           <select id="reviewStaffName" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color, #e5e7eb); border-radius: 8px; font-size: 14px; background: var(--bg-input, #fff); color: var(--text-primary);">
-            ${staffNames.map(n => `<option value="${n}" ${review && review.staffName === n ? 'selected' : ''}>${n}</option>`).join('')}
+            ${staffNames.map(n => `<option value="${_esc(n)}" ${review && review.staffName === n ? 'selected' : ''}>${_esc(n)}</option>`).join('')}
           </select>
         </div>
 
@@ -4245,12 +4269,12 @@ function openReviewForm(id) {
 
         <div>
           <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">表扬词段（原文摘录）</label>
-          <textarea id="reviewSnippet" rows="4" placeholder="例：店员小姐姐超耐心，帮我试了好几双鞋，最后推荐了最适合我的那双..." style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color, #e5e7eb); border-radius: 8px; font-size: 13px; line-height: 1.6; background: var(--bg-input, #fff); color: var(--text-primary); resize: vertical;">${review ? review.snippet || '' : ''}</textarea>
+          <textarea id="reviewSnippet" rows="4" placeholder="例：店员小姐姐超耐心，帮我试了好几双鞋，最后推荐了最适合我的那双..." style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color, #e5e7eb); border-radius: 8px; font-size: 13px; line-height: 1.6; background: var(--bg-input, #fff); color: var(--text-primary); resize: vertical;">${review ? _esc(review.snippet || '') : ''}</textarea>
         </div>
 
         <div>
           <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 6px;">关键词标签（逗号分隔）</label>
-          <input id="reviewKeywords" type="text" placeholder="耐心, 专业, 热情, 贴心" value="${review && review.keywords ? review.keywords.join(', ') : ''}" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color, #e5e7eb); border-radius: 8px; font-size: 13px; background: var(--bg-input, #fff); color: var(--text-primary);" />
+          <input id="reviewKeywords" type="text" placeholder="耐心, 专业, 热情, 贴心" value="${review && review.keywords ? _esc(review.keywords.join(', ')) : ''}" style="width: 100%; padding: 10px 12px; border: 1px solid var(--border-color, #e5e7eb); border-radius: 8px; font-size: 13px; background: var(--bg-input, #fff); color: var(--text-primary);" />
           <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px;">常用：耐心 / 专业 / 热情 / 贴心 / 试穿推荐 / 搭配建议 / 主动 / 细心</div>
         </div>
 
@@ -4409,7 +4433,7 @@ function openDoorSlotForm(idx) {
           <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">值班人员</label>
           <select id="doorSlotStaff" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
             <option value="">— 未安排 —</option>
-            ${staff.map(s => `<option value="${s.name}" ${slot && slot.staff === s.name ? 'selected' : ''}>${s.name}</option>`).join('')}
+            ${staff.map(s => `<option value="${_esc(s.name)}" ${slot && slot.staff === s.name ? 'selected' : ''}>${_esc(s.name)}</option>`).join('')}
           </select>
         </div>
         <div style="display:flex;gap:12px;margin-top:8px;">
@@ -4491,7 +4515,7 @@ function openSupportForm() {
           <div>
             <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">员工 *</label>
             <select id="supportStaff" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
-              ${staff.map(s => `<option value="${s.name}">${s.name}</option>`).join('')}
+              ${staff.map(s => `<option value="${_esc(s.name)}">${_esc(s.name)}</option>`).join('')}
             </select>
           </div>
           <div>
@@ -4578,7 +4602,7 @@ function openShiftForm() {
   const overlay = document.createElement('div');
   overlay.id = 'shiftFormOverlay';
   overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
-  const staffOptions = staff.map(s => `<option value="${s.name}">${s.name}</option>`).join('');
+  const staffOptions = staff.map(s => `<option value="${_esc(s.name)}">${_esc(s.name)}</option>`).join('');
   overlay.innerHTML = `
     <div style="background:var(--bg-card,#fff);border-radius:16px;padding:28px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
@@ -4871,10 +4895,10 @@ function renderPersonalCalendar() {
           <label style="font-size:13px;font-weight:600;color:var(--text-secondary);">选择姓名:</label>
           <select id="availStaffSelect" onchange="_availStaff=this.value;Router.render()" style="padding:8px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);min-width:120px;">
             <optgroup label="Service Team">
-              ${staff.filter(s => s.dept === 'Service Team').map(s => `<option value="${s.name}" ${_availStaff === s.name ? 'selected' : ''}>${s.name}</option>`).join('')}
+              ${staff.filter(s => s.dept === 'Service Team').map(s => `<option value="${_esc(s.name)}" ${_availStaff === s.name ? 'selected' : ''}>${_esc(s.name)}</option>`).join('')}
             </optgroup>
             <optgroup label="仓库兼职">
-              ${staff.filter(s => s.dept === '仓库兼职').map(s => `<option value="${s.name}" ${_availStaff === s.name ? 'selected' : ''}>${s.name}</option>`).join('')}
+              ${staff.filter(s => s.dept === '仓库兼职').map(s => `<option value="${_esc(s.name)}" ${_availStaff === s.name ? 'selected' : ''}>${_esc(s.name)}</option>`).join('')}
             </optgroup>
           </select>
           <div style="margin-left:auto;display:flex;gap:12px;font-size:13px;">
@@ -5125,15 +5149,15 @@ function renderOverviewMatrix() {
     }).join('');
 
     const notesCell = weekNotes.length > 0
-      ? weekNotes.map(n => `<div style="font-size:11px;color:var(--text-secondary);line-height:1.6;padding:1px 0;">${n}</div>`).join('')
+      ? weekNotes.map(n => `<div style="font-size:11px;color:var(--text-secondary);line-height:1.6;padding:1px 0;">${_esc(n)}</div>`).join('')
       : '<span style="font-size:12px;color:var(--text-muted);">—</span>';
 
     return `
       <tr style="border-bottom:1px solid var(--border-light);">
         <td style="padding:8px 12px;position:sticky;left:0;background:var(--bg-card,#fff);z-index:1;">
           <div style="display:flex;align-items:center;gap:8px;">
-            <div class="avatar" style="background:${s.avatar_color};width:28px;height:28px;font-size:11px;">${s.name.slice(-2)}</div>
-            <span style="font-size:13px;font-weight:600;">${s.name}</span>
+            <div class="avatar" style="background:${s.avatar_color};width:28px;height:28px;font-size:11px;">${_esc(s.name.slice(-2))}</div>
+            <span style="font-size:13px;font-weight:600;">${_esc(s.name)}</span>
           </div>
         </td>
         ${cells}
@@ -5282,10 +5306,10 @@ function renderSupportTab() {
               ${data.length > 0 ? data.slice().reverse().map(s => `
                 <tr>
                   <td>${_safeReplace(s.date, '2026-', '')}</td>
-                  <td><span style="font-weight:600;">${s.staff || ''}</span></td>
-                  <td><span class="badge ${(s.type||'').includes('货品') ? 'badge-info' : (s.type||'').includes('陈列') ? 'badge-active' : 'badge-warning'}">${s.type || ''}</span></td>
+                  <td><span style="font-weight:600;">${_esc(s.staff || '')}</span></td>
+                  <td><span class="badge ${(s.type||'').includes('货品') ? 'badge-info' : (s.type||'').includes('陈列') ? 'badge-active' : 'badge-warning'}">${_esc(s.type || '')}</span></td>
                   <td>${s.duration || ''}</td>
-                  <td class="text-sm text-secondary">${s.detail || ''}</td>
+                  <td class="text-sm text-secondary">${_esc(s.detail || '')}</td>
                   <td><button onclick="deleteSupport(${s.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button></td>
                 </tr>
               `).join('') : '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">本月暂无支援记录，点击「+ 新增支援」录入</td></tr>'}
@@ -5380,7 +5404,7 @@ function renderDoorTab() {
                       return `
                         <td style="text-align:center;padding:4px;opacity:${isFrozen ? 0.5 : 1};">
                           <div ${isFrozen ? '' : `onclick="editDoorCell('${dateStr}','${slotKey}')"`} style="${isFrozen ? '' : 'cursor:pointer;'}background:linear-gradient(135deg,#10b98133,#10b98111);border:1px solid #10b98155;border-radius:6px;padding:4px 6px;font-size:11px;font-weight:600;color:#10b981;">
-                            ${staffName}
+                            ${_esc(staffName)}
                           </div>
                         </td>
                       `;
@@ -5456,7 +5480,7 @@ function openDoorSlotFormInline(prefillStart, prefillEnd, editIdx) {
           <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">值班人员</label>
           <select id="doorSlotStaffInline" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
             <option value="">— 未安排 —</option>
-            ${staff.map(s => `<option value="${s.name}" ${slot && slot.staff === s.name ? 'selected' : ''}>${s.name}</option>`).join('')}
+            ${staff.map(s => `<option value="${_esc(s.name)}" ${slot && slot.staff === s.name ? 'selected' : ''}>${_esc(s.name)}</option>`).join('')}
           </select>
         </div>
         <div style="display:flex;gap:12px;margin-top:8px;">
