@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 247,
-    "lastUpdated": "2026-07-19T03:12:16.963Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 248,
+    "lastUpdated": "2026-07-19T03:13:17.142Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7691,7 +7691,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记客流",
-      "_updatedAt": 1784354540130
+      "_updatedAt": "1784354540130"
     },
     {
       "id": 1784355435490,
@@ -9951,6 +9951,16 @@
           "time": "19:00:00-20:00:00",
           "staff": "李若彤",
           "_updatedAt": "1784376049234"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-19",
+      "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "迟骋",
+          "_updatedAt": "1784430748228"
         }
       ]
     }
