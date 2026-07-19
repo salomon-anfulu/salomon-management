@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 257,
-    "lastUpdated": "2026-07-19T10:45:21.205Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 258,
+    "lastUpdated": "2026-07-19T10:49:15.291Z",
+    "lastUpdatedBy": "田佳乐"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -10017,6 +10017,11 @@
           "time": "15:00:00-16:00:00",
           "staff": "王雅澜",
           "_updatedAt": "1784443344106"
+        },
+        {
+          "time": "16:00:00-17:00:00",
+          "staff": "田佳乐",
+          "_updatedAt": "1784458155236"
         }
       ]
     }
