@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 248,
-    "lastUpdated": "2026-07-19T03:13:17.142Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 249,
+    "lastUpdated": "2026-07-19T04:17:32.667Z",
+    "lastUpdatedBy": "孔祥宇"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,23 +2818,23 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/15": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/16": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/17": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/18": {
               "available": true,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -9961,6 +9961,11 @@
           "time": "10:00:00-11:00:00",
           "staff": "迟骋",
           "_updatedAt": "1784430748228"
+        },
+        {
+          "time": "11:00:00-12:00:00",
+          "staff": "孔祥宇",
+          "_updatedAt": "1784434652609"
         }
       ]
     }
