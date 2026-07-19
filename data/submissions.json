@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 270,
-    "lastUpdated": "2026-07-19T13:00:16.868Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 271,
+    "lastUpdated": "2026-07-19T13:10:38.536Z",
+    "lastUpdatedBy": "李健华"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5103,7 +5103,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5181,10 +5181,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -5363,9 +5362,9 @@
               "_updatedAt": 1783589146257
             },
             "7/22": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1783589148057
+              "_updatedAt": 1784466638477
             },
             "7/24": {
               "available": false,
@@ -5390,13 +5389,12 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 10,
+          "total": 11,
           "unavailable": [
             "7/14",
             "7/16",
             "7/18",
             "7/20",
-            "7/22",
             "7/24",
             "7/26",
             "7/28",
