@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 250,
-    "lastUpdated": "2026-07-19T05:22:49.786Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 251,
+    "lastUpdated": "2026-07-19T06:12:32.486Z",
+    "lastUpdatedBy": "杨子豪"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -7755,6 +7755,15 @@
       "duration": "2小时",
       "detail": "客流统计",
       "_updatedAt": "1784378141882"
+    },
+    {
+      "id": 1784441553270,
+      "staff": "杨子豪",
+      "date": "2026-07-19",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录客流",
+      "_updatedAt": 1784441552454
     }
   ],
   "doorSchedule": [
