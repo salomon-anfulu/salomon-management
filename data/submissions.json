@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 259,
-    "lastUpdated": "2026-07-19T10:49:34.687Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 260,
+    "lastUpdated": "2026-07-19T10:50:37.644Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7791,6 +7791,15 @@
       "duration": "2.5小时",
       "detail": "",
       "_updatedAt": "1784457911407"
+    },
+    {
+      "id": 1784458205759,
+      "staff": "王雅澜",
+      "date": "2026-07-19",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录客流",
+      "_updatedAt": 1784458204760
     }
   ],
   "doorSchedule": [
