@@ -4984,31 +4984,31 @@ linggongAttendance: {
 ]
       },
             july: {
-        month: '2026-07', totalSales: 125036, avgUPT: 1.3,
-        note: '数据截至7月19日（7/18+7/19增量来自Excel14-15小票备注缩写归属）',
+        month: '2026-07', totalSales: 128872, avgUPT: 1.31,
+        note: '数据截至7月19日（Excel16全量数据，覆盖7/1-7/19，修正前期漏录）',
         records: [
   {
     "name": "龚赟昊",
-    "sales": 20102,
+    "sales": 20602,
     "qty": 19,
     "tickets": 14,
     "upt": 1.36,
-    "avgPrice": 1058,
+    "avgPrice": 1084,
     "workHours": 104,
-    "hourlyOutput": 193.3,
-    "salesShare": 0.1608,
+    "hourlyOutput": 198.1,
+    "salesShare": 0.1599,
     "categories": "鞋履 86.5% / 服装 11.2% / 配件 2.3%"
   },
   {
     "name": "何秋烨",
-    "sales": 12678,
-    "qty": 11,
+    "sales": 14376,
+    "qty": 12,
     "tickets": 9,
-    "upt": 1.22,
-    "avgPrice": 1153,
+    "upt": 1.33,
+    "avgPrice": 1198,
     "workHours": 54.5,
-    "hourlyOutput": 232.6,
-    "salesShare": 0.1014,
+    "hourlyOutput": 263.8,
+    "salesShare": 0.1116,
     "categories": "鞋履 81.9% / 服装 18.1%"
   },
   {
@@ -5020,7 +5020,7 @@ linggongAttendance: {
     "avgPrice": 1085,
     "workHours": 96.5,
     "hourlyOutput": 123.7,
-    "salesShare": 0.0955,
+    "salesShare": 0.0926,
     "categories": "鞋履 92.0% / 服装 4.2% / 配件 3.7%"
   },
   {
@@ -5032,31 +5032,31 @@ linggongAttendance: {
     "avgPrice": 1182,
     "workHours": 86.5,
     "hourlyOutput": 164,
-    "salesShare": 0.1135,
+    "salesShare": 0.1101,
     "categories": "鞋履 99.1% / 配件 0.9%"
   },
   {
     "name": "王雅澜",
-    "sales": 14700,
-    "qty": 15,
-    "tickets": 12,
-    "upt": 1.25,
-    "avgPrice": 980,
+    "sales": 16198,
+    "qty": 16,
+    "tickets": 13,
+    "upt": 1.23,
+    "avgPrice": 1012,
     "workHours": 76,
-    "hourlyOutput": 193.4,
-    "salesShare": 0.1176,
+    "hourlyOutput": 213.1,
+    "salesShare": 0.1257,
     "categories": "鞋履 91.4% / 服装 7.7% / 配件 0.9%"
   },
   {
     "name": "王靳毓",
-    "sales": 13882,
+    "sales": 14002,
     "qty": 10,
     "tickets": 8,
     "upt": 1.25,
-    "avgPrice": 1388,
+    "avgPrice": 1400,
     "workHours": 86.5,
-    "hourlyOutput": 160.5,
-    "salesShare": 0.111,
+    "hourlyOutput": 161.9,
+    "salesShare": 0.1087,
     "categories": "鞋履 79.4% / 服装 20.6%"
   },
   {
@@ -5068,7 +5068,7 @@ linggongAttendance: {
     "avgPrice": 1085,
     "workHours": 62.5,
     "hourlyOutput": 156.2,
-    "salesShare": 0.0781,
+    "salesShare": 0.0757,
     "categories": "鞋履 91.6% / 配件 8.4%"
   },
   {
@@ -5080,7 +5080,7 @@ linggongAttendance: {
     "avgPrice": 1265,
     "workHours": 140.5,
     "hourlyOutput": 27,
-    "salesShare": 0.0303,
+    "salesShare": 0.0294,
     "categories": "鞋履 100.0%"
   },
   {
@@ -5092,7 +5092,7 @@ linggongAttendance: {
     "avgPrice": 1465,
     "workHours": 51.5,
     "hourlyOutput": 85.3,
-    "salesShare": 0.0351,
+    "salesShare": 0.0341,
     "categories": "鞋履 100.0%"
   },
   {
@@ -5104,7 +5104,7 @@ linggongAttendance: {
     "avgPrice": 898,
     "workHours": 62,
     "hourlyOutput": 159.4,
-    "salesShare": 0.079,
+    "salesShare": 0.0767,
     "categories": "鞋履 100.0%"
   },
   {
@@ -5116,7 +5116,7 @@ linggongAttendance: {
     "avgPrice": 1065,
     "workHours": 63,
     "hourlyOutput": 50.7,
-    "salesShare": 0.0255,
+    "salesShare": 0.0248,
     "categories": "鞋履 72.3% / 服装 27.7%"
   },
   {
@@ -5128,19 +5128,19 @@ linggongAttendance: {
     "avgPrice": 1010,
     "workHours": 50.5,
     "hourlyOutput": 100,
-    "salesShare": 0.0404,
+    "salesShare": 0.0392,
     "categories": "鞋履 79.6% / 配件 20.4%"
   },
   {
     "name": "王龙宇",
-    "sales": 1476,
+    "sales": 1496,
     "qty": 2,
     "tickets": 2,
     "upt": 1,
-    "avgPrice": 738,
+    "avgPrice": 748,
     "workHours": 32.5,
-    "hourlyOutput": 45.4,
-    "salesShare": 0.0118,
+    "hourlyOutput": 46,
+    "salesShare": 0.0116,
     "categories": "服装 100.0%"
   }
 ]
@@ -5216,7 +5216,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-20-v121';
+      const DATA_VERSION = '2026-07-20-v122';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
