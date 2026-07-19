@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 274,
-    "lastUpdated": "2026-07-19T14:35:16.006Z",
+    "version": 275,
+    "lastUpdated": "2026-07-19T14:36:11.935Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -7761,7 +7761,7 @@
       "type": "其他",
       "duration": "0.5小时",
       "detail": "21:00-21:30 门迎",
-      "_updatedAt": 1784378242469
+      "_updatedAt": "1784378242469"
     },
     {
       "id": 1784441553270,
