@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 272,
-    "lastUpdated": "2026-07-19T13:12:07.923Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 273,
+    "lastUpdated": "2026-07-19T14:20:16.353Z",
+    "lastUpdatedBy": "李若彤"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5103,7 +5103,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5181,9 +5181,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -10031,6 +10032,11 @@
           "time": "11:00:00-12:00:00",
           "staff": "孔祥宇",
           "_updatedAt": "1784434652609"
+        },
+        {
+          "time": "12:00:00-13:00:00",
+          "staff": "李若彤",
+          "_updatedAt": "1784470816302"
         },
         {
           "time": "13:00:00-14:00:00",
