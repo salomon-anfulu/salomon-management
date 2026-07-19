@@ -4920,19 +4920,19 @@ linggongAttendance: {
 ]
       },
             july: {
-        month: '2026-07', totalSales: 99346, avgUPT: 1.27,
-        note: '数据截至7月17日，已追溯退换货（兼职产出净额）',
+        month: '2026-07', totalSales: 113958, avgUPT: 1.30,
+        note: '数据截至7月18日（7/18增量来自Excel14小票备注缩写归属）',
         records: [
   {
     "name": "龚赟昊",
-    "sales": 17506,
-    "qty": 17,
-    "tickets": 12,
-    "upt": 1.42,
-    "avgPrice": 1030,
+    "sales": 20102,
+    "qty": 19,
+    "tickets": 14,
+    "upt": 1.36,
+    "avgPrice": 1058,
     "workHours": 104,
-    "hourlyOutput": 168.3,
-    "salesShare": 0.1762,
+    "hourlyOutput": 193.3,
+    "salesShare": 0.1764,
     "categories": "鞋履 86.5% / 服装 11.2% / 配件 2.3%"
   },
   {
@@ -4944,7 +4944,7 @@ linggongAttendance: {
     "avgPrice": 1153,
     "workHours": 54.5,
     "hourlyOutput": 232.6,
-    "salesShare": 0.1276,
+    "salesShare": 0.1113,
     "categories": "鞋履 81.9% / 服装 18.1%"
   },
   {
@@ -4956,7 +4956,7 @@ linggongAttendance: {
     "avgPrice": 1085,
     "workHours": 96.5,
     "hourlyOutput": 123.7,
-    "salesShare": 0.1202,
+    "salesShare": 0.1048,
     "categories": "鞋履 92.0% / 服装 4.2% / 配件 3.7%"
   },
   {
@@ -4968,31 +4968,31 @@ linggongAttendance: {
     "avgPrice": 1139,
     "workHours": 80.5,
     "hourlyOutput": 141.5,
-    "salesShare": 0.1146,
+    "salesShare": 0.0999,
     "categories": "鞋履 99.1% / 配件 0.9%"
   },
   {
     "name": "王雅澜",
-    "sales": 11388,
-    "qty": 11,
-    "tickets": 9,
-    "upt": 1.22,
-    "avgPrice": 1035,
+    "sales": 13502,
+    "qty": 14,
+    "tickets": 11,
+    "upt": 1.27,
+    "avgPrice": 964,
     "workHours": 68,
-    "hourlyOutput": 167.5,
-    "salesShare": 0.1146,
+    "hourlyOutput": 198.6,
+    "salesShare": 0.1185,
     "categories": "鞋履 91.4% / 服装 7.7% / 配件 0.9%"
   },
   {
     "name": "王靳毓",
-    "sales": 11068,
-    "qty": 7,
-    "tickets": 6,
-    "upt": 1.17,
-    "avgPrice": 1581,
+    "sales": 13882,
+    "qty": 10,
+    "tickets": 8,
+    "upt": 1.25,
+    "avgPrice": 1388,
     "workHours": 86.5,
-    "hourlyOutput": 128.0,
-    "salesShare": 0.1114,
+    "hourlyOutput": 160.5,
+    "salesShare": 0.1218,
     "categories": "鞋履 79.4% / 服装 20.6%"
   },
   {
@@ -5004,7 +5004,7 @@ linggongAttendance: {
     "avgPrice": 1085,
     "workHours": 55,
     "hourlyOutput": 177.5,
-    "salesShare": 0.0983,
+    "salesShare": 0.0857,
     "categories": "鞋履 91.6% / 配件 8.4%"
   },
   {
@@ -5016,7 +5016,7 @@ linggongAttendance: {
     "avgPrice": 1265,
     "workHours": 132.5,
     "hourlyOutput": 28.6,
-    "salesShare": 0.0382,
+    "salesShare": 0.0333,
     "categories": "鞋履 100.0%"
   },
   {
@@ -5028,43 +5028,43 @@ linggongAttendance: {
     "avgPrice": 1498,
     "workHours": 45.5,
     "hourlyOutput": 65.8,
-    "salesShare": 0.0302,
+    "salesShare": 0.0263,
     "categories": "鞋履 100.0%"
   },
   {
     "name": "李若彤",
-    "sales": 2396,
-    "qty": 2,
-    "tickets": 2,
-    "upt": 1.0,
+    "sales": 4792,
+    "qty": 4,
+    "tickets": 4,
+    "upt": 1.00,
     "avgPrice": 1198,
     "workHours": 54,
-    "hourlyOutput": 44.4,
-    "salesShare": 0.0241,
+    "hourlyOutput": 88.7,
+    "salesShare": 0.0421,
     "categories": "鞋履 100.0%"
   },
   {
     "name": "玛依拉",
-    "sales": 1796,
-    "qty": 2,
-    "tickets": 2,
-    "upt": 1.0,
-    "avgPrice": 898,
+    "sales": 3194,
+    "qty": 3,
+    "tickets": 3,
+    "upt": 1.00,
+    "avgPrice": 1065,
     "workHours": 63,
-    "hourlyOutput": 28.5,
-    "salesShare": 0.0181,
+    "hourlyOutput": 50.7,
+    "salesShare": 0.0280,
     "categories": "鞋履 72.3% / 服装 27.7%"
   },
   {
     "name": "邓奇缘",
-    "sales": 1756,
-    "qty": 2,
-    "tickets": 1,
-    "upt": 2.0,
-    "avgPrice": 878,
+    "sales": 5050,
+    "qty": 5,
+    "tickets": 4,
+    "upt": 1.25,
+    "avgPrice": 1010,
     "workHours": 50.5,
-    "hourlyOutput": 34.8,
-    "salesShare": 0.0177,
+    "hourlyOutput": 100.0,
+    "salesShare": 0.0443,
     "categories": "鞋履 79.6% / 配件 20.4%"
   },
   {
@@ -5076,7 +5076,7 @@ linggongAttendance: {
     "avgPrice": 878,
     "workHours": 26.5,
     "hourlyOutput": 33.1,
-    "salesShare": 0.0088,
+    "salesShare": 0.0077,
     "categories": "服装 100.0%"
   }
 ]
@@ -5108,7 +5108,7 @@ linggongAttendance: {
       { id: 22, staffName: '杨子豪', month: '2026-07', rating: 5, reviewDate: '2026-07-16', snippet: '安福路萨洛蒙，店员杨子豪服务很好，介绍鞋子很专业，耐心帮我试穿，体验不错。对产品知识掌握得特别透彻，根据我的需求耐心选鞋，试穿全程细心，讲解清晰，全程无过度推销', keywords: ['专业介绍', '耐心试穿', '产品知识', '细心讲解', '无过度推销'], source: '大众点评（忠刚清香的小邹，Lv1）' },
     ],
 
-    _dataVersion: '2026-07-19-v118',  },
+    _dataVersion: '2026-07-19-v119',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -5152,7 +5152,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-19-v118';
+      const DATA_VERSION = '2026-07-19-v119';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
