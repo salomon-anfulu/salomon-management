@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 292,
-    "lastUpdated": "2026-07-20T10:16:12.412Z",
+    "version": 293,
+    "lastUpdated": "2026-07-20T10:17:19.510Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -5546,10 +5546,8 @@
     "2026-08": {
       "data": {
         "孔祥宇": {
-          "total": 30,
-          "unavailable": [
-            "8/2"
-          ],
+          "total": 31,
+          "unavailable": [],
           "note": "",
           "dates": {
             "8/1": {
@@ -5558,9 +5556,9 @@
               "_updatedAt": 1784541341770
             },
             "8/2": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1784541343209
+              "_updatedAt": 1784542585981
             },
             "8/3": {
               "available": true,
