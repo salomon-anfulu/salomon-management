@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 289,
-    "lastUpdated": "2026-07-20T09:42:51.077Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 290,
+    "lastUpdated": "2026-07-20T09:55:00.457Z",
+    "lastUpdatedBy": "孔祥宇"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -5103,7 +5103,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5181,9 +5181,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -5709,6 +5710,22 @@
             }
           },
           "_noteUpdatedAt": 1784197631464
+        }
+      }
+    },
+    "2026-09": {
+      "data": {
+        "孔祥宇": {
+          "total": 1,
+          "unavailable": [],
+          "note": "",
+          "dates": {
+            "9/1": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784541300432
+            }
+          }
         }
       }
     }
@@ -7779,6 +7796,15 @@
       "duration": "1小时",
       "detail": "记录客流",
       "_updatedAt": "1784441552454"
+    },
+    {
+      "id": 1784447884935,
+      "staff": "孔祥宇",
+      "date": "2026-07-19",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记客流",
+      "_updatedAt": 1784447884671
     },
     {
       "id": 1784453158009,
