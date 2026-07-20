@@ -1,3 +1,41 @@
+# v130: 启动探针强化 + SW 注销
+
+## 问题与修复（2026-07-20）
+
+用户反馈「贾长乐 dept 还没转 Service Team」，但核查发现：
+- GitHub Pages 上的 app.js **完全正确**（贾长乐 dept='Service Team'）
+- v129 时数据层/运行时补全逻辑都已 100% 完成
+
+**根因**: 浏览器 Service Worker 的 stale-while-revalidate 策略返回旧版 app.js，导致客户端 localStorage 的 staff 数据没被 `_migrateData` 升级。
+
+## v130 改动
+
+| 文件 | 改动 |
+|------|------|
+| `js/app.js` | `_dataVersion`: v129 → v130（触发 _migrateData 强制更新 staff.dept）|
+| `version.json` | dataVersion + cacheBuster → v130 |
+| `index.html` | 3 处 `?v=129` → `?v=130` |
+| `index.html` 启动探针 | **核心修复**：加 `navigator.serviceWorker.getRegistrations().forEach(r => r.unregister())`，启动时注销所有旧 SW；不再注册新 SW |
+| `index.html` 探针 | 循环保护 30s → 10s |
+
+## 原理
+
+SW 注销后浏览器走原生 HTTP 缓存，`?v=130` 保证拿到新版 app.js，启动探针检测版本变化触发清缓存 reload，`Store.init` 触发 `_migrateData` 把 `staff[id=17].dept` 强制设为 `'Service Team'`。
+
+## 验证
+
+- ✅ GitHub Pages version.json 返回 v130
+- ✅ app.js?v=130 中贾长乐 dept='Service Team'
+- ✅ index.html 引用 ?v=130，探针含 SW 注销逻辑
+
+## 诊断"代码改了但客户端不生效"三步法
+
+1. 检查 cache-buster 是否更新
+2. 检查 SW 是否拦截 fetch
+3. 检查 _dataVersion 是否 bump 触发 _migrateData
+
+---
+
 # v129: 贾长乐+梁实秋 转部门
 
 ## 人员调整（2026-07-20 起）
