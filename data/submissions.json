@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 297,
-    "lastUpdated": "2026-07-20T11:53:28.175Z",
-    "lastUpdatedBy": "邓奇缘"
+    "version": 298,
+    "lastUpdated": "2026-07-20T12:07:00.999Z",
+    "lastUpdatedBy": "杨子豪"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -8059,7 +8059,7 @@
       "type": "货品-整理仓库",
       "duration": "1.5小时",
       "detail": "收货，整理仓库",
-      "_updatedAt": 1784543650204
+      "_updatedAt": "1784543650204"
     },
     {
       "id": 1784546175156,
@@ -8077,7 +8077,7 @@
       "type": "货品-查鞋盒",
       "duration": "1小时",
       "detail": "货架1、2-4查鞋盒",
-      "_updatedAt": 1784548408116
+      "_updatedAt": "1784548408116"
     }
   ],
   "doorSchedule": [
@@ -10324,6 +10324,11 @@
           "time": "16:00:00-17:00:00",
           "staff": "田佳乐",
           "_updatedAt": "1784458155236"
+        },
+        {
+          "time": "19:00:00-20:00:00",
+          "staff": "杨子豪",
+          "_updatedAt": "1784549220954"
         },
         {
           "time": "20:00:00-21:00:00",
