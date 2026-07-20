@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 280,
-    "lastUpdated": "2026-07-20T07:14:01.049Z",
+    "version": 281,
+    "lastUpdated": "2026-07-20T07:14:41.457Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -7852,6 +7852,15 @@
       "duration": "1小时",
       "detail": "客流记录",
       "_updatedAt": 1784531625560
+    },
+    {
+      "id": 1784531675696,
+      "staff": "邓奇缘",
+      "date": "2026-07-20",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录客流",
+      "_updatedAt": 1784531675133
     }
   ],
   "doorSchedule": [
@@ -10110,9 +10119,19 @@
       "date": "2026-07-20",
       "slots": [
         {
+          "time": "11:00:00-12:00:00",
+          "staff": "李若彤",
+          "_updatedAt": "1784531653365"
+        },
+        {
           "time": "12:00:00-13:00:00",
           "staff": "王靳毓",
           "_updatedAt": "1784529969113"
+        },
+        {
+          "time": "14:00:00-15:00:00",
+          "staff": "邓奇缘",
+          "_updatedAt": "1784531641285"
         }
       ]
     }
