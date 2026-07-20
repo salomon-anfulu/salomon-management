@@ -151,6 +151,81 @@
        pages.js 的 _auth getter 和内联脚本的 Auth.init() 都依赖执行顺序。
        defer 脚本在 DOMContentLoaded 前执行，但内联脚本会立即执行 → 时序错乱。
        body 末尾 + 默认同步加载是当前架构的最可靠方案。 -->
+
+  <!-- v126+ 强制刷新探针：在 app.js 加载前运行，确保拿到最新工时/业绩数据 -->
+  <script>
+    (async function() {
+      const LAST_SEEN_KEY = '__lastSeenDataVersion';
+      const LS_LAST_REFRESH = '__lastForcedRefresh';
+      try {
+        // 1. 注册 Service Worker（一次性操作）
+        if ('serviceWorker' in navigator) {
+          // 延迟注册，避免阻塞首次渲染
+          setTimeout(() => {
+            navigator.serviceWorker.register('sw.js?v=126').catch(err => {
+              console.warn('[VersionProbe] SW 注册失败:', err.message);
+            });
+          }, 500);
+
+          // 监听 controller 变化（新 SW 接管）→ 不自动 reload，由探针决策
+          // 但如果 controller 已经换过且版本变了，探针的 reload 会接管
+        }
+
+        // 2. fetch version.json（绕缓存）
+        const ts = Date.now();
+        const resp = await fetch('version.json?_=' + ts, { cache: 'no-store' });
+        if (!resp.ok) {
+          console.warn('[VersionProbe] version.json 加载失败:', resp.status);
+          return;
+        }
+        const vinfo = await resp.json();
+        const latest = vinfo.dataVersion;
+        const lastSeen = localStorage.getItem(LAST_SEEN_KEY);
+
+        console.log('[VersionProbe] latest=' + latest + ' lastSeen=' + (lastSeen || 'none'));
+
+        // 3. 首次进入或版本变化
+        if (lastSeen && lastSeen === latest) {
+          // 版本一致，无需动作
+          return;
+        }
+
+        // 版本不一致或首次：记录并可能需要清缓存
+        // 防止短时间内循环 reload（如果 version.json 与代码不一致会死循环）
+        const lastRefresh = parseInt(localStorage.getItem(LS_LAST_REFRESH) || '0', 10);
+        const now = Date.now();
+        if (now - lastRefresh < 30 * 1000) {
+          console.warn('[VersionProbe] 距上次刷新 <30s，跳过避免循环 reload');
+          localStorage.setItem(LAST_SEEN_KEY, latest);
+          return;
+        }
+
+        // 4. 清理 Service Worker 缓存
+        if ('caches' in window) {
+          try {
+            const keys = await caches.keys();
+            await Promise.all(keys.map(k => caches.delete(k)));
+            console.log('[VersionProbe] 已清理 ' + keys.length + ' 个缓存');
+          } catch (e) {
+            console.warn('[VersionProbe] 清缓存失败:', e.message);
+          }
+        }
+
+        // 5. 记录已见到此版本 + 强制刷新标记
+        localStorage.setItem(LAST_SEEN_KEY, latest);
+        localStorage.setItem(LS_LAST_REFRESH, String(now));
+
+        // 6. 如果不是首次访问（lastSeen 存在但与 latest 不同），强制刷新
+        if (lastSeen && lastSeen !== latest) {
+          console.log('[VersionProbe] 检测到版本升级 ' + lastSeen + ' → ' + latest + '，强制刷新');
+          location.reload();
+        }
+      } catch (e) {
+        console.warn('[VersionProbe] 探针异常（非致命）:', e.message);
+      }
+    })();
+  </script>
+
   <script src="js/app.js?v=126"></script>
   <script src="js/sync.js?v=126"></script>
   <script src="js/pages.js?v=126"></script>
