@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 275,
-    "lastUpdated": "2026-07-19T14:36:11.935Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 276,
+    "lastUpdated": "2026-07-20T03:25:50.422Z",
+    "lastUpdatedBy": "initial-setup"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2763,7 +2763,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370523,
+          "_noteUpdatedAt": 1784517950413,
           "total": 29,
           "unavailable": [
             "7/22",
@@ -2898,7 +2898,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370523,
+          "_noteUpdatedAt": 1784517950414,
           "total": 25,
           "unavailable": [
             "7/13",
@@ -3037,7 +3037,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370523,
+          "_noteUpdatedAt": 1784517950414,
           "total": 29,
           "unavailable": [
             "7/2",
@@ -3191,7 +3191,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370523,
+          "_noteUpdatedAt": 1784517950414,
           "total": 24,
           "unavailable": [
             "7/6",
@@ -3331,7 +3331,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370523,
+          "_noteUpdatedAt": 1784517950414,
           "total": 31,
           "unavailable": []
         },
@@ -3465,7 +3465,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370523,
+          "_noteUpdatedAt": 1784517950414,
           "total": 29,
           "unavailable": [
             "7/13",
@@ -3631,7 +3631,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370524,
+          "_noteUpdatedAt": 1784517950414,
           "total": 31,
           "unavailable": []
         },
@@ -3768,7 +3768,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370524,
+          "_noteUpdatedAt": 1784517950414,
           "total": 26,
           "unavailable": [
             "7/2",
@@ -3891,7 +3891,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370524,
+          "_noteUpdatedAt": 1784517950414,
           "total": 20,
           "unavailable": [
             "7/21",
@@ -4026,7 +4026,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370524,
+          "_noteUpdatedAt": 1784517950414,
           "total": 28,
           "unavailable": [
             "7/13",
@@ -4137,7 +4137,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370524,
+          "_noteUpdatedAt": 1784517950414,
           "total": 18,
           "unavailable": [
             "7/19",
@@ -4232,7 +4232,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370524,
+          "_noteUpdatedAt": 1784517950414,
           "total": 21,
           "unavailable": []
         },
@@ -4335,7 +4335,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370524,
+          "_noteUpdatedAt": 1784517950414,
           "total": 18,
           "unavailable": [
             "7/25"
@@ -5180,7 +5180,7 @@
             }
           },
           "note": "",
-          "_noteUpdatedAt": 1783588370524,
+          "_noteUpdatedAt": 1784517950414,
           "total": 23,
           "unavailable": [
             "7/7",
@@ -10462,6 +10462,195 @@
         "无过度推销"
       ],
       "source": "大众点评（忠刚清香的小邹，Lv1）"
+    },
+    {
+      "id": 23,
+      "staffName": "孔祥宇",
+      "month": "2026-07",
+      "rating": 5,
+      "reviewDate": "2026-07-18",
+      "snippet": "第二次来萨洛蒙小白楼！上次买的鞋穿了大半年超舒服，这次想入新款，小孔推荐的款式完全踩在我的审美上。店里三层空间超好拍，法式小白楼超出片，全程没有过度推销，体验感满分，已经推荐朋友来逛逛街！",
+      "keywords": [
+        "二次到店",
+        "款式推荐准",
+        "三层空间",
+        "超出片",
+        "无过度推销",
+        "超预期"
+      ],
+      "source": "大众点评（匿名用户，Lv3）"
+    },
+    {
+      "id": 24,
+      "staffName": "孔祥宇",
+      "month": "2026-07",
+      "rating": 4,
+      "reviewDate": "2026-07-18",
+      "snippet": "安福路萨洛蒙小白楼真的超好逛！接待我的店员小孔人特别温柔，耐心给我挨个试热门小白XT，还主动带我逛三楼隐藏打卡空间，讲解鞋子面料和穿搭思路。整栋白色小楼氛围感拉满，款式齐全现货足，脚感轻便百搭，逛街徒步都合适，小孔服务贴心又专业，来买鞋认准她！",
+      "keywords": [
+        "温柔耐心",
+        "挨个试穿",
+        "三楼隐藏打卡",
+        "面料讲解",
+        "穿搭思路",
+        "氛围感",
+        "款式齐全",
+        "专业"
+      ],
+      "source": "大众点评（dpuser_2583924661，Lv1）"
+    },
+    {
+      "id": 25,
+      "staffName": "王龙宇",
+      "month": "2026-07",
+      "rating": 5,
+      "reviewDate": "2026-07-19",
+      "snippet": "王龙宇服务很好，特别有耐心讲解，根据需求为我挑选合适的鞋子，店里陈列美观，感受到了店员的用心，下次还去这里来！",
+      "keywords": [
+        "耐心讲解",
+        "按需推荐",
+        "陈列美观",
+        "下次还去",
+        "超预期"
+      ],
+      "source": "大众点评（海的孩子，Lv1）",
+      "amount": 600
+    },
+    {
+      "id": 26,
+      "staffName": "邓奇缘",
+      "month": "2026-07",
+      "rating": 5,
+      "reviewDate": "2026-07-19",
+      "snippet": "在店里看中了一款复古鞋，经过天天小哥的介绍之后打算买下，非常愉快的一次购物经历。",
+      "keywords": [
+        "复古鞋",
+        "天天介绍",
+        "愉快购物",
+        "超预期"
+      ],
+      "source": "大众点评（jjjjjjj，Lv1）",
+      "amount": 1298
+    },
+    {
+      "id": 27,
+      "staffName": "邓奇缘",
+      "month": "2026-07",
+      "rating": 5,
+      "reviewDate": "2026-07-19",
+      "snippet": "来安福路逛街发现这里居然开了一家salomon，听销售天天介绍这家店的潮流款式最多，他带我们逛完了整栋楼也介绍了很多，特别好的一次体验。",
+      "keywords": [
+        "潮流款式多",
+        "天天带逛",
+        "整栋楼导览",
+        "详细介绍",
+        "超预期"
+      ],
+      "source": "大众点评（MineMine，Lv1）",
+      "amount": 1500
+    },
+    {
+      "id": 28,
+      "staffName": "玛依拉",
+      "month": "2026-07",
+      "rating": 5,
+      "reviewDate": "2026-07-19",
+      "snippet": "The place is amazing! Also Kiki's service is really amazing! Helping us a lot",
+      "keywords": [
+        "Amazing",
+        "Kiki服务好",
+        "帮助很多",
+        "超预期"
+      ],
+      "source": "大众点评（Kay，Lv6）"
+    },
+    {
+      "id": 29,
+      "staffName": "王龙宇",
+      "month": "2026-07",
+      "rating": 5,
+      "reviewDate": "2026-07-20",
+      "snippet": "导购龙宇专业又贴心，讲解细致，试鞋全程耐心帮忙，无过度推销，推荐精准，服务体验极佳，款式齐全，环境好看，值得专程来逛！",
+      "keywords": [
+        "专业贴心",
+        "讲解细致",
+        "全程耐心",
+        "无过度推销",
+        "推荐精准",
+        "环境好看",
+        "值得专程",
+        "超预期"
+      ],
+      "source": "大众点评（Lil_花，Lv1）",
+      "amount": 700
+    },
+    {
+      "id": 30,
+      "staffName": "玛依拉",
+      "month": "2026-07",
+      "rating": 5,
+      "reviewDate": "2026-07-20",
+      "snippet": "导购kiki人超好，耐心讲品牌故事，对产品门儿清。店装修有格调，细节处见用心，比如那块大S标和黑板墙，氛围感拉满。体验很舒服，值得来逛～",
+      "keywords": [
+        "kiki人超好",
+        "品牌故事",
+        "产品专业",
+        "装修有格调",
+        "大S标",
+        "黑板墙",
+        "细节用心",
+        "氛围感",
+        "超预期"
+      ],
+      "source": "大众点评（阿宁，Lv1）"
+    },
+    {
+      "id": 31,
+      "staffName": "王龙宇",
+      "month": "2026-07",
+      "rating": 5,
+      "reviewDate": "2026-07-20",
+      "snippet": "我去，龙宇哥太帅了，你还别说龙宇哥这么帅一大模特没有一点架子，超级亲和！导览员做得还是有点东西啊，今天逛店爽了，享受服务还能见超模",
+      "keywords": [
+        "亲和",
+        "超模颜值",
+        "无架子",
+        "导览专业",
+        "超预期"
+      ],
+      "source": "大众点评（匿名用户，Lv3）"
+    },
+    {
+      "id": 32,
+      "staffName": "王雅澜",
+      "month": "2026-07",
+      "rating": 5,
+      "reviewDate": "2026-07-19",
+      "snippet": "雅澜的服务很热情，线下购物的体验很好！",
+      "keywords": [
+        "服务热情",
+        "体验好",
+        "超预期"
+      ],
+      "source": "大众点评（noangel220，Lv4）"
+    },
+    {
+      "id": 33,
+      "staffName": "王龙宇",
+      "month": "2026-07",
+      "rating": 5,
+      "reviewDate": "2026-07-20",
+      "snippet": "强烈安利导购龙宇！待人温和又细心，耐心解答我好多小白问题，不强行推销，安安静静帮我挑选合适的鞋子，体验感满分啦",
+      "keywords": [
+        "强烈安利",
+        "温和细心",
+        "耐心解答",
+        "不强行推销",
+        "安安静静",
+        "体验满分",
+        "超预期"
+      ],
+      "source": "大众点评（小张胃胀，Lv1）"
     }
   ],
   "_deletedDoorSlots": {
