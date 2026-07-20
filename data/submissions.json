@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 321,
-    "lastUpdated": "2026-07-20T19:55:01.039Z",
-    "lastUpdatedBy": "邓奇缘"
+    "version": 322,
+    "lastUpdated": "2026-07-20T23:08:21.207Z",
+    "lastUpdatedBy": "田佳乐"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -8277,6 +8277,15 @@
       "duration": "0.5小时",
       "detail": "检查黄总物品(玻璃杯)",
       "_updatedAt": "1784550467836"
+    },
+    {
+      "id": 1784588900614,
+      "staff": "田佳乐",
+      "date": "2026-07-21",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记客流1小时",
+      "_updatedAt": 1784588900431
     }
   ],
   "doorSchedule": [
