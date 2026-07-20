@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 293,
-    "lastUpdated": "2026-07-20T10:17:19.510Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 294,
+    "lastUpdated": "2026-07-20T10:31:03.812Z",
+    "lastUpdatedBy": "admin"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -5103,7 +5103,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5181,10 +5181,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -6055,12 +6054,14 @@
       "id": 17,
       "name": "贾长乐",
       "gender": "男",
-      "dept": "仓库兼职",
+      "dept": "Service Team",
       "joinDate": "2026-03-10",
       "status": "active",
       "avatar_color": "#f472b6",
       "availableDays": 13,
-      "mbti": ""
+      "mbti": "",
+      "transferredFrom": "仓库兼职",
+      "serviceTeamStartDate": "2026-07-20"
     },
     {
       "id": 18,
@@ -6084,7 +6085,9 @@
       "status": "active",
       "avatar_color": "#fbbf24",
       "availableDays": 19,
-      "mbti": ""
+      "mbti": "",
+      "transferredFrom": "仓库兼职",
+      "serviceTeamStartDate": "2026-07-20"
     },
     {
       "id": 20,
