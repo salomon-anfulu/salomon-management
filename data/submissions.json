@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 300,
-    "lastUpdated": "2026-07-20T12:25:37.331Z",
+    "version": 301,
+    "lastUpdated": "2026-07-20T12:26:12.160Z",
     "lastUpdatedBy": "梁实秋"
   },
   "availability": {
@@ -8086,7 +8086,16 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "退仓",
-      "_updatedAt": 1784550337281
+      "_updatedAt": "1784550337281"
+    },
+    {
+      "id": 1784550372945,
+      "staff": "梁实秋",
+      "date": "2026-07-20",
+      "type": "货品-整理仓库",
+      "duration": "0.5小时",
+      "detail": "整理1.5仓库",
+      "_updatedAt": 1784550372111
     }
   ],
   "doorSchedule": [
