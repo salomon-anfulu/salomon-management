@@ -1,6 +1,6 @@
 # 安福路 Salomon 兼职管理系统
 
-> 单人项目 · 纯前端 · GitHub Pages 部署 · v130 (2026-07-20)
+> 单人项目 · 纯前端 · GitHub Pages 部署 · v133 (2026-07-20)
 
 ## 一句话定位
 安福路 Salomon 旗舰店（L140）兼职团队管理系统：12 个模块（工作台/我的填报/人员/供班/考勤/门迎/评分/业绩/店务/好评/手册/数据管理）覆盖兼职全生命周期。
@@ -27,11 +27,11 @@ sw.js           Service Worker（v130 起不再注册新实例，启动探针会
 version.json    版本探针事实源（升级时必改）
 data/submissions.json   云同步载体（只含 staff/availability/shifts/support/door/reviews 等）
 .github/workflows/      deploy.yml（Pages 部署）+ linggong-auto.yml（每天 22:00 CI 拉取灵工打卡）
-scripts/                工具脚本 + archive/（历史一次性脚本，已 .gitignore）
+scripts/                工具脚本（灵工打卡 CI + 合并 + 报告生成）
 ```
 
 ## 关键约束（违反就会出 bug）
-1. **每次升版本必须同步改 3 处**: `DATA_VERSION`/`_dataVersion`(app.js) + `?v=`(index.html 3 处) + `version.json`。v130 起不再注册新 SW，由启动探针接管缓存控制
+1. **每次升版本必须同步改 4 处**: `_dataVersion`(app.js defaults) + `DATA_VERSION`(app.js init) + `?v=`(index.html 3 个 script 标签) + `version.json`(dataVersion + cacheBuster)。v130 起不再注册新 SW，由启动探针接管缓存控制
 2. **工时永远从 signIn/signOut 精确计算**，绝不能直接用灵工系统的 `totalHours` 字段（v128 教训）
 3. **修数据时必须同时检查 Store.defaults 和 pages.js 渲染逻辑**，否则动态计算会覆盖正确值（v128 教训）
 4. **人员部门改动**: 只改 `staff.dept`，所有模块按 dept 动态筛选自动级联；新增 Service Team 成员还需手动加 performanceData record + ratings placeholder
@@ -39,9 +39,12 @@ scripts/                工具脚本 + archive/（历史一次性脚本，已 .g
 6. **localStorage 安全**: 所有 `.split()/.replace()/.slice()` 必须用 `_safeXxx` 工具函数；所有用户输入拼 innerHTML 前必须用 `_esc()` 包裹
 7. **JS 时区坑**: 永远不要用 `new Date(y, m, 0).toISOString().slice(0,7)`（UTC+8 偏移），用纯算术 `_ymKey(y, m)` 替代
 
-## 当前状态（v130）
+## 当前状态（v133）
 - Service Team: 16 人 / 仓库兼职: 5 人
-- v130 修复: 启动探针加 SW 注销逻辑，解决"代码改了但客户端不生效"问题
+- v133 修复: 业绩页 workHours ReferenceError（pages.js:3156，v80 起 bug）
+- v132 修复: staff dept 每次 init 强制同步（不依赖版本号）
+- v131 更新: 灵工打卡至 7/20 晚班完成（495 条）
+- v130 修复: 启动探针加 SW 注销逻辑
 - 7月业绩: totalSales=127,290（结算口径，含退换货扣减）
 - 灵工打卡: 495 条（6/1~7/20），CI 每日自动拉取
 - 顾客好评: 33 条
