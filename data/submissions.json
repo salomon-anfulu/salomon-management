@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 302,
-    "lastUpdated": "2026-07-20T12:27:07.789Z",
+    "version": 303,
+    "lastUpdated": "2026-07-20T12:28:08.621Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -8104,7 +8104,16 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "1.5记录客流",
-      "_updatedAt": 1784550406766
+      "_updatedAt": "1784550406766"
+    },
+    {
+      "id": 1784550467995,
+      "staff": "梁实秋",
+      "date": "2026-07-20",
+      "type": "货品-整理仓库",
+      "duration": "0.5小时",
+      "detail": "检查黄总物品(玻璃杯)",
+      "_updatedAt": 1784550467836
     }
   ],
   "doorSchedule": [
