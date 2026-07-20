@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 295,
-    "lastUpdated": "2026-07-20T10:31:17.276Z",
-    "lastUpdatedBy": "admin"
+    "version": 296,
+    "lastUpdated": "2026-07-20T11:16:14.871Z",
+    "lastUpdatedBy": "王靳毓"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -8050,6 +8050,15 @@
       "duration": "1小时",
       "detail": "1.5f记客流",
       "_updatedAt": "1784538365909"
+    },
+    {
+      "id": 1784546175156,
+      "staff": "王靳毓",
+      "date": "2026-07-20",
+      "type": "其他",
+      "duration": "1.5小时",
+      "detail": "4f熨烫新品",
+      "_updatedAt": 1784546174796
     }
   ],
   "doorSchedule": [
