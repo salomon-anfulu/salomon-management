@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 278,
-    "lastUpdated": "2026-07-20T06:46:09.180Z",
-    "lastUpdatedBy": "王靳毓"
+    "version": 279,
+    "lastUpdated": "2026-07-20T07:13:30.581Z",
+    "lastUpdatedBy": "朱凯赟"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -5103,7 +5103,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5181,9 +5181,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1783588370524,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -7715,7 +7716,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记录客流",
-      "_updatedAt": 1784365455416
+      "_updatedAt": "1784365455416"
     },
     {
       "id": 1784368532295,
@@ -7833,6 +7834,15 @@
       "duration": "1小时",
       "detail": "记录客流",
       "_updatedAt": "1784462506924"
+    },
+    {
+      "id": 1784531610698,
+      "staff": "朱凯赟",
+      "date": "2026-07-20",
+      "type": "货品-整理仓库",
+      "duration": "1.5小时",
+      "detail": "辅助vm把衣服归仓",
+      "_updatedAt": 1784531610527
     }
   ],
   "doorSchedule": [
@@ -9969,6 +9979,11 @@
           "time": "17:00:00-18:00:00",
           "staff": "何秋烨",
           "_updatedAt": "1784287586948"
+        },
+        {
+          "time": "18:00:00-19:00:00",
+          "staff": "朱凯赟",
+          "_updatedAt": "1784286254417"
         },
         {
           "time": "19:00:00-20:00:00",
