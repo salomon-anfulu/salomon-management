@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 318,
-    "lastUpdated": "2026-07-20T16:54:06.718Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 319,
+    "lastUpdated": "2026-07-20T19:53:19.998Z",
+    "lastUpdatedBy": "邓奇缘"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -10563,6 +10563,11 @@
           "time": "15:00:00-16:00:00",
           "staff": "邓奇缘",
           "_updatedAt": "1784560422505"
+        },
+        {
+          "time": "20:00:00-21:00:00",
+          "staff": "邓奇缘",
+          "_updatedAt": "1784577199938"
         }
       ]
     }
