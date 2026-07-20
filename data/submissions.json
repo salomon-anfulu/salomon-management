@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 294,
-    "lastUpdated": "2026-07-20T10:31:03.812Z",
+    "version": 295,
+    "lastUpdated": "2026-07-20T10:31:17.276Z",
     "lastUpdatedBy": "admin"
   },
   "availability": {
@@ -6054,7 +6054,7 @@
       "id": 17,
       "name": "贾长乐",
       "gender": "男",
-      "dept": "Service Team",
+      "dept": "仓库兼职",
       "joinDate": "2026-03-10",
       "status": "active",
       "avatar_color": "#f472b6",
@@ -6080,7 +6080,7 @@
       "id": 19,
       "name": "梁实秋",
       "gender": "男",
-      "dept": "仓库兼职",
+      "dept": "Service Team",
       "joinDate": "2026-01-25",
       "status": "active",
       "avatar_color": "#fbbf24",
