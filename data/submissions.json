@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 310,
-    "lastUpdated": "2026-07-20T14:42:44.354Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 311,
+    "lastUpdated": "2026-07-20T15:08:39.633Z",
+    "lastUpdatedBy": "initial-setup"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -6055,7 +6055,7 @@
       "id": 17,
       "name": "贾长乐",
       "gender": "男",
-      "dept": "仓库兼职",
+      "dept": "Service Team",
       "joinDate": "2026-03-10",
       "status": "active",
       "avatar_color": "#f472b6",
