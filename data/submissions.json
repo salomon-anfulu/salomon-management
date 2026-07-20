@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 287,
-    "lastUpdated": "2026-07-20T09:01:58.426Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 288,
+    "lastUpdated": "2026-07-20T09:06:06.010Z",
+    "lastUpdatedBy": "王靳毓"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -5103,7 +5103,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5181,10 +5181,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -7836,6 +7835,15 @@
       "_updatedAt": "1784462506924"
     },
     {
+      "id": 1784529995590,
+      "staff": "王靳毓",
+      "date": "2026-07-20",
+      "type": "其他",
+      "duration": "0.5小时",
+      "detail": "退仓撤样",
+      "_updatedAt": 1784529995008
+    },
+    {
       "id": 1784531610698,
       "staff": "朱凯赟",
       "date": "2026-07-20",
@@ -7861,6 +7869,15 @@
       "duration": "1小时",
       "detail": "记录客流",
       "_updatedAt": "1784531675133"
+    },
+    {
+      "id": 1784538366329,
+      "staff": "王靳毓",
+      "date": "2026-07-20",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "1.5f记客流",
+      "_updatedAt": 1784538365909
     }
   ],
   "doorSchedule": [
