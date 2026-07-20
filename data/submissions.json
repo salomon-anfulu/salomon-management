@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 279,
-    "lastUpdated": "2026-07-20T07:13:30.581Z",
-    "lastUpdatedBy": "朱凯赟"
+    "version": 280,
+    "lastUpdated": "2026-07-20T07:14:01.049Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7842,7 +7842,16 @@
       "type": "货品-整理仓库",
       "duration": "1.5小时",
       "detail": "辅助vm把衣服归仓",
-      "_updatedAt": 1784531610527
+      "_updatedAt": "1784531610527"
+    },
+    {
+      "id": 1784531625590,
+      "staff": "朱凯赟",
+      "date": "2026-07-20",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "客流记录",
+      "_updatedAt": 1784531625560
     }
   ],
   "doorSchedule": [
