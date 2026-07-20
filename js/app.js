@@ -31,9 +31,9 @@ const Store = {
       { id: 14, name: '严佳铮', gender: '男', dept: '仓库兼职', joinDate: '2026-03-01', status: 'active', avatar_color: '#22d3ee', availableDays: 7, mbti: '' },
       { id: 15, name: '祖白代', gender: '女', dept: '仓库兼职', joinDate: '2026-01-20', status: 'active', avatar_color: '#fb923c', availableDays: 29, mbti: '' },
       { id: 16, name: '陈广权', gender: '男', dept: '仓库兼职', joinDate: '2026-02-05', status: 'active', avatar_color: '#a78bfa', availableDays: 26, mbti: '' },
-      { id: 17, name: '贾长乐', gender: '男', dept: '仓库兼职', joinDate: '2026-03-10', status: 'active', avatar_color: '#f472b6', availableDays: 13, mbti: '' },
+      { id: 17, name: '贾长乐', gender: '男', dept: 'Service Team', joinDate: '2026-03-10', status: 'active', avatar_color: '#f472b6', availableDays: 13, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-20' },
       { id: 18, name: '玛依拉', gender: '女', dept: 'Service Team', joinDate: '2026-02-15', status: 'active', avatar_color: '#34d399', availableDays: 23, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-01' },
-      { id: 19, name: '梁实秋', gender: '男', dept: '仓库兼职', joinDate: '2026-01-25', status: 'active', avatar_color: '#fbbf24', availableDays: 19, mbti: '' },
+      { id: 19, name: '梁实秋', gender: '男', dept: 'Service Team', joinDate: '2026-01-25', status: 'active', avatar_color: '#fbbf24', availableDays: 19, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-20' },
     ],
 
     // 供班数据（多月结构，支持逐日状态+备注）
@@ -913,7 +913,9 @@ ratings: [
     { "id": 112, "staffId": 12, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
     { "id": 113, "staffId": 13, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
     { "id": 114, "staffId": 20, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
-    { "id": 115, "staffId": 18, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 }
+    { "id": 115, "staffId": 18, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 116, "staffId": 17, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 },
+    { "id": 117, "staffId": 19, "month": "2026-07", scores: { availability: 5, performance: 0, behavior: 0, attendance: 5, customerReview: 1 }, comment: "7月待评", avgScore: 0, hourlyRate: 28 }
     ],
 
 
@@ -5235,6 +5237,30 @@ linggongAttendance: {
                         hourlyOutput: 46,
                         salesShare: 0.0124,
                         categories: '服装 100.0%'
+                },
+                {
+                        name: '贾长乐',
+                        sales: 0,
+                        qty: 0,
+                        tickets: 0,
+                        upt: 0,
+                        avgPrice: 0,
+                        workHours: 56.4,
+                        hourlyOutput: 0,
+                        salesShare: 0,
+                        categories: '-'
+                },
+                {
+                        name: '梁实秋',
+                        sales: 0,
+                        qty: 0,
+                        tickets: 0,
+                        upt: 0,
+                        avgPrice: 0,
+                        workHours: 79.4,
+                        hourlyOutput: 0,
+                        salesShare: 0,
+                        categories: '-'
                 }
               ]
             },
@@ -5276,7 +5302,7 @@ linggongAttendance: {
       { id: 33, staffName: '王龙宇', month: '2026-07', rating: 5, reviewDate: '2026-07-20', snippet: '强烈安利导购龙宇！待人温和又细心，耐心解答我好多小白问题，不强行推销，安安静静帮我挑选合适的鞋子，体验感满分啦', keywords: ['强烈安利', '温和细心', '耐心解答', '不强行推销', '安安静静', '体验满分', '超预期'], source: '大众点评（小张胃胀，Lv1）' },
     ],
 
-    _dataVersion: '2026-07-22-v128',  },
+    _dataVersion: '2026-07-20-v129',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -5320,7 +5346,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-22-v128';
+      const DATA_VERSION = '2026-07-20-v129';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       

@@ -1,116 +1,122 @@
-# v127 工时数据强制刷新加固
+# v128 工时第一性原理修复
 
-> 版本: v126 → v127
+> 版本: v127 → v128
 > 日期: 2026-07-22
-> 范围: 新增 Service Worker + 版本探针，解决"其他设备可能因缓存拿不到最新工时数据"的隐患
+> 范围: 修复 pages.js 动态计算 bug + 数据合并 bug，让工时显示真正与灵工系统一致
 
 ---
 
-## 背景
+## 🔴 根本原因（重大 bug！）
 
-v126 校准了 13 人的工时（龚赟昊 125.5h→78.3h、王雅澜等），通过 git push 发布到 GitHub Pages。
-但有一个隐患：**如果其他设备的浏览器缓存了旧版 `index.html`，会引用旧 `?v=125`，加载旧 `app.js`，拿到过时的工时数据**。
+**v126 时只改了 `Store.defaults.performanceData.july.records[].workHours`，但 `pages.js` 渲染时的"动态计算"逻辑会用 `sum(totalHours)` 覆盖这个正确值！**
 
-而且工时数据走的是非常规通道：
-- `linggongAttendance` / `performanceData` / `workHours` **不进入 submissions.json 云同步流**
-- 它们是代码级数据，硬编码在 `js/app.js` 的 `Store.defaults` 里
-- 流转：`defaults → _migrateData(版本不匹配时merge) → localStorage`
-- 同步方式只有一种：**git push → GitHub Pages 发布新版 app.js**
+由于 `totalHours` 字段不可信（v126 教训：7/3 龚赟昊显示 60h 实际只有 9h），导致显示工时严重虚高：
 
-所以必须保证其他设备一定能拿到最新 `index.html`，才能拿到最新工时。
+| 员工 | v126 正确值 | 用户实际看到（bug） | 误差 |
+|------|------------|---------------------|------|
+| 龚赟昊 | 78.3h | 140.5h | +62.2h ⚠️ |
+| 杨子豪 | 95.9h | 184.5h | +88.6h ⚠️ |
+| 朱凯赟 | 61.5h | 132.5h | +71.0h ⚠️ |
+| 王靳毓 | 63.7h | 124.5h | +60.8h ⚠️ |
+| 玛依拉 | 71.2h | 126.5h | +55.3h ⚠️ |
 
 ---
 
-## 方案：三件套
+## 修复方案
 
-### 1. `version.json`（根目录，单一事实源）
+### 1. pages.js 新增工具函数（pages.js:232-298）
 
-```json
-{
-  "dataVersion": "2026-07-20-v126",
-  "cacheBuster": "126",
-  "updatedAt": "2026-07-20"
+```javascript
+// 从 signIn/signOut 精确计算单条净工时
+function _calcNetHours(record) {
+  // >6h 扣 1h 午休
+  // 跨日处理（22:00→06:00 = 8h）
+}
+
+// 批量计算某人某月净工时
+function _calcPersonMonthHours(records, personName, yearMonth, opts) {
+  // 自带名字归一化（玛依拉·努尔夏提→玛依拉）
+  // 同人同日多条去重（打卡正常优先）
+  // 支持 excludeToday 排除进行中当天
 }
 ```
 
-每次升级工时数据时同步更新此文件。
+### 2. 替换 5 处错误计算
 
-### 2. `sw.js`（Service Worker）
+| 位置 | 原逻辑 | 修复后 |
+|------|--------|--------|
+| 业绩模块动态计算 | `sum(parseFloat(r.totalHours))` | `_calcPersonMonthHours(...)` |
+| 评分模块 workHours=0 兜底 | `sum(r.totalHours \|\| 0)` | `_calcPersonMonthHours(...)` |
+| 考勤页面 lgTotalHours | `sum(parseFloat(r.totalHours))` | `sum(_calcNetHours(r))` |
+| 单日工时列显示 | `r.totalHours + 'h'` | `_calcNetHours(r).toFixed(1) + 'h'` |
+| 我的考勤页面 | `sum(r.totalHours \|\| 0)` | `sum(_calcNetHours(r))` |
 
-| 资源类型 | 缓存策略 | 原因 |
-|---------|---------|------|
-| HTML 导航请求 | **network-only** | 永远拿最新 index.html，避免引用旧 ?v= |
-| version.json | **no-store** | 探针必须拿真实最新值 |
-| JS/CSS | **stale-while-revalidate** | 先返回缓存快速渲染，后台拉新版下次生效 |
-| 图片/字体 | **cache-first 7天 TTL** | 静态资源减少重复下载 |
+### 3. sync_linggong_to_app.js 修复
 
-### 3. `index.html` 启动探针（app.js 加载前执行）
+名字归一化冲突场景：源数据同名同天有多条（如"玛依拉"+"玛依拉·努尔夏提"），改为按"完整度评分"择优：
 
-```
-fetch version.json?_=timestamp    // 绕缓存
-  ↓
-对比 localStorage.__lastSeenDataVersion
-  ↓ 一致
-  无动作（用户无感）
-  ↓ 不一致
-  ① 清所有 SW 缓存 (caches.deleteAll)
-  ② 记录 __lastSeenDataVersion = latest
-  ③ location.reload()    // 加载最新 app.js
-  ↓
-30 秒循环保护
-  距上次刷新 <30s → 跳过 reload，避免死循环
-```
+| 评分 | 状态 |
+|-----|------|
+| 4 分 | 打卡正常 + signOut 非空（最完整）|
+| 3 分 | 打卡正常 + signOut 空 |
+| 2 分 | 打卡异常 + signOut 非空 |
+| 1 分 | 打卡进行中 + signOut 空（最残缺）|
+
+**修复前**：玛依拉 7/15 是"打卡进行中 signIn=12:07 signOut=空"（被错误覆盖）
+**修复后**：玛依拉 7/15 是"打卡正常 12:07→21:00 8h"
 
 ---
 
-## 验证结果
+## 数据更新
 
-### 探针逻辑（4 种场景 node 模拟）
-
-| 场景 | lastSeen | latest | 期望 reload | 期望清缓存 | 实测 |
-|------|----------|--------|------------|-----------|------|
-| S1 首次访问 | 无 | v126 | ❌ | ✅ | ✅ |
-| S2 版本一致 | v126 | v126 | ❌ | ❌ | ✅ |
-| S3 版本升级 | v125 | v126 | ✅ | ✅ | ✅ |
-| S4 30s 内循环保护 | v125 (10s前刷新过) | v126 | ❌ | ❌ | ✅ |
-
-### 线上 GitHub Pages 验证
-
-```
-✅ version.json  → HTTP 200，内容包含 dataVersion: 2026-07-20-v126
-✅ sw.js         → HTTP 200
-✅ index.html    → 8 处 VersionProbe 标记
-✅ index.html    → 1 处 sw.js 引用
-```
+- `linggongAttendance.records`: 484 → 495 条（补 7/20 数据 + 修复 7/15 玛依拉）
+- `_dataVersion`: 2026-07-20-v126 → 2026-07-22-v128
+- cacheBuster: 126 → 128
 
 ---
 
-## ⚠️ 今后升级工时数据的工作流（重要！）
+## 验证（全通过 ✅）
 
-每次更新 `app.js` 的 `linggongAttendance` / `performanceData` / `_dataVersion` 时：
+### T1: `_calcNetHours` 基础用例（7/7 通过）
+- 8h 工作扣午休 = 7h ✅
+- 4h 不扣 = 4h ✅
+- 跨日 22:00→06:00 = 7h ✅
+- null 守卫 ✅
 
-1. ✏️ `index.html` 三个 `?v=NNN` 改成新值（已有惯例）
-2. ✏️ **`version.json`** 的 `dataVersion` 和 `cacheBuster` 改成新值（**新增**）
-3. ✏️ **`index.html` 探针代码块** 的 `sw.js?v=NNN` 改成新值（**新增**）
-4. 🚀 `git push origin main` → GitHub Pages 自动部署
+### T2: 13 人 + 唐蓉（自动补）（14/14 通过）
 
-漏掉任何一步都会导致其他设备的探针检测不到版本变化。
+| 员工 | v126 期望 | v128 实算 | 天数 |
+|------|----------|----------|------|
+| 龚赟昊 | 78.3h | 78.3h ✅ | 11 |
+| 王雅澜 | 83.6h | 83.6h ✅ | 12 |
+| 孔祥宇 | 82.1h | 82.1h ✅ | 12 |
+| 王靳毓 | 63.7h | 63.7h ✅ | 9 |
+| 何秋烨 | 60.9h | 60.9h ✅ | 10 |
+| 朱凯赟 | 61.5h | 61.5h ✅ | 8 |
+| 田佳乐 | 59.9h | 59.9h ✅ | 9 |
+| 李若彤 | 68.1h | 68.1h ✅ | 11 |
+| 邓奇缘 | 63.3h | 63.3h ✅ | 9 |
+| 迟骋 | 49.0h | 49.0h ✅ | 7 |
+| 杨子豪 | 95.9h | 95.9h ✅ | 13 |
+| 玛依拉 | 71.2h | 71.2h ✅ | 9 |
+| 王龙宇 | 32.1h | 32.1h ✅ | 5 |
+| 唐蓉（v80 自动补）| 有即可 | 81.7h ✅ | 11 |
 
 ---
 
-## 文件改动
+## ⚠️ 工时计算的核心教训（永久记忆）
 
-| 文件 | 操作 | 行数 |
-|------|------|------|
-| `version.json` | 🆕 新增 | 6 行 |
-| `sw.js` | 🆕 新增 | 137 行 |
-| `index.html` | ✏️ 修改 | +76 行（注入探针 IIFE） |
+**`pages.js` 渲染时的动态计算逻辑会覆盖 `Store.defaults` 里的值！** 修数据时必须同时检查：
 
-**总计**: 3 文件，+230 行（无删除）
+1. ✅ `Store.defaults` 里的数据是否正确
+2. ✅ **`pages.js` 的渲染逻辑是否使用正确字段计算**
+
+v126 只改了 1 没改 2，导致白改。v128 补齐 2 才真正生效。
 
 ---
 
 ## git
 
-- **commit**: `fc28011 v127: 工时数据强制刷新加固 - SW+版本探针`
-- **push**: 已 push origin/main（rebase 了云端 v288 sync 提交）
+- **commit**: `6c32812 v128: 工时第一性原理修复 - pages.js 全面替换 totalHours`
+- **push**: 已 push origin/main
+- **GitHub Pages**: version.json=v128, cache-buster=v128, app.js _dataVersion=v128, pages.js _calcNetHours=12 处引用
