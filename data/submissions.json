@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 324,
-    "lastUpdated": "2026-07-20T23:10:38.385Z",
-    "lastUpdatedBy": "贾长乐"
+    "version": 325,
+    "lastUpdated": "2026-07-20T23:11:40.804Z",
+    "lastUpdatedBy": "田佳乐"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -8286,6 +8286,15 @@
       "duration": "1小时",
       "detail": "记客流1小时",
       "_updatedAt": "1784588900431"
+    },
+    {
+      "id": 1784589101376,
+      "staff": "田佳乐",
+      "date": "2026-07-21",
+      "type": "陈列-翻场支援",
+      "duration": "0.5小时",
+      "detail": "帮助陈列 2楼熨烫检查卖场衣服0.5小时",
+      "_updatedAt": 1784589100748
     }
   ],
   "doorSchedule": [
