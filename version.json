@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-07-22-v131",
-  "cacheBuster": "131",
+  "dataVersion": "2026-07-22-v132",
+  "cacheBuster": "132",
   "updatedAt": "2026-07-20",
   "description": "版本探针事实源 - app.js 启动时 fetch 此文件检测是否有新版本需要强制刷新"
 }

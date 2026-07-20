@@ -5302,7 +5302,7 @@ linggongAttendance: {
       { id: 33, staffName: '王龙宇', month: '2026-07', rating: 5, reviewDate: '2026-07-20', snippet: '强烈安利导购龙宇！待人温和又细心，耐心解答我好多小白问题，不强行推销，安安静静帮我挑选合适的鞋子，体验感满分啦', keywords: ['强烈安利', '温和细心', '耐心解答', '不强行推销', '安安静静', '体验满分', '超预期'], source: '大众点评（小张胃胀，Lv1）' },
     ],
 
-    _dataVersion: '2026-07-22-v131',  },
+    _dataVersion: '2026-07-22-v132',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -5346,7 +5346,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-22-v131';
+      const DATA_VERSION = '2026-07-22-v132';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -5523,6 +5523,47 @@ linggongAttendance: {
 
         this._safeSetItem(this.KEY, JSON.stringify(merged));
       }
+
+      // ===== v132: 每次 init 都强制同步 staff dept（不依赖版本号）=====
+      // 根因：_migrateData 只在版本不匹配时才执行。如果用户 localStorage 已存
+      // 当前版本号但 staff 数据陈旧，后续访问永远跳过 migration，导致代码层
+      // 的人员调整（如转部门）永远无法生效。
+      // 修复：无论版本是否匹配，都用 defaults.staff 的 dept/status/transferredFrom/
+      // serviceTeamStartDate 强制覆盖用户数据中的同名成员。
+      try {
+        const _cur = JSON.parse(this._safeGetItem(this.KEY) || '{}');
+        if (Array.isArray(_cur.staff) && Array.isArray(this.defaults.staff)) {
+          const _defMap = new Map(this.defaults.staff.map(s => [String(s.id), s]));
+          let _changed = false;
+          _cur.staff = _cur.staff.map(s => {
+            const _def = _defMap.get(String(s.id));
+            if (!_def) return s;
+            // 强制同步部门相关字段
+            if (s.dept !== _def.dept ||
+                s.status !== _def.status ||
+                (s.transferredFrom || '') !== (_def.transferredFrom || '') ||
+                (s.serviceTeamStartDate || '') !== (_def.serviceTeamStartDate || '')) {
+              _changed = true;
+              return {
+                ...s,
+                dept: _def.dept,
+                status: _def.status,
+                transferredFrom: _def.transferredFrom || s.transferredFrom,
+                serviceTeamStartDate: _def.serviceTeamStartDate || s.serviceTeamStartDate
+              };
+            }
+            return s;
+          });
+          if (_changed) {
+            this._safeSetItem(this.KEY, JSON.stringify(_cur));
+            console.log('[Store] v132: staff dept 强制同步完成');
+          }
+        }
+      } catch (_syncErr) {
+        console.warn('[Store] staff dept 同步失败(非致命):', _syncErr);
+      }
+      // ===== v132 staff dept 强制同步 END =====
+
     } catch (e) {
       console.error('[Store] 数据解析失败，尝试安全备份后重置:', e);
       // Safety backup before reset to prevent total data loss
