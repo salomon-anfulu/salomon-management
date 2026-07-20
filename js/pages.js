@@ -3153,8 +3153,9 @@ function renderPerformance() {
     const sales = r.sales || 0;
     r.workDays = days;
     r.workHours = hours;
-    if (sales > 0 && workHours > 0) {
-      r.hourlyOutput = Math.round((sales / workHours) * 10) / 10;
+    // v132.1 bugfix: workHours → hours（原代码引用未定义的 workHours 全局变量，抛 ReferenceError 导致业绩页崩溃）
+    if (sales > 0 && hours > 0) {
+      r.hourlyOutput = Math.round((sales / hours) * 10) / 10;
     }
   });
 
