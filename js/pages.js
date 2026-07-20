@@ -231,6 +231,87 @@ function _esc(str) {
 }
 
 /**
+ * v128 第一性原理工时计算（v126 教训：totalHours 字段不可信）
+ * 从 signIn/signOut 精确计算 + 扣午休（>6h扣1h）+ 跨日处理
+ * 单条记录的 net 工时
+ * @param {Object} record - 灵工打卡单条记录
+ * @returns {number} 净工时（小时，1位小数精度由调用方处理）
+ */
+function _calcNetHours(record) {
+  if (!record) return 0;
+  const si = record.signIn || '';
+  const so = record.signOut || '';
+  if (!si || !so) return 0;
+  const m1 = /(\d+):(\d+)/.exec(si);
+  const m2 = /(\d+):(\d+)/.exec(so);
+  if (!m1 || !m2) return 0;
+  const t1 = parseInt(m1[1], 10) * 60 + parseInt(m1[2], 10);
+  let t2 = parseInt(m2[1], 10) * 60 + parseInt(m2[2], 10);
+  if (t2 < t1) t2 += 24 * 60;  // 跨日（凌晨下班）
+  const raw = (t2 - t1) / 60;
+  return raw > 6 ? raw - 1 : raw;  // >6h 扣 1h 午休
+}
+
+/**
+ * v128 第一性原理：批量计算某人某月的净工时
+ * 自带去重（同人同日多条记录，"打卡正常"优先）
+ * @param {Array} records - 灵工打卡全部记录
+ * @param {string} personName - 要匹配的人名（已归一化）
+ * @param {string} yearMonth - 月份 'YYYY-MM'
+ * @param {Object} [opts] - { excludeToday: 'YYYY-MM-DD' }
+ * @returns {{days:number, hours:number}}
+ */
+function _calcPersonMonthHours(records, personName, yearMonth, opts) {
+  if (!records || !records.length) return { days: 0, hours: 0 };
+  opts = opts || {};
+
+  // 名字归一化（与 v126 一致：玛依拉·努尔夏提→玛依拉，祖白代·阿不利孜→祖白代）
+  const _norm = (n) => {
+    if (!n) return n;
+    if (n.indexOf('玛依拉') >= 0) return '玛依拉';
+    if (n.indexOf('祖白代') >= 0) return '祖白代';
+    return String(n).replace(/[*\s]+$/, '');
+  };
+
+  // 模糊匹配（与 v80 _matchLgName 一致：先精确，再 contains）
+  const _matchName = (recName) => {
+    const rn = _norm(recName);
+    if (rn === personName) return true;
+    if (rn && personName && (rn.indexOf(personName) >= 0 || personName.indexOf(rn) >= 0)) return true;
+    return false;
+  };
+
+  // 筛出此人本月所有记录
+  const monthRecs = records.filter(r => {
+    if (!_matchName(r.name)) return false;
+    const d = r.date || '';
+    if (!d.startsWith(yearMonth)) return false;
+    if (opts.excludeToday && d === opts.excludeToday) return false;
+    return true;
+  });
+
+  // 按 (name, date) 去重：同人同日多条，"打卡正常" 优先
+  const byKey = new Map();
+  monthRecs.forEach(r => {
+    const key = r.date;
+    const prev = byKey.get(key);
+    if (!prev) {
+      byKey.set(key, r);
+    } else {
+      if (r.status === '打卡正常' && prev.status !== '打卡正常') {
+        byKey.set(key, r);
+      }
+    }
+  });
+
+  let totalHours = 0;
+  byKey.forEach(r => {
+    totalHours += _calcNetHours(r);
+  });
+  return { days: byKey.size, hours: Math.round(totalHours * 10) / 10 };
+}
+
+/**
  * 销售业绩评分阈值集中管理（原 calcPerformanceScore 内硬编码魔法数字，v114 提取）
  * 修改阈值只需改这一处
  */
@@ -1216,10 +1297,10 @@ function renderAttendance() {
     return stNames.has(r.name);
   });
 
-  // 灵工打卡统计
+  // v128: 用第一性原理 _calcNetHours 计算工时（不依赖 totalHours 字段）
   const lgNormal = lgRecords.filter(r => r.status === '打卡正常').length;
   const lgAbnormal = lgRecords.filter(r => r.status === '打卡异常').length;
-  const lgTotalHours = lgRecords.reduce((sum, r) => sum + (parseFloat(r.totalHours) || 0), 0);
+  const lgTotalHours = lgRecords.reduce((sum, r) => sum + _calcNetHours(r), 0);
   const lgTotalLate = lgRecords.filter(r => r.lateMin > 0 || r.status === '打卡异常').length;
   const lgAbsent = lgRecords.filter(r => r.status === '缺勤' || r.status === '取消').length;
 
@@ -1235,15 +1316,16 @@ function renderAttendance() {
   lgRecords.forEach(r => {
     const d = r.date;
     uniqueDates.add(d);
+    const _netH = _calcNetHours(r);  // v128: 第一性原理
     if (!dateStats[d]) dateStats[d] = { count: 0, totalHours: 0, normal: 0, abnormal: 0 };
     dateStats[d].count++;
-    dateStats[d].totalHours += parseFloat(r.totalHours) || 0;
+    dateStats[d].totalHours += _netH;
     if (r.status === '打卡正常') dateStats[d].normal++;
     else dateStats[d].abnormal++;
 
     if (!personStats[r.name]) personStats[r.name] = { name: r.name, count: 0, totalHours: 0, lateCount: 0, absentCount: 0 };
     personStats[r.name].count++;
-    personStats[r.name].totalHours += parseFloat(r.totalHours) || 0;
+    personStats[r.name].totalHours += _netH;
     if (r.lateMin > 0 || r.status === '打卡异常') personStats[r.name].lateCount++;
     if (r.status === '缺勤' || r.status === '取消') personStats[r.name].absentCount++;
   });
@@ -1426,8 +1508,8 @@ function renderAttendance() {
                       <span style="font-family: monospace; font-size: 12px; color: var(--text-secondary);">${inDisplay} <span style="color:var(--text-muted);">→</span> ${outDisplay}</span>
                     </td>
                     <td>
-                      <span style="font-weight: 700; color: ${(parseFloat(r.totalHours) || 0) >= 8 ? '#10b981' : (parseFloat(r.totalHours) || 0) > 0 ? 'var(--text-primary)' : 'var(--text-muted)'};">
-                        ${(parseFloat(r.totalHours) || 0) > 0 ? r.totalHours + 'h' : '-'}
+                      <span style="font-weight: 700; color: ${_calcNetHours(r) >= 8 ? '#10b981' : _calcNetHours(r) > 0 ? 'var(--text-primary)' : 'var(--text-muted)'};">
+                        ${_calcNetHours(r) > 0 ? _calcNetHours(r).toFixed(1) + 'h' : '-'}
                       </span>
                     </td>
                     <td>
@@ -1524,7 +1606,7 @@ function syncLinggongData() {
           base.signOut = signOuts.length > 0 ? signOuts.sort().reverse()[0] : '';
           base.clockIn = base.signIn;
           base.clockOut = base.signOut;
-          base.totalHours = valid.reduce((s, r) => s + (parseFloat(r.totalHours) || 0), 0);
+          base.totalHours = Math.round(valid.reduce((s, r) => s + _calcNetHours(r), 0) * 10) / 10;  // v128: 第一性原理
           const sp = { '打卡正常': 0, '打卡进行中': 1, '打卡异常': 2, '缺勤': 3, '取消': 3 };
           base.status = valid.reduce((w, r) => (sp[r.status] || 99) > (sp[w] || 99) ? r.status : w, '打卡正常');
           base.lateMin = Math.max(0, ...valid.map(r => r.lateMin || 0));
@@ -1789,12 +1871,20 @@ function calcPerformanceScore(staffName) {
     return { score: 1, hourlyScore: 0, uptScore: 0, hourly, upt, sales, qty, tickets, workHours: record.workHours || 0, targetMet: false, targetBonus: 0, bonusDetail: `销售单数≤${T.lowTicketsGate}`, salesTarget: SALES_TARGET, lowTickets: true };
   }
 
-  // v75: workHours=0 时，从灵工打卡动态计算工时
+  // v128: workHours=0 时，从灵工打卡动态计算工时（第一性原理）
+  // v126 教训：不能 sum(totalHours)，必须 _calcNetHours 精确计算
   let workHours = record.workHours || 0;
   if (workHours === 0 && sales > 0) {
     const lgData = Store.get('linggongAttendance') || {};
-    const lgRecords = (lgData.records || []).filter(r => r.name === staffName && (r.date || '').startsWith(scoreMonth));
-    workHours = lgRecords.reduce((sum, r) => sum + (r.totalHours || 0), 0);
+    const allLgRecords = lgData.records || [];
+    const _todayStr = (() => {
+      try {
+        const d = new Date();
+        return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      } catch (e) { return ''; }
+    })();
+    const r = _calcPersonMonthHours(allLgRecords, staffName, scoreMonth, { excludeToday: _todayStr });
+    workHours = r.hours;
   }
   // 用动态计算的工时覆盖 hourly（如果原值为0且有新工时）
   const effectiveHourly = (hourly === 0 && workHours > 0) ? Math.round((sales / workHours) * 10) / 10 : hourly;
@@ -3046,31 +3136,23 @@ function renderPerformance() {
     }))];
   }
 
-  // v80: 动态计算 workDays/workHours/hourlyOutput
-  // 名字匹配：先精确匹配，再模糊匹配（contains）作为后备
-  const _matchLgName = (recordName) => {
-    const exact = lgRecords.find(x => x.name === recordName && (x.date || '').startsWith(_perfYearMonth));
-    if (exact) return exact.name;
-    for (const lg of lgRecords) {
-      if ((lg.date || '').startsWith(_perfYearMonth) && (lg.name.includes(recordName) || recordName.includes(lg.name))) {
-        return lg.name;
-      }
-    }
-    return null;
-  };
+  // v128: 动态计算 workDays/workHours（第一性原理：从 signIn/signOut 精确计算）
+  // v126 教训：totalHours 字段不可信（如 7/3 龚赟昊显示60h实际只有9h）
+  //           scheduleTime 被复制粘贴多次产生错误数据
+  // 必须用 _calcNetHours（signIn→signOut 精确差值 + >6h扣午休）
+  const _todayStr = (() => {
+    try {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    } catch (e) { return ''; }
+  })();
   currentData.records.forEach(r => {
     const name = r.name;
-    const matchedName = _matchLgName(name);
-    const lgPerson = matchedName ? lgRecords.filter(x => x.name === matchedName && (x.date || '').startsWith(_perfYearMonth)) : [];
-    const workDays = new Set(lgPerson.map(x => x.date)).size;
-    // v82: 强制数值化（防止 LocalStorage 缓存了字符串导致 sum 拼接）
-    const workHours = lgPerson.reduce((sum, x) => {
-      const h = parseFloat(x.totalHours);
-      return sum + (isNaN(h) ? 0 : h);
-    }, 0);
+    // v128: 用第一性原理工具函数（自带名字归一化+去重+扣午休）
+    const { days, hours } = _calcPersonMonthHours(lgRecords, name, _perfYearMonth, { excludeToday: _todayStr });
     const sales = r.sales || 0;
-    r.workDays = workDays;
-    r.workHours = workHours;
+    r.workDays = days;
+    r.workHours = hours;
     if (sales > 0 && workHours > 0) {
       r.hourlyOutput = Math.round((sales / workHours) * 10) / 10;
     }
@@ -3915,7 +3997,7 @@ function renderPersonalDashboard() {
   const lgData = Store.get('linggongAttendance') || {};
   const myAttendance = (lgData.records || []).filter(r => r.name === _auth.staffName);
   const normalDays = myAttendance.filter(r => r.status === '打卡正常').length;
-  const totalHours = myAttendance.reduce((s, r) => s + (r.totalHours || 0), 0);
+  const totalHours = Math.round(myAttendance.reduce((s, r) => s + _calcNetHours(r), 0) * 10) / 10;  // v128: 第一性原理
   const lateTimes = myAttendance.filter(r => r.lateMin > 0).length;
   const hourlyRate = dynamicAvg >= 3.6 ? 60 : 28;
 
@@ -4018,7 +4100,7 @@ function renderPersonalDashboard() {
                   <td>${r.scheduleTime || '-'}</td>
                   <td>${r.clockIn || '-'}</td>
                   <td>${r.clockOut || '-'}</td>
-                  <td>${r.totalHours ? r.totalHours.toFixed(1) + 'h' : '-'}</td>
+                  <td>${_calcNetHours(r) > 0 ? _calcNetHours(r).toFixed(1) + 'h' : '-'}</td>
                   <td><span class="badge ${r.status === '打卡正常' ? 'badge-active' : r.status === '考勤中' ? 'badge-danger' : 'badge-danger'}">${r.status === '打卡正常' ? '✓' : r.status === '考勤中' ? '🕐' : '❌'} ${r.status}</span></td>
                 </tr>
               `).join('')}

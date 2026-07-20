@@ -68,10 +68,26 @@ existing.forEach(r => existingMap.set(key(r), r));
 
 let added = 0;
 let updated = 0;
+// v128 修复: 当源数据同名同天有多条（如"玛依拉"+"玛依拉·努尔夏提"被 NAME_MAP 归一后冲突），
+// 应优先用"打卡正常 + signOut 非空"的完整记录，不能用"打卡进行中 signOut空"的残缺记录覆盖
+const _recordScore = r => {
+  // 评分：4 = 打卡正常+signOut非空（最完整）
+  //       3 = 打卡正常+signOut空
+  //       2 = 打卡异常+signOut非空
+  //       1 = 打卡进行中（残缺）
+  let s = 0;
+  if (r.status === '打卡正常') s += 3;
+  if (r.signOut) s += 1;
+  return s;
+};
 mapped.forEach(r => {
   const k = key(r);
   if (existingMap.has(k)) {
-    existingMap.set(k, r); // 覆盖旧记录
+    const old = existingMap.get(k);
+    // v128: 高分覆盖低分；同分时新数据覆盖（保留最新）
+    if (_recordScore(r) >= _recordScore(old)) {
+      existingMap.set(k, r);
+    }
     updated++;
   } else {
     existingMap.set(k, r);
@@ -91,17 +107,28 @@ for (const [k, recs] of dayGroups) {
   if (recs.length === 1) {
     merged.push(recs[0]);
   } else {
-    // 同一天多条 -> 合并（取最早signIn、最晚signOut、工时累加、最严重status）
-    const signIns = recs.map(r => r.signIn).filter(s => s && s !== '');
-    const signOuts = recs.map(r => r.signOut).filter(s => s && s !== '');
-    const base = { ...recs[0] };
+    // v128: 同一天多条 -> 优先用最高分（最完整）的那条；如有多条同分，合并取最早signIn/最晚signOut
+    const bestScore = Math.max(...recs.map(_recordScore));
+    const best = recs.filter(r => _recordScore(r) === bestScore);
+    const signIns = best.map(r => r.signIn).filter(s => s && s !== '');
+    const signOuts = best.map(r => r.signOut).filter(s => s && s !== '');
+    const base = { ...best[0] };
     base.signIn = signIns.length > 0 ? signIns.sort()[0] : '';
     base.signOut = signOuts.length > 0 ? signOuts.sort().reverse()[0] : '';
-    base.totalHours = String(recs.reduce((s, r) => s + (parseFloat(r.totalHours) || 0), 0));
-    const statusPriority = { '\u6253\u5361\u6b63\u5e38': 0, '\u6253\u5361\u8fdb\u884c\u4e2d': 1, '\u6253\u5361\u5f02\u5e38': 2, '\u7f3a\u52e4': 3, '\u53d6\u6d88': 3 };
-    base.status = recs.reduce((worst, r) =>
-      (statusPriority[r.status] || 99) > (statusPriority[worst] || 99) ? r.status : worst
-    , '\u6253\u5361\u6b63\u5e38');
+    // 工时由 _calcNetHours 现算（v128 不再依赖 totalHours 字段）
+    const _calcH = (si, so) => {
+      if (!si || !so) return 0;
+      const m1 = /(\d+):(\d+)/.exec(si);
+      const m2 = /(\d+):(\d+)/.exec(so);
+      if (!m1 || !m2) return 0;
+      const t1 = parseInt(m1[1],10)*60 + parseInt(m1[2],10);
+      let t2 = parseInt(m2[1],10)*60 + parseInt(m2[2],10);
+      if (t2 < t1) t2 += 24*60;
+      const raw = (t2 - t1)/60;
+      return raw > 6 ? raw - 1 : raw;
+    };
+    base.totalHours = String(Math.round(_calcH(base.signIn, base.signOut) * 10) / 10);
+    base.status = best[0].status || '打卡正常';
     merged.push(base);
   }
 }

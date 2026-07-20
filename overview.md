@@ -1,83 +1,116 @@
-# v116 P1 中危修复报告
+# v127 工时数据强制刷新加固
 
-> 版本: v115 → v116
-> 日期: 2026-07-18
-> 范围: app.js 全量 P1 问题（7个）
-
----
-
-## 修复清单
-
-### P1-1: getStaff 类型归一 ✅
-- **问题**: `s.id === id` 严格比较，DOM `data-id` 传字符串 → 查找静默返回 null
-- **修复**: `String(s.id) === String(id)` 类型归一
-- **影响范围**: `getStaff()` + `_isFullTimeStaff()` 两处
-- **测试**: Number id / String id / 不存在 id 全覆盖
-
-### P1-2: staff 合并 id+name 双键 ✅
-- **问题**: 用户改名后 `existingStaffMap.set(s.name, s)` 以 name 为唯一键，导致数据重复
-- **修复**: 改为 `existingById` + `existingByName` 双 Map，id 优先匹配，name 兜底
-- **兼容**: 旧数据(id 缺失)走 name 匹配；新数据走 id 匹配
-- **测试**: 新增成员(id 不在 defaults)仍被保留
-
-### P1-3: switchMonth TDZ 安全 ✅
-- **问题**: `window.switchAttMonth` / ActionHandler 引用 pages.js 中 `let _attMonth` / `let perfMonth`，加载时序错误会触发 TDZ
-- **修复**: 所有跨文件 let 变量赋值加 `typeof X !== 'undefined'` 守卫
-- **覆盖**: switchScoringMonth / switchScheduleMonth / switchAttMonth / switchPerfMonth 共 6 处
-
-### P1-4: get() defaults 深拷贝 ✅
-- **问题**: catch 块和正常路径回退 defaults 时返回直接引用，调用方修改污染 `Store.defaults`
-- **修复**: 
-  - 正常路径(5199行): `val = JSON.parse(JSON.stringify(_def))`
-  - catch 路径(5203行): 同样深拷贝
-- **测试**: 修改返回值的 nested 和 list，验证 defaults 未被污染
-
-### P1-5: performanceData / linggongAttendance 深拷贝 ✅
-- **问题**: 
-  - `data.performanceData[mk] = this.defaults.performanceData[mk]` 直接引用
-  - `merged.linggongAttendance = { ...defaults, records: [...defaultRecords] }` 浅拷贝，records 元素仍是引用
-- **修复**: 两处都改为 `JSON.parse(JSON.stringify(...))`
-
-### P1-6: Router hashchange 路由 ✅
-- **问题**: 浏览器前进/后退无效，刷新丢失页面状态
-- **修复**:
-  - `navigate()` 同步 `location.hash = '#/' + page`
-  - 注册 `hashchange` 事件监听，切换页面
-  - 首次加载从 URL hash 恢复页面
-  - 合法页面白名单校验（防恶意 hash）
-
-### P1-7: 全局 error handler 放宽 ✅
-- **问题**: `main.children.length === 0` 条件过严，渲染失败但有残留内容时不触发兜底
-- **修复**:
-  - 新增 `_lastRenderOk` 标记（声明在 Router 之前避免 TDZ）
-  - Router.render 成功设 true，catch 设 false
-  - error handler 检测 `isEmpty || renderFailed`
+> 版本: v126 → v127
+> 日期: 2026-07-22
+> 范围: 新增 Service Worker + 版本探针，解决"其他设备可能因缓存拿不到最新工时数据"的隐患
 
 ---
 
-## 测试覆盖
+## 背景
 
-**35 项 VM 测试全通过**:
-- P1-1: 4 项（类型归一）
-- P1-2: 3 项（双键合并）
-- P1-3: 4 项（TDZ 守卫）
-- P1-4: 2 项（深拷贝 + 污染检测）
-- P1-5: 2 项（深拷贝代码存在性）
-- P1-6: 4 项（hashchange 完整链路）
-- P1-7: 4 项（声明顺序 + 标记设置）
-- 12 个页面渲染回归: 全部无 undefined/NaN/[object Object]
+v126 校准了 13 人的工时（龚赟昊 125.5h→78.3h、王雅澜等），通过 git push 发布到 GitHub Pages。
+但有一个隐患：**如果其他设备的浏览器缓存了旧版 `index.html`，会引用旧 `?v=125`，加载旧 `app.js`，拿到过时的工时数据**。
 
-测试脚本: `scripts/test_v116_p1.js`
+而且工时数据走的是非常规通道：
+- `linggongAttendance` / `performanceData` / `workHours` **不进入 submissions.json 云同步流**
+- 它们是代码级数据，硬编码在 `js/app.js` 的 `Store.defaults` 里
+- 流转：`defaults → _migrateData(版本不匹配时merge) → localStorage`
+- 同步方式只有一种：**git push → GitHub Pages 发布新版 app.js**
+
+所以必须保证其他设备一定能拿到最新 `index.html`，才能拿到最新工时。
 
 ---
 
-## 剩余问题
+## 方案：三件套
 
-- **P2×5**: 均为低危长期改进，不影响运行正确性
-  - P2-1: _scoringMonth dead code
-  - P2-2: 脚本无 defer
-  - P2-3: localStorage 隐私模式全局检测
-  - P2-4: 备份数据完整性校验
-  - P2-5: 全局变量散落
+### 1. `version.json`（根目录，单一事实源）
 
-**至此 P0×4 + P1×7 全部修复完成**，系统安全等级显著提升。
+```json
+{
+  "dataVersion": "2026-07-20-v126",
+  "cacheBuster": "126",
+  "updatedAt": "2026-07-20"
+}
+```
+
+每次升级工时数据时同步更新此文件。
+
+### 2. `sw.js`（Service Worker）
+
+| 资源类型 | 缓存策略 | 原因 |
+|---------|---------|------|
+| HTML 导航请求 | **network-only** | 永远拿最新 index.html，避免引用旧 ?v= |
+| version.json | **no-store** | 探针必须拿真实最新值 |
+| JS/CSS | **stale-while-revalidate** | 先返回缓存快速渲染，后台拉新版下次生效 |
+| 图片/字体 | **cache-first 7天 TTL** | 静态资源减少重复下载 |
+
+### 3. `index.html` 启动探针（app.js 加载前执行）
+
+```
+fetch version.json?_=timestamp    // 绕缓存
+  ↓
+对比 localStorage.__lastSeenDataVersion
+  ↓ 一致
+  无动作（用户无感）
+  ↓ 不一致
+  ① 清所有 SW 缓存 (caches.deleteAll)
+  ② 记录 __lastSeenDataVersion = latest
+  ③ location.reload()    // 加载最新 app.js
+  ↓
+30 秒循环保护
+  距上次刷新 <30s → 跳过 reload，避免死循环
+```
+
+---
+
+## 验证结果
+
+### 探针逻辑（4 种场景 node 模拟）
+
+| 场景 | lastSeen | latest | 期望 reload | 期望清缓存 | 实测 |
+|------|----------|--------|------------|-----------|------|
+| S1 首次访问 | 无 | v126 | ❌ | ✅ | ✅ |
+| S2 版本一致 | v126 | v126 | ❌ | ❌ | ✅ |
+| S3 版本升级 | v125 | v126 | ✅ | ✅ | ✅ |
+| S4 30s 内循环保护 | v125 (10s前刷新过) | v126 | ❌ | ❌ | ✅ |
+
+### 线上 GitHub Pages 验证
+
+```
+✅ version.json  → HTTP 200，内容包含 dataVersion: 2026-07-20-v126
+✅ sw.js         → HTTP 200
+✅ index.html    → 8 处 VersionProbe 标记
+✅ index.html    → 1 处 sw.js 引用
+```
+
+---
+
+## ⚠️ 今后升级工时数据的工作流（重要！）
+
+每次更新 `app.js` 的 `linggongAttendance` / `performanceData` / `_dataVersion` 时：
+
+1. ✏️ `index.html` 三个 `?v=NNN` 改成新值（已有惯例）
+2. ✏️ **`version.json`** 的 `dataVersion` 和 `cacheBuster` 改成新值（**新增**）
+3. ✏️ **`index.html` 探针代码块** 的 `sw.js?v=NNN` 改成新值（**新增**）
+4. 🚀 `git push origin main` → GitHub Pages 自动部署
+
+漏掉任何一步都会导致其他设备的探针检测不到版本变化。
+
+---
+
+## 文件改动
+
+| 文件 | 操作 | 行数 |
+|------|------|------|
+| `version.json` | 🆕 新增 | 6 行 |
+| `sw.js` | 🆕 新增 | 137 行 |
+| `index.html` | ✏️ 修改 | +76 行（注入探针 IIFE） |
+
+**总计**: 3 文件，+230 行（无删除）
+
+---
+
+## git
+
+- **commit**: `fc28011 v127: 工时数据强制刷新加固 - SW+版本探针`
+- **push**: 已 push origin/main（rebase 了云端 v288 sync 提交）
