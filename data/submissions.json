@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 296,
-    "lastUpdated": "2026-07-20T11:16:14.871Z",
-    "lastUpdatedBy": "王靳毓"
+    "version": 297,
+    "lastUpdated": "2026-07-20T11:53:28.175Z",
+    "lastUpdatedBy": "邓奇缘"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -5103,7 +5103,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5181,9 +5181,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -8052,13 +8053,31 @@
       "_updatedAt": "1784538365909"
     },
     {
+      "id": 1784543650395,
+      "staff": "邓奇缘",
+      "date": "2026-07-20",
+      "type": "货品-整理仓库",
+      "duration": "1.5小时",
+      "detail": "收货，整理仓库",
+      "_updatedAt": 1784543650204
+    },
+    {
       "id": 1784546175156,
       "staff": "王靳毓",
       "date": "2026-07-20",
       "type": "其他",
       "duration": "1.5小时",
       "detail": "4f熨烫新品",
-      "_updatedAt": 1784546174796
+      "_updatedAt": "1784546174796"
+    },
+    {
+      "id": 1784548408968,
+      "staff": "邓奇缘",
+      "date": "2026-07-20",
+      "type": "货品-查鞋盒",
+      "duration": "1小时",
+      "detail": "货架1、2-4查鞋盒",
+      "_updatedAt": 1784548408116
     }
   ],
   "doorSchedule": [
