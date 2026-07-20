@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 311,
-    "lastUpdated": "2026-07-20T15:08:39.633Z",
-    "lastUpdatedBy": "initial-setup"
+    "version": 312,
+    "lastUpdated": "2026-07-20T15:13:43.410Z",
+    "lastUpdatedBy": "邓奇缘"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -10399,7 +10399,7 @@
         {
           "time": "15:00:00-16:00:00",
           "staff": "邓奇缘",
-          "_updatedAt": "1784550568692"
+          "_updatedAt": "1784560422505"
         }
       ]
     }
