@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 291,
-    "lastUpdated": "2026-07-20T09:55:31.599Z",
-    "lastUpdatedBy": "孔祥宇"
+    "version": 292,
+    "lastUpdated": "2026-07-20T10:16:12.412Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5546,22 +5546,21 @@
     "2026-08": {
       "data": {
         "孔祥宇": {
-          "total": 29,
+          "total": 30,
           "unavailable": [
-            "8/1",
             "8/2"
           ],
           "note": "",
           "dates": {
             "8/1": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1784197565942
+              "_updatedAt": 1784541341770
             },
             "8/2": {
               "available": false,
               "note": "",
-              "_updatedAt": 1784197570540
+              "_updatedAt": 1784541343209
             },
             "8/3": {
               "available": true,
@@ -5716,7 +5715,7 @@
     "2026-09": {
       "data": {
         "孔祥宇": {
-          "total": 24,
+          "total": 30,
           "unavailable": [],
           "note": "",
           "dates": {
@@ -5839,6 +5838,36 @@
               "available": true,
               "note": "",
               "_updatedAt": 1784541330609
+            },
+            "9/25": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784541331778
+            },
+            "9/26": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784541332895
+            },
+            "9/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784541334124
+            },
+            "9/11": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784541335309
+            },
+            "9/12": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784541336512
+            },
+            "9/19": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784541337795
             }
           },
           "_noteUpdatedAt": 1784541331598
