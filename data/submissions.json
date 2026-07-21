@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 326,
-    "lastUpdated": "2026-07-21T03:40:47.881Z",
-    "lastUpdatedBy": "田佳乐"
+    "version": 327,
+    "lastUpdated": "2026-07-21T04:04:02.174Z",
+    "lastUpdatedBy": "杨子豪"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5102,7 +5102,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5180,9 +5180,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -8293,6 +8294,15 @@
       "duration": "0.5小时",
       "detail": "帮助陈列 2楼熨烫检查卖场衣服0.5小时",
       "_updatedAt": "1784589100748"
+    },
+    {
+      "id": 1784606640534,
+      "staff": "杨子豪",
+      "date": "2026-07-21",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录客流",
+      "_updatedAt": 1784606639557
     }
   ],
   "doorSchedule": [
@@ -10599,6 +10609,16 @@
           "time": "20:00:00-21:00:00",
           "staff": "邓奇缘",
           "_updatedAt": "1784577199938"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-21",
+      "slots": [
+        {
+          "time": "11:00:00-12:00:00",
+          "staff": "杨子豪",
+          "_updatedAt": "1784606624392"
         }
       ]
     }
