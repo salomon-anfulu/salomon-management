@@ -4785,7 +4785,8 @@ let _doorViewMonth = null;        // 'YYYY-MM' for door schedule calendar view
 const AVAIL_MIN_MONTH = '2026-07';
 
 // v84: 可上班时间冻结线 —— 7月19日（含）之前不可修改
-const AVAIL_FREEZE_DATE = '2026-07-19';
+// v138: 应排班锁定要求，冻结线延长到 7月26日（含）之前不可修改
+const AVAIL_FREEZE_DATE = '2026-07-26';
 
 function _ymKey(y, m) { return `${y}-${String(m).padStart(2,'0')}`; }
 
@@ -5002,7 +5003,7 @@ function renderPersonalCalendar() {
           <span style="color:#10b981;">绿色 = 可供班</span>
           <span style="color:#ef4444;">红色 = 不可上班</span>
           <span>🟡 圆点 = 有备注</span>
-          <span style="color:#f59e0b;">🔒 19日及之前已冻结</span>
+          <span style="color:#f59e0b;">🔒 26日及之前已冻结</span>
         </div>
       </div>
     </div>
