@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 332,
-    "lastUpdated": "2026-07-21T07:24:58.632Z",
-    "lastUpdatedBy": "朱凯赟"
+    "version": 333,
+    "lastUpdated": "2026-07-21T07:40:14.164Z",
+    "lastUpdatedBy": "陈广权"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2817,7 +2817,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2845,7 +2845,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -5102,7 +5102,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5180,10 +5180,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -5869,6 +5868,68 @@
             }
           },
           "_noteUpdatedAt": 1784566441915
+        },
+        "陈广权": {
+          "total": 6,
+          "unavailable": [
+            "8/1",
+            "8/2",
+            "8/3",
+            "8/8"
+          ],
+          "note": "",
+          "dates": {
+            "8/1": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784619592136
+            },
+            "8/2": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784619594703
+            },
+            "8/3": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784619600525
+            },
+            "8/4": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784619602424
+            },
+            "8/5": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784619603829
+            },
+            "8/6": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784619605224
+            },
+            "8/7": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784619606631
+            },
+            "8/8": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784619609845
+            },
+            "8/9": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784619611616
+            },
+            "8/10": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784619614141
+            }
+          }
         }
       }
     },
