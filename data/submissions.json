@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 325,
-    "lastUpdated": "2026-07-20T23:11:40.804Z",
+    "version": 326,
+    "lastUpdated": "2026-07-21T03:40:47.881Z",
     "lastUpdatedBy": "田佳乐"
   },
   "availability": {
@@ -2712,9 +2712,9 @@
               "_updatedAt": 1783413176352
             },
             "7/22": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1784022532118
+              "_updatedAt": 1784605247846
             },
             "7/23": {
               "available": false,
@@ -2764,9 +2764,8 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 29,
+          "total": 30,
           "unavailable": [
-            "7/22",
             "7/23"
           ]
         },
@@ -5103,7 +5102,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5181,10 +5180,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -8294,7 +8292,7 @@
       "type": "陈列-翻场支援",
       "duration": "0.5小时",
       "detail": "帮助陈列 2楼熨烫检查卖场衣服0.5小时",
-      "_updatedAt": 1784589100748
+      "_updatedAt": "1784589100748"
     }
   ],
   "doorSchedule": [
