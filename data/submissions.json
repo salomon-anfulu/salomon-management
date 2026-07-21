@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 341,
-    "lastUpdated": "2026-07-21T08:06:24.527Z",
-    "lastUpdatedBy": "龚赟昊"
+    "version": 342,
+    "lastUpdated": "2026-07-21T08:12:12.778Z",
+    "lastUpdatedBy": "唐蓉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2717,9 +2717,9 @@
               "_updatedAt": 1784605247846
             },
             "7/23": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1784022534921
+              "_updatedAt": 1784605250680
             },
             "7/24": {
               "available": true,
@@ -2737,14 +2737,14 @@
               "_updatedAt": 1783413181750
             },
             "7/27": {
-              "available": true,
+              "available": false,
               "note": "",
-              "_updatedAt": 1783413183395
+              "_updatedAt": 1784605279758
             },
             "7/28": {
-              "available": true,
+              "available": false,
               "note": "",
-              "_updatedAt": 1783413184472
+              "_updatedAt": 1784605281902
             },
             "7/29": {
               "available": true,
@@ -2764,9 +2764,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 30,
+          "total": 29,
           "unavailable": [
-            "7/23"
+            "7/27",
+            "7/28"
           ]
         },
         "迟骋": {
@@ -2817,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2845,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -6241,7 +6242,8 @@
               "note": "",
               "_updatedAt": 1784621183168
             }
-          }
+          },
+          "_noteUpdatedAt": 1784621520658
         }
       }
     },
@@ -11006,6 +11008,11 @@
           "time": "11:00:00-12:00:00",
           "staff": "杨子豪",
           "_updatedAt": "1784606624392"
+        },
+        {
+          "time": "12:00:00-13:00:00",
+          "staff": "唐蓉",
+          "_updatedAt": "1784621532723"
         },
         {
           "time": "13:00:00-14:00:00",
