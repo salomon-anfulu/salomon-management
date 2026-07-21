@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 360,
-    "lastUpdated": "2026-07-21T17:41:35.229Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 361,
+    "lastUpdated": "2026-07-21T17:42:38.371Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -11223,6 +11223,11 @@
           "time": "16:00:00-17:00:00",
           "staff": "梁实秋",
           "_updatedAt": "1784615220777"
+        },
+        {
+          "time": "18:00:00-19:00:00",
+          "staff": "李若彤",
+          "_updatedAt": "1784655724615"
         },
         {
           "time": "19:00:00-20:00:00",
