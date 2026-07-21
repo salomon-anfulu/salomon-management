@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 347,
-    "lastUpdated": "2026-07-21T10:07:54.627Z",
+    "version": 348,
+    "lastUpdated": "2026-07-21T10:08:56.406Z",
     "lastUpdatedBy": "何秋烨"
   },
   "availability": {
@@ -6247,6 +6247,85 @@
             }
           },
           "_noteUpdatedAt": 1784621520658
+        },
+        "何秋烨": {
+          "total": 13,
+          "unavailable": [
+            "8/13"
+          ],
+          "note": "",
+          "dates": {
+            "8/1": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628499202
+            },
+            "8/2": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628506755
+            },
+            "8/3": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628508701
+            },
+            "8/4": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628509985
+            },
+            "8/5": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628511119
+            },
+            "8/6": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628512334
+            },
+            "8/7": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628514620
+            },
+            "8/8": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628515851
+            },
+            "8/9": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628517818
+            },
+            "8/10": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628519303
+            },
+            "8/11": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628520768
+            },
+            "8/12": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628527733
+            },
+            "8/13": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784628530402
+            },
+            "8/14": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628532750
+            }
+          }
         }
       }
     },
