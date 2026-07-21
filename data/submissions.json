@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 327,
-    "lastUpdated": "2026-07-21T04:04:02.174Z",
-    "lastUpdatedBy": "杨子豪"
+    "version": 328,
+    "lastUpdated": "2026-07-21T04:48:53.877Z",
+    "lastUpdatedBy": "迟骋"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2817,23 +2817,23 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/15": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/16": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/17": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/18": {
               "available": true,
@@ -2845,7 +2845,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -8302,7 +8302,16 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记录客流",
-      "_updatedAt": 1784606639557
+      "_updatedAt": "1784606639557"
+    },
+    {
+      "id": 1784609334469,
+      "staff": "迟骋",
+      "date": "2026-07-19",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录客流",
+      "_updatedAt": 1784609333820
     }
   ],
   "doorSchedule": [
