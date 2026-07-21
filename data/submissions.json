@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 349,
-    "lastUpdated": "2026-07-21T10:10:03.957Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 350,
+    "lastUpdated": "2026-07-21T10:23:59.120Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2817,23 +2817,23 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/15": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/16": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/17": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/18": {
               "available": true,
@@ -2845,7 +2845,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -5106,7 +5106,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5184,9 +5184,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -6416,7 +6417,7 @@
               "_updatedAt": 1784628578816
             }
           },
-          "_noteUpdatedAt": 1784628603941
+          "_noteUpdatedAt": 1784629439114
         }
       }
     },
@@ -11218,6 +11219,16 @@
           "time": "13:00:00-14:00:00",
           "staff": "朱凯赟",
           "_updatedAt": "1784618698576"
+        },
+        {
+          "time": "14:00:00-15:00:00",
+          "staff": "迟骋",
+          "_updatedAt": "1784626985632"
+        },
+        {
+          "time": "16:00:00-17:00:00",
+          "staff": "迟骋",
+          "_updatedAt": "1784626990790"
         }
       ]
     }
