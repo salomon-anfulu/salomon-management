@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 348,
-    "lastUpdated": "2026-07-21T10:08:56.406Z",
-    "lastUpdatedBy": "何秋烨"
+    "version": 349,
+    "lastUpdated": "2026-07-21T10:10:03.957Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -6249,9 +6249,14 @@
           "_noteUpdatedAt": 1784621520658
         },
         "何秋烨": {
-          "total": 13,
+          "total": 25,
           "unavailable": [
-            "8/13"
+            "8/13",
+            "8/14",
+            "8/15",
+            "8/20",
+            "8/22",
+            "8/24"
           ],
           "note": "",
           "dates": {
@@ -6321,11 +6326,97 @@
               "_updatedAt": 1784628530402
             },
             "8/14": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784628539750
+            },
+            "8/15": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784628537637
+            },
+            "8/16": {
               "available": true,
               "note": "",
-              "_updatedAt": 1784628532750
+              "_updatedAt": 1784628542200
+            },
+            "8/17": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628545285
+            },
+            "8/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628546552
+            },
+            "8/19": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628547785
+            },
+            "8/20": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784628553033
+            },
+            "8/21": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628556434
+            },
+            "8/22": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784628561967
+            },
+            "8/23": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628564033
+            },
+            "8/24": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784628567649
+            },
+            "8/25": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628569584
+            },
+            "8/26": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628570849
+            },
+            "8/27": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628572051
+            },
+            "8/28": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628573665
+            },
+            "8/29": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628575750
+            },
+            "8/30": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628577199
+            },
+            "8/31": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784628578816
             }
-          }
+          },
+          "_noteUpdatedAt": 1784628603941
         }
       }
     },
