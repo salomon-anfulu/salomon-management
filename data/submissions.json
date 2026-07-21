@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 342,
-    "lastUpdated": "2026-07-21T08:12:12.778Z",
-    "lastUpdatedBy": "唐蓉"
+    "version": 343,
+    "lastUpdated": "2026-07-21T09:42:20.538Z",
+    "lastUpdatedBy": "迟骋"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,23 +2818,23 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/15": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/16": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/17": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/18": {
               "available": true,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -5103,7 +5103,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5181,9 +5181,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -8687,6 +8688,15 @@
       "duration": "1小时",
       "detail": "记录客流",
       "_updatedAt": "1784609333820"
+    },
+    {
+      "id": 1784626941193,
+      "staff": "迟骋",
+      "date": "2026-07-21",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记客流",
+      "_updatedAt": 1784626940479
     }
   ],
   "doorSchedule": [
