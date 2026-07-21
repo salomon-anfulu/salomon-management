@@ -5356,9 +5356,15 @@ linggongAttendance: {
       { id: 31, staffName: '王龙宇', month: '2026-07', rating: 5, reviewDate: '2026-07-20', snippet: '我去，龙宇哥太帅了，你还别说龙宇哥这么帅一大模特没有一点架子，超级亲和！导览员做得还是有点东西啊，今天逛店爽了，享受服务还能见超模', keywords: ['亲和', '超模颜值', '无架子', '导览专业', '超预期'], source: '大众点评（匿名用户，Lv3）' },
       { id: 32, staffName: '王雅澜', month: '2026-07', rating: 5, reviewDate: '2026-07-19', snippet: '雅澜的服务很热情，线下购物的体验很好！', keywords: ['服务热情', '体验好', '超预期'], source: '大众点评（noangel220，Lv4）' },
       { id: 33, staffName: '王龙宇', month: '2026-07', rating: 5, reviewDate: '2026-07-20', snippet: '强烈安利导购龙宇！待人温和又细心，耐心解答我好多小白问题，不强行推销，安安静静帮我挑选合适的鞋子，体验感满分啦', keywords: ['强烈安利', '温和细心', '耐心解答', '不强行推销', '安安静静', '体验满分', '超预期'], source: '大众点评（小张胃胀，Lv1）' },
+      { id: 34, staffName: '王龙宇', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '这次Salomon门店购物体验非常满意！店内环境舒适，产品展示清晰。感谢龙宇的耐心服务和专业讲解，会根据我的需求推荐合适的鞋款，并详细介绍产品特点。试穿过程中也会结合实际脚感给出建议，整个过程轻松愉快！', keywords: ['耐心服务', '专业讲解', '按需推荐', '产品特点', '试穿建议', '轻松愉快'], source: '大众点评（信德聪慧的小鹤，Lv1）' },
+      { id: 35, staffName: '邓奇缘', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '散步路过安福路Salomon进来逛逛，小白楼店面颜值拉满，每层都有不一样的小设计。天天小哥哥态度特别好，问鞋子相关问题都认真解答，帮忙拿码数、对比款式很主动，不会冷淡也不会强行推销。逛得很放松，下次还会再来。', keywords: ['态度好', '认真解答', '主动帮忙', '不强行推销', '逛得放松'], source: '大众点评（溺水的鱼，Lv1）' },
+      { id: 36, staffName: '迟骋', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '来安福路打卡萨洛蒙小白楼，整栋法式洋楼环境超有氛围感，三层空间设计很有巧思，拍照逛店都很舒服。特别感谢店员cc，专业又有耐心，会根据我的脚型和日常穿搭需求，细致讲解不同鞋款的性能，从城市通勤款到户外徒步款都介绍得很清楚，没有过度推销。', keywords: ['专业', '有耐心', '根据脚型', '穿搭需求', '细致讲解', '无过度推销'], source: '大众点评（Yin，Lv1）' },
+      { id: 37, staffName: '杨子豪', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '店装修的好看，商品很酷。谢谢子豪，很快理解到我的品味推荐一双非常舒服的鞋子！', keywords: ['理解品味', '推荐合适', '舒服'], source: '大众点评（earthcreests，Lv2）' },
+      { id: 38, staffName: '玛依拉', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '强烈安利导购Kiki，人美心善的小姐姐，非常热情地给我们介绍！店面装修保留了法式美学，商品种类齐全，超级好逛。', keywords: ['人美心善', '热情介绍', '法式美学', '商品齐全', '超级好逛'], source: '大众点评（匿名用户，Lv2）' },
+      { id: 39, staffName: '迟骋', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '首先要夸导购CC小哥，人超级nice，全程耐心讲解，店里的款式很新，越野鞋和户外风服饰质感都在线。三楼的法式灵感空间特别出片，光影和装置设计很有氛围感。', keywords: ['人nice', '耐心讲解', '款式新', '法式灵感空间', '氛围感', '质感在线'], source: '大众点评（匿名用户，Lv5）' },
     ],
 
-    _dataVersion: '2026-07-22-v136',  },
+    _dataVersion: '2026-07-22-v137',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -5402,7 +5408,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-22-v136';
+      const DATA_VERSION = '2026-07-22-v137';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
