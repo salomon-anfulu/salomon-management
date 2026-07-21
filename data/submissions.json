@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 333,
-    "lastUpdated": "2026-07-21T07:40:14.164Z",
-    "lastUpdatedBy": "陈广权"
+    "version": 334,
+    "lastUpdated": "2026-07-21T07:51:11.555Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2817,7 +2817,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2845,7 +2845,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -5102,7 +5102,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5180,9 +5180,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -5867,7 +5868,7 @@
               "_updatedAt": 1784566388048
             }
           },
-          "_noteUpdatedAt": 1784566441915
+          "_noteUpdatedAt": 1784620271547
         },
         "陈广权": {
           "total": 6,
