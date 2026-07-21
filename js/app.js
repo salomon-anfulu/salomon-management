@@ -5130,13 +5130,13 @@ linggongAttendance: {
 ]
       },
             july: {
-              totalSales: 159016,
-              totalQty: 131,
-              totalTickets: 101,
+              totalSales: 189830,
+              totalQty: 159,
+              totalTickets: 124,
               avgUPT: 1.29,
               avgHourlyOutput: 138,
               avgPrice: 1070,
-              note: '7月业绩(截至7/20) - totalSales=全店结算金额159016(含全职), records=兼职净业绩(销售-退换货追溯)',
+              note: '7月业绩(截至7/21) - totalSales=全店结算金额189830(含全职), records=兼职净业绩(销售-退换货追溯)',
               records: [
                 {
                         name: '龚赟昊',
@@ -5260,11 +5260,11 @@ linggongAttendance: {
                 },
                 {
                         name: '杨子豪',
-                        sales: 3794,
-                        qty: 3,
-                        tickets: 3,
-                        upt: 1,
-                        avgPrice: 1265,
+                        sales: 5150,
+                        qty: 5,
+                        tickets: 4,
+                        upt: 1.25,
+                        avgPrice: 1030,
                         workHours: 95.9,
                         hourlyOutput: 40,
                         salesShare: 0.0318,
@@ -5358,7 +5358,7 @@ linggongAttendance: {
       { id: 33, staffName: '王龙宇', month: '2026-07', rating: 5, reviewDate: '2026-07-20', snippet: '强烈安利导购龙宇！待人温和又细心，耐心解答我好多小白问题，不强行推销，安安静静帮我挑选合适的鞋子，体验感满分啦', keywords: ['强烈安利', '温和细心', '耐心解答', '不强行推销', '安安静静', '体验满分', '超预期'], source: '大众点评（小张胃胀，Lv1）' },
     ],
 
-    _dataVersion: '2026-07-22-v135',  },
+    _dataVersion: '2026-07-22-v136',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -5402,7 +5402,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-22-v135';
+      const DATA_VERSION = '2026-07-22-v136';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
