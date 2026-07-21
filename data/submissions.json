@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 351,
-    "lastUpdated": "2026-07-21T10:30:52.039Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 352,
+    "lastUpdated": "2026-07-21T12:50:22.689Z",
+    "lastUpdatedBy": "玛依拉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -6418,6 +6418,23 @@
             }
           },
           "_noteUpdatedAt": 1784629439114
+        },
+        "玛依拉": {
+          "total": 2,
+          "unavailable": [],
+          "note": "",
+          "dates": {
+            "8/1": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784638201021
+            },
+            "8/2": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784638202682
+            }
+          }
         }
       }
     },
@@ -11205,6 +11222,11 @@
     {
       "date": "2026-07-21",
       "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "玛依拉",
+          "_updatedAt": "1784638220727"
+        },
         {
           "time": "11:00:00-12:00:00",
           "staff": "杨子豪",
