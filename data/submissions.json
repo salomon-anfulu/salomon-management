@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 336,
-    "lastUpdated": "2026-07-21T07:54:17.441Z",
-    "lastUpdatedBy": "田佳乐"
+    "version": 337,
+    "lastUpdated": "2026-07-21T07:54:38.732Z",
+    "lastUpdatedBy": "李健华"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5102,7 +5102,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5180,10 +5180,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -5931,20 +5930,93 @@
               "_updatedAt": 1784619614141
             }
           },
-          "_noteUpdatedAt": 1784620379075
+          "_noteUpdatedAt": 1784620419779
         },
         "李健华": {
-          "total": 1,
-          "unavailable": [],
+          "total": 13,
+          "unavailable": [
+            "8/3",
+            "8/5"
+          ],
           "note": "",
           "dates": {
             "8/1": {
               "available": true,
               "note": "",
-              "_updatedAt": 1784620391823
+              "_updatedAt": 1784620426113
+            },
+            "8/2": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620393507
+            },
+            "8/3": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784620431917
+            },
+            "8/4": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620443970
+            },
+            "8/5": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784620447586
+            },
+            "8/6": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620454237
+            },
+            "8/8": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620459320
+            },
+            "8/10": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620461253
+            },
+            "8/12": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620462759
+            },
+            "8/14": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620464354
+            },
+            "8/16": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620465672
+            },
+            "8/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620468638
+            },
+            "8/20": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620473706
+            },
+            "8/22": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620476172
+            },
+            "8/24": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620478040
             }
           },
-          "_noteUpdatedAt": 1784620449845
+          "_noteUpdatedAt": 1784620478730
         },
         "田佳乐": {
           "total": 1,
@@ -5956,7 +6028,8 @@
               "note": "",
               "_updatedAt": 1784620457421
             }
-          }
+          },
+          "_noteUpdatedAt": 1784620478730
         }
       }
     },
