@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 344,
-    "lastUpdated": "2026-07-21T09:42:58.790Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 345,
+    "lastUpdated": "2026-07-21T10:06:17.464Z",
+    "lastUpdatedBy": "田佳乐"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2737,9 +2737,9 @@
               "_updatedAt": 1783413181750
             },
             "7/27": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1784605279758
+              "_updatedAt": 1784628377428
             },
             "7/28": {
               "available": false,
@@ -2764,9 +2764,8 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 29,
+          "total": 30,
           "unavailable": [
-            "7/27",
             "7/28"
           ]
         },
@@ -2818,23 +2817,23 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/15": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/16": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/17": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/18": {
               "available": true,
@@ -2846,7 +2845,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -5103,7 +5102,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5181,10 +5180,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -8690,6 +8688,15 @@
       "_updatedAt": "1784609333820"
     },
     {
+      "id": 1784621550169,
+      "staff": "唐蓉",
+      "date": "2026-07-21",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "1:00到2:00记录人流",
+      "_updatedAt": 1784621549486
+    },
+    {
       "id": 1784626941193,
       "staff": "迟骋",
       "date": "2026-07-21",
@@ -8705,7 +8712,7 @@
       "type": "陈列-全楼标签复核",
       "duration": "0.5小时",
       "detail": "换陈列贴标签",
-      "_updatedAt": 1784626968095
+      "_updatedAt": "1784626968095"
     }
   ],
   "doorSchedule": [
