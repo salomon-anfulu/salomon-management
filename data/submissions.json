@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 331,
-    "lastUpdated": "2026-07-21T06:27:01.121Z",
-    "lastUpdatedBy": "梁实秋"
+    "version": 332,
+    "lastUpdated": "2026-07-21T07:24:58.632Z",
+    "lastUpdatedBy": "朱凯赟"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -10633,6 +10633,11 @@
           "time": "11:00:00-12:00:00",
           "staff": "杨子豪",
           "_updatedAt": "1784606624392"
+        },
+        {
+          "time": "13:00:00-14:00:00",
+          "staff": "朱凯赟",
+          "_updatedAt": "1784618698576"
         }
       ]
     }
