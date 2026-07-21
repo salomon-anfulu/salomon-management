@@ -4788,6 +4788,14 @@ const AVAIL_MIN_MONTH = '2026-07';
 // v138: 应排班锁定要求，冻结线延长到 7月26日（含）之前不可修改
 const AVAIL_FREEZE_DATE = '2026-07-26';
 
+// v139: 门迎排班冻结线 —— 7月19日（含）之前不可修改（原 v90 为 7/10）
+const DOOR_FREEZE_DATE = '2026-07-19';
+
+// 检查门迎某天是否被冻结（不可编辑）
+function _isDoorFrozen(dateStr) {
+  return dateStr <= DOOR_FREEZE_DATE;
+}
+
 function _ymKey(y, m) { return `${y}-${String(m).padStart(2,'0')}`; }
 
 // 检查某天是否被冻结（不可编辑）
@@ -5481,8 +5489,8 @@ function renderDoorTab() {
                     const slotKey = h + ':00-' + nextH + ':00';
                     const staffName = day[slotKey];
 
-                    // v90: 冻结线固定为 2026-07-10（含），7/11 起可编辑
-                    const isFrozen = dateStr <= '2026-07-10';
+                    // v90→v139: 门迎冻结线，7月19日（含）之前不可编辑
+                    const isFrozen = _isDoorFrozen(dateStr);
 
                     if (staffName) {
                       return `
@@ -5580,6 +5588,8 @@ function openDoorSlotFormInline(prefillStart, prefillEnd, editIdx) {
 }
 
 function saveDoorSlotInline() {
+  // v139: 冻结安全检查（与 UI 渲染双重防护）
+  if (_isDoorFrozen(doorScheduleDate)) { showToast('该日期已冻结，不可修改', 'warning'); return; }
   const time = document.getElementById('doorSlotTimeInline').value;
   const staffName = document.getElementById('doorSlotStaffInline').value;
   if (!time) { showToast('请选择时间段', 'warning'); return; }
@@ -5617,6 +5627,8 @@ function saveDoorSlotInline() {
 }
 
 function deleteDoorSlotInline() {
+  // v139: 冻结安全检查（与 UI 渲染双重防护）
+  if (_isDoorFrozen(doorScheduleDate)) { showToast('该日期已冻结，不可修改', 'warning'); return; }
   if (!confirm('确定删除这个班次吗？')) return;
   const doorData = Store.get('doorSchedule') || [];
   const day = doorData.find(d => d.date === doorScheduleDate);
