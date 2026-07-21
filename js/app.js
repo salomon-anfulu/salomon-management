@@ -3370,7 +3370,7 @@ linggongAttendance: {
                 "signIn": "07:56",
                 "signOut": "19:02",
                 "status": "打卡正常",
-                "totalHours": "95"
+                "totalHours": "104.5"
         },
         {
                 "name": "孔祥宇",
@@ -3386,7 +3386,7 @@ linggongAttendance: {
                 "signIn": "07:55",
                 "signOut": "20:30",
                 "status": "打卡正常",
-                "totalHours": "90"
+                "totalHours": "99"
         },
         {
                 "name": "李若彤",
@@ -3402,7 +3402,7 @@ linggongAttendance: {
                 "signIn": "07:48",
                 "signOut": "21:33",
                 "status": "打卡正常",
-                "totalHours": "110"
+                "totalHours": "121"
         },
         {
                 "name": "梁实秋",
@@ -3410,7 +3410,7 @@ linggongAttendance: {
                 "signIn": "07:48",
                 "signOut": "19:00",
                 "status": "打卡正常",
-                "totalHours": "95"
+                "totalHours": "104.5"
         },
         {
                 "name": "王雅澜",
@@ -3426,7 +3426,7 @@ linggongAttendance: {
                 "signIn": "07:45",
                 "signOut": "16:17",
                 "status": "打卡正常",
-                "totalHours": "75"
+                "totalHours": "82.5"
         },
         {
                 "name": "玛依拉",
@@ -3482,7 +3482,7 @@ linggongAttendance: {
                 "signIn": "07:47",
                 "signOut": "17:00",
                 "status": "打卡正常",
-                "totalHours": "75"
+                "totalHours": "82.5"
         },
         {
                 "name": "严佳铮",
@@ -4282,7 +4282,7 @@ linggongAttendance: {
                 "signIn": "12:23",
                 "signOut": "21:00",
                 "status": "打卡正常",
-                "totalHours": "99"
+                "totalHours": "110"
         },
         {
                 "name": "王雅澜",
@@ -4883,6 +4883,62 @@ linggongAttendance: {
                 "signOut": "21:00",
                 "status": "打卡正常",
                 "totalHours": "8"
+        },
+        {
+                "name": "唐蓉",
+                "date": "2026-07-21",
+                "signIn": "11:28",
+                "signOut": "20:31",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
+                "name": "朱凯赟",
+                "date": "2026-07-21",
+                "signIn": "12:13",
+                "signOut": "21:00",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "李健华",
+                "date": "2026-07-21",
+                "signIn": "12:29",
+                "signOut": "21:08",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "杨子豪",
+                "date": "2026-07-21",
+                "signIn": "10:16",
+                "signOut": "16:00",
+                "status": "打卡正常",
+                "totalHours": "5"
+        },
+        {
+                "name": "玛依拉",
+                "date": "2026-07-21",
+                "signIn": "09:53",
+                "signOut": "18:32",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "迟骋",
+                "date": "2026-07-21",
+                "signIn": "12:52",
+                "signOut": "21:31",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "陈广权",
+                "date": "2026-07-21",
+                "signIn": "10:29",
+                "signOut": "18:21",
+                "status": "打卡正常",
+                "totalHours": "7"
         }
         ]
     },
@@ -5302,7 +5358,7 @@ linggongAttendance: {
       { id: 33, staffName: '王龙宇', month: '2026-07', rating: 5, reviewDate: '2026-07-20', snippet: '强烈安利导购龙宇！待人温和又细心，耐心解答我好多小白问题，不强行推销，安安静静帮我挑选合适的鞋子，体验感满分啦', keywords: ['强烈安利', '温和细心', '耐心解答', '不强行推销', '安安静静', '体验满分', '超预期'], source: '大众点评（小张胃胀，Lv1）' },
     ],
 
-    _dataVersion: '2026-07-22-v134',  },
+    _dataVersion: '2026-07-22-v135',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -5346,7 +5402,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-22-v134';
+      const DATA_VERSION = '2026-07-22-v135';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
