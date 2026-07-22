@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 385,
-    "lastUpdated": "2026-07-22T04:07:07.300Z",
-    "lastUpdatedBy": "王靳毓"
+    "version": 386,
+    "lastUpdated": "2026-07-22T04:07:32.568Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -6608,7 +6608,7 @@
           "_noteUpdatedAt": 1784684839912
         },
         "王靳毓": {
-          "total": 2,
+          "total": 10,
           "unavailable": [],
           "note": "",
           "dates": {
@@ -6621,6 +6621,46 @@
               "available": true,
               "note": "",
               "_updatedAt": 1784693227260
+            },
+            "8/3": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784684850453
+            },
+            "8/4": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784684851400
+            },
+            "8/5": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784684852620
+            },
+            "8/6": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784684853659
+            },
+            "8/7": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784684854632
+            },
+            "8/8": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784684855699
+            },
+            "8/9": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784684856746
+            },
+            "8/10": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784684857783
             }
           },
           "_noteUpdatedAt": 1784689407417
@@ -12562,6 +12602,16 @@
           "time": "16:00:00-17:00:00",
           "staff": "迟骋",
           "_updatedAt": "1784626990790"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-22",
+      "slots": [
+        {
+          "time": "10:00:00-11:00:00",
+          "staff": "王靳毓",
+          "_updatedAt": "1784684870345"
         }
       ]
     }
