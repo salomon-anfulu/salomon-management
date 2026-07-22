@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 402,
-    "lastUpdated": "2026-07-22T05:13:43.791Z",
-    "lastUpdatedBy": "朱凯赟"
+    "version": 403,
+    "lastUpdated": "2026-07-22T06:03:39.713Z",
+    "lastUpdatedBy": "梁实秋"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7715,7 +7715,8 @@
               "note": "",
               "_updatedAt": 1784697223751
             }
-          }
+          },
+          "_noteUpdatedAt": 1784700202534
         }
       }
     },
@@ -10683,7 +10684,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记录客流",
-      "_updatedAt": 1784618716129
+      "_updatedAt": "1784618716129"
     },
     {
       "id": 1784621550169,
@@ -10756,6 +10757,15 @@
       "duration": "1小时",
       "detail": "记客流",
       "_updatedAt": "1784696627722"
+    },
+    {
+      "id": 1784700219729,
+      "staff": "梁实秋",
+      "date": "2026-07-22",
+      "type": "货品-整理仓库",
+      "duration": "1.5小时",
+      "detail": "收货",
+      "_updatedAt": 1784700219660
     }
   ],
   "doorSchedule": [
