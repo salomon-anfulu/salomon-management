@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 376,
-    "lastUpdated": "2026-07-22T03:11:24.014Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 377,
+    "lastUpdated": "2026-07-22T03:11:55.476Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -6971,7 +6971,7 @@
               "_updatedAt": 1784689542735
             }
           },
-          "_noteUpdatedAt": 1784689614390
+          "_noteUpdatedAt": 1784689559598
         }
       }
     },
