@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 394,
-    "lastUpdated": "2026-07-22T04:47:17.937Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 395,
+    "lastUpdated": "2026-07-22T04:49:57.432Z",
+    "lastUpdatedBy": "玛依拉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,23 +2818,23 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/15": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/16": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/17": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/18": {
               "available": true,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -6578,7 +6578,7 @@
           "_noteUpdatedAt": 1784628603941
         },
         "玛依拉": {
-          "total": 2,
+          "total": 31,
           "unavailable": [],
           "note": "",
           "dates": {
@@ -6591,6 +6591,151 @@
               "available": true,
               "note": "",
               "_updatedAt": 1784638202682
+            },
+            "8/3": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689475078
+            },
+            "8/4": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689476643
+            },
+            "8/5": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689477944
+            },
+            "8/6": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689479177
+            },
+            "8/7": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689480340
+            },
+            "8/8": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689481540
+            },
+            "8/9": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689482775
+            },
+            "8/10": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689484088
+            },
+            "8/11": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689485288
+            },
+            "8/12": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689486470
+            },
+            "8/13": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689487670
+            },
+            "8/14": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689489169
+            },
+            "8/15": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689490385
+            },
+            "8/16": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689491651
+            },
+            "8/17": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689492919
+            },
+            "8/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689494150
+            },
+            "8/19": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689495332
+            },
+            "8/20": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689496550
+            },
+            "8/21": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689497765
+            },
+            "8/22": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689498997
+            },
+            "8/23": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689500301
+            },
+            "8/24": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689501531
+            },
+            "8/25": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689502747
+            },
+            "8/26": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689503932
+            },
+            "8/27": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689505276
+            },
+            "8/28": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689506493
+            },
+            "8/29": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689507761
+            },
+            "8/30": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689509262
+            },
+            "8/31": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689510626
             }
           },
           "_noteUpdatedAt": 1784695450011
@@ -10563,6 +10708,15 @@
       "duration": "1小时",
       "detail": "二楼柜子换陈列",
       "_updatedAt": "1784692677912"
+    },
+    {
+      "id": 1784695797548,
+      "staff": "玛依拉",
+      "date": "2026-07-21",
+      "type": "其他",
+      "duration": "1.5小时",
+      "detail": "记录客流",
+      "_updatedAt": 1784695796655
     }
   ],
   "doorSchedule": [
