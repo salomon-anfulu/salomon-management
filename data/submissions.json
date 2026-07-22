@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 429,
-    "lastUpdated": "2026-07-22T10:42:50.466Z",
-    "lastUpdatedBy": "迟骋"
+    "version": 430,
+    "lastUpdated": "2026-07-22T10:55:44.851Z",
+    "lastUpdatedBy": "王雅澜"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,23 +2818,23 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/15": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/16": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/17": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/18": {
               "available": true,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -11083,7 +11083,7 @@
       "type": "其他",
       "duration": "0.5小时",
       "detail": "记录客流",
-      "_updatedAt": 1784716970422
+      "_updatedAt": "1784716970422"
     }
   ],
   "doorSchedule": [
@@ -13495,6 +13495,11 @@
           "time": "18:00:00-19:00:00",
           "staff": "孔祥宇",
           "_updatedAt": "1784713124058"
+        },
+        {
+          "time": "20:00:00-21:00:00",
+          "staff": "王雅澜",
+          "_updatedAt": "1784717744796"
         }
       ]
     }
