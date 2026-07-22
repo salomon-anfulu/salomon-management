@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 423,
-    "lastUpdated": "2026-07-22T10:22:07.806Z",
-    "lastUpdatedBy": "梁实秋"
+    "version": 424,
+    "lastUpdated": "2026-07-22T10:22:40.128Z",
+    "lastUpdatedBy": "朱凯赟"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7736,14 +7736,24 @@
           "_noteUpdatedAt": 1784712452872
         },
         "朱凯赟": {
-          "total": 1,
+          "total": 3,
           "unavailable": [],
           "note": "",
           "dates": {
             "8/1": {
               "available": true,
               "note": "",
-              "_updatedAt": 1784697223751
+              "_updatedAt": 1784697252021
+            },
+            "8/2": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784697254720
+            },
+            "8/3": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784715760090
             }
           },
           "_noteUpdatedAt": 1784712452872
@@ -10885,7 +10895,7 @@
       "type": "其他",
       "duration": "0.5小时",
       "detail": "1.5层记录客流",
-      "_updatedAt": 1784707443636
+      "_updatedAt": "1784707443636"
     },
     {
       "id": 1784707744812,
@@ -10894,7 +10904,7 @@
       "type": "货品-辅助收货",
       "duration": "1.5小时",
       "detail": "",
-      "_updatedAt": 1784707744067
+      "_updatedAt": "1784707744067"
     },
     {
       "id": 1784708002383,
