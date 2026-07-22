@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 381,
-    "lastUpdated": "2026-07-22T03:13:55.258Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 382,
+    "lastUpdated": "2026-07-22T03:30:57.227Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -6971,7 +6971,7 @@
               "_updatedAt": 1784689542735
             }
           },
-          "_noteUpdatedAt": 1784689614390
+          "_noteUpdatedAt": 1784689559598
         },
         "王雅澜": {
           "total": 31,
@@ -7134,7 +7134,7 @@
               "_updatedAt": 1784689992495
             }
           },
-          "_noteUpdatedAt": 1784690031780
+          "_noteUpdatedAt": 1784689994909
         }
       }
     },
@@ -7625,7 +7625,7 @@
               "_updatedAt": 1784689848612
             }
           },
-          "_noteUpdatedAt": 1784689935068
+          "_noteUpdatedAt": 1784689964636
         }
       }
     },
@@ -7792,7 +7792,7 @@
               "_updatedAt": 1784689922297
             }
           },
-          "_noteUpdatedAt": 1784689935068
+          "_noteUpdatedAt": 1784689964636
         }
       }
     }
@@ -8045,6 +8045,17 @@
       "joinDate": "2026-07-08",
       "status": "active",
       "avatar_color": "#06b6d4",
+      "availableDays": 0,
+      "mbti": ""
+    },
+    {
+      "id": 23,
+      "name": "何思嘉",
+      "gender": "女",
+      "dept": "仓库兼职",
+      "joinDate": "2026-07-22",
+      "status": "active",
+      "avatar_color": "#3b82f6",
       "availableDays": 0,
       "mbti": ""
     }
