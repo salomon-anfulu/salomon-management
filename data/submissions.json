@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 406,
-    "lastUpdated": "2026-07-22T06:06:17.408Z",
-    "lastUpdatedBy": "梁实秋"
+    "version": 407,
+    "lastUpdated": "2026-07-22T07:32:41.640Z",
+    "lastUpdatedBy": "王雅澜"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -7716,7 +7716,7 @@
               "_updatedAt": 1784697223751
             }
           },
-          "_noteUpdatedAt": 1784700202534
+          "_noteUpdatedAt": 1784705561637
         }
       }
     },
@@ -13156,6 +13156,11 @@
           "time": "12:00:00-13:00:00",
           "staff": "迟骋",
           "_updatedAt": "1784692721781"
+        },
+        {
+          "time": "14:00:00-15:00:00",
+          "staff": "王雅澜",
+          "_updatedAt": "1784705546994"
         }
       ]
     }
