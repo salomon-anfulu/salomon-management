@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 412,
-    "lastUpdated": "2026-07-22T08:31:56.085Z",
-    "lastUpdatedBy": "孔祥宇"
+    "version": 413,
+    "lastUpdated": "2026-07-22T09:22:47.667Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5114,7 +5114,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5192,10 +5192,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -6857,7 +6856,7 @@
           "_noteUpdatedAt": 1784695450011
         },
         "唐蓉": {
-          "total": 25,
+          "total": 31,
           "unavailable": [],
           "note": "",
           "dates": {
@@ -6985,6 +6984,36 @@
               "available": true,
               "note": "",
               "_updatedAt": 1784689468969
+            },
+            "8/26": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689470654
+            },
+            "8/27": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689472338
+            },
+            "8/28": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689474240
+            },
+            "8/29": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689476025
+            },
+            "8/30": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689477694
+            },
+            "8/31": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689479461
             }
           },
           "_noteUpdatedAt": 1784695450011
@@ -10810,7 +10839,7 @@
       "type": "其他",
       "duration": "2小时",
       "detail": "记客流",
-      "_updatedAt": 1784709072592
+      "_updatedAt": "1784709072592"
     }
   ],
   "doorSchedule": [
@@ -13172,6 +13201,11 @@
           "time": "16:00:00-17:00:00",
           "staff": "迟骋",
           "_updatedAt": "1784626990790"
+        },
+        {
+          "time": "19:00:00-20:00:00",
+          "staff": "唐蓉",
+          "_updatedAt": "1784689524520"
         }
       ]
     },
