@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 364,
-    "lastUpdated": "2026-07-22T03:03:24.420Z",
+    "version": 365,
+    "lastUpdated": "2026-07-22T03:03:41.931Z",
     "lastUpdatedBy": "manual-sync"
   },
   "availability": {
@@ -2821,19 +2821,19 @@
             },
             "7/14": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/15": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/16": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/17": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/18": {
               "available": true,
@@ -6600,7 +6600,7 @@
               "_updatedAt": 1784682973739
             }
           },
-          "_noteUpdatedAt": 1784684839912
+          "_noteUpdatedAt": 1784689421924
         },
         "王靳毓": {
           "total": 1,
@@ -6613,7 +6613,7 @@
               "_updatedAt": 1784684848177
             }
           },
-          "_noteUpdatedAt": 1784689404248
+          "_noteUpdatedAt": 1784689421924
         }
       }
     },
