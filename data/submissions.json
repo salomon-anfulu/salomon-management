@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 433,
-    "lastUpdated": "2026-07-22T12:03:31.374Z",
-    "lastUpdatedBy": "梁实秋"
+    "version": 434,
+    "lastUpdated": "2026-07-22T12:15:59.354Z",
+    "lastUpdatedBy": "王龙宇"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -7884,8 +7884,9 @@
           "_noteUpdatedAt": 1784712452872
         },
         "王龙宇": {
-          "total": 6,
+          "total": 5,
           "unavailable": [
+            "8/1",
             "8/3",
             "8/4",
             "8/5",
@@ -7894,9 +7895,9 @@
           "note": "",
           "dates": {
             "8/1": {
-              "available": true,
+              "available": false,
               "note": "",
-              "_updatedAt": 1784712565489
+              "_updatedAt": 1784722559329
             },
             "8/2": {
               "available": true,
@@ -11101,7 +11102,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "1.5记录客流",
-      "_updatedAt": 1784721811320
+      "_updatedAt": "1784721811320"
     }
   ],
   "doorSchedule": [
