@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 415,
-    "lastUpdated": "2026-07-22T09:27:32.878Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 416,
+    "lastUpdated": "2026-07-22T09:28:42.683Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7747,6 +7747,47 @@
             }
           },
           "_noteUpdatedAt": 1784712452872
+        },
+        "王龙宇": {
+          "total": 3,
+          "unavailable": [
+            "8/1",
+            "8/3",
+            "8/4"
+          ],
+          "note": "",
+          "dates": {
+            "8/1": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784712506283
+            },
+            "8/2": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784712483363
+            },
+            "8/3": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784712487347
+            },
+            "8/4": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784712489128
+            },
+            "8/5": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784712498944
+            },
+            "8/6": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784712501666
+            }
+          }
         }
       }
     },
@@ -10849,7 +10890,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记录客流",
-      "_updatedAt": 1784712209670
+      "_updatedAt": "1784712209670"
     }
   ],
   "doorSchedule": [
