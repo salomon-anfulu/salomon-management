@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 388,
-    "lastUpdated": "2026-07-22T04:10:04.300Z",
-    "lastUpdatedBy": "王靳毓"
+    "version": 389,
+    "lastUpdated": "2026-07-22T04:11:27.438Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5114,7 +5114,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5192,9 +5192,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -6595,7 +6596,7 @@
           "_noteUpdatedAt": 1784638273394
         },
         "贾长乐": {
-          "total": 1,
+          "total": 9,
           "unavailable": [],
           "note": "",
           "dates": {
@@ -6603,6 +6604,46 @@
               "available": true,
               "note": "",
               "_updatedAt": 1784682973739
+            },
+            "8/2": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784682975288
+            },
+            "8/3": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689482715
+            },
+            "8/4": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689484063
+            },
+            "8/5": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689485463
+            },
+            "8/6": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689486886
+            },
+            "8/7": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689488197
+            },
+            "8/8": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689489536
+            },
+            "8/9": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689490945
             }
           },
           "_noteUpdatedAt": 1784684839912
