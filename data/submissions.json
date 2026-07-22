@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 363,
-    "lastUpdated": "2026-07-22T01:47:28.228Z",
-    "lastUpdatedBy": "王靳毓"
+    "version": 364,
+    "lastUpdated": "2026-07-22T03:03:24.420Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2817,7 +2817,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2845,7 +2845,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -5108,7 +5108,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5186,9 +5186,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -6118,7 +6119,7 @@
           "_noteUpdatedAt": 1784620478730
         },
         "田佳乐": {
-          "total": 1,
+          "total": 31,
           "unavailable": [],
           "note": "",
           "dates": {
@@ -6126,6 +6127,156 @@
               "available": true,
               "note": "",
               "_updatedAt": 1784620457421
+            },
+            "8/2": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620459066
+            },
+            "8/3": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620461593
+            },
+            "8/4": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620462809
+            },
+            "8/5": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620463986
+            },
+            "8/6": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620465016
+            },
+            "8/7": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620466027
+            },
+            "8/8": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620466926
+            },
+            "8/9": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620468152
+            },
+            "8/10": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620469628
+            },
+            "8/11": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620470869
+            },
+            "8/12": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620471985
+            },
+            "8/13": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620473160
+            },
+            "8/14": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620474126
+            },
+            "8/15": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620475110
+            },
+            "8/16": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620476238
+            },
+            "8/23": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620477898
+            },
+            "8/22": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620479328
+            },
+            "8/21": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620480539
+            },
+            "8/20": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620481688
+            },
+            "8/19": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620482779
+            },
+            "8/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620483812
+            },
+            "8/17": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620485036
+            },
+            "8/24": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620486329
+            },
+            "8/25": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620487863
+            },
+            "8/26": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620488981
+            },
+            "8/27": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620490085
+            },
+            "8/28": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620491416
+            },
+            "8/29": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620492652
+            },
+            "8/30": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620493669
+            },
+            "8/31": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784620494781
             }
           },
           "_noteUpdatedAt": 1784620478730
@@ -6461,7 +6612,8 @@
               "note": "",
               "_updatedAt": 1784684848177
             }
-          }
+          },
+          "_noteUpdatedAt": 1784689404248
         }
       }
     },
@@ -8859,7 +9011,7 @@
       "type": "其他",
       "duration": "0.5小时",
       "detail": "检查易碎品",
-      "_updatedAt": 1784550384803
+      "_updatedAt": "1784550384803"
     },
     {
       "id": 1784550407170,
