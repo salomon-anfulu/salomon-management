@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 424,
-    "lastUpdated": "2026-07-22T10:22:40.128Z",
+    "version": 425,
+    "lastUpdated": "2026-07-22T10:23:28.627Z",
     "lastUpdatedBy": "朱凯赟"
   },
   "availability": {
@@ -7736,14 +7736,23 @@
           "_noteUpdatedAt": 1784712452872
         },
         "朱凯赟": {
-          "total": 3,
-          "unavailable": [],
+          "total": 4,
+          "unavailable": [
+            "8/1",
+            "8/5",
+            "8/6",
+            "8/7",
+            "8/8",
+            "8/10",
+            "8/11",
+            "8/12"
+          ],
           "note": "",
           "dates": {
             "8/1": {
-              "available": true,
+              "available": false,
               "note": "",
-              "_updatedAt": 1784697252021
+              "_updatedAt": 1784715762782
             },
             "8/2": {
               "available": true,
@@ -7754,6 +7763,51 @@
               "available": true,
               "note": "",
               "_updatedAt": 1784715760090
+            },
+            "8/4": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784715764600
+            },
+            "8/5": {
+              "available": false,
+              "note": "日本旅游",
+              "_updatedAt": 1784715776905
+            },
+            "8/6": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784715781187
+            },
+            "8/7": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784715785120
+            },
+            "8/8": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784715790136
+            },
+            "8/10": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784715793274
+            },
+            "8/11": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784715795370
+            },
+            "8/12": {
+              "available": false,
+              "note": "回来",
+              "_updatedAt": 1784715800072
+            },
+            "8/13": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784715803532
             }
           },
           "_noteUpdatedAt": 1784712452872
