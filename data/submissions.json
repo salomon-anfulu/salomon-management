@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 401,
-    "lastUpdated": "2026-07-22T05:13:05.035Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 402,
+    "lastUpdated": "2026-07-22T05:13:43.791Z",
+    "lastUpdatedBy": "朱凯赟"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2822,19 +2822,19 @@
             },
             "7/14": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/15": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/16": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/17": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/18": {
               "available": true,
@@ -7704,6 +7704,18 @@
             }
           },
           "_noteUpdatedAt": 1784695637935
+        },
+        "朱凯赟": {
+          "total": 1,
+          "unavailable": [],
+          "note": "",
+          "dates": {
+            "8/1": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784697223751
+            }
+          }
         }
       }
     },
@@ -10665,6 +10677,15 @@
       "_updatedAt": "1784609333820"
     },
     {
+      "id": 1784618717108,
+      "staff": "朱凯赟",
+      "date": "2026-07-21",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录客流",
+      "_updatedAt": 1784618716129
+    },
+    {
       "id": 1784621550169,
       "staff": "唐蓉",
       "date": "2026-07-21",
@@ -10734,7 +10755,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记客流",
-      "_updatedAt": 1784696627722
+      "_updatedAt": "1784696627722"
     }
   ],
   "doorSchedule": [
