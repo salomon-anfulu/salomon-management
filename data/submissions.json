@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 435,
-    "lastUpdated": "2026-07-22T12:16:28.775Z",
+    "version": 436,
+    "lastUpdated": "2026-07-22T12:17:34.491Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -7884,7 +7884,7 @@
           "_noteUpdatedAt": 1784712452872
         },
         "王龙宇": {
-          "total": 6,
+          "total": 14,
           "unavailable": [
             "8/1",
             "8/2",
@@ -7954,6 +7954,46 @@
               "available": true,
               "note": "",
               "_updatedAt": 1784722578767
+            },
+            "8/13": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784722590110
+            },
+            "8/14": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784722591379
+            },
+            "8/15": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784722592528
+            },
+            "8/16": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784722593459
+            },
+            "8/17": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784722598547
+            },
+            "8/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784722611781
+            },
+            "8/19": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784722612978
+            },
+            "8/20": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784722614149
             }
           },
           "_noteUpdatedAt": 1784712577073
