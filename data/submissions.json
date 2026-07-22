@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 427,
-    "lastUpdated": "2026-07-22T10:32:10.083Z",
-    "lastUpdatedBy": "王靳毓"
+    "version": 428,
+    "lastUpdated": "2026-07-22T10:41:30.866Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,23 +2818,23 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/15": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/16": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/17": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/18": {
               "available": true,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -5114,7 +5114,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5192,9 +5192,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -11073,7 +11074,7 @@
       "type": "其他",
       "duration": "1小时",
       "detail": "记录客流",
-      "_updatedAt": 1784716329991
+      "_updatedAt": "1784716329991"
     }
   ],
   "doorSchedule": [
@@ -13470,6 +13471,11 @@
           "time": "14:00:00-15:00:00",
           "staff": "王雅澜",
           "_updatedAt": "1784705546994"
+        },
+        {
+          "time": "16:00:00-17:00:00",
+          "staff": "迟骋",
+          "_updatedAt": "1784713924319"
         },
         {
           "time": "17:00:00-18:00:00",
