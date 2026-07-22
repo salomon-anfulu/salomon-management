@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 383,
-    "lastUpdated": "2026-07-22T03:32:12.224Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 384,
+    "lastUpdated": "2026-07-22T03:57:57.950Z",
+    "lastUpdatedBy": "迟骋"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2822,19 +2822,19 @@
             },
             "7/14": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/15": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/16": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/17": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/18": {
               "available": true,
@@ -7135,6 +7135,63 @@
             }
           },
           "_noteUpdatedAt": 1784689994909
+        },
+        "迟骋": {
+          "total": 10,
+          "unavailable": [],
+          "note": "",
+          "dates": {
+            "8/1": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689435172
+            },
+            "8/2": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689436388
+            },
+            "8/3": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689437595
+            },
+            "8/4": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689438687
+            },
+            "8/5": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689439872
+            },
+            "8/6": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689440955
+            },
+            "8/7": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689441921
+            },
+            "8/8": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689442889
+            },
+            "8/9": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689443894
+            },
+            "8/10": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689444978
+            }
+          }
         }
       }
     },
@@ -10130,6 +10187,15 @@
       "duration": "1小时",
       "detail": "雨后更换陈列",
       "_updatedAt": "1784642650177"
+    },
+    {
+      "id": 1784692678852,
+      "staff": "迟骋",
+      "date": "2026-07-22",
+      "type": "陈列-翻场支援",
+      "duration": "1小时",
+      "detail": "二楼柜子换陈列",
+      "_updatedAt": 1784692677912
     }
   ],
   "doorSchedule": [
