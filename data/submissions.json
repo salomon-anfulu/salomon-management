@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 365,
-    "lastUpdated": "2026-07-22T03:03:41.931Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 366,
+    "lastUpdated": "2026-07-22T03:04:30.344Z",
+    "lastUpdatedBy": "唐蓉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2707,14 +2707,14 @@
               "_updatedAt": 1783413175194
             },
             "7/21": {
-              "available": true,
+              "available": false,
               "note": "",
-              "_updatedAt": 1783413176352
+              "_updatedAt": 1784628381561
             },
             "7/22": {
-              "available": true,
+              "available": false,
               "note": "",
-              "_updatedAt": 1784605247846
+              "_updatedAt": 1784628383380
             },
             "7/23": {
               "available": true,
@@ -2742,9 +2742,9 @@
               "_updatedAt": 1784628377428
             },
             "7/28": {
-              "available": false,
+              "available": true,
               "note": "",
-              "_updatedAt": 1784605281902
+              "_updatedAt": 1784628379665
             },
             "7/29": {
               "available": true,
@@ -2764,9 +2764,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 30,
+          "total": 29,
           "unavailable": [
-            "7/28"
+            "7/21",
+            "7/22"
           ]
         },
         "迟骋": {
@@ -2817,23 +2818,23 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/15": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/16": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/17": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/18": {
               "available": true,
@@ -2845,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -4214,12 +4215,14 @@
               "note": ""
             },
             "7/27": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784689416518
             },
             "7/28": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784689418752
             },
             "7/29": {
               "available": true,
@@ -4236,8 +4239,11 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 21,
-          "unavailable": []
+          "total": 19,
+          "unavailable": [
+            "7/27",
+            "7/28"
+          ]
         },
         "玛依拉": {
           "dates": {
@@ -5108,7 +5114,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5186,10 +5192,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -6600,7 +6605,7 @@
               "_updatedAt": 1784682973739
             }
           },
-          "_noteUpdatedAt": 1784689421924
+          "_noteUpdatedAt": 1784684839912
         },
         "王靳毓": {
           "total": 1,
@@ -6613,7 +6618,139 @@
               "_updatedAt": 1784684848177
             }
           },
-          "_noteUpdatedAt": 1784689421924
+          "_noteUpdatedAt": 1784689423970
+        },
+        "唐蓉": {
+          "total": 25,
+          "unavailable": [],
+          "note": "",
+          "dates": {
+            "8/1": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689427327
+            },
+            "8/2": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689429122
+            },
+            "8/3": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689430907
+            },
+            "8/4": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689432559
+            },
+            "8/5": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689434512
+            },
+            "8/6": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689436327
+            },
+            "8/7": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689437961
+            },
+            "8/8": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689439596
+            },
+            "8/9": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689441273
+            },
+            "8/10": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689443232
+            },
+            "8/11": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689444917
+            },
+            "8/12": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689446576
+            },
+            "8/13": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689448370
+            },
+            "8/14": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689450171
+            },
+            "8/15": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689451939
+            },
+            "8/16": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689453744
+            },
+            "8/17": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689455476
+            },
+            "8/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689457227
+            },
+            "8/19": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689458946
+            },
+            "8/20": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689460612
+            },
+            "8/21": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689462247
+            },
+            "8/22": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689464032
+            },
+            "8/23": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689465750
+            },
+            "8/24": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689467384
+            },
+            "8/25": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689468969
+            }
+          }
         }
       }
     },
