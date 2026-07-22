@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 399,
-    "lastUpdated": "2026-07-22T05:03:25.628Z",
+    "version": 400,
+    "lastUpdated": "2026-07-22T05:04:26.883Z",
     "lastUpdatedBy": "auto-retry"
   },
   "availability": {
@@ -10725,7 +10725,16 @@
       "type": "陈列-翻场支援",
       "duration": "1.5小时",
       "detail": "二楼柜子陈列更换",
-      "_updatedAt": 1784696588416
+      "_updatedAt": "1784696588416"
+    },
+    {
+      "id": 1784696628716,
+      "staff": "迟骋",
+      "date": "2026-07-22",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记客流",
+      "_updatedAt": 1784696627722
     }
   ],
   "doorSchedule": [
