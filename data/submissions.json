@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 387,
-    "lastUpdated": "2026-07-22T04:08:40.001Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 388,
+    "lastUpdated": "2026-07-22T04:10:04.300Z",
+    "lastUpdatedBy": "王靳毓"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -6608,7 +6608,7 @@
           "_noteUpdatedAt": 1784684839912
         },
         "王靳毓": {
-          "total": 10,
+          "total": 11,
           "unavailable": [],
           "note": "",
           "dates": {
@@ -6661,6 +6661,11 @@
               "available": true,
               "note": "",
               "_updatedAt": 1784684857783
+            },
+            "8/11": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784693404239
             }
           },
           "_noteUpdatedAt": 1784689407417
