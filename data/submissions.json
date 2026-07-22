@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 408,
-    "lastUpdated": "2026-07-22T08:03:31.959Z",
-    "lastUpdatedBy": "梁实秋"
+    "version": 409,
+    "lastUpdated": "2026-07-22T08:13:22.167Z",
+    "lastUpdatedBy": "王雅澜"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -10774,7 +10774,16 @@
       "type": "货品-整理仓库",
       "duration": "1小时",
       "detail": "查找调拨衣服",
-      "_updatedAt": 1784707411210
+      "_updatedAt": "1784707411210"
+    },
+    {
+      "id": 1784708002383,
+      "staff": "王雅澜",
+      "date": "2026-07-22",
+      "type": "货品-整理仓库",
+      "duration": "2小时",
+      "detail": "贴标签",
+      "_updatedAt": 1784708002107
     }
   ],
   "doorSchedule": [
