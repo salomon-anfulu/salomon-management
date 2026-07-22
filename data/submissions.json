@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 417,
-    "lastUpdated": "2026-07-22T09:29:37.074Z",
-    "lastUpdatedBy": "王龙宇"
+    "version": 418,
+    "lastUpdated": "2026-07-22T09:30:47.178Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -7749,10 +7749,12 @@
           "_noteUpdatedAt": 1784712452872
         },
         "王龙宇": {
-          "total": 5,
+          "total": 4,
           "unavailable": [
             "8/3",
-            "8/4"
+            "8/4",
+            "8/5",
+            "8/6"
           ],
           "note": "",
           "dates": {
@@ -7777,19 +7779,24 @@
               "_updatedAt": 1784712575497
             },
             "8/5": {
-              "available": true,
+              "available": false,
               "note": "",
-              "_updatedAt": 1784712498944
+              "_updatedAt": 1784712578109
             },
             "8/6": {
-              "available": true,
+              "available": false,
               "note": "",
-              "_updatedAt": 1784712541262
+              "_updatedAt": 1784712617395
             },
             "8/10": {
               "available": true,
               "note": "",
               "_updatedAt": 1784712558359
+            },
+            "8/7": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784712620046
             }
           },
           "_noteUpdatedAt": 1784712577073
