@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 362,
-    "lastUpdated": "2026-07-22T01:16:13.777Z",
-    "lastUpdatedBy": "贾长乐"
+    "version": 363,
+    "lastUpdated": "2026-07-22T01:47:28.228Z",
+    "lastUpdatedBy": "王靳毓"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5108,7 +5108,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5186,10 +5186,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -6448,6 +6447,19 @@
               "available": true,
               "note": "",
               "_updatedAt": 1784682973739
+            }
+          },
+          "_noteUpdatedAt": 1784684839912
+        },
+        "王靳毓": {
+          "total": 1,
+          "unavailable": [],
+          "note": "",
+          "dates": {
+            "8/1": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784684848177
             }
           }
         }
@@ -8839,6 +8851,15 @@
       "duration": "0.5小时",
       "detail": "整理1.5仓库",
       "_updatedAt": "1784550372111"
+    },
+    {
+      "id": 1784550385699,
+      "staff": "王靳毓",
+      "date": "2026-07-20",
+      "type": "其他",
+      "duration": "0.5小时",
+      "detail": "检查易碎品",
+      "_updatedAt": 1784550384803
     },
     {
       "id": 1784550407170,
