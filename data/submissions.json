@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 366,
-    "lastUpdated": "2026-07-22T03:04:30.344Z",
-    "lastUpdatedBy": "唐蓉"
+    "version": 367,
+    "lastUpdated": "2026-07-22T03:04:39.614Z",
+    "lastUpdatedBy": "manual-sync"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -5114,7 +5114,7 @@
               "note": ""
             },
             "7/13": {
-              "available": true,
+              "available": false,
               "note": ""
             },
             "7/14": {
@@ -5192,9 +5192,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 24,
+          "total": 23,
           "unavailable": [
-            "7/7"
+            "7/7",
+            "7/13"
           ]
         },
         "陈广权": {
@@ -6618,7 +6619,7 @@
               "_updatedAt": 1784684848177
             }
           },
-          "_noteUpdatedAt": 1784689423970
+          "_noteUpdatedAt": 1784689407417
         },
         "唐蓉": {
           "total": 25,
@@ -6750,7 +6751,8 @@
               "note": "",
               "_updatedAt": 1784689468969
             }
-          }
+          },
+          "_noteUpdatedAt": 1784689479609
         }
       }
     },
