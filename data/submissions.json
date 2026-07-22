@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 368,
-    "lastUpdated": "2026-07-22T03:05:19.847Z",
-    "lastUpdatedBy": "严佳铮"
+    "version": 369,
+    "lastUpdated": "2026-07-22T03:05:30.766Z",
+    "lastUpdatedBy": "祖白代"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -6606,7 +6606,7 @@
               "_updatedAt": 1784682973739
             }
           },
-          "_noteUpdatedAt": 1784684839912
+          "_noteUpdatedAt": 1784689421924
         },
         "王靳毓": {
           "total": 1,
@@ -6619,7 +6619,7 @@
               "_updatedAt": 1784684848177
             }
           },
-          "_noteUpdatedAt": 1784689407417
+          "_noteUpdatedAt": 1784689421924
         },
         "唐蓉": {
           "total": 25,
@@ -6752,7 +6752,7 @@
               "_updatedAt": 1784689468969
             }
           },
-          "_noteUpdatedAt": 1784689479609
+          "_noteUpdatedAt": 1784689530765
         },
         "严佳铮": {
           "total": 1,
@@ -6763,6 +6763,130 @@
               "available": true,
               "note": "",
               "_updatedAt": 1784689519807
+            }
+          }
+        },
+        "祖白代": {
+          "total": 22,
+          "unavailable": [
+            "8/8"
+          ],
+          "note": "",
+          "dates": {
+            "8/1": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689479676
+            },
+            "8/2": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689481876
+            },
+            "8/3": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689484049
+            },
+            "8/4": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689485971
+            },
+            "8/5": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689488214
+            },
+            "8/6": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689490134
+            },
+            "8/7": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689492343
+            },
+            "8/9": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689495605
+            },
+            "8/8": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784689497601
+            },
+            "8/10": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689499631
+            },
+            "8/11": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689501349
+            },
+            "8/12": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689503097
+            },
+            "8/13": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689504935
+            },
+            "8/14": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689506784
+            },
+            "8/15": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689508566
+            },
+            "8/16": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689510232
+            },
+            "8/17": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689514452
+            },
+            "8/18": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689517023
+            },
+            "8/19": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689519172
+            },
+            "8/20": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689523588
+            },
+            "8/21": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689525663
+            },
+            "8/22": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689527680
+            },
+            "8/23": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689529686
             }
           }
         }
