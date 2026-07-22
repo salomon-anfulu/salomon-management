@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 403,
-    "lastUpdated": "2026-07-22T06:03:39.713Z",
+    "version": 404,
+    "lastUpdated": "2026-07-22T06:04:43.254Z",
     "lastUpdatedBy": "梁实秋"
   },
   "availability": {
@@ -10765,7 +10765,16 @@
       "type": "货品-整理仓库",
       "duration": "1.5小时",
       "detail": "收货",
-      "_updatedAt": 1784700219660
+      "_updatedAt": "1784700219660"
+    },
+    {
+      "id": 1784700283937,
+      "staff": "梁实秋",
+      "date": "2026-07-22",
+      "type": "货品-查鞋盒",
+      "duration": "1小时",
+      "detail": "核查发售鞋款",
+      "_updatedAt": 1784700283197
     }
   ],
   "doorSchedule": [
