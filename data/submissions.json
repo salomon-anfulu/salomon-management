@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 369,
-    "lastUpdated": "2026-07-22T03:05:30.766Z",
-    "lastUpdatedBy": "祖白代"
+    "version": 370,
+    "lastUpdated": "2026-07-22T03:05:46.873Z",
+    "lastUpdatedBy": "严佳铮"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,7 +2818,7 @@
             },
             "7/13": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/14": {
               "available": false,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": "试装工作"
+              "note": ""
             },
             "7/20": {
               "available": true,
@@ -6606,7 +6606,7 @@
               "_updatedAt": 1784682973739
             }
           },
-          "_noteUpdatedAt": 1784689421924
+          "_noteUpdatedAt": 1784684839912
         },
         "王靳毓": {
           "total": 1,
@@ -6619,7 +6619,7 @@
               "_updatedAt": 1784684848177
             }
           },
-          "_noteUpdatedAt": 1784689421924
+          "_noteUpdatedAt": 1784689407417
         },
         "唐蓉": {
           "total": 25,
@@ -6752,19 +6752,96 @@
               "_updatedAt": 1784689468969
             }
           },
-          "_noteUpdatedAt": 1784689530765
+          "_noteUpdatedAt": 1784689479609
         },
         "严佳铮": {
-          "total": 1,
-          "unavailable": [],
+          "total": 4,
+          "unavailable": [
+            "8/3",
+            "8/4",
+            "8/5",
+            "8/6",
+            "8/7",
+            "8/10",
+            "8/11",
+            "8/12",
+            "8/13",
+            "8/14"
+          ],
           "note": "",
           "dates": {
             "8/1": {
               "available": true,
               "note": "",
               "_updatedAt": 1784689519807
+            },
+            "8/2": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689523749
+            },
+            "8/3": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784689526364
+            },
+            "8/4": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784689528100
+            },
+            "8/5": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784689529624
+            },
+            "8/6": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784689531375
+            },
+            "8/7": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784689533358
+            },
+            "8/8": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689534988
+            },
+            "8/9": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784689536481
+            },
+            "8/10": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784689539884
+            },
+            "8/11": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784689541380
+            },
+            "8/12": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784689542833
+            },
+            "8/13": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784689544313
+            },
+            "8/14": {
+              "available": false,
+              "note": "",
+              "_updatedAt": 1784689545703
             }
-          }
+          },
+          "_noteUpdatedAt": 1784689546871
         },
         "祖白代": {
           "total": 22,
