@@ -31,6 +31,7 @@ const Store = {
       { id: 14, name: '严佳铮', gender: '男', dept: '仓库兼职', joinDate: '2026-03-01', status: 'active', avatar_color: '#22d3ee', availableDays: 7, mbti: '' },
       { id: 15, name: '祖白代', gender: '女', dept: '仓库兼职', joinDate: '2026-01-20', status: 'active', avatar_color: '#fb923c', availableDays: 29, mbti: '' },
       { id: 16, name: '陈广权', gender: '男', dept: '仓库兼职', joinDate: '2026-02-05', status: 'active', avatar_color: '#a78bfa', availableDays: 26, mbti: '' },
+      { id: 23, name: '何思嘉', gender: '女', dept: '仓库兼职', joinDate: '2026-07-22', status: 'active', avatar_color: '#3b82f6', availableDays: 0, mbti: '' },
       { id: 17, name: '贾长乐', gender: '男', dept: 'Service Team', joinDate: '2026-03-10', status: 'active', avatar_color: '#f472b6', availableDays: 13, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-20' },
       { id: 18, name: '玛依拉', gender: '女', dept: 'Service Team', joinDate: '2026-02-15', status: 'active', avatar_color: '#34d399', availableDays: 23, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-01' },
       { id: 19, name: '梁实秋', gender: '男', dept: 'Service Team', joinDate: '2026-01-25', status: 'active', avatar_color: '#fbbf24', availableDays: 19, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-20' },
@@ -5364,7 +5365,7 @@ linggongAttendance: {
       { id: 39, staffName: '迟骋', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '首先要夸导购CC小哥，人超级nice，全程耐心讲解，店里的款式很新，越野鞋和户外风服饰质感都在线。三楼的法式灵感空间特别出片，光影和装置设计很有氛围感。', keywords: ['人nice', '耐心讲解', '款式新', '法式灵感空间', '氛围感', '质感在线'], source: '大众点评（匿名用户，Lv5）' },
     ],
 
-    _dataVersion: '2026-07-22-v139',  },
+    _dataVersion: '2026-07-22-v140',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -5408,7 +5409,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-22-v139';
+      const DATA_VERSION = '2026-07-22-v140';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -5592,6 +5593,7 @@ linggongAttendance: {
       // 的人员调整（如转部门）永远无法生效。
       // 修复：无论版本是否匹配，都用 defaults.staff 的 dept/status/transferredFrom/
       // serviceTeamStartDate 强制覆盖用户数据中的同名成员。
+      // v140 增强：同时补齐 defaults 中新增但用户数据缺失的成员（如新增兼职）
       try {
         const _cur = JSON.parse(this._safeGetItem(this.KEY) || '{}');
         if (Array.isArray(_cur.staff) && Array.isArray(this.defaults.staff)) {
@@ -5616,15 +5618,24 @@ linggongAttendance: {
             }
             return s;
           });
+          // v140: 补齐 defaults 中新增但用户数据缺失的成员
+          const _curIds = new Set(_cur.staff.map(s => String(s.id)));
+          this.defaults.staff.forEach(_def => {
+            if (!_curIds.has(String(_def.id))) {
+              _cur.staff.push({ ..._def });
+              _changed = true;
+              console.log('[Store] v140: 补齐新增成员', _def.name, '(id=' + _def.id + ')');
+            }
+          });
           if (_changed) {
             this._safeSetItem(this.KEY, JSON.stringify(_cur));
-            console.log('[Store] v132: staff dept 强制同步完成');
+            console.log('[Store] v132/v140: staff 强制同步完成');
           }
         }
       } catch (_syncErr) {
         console.warn('[Store] staff dept 同步失败(非致命):', _syncErr);
       }
-      // ===== v132 staff dept 强制同步 END =====
+      // ===== v132/v140 staff 强制同步 END =====
 
     } catch (e) {
       console.error('[Store] 数据解析失败，尝试安全备份后重置:', e);
