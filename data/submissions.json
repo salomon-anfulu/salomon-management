@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 384,
-    "lastUpdated": "2026-07-22T03:57:57.950Z",
-    "lastUpdatedBy": "迟骋"
+    "version": 385,
+    "lastUpdated": "2026-07-22T04:07:07.300Z",
+    "lastUpdatedBy": "王靳毓"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2822,19 +2822,19 @@
             },
             "7/14": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/15": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/16": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/17": {
               "available": false,
-              "note": "走秀出差"
+              "note": ""
             },
             "7/18": {
               "available": true,
@@ -5114,7 +5114,7 @@
               "note": ""
             },
             "7/13": {
-              "available": false,
+              "available": true,
               "note": ""
             },
             "7/14": {
@@ -5192,10 +5192,9 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 23,
+          "total": 24,
           "unavailable": [
-            "7/7",
-            "7/13"
+            "7/7"
           ]
         },
         "陈广权": {
@@ -6609,7 +6608,7 @@
           "_noteUpdatedAt": 1784684839912
         },
         "王靳毓": {
-          "total": 1,
+          "total": 2,
           "unavailable": [],
           "note": "",
           "dates": {
@@ -6617,6 +6616,11 @@
               "available": true,
               "note": "",
               "_updatedAt": 1784684848177
+            },
+            "8/2": {
+              "available": true,
+              "note": "",
+              "_updatedAt": 1784693227260
             }
           },
           "_noteUpdatedAt": 1784689407417
@@ -7191,7 +7195,8 @@
               "note": "",
               "_updatedAt": 1784689444978
             }
-          }
+          },
+          "_noteUpdatedAt": 1784693219504
         }
       }
     },
@@ -10195,7 +10200,7 @@
       "type": "陈列-翻场支援",
       "duration": "1小时",
       "detail": "二楼柜子换陈列",
-      "_updatedAt": 1784692677912
+      "_updatedAt": "1784692677912"
     }
   ],
   "doorSchedule": [
