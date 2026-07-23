@@ -1,5 +1,6 @@
 {
-  "dataVersion": "2026-07-22-v141",
-  "cacheBuster": "141",
-  "updatedAt": "2026-07-22T18:20:00+08:00"
+  "dataVersion": "2026-07-23-v142",
+  "cacheBuster": "142",
+  "updatedAt": "2026-07-23T10:40:00+08:00",
+  "note": "v142: Supabase Auth 邮箱+密码登录体系 + auth-guard.js + 登录页重构"
 }

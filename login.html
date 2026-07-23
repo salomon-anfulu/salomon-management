@@ -17,6 +17,9 @@
       --text-secondary: #64748b;
       --bg: #f8fafc;
       --border: #e2e8f0;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #e94560;
     }
 
     body {
@@ -95,9 +98,39 @@
       line-height: 1.6;
     }
 
+    .input-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      font-size: 15px;
+      background: var(--bg);
+      color: var(--text-primary);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.1);
+    }
+
     .btn-login {
       width: 100%;
-      padding: 15px;
+      padding: 14px;
       background: linear-gradient(135deg, var(--accent), #c0392b);
       color: #fff;
       border: none;
@@ -105,18 +138,33 @@
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
       letter-spacing: 1px;
     }
 
-    .btn-login:hover {
+    .btn-login:hover:not(:disabled) {
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(233, 69, 96, 0.4);
     }
 
-    .btn-login:active {
+    .btn-login:active:not(:disabled) {
       transform: translateY(0);
     }
+
+    .btn-login:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .login-msg {
+      margin-top: 12px;
+      font-size: 13px;
+      min-height: 18px;
+    }
+
+    .login-msg.error { color: var(--error); }
+    .login-msg.success { color: var(--success); }
+    .login-msg.info { color: var(--warning); }
 
     .login-footer {
       text-align: center;
@@ -125,7 +173,37 @@
       color: #94a3b8;
     }
 
-    /* Sync settings */
+    .account-info {
+      margin-top: 20px;
+      padding: 14px;
+      background: var(--bg);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      text-align: left;
+    }
+
+    .account-info strong { color: var(--text-primary); }
+
+    .spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Legacy GitHub sync settings (collapsed by default) */
     .sync-toggle {
       display: block;
       margin: 16px auto 0;
@@ -204,90 +282,187 @@
       <div class="brand-sub">L140 兼职团队数据平台</div>
     </div>
     <div class="login-body">
-      <div class="welcome-text">欢迎进入兼职团队管理系统<br>点击下方按钮直接登录</div>
-      <button class="btn-login" onclick="doLogin()">进入系统</button>
+      <div class="welcome-text">兼职团队管理系统<br>请输入邮箱和密码登录</div>
+
+      <div class="input-group">
+        <label>📧 邮箱</label>
+        <input type="email" id="emailInput" placeholder="拼音@salomon.temp" autocomplete="username" />
+      </div>
+
+      <div class="input-group">
+        <label>🔑 密码</label>
+        <input type="password" id="passwordInput" placeholder="初始密码: Salomon2026!" autocomplete="current-password" />
+      </div>
+
+      <button class="btn-login" id="btnLogin" onclick="doAuthLogin()">
+        登 录
+      </button>
+
+      <div class="login-msg" id="loginMsg"></div>
+
+      <div class="account-info">
+        <strong>📋 首次登录说明：</strong><br>
+        邮箱格式：<strong>姓名拼音@salomon.temp</strong><br>
+        初始密码：<strong>Salomon2026!</strong><br>
+        管理员：<strong>admin@salomon.temp</strong><br>
+        <span style="color:#94a3b8;">登录后可在设置中修改密码</span>
+      </div>
+
       <button class="sync-toggle" onclick="toggleSyncPanel()">
-        <span class="sync-status" id="syncStatusDot"></span> ☁️ 同步设置
+        <span class="sync-status" id="syncStatusDot"></span> ☁️ 旧版 GitHub 同步
       </button>
       <div class="sync-panel" id="syncPanel">
         <label>GitHub Personal Access Token</label>
         <input type="password" id="syncTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
         <div class="token-hint">
-          📌 用于跨设备数据同步<br>
-          需具备 <b>repo → Contents: read & write</b> 权限<br>
-          <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:var(--accent);">创建 Fine-grained token →</a>
+          📌 仅用于旧版数据迁移，新系统使用 Supabase 云同步<br>
+          需具备 <b>repo → Contents: read & write</b> 权限
         </div>
-        <button class="btn-save-token" onclick="saveSyncToken()">💾 保存并验证</button>
+        <button class="btn-save-token" onclick="saveSyncToken()">💾 保存 Token</button>
         <div id="syncMsg" style="margin-top:8px;font-size:12px;"></div>
       </div>
     </div>
     <div class="login-footer">
-      安福路 Salomon 旗舰店 · 数据截至2026年6月
+      安福路 Salomon 旗舰店 · v142
     </div>
   </div>
 
+  <!-- Supabase config + client (必须在 auth 之前加载) -->
+  <script src="supabase/config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js?v=142"></script>
+
   <script>
-    function doLogin() {
-      sessionStorage.setItem('auth', JSON.stringify({
-        role: 'admin',
-        staffId: null,
-        staffName: null,
-        dept: null,
-        loginTime: Date.now()
-      }));
-      window.location.href = 'index.html';
+    // 回车键提交
+    document.getElementById('passwordInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') doAuthLogin();
+    });
+    document.getElementById('emailInput').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') document.getElementById('passwordInput').focus();
+    });
+
+    async function doAuthLogin() {
+      const email = document.getElementById('emailInput').value.trim();
+      const password = document.getElementById('passwordInput').value;
+      const btn = document.getElementById('btnLogin');
+      const msgEl = document.getElementById('loginMsg');
+
+      if (!email || !password) {
+        msgEl.className = 'login-msg error';
+        msgEl.textContent = '请填写邮箱和密码';
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>登录中...';
+      msgEl.className = 'login-msg info';
+      msgEl.textContent = '';
+
+      try {
+        // 尝试 Supabase 登录
+        if (typeof SalomonSupabase !== 'undefined' && SalamonSupabase.client) {
+          const { data, error } = await SalomonSupabase.client.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+          if (error) throw error;
+
+          // 登录成功，获取用户信息
+          const { data: staffData, error: staffErr } = await SalomonSupabase.client
+            .from('staff')
+            .select('*')
+            .eq('auth_id', data.user.id)
+            .single();
+
+          // 写入 session
+          sessionStorage.setItem('auth', JSON.stringify({
+            authenticated: true,
+            supabaseUserId: data.user.id,
+            staffId: staffData?.id || null,
+            staffName: staffData?.staff_name || data.user.user_metadata?.name || email,
+            dept: staffData?.dept || null,
+            role: staffData?.role || data.user.user_metadata?.role || 'parttime',
+            loginTime: Date.now()
+          }));
+
+          msgEl.className = 'login-msg success';
+          msgEl.textContent = '✅ 登录成功！正在跳转...';
+
+          setTimeout(() => {
+            window.location.href = 'index.html';
+          }, 500);
+          return;
+        }
+
+        // Supabase 未加载，降级旧模式（临时）
+        throw new Error('Supabase 未初始化');
+
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = '登 录';
+        msgEl.className = 'login-msg error';
+
+        if (err.message?.includes('Invalid login')) {
+          msgEl.textContent = '❌ 邮箱或密码错误';
+        } else if (err.message?.includes('Email not confirmed')) {
+          msgEl.textContent = '❌ 邮箱未验证，请联系管理员';
+        } else if (err.message?.includes('not confirmed') || err.message?.includes('verification')) {
+          // Supabase 默认开启邮箱确认，但我们用的是 .temp 域名
+          // 需要在 Dashboard 关闭邮箱确认，或手动确认
+          msgEl.innerHTML = '❌ 邮箱需要验证。<br>请在 Supabase Dashboard → Authentication → Users 中手动确认邮箱。<br>或在 Authentication → Providers → Email 中关闭"Confirm email"。';
+        } else {
+          msgEl.textContent = '❌ ' + (err.message || '登录失败');
+        }
+      }
     }
 
-    // ===== Sync Token 配置 =====
+    // ===== 旧版 GitHub 同步 =====
     function toggleSyncPanel() {
-      const panel = document.getElementById('syncPanel');
-      panel.classList.toggle('open');
+      document.getElementById('syncPanel').classList.toggle('open');
     }
 
     function updateSyncStatus() {
       const dot = document.getElementById('syncStatusDot');
       const token = localStorage.getItem('gh_sync_token');
       dot.className = 'sync-status ' + (token ? 'connected' : 'disconnected');
-      dot.title = token ? '已配置同步' : '未配置同步';
-      if (token) {
-        document.getElementById('syncTokenInput').value = token;
-      }
+      dot.title = token ? '已配置旧版同步' : '未配置旧版同步';
+      if (token) document.getElementById('syncTokenInput').value = token;
     }
 
     async function saveSyncToken() {
       const token = document.getElementById('syncTokenInput').value.trim();
       const msgEl = document.getElementById('syncMsg');
-
-      if (!token) {
-        msgEl.innerHTML = '<span style="color:#e94560;">请输入 Token</span>';
-        return;
-      }
-
-      msgEl.innerHTML = '<span style="color:#f59e0b;">验证中...</span>';
-
+      if (!token) { msgEl.innerHTML = '<span style="color:#e94560;">请输入 Token</span>'; return; }
       try {
         const resp = await fetch('https://api.github.com/repos/salomon-anfulu/salomon-management', {
-          headers: {
-            'Authorization': 'Bearer ' + token,
-            'Accept': 'application/vnd.github.v3+json',
-          }
+          headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.v3+json' }
         });
-
         if (resp.ok) {
           localStorage.setItem('gh_sync_token', token);
-          msgEl.innerHTML = '<span style="color:#10b981;">✅ Token 验证成功！已启用云同步</span>';
+          msgEl.innerHTML = '<span style="color:#10b981;">✅ Token 已保存</span>';
           updateSyncStatus();
         } else {
-          const err = await resp.json().catch(() => ({}));
-          msgEl.innerHTML = '<span style="color:#e94560;">❌ Token 无效: ' + (err.message || '认证失败') + '</span>';
+          msgEl.innerHTML = '<span style="color:#e94560;">❌ Token 无效</span>';
         }
       } catch (e) {
-        msgEl.innerHTML = '<span style="color:#e94560;">❌ 网络错误: ' + e.message + '</span>';
+        msgEl.innerHTML = '<span style="color:#e94560;">❌ 网络错误</span>';
       }
     }
 
-    // 初始化同步状态显示
     updateSyncStatus();
+
+    // 检查是否已登录（自动跳转）
+    (async function checkExistingSession() {
+      try {
+        if (typeof SalomonSupabase !== 'undefined' && SalomonSupabase.client) {
+          const { data: { session } } = await SalomonSupabase.client.auth.getSession();
+          if (session) {
+            window.location.href = 'index.html';
+          }
+        }
+      } catch(e) { /* 忽略，停留登录页 */ }
+    })();
   </script>
 </body>
 </html>
