@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-07-29-v144",
-  "cacheBuster": "144",
-  "updatedAt": "2026-07-29T11:48:00+08:00",
-  "note": "v144: 健康检查失败不再抛错（_client.from('staff').select('id').limit(1) 失败时只 warn 不 throw），避免 508/CDN 错误导致 Supabase 客户端被标记 offline 而跳过登录"
+  "dataVersion": "2026-07-29-v145",
+  "cacheBuster": "145",
+  "updatedAt": "2026-07-29T11:55:00+08:00",
+  "note": "v145: 修正 login.html 页脚版本号文字（之前 v144 漏改页脚导致显示 v143 误导用户），同步所有 ?v= 到 v145"
 }
