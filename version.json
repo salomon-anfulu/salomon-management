@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-07-23-v142",
-  "cacheBuster": "142",
-  "updatedAt": "2026-07-23T10:40:00+08:00",
-  "note": "v142: Supabase Auth 邮箱+密码登录体系 + auth-guard.js + 登录页重构"
+  "dataVersion": "2026-07-29-v143",
+  "cacheBuster": "143",
+  "updatedAt": "2026-07-29T11:25:00+08:00",
+  "note": "v143: 修复 login.html 第363行 SalamonSupabase 拼写错误 + supabase-client.js 暴露 window.salomonSupabase 便利别名"
 }

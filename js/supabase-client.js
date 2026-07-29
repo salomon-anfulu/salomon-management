@@ -84,6 +84,8 @@ async function initSupabase() {
       // 数据库级自动重连
       db: { schema: 'public' }
     });
+    // 便利别名：让 login.html 和 auth-guard.js 也能用 salomonSupabase.client 访问
+    window.salomonSupabase = { client: _client };
     _status.initialized = true;
     // 做一次健康检查（读一条 staff 记录）
     const { error } = await _client.from('staff').select('id').limit(1);

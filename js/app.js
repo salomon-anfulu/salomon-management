@@ -5365,7 +5365,7 @@ linggongAttendance: {
       { id: 39, staffName: '迟骋', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '首先要夸导购CC小哥，人超级nice，全程耐心讲解，店里的款式很新，越野鞋和户外风服饰质感都在线。三楼的法式灵感空间特别出片，光影和装置设计很有氛围感。', keywords: ['人nice', '耐心讲解', '款式新', '法式灵感空间', '氛围感', '质感在线'], source: '大众点评（匿名用户，Lv5）' },
     ],
 
-    _dataVersion: '2026-07-23-v142',  },
+    _dataVersion: '2026-07-29-v143',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -5409,7 +5409,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-23-v142';
+      const DATA_VERSION = '2026-07-29-v143';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       

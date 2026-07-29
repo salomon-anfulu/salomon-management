@@ -323,14 +323,14 @@
       </div>
     </div>
     <div class="login-footer">
-      安福路 Salomon 旗舰店 · v142
+      安福路 Salomon 旗舰店 · v143
     </div>
   </div>
 
   <!-- Supabase config + client (必须在 auth 之前加载) -->
-  <script src="supabase/config.js"></script>
+  <script src="supabase/config.js?v=143"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js?v=142"></script>
+  <script src="js/supabase-client.js?v=143"></script>
 
   <script>
     // 回车键提交
@@ -360,8 +360,8 @@
 
       try {
         // 尝试 Supabase 登录
-        if (typeof SalomonSupabase !== 'undefined' && SalamonSupabase.client) {
-          const { data, error } = await SalomonSupabase.client.auth.signInWithPassword({
+        if (typeof salomonSupabase !== 'undefined' && salomonSupabase.client) {
+          const { data, error } = await salomonSupabase.client.auth.signInWithPassword({
             email: email,
             password: password
           });
@@ -369,7 +369,7 @@
           if (error) throw error;
 
           // 登录成功，获取用户信息
-          const { data: staffData, error: staffErr } = await SalomonSupabase.client
+          const { data: staffData, error: staffErr } = await salomonSupabase.client
             .from('staff')
             .select('*')
             .eq('auth_id', data.user.id)
@@ -380,7 +380,7 @@
             authenticated: true,
             supabaseUserId: data.user.id,
             staffId: staffData?.id || null,
-            staffName: staffData?.staff_name || data.user.user_metadata?.name || email,
+            staffName: staffData?.name || data.user.user_metadata?.name || email,
             dept: staffData?.dept || null,
             role: staffData?.role || data.user.user_metadata?.role || 'parttime',
             loginTime: Date.now()
@@ -455,8 +455,8 @@
     // 检查是否已登录（自动跳转）
     (async function checkExistingSession() {
       try {
-        if (typeof SalomonSupabase !== 'undefined' && SalomonSupabase.client) {
-          const { data: { session } } = await SalomonSupabase.client.auth.getSession();
+        if (typeof salomonSupabase !== 'undefined' && salomonSupabase.client) {
+          const { data: { session } } = await salomonSupabase.client.auth.getSession();
           if (session) {
             window.location.href = 'index.html';
           }

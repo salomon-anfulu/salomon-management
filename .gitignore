@@ -20,3 +20,4 @@ data/
 *.png
 !images/**/*.png
 scripts/archive/
+service_role.key

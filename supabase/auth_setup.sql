@@ -32,35 +32,35 @@ CREATE UNIQUE INDEX IF NOT EXISTS idx_staff_auth_id ON public.staff(auth_id) WHE
 -- ------------------------------------------------------------
 -- 步骤 2：更新 staff 表的 email 和 phone 字段
 -- ------------------------------------------------------------
-UPDATE public.staff SET email = 'tianjiale@salomon.temp',  phone = '17613142469' WHERE staff_name = '田佳乐';
-UPDATE public.staff SET email = 'chicheng@salomon.temp',    phone = '15641153195' WHERE staff_name = '迟骋';
-UPDATE public.staff SET email = 'wangjinyu@salomon.temp',   phone = '18735796066' WHERE staff_name = '王靳毓';
-UPDATE public.staff SET email = 'zhukaiyun@salomon.temp',   phone = '13817425945' WHERE staff_name = '朱凯赟';
-UPDATE public.staff SET email = 'kongxiangyu@salomon.temp', phone = '17317692616' WHERE staff_name = '孔祥宇';
-UPDATE public.staff SET email = 'dengqiyuan@salomon.temp',  phone = '17742520904' WHERE staff_name = '邓奇缘';
-UPDATE public.staff SET email = 'yangzihao@salomon.temp',   phone = '17601250568' WHERE staff_name = '杨子豪';
-UPDATE public.staff SET email = 'wangyalan@salomon.temp',   phone = '18628916171' WHERE staff_name = '王雅澜';
-UPDATE public.staff SET email = 'liruotong@salomon.temp',   phone = '18121400532' WHERE staff_name = '李若彤';
-UPDATE public.staff SET email = 'wanglongyu@salomon.temp',  phone = '18452648526' WHERE staff_name = '王龙宇';
-UPDATE public.staff SET email = 'heqiuye@salomon.temp',     phone = '17385186797' WHERE staff_name = '何秋烨';
-UPDATE public.staff SET email = 'gongyunhao@salomon.temp',  phone = '18964138059' WHERE staff_name = '龚赟昊';
-UPDATE public.staff SET email = 'tangrong@salomon.temp',    phone = '13124679038' WHERE staff_name = '唐蓉';
-UPDATE public.staff SET email = 'lijianhua@salomon.temp',   phone = '13843050486' WHERE staff_name = '李健华';
-UPDATE public.staff SET email = 'wujiaying@salomon.temp',   phone = '15601740816' WHERE staff_name = '吴嘉莹';
-UPDATE public.staff SET email = 'yanjiazheng@salomon.temp', phone = '13917130275' WHERE staff_name = '严佳铮';
-UPDATE public.staff SET email = 'zubaidai@salomon.temp',    phone = '17599286705' WHERE staff_name = '祖白代';
-UPDATE public.staff SET email = 'chenguangquan@salomon.temp', phone = '18321137266' WHERE staff_name = '陈广权';
-UPDATE public.staff SET email = 'hesijia@salomon.temp',     phone = NULL WHERE staff_name = '何思嘉';
-UPDATE public.staff SET email = 'jiachangle@salomon.temp',  phone = '15359898665' WHERE staff_name = '贾长乐';
-UPDATE public.staff SET email = 'mayila@salomon.temp',      phone = '13821001226' WHERE staff_name = '玛依拉';
-UPDATE public.staff SET email = 'liangshiqiu@salomon.temp', phone = '13221271879' WHERE staff_name = '梁实秋';
+UPDATE public.staff SET email = 'tianjiale@salomon.temp',  phone = '17613142469' WHERE name = '田佳乐';
+UPDATE public.staff SET email = 'chicheng@salomon.temp',    phone = '15641153195' WHERE name = '迟骋';
+UPDATE public.staff SET email = 'wangjinyu@salomon.temp',   phone = '18735796066' WHERE name = '王靳毓';
+UPDATE public.staff SET email = 'zhukaiyun@salomon.temp',   phone = '13817425945' WHERE name = '朱凯赟';
+UPDATE public.staff SET email = 'kongxiangyu@salomon.temp', phone = '17317692616' WHERE name = '孔祥宇';
+UPDATE public.staff SET email = 'dengqiyuan@salomon.temp',  phone = '17742520904' WHERE name = '邓奇缘';
+UPDATE public.staff SET email = 'yangzihao@salomon.temp',   phone = '17601250568' WHERE name = '杨子豪';
+UPDATE public.staff SET email = 'wangyalan@salomon.temp',   phone = '18628916171' WHERE name = '王雅澜';
+UPDATE public.staff SET email = 'liruotong@salomon.temp',   phone = '18121400532' WHERE name = '李若彤';
+UPDATE public.staff SET email = 'wanglongyu@salomon.temp',  phone = '18452648526' WHERE name = '王龙宇';
+UPDATE public.staff SET email = 'heqiuye@salomon.temp',     phone = '17385186797' WHERE name = '何秋烨';
+UPDATE public.staff SET email = 'gongyunhao@salomon.temp',  phone = '18964138059' WHERE name = '龚赟昊';
+UPDATE public.staff SET email = 'tangrong@salomon.temp',    phone = '13124679038' WHERE name = '唐蓉';
+UPDATE public.staff SET email = 'lijianhua@salomon.temp',   phone = '13843050486' WHERE name = '李健华';
+UPDATE public.staff SET email = 'wujiaying@salomon.temp',   phone = '15601740816' WHERE name = '吴嘉莹';
+UPDATE public.staff SET email = 'yanjiazheng@salomon.temp', phone = '13917130275' WHERE name = '严佳铮';
+UPDATE public.staff SET email = 'zubaidai@salomon.temp',    phone = '17599286705' WHERE name = '祖白代';
+UPDATE public.staff SET email = 'chenguangquan@salomon.temp', phone = '18321137266' WHERE name = '陈广权';
+UPDATE public.staff SET email = 'hesijia@salomon.temp',     phone = NULL WHERE name = '何思嘉';
+UPDATE public.staff SET email = 'jiachangle@salomon.temp',  phone = '15359898665' WHERE name = '贾长乐';
+UPDATE public.staff SET email = 'mayila@salomon.temp',      phone = '13821001226' WHERE name = '玛依拉';
+UPDATE public.staff SET email = 'liangshiqiu@salomon.temp', phone = '13221271879' WHERE name = '梁实秋';
 
 -- ------------------------------------------------------------
 -- 步骤 3：创建管理员账号（插入 staff 表如果不存在）
 -- ------------------------------------------------------------
-INSERT INTO public.staff (staff_name, dept, status, email, role)
+INSERT INTO public.staff (name, dept, status, email, role)
 VALUES ('管理员', '管理', 'active', 'admin@salomon.temp', 'admin')
-ON CONFLICT (staff_name, dept) DO NOTHING;
+ON CONFLICT (name, dept) DO NOTHING;
 
 -- ------------------------------------------------------------
 -- 步骤 4：批量创建 auth.users
@@ -76,11 +76,12 @@ DECLARE
   _hashed_pw TEXT;
   _user_id UUID;
   _staff RECORD;
+  _app_role TEXT;
 BEGIN
   _hashed_pw := crypt('Salomon2026!', gen_salt('bf'));
   
   -- 遍历所有有 email 的 staff
-  FOR _staff IN SELECT id, staff_name, email FROM public.staff WHERE email IS NOT NULL LOOP
+  FOR _staff IN SELECT id, name, email FROM public.staff WHERE email IS NOT NULL LOOP
     -- 跳过已存在的用户
     IF EXISTS (SELECT 1 FROM auth.users WHERE email = _staff.email) THEN
       RAISE NOTICE '用户已存在，跳过: %', _staff.email;
@@ -88,12 +89,8 @@ BEGIN
     END IF;
     
     -- 确定 role
-    DECLARE
-      _app_role TEXT;
-    BEGIN
-      SELECT role INTO _app_role FROM public.staff WHERE id = _staff.id;
-      _app_role := COALESCE(_app_role, 'parttime');
-    END;
+    SELECT role INTO _app_role FROM public.staff WHERE id = _staff.id;
+    _app_role := COALESCE(_app_role, 'parttime');
     
     -- 创建 auth 用户
     INSERT INTO auth.users (
@@ -120,7 +117,7 @@ BEGIN
       now(),
       NULL,
       jsonb_build_object('provider', 'email', 'providers', '["email"]'),
-      jsonb_build_object('name', _staff.staff_name, 'staff_id', _staff.id, 'role', _app_role),
+      jsonb_build_object('name', _staff.name, 'staff_id', _staff.id, 'role', _app_role),
       now(),
       now(),
       NULL
@@ -222,5 +219,5 @@ CREATE POLICY "sync_meta_admin" ON public.sync_meta FOR ALL USING (
 
 -- ============================================================
 -- 完成！验证方式：
--- SELECT staff_name, email, role, auth_id IS NOT NULL AS has_account FROM staff ORDER BY role, staff_name;
+-- SELECT name, email, role, auth_id IS NOT NULL AS has_account FROM staff ORDER BY role, name;
 -- ============================================================
