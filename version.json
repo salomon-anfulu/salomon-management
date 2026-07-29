@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-07-29-v146",
-  "cacheBuster": "146",
-  "updatedAt": "2026-07-29T17:45:00+08:00",
-  "note": "v146: Store 接入 Supabase 云端同步（sync.js 桥接 app_data 表 + Realtime），GitHub Contents 同步降级为兜底通道"
+  "dataVersion": "2026-07-29-v147",
+  "cacheBuster": "147",
+  "updatedAt": "2026-07-29T11:55:00+08:00",
+  "note": "v147: 回滚 v146 - 移除 Supabase Realtime 订阅引发的 pull→render→push 无限刷新循环，同步逻辑退回 v145(GitHub Contents 兜底)，sync_table.sql 保留待修"
 }
