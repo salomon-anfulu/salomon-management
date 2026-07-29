@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-07-29-v145",
-  "cacheBuster": "145",
-  "updatedAt": "2026-07-29T11:55:00+08:00",
-  "note": "v145: 修正 login.html 页脚版本号文字（之前 v144 漏改页脚导致显示 v143 误导用户），同步所有 ?v= 到 v145"
+  "dataVersion": "2026-07-29-v146",
+  "cacheBuster": "146",
+  "updatedAt": "2026-07-29T17:45:00+08:00",
+  "note": "v146: Store 接入 Supabase 云端同步（sync.js 桥接 app_data 表 + Realtime），GitHub Contents 同步降级为兜底通道"
 }
