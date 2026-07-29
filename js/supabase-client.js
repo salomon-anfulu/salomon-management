@@ -87,11 +87,14 @@ async function initSupabase() {
     // 便利别名：让 login.html 和 auth-guard.js 也能用 salomonSupabase.client 访问
     window.salomonSupabase = { client: _client };
     _status.initialized = true;
-    // 做一次健康检查（读一条 staff 记录）
+    // 做一次健康检查（读一条 staff 记录）—— 失败不抛错，避免健康检查失败导致登录也跑不了
     const { error } = await _client.from('staff').select('id').limit(1);
-    if (error) throw error;
+    if (error) {
+      console.warn('[SbClient] 健康检查失败，但客户端仍可用:', error.message);
+    } else {
+      console.log('[SbClient] Supabase 连接成功:', SUPABASE_CONFIG.url);
+    }
     _status.online = true;
-    console.log('[SbClient] Supabase 连接成功:', SUPABASE_CONFIG.url);
     return _client;
   } catch (e) {
     _status.online = false;
