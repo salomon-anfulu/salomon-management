@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-07-29-v143",
-  "cacheBuster": "143",
-  "updatedAt": "2026-07-29T11:25:00+08:00",
-  "note": "v143: 修复 login.html 第363行 SalamonSupabase 拼写错误 + supabase-client.js 暴露 window.salomonSupabase 便利别名"
+  "dataVersion": "2026-07-29-v144",
+  "cacheBuster": "144",
+  "updatedAt": "2026-07-29T11:48:00+08:00",
+  "note": "v144: 健康检查失败不再抛错（_client.from('staff').select('id').limit(1) 失败时只 warn 不 throw），避免 508/CDN 错误导致 Supabase 客户端被标记 offline 而跳过登录"
 }
