@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 438,
-    "lastUpdated": "2026-07-22T13:02:39.472Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 439,
+    "lastUpdated": "2026-07-30T07:13:29.011Z",
+    "lastUpdatedBy": "玛依拉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2818,23 +2818,23 @@
             },
             "7/13": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/14": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/15": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/16": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/17": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/18": {
               "available": true,
@@ -2846,7 +2846,7 @@
             },
             "7/7": {
               "available": false,
-              "note": ""
+              "note": "试装工作"
             },
             "7/20": {
               "available": true,
@@ -11162,7 +11162,7 @@
       "type": "其他",
       "duration": "2小时",
       "detail": "记录客流",
-      "_updatedAt": 1784725294147
+      "_updatedAt": "1784725294147"
     }
   ],
   "doorSchedule": [
@@ -13441,11 +13441,6 @@
       "date": "2026-07-20",
       "slots": [
         {
-          "time": "10:00:00-11:00:00",
-          "staff": "朱凯赟",
-          "_updatedAt": "1784577218714"
-        },
-        {
           "time": "11:00:00-12:00:00",
           "staff": "李若彤",
           "_updatedAt": "1784531653365"
@@ -13579,6 +13574,16 @@
           "time": "20:00:00-21:00:00",
           "staff": "王雅澜",
           "_updatedAt": "1784717744796"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-30",
+      "slots": [
+        {
+          "time": "14:00:00-15:00:00",
+          "staff": "玛依拉",
+          "_updatedAt": "1785395608960"
         }
       ]
     }
@@ -14277,7 +14282,8 @@
       "14:00:00-15:00:00"
     ],
     "2026-07-20": [
-      "14:00:00-15:00:00"
+      "14:00:00-15:00:00",
+      "10:00:00-11:00:00"
     ],
     "2026-07-22": [
       "15:00:00-16:00:00"
