@@ -508,6 +508,37 @@ const SbAPI = {
     return { error };
   },
 
+  // ==================== app_data 表（整 blob 同步通道） ====================
+  // v150: Store 整个 JSON blob 存于 app_data(id='main').data
+  appData: {
+    async get() {
+      if (!_client) return { data: null, error: new Error('Supabase 未初始化') };
+      const { data, error } = await _client
+        .from('app_data')
+        .select('data, updated_at')
+        .eq('id', 'main')
+        .single();
+      if (error) {
+        // PGRST116 = 无匹配行（首次无数据），视为空而非错误
+        if (error.code === 'PGRST116') return { data: null, error: null };
+        return { data: null, error };
+      }
+      return { data: data && data.data ? data.data : null, error: null };
+    },
+    async save(blob, by) {
+      if (!_client) return { error: new Error('Supabase 未初始化') };
+      const { error } = await _client
+        .from('app_data')
+        .upsert({
+          id: 'main',
+          data: blob,
+          updated_by: by || '',
+          updated_at: new Date().toISOString()
+        }, { onConflict: 'id' });
+      return { error };
+    }
+  },
+
   // ==================== Realtime 订阅 ====================
   subscribe(table, callback, filter) {
     if (!_client) return null;

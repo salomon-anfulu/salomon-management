@@ -53,6 +53,22 @@ const Sync = {
   /** v51g: 上次 push 失败的错误信息，用于 manualSync 按钮精确反馈 */
   _lastPushError: null,
 
+  // ===== v150: Supabase 同步通道状态 =====
+  /** 上次写入 Supabase 的时间戳（回声防护：自己刚写入的 Realtime 回声忽略） */
+  _lastSupabaseWriteTs: 0,
+  /** app_data 表不存在则永久降级 GitHub（不刷日志） */
+  _supabaseTableMissing: false,
+  /** Realtime 频道引用 */
+  _realtimeChannel: null,
+  /** Realtime 防抖定时器 */
+  _realtimeDebounce: null,
+  /** 渲染风暴检测窗口起点 */
+  _renderWindowStart: 0,
+  /** 渲染风暴检测计数 */
+  _renderCount: 0,
+  /** Realtime 是否已初始化（防重复订阅） */
+  _supabaseInitDone: false,
+
   /**
    * 获取存储的 Token
    * P0-3 fix: localStorage 持久化 + base64 混淆（非明文，防遍历工具直接读取）
@@ -435,6 +451,10 @@ const Sync = {
    * @param {boolean} force - v51c: 强制拉取，跳过 PULL_INTERVAL 防抖（手动同步按钮使用）
    */
   async pull(silent = true, force = false) {
+    // v150: 纯 Supabase 模式（GitHub 未配置但 Supabase 在线）→ 走 Supabase 拉取
+    if (this._supabaseEnabled() && !this.isEnabled()) {
+      return this._pullFromSupabase(silent);
+    }
     if (!this.isEnabled()) {
       if (!silent) showToast('未配置同步Token，请先在设置中配置', 'warning');
       return false;
@@ -488,6 +508,10 @@ const Sync = {
           }
         });
       }
+      // v150: GitHub 拉取成功后，补充 Supabase 拉取（hash 比较防重复 render）
+      if (this._supabaseEnabled()) {
+        this._pullFromSupabase(true).catch(() => {});
+      }
       return true;
     } catch (e) {
       console.warn('[Sync] 拉取失败:', e.message);
@@ -496,12 +520,152 @@ const Sync = {
     }
   },
 
+  // ===== v150: Supabase 同步通道（安全重接，三重防循环） =====
+
+  /** Supabase 是否可用（在线 + 非风暴 + 表未缺失） */
+  _supabaseEnabled() {
+    if (window.__PANIC_SYNC__) return false;
+    return typeof SbClient !== 'undefined' && SbClient.isOnline && SbClient.isOnline() && !this._supabaseTableMissing;
+  },
+
+  /**
+   * 统一应用远端数据：合并到本地 + 必要时 render
+   * 带渲染锁(window.__applyingRemote) + 渲染次数上限（防风暴）
+   * 所有通道（GitHub / Supabase / Realtime）的远端数据都经此入口，保证一致防护
+   */
+  async _applyRemoteData(remoteBlob, source) {
+    if (!remoteBlob) return false;
+    if (window.__applyingRemote) return false; // 已在应用远端，防重入
+    const beforeStr = this._snapshotForCompare();
+    const beforeStaff = (Store.get('staff') || []).length;
+    // 渲染锁置位：合并期间 + 紧随的 render 内副作用不会触发 Supabase push（破循环关键）
+    window.__applyingRemote = true;
+    try {
+      this._mergeIntoLocal(remoteBlob);
+    } finally {
+      // 下一帧解除锁，确保 render 的微任务副作用也受保护
+      setTimeout(() => { window.__applyingRemote = false; }, 0);
+    }
+    const afterStr = this._snapshotForCompare();
+    const afterStaff = (Store.get('staff') || []).length;
+    const changed = beforeStr !== afterStr || beforeStaff !== afterStaff;
+    if (changed) {
+      console.log('[Sync] ' + (source || 'remote') + ' 数据已合并' + (source === 'supabase' ? '（来自 Supabase）' : ''));
+      this._maybeRender();
+    }
+    return changed;
+  },
+
+  /** 带上限的 render（8 秒内 > 6 次视为风暴，触发断路器） */
+  _maybeRender() {
+    const now = Date.now();
+    if (!this._renderWindowStart || (now - this._renderWindowStart) > 8000) {
+      this._renderWindowStart = now;
+      this._renderCount = 0;
+    }
+    this._renderCount = (this._renderCount || 0) + 1;
+    if (this._renderCount > 6) {
+      console.error('[Sync] 检测到异常高频刷新（风暴），触发断路器停用同步。请关闭此标签页重新打开。');
+      window.__PANIC_SYNC__ = true;
+      this._updateIndicator();
+      return;
+    }
+    if (typeof Router !== 'undefined' && Router.render) {
+      requestAnimationFrame(() => {
+        try { Router.render(); } catch (e) { console.warn('[Sync] render 失败:', e.message); }
+      });
+    }
+  },
+
+  /** 从 Supabase 拉取并应用（独立通道 or Realtime 触发） */
+  async _pullFromSupabase(silent = true) {
+    if (!this._supabaseEnabled()) return false;
+    try {
+      const { data, error } = await SbClient.appData.get();
+      if (error) {
+        if (/does not exist|relation "app_data"/.test(error.message || '')) {
+          this._supabaseTableMissing = true;
+          console.warn('[Sync] app_data 表不存在，Supabase 同步降级为 GitHub 兜底');
+        } else {
+          console.warn('[Sync] Supabase 拉取失败:', error.message);
+        }
+        return false;
+      }
+      if (!data) return false;
+      await this._applyRemoteData(data, 'supabase');
+      this._lastPull = Date.now();
+      this._lastSyncTime = Date.now();
+      return true;
+    } catch (e) {
+      console.warn('[Sync] Supabase 拉取异常:', e.message);
+      return false;
+    }
+  },
+
+  /** 推送本地数据到 Supabase（独立通道，last-write-merge） */
+  async _pushToSupabase(changedBy) {
+    if (!this._supabaseEnabled() || window.__applyingRemote || this._supabaseTableMissing) return false;
+    // 回声防护：记录写入时间戳，Realtime 回声在窗口内会被忽略
+    this._lastSupabaseWriteTs = Date.now();
+    try {
+      const { data: remote, error: getErr } = await SbClient.appData.get();
+      if (getErr) {
+        if (/does not exist|relation "app_data"/.test(getErr.message || '')) {
+          this._supabaseTableMissing = true;
+          console.warn('[Sync] app_data 表不存在，Supabase 同步降级为 GitHub 兜底');
+        }
+        return false;
+      }
+      const base = remote || { _meta: { version: 0 }, availability: {}, staff: [], shiftChanges: [], storeSupport: [], doorSchedule: [] };
+      // 复用 GitHub 的合并逻辑：把本地最新数据合入 base
+      this._mergeLocalIntoShared(base);
+      const { error } = await SbClient.appData.save(base, changedBy || 'unknown');
+      if (error) {
+        if (/does not exist|relation "app_data"/.test(error.message || '')) {
+          this._supabaseTableMissing = true;
+          console.warn('[Sync] app_data 表不存在，Supabase 同步降级为 GitHub 兜底');
+        } else {
+          console.warn('[Sync] Supabase 推送失败:', error.message);
+        }
+        return false;
+      }
+      console.log('[Sync] Supabase 推送成功 @', new Date().toLocaleTimeString());
+      return true;
+    } catch (e) {
+      console.warn('[Sync] Supabase 推送异常:', e.message);
+      return false;
+    }
+  },
+
+  /** 初始化 Realtime 订阅（回声防护 + 防抖触发 pull，绝不直接 render） */
+  _initRealtime() {
+    if (!this._supabaseEnabled() || this._supabaseTableMissing || this._realtimeChannel) return;
+    if (typeof SbClient.subscribe !== 'function') return;
+    this._realtimeChannel = SbClient.subscribe('app_data', (payload) => {
+      // ① 回声防护：自己刚 push 的变更在 3s 窗口内忽略
+      if (this._lastSupabaseWriteTs && (Date.now() - this._lastSupabaseWriteTs) < 3000) {
+        console.log('[Sync] Realtime 回声忽略（自己刚写入）');
+        return;
+      }
+      // ② 不直接 render：防抖触发 pull，由 _applyRemoteData 统一处理
+      if (this._realtimeDebounce) clearTimeout(this._realtimeDebounce);
+      this._realtimeDebounce = setTimeout(() => {
+        this._pullFromSupabase(true).catch(() => {});
+      }, 800);
+    });
+    console.log('[Sync] Realtime 订阅已建立 (app_data)');
+  },
+
   /**
    * 保存后推送数据到 GitHub
    * v51: 队列化，多次快速保存只产生一次有效 push（最后一条包含所有本地数据）
    * 冲突重试策略：最多 3 轮"拉-合-写"，每轮失败都重新拉取最新 SHA
    */
   async push(changedBy) {
+    // v150: Supabase 独立通道——无论 GitHub 是否启用，在线即并行推送（fire-and-forget，不阻塞）
+    if (this._supabaseEnabled() && !this._supabaseTableMissing) {
+      this._pushToSupabase(changedBy).catch(() => {});
+    }
     if (!this.isEnabled()) return false;
 
     // v51: 入队而非直接执行
@@ -1422,6 +1586,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.__PANIC_SYNC__) { try { Sync._updateIndicator(); } catch (e) {} return; }
   // 延迟拉取，避免阻塞页面渲染
   setTimeout(() => {
+    // v150: Supabase 在线则初始化 Realtime + 立即拉取最新
+    if (Sync._supabaseEnabled() && !Sync._supabaseInitDone) {
+      Sync._supabaseInitDone = true;
+      Sync._initRealtime();
+      Sync._pullFromSupabase(true).then(() => Sync._updateIndicator()).catch(() => {});
+    }
     if (Sync.isEnabled()) {
       Sync.pull(true).then(() => Sync._updateIndicator()).catch(() => {});
     } else {
@@ -1437,8 +1607,10 @@ function _startSyncTimer() {
   if (_syncTimer) return;
   if (window.__PANIC_SYNC__) return; // v149: 风暴中不起定时器，避免死循环
   _syncTimer = setInterval(() => {
-    if (Sync.isEnabled() && !document.hidden) {
-      Sync.pull(true).then(() => Sync._updateIndicator()).catch(() => {});
+    if (!document.hidden && (Sync.isEnabled() || Sync._supabaseEnabled())) {
+      // v150: 双通道并行（各自 hash 比较防重复 render）
+      if (Sync.isEnabled()) Sync.pull(true).then(() => Sync._updateIndicator()).catch(() => {});
+      if (Sync._supabaseEnabled()) Sync._pullFromSupabase(true).then(() => Sync._updateIndicator()).catch(() => {});
     }
   }, 15000);
 }
@@ -1456,6 +1628,9 @@ document.addEventListener('visibilitychange', () => {
     // 页面恢复可见时立即拉一次，然后恢复定时
     if (Sync.isEnabled()) {
       Sync.pull(true).then(() => Sync._updateIndicator()).catch(() => {});
+    }
+    if (Sync._supabaseEnabled()) {
+      Sync._pullFromSupabase(true).then(() => Sync._updateIndicator()).catch(() => {});
     }
     _startSyncTimer();
   }

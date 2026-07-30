@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-07-30-v149",
-  "cacheBuster": "149",
-  "updatedAt": "2026-07-30T10:30:00+08:00",
-  "note": "v149: 新增刷新风暴断路器（index.html 同步探针 + sync.js 顶部 no-op 短路），彻底杜绝任何版本意外引发连环刷新把浏览器卡死；同步仍走 v145 GitHub Contents 兜底；Supabase 同步待修好回声/render 副作用后重接"
+  "dataVersion": "2026-07-30-v150",
+  "cacheBuster": "150",
+  "updatedAt": "2026-07-30T11:00:00+08:00",
+  "note": "v150: 安全重接 Supabase 云端同步（sync.js 桥接 app_data 表 + Realtime，三重防循环：回声时间戳防护/渲染期间全局锁/渲染次数上限断路器；app_data 表不存在自动降级 GitHub 兜底）；保留 v149 风暴断路器；GitHub Contents 同步保留为兜底通道"
 }

@@ -16,9 +16,9 @@
  *   - SW 'controllerchange' 事件触发页面 reload（在探针逻辑中处理）
  */
 
-const SW_VERSION = 'sw-v149';
-const CACHE_STATIC = 'static-v149';
-const CACHE_IMG = 'img-v149';
+const SW_VERSION = 'sw-v150';
+const CACHE_STATIC = 'static-v150';
+const CACHE_IMG = 'img-v150';
 
 // 需要绕过 SW 的路径（直接走网络）
 const NETWORK_ONLY_PATHS = [
@@ -39,7 +39,7 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   event.waitUntil((async () => {
-    // v149: 清掉所有旧缓存（含可能残留的旧 ?v= 坏脚本），彻底切断旧版循环
+    // v150: 清掉所有旧缓存（含可能残留的旧 ?v= 坏脚本），彻底切断旧版循环
     // 注：index.html 探针也会在版本变化时清 Cache Storage，此处为双保险
     const keys = await caches.keys();
     await Promise.all(keys.map(k => caches.delete(k)));
