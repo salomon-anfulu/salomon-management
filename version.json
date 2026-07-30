@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-07-29-v148",
-  "cacheBuster": "148",
-  "updatedAt": "2026-07-30T10:20:00+08:00",
-  "note": "v148: 加固根治 SW 缓存残留导致的旧版脚本持续循环（探针清缓存 + SW activate 清所有缓存 + 版本号 bump 到 v148 三重保险）；同步仍走 v145 的 GitHub Contents 兜底逻辑；Supabase 同步待循环修好后重接"
+  "dataVersion": "2026-07-30-v149",
+  "cacheBuster": "149",
+  "updatedAt": "2026-07-30T10:30:00+08:00",
+  "note": "v149: 新增刷新风暴断路器（index.html 同步探针 + sync.js 顶部 no-op 短路），彻底杜绝任何版本意外引发连环刷新把浏览器卡死；同步仍走 v145 GitHub Contents 兜底；Supabase 同步待修好回声/render 副作用后重接"
 }

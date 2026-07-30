@@ -7,6 +7,26 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>安福路 Salomon 兼职管理系统</title>
+
+  <!-- v149 刷新风暴断路器（同步、最先执行）：检测异常连环刷新并标记，阻断探针/同步加剧死循环 -->
+  <script>
+    (function () {
+      try {
+        var KEY = '__reloadStorm__';
+        var now = Date.now();
+        var arr = [];
+        try { arr = JSON.parse(sessionStorage.getItem(KEY) || '[]'); } catch (e) {}
+        arr = arr.filter(function (t) { return now - t < 8000; });
+        arr.push(now);
+        sessionStorage.setItem(KEY, JSON.stringify(arr));
+        if (arr.length > 6) {
+          window.__PANIC_SYNC__ = true;
+          console.error('[PanicBreaker] 检测到刷新风暴（8秒内>' + arr.length + '次），已停用同步与探针刷新。请关闭此标签页并重新打开。');
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -218,8 +238,12 @@
         // 6. v130 强化：无论首次还是升级，只要 lastSeen 与 latest 不一致就强制刷新
         //    （首次访问 lastSeen=null，跳过 reload，让浏览器直接拿最新 ?v=130 文件）
         if (lastSeen && lastSeen !== latest) {
-          console.log('[VersionProbe] 检测到版本升级 ' + lastSeen + ' → ' + latest + '，强制刷新');
-          location.reload();
+          if (window.__PANIC_SYNC__) {
+            console.warn('[VersionProbe] 刷新风暴中，跳过强制刷新避免死循环');
+          } else {
+            console.log('[VersionProbe] 检测到版本升级 ' + lastSeen + ' → ' + latest + '，强制刷新');
+            location.reload();
+          }
         }
       } catch (e) {
         console.warn('[VersionProbe] 探针异常（非致命）:', e.message);

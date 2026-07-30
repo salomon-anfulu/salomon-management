@@ -16,6 +16,19 @@
  * ========================================
  */
 
+// v149: 刷新风暴断路器 — 若 index.html 标记了风暴，同步层进入降级 no-op，避免任何死循环
+if (window.__PANIC_SYNC__) {
+  console.error('[Sync] 刷新风暴断路器触发，同步已停用（no-op）。请关闭此标签页并重新打开以恢复正常。');
+  window.Sync = {
+    isEnabled: function () { return false; },
+    push: function () { return false; },
+    pull: function () { return Promise.resolve(false); },
+    init: function () {},
+    _updateIndicator: function () {},
+    _initRealtime: function () {}
+  };
+}
+
 const Sync = {
   REPO: 'salomon-anfulu/salomon-management',
   FILE_PATH: 'data/submissions.json',
@@ -1405,6 +1418,8 @@ const Sync = {
 
 // ===== 页面加载时自动拉取 =====
 document.addEventListener('DOMContentLoaded', () => {
+  // v149: 刷新风暴中直接跳过同步初始化，避免加剧死循环
+  if (window.__PANIC_SYNC__) { try { Sync._updateIndicator(); } catch (e) {} return; }
   // 延迟拉取，避免阻塞页面渲染
   setTimeout(() => {
     if (Sync.isEnabled()) {
@@ -1420,6 +1435,7 @@ let _syncTimer = null;
 
 function _startSyncTimer() {
   if (_syncTimer) return;
+  if (window.__PANIC_SYNC__) return; // v149: 风暴中不起定时器，避免死循环
   _syncTimer = setInterval(() => {
     if (Sync.isEnabled() && !document.hidden) {
       Sync.pull(true).then(() => Sync._updateIndicator()).catch(() => {});
@@ -1435,6 +1451,8 @@ document.addEventListener('visibilitychange', () => {
   if (document.hidden) {
     _stopSyncTimer();
   } else {
+    // v149: 风暴中只恢复定时器（已内部守卫），不主动 pull
+    if (window.__PANIC_SYNC__) { _startSyncTimer(); return; }
     // 页面恢复可见时立即拉一次，然后恢复定时
     if (Sync.isEnabled()) {
       Sync.pull(true).then(() => Sync._updateIndicator()).catch(() => {});
