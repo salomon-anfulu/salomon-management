@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-07-29-v147",
-  "cacheBuster": "147",
-  "updatedAt": "2026-07-29T11:55:00+08:00",
-  "note": "v147: 回滚 v146 - 移除 Supabase Realtime 订阅引发的 pull→render→push 无限刷新循环，同步逻辑退回 v145(GitHub Contents 兜底)，sync_table.sql 保留待修"
+  "dataVersion": "2026-07-29-v148",
+  "cacheBuster": "148",
+  "updatedAt": "2026-07-30T10:20:00+08:00",
+  "note": "v148: 加固根治 SW 缓存残留导致的旧版脚本持续循环（探针清缓存 + SW activate 清所有缓存 + 版本号 bump 到 v148 三重保险）；同步仍走 v145 的 GitHub Contents 兜底逻辑；Supabase 同步待循环修好后重接"
 }
