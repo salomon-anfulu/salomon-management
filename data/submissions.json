@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 441,
-    "lastUpdated": "2026-07-30T08:08:17.796Z",
+    "version": 442,
+    "lastUpdated": "2026-07-30T08:09:01.526Z",
     "lastUpdatedBy": "邓奇缘"
   },
   "availability": {
@@ -11171,7 +11171,16 @@
       "type": "货品-整理仓库",
       "duration": "3.5小时",
       "detail": "计客流，查货架11-15",
-      "_updatedAt": 1785398897732
+      "_updatedAt": "1785398897732"
+    },
+    {
+      "id": 1785398920355,
+      "staff": "邓奇缘",
+      "date": "2026-07-24",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "计客流",
+      "_updatedAt": "1785398920299"
     }
   ],
   "doorSchedule": [
