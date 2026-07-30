@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 446,
-    "lastUpdated": "2026-07-30T12:48:29.191Z",
+    "version": 447,
+    "lastUpdated": "2026-07-30T12:49:43.938Z",
     "lastUpdatedBy": "邓奇缘"
   },
   "availability": {
@@ -11207,7 +11207,7 @@
       "type": "其他",
       "duration": "4小时",
       "detail": "记客流，退仓",
-      "_updatedAt": 1785415709127
+      "_updatedAt": "1785415709127"
     }
   ],
   "doorSchedule": [
@@ -13684,6 +13684,11 @@
           "time": "15:00:00-16:00:00",
           "staff": "邓奇缘",
           "_updatedAt": "1785399200212"
+        },
+        {
+          "time": "19:00:00-20:00:00",
+          "staff": "邓奇缘",
+          "_updatedAt": "1785415734761"
         }
       ]
     }
