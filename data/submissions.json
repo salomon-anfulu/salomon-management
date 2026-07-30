@@ -1,7 +1,7 @@
 {
   "_meta": {
-    "version": 442,
-    "lastUpdated": "2026-07-30T08:09:01.526Z",
+    "version": 443,
+    "lastUpdated": "2026-07-30T08:11:19.728Z",
     "lastUpdatedBy": "邓奇缘"
   },
   "availability": {
@@ -11181,6 +11181,15 @@
       "duration": "1小时",
       "detail": "计客流",
       "_updatedAt": "1785398920299"
+    },
+    {
+      "id": 1785398969501,
+      "staff": "邓奇缘",
+      "date": "2026-07-25",
+      "type": "其他",
+      "duration": "0.5小时",
+      "detail": "计客流",
+      "_updatedAt": "1785398969468"
     }
   ],
   "doorSchedule": [
@@ -13602,6 +13611,16 @@
           "time": "10:00:00-11:00:00",
           "staff": "邓奇缘",
           "_updatedAt": "1785398780931"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-24",
+      "slots": [
+        {
+          "time": "13:00:00-14:00:00",
+          "staff": "邓奇缘",
+          "_updatedAt": "1785399053136"
         }
       ]
     },
