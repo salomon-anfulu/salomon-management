@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 449,
-    "lastUpdated": "2026-07-30T20:10:00.159Z",
-    "lastUpdatedBy": "manual-sync"
+    "version": 450,
+    "lastUpdated": "2026-07-30T20:11:43.151Z",
+    "lastUpdatedBy": "邓奇缘"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -5178,8 +5178,9 @@
               "note": ""
             },
             "7/29": {
-              "available": true,
-              "note": ""
+              "available": false,
+              "note": "",
+              "_updatedAt": 1785442301373
             },
             "7/30": {
               "available": true,
@@ -5192,10 +5193,11 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 23,
+          "total": 22,
           "unavailable": [
             "7/7",
-            "7/13"
+            "7/13",
+            "7/29"
           ]
         },
         "陈广权": {
