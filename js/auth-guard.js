@@ -17,12 +17,12 @@ const AuthHelper = {
    */
   async init() {
     // 优先检查 Supabase session
-    if (typeof SalomonSupabase !== 'undefined' && SalomonSupabase.client) {
+    if (typeof salomonSupabase !== 'undefined' && salomonSupabase.client) {
       try {
-        const { data: { session } } = await SalomonSupabase.client.auth.getSession();
+        const { data: { session } } = await salomonSupabase.client.auth.getSession();
         if (session?.user) {
           // 获取 staff 信息
-          const { data: staff } = await SalomonSupabase.client
+          const { data: staff } = await salomonSupabase.client
             .from('staff')
             .select('*')
             .eq('auth_id', session.user.id)
@@ -118,9 +118,9 @@ const AuthHelper = {
    */
   async logout() {
     // Supabase 登出
-    if (typeof SalomonSupabase !== 'undefined' && SalomonSupabase.client) {
+    if (typeof salomonSupabase !== 'undefined' && salomonSupabase.client) {
       try {
-        await SalomonSupabase.client.auth.signOut();
+        await salomonSupabase.client.auth.signOut();
       } catch(e) { console.warn('[AuthHelper] Supabase signOut 失败:', e); }
     }
     // 清除本地状态
@@ -136,8 +136,8 @@ const AuthHelper = {
     if (this._currentUser?.session?.access_token) {
       return this._currentUser.session.access_token;
     }
-    if (typeof SalomonSupabase !== 'undefined' && SalomonSupabase.client) {
-      const { data: { session } } = await SalomonSupabase.client.auth.getSession();
+    if (typeof salomonSupabase !== 'undefined' && salomonSupabase.client) {
+      const { data: { session } } = await salomonSupabase.client.auth.getSession();
       return session?.access_token || null;
     }
     return null;

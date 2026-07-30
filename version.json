@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-07-30-v150",
-  "cacheBuster": "150",
-  "updatedAt": "2026-07-30T11:00:00+08:00",
-  "note": "v150: 安全重接 Supabase 云端同步（sync.js 桥接 app_data 表 + Realtime，三重防循环：回声时间戳防护/渲染期间全局锁/渲染次数上限断路器；app_data 表不存在自动降级 GitHub 兜底）；保留 v149 风暴断路器；GitHub Contents 同步保留为兜底通道"
+  "dataVersion": "2026-07-30-v151",
+  "cacheBuster": "151",
+  "updatedAt": "2026-07-30T11:25:00+08:00",
+  "note": "v151: 修复退出登录无限刷新——auth-guard.js 全局变量名大小写错误(SalomonSupabase 应为 salomonSupabase)致 signOut() 从未执行、Supabase 会话残留，引发 login.html↔index.html 无限弹跳；同步 bump 版本号 + 升级 login.html 残留的 ?v=145 脚本引用。v150 已安全重接 Supabase 云端同步(三重防循环)。"
 }
