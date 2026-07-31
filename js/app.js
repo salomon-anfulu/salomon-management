@@ -6001,9 +6001,15 @@ linggongAttendance: {
       { id: 37, staffName: '杨子豪', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '店装修的好看，商品很酷。谢谢子豪，很快理解到我的品味推荐一双非常舒服的鞋子！', keywords: ['理解品味', '推荐合适', '舒服'], source: '大众点评（earthcreests，Lv2）' },
       { id: 38, staffName: '玛依拉', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '强烈安利导购Kiki，人美心善的小姐姐，非常热情地给我们介绍！店面装修保留了法式美学，商品种类齐全，超级好逛。', keywords: ['人美心善', '热情介绍', '法式美学', '商品齐全', '超级好逛'], source: '大众点评（匿名用户，Lv2）' },
       { id: 39, staffName: '迟骋', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '首先要夸导购CC小哥，人超级nice，全程耐心讲解，店里的款式很新，越野鞋和户外风服饰质感都在线。三楼的法式灵感空间特别出片，光影和装置设计很有氛围感。', keywords: ['人nice', '耐心讲解', '款式新', '法式灵感空间', '氛围感', '质感在线'], source: '大众点评（匿名用户，Lv5）' },
+      { id: 40, staffName: '迟骋', month: '2026-07', rating: 5, reviewDate: '2026-07-27', snippet: '店内货品款式很丰富，不少热门款线下都有现货。店员服务细致耐心，挑选鞋子时会给出合适的尺码和穿搭建议，试穿体验很放松。迟骋导购小哥哥专业度很高，非常帅气，整个购物过程十分舒心，很推荐这家门店。', keywords: ['款式丰富', '现货', '细致耐心', '尺码建议', '专业帅气', '舒心', '超预期'], source: '大众点评（空调，Lv1）', amount: 1200 },
+      { id: 41, staffName: '何秋烨', month: '2026-07', rating: 5, reviewDate: '2026-07-29', snippet: '路过安福路这家萨洛蒙 在店门口就被吸引了 装修风格特别简约 最主要的是门店小姐姐态度非常好 秋秋帮我热心的试款式 而且鞋码和颜色都很齐全 非常喜欢', keywords: ['装修简约', '门店小姐姐', '态度非常好', '热心的试款式', '鞋码齐全', '非常喜欢', '超预期'], source: '大众点评（谦虚睿眼嚷嚷鱼，Lv1）' },
+      { id: 42, staffName: '迟骋', month: '2026-07', rating: 5, reviewDate: '2026-07-27', snippet: '店里款式挺多，好多网上抢不到的款这边居然有。店员态度超级好，问尺码给建议都挺耐心的，试穿完全没有压力。逛着很舒服，下次来还要找找一个叫迟骋的小哥哥来给我导购、人超级帅服务态度也好，喜欢这家店!!!!!!', keywords: ['款式多', '态度超级好', '耐心建议', '试穿无压力', '下次还找', '服务态度好', '超预期'], source: '大众点评（忠礼甜蜜的小水，Lv2）' },
+      { id: 43, staffName: '何秋烨', month: '2026-07', rating: 5, reviewDate: '2026-07-27', snippet: '感谢秋秋导览员 很好的一次购物体验！希望下次再来！', keywords: ['感谢秋秋', '导览员', '购物体验', '希望再来', '超预期'], source: '大众点评（真毅稳重的小铃，Lv1，打卡后评价）', amount: 2396 },
+      { id: 44, staffName: '何秋烨', month: '2026-07', rating: 5, reviewDate: '2026-07-28', snippet: '从北京来上海玩 逛到这家很漂亮的店 店员秋秋很热情 服务很好 买到了心仪的鞋子', keywords: ['从北京来', '很漂亮', '秋秋很热情', '服务很好', '心仪的鞋子', '超预期'], source: '大众点评（欢乐，Lv3，打卡后评价）', amount: 998 },
+      { id: 45, staffName: '邓奇缘', month: '2026-07', rating: 5, reviewDate: '2026-07-31', snippet: '来上海旅游想买双鞋，进了Salomon是天天接待的，经过细心介绍试了很多双终于买到了双自己喜欢的鞋~', keywords: ['旅游买鞋', '天天接待', '细心介绍', '试多双', '超预期'], source: '大众点评（Abbott_3448，Lv1）' },
     ],
 
-    _dataVersion: '2026-08-01-v164',
+    _dataVersion: '2026-08-01-v165',
   },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
@@ -6048,7 +6054,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-08-01-v164';
+      const DATA_VERSION = '2026-08-01-v165';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
