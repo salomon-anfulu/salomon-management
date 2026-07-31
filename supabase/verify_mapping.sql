@@ -20,7 +20,6 @@ SELECT
   CASE
     WHEN s.id IS NULL THEN '❌ 数据库无此员工'
     WHEN s.auth_id IS NULL THEN '⚠️ 数据库员工无 auth_id（登录会失败）'
-    WHEN au.raw_user_meta_data->>'name' != s.name THEN '❌ 姓名不一致'
     WHEN s.status != 'active' THEN '⚠️ 状态非 active'
     ELSE '✅ 正常'
   END AS 判定结果
@@ -45,16 +44,7 @@ WHERE email LIKE '%@salomon.temp'
   AND auth_id IS NULL
   AND is_deleted = false;
 
--- ==== D. 数据库员工姓名 vs auth 元数据姓名 不一致（错位典型表现） ====
-SELECT
-  au.email,
-  au.raw_user_meta_data->>'name' AS auth_姓名,
-  s.name AS db_姓名,
-  '❌ 姓名错位' AS 问题
-FROM auth.users au
-JOIN public.staff s ON s.auth_id = au.id
-WHERE au.email LIKE '%@salomon.temp'
-  AND au.raw_user_meta_data->>'name' != s.name;
+-- ==== D. （保留为空：依赖 raw_user_meta_data->>'name'，本系统未填写此字段，无意义） ====
 
 -- ==== E. 同一 auth_id 被多个人引用（极端错位） ====
 SELECT
@@ -67,10 +57,10 @@ WHERE auth_id IS NOT NULL AND is_deleted = false
 GROUP BY auth_id
 HAVING COUNT(*) > 1;
 
--- ==== F. 汇总 ====
+-- ==== F. 汇总（v161 修正：判定条件改为「邮箱匹配 + auth_id 已绑定」） ====
 SELECT
   (SELECT COUNT(*) FROM auth.users WHERE email LIKE '%@salomon.temp') AS 总账号数,
   (SELECT COUNT(*) FROM public.staff WHERE email LIKE '%@salomon.temp' AND is_deleted = false) AS 总员工数,
   (SELECT COUNT(*) FROM public.staff s JOIN auth.users au ON au.id = s.auth_id
     WHERE au.email LIKE '%@salomon.temp' AND s.is_deleted = false
-      AND au.raw_user_meta_data->>'name' = s.name) AS 一致账号数;
+      AND au.email = s.email) AS 一致账号数;
