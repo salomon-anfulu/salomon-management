@@ -10,10 +10,10 @@
 // pages.js 加载时 Auth 尚未声明（typeof 返回 'undefined'），
 // 导致 _auth 冻结为 fallback。改为 getter 动态读取，每次访问实时获取。
 const _auth = {
-  get isAdmin()    { return typeof Auth !== 'undefined' ? Auth.isAdmin : true; },
+  get isAdmin()    { return typeof Auth !== 'undefined' ? Auth.isAdmin : false; },
   get staffId()    { return typeof Auth !== 'undefined' ? Auth.staffId : null; },
   get staffName()  { return typeof Auth !== 'undefined' ? Auth.staffName : null; },
-  get role()       { return typeof Auth !== 'undefined' ? Auth.role : 'admin'; },
+  get role()       { return typeof Auth !== 'undefined' ? Auth.role : 'staff'; },
 };
 
 /**
@@ -2722,7 +2722,17 @@ function openRatingModal() {
 }
 
 function saveRating() {
-  const staffId = parseInt(document.getElementById('rate_staff').value);
+  let staffId = parseInt(document.getElementById('rate_staff').value);
+  // v157: 非管理员强制只能评价本人，拒绝评他人
+  if (!_auth.isAdmin) {
+    const meId = _auth.staffId;
+    if (meId != null && !isNaN(meId)) {
+      staffId = meId;
+    } else {
+      showToast('仅管理员可评价他人', 'warning'); return;
+    }
+  }
+  if (isNaN(staffId)) { showToast('请选择被评价人', 'warning'); return; }
   const month = document.getElementById('rate_month').value;
   const comment = document.getElementById('rate_comment').value.trim();
 
@@ -4489,6 +4499,8 @@ function closeDoorDayForm() {
 }
 
 function saveDoorDay() {
+  // v157: 新增排班日期为管理动作，普通用户不可为
+  if (!_auth.isAdmin) { showToast('仅管理员可新增排班日期', 'warning'); return; }
   const date = document.getElementById('doorDayDate').value;
   if (!date) { showToast('请选择日期', 'warning'); return; }
   const doorData = Store.get('doorSchedule') || [];
@@ -4561,7 +4573,13 @@ function closeDoorSlotForm() {
 function saveDoorSlot() {
   const start = document.getElementById('doorSlotStart').value;
   const end = document.getElementById('doorSlotEnd').value;
-  const staffName = document.getElementById('doorSlotStaff').value;
+  let staffName = document.getElementById('doorSlotStaff').value;
+  // v157: 非管理员强制填报本人，拒绝写他人
+  if (!_auth.isAdmin) {
+    const me = _auth.staffName;
+    if (!me) { showToast('无法识别当前用户', 'warning'); return; }
+    staffName = me;
+  }
   if (!start || !end) { showToast('请填写时间段', 'warning'); return; }
   if (start >= end) { showToast('开始时间必须早于结束时间', 'warning'); return; }
 
@@ -4583,16 +4601,20 @@ function saveDoorSlot() {
 }
 
 function deleteDoorSlot(idx) {
-  if (!confirm('确定删除这个班次吗？')) return;
   const doorData = Store.get('doorSchedule') || [];
   const day = doorData.find(d => d.date === doorScheduleDate);
-  if (day) {
-    day.slots.splice(idx, 1);
-    Store.set('doorSchedule', doorData);
-    Sync.push(_auth.staffName || 'admin');
-    Router.render();
-    showToast('班次已删除');
+  if (!day || !day.slots[idx]) { showToast('班次不存在', 'warning'); return; }
+  // v157: 非管理员只能删除自己的班次
+  if (!_auth.isAdmin) {
+    const me = _auth.staffName;
+    if (day.slots[idx].staff !== me) { showToast('只能删除自己的班次', 'warning'); return; }
   }
+  if (!confirm('确定删除这个班次吗？')) return;
+  day.slots.splice(idx, 1);
+  Store.set('doorSchedule', doorData);
+  Sync.push(_auth.staffName || 'admin');
+  Router.render();
+  showToast('班次已删除');
 }
 
 /**
@@ -5130,6 +5152,15 @@ function openDateStatusForm(dayNum) {
 }
 
 function saveDateStatus(dayNum) {
+  // v157: 非管理员强制只能写本人可用性；管理员账号无需填报
+  if (!_auth.isAdmin) {
+    const me = _auth.staffName;
+    if (me && !isManagementStaff({ name: me })) {
+      _availStaff = me;
+    } else {
+      showToast('管理员账号无需填报', 'warning'); return;
+    }
+  }
   const checkedEl = document.querySelector('input[name="dateStatus"]:checked');
   if (!checkedEl) { showToast('请先选择状态', 'warning'); return; }
   const available = checkedEl.value === 'true';
@@ -5170,6 +5201,15 @@ function saveDateStatus(dayNum) {
 }
 
 function clearDateStatus(dayNum) {
+  // v157: 非管理员强制只能清本人可用性；管理员账号无需填报
+  if (!_auth.isAdmin) {
+    const me = _auth.staffName;
+    if (me && !isManagementStaff({ name: me })) {
+      _availStaff = me;
+    } else {
+      showToast('管理员账号无需填报', 'warning'); return;
+    }
+  }
   const [year, mon] = _parseYM(_availMonth, 2026, 7);
   // v84: 冻结安全检查
   if (_isAvailFrozen(year, mon, dayNum)) { showToast('该日期已冻结，不可修改', 'warning'); return; }
