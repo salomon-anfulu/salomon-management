@@ -203,75 +203,7 @@
       to { transform: rotate(360deg); }
     }
 
-    /* Legacy GitHub sync settings (collapsed by default) */
-    .sync-toggle {
-      display: block;
-      margin: 16px auto 0;
-      background: none;
-      border: none;
-      color: #64748b;
-      font-size: 13px;
-      cursor: pointer;
-      padding: 6px 12px;
-      border-radius: 8px;
-      transition: all 0.2s;
-    }
-    .sync-toggle:hover { color: var(--text-primary); background: rgba(0,0,0,0.04); }
-    .sync-panel {
-      display: none;
-      margin-top: 16px;
-      padding: 16px;
-      background: var(--bg);
-      border-radius: 12px;
-      text-align: left;
-      border: 1px solid var(--border);
-    }
-    .sync-panel.open { display: block; }
-    .sync-panel label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-secondary);
-      margin-bottom: 6px;
-    }
-    .sync-panel input {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 13px;
-      font-family: monospace;
-      background: #fff;
-      color: var(--text-primary);
-    }
-    .sync-panel .btn-save-token {
-      width: 100%;
-      margin-top: 12px;
-      padding: 10px;
-      border: none;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      background: var(--primary);
-      color: #fff;
-      transition: all 0.2s;
-    }
-    .sync-panel .btn-save-token:hover { opacity: 0.9; }
-    .sync-panel .token-hint {
-      font-size: 11px;
-      color: #94a3b8;
-      margin-top: 8px;
-      line-height: 1.5;
-    }
-    .sync-status {
-      display: inline-block;
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      margin-right: 4px;
-    }
-    .sync-status.connected { background: #10b981; }
-    .sync-status.disconnected { background: #f59e0b; }
+    /* v155: 已移除 legacy GitHub 同步面板相关样式 */
   </style>
 </head>
 <body>
@@ -308,29 +240,17 @@
         <span style="color:#94a3b8;">登录后可在设置中修改密码</span>
       </div>
 
-      <button class="sync-toggle" onclick="toggleSyncPanel()">
-        <span class="sync-status" id="syncStatusDot"></span> ☁️ Supabase 云同步（兼容旧版 GitHub 备份）
-      </button>
-      <div class="sync-panel" id="syncPanel">
-        <label>GitHub Personal Access Token</label>
-        <input type="password" id="syncTokenInput" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" />
-        <div class="token-hint">
-          📌 仅用于旧版数据迁移，新系统使用 Supabase 云同步<br>
-          需具备 <b>repo → Contents: read & write</b> 权限
-        </div>
-        <button class="btn-save-token" onclick="saveSyncToken()">💾 保存 Token</button>
-        <div id="syncMsg" style="margin-top:8px;font-size:12px;"></div>
-      </div>
+      <!-- v155: 已移除 GitHub Token 配置面板 -->
     </div>
     <div class="login-footer">
-      安福路 Salomon 旗舰店 · v154
+      安福路 Salomon 旗舰店 · v155
     </div>
   </div>
 
   <!-- Supabase config + client (必须在 auth 之前加载) -->
-  <script src="supabase/config.js?v=154"></script>
+  <script src="supabase/config.js?v=155"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js?v=154"></script>
+  <script src="js/supabase-client.js?v=155"></script>
 
   <script>
     // 回车键提交
@@ -417,40 +337,7 @@
       }
     }
 
-    // ===== 旧版 GitHub 同步 =====
-    function toggleSyncPanel() {
-      document.getElementById('syncPanel').classList.toggle('open');
-    }
-
-    function updateSyncStatus() {
-      const dot = document.getElementById('syncStatusDot');
-      const token = localStorage.getItem('gh_sync_token');
-      dot.className = 'sync-status ' + (token ? 'connected' : 'disconnected');
-      dot.title = token ? '已配置旧版同步' : '未配置旧版同步';
-      if (token) document.getElementById('syncTokenInput').value = token;
-    }
-
-    async function saveSyncToken() {
-      const token = document.getElementById('syncTokenInput').value.trim();
-      const msgEl = document.getElementById('syncMsg');
-      if (!token) { msgEl.innerHTML = '<span style="color:#e94560;">请输入 Token</span>'; return; }
-      try {
-        const resp = await fetch('https://api.github.com/repos/salomon-anfulu/salomon-management', {
-          headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.v3+json' }
-        });
-        if (resp.ok) {
-          localStorage.setItem('gh_sync_token', token);
-          msgEl.innerHTML = '<span style="color:#10b981;">✅ Token 已保存</span>';
-          updateSyncStatus();
-        } else {
-          msgEl.innerHTML = '<span style="color:#e94560;">❌ Token 无效</span>';
-        }
-      } catch (e) {
-        msgEl.innerHTML = '<span style="color:#e94560;">❌ 网络错误</span>';
-      }
-    }
-
-    updateSyncStatus();
+    // v155: 已移除旧版 GitHub 同步逻辑（toggleSyncPanel / updateSyncStatus / saveSyncToken）
 
     // 检查是否已登录（自动跳转）
     (async function checkExistingSession() {

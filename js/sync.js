@@ -1,18 +1,15 @@
 /**
  * ========================================
- * GitHub Cloud Sync - 兼职填报数据云端同步
+ * Supabase Cloud Sync - 安福路 Salomon 兼职管理系统云端同步
  * 
  * 解决的问题：LocalStorage 是设备隔离的，兼职在手机上填写后
- * 管理员在电脑上看不到。通过 GitHub Contents API 实现跨设备数据同步。
+ * 管理员在电脑上看不到。通过 Supabase app_data 表实现跨设备实时数据同步。
  *
  * 工作原理：
- *   1. 每人填写 → 存 LocalStorage + 自动推送到 GitHub 共享文件
- *   2. 任何人打开系统 → 自动从 GitHub 拉取最新共享数据 → 合并到 LocalStorage
- *   3. 合并策略：availability 按人名逐字段合并；数组类数据按 id 去重
- *
- * Token 配置：首次使用需在登录页或设置页输入 GitHub Personal Access Token
- *   - 需要权限：repo (Contents: read & write)
- *   - 推荐使用 Fine-grained token，仅授权 salomon-anfulu/salomon-management
+ *   1. 每人填写 → 存 LocalStorage + 自动推送到 Supabase 共享数据（app_data 表）
+ *   2. 任何人打开系统 → 自动从 Supabase 拉取最新共享数据 → 合并到 LocalStorage
+ *   3. Realtime 订阅 → 他人修改即时推送到本机，实现多人实时协作
+ *   4. 合并策略：availability 按人名逐字段合并；数组类数据按 id 去重
  * ========================================
  */
 
@@ -30,13 +27,6 @@ if (window.__PANIC_SYNC__) {
 }
 
 const Sync = {
-  REPO: 'salomon-anfulu/salomon-management',
-  FILE_PATH: 'data/submissions.json',
-  BRANCH: 'main',
-  API_BASE: 'https://api.github.com',
-
-  /** 是否已启用同步（有 Token 且验证通过） */
-  _enabled: null,
   /** 上次同部拉取时间戳 */
   _lastPull: null,
   /** 拉取间隔（毫秒），避免频繁请求 */
@@ -45,18 +35,11 @@ const Sync = {
   _pendingSync: false,
   /** 上次同步（push 或 pull）成功的时间戳，用于 UI 显示 */
   _lastSyncTime: null,
-  /** push 正在进行中（防止 pull 拉到旧数据覆盖本地新写入） */
-  _pushInFlight: false,
-  /** v51: push 队列，防止并发 push 互相覆盖 */
-  _pushQueue: [],
-  _pushRunning: false,
-  /** v51g: 上次 push 失败的错误信息，用于 manualSync 按钮精确反馈 */
-  _lastPushError: null,
 
   // ===== v150: Supabase 同步通道状态 =====
   /** 上次写入 Supabase 的时间戳（回声防护：自己刚写入的 Realtime 回声忽略） */
   _lastSupabaseWriteTs: 0,
-  /** app_data 表不存在则永久降级 GitHub（不刷日志） */
+  /** app_data 表不存在则永久禁用 Supabase 同步（不刷日志） */
   _supabaseTableMissing: false,
   /** Realtime 频道引用 */
   _realtimeChannel: null,
@@ -70,109 +53,15 @@ const Sync = {
   _supabaseInitDone: false,
 
   /**
-   * 获取存储的 Token
-   * P0-3 fix: localStorage 持久化 + base64 混淆（非明文，防遍历工具直接读取）
-   * - 持久化: 关闭浏览器后仍然有效，无需每次重新输入
-   * - base64: 防止 LocalStorage 遍历工具直接读到明文（非加密，仅混淆）
-   * - 向后兼容: 自动迁移旧 localStorage 明文 token
-   */
-  _tokenKey: 'gh_sync_token_v2',
-
-  getToken() {
-    // 优先从内存变量读取
-    if (this._tokenCache) return this._tokenCache;
-    // 从 localStorage 读取（base64 编码）
-    let raw = null;
-    try { raw = localStorage.getItem(this._tokenKey); } catch(e) {}
-    if (raw) {
-      try {
-        // base64 解码
-        const decoded = decodeURIComponent(escape(atob(raw)));
-        this._tokenCache = decoded;
-        return decoded;
-      } catch(e) {
-        // 解码失败，清除脏数据
-        try { localStorage.removeItem(this._tokenKey); } catch(e2) {}
-      }
-    }
-    // 向后兼容：迁移旧的 localStorage 明文 token
-    try {
-      const legacyToken = localStorage.getItem('gh_sync_token');
-      if (legacyToken) {
-        this.setToken(legacyToken);
-        localStorage.removeItem('gh_sync_token');
-        return legacyToken;
-      }
-    } catch(e) {}
-    return null;
-  },
-
-  /**
-   * 保存 Token
-   */
-  setToken(token) {
-    this._tokenCache = token;
-    try {
-      if (token) {
-        // base64 编码后存入 localStorage（持久化）
-        const encoded = btoa(unescape(encodeURIComponent(token)));
-        localStorage.setItem(this._tokenKey, encoded);
-      } else {
-        localStorage.removeItem(this._tokenKey);
-      }
-    } catch(e) {
-      console.error('[Sync] Token 保存失败:', e);
-    }
-    this._enabled = !!token;
-  },
-
-  /**
-   * 清除 Token
-   */
-  clearToken() {
-    this._tokenCache = null;
-    try { localStorage.removeItem(this._tokenKey); } catch(e) {}
-    try { localStorage.removeItem('gh_sync_token'); } catch(e) {} // 清理旧版
-    this._enabled = false;
-  },
-
-  /**
-   * 检查同步是否可用
+   * 检查同步是否可用（Supabase 在线即启用）
    */
   isEnabled() {
-    if (this._enabled !== null) return this._enabled;
-    this._enabled = !!this.getToken();
-    return this._enabled;
+    return this._supabaseEnabled();
   },
 
   /**
    * API 请求封装
    */
-  async _api(method, url, body) {
-    const token = this.getToken();
-    if (!token) throw new Error('未配置GitHub Token');
-
-    const headers = {
-      'Authorization': `Bearer ${token}`,
-      'Accept': 'application/vnd.github.v3+json',
-    };
-
-    const opts = { method, headers };
-    if (body) {
-      headers['Content-Type'] = 'application/json';
-      opts.body = JSON.stringify(body);
-    }
-
-    const resp = await fetch(url, opts);
-    if (!resp.ok) {
-      const err = await resp.json().catch(() => ({}));
-      const msg = err.message || `HTTP ${resp.status}`;
-      throw new Error(`GitHub API错误: ${msg}`);
-    }
-
-    return resp.json();
-  },
-
   /**
    * 快照当前关键数据用于比较（v51c 重写）
    * 用于 pull 后判断是否有新数据需要刷新页面
@@ -379,145 +268,13 @@ const Sync = {
   },
 
   /**
-   * 从 GitHub 拉取共享文件
-   * @returns {object} 共享数据对象，失败返回 null
-   */
-  async _fetchSharedData() {
-    const url = `${this.API_BASE}/repos/${this.REPO}/contents/${this.FILE_PATH}?ref=${this.BRANCH}`;
-    const fileData = await this._api('GET', url);
-
-    if (!fileData.content) {
-      // v52: GitHub Contents API 对 >1MB 的文件不返回 content 字段
-      const sizeMB = fileData.size ? (fileData.size / 1024 / 1024).toFixed(2) : '?';
-      if (fileData.size && fileData.size > 1000000) {
-        throw new Error(`共享文件过大(${sizeMB}MB)，超过GitHub API 1MB限制，请联系管理员清理数据`);
-      }
-      console.warn('[Sync] 共享文件为空');
-      return null;
-    }
-
-    // GitHub API 返回 base64 编码内容
-    // 必须用 decodeURIComponent(escape(atob())) 解码 UTF-8（与 push 端的 btoa(unescape(encodeURIComponent())) 配对）
-    // v45: 额外加一层双重 UTF-8 防御（修复 v5 force-push 时的历史脏数据）
-    const jsonStr = (() => {
-      const decoded = decodeURIComponent(escape(atob(fileData.content.replace(/\n/g, ''))));
-      // 检测双重 UTF-8 编码（字符串中含 Latin-1 范围连续字符）：尝试修复
-      // Latin-1 范围 (\u00c0-\u00ff) 连续 2+ 出现 + 不含正常中文字符 → 高度疑似双重编码
-      if (/[\u00c0-\u00ff]{2,}/.test(decoded) && !/[\u4e00-\u9fff]/.test(decoded)) {
-        try {
-          const fixed = decoded.split('').map(ch => {
-            const code = ch.charCodeAt(0);
-            if (code >= 0xc0 && code <= 0xff) return String.fromCharCode(code & 0xff);
-            return ch;
-          }).join('');
-          const redecoded = decodeURIComponent(escape(fixed));
-          if (/[\u4e00-\u9fff]/.test(redecoded)) {
-            console.log('[Sync] 检测到双重 UTF-8 编码，已自动修复');
-            return redecoded;
-          }
-        } catch (e) {}
-      }
-      return decoded;
-    })();
-    const data = JSON.parse(jsonStr);
-
-    // 同时返回 sha（后续写回时需要）
-    data.__sha = fileData.sha;
-    return data;
-  },
-
-  /**
-   * v52: 删除云端文件（用于修复 >1MB 污染数据）
-   * 需要先获取 SHA 才能删除
-   */
-  async _deleteRemoteFile() {
-    const url = `${this.API_BASE}/repos/${this.REPO}/contents/${this.FILE_PATH}?ref=${this.BRANCH}`;
-    const fileData = await this._api('GET', url);
-    if (!fileData.sha) throw new Error('无法获取云端文件SHA');
-
-    const body = {
-      message: 'sync: 自动清理过大的污染文件 [recovery]',
-      sha: fileData.sha,
-      branch: this.BRANCH,
-    };
-    await this._api('DELETE', url, body);
-    console.log('[Sync] 云端文件已删除');
-  },
-
-  /**
    * 拉取共享数据并合并到 LocalStorage
    * 静默执行，失败不影响正常使用
    * @param {boolean} silent - 是否静默（不弹 toast）
    * @param {boolean} force - v51c: 强制拉取，跳过 PULL_INTERVAL 防抖（手动同步按钮使用）
    */
   async pull(silent = true, force = false) {
-    // v150: 纯 Supabase 模式（GitHub 未配置但 Supabase 在线）→ 走 Supabase 拉取
-    if (this._supabaseEnabled() && !this.isEnabled()) {
-      return this._pullFromSupabase(silent);
-    }
-    if (!this.isEnabled()) {
-      if (!silent) showToast('未配置同步Token，请先在设置中配置', 'warning');
-      return false;
-    }
-
-    // v47d: 如果 push 正在进行中，跳过 pull（防止 push 还没写完云端时 pull 拉到旧数据覆盖本地）
-    if (this._pushInFlight) {
-      console.log('[Sync] push 正在进行中，跳过本次 pull');
-      return true;
-    }
-
-    // 防止频繁拉取（v51c: force 参数可绕过）
-    if (!force && this._lastPull && (Date.now() - this._lastPull) < this.PULL_INTERVAL) {
-      return true;
-    }
-
-    try {
-      const shared = await this._fetchSharedData();
-      if (!shared) return false;
-
-      // v59b: pull 前显式记录 staff 数量，不依赖 _snapshotForCompare
-      const beforeStaffCount = (Store.get('staff') || []).length;
-      const beforeStr = this._snapshotForCompare();
-      this._mergeIntoLocal(shared);
-      const afterStr = this._snapshotForCompare();
-      const afterStaffCount = (Store.get('staff') || []).length;
-      const dataChanged = beforeStr !== afterStr;
-      // v59b: staff 数量变化是硬性条件——即使快照对比遗漏也强制视为有变化
-      const staffChanged = beforeStaffCount !== afterStaffCount;
-
-      this._lastPull = Date.now();
-      this._lastSyncTime = Date.now();
-      // 如果之前有 push 失败，pull 成功后触发一次补偿推送
-      if (this._pendingSync) {
-        console.log('[Sync] 检测到待同步数据，触发补偿推送');
-        this._pendingSync = false;
-        this.push('auto-retry').catch(() => { this._pendingSync = true; });
-      }
-      console.log('[Sync] 拉取成功', new Date().toLocaleTimeString(), (dataChanged || staffChanged) ? '(有新数据)' : '(无变化)', staffChanged ? `[staff: ${beforeStaffCount}→${afterStaffCount}]` : '');
-
-      // v51: 如果数据有变化，触发页面刷新（用户B才能看到用户A的填报）
-      // v59b: staffChanged 也作为硬性触发条件
-      if ((dataChanged || staffChanged) && typeof Router !== 'undefined' && Router.render) {
-        // 延迟一帧执行，避免在 fetch 回调中直接操作 DOM
-        requestAnimationFrame(() => {
-          try {
-            Router.render();
-            console.log('[Sync] 数据已更新，页面已自动刷新');
-          } catch (e) {
-            console.warn('[Sync] 自动刷新页面失败:', e.message);
-          }
-        });
-      }
-      // v150: GitHub 拉取成功后，补充 Supabase 拉取（hash 比较防重复 render）
-      if (this._supabaseEnabled()) {
-        this._pullFromSupabase(true).catch(() => {});
-      }
-      return true;
-    } catch (e) {
-      console.warn('[Sync] 拉取失败:', e.message);
-      if (!silent) showToast('同步拉取失败: ' + e.message, 'warning');
-      return false;
-    }
+    return this._pullFromSupabase(silent);
   },
 
   // ===== v150: Supabase 同步通道（安全重接，三重防循环） =====
@@ -531,7 +288,7 @@ const Sync = {
   /**
    * 统一应用远端数据：合并到本地 + 必要时 render
    * 带渲染锁(window.__applyingRemote) + 渲染次数上限（防风暴）
-   * 所有通道（GitHub / Supabase / Realtime）的远端数据都经此入口，保证一致防护
+   * 所有通道（Supabase / Realtime）的远端数据都经此入口，保证一致防护
    */
   async _applyRemoteData(remoteBlob, source) {
     if (!remoteBlob) return false;
@@ -587,7 +344,7 @@ const Sync = {
       if (error) {
         if (/does not exist|relation "app_data"/.test(error.message || '')) {
           this._supabaseTableMissing = true;
-          console.warn('[Sync] app_data 表不存在，Supabase 同步降级为 GitHub 兜底');
+          console.warn('[Sync] app_data 表不存在，Supabase 同步已禁用');
         } else {
           console.warn('[Sync] Supabase 拉取失败:', error.message);
         }
@@ -614,18 +371,18 @@ const Sync = {
       if (getErr) {
         if (/does not exist|relation "app_data"/.test(getErr.message || '')) {
           this._supabaseTableMissing = true;
-          console.warn('[Sync] app_data 表不存在，Supabase 同步降级为 GitHub 兜底');
+          console.warn('[Sync] app_data 表不存在，Supabase 同步已禁用');
         }
         return false;
       }
       const base = remote || { _meta: { version: 0 }, availability: {}, staff: [], shiftChanges: [], storeSupport: [], doorSchedule: [] };
-      // 复用 GitHub 的合并逻辑：把本地最新数据合入 base
+      // 把本地最新数据合入 base
       this._mergeLocalIntoShared(base);
       const { error } = await SbClient.appData.save(base, changedBy || 'unknown');
       if (error) {
         if (/does not exist|relation "app_data"/.test(error.message || '')) {
           this._supabaseTableMissing = true;
-          console.warn('[Sync] app_data 表不存在，Supabase 同步降级为 GitHub 兜底');
+          console.warn('[Sync] app_data 表不存在，Supabase 同步已禁用');
         } else {
           console.warn('[Sync] Supabase 推送失败:', error.message);
         }
@@ -659,182 +416,17 @@ const Sync = {
   },
 
   /**
-   * 保存后推送数据到 GitHub
-   * v51: 队列化，多次快速保存只产生一次有效 push（最后一条包含所有本地数据）
-   * 冲突重试策略：最多 3 轮"拉-合-写"，每轮失败都重新拉取最新 SHA
+   * 推送本地数据到 Supabase（fire-and-forget，不阻塞 UI）
+   * 在线即推，失败静默记录；Realtime 订阅 + 定时 pull 保证多端一致
    */
   async push(changedBy) {
-    // v150: Supabase 独立通道——无论 GitHub 是否启用，在线即并行推送（fire-and-forget，不阻塞）
+    // Supabase 独立通道——在线即推送（fire-and-forget，不阻塞）
     if (this._supabaseEnabled() && !this._supabaseTableMissing) {
       this._pushToSupabase(changedBy).catch(() => {});
     }
-    if (!this.isEnabled()) return false;
-
-    // v51: 入队而非直接执行
-    this._pushQueue.push(changedBy || 'unknown');
-
-    // 如果已有 push 在运行，等它完成后自然会处理队列中最新的一条
-    if (this._pushRunning) {
-      console.log(`[Sync] push 队列: 已有 push 进行中，排队 (队列长度: ${this._pushQueue.length})`);
-      return true;
-    }
-
-    return this._processPushQueue();
+    return true;
   },
 
-  /**
-   * v51: 实际执行 push 的内部方法
-   * 循环处理队列，但每轮只取最后一条（合并了所有中间请求）
-   */
-  async _processPushQueue() {
-    this._pushRunning = true;
-    this._pushInFlight = true;
-
-    // 记录最终结果：默认成功，失败时改为 false
-    let finalResult = true;
-
-    while (this._pushQueue.length > 0) {
-      // v65: 先拷贝引用再清空，避免 push() 在清空瞬间写入被丢弃
-      const queue = this._pushQueue;
-      this._pushQueue = [];
-      // 取最后一条（之前的请求中包含的数据已经被后续保存覆盖了）
-      const changedBy = queue[queue.length - 1];
-
-      const result = await this._doPush(changedBy);
-      if (result !== true) {
-        // push 失败，标记待同步，退出循环（下次 pull 成功后补偿）
-        this._pendingSync = true;
-        finalResult = false;  // v51g: 修复 _processPushQueue 永远返回 true 的 bug
-        break;
-      }
-      // 成功后短暂等待（100ms），让可能新入队的请求有机会被收集
-      if (this._pushQueue.length > 0) {
-        await new Promise(r => setTimeout(r, 100));
-      }
-    }
-
-    this._pushRunning = false;
-    this._pushInFlight = false;
-    return finalResult;
-  },
-
-  /**
-   * v51: 实际推送逻辑（从原 push 方法拆出）
-   */
-  async _doPush(changedBy) {
-
-    const MAX_ROUNDS = 3;
-    try {
-      for (let round = 0; round < MAX_ROUNDS; round++) {
-        // 1. 拉取最新云端数据 + SHA
-        let shared = null;
-        let sha = null;
-        for (let attempt = 0; attempt < 2; attempt++) {
-          try {
-            shared = await this._fetchSharedData();
-            sha = shared?.__sha || null;
-            if (shared) delete shared.__sha;
-            break;
-          } catch (e) {
-            if (e.message.includes('Not Found') || e.message.includes('404')) {
-              shared = { _meta: { version: 0 }, availability: {}, staff: [], shiftChanges: [], storeSupport: [], doorSchedule: [] };
-              sha = null;
-              break;
-            }
-            // v52: 云端文件过大（>1MB GitHub API 限制）→ 视为污染数据，先删除再重建
-            if (e.message.includes('超过GitHub API 1MB限制') || e.message.includes('共享文件过大')) {
-              console.warn('[Sync] 云端文件过大，视为污染数据，将删除后重建');
-              await this._deleteRemoteFile().catch(delErr => {
-                console.warn('[Sync] 删除云端文件失败:', delErr.message);
-                throw new Error('云端文件过大且无法删除，请联系管理员手动处理');
-              });
-              shared = { _meta: { version: 0 }, availability: {}, staff: [], shiftChanges: [], storeSupport: [], doorSchedule: [] };
-              sha = null;
-              break;
-            }
-            if (e.message.includes('does not match') && attempt === 0) {
-              // 拉取时 SHA 不匹配，强制重试
-              continue;
-            }
-            throw e;
-          }
-        }
-        if (!shared) throw new Error('无法拉取云端数据');
-
-        // 2. 合入本地最新数据
-        this._mergeLocalIntoShared(shared);
-
-        // 3. 更新时间戳
-        shared._meta.lastUpdated = new Date().toISOString();
-        shared._meta.lastUpdatedBy = changedBy || 'unknown';
-        shared._meta.version = (shared._meta.version || 0) + 1;
-
-        // 4. 写回 GitHub
-        const body = {
-          message: `sync: ${changedBy || 'unknown'} 更新数据 [v${shared._meta.version}]`,
-          content: btoa(unescape(encodeURIComponent(JSON.stringify(shared, null, 2)))),
-          branch: this.BRANCH,
-        };
-        if (sha) body.sha = sha;
-
-        const url = `${this.API_BASE}/repos/${this.REPO}/contents/${this.FILE_PATH}`;
-        try {
-          await this._api('PUT', url, body);
-          // 成功
-          console.log('[Sync] 推送成功 v' + shared._meta.version + (round > 0 ? ` (第${round + 1}轮重试)` : ''));
-          this._pendingSync = false;
-          this._lastSyncTime = Date.now();
-          return true;
-        } catch (putErr) {
-          if (putErr.message.includes('does not match') || putErr.message.includes('409')) {
-            // 本轮冲突，下一轮重新拉最新 SHA 再试
-            console.warn(`[Sync] 写回冲突 (第${round + 1}/${MAX_ROUNDS}轮)，准备重试...`);
-            this._lastPull = null;
-            continue;
-          }
-          throw putErr;
-        }
-      }
-      // 3 轮都冲突 → 拉一次云端验证数据是否已写入
-      console.log('[Sync] 3轮冲突重试均未成功，验证云端是否已有数据...');
-      const verified = await this._verifyDataInCloud();
-      if (verified) {
-        // 数据已在云端（某轮 PUT 实际成功只是响应延迟，或他人包含了同样改动）
-        console.log('[Sync] 云端验证通过，数据已同步');
-        this._pendingSync = false;
-        this._lastSyncTime = Date.now();
-        return true;
-      }
-      // 云端确实没有，标记待同步，下次 pull 成功后自动补偿
-      throw new Error('continuous_sh conflict');
-    } catch (e) {
-      // v51: _pushInFlight 由 _processPushQueue 统一管理，这里不释放
-      if (e.message === 'continuous_sh conflict') {
-        // 确实是暂时性冲突，静默标记，不弹 toast 打扰用户
-        console.log('[Sync] 云端暂无此数据，已标记待同步，将在下次自动补偿');
-        this._pendingSync = true;
-      } else {
-        console.warn('[Sync] 推送失败:', e.message);
-        this._pendingSync = true;
-        // v51g: 记录错误消息，manualSync 按钮检测到不再重复 toast
-        this._lastPushError = e.message || '未知错误';
-        // 自动保存场景需要 toast（用户没有其他反馈渠道）
-        // manualSync 主动点击会自己 toast 详细分类提示，所以这里 toast 简短版
-        if (typeof _suppressInternalToast === 'undefined' || !_suppressInternalToast) {
-          const msg = this._lastPushError;
-          if (msg.includes('401') || msg.includes('Bad credentials')) {
-            showToast('☁️ 同步失败: Token无效，请在设置中重新配置', 'error');
-          } else if (msg.includes('403') || msg.includes('resource not accessible')) {
-            showToast('☁️ 同步失败: Token权限不足，需开启 Contents → Read & Write', 'error');
-          } else {
-            showToast('☁️ 同步未成功: ' + msg, 'warning');
-          }
-        }
-      }
-      // 统一返回 false（历史遗留曾返回 { success: false }，现已统一为布尔值）
-      return false;
-    }
-  },
 
   /**
 
@@ -1074,91 +666,7 @@ const Sync = {
   },
 
   /**
-   * 强制推送本地数据到云端（覆盖云端）
-   */
-  async forcePush() {
-    if (!this.isEnabled()) {
-      showToast('未配置同步Token', 'warning');
-      return false;
-    }
-    showToast('⬆️ 正在推送...', 'info');
-    try {
-      // 不拉取云端，直接读取本地+上传
-      const localAvail = Store.get('availability');
-      const localSC = Store.get('shiftChanges') || [];
-      const localSS = Store.get('storeSupport') || [];
-      const localDS = Store.get('doorSchedule') || [];
-
-      // 获取云端最新 SHA（覆盖模式：获取 SHA，不合并）
-      let shared, sha = null;
-      try {
-        shared = await this._fetchSharedData();
-        sha = shared?.__sha || null;
-        if (shared) delete shared.__sha;
-      } catch (e) {
-        if (!e.message.includes('Not Found') && !e.message.includes('404')) throw e;
-        shared = { _meta: {}, availability: {}, staff: [], shiftChanges: [], storeSupport: [], doorSchedule: [] };
-      }
-
-      // 用本地覆盖
-      // v63: 强制推送前先规范化本地 availability（清理乱码/超大 note）
-      shared.availability = this._normalizeAvailabilityStructure(localAvail).months || {};
-      shared.staff = Store.get('staff') || [];
-      shared.shiftChanges = localSC;
-      shared.storeSupport = localSS;
-      shared.doorSchedule = localDS;
-      shared._meta = {
-        ...(shared._meta || {}),
-        lastUpdated: new Date().toISOString(),
-        lastUpdatedBy: (_auth && _auth.staffName) || 'force-push',
-        version: (shared._meta?.version || 0) + 1,
-        description: '安福路 Salomon 兼职管理系统 - 共享填报数据（GitHub云同步）'
-      };
-
-      const body = {
-        message: `force-push: 覆盖推送 (v${shared._meta.version})`,
-        content: btoa(unescape(encodeURIComponent(JSON.stringify(shared, null, 2)))),
-        branch: this.BRANCH,
-      };
-      if (sha) body.sha = sha;
-
-      await this._api('PUT', `${this.API_BASE}/repos/${this.REPO}/contents/${this.FILE_PATH}`, body);
-      showToast(`✅ 推送成功 v${shared._meta.version}`, 'success');
-      return true;
-    } catch (e) {
-      showToast('❌ 推送失败: ' + e.message, 'error');
-      return false;
-    }
-  },
-
-  /**
-   * 强制拉取并覆盖本地（用云端覆盖本地）
-   */
-  async forcePull() {
-    if (!this.isEnabled()) {
-      showToast('未配置同步Token', 'warning');
-      return false;
-    }
-    showToast('⬇️ 正在拉取...', 'info');
-    try {
-      this._lastPull = null; // 绕过防抖
-      const shared = await this._fetchSharedData();
-      if (!shared) {
-        showToast('云端无数据', 'warning');
-        return false;
-      }
-      this._mergeIntoLocal(shared);
-      this._lastPull = Date.now();
-      showToast('✅ 拉取完成，刷新页面查看', 'success');
-      return true;
-    } catch (e) {
-      showToast('❌ 拉取失败: ' + e.message, 'error');
-      return false;
-    }
-  },
-
-  /**
-   * 高级同步对话框（导出/导入/强制推送/强制拉取）
+   * 高级同步对话框（导出/导入）
    */
   _showAdvancedDialog() {
     const overlay = document.createElement('div');
@@ -1171,7 +679,7 @@ const Sync = {
           <button id="advCloseBtn" style="background:none;border:none;font-size:22px;cursor:pointer;opacity:0.5;">&times;</button>
         </div>
         <p style="font-size:12px;color:var(--text-secondary);margin-bottom:16px;line-height:1.5;">
-          v40 重置了云端数据，其他设备如有数据，请使用「强制推送」把数据传到云端。
+          系统已通过 Supabase 自动实时同步。以下工具用于本地备份与跨设备迁移。
         </p>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
@@ -1181,18 +689,12 @@ const Sync = {
           <button id="advImportBtn" style="padding:12px;border:1px solid #f59e0b;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#fffbeb;color:#92400e;">
             📥 导入备份
           </button>
-          <button id="advPushBtn" style="padding:12px;border:1px solid #3b82f6;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#eff6ff;color:#1e40af;">
-            ⬆️ 强制推送
-          </button>
-          <button id="advPullBtn" style="padding:12px;border:1px solid #8b5cf6;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#f5f3ff;color:#5b21b6;">
-            ⬇️ 强制拉取
-          </button>
         </div>
 
         <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:8px;padding:12px;font-size:11px;color:#92400e;line-height:1.5;margin-bottom:12px;">
-          <strong>使用流程：</strong><br>
-          1. <strong>有数据设备</strong>：导出备份 → 推送到云端<br>
-          2. <strong>无数据设备</strong>：强制拉取云端 → 刷新页面<br>
+          <strong>使用说明：</strong><br>
+          1. 系统已通过 Supabase 自动实时同步，无需手动推送<br>
+          2. <strong>本地备份</strong>：导出 → 保存到本地文件（防丢数据）<br>
           3. <strong>跨设备迁移</strong>：A 设备导出 → B 设备导入
         </div>
 
@@ -1241,15 +743,6 @@ const Sync = {
         reader.readAsText(file);
       };
       input.click();
-    };
-    overlay.querySelector('#advPushBtn').onclick = async () => {
-      overlay.remove();
-      await this.forcePush();
-    };
-    overlay.querySelector('#advPullBtn').onclick = async () => {
-      overlay.remove();
-      const ok = await this.forcePull();
-      if (ok) setTimeout(() => Router.render(), 800);
     };
   },
 
@@ -1354,39 +847,6 @@ const Sync = {
 
     // v54: GC 过期 tombstone
     this._gcTombstones(shared);
-  },
-
-  /**
-   * 3 轮 push 全部冲突后，验证云端是否已有本地数据（v46a）
-   * 原理：拉取最新云端 → 合入本地数据 → 对比合并前后是否一致
-   * 如果一致 = 数据已在云端（某次 PUT 实际成功、或他人也推送了同样数据）
-   */
-  async _verifyDataInCloud() {
-    try {
-      // 强制拉取最新云端数据（忽略防抖）
-      this._lastPull = null;
-      const cloud = await this._fetchSharedData();
-      if (!cloud) return false;
-      delete cloud.__sha;
-
-      // 深拷贝一份「合并前」的云端数据
-      const before = JSON.stringify(cloud);
-
-      // 把本地数据合入云端副本
-      this._mergeLocalIntoShared(cloud);
-
-      // 对比合并前后
-      const after = JSON.stringify(cloud);
-      if (before === after) {
-        // 合并没有改变云端 → 说明本地改动已经在云端了
-        return true;
-      }
-      console.log('[Sync] 云端验证：本地有未同步的数据');
-      return false;
-    } catch (e) {
-      console.warn('[Sync] 云端验证失败:', e.message);
-      return false;
-    }
   },
 
   /**
@@ -1563,23 +1023,6 @@ const Sync = {
     if (changed) console.log('[Sync] GC: 清理过期 tombstone');
   },
 
-  /**
-   * 验证 Token 是否有效
-   */
-  async testToken(token) {
-    try {
-      const url = `${this.API_BASE}/repos/${this.REPO}`;
-      const resp = await fetch(url, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Accept': 'application/vnd.github.v3+json',
-        }
-      });
-      return resp.ok;
-    } catch (e) {
-      return false;
-    }
-  },
 };
 
 // ===== 页面加载时自动拉取 =====
@@ -1660,30 +1103,25 @@ Sync._updateIndicator = function() {
     return new Date(ts).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
   };
 
-    if (this.isEnabled()) {
-    // 待同步状态（push 失败）
+  if (this.isEnabled()) {
     if (this._pendingSync) {
       dot.style.background = '#f59e0b';
       label.textContent = '待同步';
-      indicator.title = '上次推送未成功，已暂存本地，下次拉取后自动重试 · 右键配置Token';
+      indicator.title = '上次推送未成功，已暂存本地，下次拉取后自动重试';
     } else {
       dot.style.background = '#10b981';
       label.textContent = '已同步';
       const lastTime = _fmtTime(this._lastSyncTime);
-      indicator.title = '云端同步已启用' + (lastTime ? ' · 上次同步: ' + lastTime : '') + ' · 右键配置Token';
+      indicator.title = 'Supabase 云端同步已启用' + (lastTime ? ' · 上次同步: ' + lastTime : '');
     }
-    // v51f: 指示器只显示状态，点击不触发同步（用独立按钮）
-    indicator.style.cursor = 'default';
-    indicator.onclick = null;
-    indicator.oncontextmenu = (e) => { e.preventDefault(); Sync._showConfigDialog(); };
   } else {
-    dot.style.background = '#f59e0b';
-    label.textContent = '仅本地';
-    indicator.title = '云端同步未配置 · 右键配置';
-    indicator.style.cursor = 'default';
-    indicator.onclick = null;
-    indicator.oncontextmenu = (e) => { e.preventDefault(); Sync._showConfigDialog(); };
+    dot.style.background = '#ef4444';
+    label.textContent = '未连接';
+    indicator.title = '云端同步未连接（Supabase 不可用）';
   }
+  indicator.style.cursor = 'default';
+  indicator.onclick = null;
+  indicator.oncontextmenu = null;
 };
 
 /**
@@ -1692,7 +1130,7 @@ Sync._updateIndicator = function() {
  */
 Sync.manualSync = async function() {
   if (!Sync.isEnabled()) {
-    Sync._showConfigDialog();
+    if (typeof showToast === 'function') showToast('☁️ 云端同步未连接（Supabase 不可用）', 'warning');
     return;
   }
   // 按钮即时反馈
@@ -1704,19 +1142,8 @@ Sync.manualSync = async function() {
   if (label) label.textContent = '同步中...';
 
   const who = (typeof _auth !== 'undefined' && _auth && _auth.staffName) ? _auth.staffName : 'manual-sync';
-  // v51g: 抑制 _doPush 内部 toast，由按钮统一反馈
-  window._suppressInternalToast = true;
-  let pushErrorMsg = null;
   try {
-    const pushOk = await Sync.push(who).catch(e => { console.warn('[Sync] 手动push失败:', e.message); pushErrorMsg = e.message; return false; });
-    // 等待 push 队列排空
-    let waitCount = 0;
-    while (Sync._pushRunning && waitCount < 50) {
-      await new Promise(r => setTimeout(r, 200));
-      waitCount++;
-    }
-    // 取 _doPush 内部记录的精确错误信息
-    if (!pushOk) pushErrorMsg = Sync._lastPushError || pushErrorMsg;
+    const pushOk = await Sync.push(who).catch(e => { console.warn('[Sync] 手动push失败:', e.message); return false; });
     const pullOk = await Sync.pull(false, true);
     if (typeof showToast === 'function') {
       if (pushOk && pullOk) {
@@ -1724,9 +1151,7 @@ Sync.manualSync = async function() {
       } else if (!pushOk && !pullOk) {
         showToast('☁️ 上传和拉取均失败，请检查网络', 'error');
       } else if (!pushOk) {
-        // v51g: 显示 push 失败的具体原因（来自 _doPush 内部）
-        const detail = pushErrorMsg ? ` (${pushErrorMsg})` : '';
-        showToast('☁️ 上传失败' + detail, 'error');
+        showToast('☁️ 上传失败，请检查网络', 'error');
       } else {
         showToast('☁️ 已上传，但拉取最新数据失败', 'warning');
       }
@@ -1734,94 +1159,11 @@ Sync.manualSync = async function() {
   } catch (e) {
     if (typeof showToast === 'function') showToast('同步失败: ' + e.message, 'error');
   } finally {
-    // v51g: 清除抑制标记（自动保存场景会再次 toast）
-    window._suppressInternalToast = false;
     if (btn) { btn.disabled = false; btn.style.opacity = '1'; btn.textContent = '🔄 同步'; }
     Sync._updateIndicator();
   }
 };
 
-/**
- * 显示同步配置对话框
- */
-Sync._showConfigDialog = function() {
-  const overlay = document.createElement('div');
-  overlay.id = 'syncConfigOverlay';
-  overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;';
-  const currentToken = this.getToken() || '';
-  overlay.innerHTML = `
-    <div style="background:var(--bg-card,#fff);border-radius:16px;padding:28px;max-width:480px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <h3 style="font-size:18px;font-weight:800;">☁️ 云端同步设置</h3>
-        <button id="syncCloseBtn" style="background:none;border:none;font-size:22px;cursor:pointer;opacity:0.5;">&times;</button>
-      </div>
-      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;line-height:1.6;">
-        配置 GitHub Token 后，兼职填写的数据将自动同步到云端，所有人都能看到最新的填报内容。
-      </p>
-      <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">GitHub Token</label>
-      <input id="syncConfigToken" type="password" value="${currentToken}" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
-        style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:13px;font-family:monospace;background:var(--bg-input,#fff);color:var(--text-primary);box-sizing:border-box;" />
-      <div style="font-size:11px;color:#94a3b8;margin-top:6px;line-height:1.5;">
-        需要 repo → Contents: read & write 权限 |
-        <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:var(--accent);">创建Token</a>
-      </div>
-      <div style="display:flex;gap:10px;margin-top:16px;">
-        <button id="syncSaveBtn" style="flex:1;padding:10px;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;background:var(--accent,#e94560);color:#fff;">💾 保存并验证</button>
-        ${currentToken ? '<button id="syncClearBtn" style="padding:10px 16px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;cursor:pointer;background:none;color:var(--text-secondary);">清除</button>' : ''}
-      </div>
-      <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border-color,#e5e7eb);">
-        <button id="syncAdvancedBtn" style="width:100%;padding:10px;border:1px solid #8b5cf6;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:#f5f3ff;color:#5b21b6;">
-          🔄 高级同步工具（导出/导入/强制推送/拉取）
-        </button>
-      </div>
-      <div id="syncConfigMsg" style="margin-top:10px;font-size:12px;"></div>
-    </div>
-  `;
-  document.body.appendChild(overlay);
-  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
-  overlay.querySelector('#syncCloseBtn').onclick = () => overlay.remove();
-
-  overlay.querySelector('#syncSaveBtn').onclick = async () => {
-    const token = overlay.querySelector('#syncConfigToken').value.trim();
-    const msgEl = overlay.querySelector('#syncConfigMsg');
-    if (!token) { msgEl.innerHTML = '<span style="color:#e94560;">请输入Token</span>'; return; }
-    msgEl.innerHTML = '<span style="color:#f59e0b;">验证中...</span>';
-    try {
-      const resp = await fetch('https://api.github.com/repos/salomon-anfulu/salomon-management', {
-        headers: { 'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github.v3+json' }
-      });
-      if (resp.ok) {
-        Sync.setToken(token);
-        msgEl.innerHTML = '<span style="color:#10b981;">✅ 验证成功！正在同步本地数据...</span>';
-        Sync._enabled = true;
-        // 关键：push() 内部会先拉取云端 → 合并本地 → 推送合并结果
-        // 这样本地已有的填报不会丢失，云端已有的也不会被覆盖
-        Sync.push('initial-setup').catch(e => {
-          console.warn('[Sync] 初始同步失败:', e.message);
-        }).finally(() => {
-          overlay.remove();
-          Sync._updateIndicator();
-        });
-      } else {
-        const err = await resp.json().catch(() => ({}));
-        msgEl.innerHTML = '<span style="color:#e94560;">❌ ' + (err.message || 'Token无效') + '</span>';
-      }
-    } catch (e) { msgEl.innerHTML = '<span style="color:#e94560;">❌ ' + e.message + '</span>'; }
-  };
-
-  const clearBtn = overlay.querySelector('#syncClearBtn');
-  if (clearBtn) clearBtn.onclick = () => {
-    Sync.clearToken();
-    overlay.querySelector('#syncConfigToken').value = '';
-    overlay.querySelector('#syncConfigMsg').innerHTML = '<span style="color:#f59e0b;">Token已清除</span>';
-    setTimeout(() => { overlay.remove(); Sync._updateIndicator(); }, 800);
-  };
-
-  const advBtn = overlay.querySelector('#syncAdvancedBtn');
-  if (advBtn) advBtn.onclick = () => {
-    overlay.remove();
-    Sync._showAdvancedDialog();
-  };
-};
+  /* v155: 已移除 _showConfigDialog（GitHub Token 配置对话框，决策A 完全移除 GitHub 同步） */
 
 console.log('[Sync] 云同步模块已加载');

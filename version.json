@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-07-31-v154",
-  "cacheBuster": "154",
-  "updatedAt": "2026-07-31T14:15:00+08:00",
-  "note": "v153: 员工独立密码 + 自助改密（共享口令首登+强制自改），修 defaults.staff 李若彤回写 bug，sync.js 加 app:remote-synced 事件；v154: 修强制改密匹配失败 bug——blob staff 缺 email 字段（defaults.staff 无 email/auth_id，auth-guard 从 public.staff 查 staffId=null 三键全失效），SQL 补 22 个员工 email + 追加 id=24 admin 条目 + 陈妍嫔(id=1, 全职无登录) must_change_pw 改 false，change-password.js 加 console 日志 + setTimeout 6s 双兜底"
+  "dataVersion": "2026-07-31-v155",
+  "cacheBuster": "155",
+  "updatedAt": "2026-07-31T14:48:00+08:00",
+  "note": "v155: 决策A完全移除 GitHub 同步代码（删 _showConfigDialog、Token 管理、isEnabled 的 GitHub 判定、「仅本地」显示、右键配置Token；login.html 移除 GitHub Token 面板；isEnabled 改 Supabase 判定）；多用户实时同步经 Supabase Realtime+定时pull 已就绪。v153: 员工独立密码 + 自助改密（共享口令首登+强制自改），修 defaults.staff 李若彤回写 bug，sync.js 加 app:remote-synced 事件；v154: 修强制改密匹配失败 bug——blob staff 缺 email 字段（defaults.staff 无 email/auth_id，auth-guard 从 public.staff 查 staffId=null 三键全失效），SQL 补 22 个员工 email + 追加 id=24 admin 条目 + 陈妍嫔(id=1, 全职无登录) must_change_pw 改 false，change-password.js 加 console 日志 + setTimeout 6s 双兜底"
 }
