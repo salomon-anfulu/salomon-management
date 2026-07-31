@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 451,
-    "lastUpdated": "2026-07-31T07:25:37.683Z",
-    "lastUpdatedBy": "change-password"
+    "version": 452,
+    "lastUpdated": "2026-07-31T07:32:59.148Z",
+    "lastUpdatedBy": "玛依拉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -8914,7 +8914,7 @@
       "transferredFrom": "仓库兼职",
       "serviceTeamStartDate": "2026-07-01",
       "email": "mayila@salomon.temp",
-      "must_change_pw": false
+      "must_change_pw": true
     },
     {
       "id": 19,
@@ -8956,7 +8956,7 @@
       "availableDays": 0,
       "mbti": "",
       "email": "lijianhua@salomon.temp",
-      "must_change_pw": false
+      "must_change_pw": true
     },
     {
       "id": 22,
@@ -13726,6 +13726,16 @@
           "time": "19:00:00-20:00:00",
           "staff": "邓奇缘",
           "_updatedAt": "1785399093758"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-26",
+      "slots": [
+        {
+          "time": "17:00:00-18:00:00",
+          "staff": "玛依拉",
+          "_updatedAt": "1785483179068"
         }
       ]
     },
