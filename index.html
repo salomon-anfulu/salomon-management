@@ -252,14 +252,14 @@
   </script>
 
   <!-- Supabase 配置 + SDK + 客户端 -->
-  <script src="supabase/config.js?v=157"></script>
+  <script src="supabase/config.js?v=158"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js?v=157"></script>
-  <script src="js/auth-guard.js?v=157"></script>
-  <script src="js/app.js?v=157"></script>
-  <script src="js/sync.js?v=157"></script>
-  <script src="js/pages.js?v=157"></script>
-  <script src="js/change-password.js?v=157"></script>
+  <script src="js/supabase-client.js?v=158"></script>
+  <script src="js/auth-guard.js?v=158"></script>
+  <script src="js/app.js?v=158"></script>
+  <script src="js/sync.js?v=158"></script>
+  <script src="js/pages.js?v=158"></script>
+  <script src="js/change-password.js?v=158"></script>
   <script>
     // ===== Auth Module (v142: 兼容旧 Auth + 新 AuthHelper) =====
     const Auth = {
@@ -306,11 +306,13 @@
     // Show user banner
     const banner = document.getElementById('userBanner');
     banner.style.display = 'flex';
+    // v158: 头像 fallback 改为真实状态，不再硬编码「管理员」
+    // 若未拿到 staffName（极少：登录异常），显示「未登录」而非假装是管理员
     const staffObj = Auth.staffId ? Store.get('staff').find(s => s.id === Auth.staffId) : null;
-    const avatarColor = staffObj?.avatar_color || '#1a1a2e';
-    const displayName = Auth.staffName || '管理员';
-    const displayDept = Auth.dept || 'Admin';
-    const initial = displayName[0];
+    const avatarColor = staffObj?.avatar_color || '#94a3b8';
+    const displayName = Auth.staffName || '未登录';
+    const displayDept = Auth.dept || (Auth.staffName ? '员工' : '');
+    const initial = displayName[0] || '?';
     banner.innerHTML = `
       <div class="user-avatar" style="background:${avatarColor};">${initial}</div>
       <span class="user-name">${displayName}</span>

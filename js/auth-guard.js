@@ -32,7 +32,7 @@ const AuthHelper = {
             authenticated: true,
             supabaseUserId: session.user.id,
             staffId: staff?.id || null,
-            staffName: staff?.staff_name || session.user.user_metadata?.name,
+            staffName: staff?.name || session.user.user_metadata?.name,
             dept: staff?.dept || null,
             role: staff?.role || 'parttime',
             email: session.user.email,
