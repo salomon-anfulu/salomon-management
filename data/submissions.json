@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 450,
-    "lastUpdated": "2026-07-30T20:11:43.151Z",
-    "lastUpdatedBy": "邓奇缘"
+    "version": 451,
+    "lastUpdated": "2026-07-31T07:25:37.683Z",
+    "lastUpdatedBy": "change-password"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -2822,19 +2822,19 @@
             },
             "7/14": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/15": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/16": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/17": {
               "available": false,
-              "note": ""
+              "note": "走秀出差"
             },
             "7/18": {
               "available": true,
@@ -5178,9 +5178,9 @@
               "note": ""
             },
             "7/29": {
-              "available": false,
               "note": "",
-              "_updatedAt": 1785442301373
+              "available": true,
+              "_updatedAt": 1785442308401
             },
             "7/30": {
               "available": true,
@@ -5193,11 +5193,10 @@
           },
           "note": "",
           "_noteUpdatedAt": 1784533921572,
-          "total": 22,
+          "total": 23,
           "unavailable": [
             "7/7",
-            "7/13",
-            "7/29"
+            "7/13"
           ]
         },
         "陈广权": {
@@ -6595,148 +6594,148 @@
               "_updatedAt": 1784638202682
             },
             "8/3": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689475078
             },
             "8/4": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689476643
             },
             "8/5": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689477944
             },
             "8/6": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689479177
             },
             "8/7": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689480340
             },
             "8/8": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689481540
             },
             "8/9": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689482775
             },
             "8/10": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689484088
             },
             "8/11": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689485288
             },
             "8/12": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689486470
             },
             "8/13": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689487670
             },
             "8/14": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689489169
             },
             "8/15": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689490385
             },
             "8/16": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689491651
             },
             "8/17": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689492919
             },
             "8/18": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689494150
             },
             "8/19": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689495332
             },
             "8/20": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689496550
             },
             "8/21": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689497765
             },
             "8/22": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689498997
             },
             "8/23": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689500301
             },
             "8/24": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689501531
             },
             "8/25": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689502747
             },
             "8/26": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689503932
             },
             "8/27": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689505276
             },
             "8/28": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689506493
             },
             "8/29": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689507761
             },
             "8/30": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689509262
             },
             "8/31": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689510626
             }
           },
@@ -6989,33 +6988,33 @@
               "_updatedAt": 1784689468969
             },
             "8/26": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689470654
             },
             "8/27": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689472338
             },
             "8/28": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689474240
             },
             "8/29": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689476025
             },
             "8/30": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689477694
             },
             "8/31": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784689479461
             }
           },
@@ -7463,7 +7462,11 @@
         },
         "邓奇缘": {
           "total": 28,
-          "unavailable": [],
+          "unavailable": [
+            "8/29",
+            "8/30",
+            "8/31"
+          ],
           "note": "",
           "dates": {
             "8/1": {
@@ -7605,6 +7608,21 @@
               "available": true,
               "note": "",
               "_updatedAt": 1784619448758
+            },
+            "8/29": {
+              "note": "",
+              "available": false,
+              "_updatedAt": 1785442324110
+            },
+            "8/30": {
+              "note": "",
+              "available": false,
+              "_updatedAt": 1785442326027
+            },
+            "8/31": {
+              "note": "",
+              "available": false,
+              "_updatedAt": 1785442327910
             }
           },
           "_noteUpdatedAt": 1784712452872
@@ -7615,123 +7633,123 @@
           "note": "",
           "dates": {
             "8/1": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695586607
             },
             "8/2": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695589431
             },
             "8/3": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695591078
             },
             "8/4": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695593542
             },
             "8/5": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695594757
             },
             "8/6": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695595888
             },
             "8/7": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695597169
             },
             "8/8": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695598351
             },
             "8/9": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695600283
             },
             "8/10": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695601764
             },
             "8/11": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695602965
             },
             "8/12": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695604177
             },
             "8/13": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695605377
             },
             "8/14": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695606541
             },
             "8/15": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695607672
             },
             "8/16": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695608821
             },
             "8/17": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695610071
             },
             "8/18": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695611235
             },
             "8/19": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695612417
             },
             "8/20": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695613565
             },
             "8/21": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695614764
             },
             "8/22": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695615845
             },
             "8/23": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695616977
             },
             "8/24": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784695618376
             }
           },
@@ -7753,133 +7771,133 @@
           "note": "",
           "dates": {
             "8/1": {
-              "note": "",
               "available": false,
+              "note": "",
               "_updatedAt": 1784715762782
             },
             "8/2": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784697254720
             },
             "8/3": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715760090
             },
             "8/4": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715764600
             },
             "8/5": {
-              "note": "日本旅游",
               "available": false,
+              "note": "日本旅游",
               "_updatedAt": 1784715776905
             },
             "8/6": {
-              "note": "",
               "available": false,
+              "note": "",
               "_updatedAt": 1784715781187
             },
             "8/7": {
-              "note": "",
               "available": false,
+              "note": "",
               "_updatedAt": 1784715785120
             },
             "8/8": {
-              "note": "",
               "available": false,
+              "note": "",
               "_updatedAt": 1784715790136
             },
             "8/10": {
-              "note": "",
               "available": false,
+              "note": "",
               "_updatedAt": 1784715793274
             },
             "8/11": {
-              "note": "",
               "available": false,
+              "note": "",
               "_updatedAt": 1784715795370
             },
             "8/12": {
-              "note": "回来",
               "available": false,
+              "note": "回来",
               "_updatedAt": 1784715800072
             },
             "8/13": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715803532
             },
             "8/17": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715809881
             },
             "8/18": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715810978
             },
             "8/19": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715811910
             },
             "8/20": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715813094
             },
             "8/21": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715814495
             },
             "8/22": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715816078
             },
             "8/24": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715817060
             },
             "8/25": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715817824
             },
             "8/26": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715818559
             },
             "8/27": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715819189
             },
             "8/28": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715820091
             },
             "8/29": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715820978
             },
             "8/31": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784715822071
             },
             "8/15": {
-              "note": "",
               "available": false,
+              "note": "",
               "_updatedAt": 1784715839574
             }
           },
@@ -7898,103 +7916,103 @@
           "note": "",
           "dates": {
             "8/1": {
-              "note": "",
               "available": false,
+              "note": "",
               "_updatedAt": 1784722559329
             },
             "8/2": {
-              "note": "",
               "available": false,
+              "note": "",
               "_updatedAt": 1784722560961
             },
             "8/3": {
-              "note": "",
               "available": false,
+              "note": "",
               "_updatedAt": 1784712487347
             },
             "8/4": {
-              "note": "",
               "available": false,
+              "note": "",
               "_updatedAt": 1784712575497
             },
             "8/5": {
-              "note": "",
               "available": false,
+              "note": "",
               "_updatedAt": 1784712578109
             },
             "8/6": {
-              "note": "",
               "available": false,
+              "note": "",
               "_updatedAt": 1784712617395
             },
             "8/10": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784712558359
             },
             "8/7": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784712620046
             },
             "8/8": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784712664918
             },
             "8/9": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784712666175
             },
             "8/11": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784722577152
             },
             "8/12": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784722578767
             },
             "8/13": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784722590110
             },
             "8/14": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784722591379
             },
             "8/15": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784722592528
             },
             "8/16": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784722593459
             },
             "8/17": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784722598547
             },
             "8/18": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784722611781
             },
             "8/19": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784722612978
             },
             "8/20": {
-              "note": "",
               "available": true,
+              "note": "",
               "_updatedAt": 1784722614149
             }
           },
@@ -8671,7 +8689,8 @@
       "status": "full_time",
       "avatar_color": "#3b82f6",
       "availableDays": 29,
-      "mbti": ""
+      "mbti": "",
+      "must_change_pw": false
     },
     {
       "id": 2,
@@ -8682,7 +8701,9 @@
       "status": "active",
       "avatar_color": "#8b5cf6",
       "availableDays": 27,
-      "mbti": ""
+      "mbti": "",
+      "email": "tianjiale@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 3,
@@ -8693,7 +8714,9 @@
       "status": "active",
       "avatar_color": "#ec4899",
       "availableDays": 26,
-      "mbti": ""
+      "mbti": "",
+      "email": "chicheng@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 4,
@@ -8704,7 +8727,9 @@
       "status": "active",
       "avatar_color": "#f59e0b",
       "availableDays": 25,
-      "mbti": ""
+      "mbti": "",
+      "email": "wangjinyu@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 5,
@@ -8715,7 +8740,9 @@
       "status": "active",
       "avatar_color": "#10b981",
       "availableDays": 24,
-      "mbti": ""
+      "mbti": "",
+      "email": "zhukaiyun@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 6,
@@ -8726,7 +8753,9 @@
       "status": "active",
       "avatar_color": "#06b6d4",
       "availableDays": 29,
-      "mbti": ""
+      "mbti": "",
+      "email": "kongxiangyu@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 7,
@@ -8737,7 +8766,9 @@
       "status": "active",
       "avatar_color": "#f43f5e",
       "availableDays": 28,
-      "mbti": ""
+      "mbti": "",
+      "email": "dengqiyuan@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 8,
@@ -8748,7 +8779,9 @@
       "status": "active",
       "avatar_color": "#6366f1",
       "availableDays": 26,
-      "mbti": ""
+      "mbti": "",
+      "email": "yangzihao@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 9,
@@ -8759,7 +8792,9 @@
       "status": "active",
       "avatar_color": "#a855f7",
       "availableDays": 26,
-      "mbti": ""
+      "mbti": "",
+      "email": "wangyalan@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 10,
@@ -8782,7 +8817,9 @@
       "avatar_color": "#eab308",
       "availableDays": 10,
       "note": "19日到30日出差，请假",
-      "mbti": ""
+      "mbti": "",
+      "email": "wanglongyu@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 12,
@@ -8793,7 +8830,9 @@
       "status": "active",
       "avatar_color": "#f97316",
       "availableDays": 23,
-      "mbti": ""
+      "mbti": "",
+      "email": "heqiuye@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 13,
@@ -8804,7 +8843,9 @@
       "status": "active",
       "avatar_color": "#84cc16",
       "availableDays": 25,
-      "mbti": ""
+      "mbti": "",
+      "email": "gongyunhao@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 14,
@@ -8815,7 +8856,9 @@
       "status": "active",
       "avatar_color": "#22d3ee",
       "availableDays": 7,
-      "mbti": ""
+      "mbti": "",
+      "email": "yanjiazheng@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 15,
@@ -8826,7 +8869,9 @@
       "status": "active",
       "avatar_color": "#fb923c",
       "availableDays": 29,
-      "mbti": ""
+      "mbti": "",
+      "email": "zubaidai@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 16,
@@ -8837,7 +8882,9 @@
       "status": "active",
       "avatar_color": "#a78bfa",
       "availableDays": 26,
-      "mbti": ""
+      "mbti": "",
+      "email": "chenguangquan@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 17,
@@ -8850,7 +8897,9 @@
       "availableDays": 13,
       "mbti": "",
       "transferredFrom": "仓库兼职",
-      "serviceTeamStartDate": "2026-07-20"
+      "serviceTeamStartDate": "2026-07-20",
+      "email": "jiachangle@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 18,
@@ -8863,7 +8912,9 @@
       "availableDays": 23,
       "mbti": "",
       "transferredFrom": "仓库兼职",
-      "serviceTeamStartDate": "2026-07-01"
+      "serviceTeamStartDate": "2026-07-01",
+      "email": "mayila@salomon.temp",
+      "must_change_pw": false
     },
     {
       "id": 19,
@@ -8876,7 +8927,9 @@
       "availableDays": 19,
       "mbti": "",
       "transferredFrom": "仓库兼职",
-      "serviceTeamStartDate": "2026-07-20"
+      "serviceTeamStartDate": "2026-07-20",
+      "email": "liangshiqiu@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 20,
@@ -8888,7 +8941,9 @@
       "avatar_color": "#ec4899",
       "availableDays": 0,
       "mbti": "",
-      "serviceTeamStartDate": "2026-07-01"
+      "serviceTeamStartDate": "2026-07-01",
+      "email": "tangrong@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 21,
@@ -8899,7 +8954,9 @@
       "status": "active",
       "avatar_color": "#10b981",
       "availableDays": 0,
-      "mbti": ""
+      "mbti": "",
+      "email": "lijianhua@salomon.temp",
+      "must_change_pw": false
     },
     {
       "id": 22,
@@ -8910,7 +8967,9 @@
       "status": "active",
       "avatar_color": "#06b6d4",
       "availableDays": 0,
-      "mbti": ""
+      "mbti": "",
+      "email": "wujiaying@salomon.temp",
+      "must_change_pw": true
     },
     {
       "id": 23,
@@ -8921,7 +8980,18 @@
       "status": "active",
       "avatar_color": "#3b82f6",
       "availableDays": 0,
-      "mbti": ""
+      "mbti": "",
+      "email": "hesijia@salomon.temp",
+      "must_change_pw": true
+    },
+    {
+      "id": 24,
+      "dept": "Admin",
+      "name": "admin",
+      "role": "manager",
+      "email": "admin@salomon.temp",
+      "status": "active",
+      "must_change_pw": false
     }
   ],
   "shiftChanges": [
