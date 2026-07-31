@@ -357,7 +357,7 @@ const SCORE_THRESHOLDS = {
 
 function renderDashboard() {
   const staff = Store.get('staff');
-  const activeStaff = staff.filter(s => s.status === 'active');
+  const activeStaff = staff.filter(s => s.status === 'active' && !isManagementStaff(s));
   const schedules = Store.get('schedules') || [];
   const ratings = Store.get('ratings') || [];
   const violations = Store.get('violations') || [];
@@ -469,7 +469,7 @@ function renderDashboard() {
 }
 
 function initDashboardCharts() {
-  const staff = Store.getList('staff').filter(s => s.status === 'active');
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && !isManagementStaff(s));
   const serviceTeam = staff.filter(s => s.dept === 'Service Team').length;
   const warehouse = staff.filter(s => s.dept === '仓库兼职').length;
 
@@ -513,7 +513,8 @@ function initDashboardCharts() {
 let staffFilter = 'all';
 
 function renderStaff() {
-  const allStaff = Store.get('staff');
+  // v156: 排除管理者账号（admin id=24），仅作为管理用途不显示在人员列表
+  const allStaff = Store.get('staff').filter(s => !isManagementStaff(s));
   // 排序：Service Team 优先，仓库兼职在后；同部门内按姓名排序
   const sorted = [...allStaff].sort((a, b) => {
     const aIsST = a.dept === 'Service Team' ? 0 : 1;
@@ -532,7 +533,7 @@ function renderStaff() {
         <button class="filter-chip ${staffFilter === 'active' ? 'active' : ''}" onclick="staffFilter='active';Router.render()">在职 (${allStaff.filter(s=>s.status==='active').length})</button>
         <button class="filter-chip ${staffFilter === 'inactive' ? 'active' : ''}" onclick="staffFilter='inactive';Router.render()">离职/转正 (${allStaff.filter(s=>s.status!=='active').length})</button>
       </div>
-      <button class="btn btn-primary" onclick="openStaffModal()">+ 添加兼职</button>
+      ${_auth.isAdmin ? `<button class="btn btn-primary" onclick="openStaffModal()">+ 添加兼职</button>` : ''}
     </div>
 
     <div class="card animate-in">
@@ -564,11 +565,13 @@ function renderStaff() {
                   <td>${s.mbti ? `<span class="badge badge-active" style="font-size:11px;">${s.mbti}</span>` : '<span class="text-muted">未填写</span>'}</td>
                   <td><span class="badge ${s.status === 'active' ? 'badge-active' : s.status === 'full_time' ? 'badge-info' : 'badge-inactive'}">${s.status === 'active' ? '在职' : s.status === 'full_time' ? '已转正' : '离职'}</span></td>
                   <td>
+                    ${_auth.isAdmin ? `
                     <div class="flex gap-8">
                       <button class="btn btn-sm btn-outline" onclick="openStaffModal(${s.id})">编辑</button>
                       ${s.status === 'active' ? `<button class="btn btn-sm" style="background:#10b981;color:#fff;border:none;" onclick="promoteStaff(${s.id})">转正</button>` : ''}
                       ${s.status === 'full_time' ? '' : `<button class="btn btn-sm btn-secondary" onclick="toggleStaffStatus(${s.id})">${s.status === 'active' ? '离职' : '恢复'}</button>`}
                     </div>
+                    ` : '<span class="text-muted" style="font-size:12px;">—</span>'}
                   </td>
                 </tr>
               `).join('')}
@@ -662,6 +665,8 @@ function closeStaffModal() {
 }
 
 function saveStaff() {
+  // v156: 仅管理员可管理成员
+  if (!_auth.isAdmin) { showToast('仅管理员可管理成员', 'warning'); return; }
   const editId = document.getElementById('staff_edit_id').value;
   const name = document.getElementById('staff_name').value.trim();
   const dept = document.getElementById('staff_dept').value;
@@ -778,6 +783,8 @@ function initStaffCascadeData(staffName) {
 }
 
 function toggleStaffStatus(id) {
+  // v156: 仅管理员可操作成员状态
+  if (!_auth.isAdmin) { showToast('仅管理员可管理成员', 'warning'); return; }
   const staff = Store.get('staff');
   const idx = staff.findIndex(s => s.id === id);
   if (idx >= 0) {
@@ -790,6 +797,8 @@ function toggleStaffStatus(id) {
 }
 
 function promoteStaff(id) {
+  // v156: 仅管理员可操作成员状态
+  if (!_auth.isAdmin) { showToast('仅管理员可管理成员', 'warning'); return; }
   const staff = Store.get('staff');
   const idx = staff.findIndex(s => s.id === id);
   if (idx >= 0) {
@@ -840,7 +849,7 @@ function _buildMonthWeeks(monthKey) {
 }
 
 function renderSchedule() {
-  const staff = Store.getList('staff').filter(s => s.status === 'active');
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && !isManagementStaff(s));
   const serviceTeam = staff.filter(s => s.dept === 'Service Team');
   const availability = Store.get('availability');
   // Month to display: _scheduleMonth if set, otherwise availability.currentMonth
@@ -2169,7 +2178,7 @@ function renderRatings() {
     return !_defaultKeys.has(`${r.staffId}-${r.month}`);
   });
   const allRatings = [..._defaultRatings, ..._userCustom];
-  const staff = Store.getList('staff').filter(s => s.status === 'active');
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && !isManagementStaff(s));
 
   // Available months from ratings — ensure current month always shows
   // 同时从 performanceData 和 defaults.ratings 补充月份选项
@@ -3783,9 +3792,11 @@ function renderSupportTable(data) {
 }
 
 function renderStaffStatsTable(staffStats, staffSupportCount) {
-  const allStaff = Store.getList('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
+  // v156: 排除管理者账号（admin）不出现在人员 lookup 与支援统计中
+  const allStaff = Store.getList('staff').filter(s => s.dept === 'Service Team' && s.status === 'active' && !isManagementStaff(s));
   const allSupportData = Store.get('storeSupport') || [];
-  const monthSupportData = allSupportData.filter(s => (s.date || '').startsWith(_supportPageMonth));
+  const _mgmtNames = new Set(Store.get('staff').filter(s => isManagementStaff(s)).map(s => s.name));
+  const monthSupportData = allSupportData.filter(s => (s.date || '').startsWith(_supportPageMonth) && !_mgmtNames.has(s.staff || ''));
 
   // 解析时长为小时数（"0.5小时" → 0.5, "2小时" → 2）
   const parseHours = (dur) => {
@@ -4211,7 +4222,7 @@ function renderCustomerReviews() {
     <!-- Filters -->
     <div class="tabs animate-in" style="margin-top: 20px;">
       ${months.map(m => `<button class="tab ${reviewsMonthFilter === m ? 'active' : ''}" onclick="reviewsMonthFilter='${m}';reviewsStaffFilter='all';Router.render()">${_safeReplace(m, '2026-', '')}月</button>`).join('')}
-      <button class="tab" onclick="openReviewForm()" style="margin-left: auto; background: var(--accent); color: #fff;">+ 添加好评</button>
+      ${_auth.isAdmin ? `<button class="tab" onclick="openReviewForm()" style="margin-left: auto; background: var(--accent); color: #fff;">+ 添加好评</button>` : ''}
     </div>
 
     ${ranked.length === 0 ? `
@@ -4282,8 +4293,10 @@ function renderCustomerReviews() {
                   </div>
                   <div style="display: flex; align-items: center; gap: 8px;">
                     <span style="font-size: 14px;">${'⭐'.repeat(r.rating || 5)}</span>
+                    ${_auth.isAdmin ? `
                     <button onclick="openReviewForm(${r.id})" style="background: none; border: none; cursor: pointer; font-size: 14px; opacity: 0.5; padding: 4px;">✏️</button>
                     <button onclick="deleteReview(${r.id})" style="background: none; border: none; cursor: pointer; font-size: 14px; opacity: 0.5; padding: 4px;">🗑️</button>
+                    ` : ''}
                   </div>
                 </div>
                 ${r.snippet ? `<div style="margin-top: 12px; padding: 12px 16px; background: var(--bg-secondary); border-radius: 8px; font-size: 13px; line-height: 1.7; color: var(--text-primary); border-left: 3px solid ${color};">"${_esc(r.snippet)}"</div>` : ''}
@@ -4305,7 +4318,8 @@ function openReviewForm(id) {
   reviewEditingId = id || null;
   const review = id ? (Store.get('customerReviews') || []).find(r => r.id === id) : null;
   const staff = Store.get('staff');
-  const staffNames = staff.map(s => s.name);
+  // v156: 排除管理者账号（admin）不出现在好评归属下拉中
+  const staffNames = staff.filter(s => !isManagementStaff(s)).map(s => s.name);
 
   const overlay = document.createElement('div');
   overlay.className = 'modal-overlay';
@@ -4387,6 +4401,8 @@ function closeReviewForm() {
 }
 
 function saveReviewForm() {
+  // v156: 好评由管理员统一管理
+  if (!_auth.isAdmin) { showToast('仅管理员可管理好评', 'warning'); return; }
   const staffName = document.getElementById('reviewStaffName').value;
   const month = document.getElementById('reviewMonth').value;
   const reviewDate = document.getElementById('reviewDate').value;
@@ -4423,6 +4439,8 @@ function saveReviewForm() {
 }
 
 function deleteReview(id) {
+  // v156: 好评由管理员统一管理
+  if (!_auth.isAdmin) { showToast('仅管理员可管理好评', 'warning'); return; }
   if (!confirm('确定删除这条好评记录吗？')) return;
   // v54: tombstone 标记
   _markDeleted('customerReviews', id);
@@ -4490,7 +4508,11 @@ function openDoorSlotForm(idx) {
   const doorData = Store.get('doorSchedule') || [];
   const day = doorData.find(d => d.date === doorScheduleDate);
   const slot = (doorSlotEditingIdx !== null && day && day.slots[doorSlotEditingIdx]) ? day.slots[doorSlotEditingIdx] : null;
-  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team' && !isManagementStaff(s));
+  // v156: 非管理员只能填报自己，锁定值班人员
+  const _selfStaff = Store.getList('staff').find(s => s.id === _auth.staffId);
+  const _selfName = _selfStaff ? _selfStaff.name : '';
+  const _doorLocked = !_auth.isAdmin;
 
   const overlay = document.createElement('div');
   overlay.id = 'doorSlotFormOverlay';
@@ -4513,10 +4535,10 @@ function openDoorSlotForm(idx) {
           </div>
         </div>
         <div>
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">值班人员</label>
-          <select id="doorSlotStaff" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">值班人员${_doorLocked ? '（仅可填报自己）' : ''}</label>
+          <select id="doorSlotStaff" ${_doorLocked ? 'disabled' : ''} style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
             <option value="">— 未安排 —</option>
-            ${staff.map(s => `<option value="${_esc(s.name)}" ${slot && slot.staff === s.name ? 'selected' : ''}>${_esc(s.name)}</option>`).join('')}
+            ${_doorLocked ? `<option value="${_esc(_selfName)}" selected>${_esc(_selfName)}</option>` : staff.map(s => `<option value="${_esc(s.name)}" ${slot && slot.staff === s.name ? 'selected' : ''}>${_esc(s.name)}</option>`).join('')}
           </select>
         </div>
         <div style="display:flex;gap:12px;margin-top:8px;">
@@ -4579,7 +4601,11 @@ function deleteDoorSlot(idx) {
  * ========================================
  */
 function openSupportForm() {
-  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team' && !isManagementStaff(s));
+  // v156: 非管理员只能填报自己，锁定员工
+  const _selfStaff = Store.getList('staff').find(s => s.id === _auth.staffId);
+  const _selfName = _selfStaff ? _selfStaff.name : '';
+  const _supportLocked = !_auth.isAdmin;
   const supportTypes = ['货品-整理仓库', '货品-查鞋盒', '货品-辅助收货', '陈列-翻场支援', '陈列-全楼标签复核', '其他'];
   const today = new Date();
   const defaultDate = _supportMonth + '-' + String(today.getDate()).padStart(2, '0');
@@ -4596,9 +4622,9 @@ function openSupportForm() {
       <div style="display:flex;flex-direction:column;gap:16px;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
           <div>
-            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">员工 *</label>
-            <select id="supportStaff" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
-              ${staff.map(s => `<option value="${_esc(s.name)}">${_esc(s.name)}</option>`).join('')}
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">员工 *${_supportLocked ? '（仅可填报自己）' : ''}</label>
+            <select id="supportStaff" ${_supportLocked ? 'disabled' : ''} style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
+              ${_supportLocked ? `<option value="${_esc(_selfName)}" selected>${_esc(_selfName)}</option>` : staff.map(s => `<option value="${_esc(s.name)}">${_esc(s.name)}</option>`).join('')}
             </select>
           </div>
           <div>
@@ -4641,7 +4667,12 @@ function closeSupportForm() {
 }
 
 function saveSupport() {
-  const staffName = document.getElementById('supportStaff').value;
+  let staffName = document.getElementById('supportStaff').value;
+  // v156: 非管理员只能填报自己，强制员工=本人
+  if (!_auth.isAdmin) {
+    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    if (me) staffName = me.name;
+  }
   const date = document.getElementById('supportDate').value;
   const type = document.getElementById('supportType').value;
   const duration = document.getElementById('supportDuration').value;
@@ -4661,6 +4692,12 @@ function saveSupport() {
 }
 
 function deleteSupport(id) {
+  // v156: 非管理员只能删除自己的记录
+  if (!_auth.isAdmin) {
+    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    const rec = (Store.get('storeSupport') || []).find(r => r.id === id);
+    if (me && rec && rec.staff !== me.name) { showToast('只能删除自己的记录', 'warning'); return; }
+  }
   if (!confirm('确定删除这条支援记录吗？')) return;
   // v54: tombstone 标记
   _markDeleted('storeSupport', id);
@@ -4678,7 +4715,11 @@ function deleteSupport(id) {
  * ========================================
  */
 function openShiftForm() {
-  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team' && !isManagementStaff(s));
+  // v156: 非管理员只能填报自己，锁定申请人
+  const _selfStaff = Store.getList('staff').find(s => s.id === _auth.staffId);
+  const _selfName = _selfStaff ? _selfStaff.name : '';
+  const _shiftLocked = !_auth.isAdmin;
   const today = new Date();
   const defaultDate = _shiftsMonth + '-' + String(today.getDate()).padStart(2, '0');
 
@@ -4695,8 +4736,8 @@ function openShiftForm() {
       <div style="display:flex;flex-direction:column;gap:16px;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
           <div>
-            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">申请人 *</label>
-            <select id="shiftApplicant" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">${staffOptions}</select>
+            <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">申请人 *${_shiftLocked ? '（仅可填报自己）' : ''}</label>
+            <select id="shiftApplicant" ${_shiftLocked ? 'disabled' : ''} style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">${_shiftLocked ? `<option value="${_esc(_selfName)}" selected>${_esc(_selfName)}</option>` : staffOptions}</select>
           </div>
           <div>
             <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">申请日期 *</label>
@@ -4734,7 +4775,12 @@ function closeShiftForm() {
 }
 
 function saveShift() {
-  const applicant = document.getElementById('shiftApplicant').value;
+  let applicant = document.getElementById('shiftApplicant').value;
+  // v156: 非管理员只能填报自己，强制申请人=本人
+  if (!_auth.isAdmin) {
+    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    if (me) applicant = me.name;
+  }
   const applyDate = document.getElementById('shiftApplyDate').value;
   const applicantShift = document.getElementById('shiftApplicantShift').value.trim();
   const target = document.getElementById('shiftTarget').value;
@@ -4754,6 +4800,12 @@ function saveShift() {
 }
 
 function deleteShift(id) {
+  // v156: 非管理员只能删除自己的记录
+  if (!_auth.isAdmin) {
+    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    const rec = (Store.get('shiftChanges') || []).find(r => r.id === id);
+    if (me && rec && rec.applicant !== me.name) { showToast('只能删除自己的记录', 'warning'); return; }
+  }
   if (!confirm('确定删除这条换班记录吗？')) return;
   // v54: tombstone 标记（防跨设备复活）+ 物理删除
   _markDeleted('shiftChanges', id);
@@ -4825,9 +4877,10 @@ function renderMyForms() {
   if (!_availMonth) {
     _availMonth = AVAIL_MIN_MONTH; // default to July 2026
   }
-  if (!_availStaff) {
+  if (!_availStaff || !_auth.isAdmin) {
+    // v156: 非管理员只能填报自己，强制锁定 _availStaff 为本人
     const me = Store.getList('staff').find(s => s.id === _auth.staffId);
-    _availStaff = me ? me.name : (Store.getList('staff').find(s => s.status === 'active') || {}).name || '';
+    _availStaff = me ? me.name : (Store.getList('staff').find(s => s.status === 'active' && !isManagementStaff(s)) || {}).name || '';
   }
 
   const tabs = [
@@ -4930,7 +4983,11 @@ function renderMonthSwitcher() {
 
 // ===== Personal calendar view =====
 function renderPersonalCalendar() {
-  const staff = Store.getList('staff').filter(s => s.status === 'active');
+  // v156: 排除管理者账号（admin）不出现在填报下拉
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && !isManagementStaff(s));
+  // 非管理员只能填报自己，锁定姓名选择
+  const _canSwitchAvail = _auth.isAdmin;
+  const _selfStaffName = (Store.getList('staff').find(s => s.id === _auth.staffId) || {}).name || '';
   const [year, mon] = _parseYM(_availMonth, 2026, 7);
   const totalDays = new Date(year, mon, 0).getDate();
   const firstDay = new Date(year, mon - 1, 1).getDay() || 7; // 1=Mon ... 7=Sun
@@ -4984,14 +5041,16 @@ function renderPersonalCalendar() {
     <div class="card animate-in" style="margin-bottom: 20px;">
       <div class="card-body">
         <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:16px;">
-          <label style="font-size:13px;font-weight:600;color:var(--text-secondary);">选择姓名:</label>
-          <select id="availStaffSelect" onchange="_availStaff=this.value;Router.render()" style="padding:8px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);min-width:120px;">
+          <label style="font-size:13px;font-weight:600;color:var(--text-secondary);">选择姓名:${_canSwitchAvail ? '' : '（仅可填报自己）'}</label>
+          <select id="availStaffSelect" ${_canSwitchAvail ? `onchange="_availStaff=this.value;Router.render()"` : 'disabled'} style="padding:8px 14px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);min-width:120px;">
+            ${_canSwitchAvail ? `
             <optgroup label="Service Team">
               ${staff.filter(s => s.dept === 'Service Team').map(s => `<option value="${_esc(s.name)}" ${_availStaff === s.name ? 'selected' : ''}>${_esc(s.name)}</option>`).join('')}
             </optgroup>
             <optgroup label="仓库兼职">
               ${staff.filter(s => s.dept === '仓库兼职').map(s => `<option value="${_esc(s.name)}" ${_availStaff === s.name ? 'selected' : ''}>${_esc(s.name)}</option>`).join('')}
             </optgroup>
+            ` : `<option value="${_esc(_selfStaffName)}" selected>${_esc(_selfStaffName)}</option>`}
           </select>
           <div style="margin-left:auto;display:flex;gap:12px;font-size:13px;">
             <span style="color:#10b981;font-weight:600;">✅ 可供班 ${availCount}天</span>
@@ -5353,7 +5412,7 @@ function renderShiftsTab() {
                   <td class="text-sm">${c.applicantShift}</td>
                   <td><span style="font-weight:600;">${c.target}</span></td>
                   <td class="text-sm">${c.targetShift}</td>
-                  <td><button onclick="deleteShift(${c.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button></td>
+                  <td>${_auth.isAdmin || c.applicant === _auth.staffName ? `<button onclick="deleteShift(${c.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button>` : ''}</td>
                 </tr>
               `).join('') : '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--text-muted);">本月暂无换班记录，点击「+ 新增换班」录入</td></tr>'}
             </tbody>
@@ -5402,7 +5461,7 @@ function renderSupportTab() {
                   <td><span class="badge ${(s.type||'').includes('货品') ? 'badge-info' : (s.type||'').includes('陈列') ? 'badge-active' : 'badge-warning'}">${_esc(s.type || '')}</span></td>
                   <td>${s.duration || ''}</td>
                   <td class="text-sm text-secondary">${_esc(s.detail || '')}</td>
-                  <td><button onclick="deleteSupport(${s.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button></td>
+                  <td>${_auth.isAdmin || (s.staff || '') === _auth.staffName ? `<button onclick="deleteSupport(${s.id})" style="padding:2px 8px;border:1px solid #ef4444;border-radius:4px;background:transparent;color:#ef4444;font-size:11px;cursor:pointer;">删除</button>` : ''}</td>
                 </tr>
               `).join('') : '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--text-muted);">本月暂无支援记录，点击「+ 新增支援」录入</td></tr>'}
             </tbody>
@@ -5493,9 +5552,11 @@ function renderDoorTab() {
                     const isFrozen = _isDoorFrozen(dateStr);
 
                     if (staffName) {
+                      // v156: 非管理员只能编辑自己的排班格；他人的格只读
+                      const _canEditCell = isFrozen ? false : (_auth.isAdmin || staffName === _auth.staffName);
                       return `
                         <td style="text-align:center;padding:4px;opacity:${isFrozen ? 0.5 : 1};">
-                          <div ${isFrozen ? '' : `onclick="editDoorCell('${dateStr}','${slotKey}')"`} style="${isFrozen ? '' : 'cursor:pointer;'}background:linear-gradient(135deg,#10b98133,#10b98111);border:1px solid #10b98155;border-radius:6px;padding:4px 6px;font-size:11px;font-weight:600;color:#10b981;">
+                          <div ${_canEditCell ? `onclick="editDoorCell('${dateStr}','${slotKey}')"` : ''} style="${_canEditCell ? 'cursor:pointer;' : ''}background:linear-gradient(135deg,#10b98133,#10b98111);border:1px solid #10b98155;border-radius:6px;padding:4px 6px;font-size:11px;font-weight:600;color:#10b981;">
                             ${_esc(staffName)}
                           </div>
                         </td>
@@ -5541,7 +5602,11 @@ function openDoorSlotFormInline(prefillStart, prefillEnd, editIdx) {
   const doorData = Store.get('doorSchedule') || [];
   const day = doorData.find(d => d.date === doorScheduleDate);
   const slot = (doorSlotEditingIdx !== null && day && day.slots[doorSlotEditingIdx]) ? day.slots[doorSlotEditingIdx] : null;
-  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team' && !isManagementStaff(s));
+  // v156: 非管理员只能填报自己，锁定值班人员
+  const _selfStaff = Store.getList('staff').find(s => s.id === _auth.staffId);
+  const _selfName = _selfStaff ? _selfStaff.name : '';
+  const _doorInlineLocked = !_auth.isAdmin;
 
   // Generate 1-hour slot dropdown from 10:00-22:00
   const slotOptions = [];
@@ -5569,10 +5634,10 @@ function openDoorSlotFormInline(prefillStart, prefillEnd, editIdx) {
           </select>
         </div>
         <div>
-          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">值班人员</label>
-          <select id="doorSlotStaffInline" style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
+          <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">值班人员${_doorInlineLocked ? '（仅可填报自己）' : ''}</label>
+          <select id="doorSlotStaffInline" ${_doorInlineLocked ? 'disabled' : ''} style="width:100%;padding:10px 12px;border:1px solid var(--border-color,#e5e7eb);border-radius:8px;font-size:14px;background:var(--bg-input,#fff);color:var(--text-primary);">
             <option value="">— 未安排 —</option>
-            ${staff.map(s => `<option value="${_esc(s.name)}" ${slot && slot.staff === s.name ? 'selected' : ''}>${_esc(s.name)}</option>`).join('')}
+            ${_doorInlineLocked ? `<option value="${_esc(_selfName)}" selected>${_esc(_selfName)}</option>` : staff.map(s => `<option value="${_esc(s.name)}" ${slot && slot.staff === s.name ? 'selected' : ''}>${_esc(s.name)}</option>`).join('')}
           </select>
         </div>
         <div style="display:flex;gap:12px;margin-top:8px;">
@@ -5591,7 +5656,12 @@ function saveDoorSlotInline() {
   // v139: 冻结安全检查（与 UI 渲染双重防护）
   if (_isDoorFrozen(doorScheduleDate)) { showToast('该日期已冻结，不可修改', 'warning'); return; }
   const time = document.getElementById('doorSlotTimeInline').value;
-  const staffName = document.getElementById('doorSlotStaffInline').value;
+  let staffName = document.getElementById('doorSlotStaffInline').value;
+  // v156: 非管理员只能填报自己，强制值班人员=本人
+  if (!_auth.isAdmin) {
+    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    if (me) staffName = me.name;
+  }
   if (!time) { showToast('请选择时间段', 'warning'); return; }
   if (!staffName) { showToast('请选择值班人员', 'warning'); return; }
 
@@ -5629,6 +5699,13 @@ function saveDoorSlotInline() {
 function deleteDoorSlotInline() {
   // v139: 冻结安全检查（与 UI 渲染双重防护）
   if (_isDoorFrozen(doorScheduleDate)) { showToast('该日期已冻结，不可修改', 'warning'); return; }
+  // v156: 非管理员只能删除自己的排班
+  if (!_auth.isAdmin) {
+    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    const day = (Store.get('doorSchedule') || []).find(d => d.date === doorScheduleDate);
+    const slot = day && doorSlotEditingIdx !== null ? day.slots[doorSlotEditingIdx] : null;
+    if (me && slot && slot.staff !== me.name) { showToast('只能删除自己的排班', 'warning'); return; }
+  }
   if (!confirm('确定删除这个班次吗？')) return;
   const doorData = Store.get('doorSchedule') || [];
   const day = doorData.find(d => d.date === doorScheduleDate);

@@ -252,14 +252,14 @@
   </script>
 
   <!-- Supabase 配置 + SDK + 客户端 -->
-  <script src="supabase/config.js?v=155"></script>
+  <script src="supabase/config.js?v=156"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js?v=155"></script>
-  <script src="js/auth-guard.js?v=155"></script>
-  <script src="js/app.js?v=155"></script>
-  <script src="js/sync.js?v=155"></script>
-  <script src="js/pages.js?v=155"></script>
-  <script src="js/change-password.js?v=155"></script>
+  <script src="js/supabase-client.js?v=156"></script>
+  <script src="js/auth-guard.js?v=156"></script>
+  <script src="js/app.js?v=156"></script>
+  <script src="js/sync.js?v=156"></script>
+  <script src="js/pages.js?v=156"></script>
+  <script src="js/change-password.js?v=156"></script>
   <script>
     // ===== Auth Module (v142: 兼容旧 Auth + 新 AuthHelper) =====
     const Auth = {
@@ -332,7 +332,8 @@
 
     // Update sidebar badges
     function updateBadges() {
-      const staffCount = Store.get('staff').filter(s => s.status === 'active').length;
+      // v156: 排除管理者账号（admin id=24）不计入在职人数
+      const staffCount = Store.get('staff').filter(s => s.status === 'active' && !isManagementStaff(s)).length;
       document.getElementById('staffCount').textContent = staffCount;
     }
     updateBadges();

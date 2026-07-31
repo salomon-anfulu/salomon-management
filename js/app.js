@@ -5,6 +5,21 @@
  * ========================================
  */
 
+// ===== 管理者账号识别（admin/manager 角色，不显示在人员列表/统计中）=====
+// v156: admin 账号以 id=24 存在 blob staff 中，仅作为管理者，不应出现在任何
+// 人员列表、统计排行或填报下拉中。此函数统一识别管理者记录。
+function isManagementStaff(s) {
+  if (!s) return false;
+  const id = String(s.id);
+  if (id === '24') return true;                       // 已知 admin blob id
+  const name = (s.name || '').toLowerCase();
+  if (name.includes('管理员') || name.includes('admin')) return true;
+  const email = (s.email || '').toLowerCase();
+  if (email.includes('admin')) return true;
+  if (s.role === 'admin' || s.role === 'manager') return true;
+  return false;
+}
+
 // ===== Data Store (LocalStorage Persistence) =====
 const Store = {
   KEY: 'salomon_parttime_mgmt',
@@ -20,6 +35,8 @@ const Store = {
       { id: 7, name: '邓奇缘', gender: '男', dept: 'Service Team', joinDate: '2026-03-10', status: 'active', avatar_color: '#f43f5e', availableDays: 28, mbti: '' },
       { id: 8, name: '杨子豪', gender: '男', dept: 'Service Team', joinDate: '2026-02-20', status: 'active', avatar_color: '#6366f1', availableDays: 26, mbti: '' },
       { id: 9, name: '王雅澜', gender: '女', dept: 'Service Team', joinDate: '2026-01-05', status: 'active', avatar_color: '#a855f7', availableDays: 26, mbti: '' },
+      // 李若彤 已离职（v156: 在 defaults 保留并标记 left，迁移逻辑每 init 强制同步为离职）
+      { id: 10, name: '李若彤', gender: '女', dept: 'Service Team', joinDate: '2026-01-15', status: 'left', avatar_color: '#14b8a6', availableDays: 0, mbti: '' },
       { id: 11, name: '王龙宇', gender: '男', dept: 'Service Team', joinDate: '2026-04-01', status: 'active', avatar_color: '#eab308', availableDays: 10, note: '19日到30日出差，请假', mbti: '' },
       { id: 12, name: '何秋烨', gender: '女', dept: 'Service Team', joinDate: '2026-03-15', status: 'active', avatar_color: '#f97316', availableDays: 23, mbti: '' },
       { id: 13, name: '龚赟昊', gender: '男', dept: 'Service Team', joinDate: '2026-02-25', status: 'active', avatar_color: '#84cc16', availableDays: 25, mbti: '' },
@@ -5363,7 +5380,7 @@ linggongAttendance: {
       { id: 39, staffName: '迟骋', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '首先要夸导购CC小哥，人超级nice，全程耐心讲解，店里的款式很新，越野鞋和户外风服饰质感都在线。三楼的法式灵感空间特别出片，光影和装置设计很有氛围感。', keywords: ['人nice', '耐心讲解', '款式新', '法式灵感空间', '氛围感', '质感在线'], source: '大众点评（匿名用户，Lv5）' },
     ],
 
-    _dataVersion: '2026-07-31-v155',  },
+    _dataVersion: '2026-07-31-v156',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -5407,7 +5424,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-31-v155';
+      const DATA_VERSION = '2026-07-31-v156';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
