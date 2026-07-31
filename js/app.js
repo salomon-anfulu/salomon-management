@@ -5380,7 +5380,8 @@ linggongAttendance: {
       { id: 39, staffName: '迟骋', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '首先要夸导购CC小哥，人超级nice，全程耐心讲解，店里的款式很新，越野鞋和户外风服饰质感都在线。三楼的法式灵感空间特别出片，光影和装置设计很有氛围感。', keywords: ['人nice', '耐心讲解', '款式新', '法式灵感空间', '氛围感', '质感在线'], source: '大众点评（匿名用户，Lv5）' },
     ],
 
-    _dataVersion: '2026-07-31-v160',
+    _dataVersion: '2026-07-31-v161',
+  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -5424,7 +5425,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-31-v160';
+      const DATA_VERSION = '2026-07-31-v161';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -5657,7 +5658,7 @@ linggongAttendance: {
 
       // ===== v160: 脏数据自愈——把存量 ratings 的 staffId 按 name 对齐到 blob id =====
       // 根因：v157 的 saveRating 非管理员守卫写了 _auth.staffId（数据库 id），与 blob id
-      // 错位，导致 4004 行的 `r.staffId === _auth.staffId` 永远查不到、hasRating 防重失效。
+      // 错位，导致 4004 行的 'r.staffId === _auth.staffId' 永远查不到、hasRating 防重失效。
       // 修复：按 name 反查 blob id 重写 staffId；幂等可重复执行。
       try {
         const _cur2 = JSON.parse(this._safeGetItem(this.KEY) || '{}');
@@ -5917,7 +5918,7 @@ linggongAttendance: {
   }
 };
 
-// ===== Global scoring month — controls which month's data all rating functions use =====
+// ===== Global scoring month — controls which months data all rating functions use =====
 // v86 P1-1: 默认值在 Store.init() 后由 MonthConfig 动态推导（原硬编码 '2026-07'）
 //
 // 【P2-5 全局月份变量分布说明】
@@ -6232,7 +6233,7 @@ window.addEventListener('error', function(e) {
 
 Store.init();
 
-// v86 P1-3: cross-tab cache invalidation — another tab writes to localStorage, this tab's _cache goes stale
+// v86 P1-3: cross-tab cache invalidation — another tab writes to localStorage, this tabs _cache goes stale
 window.addEventListener('storage', function(e) {
   if (e.key === Store.KEY) {
     Store._cache = null;  // invalidate; next get() will re-parse from localStorage
