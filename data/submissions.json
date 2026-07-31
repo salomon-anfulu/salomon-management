@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 454,
-    "lastUpdated": "2026-07-31T07:35:56.197Z",
-    "lastUpdatedBy": "auto-retry"
+    "version": 455,
+    "lastUpdated": "2026-07-31T07:37:08.688Z",
+    "lastUpdatedBy": "玛依拉"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -11280,6 +11280,15 @@
       "duration": "4小时",
       "detail": "记客流，退仓",
       "_updatedAt": "1785415709127"
+    },
+    {
+      "id": 1785483427283,
+      "staff": "玛依拉",
+      "date": "2026-07-23",
+      "type": "其他",
+      "duration": "1小时",
+      "detail": "记录客流",
+      "_updatedAt": 1785483426828
     }
   ],
   "doorSchedule": [
@@ -13701,6 +13710,11 @@
           "time": "10:00:00-11:00:00",
           "staff": "邓奇缘",
           "_updatedAt": "1785398780931"
+        },
+        {
+          "time": "12:00:00-13:00:00",
+          "staff": "玛依拉",
+          "_updatedAt": "1785483377070"
         }
       ]
     },
