@@ -6,16 +6,16 @@
  */
 
 // ===== 管理者账号识别（admin/manager 角色，不显示在人员列表/统计中）=====
-// v156: admin 账号以 id=24 存在 blob staff 中，仅作为管理者，不应出现在任何
-// 人员列表、统计排行或填报下拉中。此函数统一识别管理者记录。
+// v156: admin 账号统一识别为管理者，不出现在任何人员列表/统计/填报下拉中
+// v158: 数据库里 admin.id=7，blob 里也可能是其他 id，dept='管理'
+//   ——改用 name/dept/role 多字段识别，不再依赖具体 id 数字
 function isManagementStaff(s) {
   if (!s) return false;
-  const id = String(s.id);
-  if (id === '24') return true;                       // 已知 admin blob id
   const name = (s.name || '').toLowerCase();
-  if (name.includes('管理员') || name.includes('admin')) return true;
+  if (name.includes('管理员') || name === 'admin') return true;
   const email = (s.email || '').toLowerCase();
   if (email.includes('admin')) return true;
+  if (s.dept === '管理' || s.dept === 'Admin') return true;
   if (s.role === 'admin' || s.role === 'manager') return true;
   return false;
 }
@@ -5380,7 +5380,7 @@ linggongAttendance: {
       { id: 39, staffName: '迟骋', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '首先要夸导购CC小哥，人超级nice，全程耐心讲解，店里的款式很新，越野鞋和户外风服饰质感都在线。三楼的法式灵感空间特别出片，光影和装置设计很有氛围感。', keywords: ['人nice', '耐心讲解', '款式新', '法式灵感空间', '氛围感', '质感在线'], source: '大众点评（匿名用户，Lv5）' },
     ],
 
-    _dataVersion: '2026-07-31-v158',  },
+    _dataVersion: '2026-07-31-v159',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -5424,7 +5424,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-31-v158';
+      const DATA_VERSION = '2026-07-31-v159';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -5609,13 +5609,16 @@ linggongAttendance: {
       // 修复：无论版本是否匹配，都用 defaults.staff 的 dept/status/transferredFrom/
       // serviceTeamStartDate 强制覆盖用户数据中的同名成员。
       // v140 增强：同时补齐 defaults 中新增但用户数据缺失的成员（如新增兼职）
+      // v158 改造：改用 name 匹配（不用 id）——因为 defaults.staff.id 与数据库 staff.id 错位
+      //   （defaults.id=6=孔祥宇，但数据库 id=6=邓奇缘）。按 id 匹配会错误覆盖。
       try {
         const _cur = JSON.parse(this._safeGetItem(this.KEY) || '{}');
         if (Array.isArray(_cur.staff) && Array.isArray(this.defaults.staff)) {
-          const _defMap = new Map(this.defaults.staff.map(s => [String(s.id), s]));
+          // v158: 按 name 映射（而非 id）
+          const _defMap = new Map(this.defaults.staff.map(s => [s.name, s]));
           let _changed = false;
           _cur.staff = _cur.staff.map(s => {
-            const _def = _defMap.get(String(s.id));
+            const _def = _defMap.get(s.name);
             if (!_def) return s;
             // 强制同步部门相关字段
             if (s.dept !== _def.dept ||
@@ -5633,13 +5636,13 @@ linggongAttendance: {
             }
             return s;
           });
-          // v140: 补齐 defaults 中新增但用户数据缺失的成员
-          const _curIds = new Set(_cur.staff.map(s => String(s.id)));
+          // v158: 补齐 defaults 中新增但用户数据缺失的成员（按 name 去重）
+          const _curNames = new Set(_cur.staff.map(s => s.name));
           this.defaults.staff.forEach(_def => {
-            if (!_curIds.has(String(_def.id))) {
+            if (!_curNames.has(_def.name)) {
               _cur.staff.push({ ..._def });
               _changed = true;
-              console.log('[Store] v140: 补齐新增成员', _def.name, '(id=' + _def.id + ')');
+              console.log('[Store] v158: 补齐新增成员', _def.name);
             }
           });
           if (_changed) {

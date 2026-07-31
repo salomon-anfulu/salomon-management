@@ -2754,7 +2754,8 @@ function saveRating() {
   Sync.push(_auth.staffName || 'admin');
 
   document.getElementById('ratingModal').classList.remove('active');
-  showToast(`${Store.getStaffName(staffId)} ${month} 评分已提交，综合 ${avgScore.toFixed(1)} 分 → ¥${hourlyRate}/h`);
+  // v158: 直接用 _auth.staffName（数据库真实姓名），不查 blob（避免 id 错位导致误显）
+  showToast(`${_auth.staffName || Store.getStaffName(staffId)} ${month} 评分已提交，综合 ${avgScore.toFixed(1)} 分 → ¥${hourlyRate}/h`);
   Router.render();
 }
 
@@ -3996,7 +3997,8 @@ function renderShiftChanges(changes) {
  * ========================================
  */
 function renderPersonalDashboard() {
-  const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+  // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
+  const me = Store.getList('staff').find(s => s.name === _auth.staffName);
   if (!me) return '<div class="card animate-in"><div class="card-body"><p>未找到你的信息</p></div></div>';
 
   const ratings = Store.getList('ratings').filter(r => r.staffId === _auth.staffId);
@@ -4522,7 +4524,8 @@ function openDoorSlotForm(idx) {
   const slot = (doorSlotEditingIdx !== null && day && day.slots[doorSlotEditingIdx]) ? day.slots[doorSlotEditingIdx] : null;
   const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team' && !isManagementStaff(s));
   // v156: 非管理员只能填报自己，锁定值班人员
-  const _selfStaff = Store.getList('staff').find(s => s.id === _auth.staffId);
+  // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
+  const _selfStaff = Store.getList('staff').find(s => s.name === _auth.staffName);
   const _selfName = _selfStaff ? _selfStaff.name : '';
   const _doorLocked = !_auth.isAdmin;
 
@@ -4625,7 +4628,8 @@ function deleteDoorSlot(idx) {
 function openSupportForm() {
   const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team' && !isManagementStaff(s));
   // v156: 非管理员只能填报自己，锁定员工
-  const _selfStaff = Store.getList('staff').find(s => s.id === _auth.staffId);
+  // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
+  const _selfStaff = Store.getList('staff').find(s => s.name === _auth.staffName);
   const _selfName = _selfStaff ? _selfStaff.name : '';
   const _supportLocked = !_auth.isAdmin;
   const supportTypes = ['货品-整理仓库', '货品-查鞋盒', '货品-辅助收货', '陈列-翻场支援', '陈列-全楼标签复核', '其他'];
@@ -4692,7 +4696,8 @@ function saveSupport() {
   let staffName = document.getElementById('supportStaff').value;
   // v156: 非管理员只能填报自己，强制员工=本人
   if (!_auth.isAdmin) {
-    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
+  const me = Store.getList('staff').find(s => s.name === _auth.staffName);
     if (me) staffName = me.name;
   }
   const date = document.getElementById('supportDate').value;
@@ -4716,7 +4721,8 @@ function saveSupport() {
 function deleteSupport(id) {
   // v156: 非管理员只能删除自己的记录
   if (!_auth.isAdmin) {
-    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
+  const me = Store.getList('staff').find(s => s.name === _auth.staffName);
     const rec = (Store.get('storeSupport') || []).find(r => r.id === id);
     if (me && rec && rec.staff !== me.name) { showToast('只能删除自己的记录', 'warning'); return; }
   }
@@ -4739,7 +4745,8 @@ function deleteSupport(id) {
 function openShiftForm() {
   const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team' && !isManagementStaff(s));
   // v156: 非管理员只能填报自己，锁定申请人
-  const _selfStaff = Store.getList('staff').find(s => s.id === _auth.staffId);
+  // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
+  const _selfStaff = Store.getList('staff').find(s => s.name === _auth.staffName);
   const _selfName = _selfStaff ? _selfStaff.name : '';
   const _shiftLocked = !_auth.isAdmin;
   const today = new Date();
@@ -4800,7 +4807,8 @@ function saveShift() {
   let applicant = document.getElementById('shiftApplicant').value;
   // v156: 非管理员只能填报自己，强制申请人=本人
   if (!_auth.isAdmin) {
-    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
+  const me = Store.getList('staff').find(s => s.name === _auth.staffName);
     if (me) applicant = me.name;
   }
   const applyDate = document.getElementById('shiftApplyDate').value;
@@ -4824,7 +4832,8 @@ function saveShift() {
 function deleteShift(id) {
   // v156: 非管理员只能删除自己的记录
   if (!_auth.isAdmin) {
-    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
+  const me = Store.getList('staff').find(s => s.name === _auth.staffName);
     const rec = (Store.get('shiftChanges') || []).find(r => r.id === id);
     if (me && rec && rec.applicant !== me.name) { showToast('只能删除自己的记录', 'warning'); return; }
   }
@@ -4901,7 +4910,8 @@ function renderMyForms() {
   }
   if (!_availStaff || !_auth.isAdmin) {
     // v156: 非管理员只能填报自己，强制锁定 _availStaff 为本人
-    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
+  const me = Store.getList('staff').find(s => s.name === _auth.staffName);
     _availStaff = me ? me.name : (Store.getList('staff').find(s => s.status === 'active' && !isManagementStaff(s)) || {}).name || '';
   }
 
@@ -5009,7 +5019,8 @@ function renderPersonalCalendar() {
   const staff = Store.getList('staff').filter(s => s.status === 'active' && !isManagementStaff(s));
   // 非管理员只能填报自己，锁定姓名选择
   const _canSwitchAvail = _auth.isAdmin;
-  const _selfStaffName = (Store.getList('staff').find(s => s.id === _auth.staffId) || {}).name || '';
+  // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
+  const _selfStaffName = (Store.getList('staff').find(s => s.name === _auth.staffName) || {}).name || _auth.staffName || '';
   const [year, mon] = _parseYM(_availMonth, 2026, 7);
   const totalDays = new Date(year, mon, 0).getDate();
   const firstDay = new Date(year, mon - 1, 1).getDay() || 7; // 1=Mon ... 7=Sun
@@ -5644,7 +5655,8 @@ function openDoorSlotFormInline(prefillStart, prefillEnd, editIdx) {
   const slot = (doorSlotEditingIdx !== null && day && day.slots[doorSlotEditingIdx]) ? day.slots[doorSlotEditingIdx] : null;
   const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team' && !isManagementStaff(s));
   // v156: 非管理员只能填报自己，锁定值班人员
-  const _selfStaff = Store.getList('staff').find(s => s.id === _auth.staffId);
+  // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
+  const _selfStaff = Store.getList('staff').find(s => s.name === _auth.staffName);
   const _selfName = _selfStaff ? _selfStaff.name : '';
   const _doorInlineLocked = !_auth.isAdmin;
 
@@ -5699,7 +5711,8 @@ function saveDoorSlotInline() {
   let staffName = document.getElementById('doorSlotStaffInline').value;
   // v156: 非管理员只能填报自己，强制值班人员=本人
   if (!_auth.isAdmin) {
-    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
+  const me = Store.getList('staff').find(s => s.name === _auth.staffName);
     if (me) staffName = me.name;
   }
   if (!time) { showToast('请选择时间段', 'warning'); return; }
@@ -5741,7 +5754,8 @@ function deleteDoorSlotInline() {
   if (_isDoorFrozen(doorScheduleDate)) { showToast('该日期已冻结，不可修改', 'warning'); return; }
   // v156: 非管理员只能删除自己的排班
   if (!_auth.isAdmin) {
-    const me = Store.getList('staff').find(s => s.id === _auth.staffId);
+    // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
+  const me = Store.getList('staff').find(s => s.name === _auth.staffName);
     const day = (Store.get('doorSchedule') || []).find(d => d.date === doorScheduleDate);
     const slot = day && doorSlotEditingIdx !== null ? day.slots[doorSlotEditingIdx] : null;
     if (me && slot && slot.staff !== me.name) { showToast('只能删除自己的排班', 'warning'); return; }
