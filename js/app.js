@@ -5937,24 +5937,26 @@ linggongAttendance: {
               avgUPT: 1.25,
               avgHourlyOutput: 200,
               avgPrice: 1060,
-              note: '7月业绩(全月7/1-7/31) - totalSales=全店结算金额185562(含全职), records=兼职净业绩(从小票备注拼音首字母+中文名匹配提取); 李若彤7/29离职保留7月数据; 唐蓉无历史工时',
+              note: '7月业绩(全月7/1-7/31) - totalSales=全店结算金额185562(含全职), 兼职总额189182(从小票备注拼音首字母+中文名匹配提取); JCL=贾长乐; 李若彤7/29离职保留7月数据; 唐蓉无历史工时',
               records: [
-        { name: '龚赟昊', sales: 23794, qty: 23, tickets: 16, upt: 1.44, avgPrice: 1035, workHours: 78.3, hourlyOutput: 304, salesShare: 0.1266, categories: '鞋履 85.2% / 服装 13.0% / 配件 1.8%' },
-        { name: '何秋烨', sales: 21362, qty: 19, tickets: 14, upt: 1.36, avgPrice: 1124, workHours: 60.9, hourlyOutput: 351, salesShare: 0.1136, categories: '鞋履 77.1% / 服装 21.5% / 配件 1.4%' },
-        { name: '王雅澜', sales: 20990, qty: 20, tickets: 17, upt: 1.18, avgPrice: 1050, workHours: 83.6, hourlyOutput: 251, salesShare: 0.1117, categories: '鞋履 87.1% / 服装 9.0% / 配件 3.9%' },
-        { name: '孔祥宇', sales: 19576, qty: 17, tickets: 14, upt: 1.21, avgPrice: 1152, workHours: 82.1, hourlyOutput: 238, salesShare: 0.1041, categories: '鞋履 96.4% / 服装 3.1% / 配件 0.6%' },
-        { name: '朱凯赟', sales: 15632, qty: 14, tickets: 11, upt: 1.27, avgPrice: 1117, workHours: 61.5, hourlyOutput: 254, salesShare: 0.0832, categories: '鞋履 88.1% / 服装 8.9% / 配件 2.9%' },
-        { name: '王靳毓', sales: 14880, qty: 11, tickets: 9, upt: 1.22, avgPrice: 1353, workHours: 63.7, hourlyOutput: 234, salesShare: 0.0792, categories: '鞋履 72.5% / 服装 15.3% / 配件 12.2%' },
-        { name: '李若彤', sales: 14670, qty: 16, tickets: 9, upt: 1.78, avgPrice: 917, workHours: 68.1, hourlyOutput: 215, salesShare: 0.078, categories: '鞋履 68.1% / 服装 27.9% / 配件 4.1%' },
-        { name: '邓奇缘', sales: 11240, qty: 10, tickets: 8, upt: 1.25, avgPrice: 1124, workHours: 63.3, hourlyOutput: 178, salesShare: 0.0598, categories: '鞋履 88.8% / 服装 8.0% / 配件 3.2%' },
-        { name: '田佳乐', sales: 11160, qty: 10, tickets: 6, upt: 1.67, avgPrice: 1116, workHours: 59.9, hourlyOutput: 186, salesShare: 0.0594, categories: '鞋履 92.7% / 配件 7.3%' },
-        { name: '玛依拉', sales: 8186, qty: 7, tickets: 6, upt: 1.17, avgPrice: 1169, workHours: 71.2, hourlyOutput: 115, salesShare: 0.0435, categories: '鞋履 93.9% / 服装 6.1%' },
-        { name: '迟骋', sales: 8088, qty: 6, tickets: 6, upt: 1.0, avgPrice: 1348, workHours: 49.0, hourlyOutput: 165, salesShare: 0.043, categories: '鞋履 88.9% / 服装 11.1%' },
-        { name: '王龙宇', sales: 6868, qty: 6, tickets: 6, upt: 1.0, avgPrice: 1145, workHours: 32.1, hourlyOutput: 214, salesShare: 0.0365, categories: '鞋履 78.5% / 服装 21.5%' },
-        { name: '杨子豪', sales: 6548, qty: 6, tickets: 5, upt: 1.2, avgPrice: 1091, workHours: 95.9, hourlyOutput: 68, salesShare: 0.0348, categories: '鞋履 94.5% / 配件 5.5%' },
-        { name: '梁实秋', sales: 3494, qty: 3, tickets: 3, upt: 1.0, avgPrice: 1165, workHours: 79.4, hourlyOutput: 44, salesShare: 0.0186, categories: '鞋履 100.0%' },
-        { name: '唐蓉', sales: 1496, qty: 2, tickets: 2, upt: 1.0, avgPrice: 748, workHours: 0, hourlyOutput: 0, salesShare: 0.008, categories: '鞋履 66.7% / 服装 33.3%' },
-        { name: '贾长乐', sales: 0, qty: 0, tickets: 0, upt: 0, avgPrice: 0, workHours: 56.4, hourlyOutput: 0, salesShare: 0, categories: '-' },
+
+                { name: '龚赟昊', sales: 23794, qty: 23, tickets: 16, upt: 1.44, avgPrice: 1035, workHours: 78.3, hourlyOutput: 304, salesShare: 0.1258, categories: '鞋履 85.2% / 服装 13.0% / 配件 1.8%' },
+                { name: '何秋烨', sales: 21362, qty: 19, tickets: 14, upt: 1.36, avgPrice: 1124, workHours: 60.9, hourlyOutput: 351, salesShare: 0.1129, categories: '鞋履 77.1% / 服装 21.5% / 配件 1.4%' },
+                { name: '王雅澜', sales: 20990, qty: 20, tickets: 17, upt: 1.18, avgPrice: 1050, workHours: 83.6, hourlyOutput: 251, salesShare: 0.111, categories: '鞋履 87.1% / 服装 9.0% / 配件 3.9%' },
+                { name: '孔祥宇', sales: 19576, qty: 17, tickets: 14, upt: 1.21, avgPrice: 1152, workHours: 82.1, hourlyOutput: 238, salesShare: 0.1035, categories: '鞋履 96.4% / 服装 3.1% / 配件 0.6%' },
+                { name: '朱凯赟', sales: 15632, qty: 14, tickets: 11, upt: 1.27, avgPrice: 1117, workHours: 61.5, hourlyOutput: 254, salesShare: 0.0826, categories: '鞋履 88.1% / 服装 8.9% / 配件 2.9%' },
+                { name: '王靳毓', sales: 14880, qty: 11, tickets: 9, upt: 1.22, avgPrice: 1353, workHours: 63.7, hourlyOutput: 234, salesShare: 0.0787, categories: '鞋履 72.5% / 服装 15.3% / 配件 12.2%' },
+                { name: '李若彤', sales: 14670, qty: 16, tickets: 9, upt: 1.78, avgPrice: 917, workHours: 68.1, hourlyOutput: 215, salesShare: 0.0775, categories: '鞋履 68.1% / 服装 27.9% / 配件 4.1%' },
+                { name: '邓奇缘', sales: 11240, qty: 10, tickets: 8, upt: 1.25, avgPrice: 1124, workHours: 63.3, hourlyOutput: 178, salesShare: 0.0594, categories: '鞋履 88.8% / 服装 8.0% / 配件 3.2%' },
+                { name: '田佳乐', sales: 11160, qty: 10, tickets: 6, upt: 1.67, avgPrice: 1116, workHours: 59.9, hourlyOutput: 186, salesShare: 0.059, categories: '鞋履 92.7% / 配件 7.3%' },
+                { name: '玛依拉', sales: 8186, qty: 7, tickets: 6, upt: 1.17, avgPrice: 1169, workHours: 71.2, hourlyOutput: 115, salesShare: 0.0433, categories: '鞋履 93.9% / 服装 6.1%' },
+                { name: '迟骋', sales: 8088, qty: 6, tickets: 6, upt: 1.0, avgPrice: 1348, workHours: 49.0, hourlyOutput: 165, salesShare: 0.0428, categories: '鞋履 88.9% / 服装 11.1%' },
+                { name: '王龙宇', sales: 6868, qty: 6, tickets: 6, upt: 1.0, avgPrice: 1145, workHours: 32.1, hourlyOutput: 214, salesShare: 0.0363, categories: '鞋履 78.5% / 服装 21.5%' },
+                { name: '杨子豪', sales: 6548, qty: 6, tickets: 5, upt: 1.2, avgPrice: 1091, workHours: 95.9, hourlyOutput: 68, salesShare: 0.0346, categories: '鞋履 94.5% / 配件 5.5%' },
+                { name: '梁实秋', sales: 3494, qty: 3, tickets: 3, upt: 1.0, avgPrice: 1165, workHours: 79.4, hourlyOutput: 44, salesShare: 0.0185, categories: '鞋履 100.0%' },
+                { name: '唐蓉', sales: 1496, qty: 2, tickets: 2, upt: 1.0, avgPrice: 748, workHours: 0, hourlyOutput: 0, salesShare: 0.0079, categories: '鞋履 66.7% / 服装 33.3%' },
+                { name: '贾长乐', sales: 1198, qty: 1, tickets: 1, upt: 1.0, avgPrice: 1198, workHours: 56.4, hourlyOutput: 21, salesShare: 0.0063, categories: '鞋履 100.0%' },
+
               ]
             },
     },
@@ -6001,7 +6003,7 @@ linggongAttendance: {
       { id: 39, staffName: '迟骋', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '首先要夸导购CC小哥，人超级nice，全程耐心讲解，店里的款式很新，越野鞋和户外风服饰质感都在线。三楼的法式灵感空间特别出片，光影和装置设计很有氛围感。', keywords: ['人nice', '耐心讲解', '款式新', '法式灵感空间', '氛围感', '质感在线'], source: '大众点评（匿名用户，Lv5）' },
     ],
 
-    _dataVersion: '2026-08-01-v163',
+    _dataVersion: '2026-08-01-v164',
   },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
@@ -6046,7 +6048,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-08-01-v163';
+      const DATA_VERSION = '2026-08-01-v164';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
