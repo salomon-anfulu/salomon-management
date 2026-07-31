@@ -1,8 +1,8 @@
 {
   "_meta": {
-    "version": 453,
-    "lastUpdated": "2026-07-31T07:33:43.703Z",
-    "lastUpdatedBy": "玛依拉"
+    "version": 454,
+    "lastUpdated": "2026-07-31T07:35:56.197Z",
+    "lastUpdatedBy": "auto-retry"
   },
   "availability": {
     "currentMonth": "2026-07",
@@ -13761,6 +13761,11 @@
           "time": "12:00:00-13:00:00",
           "staff": "玛依拉",
           "_updatedAt": "1785483221733"
+        },
+        {
+          "time": "16:00:00-17:00:00",
+          "staff": "玛依拉",
+          "_updatedAt": "1785483244543"
         }
       ]
     },
