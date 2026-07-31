@@ -119,13 +119,20 @@ async function submitChangePassword() {
 
 function checkMustChangePassword() {
   const user = AuthHelper.getCurrentUser();
-  if (!user) return;
+  if (!user) { console.log('[ChangePassword] 无当前用户，跳过'); return; }
   const staff = Store.get('staff') || [];
   const me = staff.find(s =>
     (s.email && user.email && s.email.toLowerCase() === user.email.toLowerCase()) ||
     (s.auth_id && s.auth_id === user.supabaseUserId) ||
     (s.id && String(s.id) === String(user.staffId))
   );
+  if (!me) {
+    console.warn('[ChangePassword] 找不到 staff 记录:', {
+      email: user.email, staffId: user.staffId, supabaseUserId: user.supabaseUserId
+    });
+    return;
+  }
+  console.log('[ChangePassword] 匹配 staff:', { id: me.id, name: me.name, must_change_pw: me.must_change_pw });
   if (me && me.must_change_pw) {
     openChangePasswordModal(true);
   }
@@ -136,10 +143,12 @@ window.addEventListener('app:remote-synced', () => {
   try { checkMustChangePassword(); } catch (e) { console.warn('[ChangePassword] 检查失败:', e); }
 });
 
-// 兜底：若事件已错过（如本地已有数据），启动后也查一次
-window.addEventListener('DOMContentLoaded', () => {
-  setTimeout(checkMustChangePassword, 2500);
-});
+// 兜底：脚本加载后延时 2.5s 检查一次（不依赖 DOMContentLoaded 时序）
+//   覆盖：app:remote-synced 错过 / change=false 不触发 / 脚本晚于 DOMContentLoaded 加载 等场景
+setTimeout(checkMustChangePassword, 2500);
+
+// 第二次兜底：6s 再查一次（极端时序）
+setTimeout(checkMustChangePassword, 6000);
 
 // 暴露到全局
 window.openChangePasswordModal = openChangePasswordModal;
