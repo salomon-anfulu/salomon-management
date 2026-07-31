@@ -5380,7 +5380,7 @@ linggongAttendance: {
       { id: 39, staffName: '迟骋', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '首先要夸导购CC小哥，人超级nice，全程耐心讲解，店里的款式很新，越野鞋和户外风服饰质感都在线。三楼的法式灵感空间特别出片，光影和装置设计很有氛围感。', keywords: ['人nice', '耐心讲解', '款式新', '法式灵感空间', '氛围感', '质感在线'], source: '大众点评（匿名用户，Lv5）' },
     ],
 
-    _dataVersion: '2026-07-31-v159',  },
+    _dataVersion: '2026-07-31-v160',
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -5424,7 +5424,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-31-v159';
+      const DATA_VERSION = '2026-07-31-v160';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -5654,6 +5654,41 @@ linggongAttendance: {
         console.warn('[Store] staff dept 同步失败(非致命):', _syncErr);
       }
       // ===== v132/v140 staff 强制同步 END =====
+
+      // ===== v160: 脏数据自愈——把存量 ratings 的 staffId 按 name 对齐到 blob id =====
+      // 根因：v157 的 saveRating 非管理员守卫写了 _auth.staffId（数据库 id），与 blob id
+      // 错位，导致 4004 行的 `r.staffId === _auth.staffId` 永远查不到、hasRating 防重失效。
+      // 修复：按 name 反查 blob id 重写 staffId；幂等可重复执行。
+      try {
+        const _cur2 = JSON.parse(this._safeGetItem(this.KEY) || '{}');
+        if (Array.isArray(_cur2.staff) && Array.isArray(_cur2.ratings)) {
+          const _idByName = new Map(_cur2.staff.map(s => [s.name, s.id]));
+          let _ratedChanged = false;
+          _cur2.ratings.forEach(r => {
+            if (!r) return;
+            // 优先按 staffName 反查；否则按 staffId 在 staff 里找 name 再反查（兼容老数据）
+            let _name = r.staffName;
+            if (!_name && r.staffId != null) {
+              _name = (_cur2.staff.find(s => s.id === r.staffId) || {}).name;
+            }
+            if (_name) {
+              const _correctId = _idByName.get(_name);
+              if (_correctId != null && r.staffId !== _correctId) {
+                r.staffId = _correctId;
+                r.staffName = _name;  // 顺便补齐 staffName 字段
+                _ratedChanged = true;
+              }
+            }
+          });
+          if (_ratedChanged) {
+            this._safeSetItem(this.KEY, JSON.stringify(_cur2));
+            console.log('[Store] v160: ratings.staffId 按 name 对齐完成');
+          }
+        }
+      } catch (_ratedErr) {
+        console.warn('[Store] v160 ratings 修复失败(非致命):', _ratedErr);
+      }
+      // ===== v160 ratings 自愈 END =====
 
     } catch (e) {
       console.error('[Store] 数据解析失败，尝试安全备份后重置:', e);

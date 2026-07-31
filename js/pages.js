@@ -2724,10 +2724,12 @@ function openRatingModal() {
 function saveRating() {
   let staffId = parseInt(document.getElementById('rate_staff').value);
   // v157: 非管理员强制只能评价本人，拒绝评他人
+  // v160: 用 name 反查 blob id（rate_staff 的 value 是 blob id，必须保持一致；
+  //      之前的 _auth.staffId 是数据库 id，会让评分记录的 staffId 字段错位）
   if (!_auth.isAdmin) {
-    const meId = _auth.staffId;
-    if (meId != null && !isNaN(meId)) {
-      staffId = meId;
+    const meBlob = Store.getList('staff').find(s => s.name === _auth.staffName);
+    if (meBlob) {
+      staffId = meBlob.id;
     } else {
       showToast('仅管理员可评价他人', 'warning'); return;
     }
@@ -4001,7 +4003,8 @@ function renderPersonalDashboard() {
   const me = Store.getList('staff').find(s => s.name === _auth.staffName);
   if (!me) return '<div class="card animate-in"><div class="card-body"><p>未找到你的信息</p></div></div>';
 
-  const ratings = Store.getList('ratings').filter(r => r.staffId === _auth.staffId);
+  // v160: 用 me.id（blob id）过滤，不再用 _auth.staffId（DB id 与 blob id 错位会查不到）
+  const ratings = Store.getList('ratings').filter(r => r.staffId === me.id || r.staffName === me.name);
   const myRating = ratings.length > 0 ? ratings[ratings.length - 1] : null;
   // 动态计算综合分（全五维度）
   _behaviorCache = null;
