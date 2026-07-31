@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-07-30-v151",
-  "cacheBuster": "151",
-  "updatedAt": "2026-07-30T11:25:00+08:00",
-  "note": "v151: 修复退出登录无限刷新——auth-guard.js 全局变量名大小写错误(SalomonSupabase 应为 salomonSupabase)致 signOut() 从未执行、Supabase 会话残留，引发 login.html↔index.html 无限弹跳；同步 bump 版本号 + 升级 login.html 残留的 ?v=145 脚本引用。v150 已安全重接 Supabase 云端同步(三重防循环)。"
+  "dataVersion": "2026-07-31-v152",
+  "cacheBuster": "152",
+  "updatedAt": "2026-07-31T12:42:00+08:00",
+  "note": "v152: 补修 login.html 硬编码版本号 v145(被 v151 漏改) + 同步 UI 文案从'旧版 GitHub 同步'改为'Supabase 云同步（兼容旧版 GitHub 备份）'，与新架构对齐。v151 修退出登录无限刷新（auth-guard.js 大小写 bug）；v150 三重防循环安全重接 Supabase。"
 }
