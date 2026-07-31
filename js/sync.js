@@ -552,6 +552,8 @@ const Sync = {
     if (changed) {
       console.log('[Sync] ' + (source || 'remote') + ' 数据已合并' + (source === 'supabase' ? '（来自 Supabase）' : ''));
       this._maybeRender();
+      // v153: 通知订阅者远端数据已合并（用于强制改密检查等扩展点）
+      try { window.dispatchEvent(new CustomEvent('app:remote-synced', { detail: { source: source || 'remote' } })); } catch (e) {}
     }
     return changed;
   },

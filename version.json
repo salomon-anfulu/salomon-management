@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-07-31-v152",
-  "cacheBuster": "152",
-  "updatedAt": "2026-07-31T12:42:00+08:00",
-  "note": "v152: 补修 login.html 硬编码版本号 v145(被 v151 漏改) + 同步 UI 文案从'旧版 GitHub 同步'改为'Supabase 云同步（兼容旧版 GitHub 备份）'，与新架构对齐。v151 修退出登录无限刷新（auth-guard.js 大小写 bug）；v150 三重防循环安全重接 Supabase。"
+  "dataVersion": "2026-07-30-v153",
+  "cacheBuster": "153",
+  "updatedAt": "2026-07-31T13:30:00+08:00",
+  "note": "v153: 员工独立密码 + 自助改密（共享口令首登+强制自改），修 defaults.staff 李若彤回写 bug，sync.js 加 app:remote-synced 事件"
 }

@@ -20,7 +20,6 @@ const Store = {
       { id: 7, name: '邓奇缘', gender: '男', dept: 'Service Team', joinDate: '2026-03-10', status: 'active', avatar_color: '#f43f5e', availableDays: 28, mbti: '' },
       { id: 8, name: '杨子豪', gender: '男', dept: 'Service Team', joinDate: '2026-02-20', status: 'active', avatar_color: '#6366f1', availableDays: 26, mbti: '' },
       { id: 9, name: '王雅澜', gender: '女', dept: 'Service Team', joinDate: '2026-01-05', status: 'active', avatar_color: '#a855f7', availableDays: 26, mbti: '' },
-      { id: 10, name: '李若彤', gender: '女', dept: 'Service Team', joinDate: '2026-02-10', status: 'active', avatar_color: '#14b8a6', availableDays: 30, mbti: '' },
       { id: 11, name: '王龙宇', gender: '男', dept: 'Service Team', joinDate: '2026-04-01', status: 'active', avatar_color: '#eab308', availableDays: 10, note: '19日到30日出差，请假', mbti: '' },
       { id: 12, name: '何秋烨', gender: '女', dept: 'Service Team', joinDate: '2026-03-15', status: 'active', avatar_color: '#f97316', availableDays: 23, mbti: '' },
       { id: 13, name: '龚赟昊', gender: '男', dept: 'Service Team', joinDate: '2026-02-25', status: 'active', avatar_color: '#84cc16', availableDays: 25, mbti: '' },
@@ -52,7 +51,6 @@ const Store = {
             '邓奇缘': { total: 28, unavailable: ['6/5', '6/25'], note: '', dates: null },
             '杨子豪': { total: 26, unavailable: ['6/3', '6/11', '6/13', '6/14'], note: '', dates: null },
             '王雅澜': { total: 26, unavailable: ['6/13', '6/14', '6/15', '6/16'], note: '', dates: null },
-            '李若彤': { total: 30, unavailable: [], note: '', dates: null },
             '王龙宇': { total: 10, unavailable: ['6/2','6/3','6/7','6/9','6/12','6/13','6/14','6/16','6/18','6/19','6/20','6/21','6/22','6/23','6/24','6/25','6/26','6/27','6/28','6/29','6/30'], note: '19日到30日出差，请假', dates: null },
             '何秋烨': { total: 23, unavailable: ['6/1', '6/8', '6/9', '6/13', '6/14', '6/15', '6/17'], note: '', dates: null },
             '龚赟昊': { total: 25, unavailable: ['6/1', '6/4', '6/8', '6/15', '6/17'], note: '', dates: null },
@@ -5365,7 +5363,7 @@ linggongAttendance: {
       { id: 39, staffName: '迟骋', month: '2026-07', rating: 5, reviewDate: '2026-07-21', snippet: '首先要夸导购CC小哥，人超级nice，全程耐心讲解，店里的款式很新，越野鞋和户外风服饰质感都在线。三楼的法式灵感空间特别出片，光影和装置设计很有氛围感。', keywords: ['人nice', '耐心讲解', '款式新', '法式灵感空间', '氛围感', '质感在线'], source: '大众点评（匿名用户，Lv5）' },
     ],
 
-    _dataVersion: '2026-07-30-v152',  },
+    _dataVersion: '2026-07-30-v153',  },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
 
@@ -5409,7 +5407,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-07-30-v152';
+      const DATA_VERSION = '2026-07-30-v153';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       

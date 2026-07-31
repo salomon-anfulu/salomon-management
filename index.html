@@ -252,13 +252,14 @@
   </script>
 
   <!-- Supabase 配置 + SDK + 客户端 -->
-  <script src="supabase/config.js?v=152"></script>
+  <script src="supabase/config.js?v=153"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js?v=152"></script>
-  <script src="js/auth-guard.js?v=152"></script>
-  <script src="js/app.js?v=152"></script>
-  <script src="js/sync.js?v=152"></script>
-  <script src="js/pages.js?v=152"></script>
+  <script src="js/supabase-client.js?v=153"></script>
+  <script src="js/auth-guard.js?v=153"></script>
+  <script src="js/app.js?v=153"></script>
+  <script src="js/sync.js?v=153"></script>
+  <script src="js/pages.js?v=153"></script>
+  <script src="js/change-password.js?v=153"></script>
   <script>
     // ===== Auth Module (v142: 兼容旧 Auth + 新 AuthHelper) =====
     const Auth = {
@@ -319,6 +320,7 @@
         <span id="syncLabel">--</span>
       </span>
       <button id="syncBtn" onclick="Sync.manualSync()" style="font-size:11px;padding:3px 10px;border:1px solid var(--border);border-radius:6px;background:var(--bg-secondary);color:var(--text-primary);cursor:pointer;margin-left:4px;transition:all 0.2s;" title="点击上传本地数据并拉取最新" onmouseover="this.style.borderColor='var(--accent)'" onmouseout="this.style.borderColor='var(--border)'">🔄 同步</button>
+      <button class="btn-logout" style="border-color:var(--accent);color:var(--accent);" onclick="openChangePasswordModal(false)">修改密码</button>
       <button class="btn-logout" onclick="Auth.logout()">退出登录</button>
     `;
 
