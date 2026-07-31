@@ -24,7 +24,9 @@ FROM public.staff
 WHERE email IN ('yangzihao@salomon.temp', 'tianjiale@salomon.temp');
 
 -- 1. INSERT 杨子豪（id=8）
-INSERT INTO public.staff (id, name, email, gender, dept, join_date, status, avatar_color, role, is_deleted, auth_id, created_at, updated_at)
+-- ⚠️ staff 表只有 (id, name, email, gender, dept, join_date, status, avatar_color, role, is_deleted, auth_id)
+--    无 created_at/updated_at 列；NOW() 不需要传
+INSERT INTO public.staff (id, name, email, gender, dept, join_date, status, avatar_color, role, is_deleted, auth_id)
 SELECT 8,
        '杨子豪',
        'yangzihao@salomon.temp',
@@ -35,15 +37,13 @@ SELECT 8,
        '#6366f1',
        'parttime',
        false,
-       au.id,
-       NOW(),
-       NOW()
+       au.id
 FROM auth.users au
 WHERE au.email = 'yangzihao@salomon.temp'
   AND NOT EXISTS (SELECT 1 FROM public.staff s WHERE s.email = 'yangzihao@salomon.temp');
 
 -- 2. INSERT 田佳乐（id=2）
-INSERT INTO public.staff (id, name, email, gender, dept, join_date, status, avatar_color, role, is_deleted, auth_id, created_at, updated_at)
+INSERT INTO public.staff (id, name, email, gender, dept, join_date, status, avatar_color, role, is_deleted, auth_id)
 SELECT 2,
        '田佳乐',
        'tianjiale@salomon.temp',
@@ -54,9 +54,7 @@ SELECT 2,
        '#8b5cf6',
        'parttime',
        false,
-       au.id,
-       NOW(),
-       NOW()
+       au.id
 FROM auth.users au
 WHERE au.email = 'tianjiale@salomon.temp'
   AND NOT EXISTS (SELECT 1 FROM public.staff s WHERE s.email = 'tianjiale@salomon.temp');
