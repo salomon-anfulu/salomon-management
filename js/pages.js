@@ -374,6 +374,8 @@ function renderDashboard() {
   const storeSupport = Store.get('storeSupport') || [];
 
   return `
+    ${_auth.isAdmin ? `<div id="dashResetAlert" style="display: none;"></div>` : ''}
+
     <div class="stats-grid animate-in">
       <div class="stat-card accent">
         <div class="stat-icon">👥</div>
@@ -6031,6 +6033,54 @@ function loadResetRequests() {
     });
 }
 
+// v167: 工作台顶部「待处理密码重置申请」提醒卡（仅管理员渲染容器，普通员工零查询开销）
+function loadDashboardResetRequests() {
+  const el = document.getElementById('dashResetAlert');
+  if (!el) return; // 非管理员或非工作台，容器不存在，直接跳过
+  if (typeof salomonSupabase === 'undefined' || !salomonSupabase.client) return;
+
+  const MAX_SHOW = 5;
+  salomonSupabase.client
+    .from('password_reset_requests')
+    .select('*')
+    .eq('status', 'pending')
+    .order('requested_at', { ascending: false })
+    .then(({ data, error }) => {
+      // 表未建 / 无权限 / 无待办 —— 一律静默隐藏，不打扰工作台
+      if (error || !data || data.length === 0) {
+        el.style.display = 'none';
+        el.innerHTML = '';
+        return;
+      }
+      const shown = data.slice(0, MAX_SHOW);
+      let html = '<div class="reset-alert">'
+        + '<div class="reset-alert__head">'
+        +   '<span class="reset-alert__dot"></span>'
+        +   '<span class="reset-alert__title">🔑 待处理密码重置申请</span>'
+        +   '<span class="reset-alert__count">' + data.length + '</span>'
+        +   '<button class="reset-alert__link" data-action="navigate" data-params=\'{"page":"dataManage"}\'>查看全部 / 处理指引 →</button>'
+        + '</div>'
+        + '<div class="reset-alert__list">';
+      shown.forEach(r => {
+        html += '<div class="reset-alert__row">'
+          + '<div>'
+          +   '<div class="reset-alert__email">' + _escHtml(r.email) + '</div>'
+          +   '<div class="reset-alert__meta">申请于 ' + new Date(r.requested_at).toLocaleString('zh-CN') + '</div>'
+          + '</div>'
+          + '<button class="reset-alert__btn" onclick="markResetDone(' + r.id + ')">标记已处理</button>'
+          + '</div>';
+      });
+      html += '</div>';
+      if (data.length > MAX_SHOW) {
+        html += '<div class="reset-alert__more">还有 ' + (data.length - MAX_SHOW) + ' 条，前往「数据管理」查看全部</div>';
+      }
+      html += '</div>';
+      el.innerHTML = html;
+      el.style.display = 'block';
+    })
+    .catch(() => { el.style.display = 'none'; });
+}
+
 function markResetDone(id) {
   if (typeof salomonSupabase === 'undefined' || !salomonSupabase.client) { alert('Supabase 未连接'); return; }
   let who = 'admin';
@@ -6045,7 +6095,9 @@ function markResetDone(id) {
     .then(({ error }) => {
       if (error) { showToast('更新失败：' + error.message, 'error'); return; }
       showToast('已标记为已处理', 'success');
+      // v167: 两个入口都可能在场，各自存在时才刷新（函数内部已做容器判空）
       loadResetRequests();
+      loadDashboardResetRequests();
     });
 }
 
