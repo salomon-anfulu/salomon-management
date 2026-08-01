@@ -6009,7 +6009,7 @@ linggongAttendance: {
       { id: 45, staffName: '邓奇缘', month: '2026-07', rating: 5, reviewDate: '2026-07-31', snippet: '来上海旅游想买双鞋，进了Salomon是天天接待的，经过细心介绍试了很多双终于买到了双自己喜欢的鞋~', keywords: ['旅游买鞋', '天天接待', '细心介绍', '试多双', '超预期'], source: '大众点评（Abbott_3448，Lv1）' },
     ],
 
-    _dataVersion: '2026-08-01-v165',
+    _dataVersion: '2026-08-01-v166',
   },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
@@ -6054,7 +6054,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-08-01-v165';
+      const DATA_VERSION = '2026-08-01-v166';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -6646,6 +6646,7 @@ const Router = {
           });
         }
         if (this.current === 'dashboard') initDashboardCharts();
+        if (this.current === 'dataManage') loadResetRequests();
       } catch (e) {
         _lastRenderOk = false;  // P1-7 fix: 标记渲染失败，供全局 error handler 判断
         console.error('[App.render] 页面渲染失败:', this.current, e);

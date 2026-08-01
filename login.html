@@ -230,6 +230,10 @@
         登 录
       </button>
 
+      <div style="margin-top: 14px; text-align: center;">
+        <a href="javascript:void(0)" onclick="openForgotPassword()" style="font-size: 12px; color: var(--text-secondary); text-decoration: none; border-bottom: 1px dashed var(--border);">忘记密码？</a>
+      </div>
+
       <div class="login-msg" id="loginMsg"></div>
 
       <div class="account-info">
@@ -243,14 +247,31 @@
       <!-- v155: 已移除 GitHub Token 配置面板 -->
     </div>
     <div class="login-footer">
-       安福路 Salomon 旗舰店 · v158
+       安福路 Salomon 旗舰店 · v166
+    </div>
+  </div>
+
+  <!-- 忘记密码 模态框 (v166) -->
+  <div id="forgotModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center; padding:20px;">
+    <div style="background:#fff; border-radius:16px; max-width:380px; width:100%; padding:28px; box-shadow:0 25px 60px rgba(0,0,0,0.3); animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+      <h3 style="font-size:18px; font-weight:700; margin-bottom:6px; color:var(--text-primary);">🔑 忘记密码</h3>
+      <p style="font-size:13px; color:var(--text-secondary); margin-bottom:18px; line-height:1.6;">填写你的登录邮箱，提交后管理员会为你重置密码。重置完成后请用新密码登录。</p>
+      <div class="input-group">
+        <label>📧 邮箱</label>
+        <input type="email" id="forgotEmail" placeholder="拼音@salomon.temp" autocomplete="username" />
+      </div>
+      <div id="forgotMsg" style="font-size:13px; min-height:18px; margin:6px 0 14px;"></div>
+      <div style="display:flex; gap:10px;">
+        <button onclick="closeForgotPassword()" style="flex:1; padding:12px; background:var(--bg); color:var(--text-secondary); border:1px solid var(--border); border-radius:10px; font-size:14px; font-weight:600; cursor:pointer;">取消</button>
+        <button id="btnForgotSubmit" onclick="submitForgotPassword()" style="flex:1; padding:12px; background:linear-gradient(135deg, var(--accent), #c0392b); color:#fff; border:none; border-radius:10px; font-size:14px; font-weight:700; cursor:pointer;">提交申请</button>
+      </div>
     </div>
   </div>
 
   <!-- Supabase config + client (必须在 auth 之前加载) -->
-  <script src="supabase/config.js?v=165"></script>
+  <script src="supabase/config.js?v=166"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js?v=165"></script>
+  <script src="js/supabase-client.js?v=166"></script>
 
   <script>
     // 回车键提交
@@ -350,6 +371,58 @@
         }
       } catch(e) { /* 忽略，停留登录页 */ }
     })();
+
+    // ===== v166: 忘记密码 自助找回 =====
+    function openForgotPassword() {
+      document.getElementById('forgotEmail').value = document.getElementById('emailInput').value.trim();
+      document.getElementById('forgotMsg').textContent = '';
+      document.getElementById('forgotModal').style.display = 'flex';
+      setTimeout(() => document.getElementById('forgotEmail').focus(), 50);
+    }
+    function closeForgotPassword() {
+      document.getElementById('forgotModal').style.display = 'none';
+    }
+    async function submitForgotPassword() {
+      const email = document.getElementById('forgotEmail').value.trim();
+      const msgEl = document.getElementById('forgotMsg');
+      const btn = document.getElementById('btnForgotSubmit');
+      if (!email || !email.includes('@')) {
+        msgEl.style.color = 'var(--error)';
+        msgEl.textContent = '请填写有效的邮箱';
+        return;
+      }
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span>提交中...';
+      msgEl.style.color = 'var(--warning)';
+      msgEl.textContent = '';
+      try {
+        if (typeof salomonSupabase !== 'undefined' && salomonSupabase.client) {
+          // 主通道（当前可用）：写入申请队列，管理员在数据管理页处理
+          const { error: insErr } = await salomonSupabase.client
+            .from('password_reset_requests')
+            .insert({ email: email, status: 'pending' });
+          if (insErr) throw insErr;
+          // 标准邮件重置（将来可用）：.temp 假域名当前收不到邮件，吞掉错误不阻塞
+          try {
+            await salomonSupabase.client.auth.resetPasswordForEmail(email);
+          } catch (e) { /* ignore: email not deliverable on .temp domain */ }
+          msgEl.style.color = 'var(--success)';
+          msgEl.textContent = '✅ 已收到申请，管理员会尽快为你重置密码。重置后用新密码登录即可。';
+          setTimeout(() => { closeForgotPassword(); }, 2200);
+        } else {
+          throw new Error('网络未就绪，请稍后重试或联系管理员');
+        }
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = '提交申请';
+        msgEl.style.color = 'var(--error)';
+        msgEl.textContent = '❌ ' + (err.message || '提交失败');
+      }
+    }
+    // 点击遮罩关闭
+    document.getElementById('forgotModal')?.addEventListener('click', function(e) {
+      if (e.target === this) closeForgotPassword();
+    });
   </script>
 </body>
 </html>

@@ -5932,6 +5932,24 @@ function renderDataManagement() {
     </div>
     ` : ''}
 
+    <!-- 密码重置申请 (v166) -->
+    <div class="card animate-in" style="margin-bottom: 16px; border-left: 4px solid #e94560;">
+      <div class="card-body">
+        <div style="display: flex; align-items: flex-start; gap: 16px;">
+          <div style="font-size: 32px;">🔑</div>
+          <div style="flex: 1;">
+            <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 6px;">密码重置申请</h3>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.6;">
+              员工在登录页点击「忘记密码」后提交的申请会显示在这里。重置密码请前往 <strong>Supabase Dashboard → Authentication → Users</strong> 找到对应邮箱，用 SQL Editor 执行：<br>
+              <code style="display:inline-block;margin-top:6px;background:var(--surface);padding:6px 10px;border-radius:6px;font-size:11px;word-break:break-all;">UPDATE auth.users SET encrypted_password = crypt('新密码', gen_salt('bf')) WHERE email = '员工邮箱';</code><br>
+              重置完成后点「标记已处理」。
+            </p>
+            <div id="resetRequestsList" style="margin-top: 8px; font-size: 13px; color: var(--text-muted);">加载中…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- 操作指南 -->
     <div class="card animate-in" style="margin-bottom: 16px;">
       <div class="card-body">
@@ -5962,6 +5980,73 @@ function renderDataManagement() {
       </div>
     </div>
   `;
+}
+
+// ===== v166: 密码重置申请 后台面板 =====
+function _escHtml(str) {
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function loadResetRequests() {
+  const el = document.getElementById('resetRequestsList');
+  if (!el) return;
+  if (typeof salomonSupabase === 'undefined' || !salomonSupabase.client) {
+    el.innerHTML = '<span style="color:#ef4444;">⚠️ Supabase 未连接，无法加载申请列表</span>';
+    return;
+  }
+  salomonSupabase.client
+    .from('password_reset_requests')
+    .select('*')
+    .order('requested_at', { ascending: false })
+    .then(({ data, error }) => {
+      if (error) {
+        el.innerHTML = '<span style="color:#ef4444;">加载失败：' + _escHtml(error.message) + '</span>';
+        return;
+      }
+      if (!data || data.length === 0) {
+        el.innerHTML = '✅ 暂无待处理的密码重置申请';
+        return;
+      }
+      const pending = data.filter(r => r.status === 'pending');
+      let html = '<div style="margin-bottom:8px;font-weight:600;color:var(--text-secondary);">'
+        + '共 ' + data.length + ' 条申请（待处理 ' + pending.length + ' 条）</div>';
+      html += '<div style="display:flex;flex-direction:column;gap:8px;">';
+      data.forEach(r => {
+        const isPending = r.status === 'pending';
+        const handledBy = r.handled_by ? (' · 处理人 ' + _escHtml(r.handled_by)) : '';
+        const handledAt = r.handled_at ? (' · ' + new Date(r.handled_at).toLocaleString('zh-CN')) : '';
+        html += '<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--surface);border-radius:8px;padding:10px 12px;">'
+          + '<div><strong>' + _escHtml(r.email) + '</strong><br>'
+          + '<span style="font-size:11px;color:var(--text-muted);">申请于 ' + new Date(r.requested_at).toLocaleString('zh-CN') + handledBy + handledAt + '</span></div>'
+          + '<div>'
+          + (isPending
+              ? '<button onclick="markResetDone(' + r.id + ')" style="padding:6px 14px;background:#e94560;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;">标记已处理</button>'
+              : '<span style="font-size:12px;color:#10b981;">✓ 已处理</span>')
+          + '</div></div>';
+      });
+      html += '</div>';
+      el.innerHTML = html;
+    });
+}
+
+function markResetDone(id) {
+  if (typeof salomonSupabase === 'undefined' || !salomonSupabase.client) { alert('Supabase 未连接'); return; }
+  let who = 'admin';
+  try {
+    const a = JSON.parse(sessionStorage.getItem('auth') || '{}');
+    who = a.staffName || 'admin';
+  } catch (e) {}
+  salomonSupabase.client
+    .from('password_reset_requests')
+    .update({ status: 'done', handled_at: new Date().toISOString(), handled_by: who })
+    .eq('id', id)
+    .then(({ error }) => {
+      if (error) { showToast('更新失败：' + error.message, 'error'); return; }
+      showToast('已标记为已处理', 'success');
+      loadResetRequests();
+    });
 }
 
 // Handle file import
