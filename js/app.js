@@ -6009,7 +6009,7 @@ linggongAttendance: {
       { id: 45, staffName: '邓奇缘', month: '2026-07', rating: 5, reviewDate: '2026-07-31', snippet: '来上海旅游想买双鞋，进了Salomon是天天接待的，经过细心介绍试了很多双终于买到了双自己喜欢的鞋~', keywords: ['旅游买鞋', '天天接待', '细心介绍', '试多双', '超预期'], source: '大众点评（Abbott_3448，Lv1）' },
     ],
 
-    _dataVersion: '2026-08-01-v168',
+    _dataVersion: '2026-08-01-v169',
   },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
@@ -6054,7 +6054,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-08-01-v168';
+      const DATA_VERSION = '2026-08-01-v169';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -6200,14 +6200,29 @@ linggongAttendance: {
 
         // performanceData: 以默认数据为准（含最新录入），但保留用户可能在其他月份录入的自定义数据
         if (data.performanceData) {
+          // v169: 锁定月份不参与默认覆盖——保留用户在锁定月的真实业绩数据
+          const _perfKeyToYM = (pk) => {
+            const mn = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+            const idx = mn.indexOf(pk);
+            return idx >= 0 ? `2026-${String(idx+1).padStart(2,'0')}` : null;
+          };
+          const _lockedSet = new Set(this.getLockedMonths());
           // 默认数据覆盖用户数据中的同名月份（P1-5 fix: 深拷贝，避免修改污染 defaults.performanceData）
           Object.keys(this.defaults.performanceData).forEach(mk => {
+            const ym = _perfKeyToYM(mk);
+            if (ym && _lockedSet.has(ym)) return; // v169: 跳过锁定月
             data.performanceData[mk] = JSON.parse(JSON.stringify(this.defaults.performanceData[mk]));
           });
           merged.performanceData = data.performanceData;
         }
         // linggongAttendance: 以默认数据为准（含最新拉取的考勤），但保留用户可能手动添加的自定义记录
         if (data.linggongAttendance && data.linggongAttendance.records) {
+          // v169: 锁定月份的考勤记录全部保留用户数据，不与 defaults 合并
+          const _lockedSet = new Set(this.getLockedMonths());
+          const _lockedMonthRecs = (data.linggongAttendance.records || []).filter(r =>
+            _lockedSet.has((r.date || '').slice(0, 7))
+          );
+          const _lockedKeys = new Set(_lockedMonthRecs.map(r => `${r.name}-${r.date}`));
           // 用默认记录作为基础（P1-5 fix: 深拷贝 records，避免引用污染 defaults）
           const defaultRecords = JSON.parse(JSON.stringify(this.defaults.linggongAttendance.records || []));
           const defaultKeys = new Set(this.defaults.linggongAttendance.records.map(r => `${r.name}-${r.date}`));
@@ -6215,14 +6230,16 @@ linggongAttendance: {
           const extraRecords = data.linggongAttendance.records.filter(r => !defaultKeys.has(`${r.name}-${r.date}`));
           merged.linggongAttendance = {
             ...this.defaults.linggongAttendance,
-            records: [...defaultRecords, ...extraRecords]
+            records: [...defaultRecords, ...extraRecords, ..._lockedMonthRecs]
           };
         }
         // customerReviews: defaults 为准（好评是手工录入的权威数据），合并用户手动添加的
         {
-          const defaultIds = new Set((this.defaults.customerReviews || []).map(r => r.id));
+          // v169: 锁定月份的好评全部保留用户数据，不与 defaults 合并
+          const _lockedSet = new Set(this.getLockedMonths());
+          const defaultIds = new Set((this.defaults.customerReviews || []).filter(r => !_lockedSet.has(r.month)).map(r => r.id));
           const userExtras = (data.customerReviews || []).filter(r => !defaultIds.has(r.id));
-          merged.customerReviews = [...this.defaults.customerReviews, ...userExtras];
+          merged.customerReviews = [...(this.defaults.customerReviews || []).filter(r => !_lockedSet.has(r.month)), ...userExtras];
         }
         // staffStats: 保留
         if (data.staffStats) {
@@ -6377,6 +6394,24 @@ linggongAttendance: {
   getList(key) {
     const val = this.get(key);
     return Array.isArray(val) ? val : [];
+  },
+
+  // v169: 读取已锁定月份列表（YYYY-MM 字符串数组）
+  // 锁定月份内的填报 / 数据 / 业绩 / 考勤 等模块禁止修改。
+  // 数据源：data._lockedMonths，由 Dashboard SQL 注入或管理员手动设置。
+  getLockedMonths() {
+    try {
+      const data = this._cache || JSON.parse(this._safeGetItem(this.KEY) || '{}');
+      return Array.isArray(data._lockedMonths) ? data._lockedMonths : [];
+    } catch (e) {
+      return [];
+    }
+  },
+
+  // v169: 判断某月份（YYYY-MM）是否被锁定
+  isMonthLocked(monthKey) {
+    if (!monthKey || typeof monthKey !== 'string') return false;
+    return this.getLockedMonths().includes(monthKey);
   },
 
   set(key, value) {

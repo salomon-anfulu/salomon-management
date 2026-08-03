@@ -2296,15 +2296,35 @@ function renderRatings() {
             <p style="font-size: 13px; opacity: 0.7; margin-top: 4px;">${monthLabel} · Service Team 全员评估 · 综合评分 ≥ 3.6 可享 ¥60/h 时薪</p>
           </div>
           <!-- Month switcher (v106: 改用 onclick 直接绑定，兼容 window 函数 + 后备全局定义) -->
-          <div style="display:flex;gap:6px;align-items:center;">
+          <!-- v169: 锁定月份按钮加 🔒 标 + 橙色边框 + tooltip，提示"仅可查看" -->
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
             ${availableMonths.map(m => {
               const y = _yearNum(m);
               const mm = _monthNum(m);
               const active = m === _scoringMonth;
-              return `<button onclick="switchScoringMonth('${m}')" data-action="switchScoringMonth" data-params='{"month":"${m}"}' style="padding:6px 14px;border-radius:8px;border:1px solid ${active ? 'rgba(255,255,255,0.4)' : 'rgba(255,255,255,0.15)'};background:${active ? 'rgba(255,255,255,0.15)' : 'transparent'};color:#fff;font-size:12px;font-weight:${active ? '700' : '500'};cursor:pointer;transition:all 0.2s;">${parseInt(mm)}月</button>`;
+              const locked = Store.isMonthLocked && Store.isMonthLocked(m);
+              const lockBorder = active
+                ? (locked ? 'rgba(251,146,60,0.7)' : 'rgba(255,255,255,0.4)')
+                : (locked ? 'rgba(251,146,60,0.45)' : 'rgba(255,255,255,0.15)');
+              const lockBg = active
+                ? (locked ? 'rgba(251,146,60,0.22)' : 'rgba(255,255,255,0.15)')
+                : (locked ? 'rgba(251,146,60,0.08)' : 'transparent');
+              const lockText = locked ? '#fdba74' : '#fff';
+              const lockIcon = locked ? '🔒 ' : '';
+              const lockTip = locked ? `${m} 已锁定：仅可查看，不可修改评分/数据` : '';
+              return `<button onclick="switchScoringMonth('${m}')" data-action="switchScoringMonth" data-params='{"month":"${m}"}' title="${lockTip}" style="padding:6px 14px;border-radius:8px;border:1px solid ${lockBorder};background:${lockBg};color:${lockText};font-size:12px;font-weight:${active ? '700' : '500'};cursor:pointer;transition:all 0.2s;">${lockIcon}${parseInt(mm)}月</button>`;
             }).join('')}
           </div>
         </div>
+        ${Store.isMonthLocked && Store.isMonthLocked(_scoringMonth) ? `
+        <!-- v169: 锁定月份顶部横幅（玻璃渐变 + 呼吸圆点） -->
+        <div style="margin-top: 14px; padding: 12px 16px; background: linear-gradient(135deg, rgba(251,146,60,0.15) 0%, rgba(251,113,133,0.12) 100%); border: 1px solid rgba(251,146,60,0.35); border-radius: 12px; display: flex; align-items: center; gap: 10px; backdrop-filter: blur(8px);">
+          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#fb923c;box-shadow:0 0 0 0 rgba(251,146,60,0.7);animation:pulse-lock 2s infinite;"></span>
+          <span style="font-size: 13px; color: #fdba74; font-weight: 600;">🔒 ${_scoringMonth} 已锁定</span>
+          <span style="font-size: 12px; color: rgba(255,255,255,0.6); margin-left: auto;">所有评分、填报、门迎/店务/换班/好评均不可修改。如需调整请联系管理员。</span>
+        </div>
+        <style>@keyframes pulse-lock{0%{box-shadow:0 0 0 0 rgba(251,146,60,0.7)}70%{box-shadow:0 0 0 8px rgba(251,146,60,0)}100%{box-shadow:0 0 0 0 rgba(251,146,60,0)}}</style>
+        ` : ''}
         <div style="display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
           <span style="font-size: 11px; opacity: 0.6;">🛡️ 工时支持 <span style="opacity: 0.5; font-size: 10px;">(基础5分·每周不达标-1)</span></span>
           <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩 <span style="opacity: 0.5; font-size: 10px;">(时产+UPT各50% · 月销2万+0.5)</span></span>
@@ -2724,6 +2744,11 @@ function openRatingModal() {
 }
 
 function saveRating() {
+  // v169: 锁定月份守卫
+  const _lockMonth = document.getElementById('rate_month').value;
+  if (Store.isMonthLocked && Store.isMonthLocked(_lockMonth)) {
+    showToast(`🔒 ${_lockMonth} 已锁定，无法修改评分`, 'warning'); return;
+  }
   let staffId = parseInt(document.getElementById('rate_staff').value);
   // v157: 非管理员强制只能评价本人，拒绝评他人
   // v160: 用 name 反查 blob id（rate_staff 的 value 是 blob id，必须保持一致；
@@ -4418,6 +4443,11 @@ function closeReviewForm() {
 }
 
 function saveReviewForm() {
+  // v169: 锁定月份守卫
+  const _lockMonth = document.getElementById('reviewMonth').value;
+  if (Store.isMonthLocked && Store.isMonthLocked(_lockMonth)) {
+    showToast(`🔒 ${_lockMonth} 已锁定，无法修改顾客好评`, 'warning'); return;
+  }
   // v156: 好评由管理员统一管理
   if (!_auth.isAdmin) { showToast('仅管理员可管理好评', 'warning'); return; }
   const staffName = document.getElementById('reviewStaffName').value;
@@ -4458,6 +4488,11 @@ function saveReviewForm() {
 function deleteReview(id) {
   // v156: 好评由管理员统一管理
   if (!_auth.isAdmin) { showToast('仅管理员可管理好评', 'warning'); return; }
+  // v169: 锁定月份守卫
+  const _rv = (Store.get('customerReviews') || []).find(r => r.id === id);
+  if (_rv && Store.isMonthLocked && Store.isMonthLocked(_rv.month)) {
+    showToast(`🔒 ${_rv.month} 已锁定，无法删除顾客好评`, 'warning'); return;
+  }
   if (!confirm('确定删除这条好评记录吗？')) return;
   // v54: tombstone 标记
   _markDeleted('customerReviews', id);
@@ -4506,6 +4541,11 @@ function closeDoorDayForm() {
 }
 
 function saveDoorDay() {
+  // v169: 锁定月份守卫
+  const _lockDate = document.getElementById('doorDayDate').value;
+  if (_lockDate && Store.isMonthLocked && Store.isMonthLocked(_lockDate.slice(0, 7))) {
+    showToast(`🔒 ${_lockDate.slice(0,7)} 已锁定，无法新增门迎排班日期`, 'warning'); return;
+  }
   // v157: 新增排班日期为管理动作，普通用户不可为
   if (!_auth.isAdmin) { showToast('仅管理员可新增排班日期', 'warning'); return; }
   const date = document.getElementById('doorDayDate').value;
@@ -4579,6 +4619,10 @@ function closeDoorSlotForm() {
 }
 
 function saveDoorSlot() {
+  // v169: 锁定月份守卫（doorScheduleDate 是全局当前排班日期）
+  if (doorScheduleDate && Store.isMonthLocked && Store.isMonthLocked(doorScheduleDate.slice(0, 7))) {
+    showToast(`🔒 ${doorScheduleDate.slice(0,7)} 已锁定，无法修改门迎排班`, 'warning'); return;
+  }
   const start = document.getElementById('doorSlotStart').value;
   const end = document.getElementById('doorSlotEnd').value;
   let staffName = document.getElementById('doorSlotStaff').value;
@@ -4609,6 +4653,10 @@ function saveDoorSlot() {
 }
 
 function deleteDoorSlot(idx) {
+  // v169: 锁定月份守卫
+  if (doorScheduleDate && Store.isMonthLocked && Store.isMonthLocked(doorScheduleDate.slice(0, 7))) {
+    showToast(`🔒 ${doorScheduleDate.slice(0,7)} 已锁定，无法删除门迎排班`, 'warning'); return;
+  }
   const doorData = Store.get('doorSchedule') || [];
   const day = doorData.find(d => d.date === doorScheduleDate);
   if (!day || !day.slots[idx]) { showToast('班次不存在', 'warning'); return; }
@@ -4698,6 +4746,11 @@ function closeSupportForm() {
 }
 
 function saveSupport() {
+  // v169: 锁定月份守卫（提前读 date，验证用）
+  const _lockDate = document.getElementById('supportDate').value;
+  if (_lockDate && Store.isMonthLocked && Store.isMonthLocked(_lockDate.slice(0, 7))) {
+    showToast(`🔒 ${_lockDate.slice(0,7)} 已锁定，无法修改店务支援`, 'warning'); return;
+  }
   let staffName = document.getElementById('supportStaff').value;
   // v156: 非管理员只能填报自己，强制员工=本人
   if (!_auth.isAdmin) {
@@ -4724,6 +4777,11 @@ function saveSupport() {
 }
 
 function deleteSupport(id) {
+  // v169: 锁定月份守卫（提前查记录拿 date）
+  const _supRec = (Store.get('storeSupport') || []).find(r => r.id === id);
+  if (_supRec && _supRec.date && Store.isMonthLocked && Store.isMonthLocked((_supRec.date || '').slice(0, 7))) {
+    showToast(`🔒 ${(_supRec.date || '').slice(0,7)} 已锁定，无法删除店务支援`, 'warning'); return;
+  }
   // v156: 非管理员只能删除自己的记录
   if (!_auth.isAdmin) {
     // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
@@ -4809,6 +4867,11 @@ function closeShiftForm() {
 }
 
 function saveShift() {
+  // v169: 锁定月份守卫（applyDate 是换班申请的目标日期）
+  const _lockApply = document.getElementById('shiftApplyDate').value;
+  if (_lockApply && Store.isMonthLocked && Store.isMonthLocked(_lockApply.slice(0, 7))) {
+    showToast(`🔒 ${_lockApply.slice(0,7)} 已锁定，无法提交换班申请`, 'warning'); return;
+  }
   let applicant = document.getElementById('shiftApplicant').value;
   // v156: 非管理员只能填报自己，强制申请人=本人
   if (!_auth.isAdmin) {
@@ -4835,6 +4898,11 @@ function saveShift() {
 }
 
 function deleteShift(id) {
+  // v169: 锁定月份守卫（提前查记录拿 applyDate）
+  const _shRec = (Store.get('shiftChanges') || []).find(r => r.id === id);
+  if (_shRec && _shRec.applyDate && Store.isMonthLocked && Store.isMonthLocked((_shRec.applyDate || '').slice(0, 7))) {
+    showToast(`🔒 ${(_shRec.applyDate || '').slice(0,7)} 已锁定，无法删除换班申请`, 'warning'); return;
+  }
   // v156: 非管理员只能删除自己的记录
   if (!_auth.isAdmin) {
     // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
@@ -5168,6 +5236,10 @@ function openDateStatusForm(dayNum) {
 }
 
 function saveDateStatus(dayNum) {
+  // v169: 锁定月份守卫
+  if (_availMonth && Store.isMonthLocked && Store.isMonthLocked(_availMonth)) {
+    showToast(`🔒 ${_availMonth} 已锁定，无法修改可用性`, 'warning'); return;
+  }
   // v157: 非管理员强制只能写本人可用性；管理员账号无需填报
   if (!_auth.isAdmin) {
     const me = _auth.staffName;
@@ -5217,6 +5289,10 @@ function saveDateStatus(dayNum) {
 }
 
 function clearDateStatus(dayNum) {
+  // v169: 锁定月份守卫
+  if (_availMonth && Store.isMonthLocked && Store.isMonthLocked(_availMonth)) {
+    showToast(`🔒 ${_availMonth} 已锁定，无法清除可用性`, 'warning'); return;
+  }
   // v157: 非管理员强制只能清本人可用性；管理员账号无需填报
   if (!_auth.isAdmin) {
     const me = _auth.staffName;
@@ -5710,6 +5786,10 @@ function openDoorSlotFormInline(prefillStart, prefillEnd, editIdx) {
 }
 
 function saveDoorSlotInline() {
+  // v169: 锁定月份守卫
+  if (doorScheduleDate && Store.isMonthLocked && Store.isMonthLocked(doorScheduleDate.slice(0, 7))) {
+    showToast(`🔒 ${doorScheduleDate.slice(0,7)} 已锁定，无法修改门迎排班`, 'warning'); return;
+  }
   // v139: 冻结安全检查（与 UI 渲染双重防护）
   if (_isDoorFrozen(doorScheduleDate)) { showToast('该日期已冻结，不可修改', 'warning'); return; }
   const time = document.getElementById('doorSlotTimeInline').value;
@@ -5755,6 +5835,10 @@ function saveDoorSlotInline() {
 }
 
 function deleteDoorSlotInline() {
+  // v169: 锁定月份守卫
+  if (doorScheduleDate && Store.isMonthLocked && Store.isMonthLocked(doorScheduleDate.slice(0, 7))) {
+    showToast(`🔒 ${doorScheduleDate.slice(0,7)} 已锁定，无法删除门迎排班`, 'warning'); return;
+  }
   // v139: 冻结安全检查（与 UI 渲染双重防护）
   if (_isDoorFrozen(doorScheduleDate)) { showToast('该日期已冻结，不可修改', 'warning'); return; }
   // v156: 非管理员只能删除自己的排班
