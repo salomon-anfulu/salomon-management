@@ -6009,7 +6009,7 @@ linggongAttendance: {
       { id: 45, staffName: '邓奇缘', month: '2026-07', rating: 5, reviewDate: '2026-07-31', snippet: '来上海旅游想买双鞋，进了Salomon是天天接待的，经过细心介绍试了很多双终于买到了双自己喜欢的鞋~', keywords: ['旅游买鞋', '天天接待', '细心介绍', '试多双', '超预期'], source: '大众点评（Abbott_3448，Lv1）' },
     ],
 
-    _dataVersion: '2026-08-01-v167',
+    _dataVersion: '2026-08-01-v168',
   },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
@@ -6054,7 +6054,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-08-01-v167';
+      const DATA_VERSION = '2026-08-01-v168';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -6752,7 +6752,12 @@ function showToast(message, type = 'success') {
   const icons = { success: '✅', error: '❌', warning: '⚠️' };
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
-  toast.innerHTML = `<span>${icons[type] || '✅'}</span><span>${message}</span>`;
+  const iconSpan = document.createElement('span');
+  iconSpan.textContent = icons[type] || '✅';
+  const msgSpan = document.createElement('span');
+  msgSpan.textContent = message; // v168: 用 textContent 防 XSS（姓名/备注经 toast 渲染）
+  toast.appendChild(iconSpan);
+  toast.appendChild(msgSpan);
   container.appendChild(toast);
 
   setTimeout(() => {

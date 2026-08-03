@@ -1261,7 +1261,7 @@ function renderSchedule() {
                         : '<span style="color: #10b981; font-size: 12px;">全月可供 ✅</span>'
                       }
                     </td>
-                    <td style="color: var(--text-secondary); font-size: 12px;">${note}</td>
+                    <td style="color: var(--text-secondary); font-size: 12px;">${_esc(note)}</td>
                   </tr>
                 `;
               }).join('')}
@@ -3641,8 +3641,8 @@ function renderDoorSchedule() {
             <div class="flex justify-between items-center" style="padding: 10px 0; border-bottom: 1px solid var(--border-light);">
               <div class="flex items-center gap-12">
                 <span style="width: 20px; text-align: center; font-weight: 700; font-size: 13px; color: ${i < 3 ? 'var(--primary)' : 'var(--text-secondary)'};">${i < 3 ? ['🥇','🥈','🥉'][i] : (i+1)}</span>
-                <div class="avatar" style="background: ${data.avatarColor}; width: 32px; height: 32px; font-size: 12px;">${name.length > 2 ? name.slice(-2) : name}</div>
-                <span class="font-semibold text-sm">${name}</span>
+                <div class="avatar" style="background: ${data.avatarColor}; width: 32px; height: 32px; font-size: 12px;">${name.length > 2 ? _esc(name).slice(-2) : _esc(name)}</div>
+                <span class="font-semibold text-sm">${_esc(name)}</span>
               </div>
               <div class="flex items-center gap-8">
                 <div style="text-align: right;">
@@ -4260,9 +4260,9 @@ function renderCustomerReviews() {
               <div class="card" style="padding: 20px; position: relative; overflow: hidden;">
                 ${i === 0 ? '<div style="position: absolute; top: 0; right: 0; background: linear-gradient(135deg, #f59e0b, #f97316); color: #fff; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 0 0 0 8px;">👑 TOP 1</div>' : ''}
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
-                  <div style="width: 44px; height: 44px; border-radius: 50%; background: ${color}; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; font-weight: 700;">${name[0]}</div>
+                  <div style="width: 44px; height: 44px; border-radius: 50%; background: ${color}; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; font-weight: 700;">${_esc(name)[0]}</div>
                   <div>
-                    <div style="font-weight: 700; font-size: 15px;">${name}</div>
+                    <div style="font-weight: 700; font-size: 15px;">${_esc(name)}</div>
                     <div style="font-size: 12px; color: var(--text-secondary);">${'⭐'.repeat(Math.min(data.count, 5))} ${data.count}条好评</div>
                   </div>
                 </div>

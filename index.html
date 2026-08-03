@@ -6,6 +6,11 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
+  <!-- v168 安全加固：CSP。放行 cdn.jsdelivr.net（chart.js/supabase-js）与 *.supabase.co（API+Realtime）；
+       将 connect-src 锁到 supabase，即便 XSS 漏网也无法把令牌发到外部域名。
+       因系统大量使用内联事件处理器（onclick 等），script-src/style-src 暂保留 'unsafe-inline'；
+       存储型 XSS 的确定性修复靠下方对 name/note/displayName 的全量转义。 -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'self'; frame-ancestors 'self'">
   <title>安福路 Salomon 兼职管理系统</title>
 
   <!-- v150 刷新风暴断路器（同步、最先执行）：检测异常连环刷新并标记，阻断探针/同步加剧死循环 -->
@@ -27,7 +32,7 @@
     })();
   </script>
 
-  <link rel="stylesheet" href="css/styles.css?v=167">
+  <link rel="stylesheet" href="css/styles.css?v=168">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏔️</text></svg>">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
@@ -252,14 +257,14 @@
   </script>
 
   <!-- Supabase 配置 + SDK + 客户端 -->
-  <script src="supabase/config.js?v=167"></script>
+  <script src="supabase/config.js?v=168"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js?v=167"></script>
-  <script src="js/auth-guard.js?v=167"></script>
-  <script src="js/app.js?v=167"></script>
-  <script src="js/sync.js?v=167"></script>
-  <script src="js/pages.js?v=167"></script>
-  <script src="js/change-password.js?v=167"></script>
+  <script src="js/supabase-client.js?v=168"></script>
+  <script src="js/auth-guard.js?v=168"></script>
+  <script src="js/app.js?v=168"></script>
+  <script src="js/sync.js?v=168"></script>
+  <script src="js/pages.js?v=168"></script>
+  <script src="js/change-password.js?v=168"></script>
   <script>
     // ===== Auth Module (v142: 兼容旧 Auth + 新 AuthHelper) =====
     const Auth = {
@@ -310,9 +315,10 @@
     // 若未拿到 staffName（极少：登录异常），显示「未登录」而非假装是管理员
     const staffObj = Auth.staffId ? Store.get('staff').find(s => s.id === Auth.staffId) : null;
     const avatarColor = staffObj?.avatar_color || '#94a3b8';
-    const displayName = Auth.staffName || '未登录';
-    const displayDept = Auth.dept || (Auth.staffName ? '员工' : '');
-    const initial = displayName[0] || '?';
+    const rawName = Auth.staffName || '未登录';
+    const displayName = _esc(rawName);
+    const displayDept = _esc(Auth.dept || (Auth.staffName ? '员工' : ''));
+    const initial = rawName[0] || '?';
     banner.innerHTML = `
       <div class="user-avatar" style="background:${avatarColor};">${initial}</div>
       <span class="user-name">${displayName}</span>
