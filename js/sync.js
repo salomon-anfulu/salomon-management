@@ -148,7 +148,7 @@ const Sync = {
       return { currentMonth: defaultMonth, months: {} };
     }
 
-    const normalized = { currentMonth: avail.currentMonth || '2026-07', months: {} };
+    const normalized = { currentMonth: avail.currentMonth || '2026-08', months: {} };
 
     // 1. 先迁移标准 months 结构
     if (avail.months && typeof avail.months === 'object') {

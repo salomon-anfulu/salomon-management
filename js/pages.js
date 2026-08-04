@@ -77,51 +77,48 @@ const MonthConfig = {
     return this.getSkipWeeks(monthKey) > 0;
   },
 
-  // 自动推导当前应评分的月份（取有数据的最近月份）
+  // 默认展示"当前真实月份"（2026-08）—— 用户可手动切回历史月查看
   getActiveScoringMonth() {
-    const perfData = (typeof Store !== 'undefined') ? Store.get('performanceData') : null;
-    if (perfData) {
-      const monthEN = ['january','february','march','april','may','june','july','august','september','october','november','december'];
-      const now = new Date();
-      const ym = _ymKey(now.getFullYear(), now.getMonth() + 1);
-      // 如果当前月有数据就用当前月，否则取上个月
-      const perfKey = _monthKeyToPerfKey(ym);
-      if (perfData[perfKey] && perfData[perfKey].records && perfData[perfKey].records.length > 0) return ym;
-      // fallback: 取有数据的最近月份
-      for (let i = monthEN.length - 1; i >= 0; i--) {
-        const mk = _ymKey(now.getFullYear(), i + 1);
-        const pk = monthEN[i];
-        if (perfData[pk] && perfData[pk].records && perfData[pk].records.length > 0) return mk;
-      }
-    }
-    // final fallback: 当前月
-    const now2 = new Date();
-    return _ymKey(now2.getFullYear(), now2.getMonth() + 1);
+    const now = new Date();
+    return _ymKey(now.getFullYear(), now.getMonth() + 1);
   },
 
   // 动态生成业绩页月份 tab（从 performanceData 有数据的月份中提取）
   // v93: 只显示6月及以后（4月、5月不再展示）
+  // v172: 始终把"当前真实月份"(2026-08)作为首选 tab，优先展示8月数据；若无数据则显示"采集中"
   getAvailablePerfMonths() {
     const perfData = (typeof Store !== 'undefined') ? Store.get('performanceData') : null;
     const monthEN = ['january','february','march','april','may','june','july','august','september','october','november','december'];
     const MIN_MONTH_NUM = 6; // v93: 最低显示6月
     const result = [];
+    const now = new Date();
+    const curNum = now.getMonth() + 1;
+    const curKey = monthEN[curNum - 1];
+    const curYm = _ymKey(now.getFullYear(), curNum);
+    if (curNum >= MIN_MONTH_NUM) {
+      result.push({ key: curKey, monthNum: curNum, ym: curYm }); // 当前月优先
+    }
     if (perfData) {
       monthEN.forEach((pk, idx) => {
         const monthNum = idx + 1;
         if (monthNum < MIN_MONTH_NUM) return; // v93: 跳过4月、5月
+        if (monthNum === curNum) return; // 当前月已加入，避免重复
         if (perfData[pk] && perfData[pk].records && perfData[pk].records.length > 0) {
           result.push({ key: pk, monthNum, ym: `2026-${String(monthNum).padStart(2,'0')}` });
         }
       });
     }
-    // fallback: 至少返回 7月
     if (result.length === 0) {
-      result.push({ key: 'july', monthNum: 7, ym: '2026-07' });
+      result.push({ key: curKey, monthNum: curNum, ym: curYm });
     }
     return result.sort((a, b) => b.monthNum - a.monthNum); // 最新月份在前
   },
 };
+
+// ===== 全局默认展示月份：2026年8月 =====
+// 所有模块的"默认显示月份"统一走这里，确保打开任意模块优先展示8月内容。
+// 用户仍可手动切回历史月（如已锁定的7月，仅查看不可编辑）。
+const DEFAULT_VIEW_MONTH = '2026-08';
 
 // ===== v92: 安全工具函数（第一性原则修复） =====
 // 根因：JS 原生 .split()/.replace()/.slice() 在 null/undefined 上会崩溃。
@@ -851,13 +848,15 @@ function _buildMonthWeeks(monthKey) {
 }
 
 function renderSchedule() {
+  // v172: 默认展示8月（优先），用户可手动切回历史月
+  if (!_scheduleMonth) _scheduleMonth = DEFAULT_VIEW_MONTH;
   const staff = Store.getList('staff').filter(s => s.status === 'active' && !isManagementStaff(s));
   const serviceTeam = staff.filter(s => s.dept === 'Service Team');
   const availability = Store.get('availability');
   // Month to display: _scheduleMonth if set, otherwise availability.currentMonth
   // Available months from availability.months keys
   // v93: 规范化月份 key 并去重（防止 '2026-07' 和 '2026-7' 共存导致重复 Tab）
-  const _rawMonths = (availability && availability.months) ? Object.keys(availability.months) : ['2026-06'];
+  const _rawMonths = (availability && availability.months) ? Object.keys(availability.months) : [DEFAULT_VIEW_MONTH];
   const _normalizedMonths = [];
   const _seen = new Set();
   _rawMonths.forEach(mk => {
@@ -878,12 +877,12 @@ function renderSchedule() {
   const availableAvailMonths = _normalizedMonths.sort().reverse();
   // Determine display month
   let month, availData;
-  const displayMonth = _scheduleMonth || (availability && availability.currentMonth) || availableAvailMonths[0] || '2026-06';
+  const displayMonth = _scheduleMonth || (availability && availability.currentMonth) || availableAvailMonths[0] || DEFAULT_VIEW_MONTH;
   if (availability && availability.months) {
     month = displayMonth;
     availData = (availability.months[month] && availability.months[month].data) || {};
   } else {
-    month = (availability && availability.month) || '2026-06';
+    month = (availability && availability.month) || DEFAULT_VIEW_MONTH;
     availData = (availability && availability.data) || {};
   }
 
@@ -1292,7 +1291,7 @@ function renderAttendance() {
   // === 月份切换：从数据中提取所有可用月份，限定 ≥ 2026-06 ===
   const allMonths = [...new Set(allLgRecords.map(r => (r.date || '').slice(0, 7)))].filter(m => m >= ATT_MIN_MONTH).sort();
   if (!_attMonth) {
-    _attMonth = allMonths.length > 0 ? allMonths[allMonths.length - 1] : _ymKey(new Date().getFullYear(), new Date().getMonth() + 1);
+    _attMonth = DEFAULT_VIEW_MONTH; // 默认展示8月（优先）
   }
   const [aY, aM] = _parseYM(_attMonth);
   const prevMonth = _ymKey(aM === 1 ? (aY - 1) : aY, aM === 1 ? 12 : (aM - 1));
@@ -1746,7 +1745,7 @@ function calcAvailabilityScore(staffName) {
     monthKey = scoreMonth;
     availData = (availability.months[monthKey] && availability.months[monthKey].data && availability.months[monthKey].data[staffName]) || { total: 0, unavailable: [] };
   } else {
-    monthKey = (availability && availability.month) || '2026-06';
+    monthKey = (availability && availability.month) || DEFAULT_VIEW_MONTH;
     availData = (availability && availability.data && availability.data[staffName]) || { total: 0, unavailable: [] };
   }
 
@@ -3176,7 +3175,7 @@ function renderPerformance() {
   const lgAll = Store.get('linggongAttendance') || { records: [] };
   const lgRecords = lgAll.records || [];
   // v86 P1-1: 动态解析 perfMonth 到 YYYY-MM（原硬编码 _perfMonthMap 只支持4个月）
-  const _perfYearMonth = _monthKeyToPerfKey_inv(perfMonth) || '2026-07';
+  const _perfYearMonth = _monthKeyToPerfKey_inv(perfMonth) || DEFAULT_VIEW_MONTH;
 
   // v80: 补 Service Team 无产出成员（从 staff 列表中补齐）
   const _serviceTeam = Store.getList('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
@@ -3474,7 +3473,7 @@ function renderDoorSchedule() {
   // === 月份切换：确定可用月份列表（限定最早6月） ===
   const allMonths = [...new Set(allDoorData.map(d => (d.date || '').slice(0, 7)))].filter(m => m >= DOOR_PAGE_MIN_MONTH).sort();
   if (!_doorPageMonth || _doorPageMonth < DOOR_PAGE_MIN_MONTH) {
-    _doorPageMonth = allMonths.length > 0 ? allMonths[allMonths.length - 1] : DOOR_PAGE_MIN_MONTH;
+    _doorPageMonth = DEFAULT_VIEW_MONTH; // 默认展示8月（优先），无数据时用户可切回历史月
   }
   const [dY, dM] = _parseYM(_doorPageMonth);
   const prevMonth = _ymKey(dM === 1 ? (dY - 1) : dY, dM === 1 ? 12 : (dM - 1));
@@ -3718,7 +3717,7 @@ function renderSupport() {
   const shiftMonths = [...new Set(allShiftChanges.map(c => (c.applyDate || '').slice(0, 7)))].filter(m => m >= SUPPORT_PAGE_MIN_MONTH);
   const allMonths = [...new Set([...supportMonths, ...shiftMonths])].sort();
   if (!_supportPageMonth || _supportPageMonth < SUPPORT_PAGE_MIN_MONTH) {
-    _supportPageMonth = allMonths.length > 0 ? allMonths[allMonths.length - 1] : SUPPORT_PAGE_MIN_MONTH;
+    _supportPageMonth = DEFAULT_VIEW_MONTH; // 默认展示8月（优先），无数据时用户可切回历史月
   }
   const [dY, dM] = _parseYM(_supportPageMonth);
   const prevMonth = _ymKey(dM === 1 ? (dY - 1) : dY, dM === 1 ? 12 : (dM - 1));
@@ -4204,11 +4203,12 @@ function renderCustomerReviews() {
   const reviews = Store.get('customerReviews') || [];
   const staff = Store.get('staff');
 
-  // 月份列表（最新月份在前）
-  const months = [...new Set(reviews.map(r => r.month))].sort().reverse();
-  if (months.length === 0) months.push('2026-07');
-  // 默认显示当前最新月份（7月优先），用户切换月份后保持选择
-  if (!reviewsMonthFilter || !months.includes(reviewsMonthFilter)) reviewsMonthFilter = months[0];
+  // 月份列表（最新月份在前），始终包含默认月 8月以便切换
+  const months = [...new Set([...reviews.map(r => r.month), DEFAULT_VIEW_MONTH])].sort().reverse();
+  // v172: 优先展示8月（默认落在8月；用户切回历史月后保持选择）
+  if (!reviewsMonthFilter || !months.includes(reviewsMonthFilter)) {
+    reviewsMonthFilter = DEFAULT_VIEW_MONTH;
+  }
 
   // 筛选
   let filtered = reviews.filter(r => r.month === reviewsMonthFilter);
@@ -5015,7 +5015,7 @@ function renderMyForms() {
   }
 
   if (!_availMonth) {
-    _availMonth = AVAIL_MIN_MONTH; // default to July 2026
+    _availMonth = DEFAULT_VIEW_MONTH; // 默认展示 2026-08（8月优先）
   }
   if (!_availStaff || !_auth.isAdmin) {
     // v156: 非管理员只能填报自己，强制锁定 _availStaff 为本人
@@ -5545,7 +5545,7 @@ function renderOverviewMatrix() {
 
 // ===== Tab: Shift Changes (reuse existing forms) =====
 function renderShiftsTab() {
-  if (!_shiftsMonth) _shiftsMonth = AVAIL_MIN_MONTH;
+  if (!_shiftsMonth) _shiftsMonth = DEFAULT_VIEW_MONTH;
   const allChanges = Store.get('shiftChanges') || [];
   const changes = allChanges.filter(c => (c.applyDate || '').startsWith(_shiftsMonth));
 
@@ -5597,7 +5597,7 @@ function renderShiftsTab() {
 
 // ===== Tab: Store Support (reuse existing forms) =====
 function renderSupportTab() {
-  if (!_supportMonth) _supportMonth = AVAIL_MIN_MONTH;
+  if (!_supportMonth) _supportMonth = DEFAULT_VIEW_MONTH;
   const allData = Store.get('storeSupport') || [];
   const data = allData.filter(s => (s.date || '').startsWith(_supportMonth));
 
@@ -5648,7 +5648,7 @@ function renderSupportTab() {
 const DOOR_HOURS = ['10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00'];
 
 function renderDoorTab() {
-  if (!_doorViewMonth) _doorViewMonth = AVAIL_MIN_MONTH;
+  if (!_doorViewMonth) _doorViewMonth = DEFAULT_VIEW_MONTH;
   const allDoorData = Store.get('doorSchedule') || [];
   const doorData = allDoorData.filter(d => (d.date || '').startsWith(_doorViewMonth));
 
@@ -6277,7 +6277,7 @@ if (typeof _scoringMonth === 'undefined' || _scoringMonth === null) {
     const _now = new Date();
     _scoringMonth = _ymKey(_now.getFullYear(), _now.getMonth() + 1);
   } else {
-    _scoringMonth = '2026-07';
+    _scoringMonth = DEFAULT_VIEW_MONTH; // 最终 fallback：2026-08
   }
 }
 
