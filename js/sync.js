@@ -606,6 +606,21 @@ const Sync = {
     // 注: 上方 availability/staff 合并已处理填报路径，此处不再重复
 
     // 注: staff 合并已在上方完成（字段级），不再重复处理（v46 移除冗余）
+
+    // === v169: 同步云端锁定月份配置（_lockedMonths 顶层字段，不在白名单数组之列）===
+    // 根因：之前 _mergeIntoLocal 只合并白名单字段（staff/availability/数组类），导致
+    // Dashboard SQL 注入的 data._lockedMonths 永远进不了本地 Store，前端 isMonthLocked
+    // 永远返回 false，7月填报锁定彻底失效。这里显式同步，云端为单一真相源。
+    if (Array.isArray(shared._lockedMonths) && shared._lockedMonths.length > 0) {
+      const localLocked = Store.get('_lockedMonths') || [];
+      // 云端为主，但保留本地有而云端没有的（防御性并集，避免本地临时锁定被清掉）
+      const union = Array.from(new Set([...shared._lockedMonths, ...localLocked]));
+      if (JSON.stringify(union) !== JSON.stringify(localLocked)) {
+        Store.set('_lockedMonths', union);
+        console.log('[Sync] 同步锁定月份配置:', JSON.stringify(union));
+      }
+    }
+
   },
 
   /**

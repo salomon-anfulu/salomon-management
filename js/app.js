@@ -6009,7 +6009,10 @@ linggongAttendance: {
       { id: 45, staffName: '邓奇缘', month: '2026-07', rating: 5, reviewDate: '2026-07-31', snippet: '来上海旅游想买双鞋，进了Salomon是天天接待的，经过细心介绍试了很多双终于买到了双自己喜欢的鞋~', keywords: ['旅游买鞋', '天天接待', '细心介绍', '试多双', '超预期'], source: '大众点评（Abbott_3448，Lv1）' },
     ],
 
-    _dataVersion: '2026-08-01-v169',
+    _dataVersion: '2026-08-01-v170',
+    // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
+    // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
+    _lockedMonths: ['2026-07', '2026-06'],
   },
 
   _cache: null,  // in-memory cache to avoid repeated JSON.parse
@@ -6054,7 +6057,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-08-01-v169';
+      const DATA_VERSION = '2026-08-01-v170';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -6246,6 +6249,12 @@ linggongAttendance: {
           merged.staffStats = data.staffStats;
         }
 
+        // v169: 保留锁定月份配置（_lockedMonths 不在 defaults 中，合并分支需显式保留，
+        // 否则版本升级时云端/本地的锁定设置会被白名单重建流程丢弃，导致 7月填报锁定失效）
+        if (Array.isArray(data._lockedMonths) && data._lockedMonths.length > 0) {
+          merged._lockedMonths = data._lockedMonths;
+        }
+
         this._safeSetItem(this.KEY, JSON.stringify(merged));
       }
 
@@ -6402,9 +6411,13 @@ linggongAttendance: {
   getLockedMonths() {
     try {
       const data = this._cache || JSON.parse(this._safeGetItem(this.KEY) || '{}');
-      return Array.isArray(data._lockedMonths) ? data._lockedMonths : [];
+      const fromData = Array.isArray(data._lockedMonths) ? data._lockedMonths : [];
+      const fromDefaults = Array.isArray(this.defaults && this.defaults._lockedMonths) ? this.defaults._lockedMonths : [];
+      // 云端/本地 data 优先，defaults 作为兜底（防止 pull 未同步时锁定失效）。取并集。
+      return Array.from(new Set([...fromData, ...fromDefaults]));
     } catch (e) {
-      return [];
+      const fromDefaults = Array.isArray(this.defaults && this.defaults._lockedMonths) ? this.defaults._lockedMonths : [];
+      return fromDefaults;
     }
   },
 
