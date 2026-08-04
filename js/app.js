@@ -5739,6 +5739,326 @@ linggongAttendance: {
                 "signOut": "22:00",
                 "status": "打卡正常",
                 "totalHours": "8"
+        },
+        {
+                "name": "严佳铮",
+                "date": "2026-08-01",
+                "signIn": "10:42",
+                "signOut": "21:30",
+                "status": "打卡异常",
+                "totalHours": "9.5"
+        },
+        {
+                "name": "何思嘉",
+                "date": "2026-08-01",
+                "signIn": "12:23",
+                "signOut": "21:00",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "何秋烨",
+                "date": "2026-08-01",
+                "signIn": "13:03",
+                "signOut": "22:01",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "孔祥宇",
+                "date": "2026-08-01",
+                "signIn": "11:22",
+                "signOut": "20:30",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
+                "name": "李健华",
+                "date": "2026-08-01",
+                "signIn": "11:27",
+                "signOut": "20:32",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
+                "name": "梁实秋",
+                "date": "2026-08-01",
+                "signIn": "10:23",
+                "signOut": "19:01",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "王雅澜",
+                "date": "2026-08-01",
+                "signIn": "12:41",
+                "signOut": "21:30",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "贾长乐",
+                "date": "2026-08-01",
+                "signIn": "11:55",
+                "signOut": "21:01",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "迟骋",
+                "date": "2026-08-01",
+                "signIn": "09:57",
+                "signOut": "18:30",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "严佳铮",
+                "date": "2026-08-02",
+                "signIn": "10:27",
+                "signOut": "21:31",
+                "status": "打卡正常",
+                "totalHours": "10"
+        },
+        {
+                "name": "朱凯赟",
+                "date": "2026-08-02",
+                "signIn": "10:59",
+                "signOut": "19:31",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "李健华",
+                "date": "2026-08-02",
+                "signIn": "11:27",
+                "signOut": "20:30",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
+                "name": "梁实秋",
+                "date": "2026-08-02",
+                "signIn": "11:27",
+                "signOut": "20:34",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
+                "name": "王雅澜",
+                "date": "2026-08-02",
+                "signIn": "10:12",
+                "signOut": "19:13",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "祖白代",
+                "date": "2026-08-02",
+                "signIn": "取消",
+                "signOut": "取消",
+                "status": "取消",
+                "totalHours": "0"
+        },
+        {
+                "name": "贾长乐",
+                "date": "2026-08-02",
+                "signIn": "09:50",
+                "signOut": "18:31",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "迟骋",
+                "date": "2026-08-02",
+                "signIn": "12:56",
+                "signOut": "21:30",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "龚赟昊",
+                "date": "2026-08-02",
+                "signIn": "13:26",
+                "signOut": "22:01",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "吴嘉莹",
+                "date": "2026-08-03",
+                "signIn": "10:16",
+                "signOut": "19:01",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "唐蓉",
+                "date": "2026-08-03",
+                "signIn": "10:28",
+                "signOut": "19:04",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "孔祥宇",
+                "date": "2026-08-03",
+                "signIn": "11:26",
+                "signOut": "20:30",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
+                "name": "朱凯赟",
+                "date": "2026-08-03",
+                "signIn": "09:59",
+                "signOut": "18:30",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "杨子豪",
+                "date": "2026-08-03",
+                "signIn": "12:43",
+                "signOut": "21:31",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "王雅澜",
+                "date": "2026-08-03",
+                "signIn": "09:00",
+                "signOut": "17:00",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "王靳毓",
+                "date": "2026-08-03",
+                "signIn": "12:12",
+                "signOut": "21:00",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "龚赟昊",
+                "date": "2026-08-03",
+                "signIn": "缺卡",
+                "signOut": "缺卡",
+                "status": "缺勤",
+                "totalHours": "0"
+        },
+        {
+                "name": "何秋烨",
+                "date": "2026-08-04",
+                "signIn": "07:27",
+                "signOut": "09:33",
+                "status": "打卡正常",
+                "totalHours": "2"
+        },
+        {
+                "name": "唐蓉",
+                "date": "2026-08-04",
+                "signIn": "07:24",
+                "signOut": "09:40",
+                "status": "打卡正常",
+                "totalHours": "2"
+        },
+        {
+                "name": "孔祥宇",
+                "date": "2026-08-04",
+                "signIn": "07:12",
+                "signOut": "14:06",
+                "status": "打卡正常",
+                "totalHours": "2"
+        },
+        {
+                "name": "朱凯赟",
+                "date": "2026-08-04",
+                "signIn": "07:18",
+                "signOut": "12:32",
+                "status": "打卡正常",
+                "totalHours": "5"
+        },
+        {
+                "name": "李健华",
+                "date": "2026-08-04",
+                "signIn": "10:24",
+                "signOut": "",
+                "status": "打卡进行中",
+                "totalHours": "0"
+        },
+        {
+                "name": "杨子豪",
+                "date": "2026-08-04",
+                "signIn": "07:20",
+                "signOut": "09:35",
+                "status": "打卡正常",
+                "totalHours": "2"
+        },
+        {
+                "name": "梁实秋",
+                "date": "2026-08-04",
+                "signIn": "07:19",
+                "signOut": "09:34",
+                "status": "打卡正常",
+                "totalHours": "2"
+        },
+        {
+                "name": "王雅澜",
+                "date": "2026-08-04",
+                "signIn": "07:18",
+                "signOut": "09:52",
+                "status": "打卡正常",
+                "totalHours": "2"
+        },
+        {
+                "name": "玛依拉",
+                "date": "2026-08-04",
+                "signIn": "07:22",
+                "signOut": "09:33",
+                "status": "打卡正常",
+                "totalHours": "2"
+        },
+        {
+                "name": "祖白代",
+                "date": "2026-08-04",
+                "signIn": "12:18",
+                "signOut": "",
+                "status": "打卡进行中",
+                "totalHours": "0"
+        },
+        {
+                "name": "贾长乐",
+                "date": "2026-08-04",
+                "signIn": "07:22",
+                "signOut": "09:43",
+                "status": "打卡正常",
+                "totalHours": "2"
+        },
+        {
+                "name": "迟骋",
+                "date": "2026-08-04",
+                "signIn": "07:21",
+                "signOut": "09:39",
+                "status": "打卡正常",
+                "totalHours": "2"
+        },
+        {
+                "name": "邓奇缘",
+                "date": "2026-08-04",
+                "signIn": "07:28",
+                "signOut": "09:31",
+                "status": "打卡正常",
+                "totalHours": "2"
+        },
+        {
+                "name": "龚赟昊",
+                "date": "2026-08-04",
+                "signIn": "07:14",
+                "signOut": "09:35",
+                "status": "打卡正常",
+                "totalHours": "2"
         }
         ]
     },
@@ -6009,7 +6329,7 @@ linggongAttendance: {
       { id: 45, staffName: '邓奇缘', month: '2026-07', rating: 5, reviewDate: '2026-07-31', snippet: '来上海旅游想买双鞋，进了Salomon是天天接待的，经过细心介绍试了很多双终于买到了双自己喜欢的鞋~', keywords: ['旅游买鞋', '天天接待', '细心介绍', '试多双', '超预期'], source: '大众点评（Abbott_3448，Lv1）' },
     ],
 
-    _dataVersion: '2026-08-01-v173',
+    _dataVersion: '2026-08-01-v174',
     // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
     // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
     _lockedMonths: ['2026-07', '2026-06'],
@@ -6057,7 +6377,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-08-01-v173';
+      const DATA_VERSION = '2026-08-01-v174';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
