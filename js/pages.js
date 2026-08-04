@@ -2738,6 +2738,11 @@ function setRating(dim, value) {
 }
 
 function openRatingModal() {
+  // v170.2: 入口守卫 — 锁定月直接拦截，不让打开模态框
+  const _lockMonth = document.getElementById('rate_month') ? document.getElementById('rate_month').value : (_scoringMonth || null);
+  if (_lockMonth && Store.isMonthLocked && Store.isMonthLocked(_lockMonth)) {
+    showToast(`🔒 ${_lockMonth} 已锁定，无法新增评分`, 'warning'); return;
+  }
   Object.keys(currentRatings).forEach(k => currentRatings[k] = 0);
   document.querySelectorAll('.rating-stars .star').forEach(s => s.classList.remove('active'));
   document.getElementById('ratingModal').classList.add('active');
@@ -4357,6 +4362,18 @@ function renderCustomerReviews() {
 }
 
 function openReviewForm(id) {
+  // v170.2: 入口守卫 — 编辑锁定月的好评 → 拦截；新增模式检查当前 reviewMonth
+  if (id) {
+    const _rv = (Store.get('customerReviews') || []).find(r => r.id === id);
+    if (_rv && _rv.month && Store.isMonthLocked && Store.isMonthLocked(_rv.month)) {
+      showToast(`🔒 ${_rv.month} 已锁定，无法修改好评`, 'warning'); return;
+    }
+  } else {
+    const _reviewMonth = (typeof reviewMonth !== 'undefined' && reviewMonth) ? reviewMonth : (new Date().toISOString().slice(0, 7));
+    if (Store.isMonthLocked && Store.isMonthLocked(_reviewMonth)) {
+      showToast(`🔒 ${_reviewMonth} 已锁定，无法新增好评`, 'warning'); return;
+    }
+  }
   reviewEditingId = id || null;
   const review = id ? (Store.get('customerReviews') || []).find(r => r.id === id) : null;
   const staff = Store.get('staff');
@@ -4510,6 +4527,11 @@ function deleteReview(id) {
 let doorSlotEditingIdx = null;
 
 function openDoorDayForm() {
+  // v170.2: 入口守卫 — 锁定月门迎排班直接拦截
+  const _doorMonth = (typeof doorScheduleDate !== 'undefined' && doorScheduleDate) ? doorScheduleDate.slice(0, 7) : ((typeof doorMonth !== 'undefined' && doorMonth) ? doorMonth : null);
+  if (_doorMonth && Store.isMonthLocked && Store.isMonthLocked(_doorMonth)) {
+    showToast(`🔒 ${_doorMonth} 已锁定，无法新增门迎排班`, 'warning'); return;
+  }
   const overlay = document.createElement('div');
   overlay.id = 'doorDayFormOverlay';
   overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
@@ -4563,6 +4585,10 @@ function saveDoorDay() {
 }
 
 function openDoorSlotForm(idx) {
+  // v170.2: 入口守卫 — 编辑/新增锁定月门迎 slot 直接拦截
+  if (doorScheduleDate && Store.isMonthLocked && Store.isMonthLocked(doorScheduleDate.slice(0, 7))) {
+    showToast(`🔒 ${doorScheduleDate.slice(0,7)} 已锁定，无法修改门迎排班`, 'warning'); return;
+  }
   doorSlotEditingIdx = (typeof idx === 'number') ? idx : null;
   const doorData = Store.get('doorSchedule') || [];
   const day = doorData.find(d => d.date === doorScheduleDate);
@@ -4679,6 +4705,11 @@ function deleteDoorSlot(idx) {
  * ========================================
  */
 function openSupportForm() {
+  // v170.2: 入口守卫 — 锁定月店务支援直接拦截，连模态框都不让打开
+  const _supportMonthKey = (typeof _supportMonth !== 'undefined' && _supportMonth) ? _supportMonth : null;
+  if (_supportMonthKey && Store.isMonthLocked && Store.isMonthLocked(_supportMonthKey)) {
+    showToast(`🔒 ${_supportMonthKey} 已锁定，无法新增店务支援`, 'warning'); return;
+  }
   const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team' && !isManagementStaff(s));
   // v156: 非管理员只能填报自己，锁定员工
   // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
@@ -4806,6 +4837,11 @@ function deleteSupport(id) {
  * ========================================
  */
 function openShiftForm() {
+  // v170.2: 入口守卫 — 锁定月换班登记直接拦截
+  const _shiftsMonthKey = (typeof _shiftsMonth !== 'undefined' && _shiftsMonth) ? _shiftsMonth : null;
+  if (_shiftsMonthKey && Store.isMonthLocked && Store.isMonthLocked(_shiftsMonthKey)) {
+    showToast(`🔒 ${_shiftsMonthKey} 已锁定，无法新增换班`, 'warning'); return;
+  }
   const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team' && !isManagementStaff(s));
   // v156: 非管理员只能填报自己，锁定申请人
   // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
@@ -5185,6 +5221,10 @@ function renderPersonalCalendar() {
 
 // ===== Date status form (popup for each day) =====
 function openDateStatusForm(dayNum) {
+  // v170.2: 入口守卫 — 锁定月可上班时间日历格子点击直接拦截
+  if (_availMonth && Store.isMonthLocked && Store.isMonthLocked(_availMonth)) {
+    showToast(`🔒 ${_availMonth} 已锁定，无法修改可上班时间`, 'warning'); return;
+  }
   if (!_availStaff) { showToast('请先选择姓名', 'warning'); return; }
   const [year, mon] = _parseYM(_availMonth, 2026, 7);
   // v84: 冻结检查
@@ -5730,6 +5770,10 @@ function editDoorCell(date, slotKey) {
 
 // ===== Inline door slot form (used by calendar grid) =====
 function openDoorSlotFormInline(prefillStart, prefillEnd, editIdx) {
+  // v170.2: 入口守卫 — 锁定月门迎内联表单直接拦截
+  if (doorScheduleDate && Store.isMonthLocked && Store.isMonthLocked(doorScheduleDate.slice(0, 7))) {
+    showToast(`🔒 ${doorScheduleDate.slice(0,7)} 已锁定，无法修改门迎排班`, 'warning'); return;
+  }
   doorSlotEditingIdx = (typeof editIdx === 'number') ? editIdx : null;
   const doorData = Store.get('doorSchedule') || [];
   const day = doorData.find(d => d.date === doorScheduleDate);

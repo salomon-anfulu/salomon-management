@@ -16,9 +16,9 @@
  *   - SW 'controllerchange' 事件触发页面 reload（在探针逻辑中处理）
  */
 
-const SW_VERSION = 'sw-v170';
-const CACHE_STATIC = 'static-v170';
-const CACHE_IMG = 'img-v170';
+const SW_VERSION = 'sw-v171';
+const CACHE_STATIC = 'static-v171';
+const CACHE_IMG = 'img-v171';
 
 // 需要绕过 SW 的路径（直接走网络）
 const NETWORK_ONLY_PATHS = [
@@ -78,19 +78,22 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // JS/CSS：stale-while-revalidate
+  // JS/CSS：network-first（含 ?v= 资源强制最新版，避免 SW 缓存旧 v168/v169 JS 锁不掉）
+  // 这是 v170.2 关键修复：之前 stale-while-revalidate 在版本升级瞬间会从 cache 返回旧 JS，
+  // 导致 isMonthLocked 守卫代码根本没加载，7月填报锁不住
   if (url.pathname.endsWith('.js') || url.pathname.endsWith('.css')) {
     event.respondWith((async () => {
-      const cached = await caches.match(req);
-      const fetchPromise = fetch(req).then(resp => {
-        // ?v= 改变时 URL 不同，会自然产生新缓存条目；旧 ?v= 的条目通过 LRU 自动清理
+      try {
+        const resp = await fetch(req, { cache: 'no-store' });
         if (resp && resp.ok) {
           const copy = resp.clone();
           caches.open(CACHE_STATIC).then(c => c.put(req, copy)).catch(()=>{});
         }
         return resp;
-      }).catch(() => cached); // 离线时回退缓存
-      return cached || fetchPromise;
+      } catch (e) {
+        // 离线时回退缓存
+        return caches.match(req) || Response.error();
+      }
     })());
     return;
   }
