@@ -2168,7 +2168,11 @@ function calcBehaviorScore(staffName) {
 function renderRatings() {
   // 清除所有月份相关缓存，确保切月后数据正确
   _behaviorCache = null;
-  
+
+  // v173: 8月评分页不体现指定成员（仅针对 2026-08）
+  // 业务说明：王靳毓、田佳乐于8月起不再参与兼职评分展示与统计
+  const _ratingExcludeNames = (_scoringMonth === '2026-08') ? ['王靳毓', '田佳乐'] : [];
+
   // 合并 LocalStorage 和 defaults 的 ratings（防止 sync 清空后丢失历史月份）
   const _storedRatings = Store.get('ratings') || [];
   const _defaultRatings = (Store.defaults && Store.defaults.ratings) || [];
@@ -2218,7 +2222,8 @@ function renderRatings() {
   // 补全：如果当月已有 ratings 但缺少某些在职 Service Team 兼职，自动追加 placeholder
   const ratedStaffIds = new Set(ratings.map(r => r.staffId));
   const missingStaff = staff.filter(s =>
-    s.dept === 'Service Team' && s.status === 'active' && !ratedStaffIds.has(s.id)
+    s.dept === 'Service Team' && s.status === 'active' && !ratedStaffIds.has(s.id) &&
+    !(_ratingExcludeNames.length && _ratingExcludeNames.includes(s.name))
   );
   if (missingStaff.length > 0) {
     const existingIds = allRatings.map(r => r.id);
@@ -2258,7 +2263,15 @@ function renderRatings() {
     const dynamicAvg = Object.values(dynamicScores).reduce((a, b) => a + b, 0) / Object.values(dynamicScores).length;
     return { ...r, _dynamicAvg: dynamicAvg, _availCalc: availCalc, _perfCalc: perfCalc, _reviewCalc: reviewCalc, _attendCalc: attendCalc, _behaviorCalc: behaviorCalc };
   });
-  const sortedRatings = [...enrichedRatings].sort((a, b) => b._dynamicAvg - a._dynamicAvg);
+  let sortedRatings = [...enrichedRatings].sort((a, b) => b._dynamicAvg - a._dynamicAvg);
+
+  // v173: 8月评分页彻底剔除指定成员（覆盖所有来源：store记录/placeholder/补全）
+  if (_ratingExcludeNames.length) {
+    sortedRatings = sortedRatings.filter(r => {
+      const s = Store.getStaff(r.staffId);
+      return !(s && _ratingExcludeNames.includes(s.name));
+    });
+  }
 
   // 过滤掉"该月尚未加入 Service Team"的成员（如唐蓉7月才入职、玛依拉7月才转岗）
   // 当查看的历史月份早于该成员 serviceTeamStartDate 时，不参与评分展示与统计
