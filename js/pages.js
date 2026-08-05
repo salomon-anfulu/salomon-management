@@ -4991,7 +4991,8 @@ const AVAIL_MIN_MONTH = '2026-07';
 
 // v84: 可上班时间冻结线 —— 7月19日（含）之前不可修改
 // v138: 应排班锁定要求，冻结线延长到 7月26日（含）之前不可修改
-const AVAIL_FREEZE_DATE = '2026-07-26';
+// v178: 可上班时间冻结线延长到 8月16日（含）之前不可修改（8/17起恢复正常可填）
+const AVAIL_FREEZE_DATE = '2026-08-16';
 
 // v139: 门迎排班冻结线 —— 7月19日（含）之前不可修改（原 v90 为 7/10）
 const DOOR_FREEZE_DATE = '2026-07-19';
@@ -5225,7 +5226,7 @@ function renderPersonalCalendar() {
           <span style="color:#10b981;">绿色 = 可供班</span>
           <span style="color:#ef4444;">红色 = 不可上班</span>
           <span>🟡 圆点 = 有备注</span>
-          <span style="color:#f59e0b;">🔒 26日及之前已冻结</span>
+          <span style="color:#f59e0b;">🔒 16日及之前已冻结</span>
         </div>
       </div>
     </div>
