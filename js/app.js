@@ -6388,9 +6388,11 @@ linggongAttendance: {
       { id: 43, staffName: '何秋烨', month: '2026-07', rating: 5, reviewDate: '2026-07-27', snippet: '感谢秋秋导览员 很好的一次购物体验！希望下次再来！', keywords: ['感谢秋秋', '导览员', '购物体验', '希望再来', '超预期'], source: '大众点评（真毅稳重的小铃，Lv1，打卡后评价）', amount: 2396 },
       { id: 44, staffName: '何秋烨', month: '2026-07', rating: 5, reviewDate: '2026-07-28', snippet: '从北京来上海玩 逛到这家很漂亮的店 店员秋秋很热情 服务很好 买到了心仪的鞋子', keywords: ['从北京来', '很漂亮', '秋秋很热情', '服务很好', '心仪的鞋子', '超预期'], source: '大众点评（欢乐，Lv3，打卡后评价）', amount: 998 },
       { id: 45, staffName: '邓奇缘', month: '2026-07', rating: 5, reviewDate: '2026-07-31', snippet: '来上海旅游想买双鞋，进了Salomon是天天接待的，经过细心介绍试了很多双终于买到了双自己喜欢的鞋~', keywords: ['旅游买鞋', '天天接待', '细心介绍', '试多双', '超预期'], source: '大众点评（Abbott_3448，Lv1）' },
+      { id: 46, staffName: '何秋烨', month: '2026-08', rating: 5, reviewDate: '2026-08-02', snippet: '买到了很喜欢的鞋子 来回来了两次 感谢秋秋小姐姐耐心的接待 还有很好看的购物袋', keywords: ['喜欢', '来回了两次', '秋秋', '耐心接待', '购物袋', '超预期'], source: '大众点评（贤毅真心的小雷，Lv2）', amount: 1398 },
+      { id: 47, staffName: '何秋烨', month: '2026-08', rating: 5, reviewDate: '2026-08-02', snippet: '今天和朋友一起来逛街 路过这家很好看的店铺 谢谢秋秋导览 买到了喜欢的鞋子', keywords: ['和朋友', '好看店铺', '秋秋导览', '买到了喜欢的鞋子', '超预期'], source: '大众点评（孪井煎葡葡籽，Lv2）', amount: 1498 },
     ],
 
-    _dataVersion: '2026-08-01-v176',
+    _dataVersion: '2026-08-01-v177',
     // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
     // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
     _lockedMonths: ['2026-07', '2026-06'],
@@ -6438,7 +6440,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-08-01-v176';
+      const DATA_VERSION = '2026-08-01-v177';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
