@@ -6345,23 +6345,24 @@ linggongAttendance: {
             },
             august: {
               month: '2026-08',
-              totalSales: 21568,
-              totalQty: 16,
-              totalTickets: 14,
-              avgUPT: 1.14,
-              avgPrice: 1541,
+              totalSales: 27458,
+              totalQty: 21,
+              totalTickets: 18,
+              avgUPT: 1.17,
+              avgPrice: 1525,
               avgHourlyOutput: 0,
-              note: '8月业绩(8/1-8/4小票导出)-全店结算净额21568(含退货冲减); workHours/hourlyOutput暂置0待补(Service Team工时来自我的填报,月初未累计,运行时动态补); 提取: 备注拼音首字母+外宾前缀剥离+退货按小票号回溯归属; 王靳毓/田佳乐本批无销售记录',
+              note: '8月业绩(8/1-8/5小票导出40+42)-全店结算净额27458(含退货冲减); workHours/hourlyOutput置0待运行时动态补(Service Team工时来自我的填报); 提取: 备注拼音首字母+外宾前缀剥离+HQ45/HQ15等HQ数字券码噪声剔除+HQY/秋秋→何秋烨+退货按小票号回溯归属(含退货数量冲减); 8/5新增邓奇缘998/龚赟昊+3494/梁实秋+1398;何秋烨8/5仅HQ数字券码标记(按v175噪声规则未计入);7/25跨月退货已排除',
               records: [
-                { name: '王雅澜', sales: 4696, qty: 2, tickets: 2, upt: 1.0, avgPrice: 2348, workHours: 0, hourlyOutput: 0, salesShare: 0.2177, categories: '服装 70.2% / 鞋履 29.8%' },
-                { name: '梁实秋', sales: 4396, qty: 2, tickets: 1, upt: 2.0, avgPrice: 4396, workHours: 0, hourlyOutput: 0, salesShare: 0.2038, categories: '服装 100.0%' },
-                { name: '迟骋', sales: 3294, qty: 3, tickets: 2, upt: 1.5, avgPrice: 1647, workHours: 0, hourlyOutput: 0, salesShare: 0.1527, categories: '鞋履 72.7% / 服装 27.3%' },
-                { name: '孔祥宇', sales: 2994, qty: 3, tickets: 2, upt: 1.5, avgPrice: 1497, workHours: 0, hourlyOutput: 0, salesShare: 0.1388, categories: '鞋履 100.0%' },
-                { name: '何秋烨', sales: 2896, qty: 2, tickets: 2, upt: 1.0, avgPrice: 1448, workHours: 0, hourlyOutput: 0, salesShare: 0.1343, categories: '鞋履 100.0%' },
-                { name: '贾长乐', sales: 998, qty: 1, tickets: 2, upt: 0.5, avgPrice: 499, workHours: 0, hourlyOutput: 0, salesShare: 0.0463, categories: '鞋履 100.0%' },
-                { name: '唐蓉', sales: 998, qty: 1, tickets: 1, upt: 1.0, avgPrice: 998, workHours: 0, hourlyOutput: 0, salesShare: 0.0463, categories: '鞋履 100.0%' },
-                { name: '龚赟昊', sales: 898, qty: 1, tickets: 1, upt: 1.0, avgPrice: 898, workHours: 0, hourlyOutput: 0, salesShare: 0.0416, categories: '服装 100.0%' },
-                { name: '朱凯赟', sales: 398, qty: 1, tickets: 1, upt: 1.0, avgPrice: 398, workHours: 0, hourlyOutput: 0, salesShare: 0.0185, categories: '配件 100.0%' },
+                { name: '何秋烨', sales: 2896, qty: 2, tickets: 2, upt: 1.0, avgPrice: 1448, workHours: 0, hourlyOutput: 0, salesShare: 0.1055, categories: '鞋履 100.0%' },
+                { name: '唐蓉', sales: 998, qty: 1, tickets: 1, upt: 1.0, avgPrice: 998, workHours: 0, hourlyOutput: 0, salesShare: 0.0363, categories: '鞋履 100.0%' },
+                { name: '孔祥宇', sales: 2994, qty: 3, tickets: 2, upt: 1.5, avgPrice: 998, workHours: 0, hourlyOutput: 0, salesShare: 0.109, categories: '鞋履 100.0%' },
+                { name: '朱凯赟', sales: 398, qty: 1, tickets: 1, upt: 1.0, avgPrice: 398, workHours: 0, hourlyOutput: 0, salesShare: 0.0145, categories: '配件 100.0%' },
+                { name: '梁实秋', sales: 5794, qty: 3, tickets: 2, upt: 1.5, avgPrice: 1931, workHours: 0, hourlyOutput: 0, salesShare: 0.211, categories: '服装 75.9% / 鞋履 24.1%' },
+                { name: '王雅澜', sales: 4696, qty: 2, tickets: 2, upt: 1.0, avgPrice: 2348, workHours: 0, hourlyOutput: 0, salesShare: 0.171, categories: '服装 70.2% / 鞋履 29.8%' },
+                { name: '贾长乐', sales: 998, qty: 1, tickets: 2, upt: 0.5, avgPrice: 998, workHours: 0, hourlyOutput: 0, salesShare: 0.0363, categories: '鞋履 100.0%' },
+                { name: '迟骋', sales: 3294, qty: 3, tickets: 2, upt: 1.5, avgPrice: 1098, workHours: 0, hourlyOutput: 0, salesShare: 0.12, categories: '鞋履 72.7% / 服装 27.3%' },
+                { name: '邓奇缘', sales: 998, qty: 1, tickets: 1, upt: 1.0, avgPrice: 998, workHours: 0, hourlyOutput: 0, salesShare: 0.0363, categories: '鞋履 100.0%' },
+                { name: '龚赟昊', sales: 4392, qty: 4, tickets: 3, upt: 1.33, avgPrice: 1098, workHours: 0, hourlyOutput: 0, salesShare: 0.16, categories: '鞋履 79.6% / 服装 20.4%' },
               ]
             },
     },
@@ -6416,7 +6417,7 @@ linggongAttendance: {
       { id: 47, staffName: '何秋烨', month: '2026-08', rating: 5, reviewDate: '2026-08-02', snippet: '今天和朋友一起来逛街 路过这家很好看的店铺 谢谢秋秋导览 买到了喜欢的鞋子', keywords: ['和朋友', '好看店铺', '秋秋导览', '买到了喜欢的鞋子', '超预期'], source: '大众点评（孪井煎葡葡籽，Lv2）', amount: 1498 },
     ],
 
-    _dataVersion: '2026-08-01-v179',
+    _dataVersion: '2026-08-01-v180',
     // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
     // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
     _lockedMonths: ['2026-07', '2026-06'],
@@ -6464,7 +6465,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-08-01-v179';
+      const DATA_VERSION = '2026-08-01-v180';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
