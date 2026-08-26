@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>SALOMON 安福路旗舰店 - 2026年7月 兼职团队表现评分报告</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0e27;
+    color: #e8eaf0;
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    padding: 36px 32px 48px;
+    min-height: 100vh;
+  }
+  .header { text-align: center; margin-bottom: 28px; }
+  .header h1 { font-size: 28px; font-weight: 700; letter-spacing: 1px; }
+  .header h2 { font-size: 22px; color: #ffb547; margin-top: 8px; font-weight: 600; }
+  .header p { font-size: 13px; opacity: 0.7; margin-top: 12px; letter-spacing: 0.5px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .card {
+    background: #1a1f3a;
+    border-radius: 12px;
+    padding: 16px 14px;
+    border: 1px solid rgba(255,255,255,0.06);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+    min-height: 310px;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-head { display: flex; justify-content: space-between; align-items: flex-start; }
+  .head-left { flex: 1; min-width: 0; }
+  .name { font-size: 16px; font-weight: 600; line-height: 1.2; }
+  .badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #4f7eff 0%, #6b95ff 100%);
+    color: #fff;
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-top: 6px;
+    font-weight: 500;
+  }
+  .badge.gold { background: linear-gradient(135deg, #d97706 0%, #fbbf24 100%); }
+  .badge.red { background: linear-gradient(135deg, #dc2626 0%, #f87171 100%); }
+  .badge.green { background: linear-gradient(135deg, #059669 0%, #34d399 100%); }
+  .badge.cyan { background: linear-gradient(135deg, #0891b2 0%, #22d3ee 100%); }
+
+  .head-right { text-align: right; flex-shrink: 0; margin-left: 8px; }
+  .score { font-size: 28px; font-weight: 700; color: #ffb547; line-height: 1; }
+  .score-cap { font-size: 9px; color: #6b7280; margin-top: 4px; letter-spacing: 0.5px; }
+
+  .bars { margin-top: 14px; flex: 1; }
+  .bar-row {
+    display: flex; align-items: center; gap: 5px;
+    margin-bottom: 7px;
+    font-size: 11px;
+  }
+  .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .b-label { width: 50px; flex-shrink: 0; opacity: 0.9; }
+  .b-track {
+    flex: 1;
+    background: #0f1430;
+    border-radius: 3px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .b-fill { height: 100%; border-radius: 3px; }
+  .b-fill.green { background: #10b981; }
+  .b-fill.amber { background: #f59e0b; }
+  .b-fill.red   { background: #ef4444; }
+  .b-val { width: 28px; text-align: right; flex-shrink: 0; font-weight: 600; font-size: 11px; }
+
+  .stats {
+    font-size: 10px;
+    text-align: center;
+    margin-top: 10px;
+    opacity: 0.75;
+    letter-spacing: 0.3px;
+  }
+  .rate {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #00d4aa;
+  }
+  .rate.low { color: #94a3b8; }
+
+  .footer {
+    text-align: center;
+    margin-top: 32px;
+    font-size: 11px;
+    opacity: 0.55;
+    letter-spacing: 0.5px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>SALOMON 安福路旗舰店</h1>
+  <h2>2026年7月 兼职团队表现评分报告</h2>
+  <p>共 15 人 ｜ 评分维度：工时支持 / 销售业绩 / 行为规范 / 考勤纪律 / 顾客好评 ｜ 门槛线：综合 ≥3.6 = ¥60/h</p>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<div class="footer">
+  注：陈昕媛为7月新进实习，工时&lt;10H，本期不纳入评分 ｜ 生成时间：2026-08-03
+</div>
+
+<script>
+  const DOT = ['#3b82f6', '#f59e0b', '#a855f7', '#10b981', '#ec4899'];
+  const LABELS = ['工时支持', '销售业绩', '行为规范', '考勤纪律', '顾客好评'];
+
+  // 7月 Service Team 15 人（dept 严格筛 + hours>=10），按综合分降序
+  const ROWS = [
+    { name:'王雅澜', score:4.24, badge:'销售主力', cls:'',          d:[5.0, 3.5, 4.7, 5.0, 3.0], sales:20990, qty:20, hrs:119.6, upt:1.18 },
+    { name:'龚赟昊', score:4.20, badge:'业绩标杆', cls:'gold',      d:[5.0, 5.0, 4.0, 5.0, 2.0], sales:23794, qty:23, hrs:118.0, upt:1.44 },
+    { name:'孔祥宇', score:4.10, badge:'销售主力', cls:'',          d:[5.0, 2.5, 5.0, 5.0, 3.0], sales:19576, qty:17, hrs:143.3, upt:1.21 },
+    { name:'何秋烨', score:4.00, badge:'业绩标杆', cls:'gold',      d:[3.5, 4.5, 4.0, 5.0, 3.0], sales:21362, qty:19, hrs:104.2, upt:1.36 },
+    { name:'邓奇缘', score:3.88, badge:'出勤模范', cls:'green',     d:[5.0, 2.5, 4.4, 4.0, 3.5], sales:11240, qty:10, hrs:109.4, upt:1.25 },
+    { name:'朱凯赟', score:3.70, badge:'销售主力', cls:'',          d:[5.0, 3.5, 3.0, 5.0, 2.0], sales:15632, qty:14, hrs: 98.3, upt:1.27 },
+    { name:'王靳毓', score:3.60, badge:'收入担当', cls:'cyan',     d:[5.0, 2.5, 3.0, 5.0, 2.5], sales:14880, qty:11, hrs:103.4, upt:1.22 },
+    { name:'田佳乐', score:3.60, badge:'连带之王', cls:'red',       d:[5.0, 4.0, 3.0, 3.0, 3.0], sales:11160, qty:10, hrs: 87.5, upt:1.67 },
+    { name:'迟骋',   score:3.60, badge:'好评担当', cls:'cyan',     d:[4.0, 1.5, 4.0, 5.0, 3.5], sales: 8088, qty: 6, hrs: 94.3, upt:1.00 },
+    { name:'王龙宇', score:3.60, badge:'好评担当', cls:'cyan',     d:[4.0, 2.0, 3.0, 5.0, 4.0], sales: 6868, qty: 6, hrs: 69.3, upt:1.00 },
+    { name:'玛依拉', score:3.50, badge:'出勤骨干', cls:'green',     d:[5.0, 1.5, 3.0, 5.0, 3.0], sales: 8186, qty: 7, hrs:107.7, upt:1.17 },
+    { name:'杨子豪', score:3.40, badge:'出勤模范', cls:'green',     d:[5.0, 1.0, 3.0, 5.0, 3.0], sales: 6548, qty: 6, hrs:142.7, upt:1.20 },
+    { name:'梁实秋', score:3.00, badge:'出勤模范', cls:'green',     d:[5.0, 1.0, 3.0, 5.0, 1.0], sales: 3494, qty: 3, hrs:125.1, upt:1.00 },
+    { name:'贾长乐', score:3.00, badge:'稳步成长', cls:'cyan',     d:[5.0, 1.0, 3.0, 5.0, 1.0], sales: 1198, qty: 1, hrs: 94.3, upt:1.00 },
+    { name:'唐蓉',   score:2.90, badge:'潜力股',   cls:'cyan',     d:[4.0, 1.0, 3.5, 5.0, 1.0], sales: 1496, qty: 2, hrs:125.8, upt:1.00 }
+  ];
+
+  function barClass(v) {
+    if (v >= 3.5) return 'green';
+    if (v >= 2.0) return 'amber';
+    return 'red';
+  }
+
+  function card(r) {
+    const pct = v => Math.max(0, Math.min(100, (v / 5) * 100));
+    const rate = r.score >= 3.6 ? '¥60/h' : '¥28/h';
+    const rateClass = r.score >= 3.6 ? 'rate' : 'rate low';
+    const bars = r.d.map((v, i) => `
+      <div class="bar-row">
+        <span class="dot" style="background:${DOT[i]}"></span>
+        <span class="b-label">${LABELS[i]}</span>
+        <div class="b-track"><div class="b-fill ${barClass(v)}" style="width:${pct(v)}%"></div></div>
+        <span class="b-val">${v.toFixed(1)}</span>
+      </div>
+    `).join('');
+    return `
+      <div class="card">
+        <div class="card-head">
+          <div class="head-left">
+            <div class="name">${r.name}</div>
+            <span class="badge ${r.cls}">${r.badge}</span>
+          </div>
+          <div class="head-right">
+            <div class="score">${r.score.toFixed(1)}</div>
+            <div class="score-cap">综合评分</div>
+          </div>
+        </div>
+        <div class="bars">${bars}</div>
+        <div class="stats">¥${r.sales.toLocaleString()} ｜ ${r.qty}件 ｜ UPT ${r.upt.toFixed(2)} ｜ ${r.hrs.toFixed(1)}H</div>
+        <div class="${rateClass}">${rate}</div>
+      </div>
+    `;
+  }
+
+  document.getElementById('grid').innerHTML = ROWS.map(card).join('');
+</script>
+</body>
+</html>

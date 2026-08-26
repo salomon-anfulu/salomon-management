@@ -1,0 +1,2559 @@
+{
+  "source": "export",
+  "exportMeta": {
+    "appName": "安福路 Salomon 兼职管理系统",
+    "exportTime": "2026-08-03T09:23:39.381Z",
+    "dataVersion": "2026-08-01-v168",
+    "staffCount": 24,
+    "recordSummary": {
+      "staff": 24,
+      "ratings": 29,
+      "doorSchedule": 63,
+      "attendance": 600,
+      "customerReviews": 45
+    }
+  },
+  "months": [
+    "2026-06",
+    "2026-07"
+  ],
+  "staff": [
+    {
+      "name": "陈昕媛",
+      "status": "full_time",
+      "left": false,
+      "serviceTeamStartDate": null
+    },
+    {
+      "name": "田佳乐",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": null
+    },
+    {
+      "name": "迟骋",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": null
+    },
+    {
+      "name": "王靳毓",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": null
+    },
+    {
+      "name": "朱凯赟",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": null
+    },
+    {
+      "name": "孔祥宇",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": null
+    },
+    {
+      "name": "邓奇缘",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": null
+    },
+    {
+      "name": "杨子豪",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": null
+    },
+    {
+      "name": "王雅澜",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": null
+    },
+    {
+      "name": "李若彤",
+      "status": "left",
+      "left": true,
+      "serviceTeamStartDate": null
+    },
+    {
+      "name": "王龙宇",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": null
+    },
+    {
+      "name": "何秋烨",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": null
+    },
+    {
+      "name": "龚赟昊",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": null
+    },
+    {
+      "name": "贾长乐",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": "2026-07-20"
+    },
+    {
+      "name": "玛依拉",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": "2026-07-01"
+    },
+    {
+      "name": "梁实秋",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": "2026-07-20"
+    },
+    {
+      "name": "唐蓉",
+      "status": "active",
+      "left": false,
+      "serviceTeamStartDate": "2026-07-01"
+    }
+  ],
+  "metrics": {
+    "陈昕媛": {
+      "availability": {
+        "2026-06": {
+          "total": null
+        },
+        "2026-07": {
+          "total": 31
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 18,
+          "hours": 141.5,
+          "status_breakdown": {
+            "打卡正常": 18
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 1,
+          "hours": 6.0,
+          "status_breakdown": {
+            "打卡正常": 1
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 23,
+          "days": 14
+        },
+        "2026-07": {
+          "slots": 0,
+          "days": 0
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 6,
+          "by_type": {
+            "货品-查鞋盒": 2,
+            "货品-整理仓库": 3,
+            "货品-辅助收货": 1
+          }
+        },
+        "2026-07": {
+          "count": 0,
+          "by_type": {}
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 1,
+          "avg_rating": 5.0
+        },
+        "2026-07": {
+          "count": 0,
+          "avg_rating": 0
+        }
+      },
+      "performance": {
+        "2026-06": null,
+        "2026-07": null
+      },
+      "ratings": {
+        "2026-06": {
+          "pending": false,
+          "scores": {
+            "availability": 5,
+            "performance": 3.5,
+            "behavior": 5,
+            "attendance": 5,
+            "customerReview": 5
+          },
+          "avgScore": 4.9,
+          "hourlyRate": 60,
+          "comment": "18天出勤139.5h，销售¥34,360时产¥246.3/h，UPT 1.08，品类(鞋履 85.4% / 服装 8.5% / 配件 6.2%)，月销达标，门迎20次，大众点评好评1条"
+        },
+        "2026-07": null
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": null,
+          "sales": null,
+          "hourlyOutput": null,
+          "upt": null,
+          "door_slots": 23,
+          "store_count": 6,
+          "attendance_status": {
+            "打卡正常": 18
+          },
+          "review_count": 1
+        },
+        "2026-07": {
+          "avail_days": 31,
+          "sales": null,
+          "hourlyOutput": null,
+          "upt": null,
+          "door_slots": 0,
+          "store_count": 0,
+          "attendance_status": {
+            "打卡正常": 1
+          },
+          "review_count": 0
+        }
+      }
+    },
+    "田佳乐": {
+      "availability": {
+        "2026-06": {
+          "total": 26
+        },
+        "2026-07": {
+          "total": 29
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 17,
+          "hours": 125.5,
+          "status_breakdown": {
+            "打卡正常": 17
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 13,
+          "hours": 91.5,
+          "status_breakdown": {
+            "打卡正常": 12,
+            "缺勤": 1
+          },
+          "anomaly": 0,
+          "absent": 1,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 29,
+          "days": 15
+        },
+        "2026-07": {
+          "slots": 12,
+          "days": 7
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 13,
+          "by_type": {
+            "货品-查鞋盒": 1,
+            "陈列-全楼标签复核": 3,
+            "货品-辅助收货": 3,
+            "陈列-翻场支援": 4,
+            "陈列-新品熨烫": 2
+          }
+        },
+        "2026-07": {
+          "count": 10,
+          "by_type": {
+            "其他": 7,
+            "陈列-翻场支援": 3
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 0,
+          "avg_rating": 0
+        },
+        "2026-07": {
+          "count": 3,
+          "avg_rating": 5.0
+        }
+      },
+      "performance": {
+        "2026-06": {
+          "name": "田佳乐",
+          "sales": 8944,
+          "qty": 8,
+          "tickets": 7,
+          "upt": 1.14,
+          "avgPrice": 1118,
+          "workHours": 125.5,
+          "hourlyOutput": 71.3,
+          "salesShare": 0.03,
+          "categories": "鞋履 86.0% / 服装 8.9% / 配件 5.1%"
+        },
+        "2026-07": {
+          "name": "田佳乐",
+          "sales": 11160,
+          "qty": 10,
+          "tickets": 6,
+          "upt": 1.67,
+          "avgPrice": 1116,
+          "workHours": 59.9,
+          "hourlyOutput": 186,
+          "salesShare": 0.059,
+          "categories": "鞋履 92.7% / 配件 7.3%"
+        }
+      },
+      "ratings": {
+        "2026-06": {
+          "pending": false,
+          "scores": {
+            "availability": 5,
+            "performance": 2,
+            "behavior": 5,
+            "attendance": 4,
+            "customerReview": 4
+          },
+          "avgScore": 4,
+          "hourlyRate": 60,
+          "comment": "17天出勤125.5h，销售¥8,944时产¥71.3/h，UPT 1.14，品类(鞋履 86.0% / 服装 8.9% / 配件 5.1%)"
+        },
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 26,
+          "sales": 8944,
+          "hourlyOutput": 71.3,
+          "upt": 1.14,
+          "door_slots": 29,
+          "store_count": 13,
+          "attendance_status": {
+            "打卡正常": 17
+          },
+          "review_count": 0
+        },
+        "2026-07": {
+          "avail_days": 29,
+          "sales": 11160,
+          "hourlyOutput": 186,
+          "upt": 1.67,
+          "door_slots": 12,
+          "store_count": 10,
+          "attendance_status": {
+            "打卡正常": 12,
+            "缺勤": 1
+          },
+          "review_count": 3
+        }
+      }
+    },
+    "迟骋": {
+      "availability": {
+        "2026-06": {
+          "total": 26
+        },
+        "2026-07": {
+          "total": 25
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 15,
+          "hours": 109.5,
+          "status_breakdown": {
+            "打卡正常": 14,
+            "打卡异常": 1
+          },
+          "anomaly": 1,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 13,
+          "hours": 99.0,
+          "status_breakdown": {
+            "打卡正常": 13
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 21,
+          "days": 13
+        },
+        "2026-07": {
+          "slots": 22,
+          "days": 13
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 8,
+          "by_type": {
+            "货品-辅助收货": 4,
+            "货品-查鞋盒": 1,
+            "陈列-翻场支援": 1,
+            "货品-整理仓库": 2
+          }
+        },
+        "2026-07": {
+          "count": 19,
+          "by_type": {
+            "货品-辅助收货": 4,
+            "其他": 8,
+            "陈列-全楼标签复核": 2,
+            "陈列-翻场支援": 3,
+            "货品-整理仓库": 2
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 4,
+          "avg_rating": 5.0
+        },
+        "2026-07": {
+          "count": 4,
+          "avg_rating": 5.0
+        }
+      },
+      "performance": {
+        "2026-06": {
+          "name": "迟骋",
+          "sales": 15586,
+          "qty": 17,
+          "tickets": 8,
+          "upt": 2.12,
+          "avgPrice": 917,
+          "workHours": 109.5,
+          "hourlyOutput": 142.3,
+          "salesShare": 0.053,
+          "categories": "鞋履 67.3% / 服装 23.0% / 配件 9.7%"
+        },
+        "2026-07": {
+          "name": "迟骋",
+          "sales": 8088,
+          "qty": 6,
+          "tickets": 6,
+          "upt": 1,
+          "avgPrice": 1348,
+          "workHours": 49,
+          "hourlyOutput": 165,
+          "salesShare": 0.0428,
+          "categories": "鞋履 88.9% / 服装 11.1%"
+        }
+      },
+      "ratings": {
+        "2026-06": {
+          "pending": false,
+          "scores": {
+            "availability": 5,
+            "performance": 3.5,
+            "behavior": 5,
+            "attendance": 4,
+            "customerReview": 5
+          },
+          "avgScore": 4.5,
+          "hourlyRate": 60,
+          "comment": "15天出勤109.5h，销售¥15,586时产¥142.3/h，UPT 2.12，品类(鞋履 67.3% / 服装 23.0% / 配件 9.7%)，大众点评好评4条"
+        },
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 26,
+          "sales": 15586,
+          "hourlyOutput": 142.3,
+          "upt": 2.12,
+          "door_slots": 21,
+          "store_count": 8,
+          "attendance_status": {
+            "打卡正常": 14,
+            "打卡异常": 1
+          },
+          "review_count": 4
+        },
+        "2026-07": {
+          "avail_days": 25,
+          "sales": 8088,
+          "hourlyOutput": 165,
+          "upt": 1,
+          "door_slots": 22,
+          "store_count": 19,
+          "attendance_status": {
+            "打卡正常": 13
+          },
+          "review_count": 4
+        }
+      }
+    },
+    "王靳毓": {
+      "availability": {
+        "2026-06": {
+          "total": 25
+        },
+        "2026-07": {
+          "total": 29
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 15,
+          "hours": 117.5,
+          "status_breakdown": {
+            "打卡正常": 14,
+            "打卡异常": 1
+          },
+          "anomaly": 1,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 14,
+          "hours": 180.0,
+          "status_breakdown": {
+            "打卡正常": 14
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 22,
+          "days": 14
+        },
+        "2026-07": {
+          "slots": 17,
+          "days": 12
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 6,
+          "by_type": {
+            "货品-整理仓库": 3,
+            "陈列-翻场支援": 2,
+            "陈列-全楼标签复核": 1
+          }
+        },
+        "2026-07": {
+          "count": 17,
+          "by_type": {
+            "陈列-翻场支援": 2,
+            "货品-辅助收货": 2,
+            "其他": 12,
+            "货品-整理仓库": 1
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 0,
+          "avg_rating": 0
+        },
+        "2026-07": {
+          "count": 2,
+          "avg_rating": 5.0
+        }
+      },
+      "performance": {
+        "2026-06": {
+          "name": "王靳毓",
+          "sales": 26228,
+          "qty": 22,
+          "tickets": 15,
+          "upt": 1.47,
+          "avgPrice": 1192,
+          "workHours": 117.5,
+          "hourlyOutput": 223.2,
+          "salesShare": 0.089,
+          "categories": "鞋履 77.7% / 服装 18.3% / 配件 4.1%"
+        },
+        "2026-07": {
+          "name": "王靳毓",
+          "sales": 14880,
+          "qty": 11,
+          "tickets": 9,
+          "upt": 1.22,
+          "avgPrice": 1353,
+          "workHours": 63.7,
+          "hourlyOutput": 234,
+          "salesShare": 0.0787,
+          "categories": "鞋履 72.5% / 服装 15.3% / 配件 12.2%"
+        }
+      },
+      "ratings": {
+        "2026-06": {
+          "pending": false,
+          "scores": {
+            "availability": 5,
+            "performance": 4.5,
+            "behavior": 5,
+            "attendance": 4,
+            "customerReview": 4
+          },
+          "avgScore": 4.4,
+          "hourlyRate": 60,
+          "comment": "15天出勤115.5h，销售¥26,228时产¥227.1/h，UPT 1.47，品类(鞋履 77.7% / 服装 18.3% / 配件 4.1%)，月销达标"
+        },
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 25,
+          "sales": 26228,
+          "hourlyOutput": 223.2,
+          "upt": 1.47,
+          "door_slots": 22,
+          "store_count": 6,
+          "attendance_status": {
+            "打卡正常": 14,
+            "打卡异常": 1
+          },
+          "review_count": 0
+        },
+        "2026-07": {
+          "avail_days": 29,
+          "sales": 14880,
+          "hourlyOutput": 234,
+          "upt": 1.22,
+          "door_slots": 17,
+          "store_count": 17,
+          "attendance_status": {
+            "打卡正常": 14
+          },
+          "review_count": 2
+        }
+      }
+    },
+    "朱凯赟": {
+      "availability": {
+        "2026-06": {
+          "total": 24
+        },
+        "2026-07": {
+          "total": 24
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 14,
+          "hours": 105.5,
+          "status_breakdown": {
+            "打卡正常": 14
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 13,
+          "hours": 189.0,
+          "status_breakdown": {
+            "打卡正常": 13
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 20,
+          "days": 12
+        },
+        "2026-07": {
+          "slots": 15,
+          "days": 10
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 6,
+          "by_type": {
+            "货品-查鞋盒": 2,
+            "货品-整理仓库": 3,
+            "货品-辅助收货": 1
+          }
+        },
+        "2026-07": {
+          "count": 15,
+          "by_type": {
+            "陈列-翻场支援": 1,
+            "其他": 11,
+            "货品-整理仓库": 3
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 2,
+          "avg_rating": 5.0
+        },
+        "2026-07": {
+          "count": 1,
+          "avg_rating": 5.0
+        }
+      },
+      "performance": {
+        "2026-06": {
+          "name": "朱凯赟",
+          "sales": 17654,
+          "qty": 18,
+          "tickets": 12,
+          "upt": 1.5,
+          "avgPrice": 981,
+          "workHours": 105.5,
+          "hourlyOutput": 167.3,
+          "salesShare": 0.06,
+          "categories": "鞋履 60.0% / 服装 39.0% / 配件 1.1%"
+        },
+        "2026-07": {
+          "name": "朱凯赟",
+          "sales": 15632,
+          "qty": 14,
+          "tickets": 11,
+          "upt": 1.27,
+          "avgPrice": 1117,
+          "workHours": 61.5,
+          "hourlyOutput": 254,
+          "salesShare": 0.0826,
+          "categories": "鞋履 88.1% / 服装 8.9% / 配件 2.9%"
+        }
+      },
+      "ratings": {
+        "2026-06": {
+          "pending": false,
+          "scores": {
+            "availability": 5,
+            "performance": 4,
+            "behavior": 5,
+            "attendance": 5,
+            "customerReview": 5
+          },
+          "avgScore": 4.6,
+          "hourlyRate": 60,
+          "comment": "14天出勤105.5h，销售¥16,856时产¥159.8/h，UPT 1.50，品类(鞋履 60.0% / 服装 39.0% / 配件 1.1%)，大众点评好评2条"
+        },
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 24,
+          "sales": 17654,
+          "hourlyOutput": 167.3,
+          "upt": 1.5,
+          "door_slots": 20,
+          "store_count": 6,
+          "attendance_status": {
+            "打卡正常": 14
+          },
+          "review_count": 2
+        },
+        "2026-07": {
+          "avail_days": 24,
+          "sales": 15632,
+          "hourlyOutput": 254,
+          "upt": 1.27,
+          "door_slots": 15,
+          "store_count": 15,
+          "attendance_status": {
+            "打卡正常": 13
+          },
+          "review_count": 1
+        }
+      }
+    },
+    "孔祥宇": {
+      "availability": {
+        "2026-06": {
+          "total": 29
+        },
+        "2026-07": {
+          "total": 31
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 18,
+          "hours": 127.5,
+          "status_breakdown": {
+            "打卡正常": 18
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 20,
+          "hours": 149.5,
+          "status_breakdown": {
+            "打卡正常": 20
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 27,
+          "days": 16
+        },
+        "2026-07": {
+          "slots": 30,
+          "days": 18
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 12,
+          "by_type": {
+            "货品-查鞋盒": 1,
+            "货品-整理仓库": 6,
+            "陈列-翻场支援": 3,
+            "陈列-新品熨烫": 1,
+            "陈列-全楼标签复核": 1
+          }
+        },
+        "2026-07": {
+          "count": 29,
+          "by_type": {
+            "货品-整理仓库": 2,
+            "其他": 19,
+            "陈列-翻场支援": 6,
+            "陈列-全楼标签复核": 2
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 0,
+          "avg_rating": 0
+        },
+        "2026-07": {
+          "count": 3,
+          "avg_rating": 4.67
+        }
+      },
+      "performance": {
+        "2026-06": {
+          "name": "孔祥宇",
+          "sales": 22959,
+          "qty": 23,
+          "tickets": 13,
+          "upt": 1.77,
+          "avgPrice": 998,
+          "workHours": 127.5,
+          "hourlyOutput": 180.1,
+          "salesShare": 0.077,
+          "categories": "鞋履 64.3% / 服装 35.7%"
+        },
+        "2026-07": {
+          "name": "孔祥宇",
+          "sales": 19576,
+          "qty": 17,
+          "tickets": 14,
+          "upt": 1.21,
+          "avgPrice": 1152,
+          "workHours": 82.1,
+          "hourlyOutput": 238,
+          "salesShare": 0.1035,
+          "categories": "鞋履 96.4% / 服装 3.1% / 配件 0.6%"
+        }
+      },
+      "ratings": {
+        "2026-06": {
+          "pending": false,
+          "scores": {
+            "availability": 5,
+            "performance": 4.5,
+            "behavior": 5,
+            "attendance": 5,
+            "customerReview": 4
+          },
+          "avgScore": 4.8,
+          "hourlyRate": 60,
+          "comment": "18天出勤127.5h，销售¥22,959时产¥180.1/h，UPT 1.77，品类(鞋履 64.3% / 服装 35.7%)，月销达标"
+        },
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 29,
+          "sales": 22959,
+          "hourlyOutput": 180.1,
+          "upt": 1.77,
+          "door_slots": 27,
+          "store_count": 12,
+          "attendance_status": {
+            "打卡正常": 18
+          },
+          "review_count": 0
+        },
+        "2026-07": {
+          "avail_days": 31,
+          "sales": 19576,
+          "hourlyOutput": 238,
+          "upt": 1.21,
+          "door_slots": 30,
+          "store_count": 29,
+          "attendance_status": {
+            "打卡正常": 20
+          },
+          "review_count": 3
+        }
+      }
+    },
+    "邓奇缘": {
+      "availability": {
+        "2026-06": {
+          "total": 28
+        },
+        "2026-07": {
+          "total": 23
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 17,
+          "hours": 139.5,
+          "status_breakdown": {
+            "打卡正常": 17
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 15,
+          "hours": 114.0,
+          "status_breakdown": {
+            "打卡正常": 14,
+            "打卡异常": 1
+          },
+          "anomaly": 1,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 27,
+          "days": 16
+        },
+        "2026-07": {
+          "slots": 25,
+          "days": 15
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 8,
+          "by_type": {
+            "货品-查鞋盒": 2,
+            "货品-整理仓库": 3,
+            "陈列-全楼标签复核": 1,
+            "货品-辅助收货": 1,
+            "陈列-翻场支援": 1
+          }
+        },
+        "2026-07": {
+          "count": 17,
+          "by_type": {
+            "其他": 9,
+            "货品-辅助收货": 1,
+            "货品-整理仓库": 6,
+            "货品-查鞋盒": 1
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 0,
+          "avg_rating": 0
+        },
+        "2026-07": {
+          "count": 4,
+          "avg_rating": 5.0
+        }
+      },
+      "performance": {
+        "2026-06": {
+          "name": "邓奇缘",
+          "sales": 16005,
+          "qty": 15,
+          "tickets": 12,
+          "upt": 1.25,
+          "avgPrice": 1067,
+          "workHours": 139.5,
+          "hourlyOutput": 114.7,
+          "salesShare": 0.054,
+          "categories": "鞋履 90.7% / 服装 8.1% / 配件 1.2%"
+        },
+        "2026-07": {
+          "name": "邓奇缘",
+          "sales": 11240,
+          "qty": 10,
+          "tickets": 8,
+          "upt": 1.25,
+          "avgPrice": 1124,
+          "workHours": 63.3,
+          "hourlyOutput": 178,
+          "salesShare": 0.0594,
+          "categories": "鞋履 88.8% / 服装 8.0% / 配件 3.2%"
+        }
+      },
+      "ratings": {
+        "2026-06": {
+          "pending": false,
+          "scores": {
+            "availability": 5,
+            "performance": 2.5,
+            "behavior": 5,
+            "attendance": 5,
+            "customerReview": 4
+          },
+          "avgScore": 4.3,
+          "hourlyRate": 60,
+          "comment": "17天出勤137.5h，销售¥16,005时产¥116.4/h，UPT 1.25，品类(鞋履 90.7% / 服装 8.1% / 配件 1.2%)"
+        },
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 28,
+          "sales": 16005,
+          "hourlyOutput": 114.7,
+          "upt": 1.25,
+          "door_slots": 27,
+          "store_count": 8,
+          "attendance_status": {
+            "打卡正常": 17
+          },
+          "review_count": 0
+        },
+        "2026-07": {
+          "avail_days": 23,
+          "sales": 11240,
+          "hourlyOutput": 178,
+          "upt": 1.25,
+          "door_slots": 25,
+          "store_count": 17,
+          "attendance_status": {
+            "打卡正常": 14,
+            "打卡异常": 1
+          },
+          "review_count": 4
+        }
+      }
+    },
+    "杨子豪": {
+      "availability": {
+        "2026-06": {
+          "total": 26
+        },
+        "2026-07": {
+          "total": 29
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 15,
+          "hours": 125.5,
+          "status_breakdown": {
+            "打卡正常": 15
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 21,
+          "hours": 252.0,
+          "status_breakdown": {
+            "打卡正常": 21
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 16,
+          "days": 11
+        },
+        "2026-07": {
+          "slots": 18,
+          "days": 14
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 0,
+          "by_type": {}
+        },
+        "2026-07": {
+          "count": 16,
+          "by_type": {
+            "陈列-翻场支援": 1,
+            "货品-辅助收货": 2,
+            "其他": 11,
+            "货品-整理仓库": 1,
+            "陈列-全楼标签复核": 1
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 2,
+          "avg_rating": 5.0
+        },
+        "2026-07": {
+          "count": 3,
+          "avg_rating": 5.0
+        }
+      },
+      "performance": {
+        "2026-06": {
+          "name": "杨子豪",
+          "sales": 35502,
+          "qty": 29,
+          "tickets": 22,
+          "upt": 1.32,
+          "avgPrice": 1224,
+          "workHours": 125.5,
+          "hourlyOutput": 282.9,
+          "salesShare": 0.12,
+          "categories": "鞋履 93.0% / 服装 6.7% / 配件 0.3%"
+        },
+        "2026-07": {
+          "name": "杨子豪",
+          "sales": 6548,
+          "qty": 6,
+          "tickets": 5,
+          "upt": 1.2,
+          "avgPrice": 1091,
+          "workHours": 95.9,
+          "hourlyOutput": 68,
+          "salesShare": 0.0346,
+          "categories": "鞋履 94.5% / 配件 5.5%"
+        }
+      },
+      "ratings": {
+        "2026-06": {
+          "pending": false,
+          "scores": {
+            "availability": 5,
+            "performance": 4.5,
+            "behavior": 5,
+            "attendance": 5,
+            "customerReview": 2.5
+          },
+          "avgScore": 4.5,
+          "hourlyRate": 60,
+          "comment": "15天出勤123.5h，销售¥35,502时产¥287.5/h，UPT 1.32，品类(鞋履 93.0% / 服装 6.7% / 配件 0.3%)，月销达标，大众点评好评2条"
+        },
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 26,
+          "sales": 35502,
+          "hourlyOutput": 282.9,
+          "upt": 1.32,
+          "door_slots": 16,
+          "store_count": 0,
+          "attendance_status": {
+            "打卡正常": 15
+          },
+          "review_count": 2
+        },
+        "2026-07": {
+          "avail_days": 29,
+          "sales": 6548,
+          "hourlyOutput": 68,
+          "upt": 1.2,
+          "door_slots": 18,
+          "store_count": 16,
+          "attendance_status": {
+            "打卡正常": 21
+          },
+          "review_count": 3
+        }
+      }
+    },
+    "王雅澜": {
+      "availability": {
+        "2026-06": {
+          "total": 26
+        },
+        "2026-07": {
+          "total": 31
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 16,
+          "hours": 118.0,
+          "status_breakdown": {
+            "打卡正常": 16
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 17,
+          "hours": 119.5,
+          "status_breakdown": {
+            "打卡正常": 17
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 21,
+          "days": 14
+        },
+        "2026-07": {
+          "slots": 28,
+          "days": 15
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 8,
+          "by_type": {
+            "货品-辅助收货": 3,
+            "货品-整理仓库": 3,
+            "陈列-翻场支援": 1,
+            "货品-查鞋盒": 1
+          }
+        },
+        "2026-07": {
+          "count": 19,
+          "by_type": {
+            "陈列-翻场支援": 4,
+            "其他": 13,
+            "货品-整理仓库": 2
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 0,
+          "avg_rating": 0
+        },
+        "2026-07": {
+          "count": 3,
+          "avg_rating": 5.0
+        }
+      },
+      "performance": {
+        "2026-06": {
+          "name": "王雅澜",
+          "sales": 33466,
+          "qty": 27,
+          "tickets": 22,
+          "upt": 1.23,
+          "avgPrice": 1239,
+          "workHours": 118,
+          "hourlyOutput": 283.6,
+          "salesShare": 0.113,
+          "categories": "鞋履 86.5% / 服装 11.3% / 配件 2.1%"
+        },
+        "2026-07": {
+          "name": "王雅澜",
+          "sales": 20990,
+          "qty": 20,
+          "tickets": 17,
+          "upt": 1.18,
+          "avgPrice": 1050,
+          "workHours": 83.6,
+          "hourlyOutput": 251,
+          "salesShare": 0.111,
+          "categories": "鞋履 87.1% / 服装 9.0% / 配件 3.9%"
+        }
+      },
+      "ratings": {
+        "2026-06": {
+          "pending": false,
+          "scores": {
+            "availability": 5,
+            "performance": 4,
+            "behavior": 5,
+            "attendance": 5,
+            "customerReview": 4
+          },
+          "avgScore": 4.6,
+          "hourlyRate": 60,
+          "comment": "16天出勤118h，销售¥33,466时产¥283.6/h，UPT 1.23，品类(鞋履 86.5% / 服装 11.3% / 配件 2.1%)，月销达标"
+        },
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 26,
+          "sales": 33466,
+          "hourlyOutput": 283.6,
+          "upt": 1.23,
+          "door_slots": 21,
+          "store_count": 8,
+          "attendance_status": {
+            "打卡正常": 16
+          },
+          "review_count": 0
+        },
+        "2026-07": {
+          "avail_days": 31,
+          "sales": 20990,
+          "hourlyOutput": 251,
+          "upt": 1.18,
+          "door_slots": 28,
+          "store_count": 19,
+          "attendance_status": {
+            "打卡正常": 17
+          },
+          "review_count": 3
+        }
+      }
+    },
+    "李若彤": {
+      "availability": {
+        "2026-06": {
+          "total": null
+        },
+        "2026-07": {
+          "total": 26
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 18,
+          "hours": 135.5,
+          "status_breakdown": {
+            "打卡正常": 15,
+            "取消": 1,
+            "打卡异常": 2
+          },
+          "anomaly": 2,
+          "absent": 0,
+          "cancel": 1
+        },
+        "2026-07": {
+          "records": 14,
+          "hours": 94.5,
+          "status_breakdown": {
+            "打卡正常": 13,
+            "打卡异常": 1
+          },
+          "anomaly": 1,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 27,
+          "days": 13
+        },
+        "2026-07": {
+          "slots": 17,
+          "days": 11
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 9,
+          "by_type": {
+            "货品-整理仓库": 4,
+            "陈列-全楼标签复核": 1,
+            "陈列-翻场支援": 1,
+            "货品-查鞋盒": 1,
+            "货品-辅助收货": 2
+          }
+        },
+        "2026-07": {
+          "count": 12,
+          "by_type": {
+            "货品-辅助收货": 1,
+            "货品-查鞋盒": 1,
+            "货品-整理仓库": 3,
+            "其他": 7
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 1,
+          "avg_rating": 5.0
+        },
+        "2026-07": {
+          "count": 0,
+          "avg_rating": 0
+        }
+      },
+      "performance": {
+        "2026-06": {
+          "name": "李若彤",
+          "sales": 32300,
+          "qty": 30,
+          "tickets": 22,
+          "upt": 1.36,
+          "avgPrice": 1077,
+          "workHours": 135.5,
+          "hourlyOutput": 238.4,
+          "salesShare": 0.11,
+          "categories": "鞋履 84.4% / 服装 9.2% / 配件 6.4%"
+        },
+        "2026-07": {
+          "name": "李若彤",
+          "sales": 14670,
+          "qty": 16,
+          "tickets": 9,
+          "upt": 1.78,
+          "avgPrice": 917,
+          "workHours": 68.1,
+          "hourlyOutput": 215,
+          "salesShare": 0.0775,
+          "categories": "鞋履 68.1% / 服装 27.9% / 配件 4.1%"
+        }
+      },
+      "ratings": {
+        "2026-06": {
+          "pending": false,
+          "scores": {
+            "availability": 5,
+            "performance": 4.5,
+            "behavior": 5,
+            "attendance": 4,
+            "customerReview": 5
+          },
+          "avgScore": 4.7,
+          "hourlyRate": 60,
+          "comment": "17天出勤133.5h，销售¥32,500时产¥243.4/h，UPT 1.35，品类(鞋履 84.4% / 服装 9.2% / 配件 6.4%)，月销达标，大众点评好评1条"
+        },
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": null,
+          "sales": 32300,
+          "hourlyOutput": 238.4,
+          "upt": 1.36,
+          "door_slots": 27,
+          "store_count": 9,
+          "attendance_status": {
+            "打卡正常": 15,
+            "取消": 1,
+            "打卡异常": 2
+          },
+          "review_count": 1
+        },
+        "2026-07": {
+          "avail_days": 26,
+          "sales": 14670,
+          "hourlyOutput": 215,
+          "upt": 1.78,
+          "door_slots": 17,
+          "store_count": 12,
+          "attendance_status": {
+            "打卡正常": 13,
+            "打卡异常": 1
+          },
+          "review_count": 0
+        }
+      }
+    },
+    "王龙宇": {
+      "availability": {
+        "2026-06": {
+          "total": 10
+        },
+        "2026-07": {
+          "total": 18
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 8,
+          "hours": 58.5,
+          "status_breakdown": {
+            "打卡正常": 8
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 10,
+          "hours": 71.0,
+          "status_breakdown": {
+            "打卡正常": 10
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 13,
+          "days": 7
+        },
+        "2026-07": {
+          "slots": 11,
+          "days": 9
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 3,
+          "by_type": {
+            "货品-辅助收货": 1,
+            "货品-整理仓库": 2
+          }
+        },
+        "2026-07": {
+          "count": 8,
+          "by_type": {
+            "货品-辅助收货": 2,
+            "其他": 5,
+            "货品-整理仓库": 1
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 0,
+          "avg_rating": 0
+        },
+        "2026-07": {
+          "count": 5,
+          "avg_rating": 5.0
+        }
+      },
+      "performance": {
+        "2026-06": {
+          "name": "王龙宇",
+          "sales": 5450,
+          "qty": 5,
+          "tickets": 4,
+          "upt": 1.25,
+          "avgPrice": 1090,
+          "workHours": 58.5,
+          "hourlyOutput": 93.2,
+          "salesShare": 0.018,
+          "categories": "鞋履 93.4% / 配件 6.6%"
+        },
+        "2026-07": {
+          "name": "王龙宇",
+          "sales": 6868,
+          "qty": 6,
+          "tickets": 6,
+          "upt": 1,
+          "avgPrice": 1145,
+          "workHours": 32.1,
+          "hourlyOutput": 214,
+          "salesShare": 0.0363,
+          "categories": "鞋履 78.5% / 服装 21.5%"
+        }
+      },
+      "ratings": {
+        "2026-06": {
+          "pending": false,
+          "scores": {
+            "availability": 5,
+            "performance": 2,
+            "behavior": 5,
+            "attendance": 5,
+            "customerReview": 4
+          },
+          "avgScore": 4.2,
+          "hourlyRate": 60,
+          "comment": "8天出勤58.5h，销售¥5,450时产¥93.2/h，UPT 1.25，品类(鞋履 93.4% / 配件 6.6%)"
+        },
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 10,
+          "sales": 5450,
+          "hourlyOutput": 93.2,
+          "upt": 1.25,
+          "door_slots": 13,
+          "store_count": 3,
+          "attendance_status": {
+            "打卡正常": 8
+          },
+          "review_count": 0
+        },
+        "2026-07": {
+          "avail_days": 18,
+          "sales": 6868,
+          "hourlyOutput": 214,
+          "upt": 1,
+          "door_slots": 11,
+          "store_count": 8,
+          "attendance_status": {
+            "打卡正常": 10
+          },
+          "review_count": 5
+        }
+      }
+    },
+    "何秋烨": {
+      "availability": {
+        "2026-06": {
+          "total": 23
+        },
+        "2026-07": {
+          "total": 26
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 15,
+          "hours": 105.0,
+          "status_breakdown": {
+            "打卡正常": 15
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 16,
+          "hours": 106.0,
+          "status_breakdown": {
+            "打卡正常": 16
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 27,
+          "days": 12
+        },
+        "2026-07": {
+          "slots": 20,
+          "days": 13
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 3,
+          "by_type": {
+            "货品-查鞋盒": 1,
+            "陈列-翻场支援": 2
+          }
+        },
+        "2026-07": {
+          "count": 15,
+          "by_type": {
+            "陈列-翻场支援": 4,
+            "其他": 10,
+            "货品-整理仓库": 1
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 0,
+          "avg_rating": 0
+        },
+        "2026-07": {
+          "count": 3,
+          "avg_rating": 5.0
+        }
+      },
+      "performance": {
+        "2026-06": {
+          "name": "何秋烨",
+          "sales": 20434,
+          "qty": 23,
+          "tickets": 13,
+          "upt": 1.77,
+          "avgPrice": 888,
+          "workHours": 105,
+          "hourlyOutput": 194.6,
+          "salesShare": 0.069,
+          "categories": "鞋履 69.4% / 服装 22.9% / 配件 7.7%"
+        },
+        "2026-07": {
+          "name": "何秋烨",
+          "sales": 21362,
+          "qty": 19,
+          "tickets": 14,
+          "upt": 1.36,
+          "avgPrice": 1124,
+          "workHours": 60.9,
+          "hourlyOutput": 351,
+          "salesShare": 0.1129,
+          "categories": "鞋履 77.1% / 服装 21.5% / 配件 1.4%"
+        }
+      },
+      "ratings": {
+        "2026-06": {
+          "pending": false,
+          "scores": {
+            "availability": 5,
+            "performance": 4,
+            "behavior": 5,
+            "attendance": 5,
+            "customerReview": 4
+          },
+          "avgScore": 4.6,
+          "hourlyRate": 60,
+          "comment": "15天出勤105h，销售¥19,536时产¥186.1/h，UPT 1.77，品类(鞋履 69.4% / 服装 22.9% / 配件 7.7%)"
+        },
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 23,
+          "sales": 20434,
+          "hourlyOutput": 194.6,
+          "upt": 1.77,
+          "door_slots": 27,
+          "store_count": 3,
+          "attendance_status": {
+            "打卡正常": 15
+          },
+          "review_count": 0
+        },
+        "2026-07": {
+          "avail_days": 26,
+          "sales": 21362,
+          "hourlyOutput": 351,
+          "upt": 1.36,
+          "door_slots": 20,
+          "store_count": 15,
+          "attendance_status": {
+            "打卡正常": 16
+          },
+          "review_count": 3
+        }
+      }
+    },
+    "龚赟昊": {
+      "availability": {
+        "2026-06": {
+          "total": 25
+        },
+        "2026-07": {
+          "total": 18
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 15,
+          "hours": 118.0,
+          "status_breakdown": {
+            "打卡正常": 15
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 16,
+          "hours": 195.5,
+          "status_breakdown": {
+            "打卡正常": 16
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 22,
+          "days": 14
+        },
+        "2026-07": {
+          "slots": 21,
+          "days": 13
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 9,
+          "by_type": {
+            "陈列-翻场支援": 3,
+            "货品-整理仓库": 2,
+            "陈列-全楼标签复核": 2,
+            "货品-辅助收货": 1,
+            "陈列-新品熨烫": 1
+          }
+        },
+        "2026-07": {
+          "count": 13,
+          "by_type": {
+            "货品-辅助收货": 1,
+            "陈列-全楼标签复核": 2,
+            "其他": 9,
+            "货品-整理仓库": 1
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 0,
+          "avg_rating": 0
+        },
+        "2026-07": {
+          "count": 1,
+          "avg_rating": 5.0
+        }
+      },
+      "performance": {
+        "2026-06": {
+          "name": "龚赟昊",
+          "sales": 25858,
+          "qty": 23,
+          "tickets": 21,
+          "upt": 1.1,
+          "avgPrice": 1124,
+          "workHours": 118,
+          "hourlyOutput": 219.1,
+          "salesShare": 0.087,
+          "categories": "鞋履 83.8% / 服装 13.3% / 配件 2.9%"
+        },
+        "2026-07": {
+          "name": "龚赟昊",
+          "sales": 23794,
+          "qty": 23,
+          "tickets": 16,
+          "upt": 1.44,
+          "avgPrice": 1035,
+          "workHours": 78.3,
+          "hourlyOutput": 304,
+          "salesShare": 0.1258,
+          "categories": "鞋履 85.2% / 服装 13.0% / 配件 1.8%"
+        }
+      },
+      "ratings": {
+        "2026-06": {
+          "pending": false,
+          "scores": {
+            "availability": 5,
+            "performance": 4,
+            "behavior": 5,
+            "attendance": 5,
+            "customerReview": 4
+          },
+          "avgScore": 4.6,
+          "hourlyRate": 60,
+          "comment": "15天出勤118h，销售¥25,858时产¥219.1/h，UPT 1.14，品类(鞋履 83.8% / 服装 13.3% / 配件 2.9%)，月销达标"
+        },
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 25,
+          "sales": 25858,
+          "hourlyOutput": 219.1,
+          "upt": 1.1,
+          "door_slots": 22,
+          "store_count": 9,
+          "attendance_status": {
+            "打卡正常": 15
+          },
+          "review_count": 0
+        },
+        "2026-07": {
+          "avail_days": 18,
+          "sales": 23794,
+          "hourlyOutput": 304,
+          "upt": 1.44,
+          "door_slots": 21,
+          "store_count": 13,
+          "attendance_status": {
+            "打卡正常": 16
+          },
+          "review_count": 1
+        }
+      }
+    },
+    "贾长乐": {
+      "availability": {
+        "2026-06": {
+          "total": 0
+        },
+        "2026-07": {
+          "total": 28
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 12,
+          "hours": 96.0,
+          "status_breakdown": {
+            "打卡正常": 12
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 13,
+          "hours": 95.0,
+          "status_breakdown": {
+            "打卡正常": 13
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 0,
+          "days": 0
+        },
+        "2026-07": {
+          "slots": 7,
+          "days": 5
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 0,
+          "by_type": {}
+        },
+        "2026-07": {
+          "count": 8,
+          "by_type": {
+            "陈列-翻场支援": 2,
+            "其他": 6
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 0,
+          "avg_rating": 0
+        },
+        "2026-07": {
+          "count": 0,
+          "avg_rating": 0
+        }
+      },
+      "performance": {
+        "2026-06": null,
+        "2026-07": {
+          "name": "贾长乐",
+          "sales": 1198,
+          "qty": 1,
+          "tickets": 1,
+          "upt": 1,
+          "avgPrice": 1198,
+          "workHours": 56.4,
+          "hourlyOutput": 21,
+          "salesShare": 0.0063,
+          "categories": "鞋履 100.0%"
+        }
+      },
+      "ratings": {
+        "2026-06": null,
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 0,
+          "sales": null,
+          "hourlyOutput": null,
+          "upt": null,
+          "door_slots": 0,
+          "store_count": 0,
+          "attendance_status": {
+            "打卡正常": 12
+          },
+          "review_count": 0
+        },
+        "2026-07": {
+          "avail_days": 28,
+          "sales": 1198,
+          "hourlyOutput": 21,
+          "upt": 1,
+          "door_slots": 7,
+          "store_count": 8,
+          "attendance_status": {
+            "打卡正常": 13
+          },
+          "review_count": 0
+        }
+      }
+    },
+    "玛依拉": {
+      "availability": {
+        "2026-06": {
+          "total": 0
+        },
+        "2026-07": {
+          "total": 18
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 15,
+          "hours": 114.0,
+          "status_breakdown": {
+            "取消": 1,
+            "打卡正常": 14
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 1
+        },
+        "2026-07": {
+          "records": 14,
+          "hours": 115.5,
+          "status_breakdown": {
+            "打卡正常": 14
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 0,
+          "days": 0
+        },
+        "2026-07": {
+          "slots": 12,
+          "days": 8
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 0,
+          "by_type": {}
+        },
+        "2026-07": {
+          "count": 11,
+          "by_type": {
+            "其他": 10,
+            "货品-查鞋盒": 1
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 0,
+          "avg_rating": 0
+        },
+        "2026-07": {
+          "count": 3,
+          "avg_rating": 5.0
+        }
+      },
+      "performance": {
+        "2026-06": null,
+        "2026-07": {
+          "name": "玛依拉",
+          "sales": 8186,
+          "qty": 7,
+          "tickets": 6,
+          "upt": 1.17,
+          "avgPrice": 1169,
+          "workHours": 71.2,
+          "hourlyOutput": 115,
+          "salesShare": 0.0433,
+          "categories": "鞋履 93.9% / 服装 6.1%"
+        }
+      },
+      "ratings": {
+        "2026-06": null,
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 0,
+          "sales": null,
+          "hourlyOutput": null,
+          "upt": null,
+          "door_slots": 0,
+          "store_count": 0,
+          "attendance_status": {
+            "取消": 1,
+            "打卡正常": 14
+          },
+          "review_count": 0
+        },
+        "2026-07": {
+          "avail_days": 18,
+          "sales": 8186,
+          "hourlyOutput": 115,
+          "upt": 1.17,
+          "door_slots": 12,
+          "store_count": 11,
+          "attendance_status": {
+            "打卡正常": 14
+          },
+          "review_count": 3
+        }
+      }
+    },
+    "梁实秋": {
+      "availability": {
+        "2026-06": {
+          "total": 0
+        },
+        "2026-07": {
+          "total": 29
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 14,
+          "hours": 114.0,
+          "status_breakdown": {
+            "打卡正常": 14
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 16,
+          "hours": 335.0,
+          "status_breakdown": {
+            "打卡正常": 16
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 0,
+          "days": 0
+        },
+        "2026-07": {
+          "slots": 8,
+          "days": 6
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 1,
+          "by_type": {
+            "货品-辅助收货": 1
+          }
+        },
+        "2026-07": {
+          "count": 17,
+          "by_type": {
+            "其他": 8,
+            "货品-整理仓库": 6,
+            "货品-查鞋盒": 1,
+            "货品-辅助收货": 1,
+            "陈列-全楼标签复核": 1
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 0,
+          "avg_rating": 0
+        },
+        "2026-07": {
+          "count": 0,
+          "avg_rating": 0
+        }
+      },
+      "performance": {
+        "2026-06": null,
+        "2026-07": {
+          "name": "梁实秋",
+          "sales": 3494,
+          "qty": 3,
+          "tickets": 3,
+          "upt": 1,
+          "avgPrice": 1165,
+          "workHours": 79.4,
+          "hourlyOutput": 44,
+          "salesShare": 0.0185,
+          "categories": "鞋履 100.0%"
+        }
+      },
+      "ratings": {
+        "2026-06": null,
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 0,
+          "sales": null,
+          "hourlyOutput": null,
+          "upt": null,
+          "door_slots": 0,
+          "store_count": 1,
+          "attendance_status": {
+            "打卡正常": 14
+          },
+          "review_count": 0
+        },
+        "2026-07": {
+          "avail_days": 29,
+          "sales": 3494,
+          "hourlyOutput": 44,
+          "upt": 1,
+          "door_slots": 8,
+          "store_count": 17,
+          "attendance_status": {
+            "打卡正常": 16
+          },
+          "review_count": 0
+        }
+      }
+    },
+    "唐蓉": {
+      "availability": {
+        "2026-06": {
+          "total": 0
+        },
+        "2026-07": {
+          "total": 19
+        }
+      },
+      "attendance": {
+        "2026-06": {
+          "records": 0,
+          "hours": 0,
+          "status_breakdown": {},
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        },
+        "2026-07": {
+          "records": 17,
+          "hours": 227.0,
+          "status_breakdown": {
+            "打卡正常": 17
+          },
+          "anomaly": 0,
+          "absent": 0,
+          "cancel": 0
+        }
+      },
+      "door": {
+        "2026-06": {
+          "slots": 0,
+          "days": 0
+        },
+        "2026-07": {
+          "slots": 14,
+          "days": 11
+        }
+      },
+      "storeSupport": {
+        "2026-06": {
+          "count": 0,
+          "by_type": {}
+        },
+        "2026-07": {
+          "count": 20,
+          "by_type": {
+            "货品-查鞋盒": 2,
+            "其他": 15,
+            "货品-整理仓库": 2,
+            "货品-辅助收货": 1
+          }
+        }
+      },
+      "reviews": {
+        "2026-06": {
+          "count": 0,
+          "avg_rating": 0
+        },
+        "2026-07": {
+          "count": 0,
+          "avg_rating": 0
+        }
+      },
+      "performance": {
+        "2026-06": null,
+        "2026-07": {
+          "name": "唐蓉",
+          "sales": 1496,
+          "qty": 2,
+          "tickets": 2,
+          "upt": 1,
+          "avgPrice": 748,
+          "workHours": 0,
+          "hourlyOutput": 0,
+          "salesShare": 0.0079,
+          "categories": "鞋履 66.7% / 服装 33.3%"
+        }
+      },
+      "ratings": {
+        "2026-06": null,
+        "2026-07": {
+          "pending": true,
+          "scores": {
+            "availability": 5,
+            "performance": 0,
+            "behavior": 0,
+            "attendance": 5,
+            "customerReview": 1
+          },
+          "avgScore": 0,
+          "hourlyRate": 28,
+          "comment": "7月待评"
+        }
+      },
+      "rating_inputs": {
+        "2026-06": {
+          "avail_days": 0,
+          "sales": null,
+          "hourlyOutput": null,
+          "upt": null,
+          "door_slots": 0,
+          "store_count": 0,
+          "attendance_status": {},
+          "review_count": 0
+        },
+        "2026-07": {
+          "avail_days": 19,
+          "sales": 1496,
+          "hourlyOutput": 0,
+          "upt": 1,
+          "door_slots": 14,
+          "store_count": 20,
+          "attendance_status": {
+            "打卡正常": 17
+          },
+          "review_count": 0
+        }
+      }
+    }
+  }
+}
