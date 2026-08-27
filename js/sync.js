@@ -151,8 +151,14 @@ const Sync = {
     const normalized = { currentMonth: avail.currentMonth || '2026-08', months: {} };
 
     // 1. 先迁移标准 months 结构
+    // v184: 只接受 YYYY-MM 格式的月份键——丢弃历史 bug 产生的非法键(如 'data')，
+    // 防止设备把本地残留的错位键推回云端造成复活
     if (avail.months && typeof avail.months === 'object') {
       Object.entries(avail.months).forEach(([mk, mv]) => {
+        if (!/^\d{4}-\d{2}$/.test(mk)) {
+          if (mk !== 'currentMonth') console.warn('[Sync] 丢弃非法月份键:', mk);
+          return;
+        }
         if (mv && mv.data && typeof mv.data === 'object') {
           normalized.months[mk] = { data: this._cleanPersonMap(mv.data) };
         }
@@ -160,8 +166,10 @@ const Sync = {
     }
 
     // 2. 迁移扁平结构（旧格式）
+    // v184: 同样只接受 YYYY-MM 月份键
     Object.entries(avail).forEach(([mk, mv]) => {
       if (mk === 'currentMonth' || mk === 'months') return;
+      if (!/^\d{4}-\d{2}$/.test(mk)) return;
       if (!mv || typeof mv !== 'object') return;
 
       const personMap = mv.data && typeof mv.data === 'object' ? mv.data : mv;
@@ -525,6 +533,8 @@ const Sync = {
       let localAvail = this._normalizeAvailabilityStructure(Store.get('availability'));
 
       Object.entries(shared.availability).forEach(([monthKey, monthData]) => {
+        // v184: 丢弃非法月份键（如历史 bug 的 'data' 错位键），不让其落地本地
+        if (!/^\d{4}-\d{2}$/.test(monthKey)) return;
         if (!monthData || !monthData.data) return;
         if (!localAvail.months[monthKey]) localAvail.months[monthKey] = { data: {} };
 
