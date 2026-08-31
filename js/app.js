@@ -6983,9 +6983,16 @@ linggongAttendance: {
       { id: 45, staffName: '邓奇缘', month: '2026-07', rating: 5, reviewDate: '2026-07-31', snippet: '来上海旅游想买双鞋，进了Salomon是天天接待的，经过细心介绍试了很多双终于买到了双自己喜欢的鞋~', keywords: ['旅游买鞋', '天天接待', '细心介绍', '试多双', '超预期'], source: '大众点评（Abbott_3448，Lv1）' },
       { id: 46, staffName: '何秋烨', month: '2026-08', rating: 5, reviewDate: '2026-08-02', snippet: '买到了很喜欢的鞋子 来回来了两次 感谢秋秋小姐姐耐心的接待 还有很好看的购物袋', keywords: ['喜欢', '来回了两次', '秋秋', '耐心接待', '购物袋', '超预期'], source: '大众点评（贤毅真心的小雷，Lv2）', amount: 1398 },
       { id: 47, staffName: '何秋烨', month: '2026-08', rating: 5, reviewDate: '2026-08-02', snippet: '今天和朋友一起来逛街 路过这家很好看的店铺 谢谢秋秋导览 买到了喜欢的鞋子', keywords: ['和朋友', '好看店铺', '秋秋导览', '买到了喜欢的鞋子', '超预期'], source: '大众点评（孪井煎葡葡籽，Lv2）', amount: 1498 },
+      { id: 48, staffName: '邓奇缘', month: '2026-08', rating: 5, reviewDate: '2026-08-29', snippet: 'salomon 旁边开了个摄影展，还可以写明信片免费邮寄，特别好的体验。感谢天天小哥哥的耐心导览', keywords: ['摄影展', '明信片免费邮寄', '感谢天天', '耐心导览', '超预期'], source: '大众点评（Lucas，Lv2）' },
+      { id: 49, staffName: '何秋烨', month: '2026-08', rating: 5, reviewDate: '2026-08-08', snippet: '今天跟朋友一起出来玩 看到新色 很漂亮 感谢秋秋的热情招待', keywords: ['新色', '很漂亮', '感谢秋秋', '热情招待', '超预期'], source: '大众点评（武小草，Lv3）', amount: 1398 },
+      { id: 50, staffName: '玛依拉', month: '2026-08', rating: 5, reviewDate: '2026-08-31', snippet: '这家萨洛蒙店体验不错，商品款式全，质量对得起价格。导购小姐姐 KIKI 很专业，能清楚讲出产品特点，服务态度也挺好。展会很不错 很好看拍照出片 推荐打卡', keywords: ['商品款式全', '质量对得起价格', 'KIKI很专业', '清楚讲产品特点', '拍照出片', '推荐打卡', '超预期'], source: '大众点评（Huii，Lv1）' },
+      { id: 51, staffName: '玛依拉', month: '2026-08', rating: 5, reviewDate: '2026-08-31', snippet: '非常有意义，给自己写一封信，很期待活动结束之后可以收到 Kiki小姐很贴心很热情', keywords: ['写信活动', '有意义', 'Kiki小姐贴心', '热情', '超预期'], source: '大众点评（渡鸦_3421，Lv4）' },
+      { id: 52, staffName: '梁实秋', month: '2026-08', rating: 5, reviewDate: '2026-08-30', snippet: '碰巧路过 Salomon 的摄影展觉得还蛮不错的 秋实导览的很详细 推荐来逛', keywords: ['摄影展', '秋实', '导览详细', '推荐来逛', '超预期'], source: '大众点评（暗扣，Lv5）（顾客原文写"秋实"，疑似 LSQ"实秋"的口语化颠倒，请核实是否梁实秋）' },
+      { id: 53, staffName: '玛依拉', month: '2026-08', rating: 5, reviewDate: '2026-08-31', snippet: '上海很有态度的一家店！喜欢萨洛蒙，新一期的理念很棒！kiki很热情也很细心', keywords: ['上海很有态度', '新一期理念棒', 'kiki很热情', '很细心', '超预期'], source: '大众点评（大寒灼海胆，Lv3，打卡评价）' },
+      { id: 54, staffName: '唐蓉', month: '2026-08', rating: 5, reviewDate: '2026-08-30', snippet: '感谢唐蓉姐姐的热心讲解！', keywords: ['感谢唐蓉', '热心讲解', '超预期'], source: '大众点评（鸭鸭型手打年糕，Lv2，打卡评价）' },
     ],
 
-    _dataVersion: '2026-09-01-v188',
+    _dataVersion: '2026-09-01-v189',
     // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
     // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
     _lockedMonths: ['2026-07', '2026-06'],
@@ -7033,7 +7040,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-09-01-v188';
+      const DATA_VERSION = '2026-09-01-v189';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
