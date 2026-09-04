@@ -228,6 +228,27 @@ function _esc(str) {
 }
 
 /**
+ * v192: 员工在指定月份是否参与展示/统计（离职月感知）
+ * 与 status==='active' 语义等价，外加一条：status==='left' 且有 leftDate 的员工
+ * 在离职月之前的历史月份仍显示（如王雅澜 8/31 前的历史业绩/评分）
+ * - status === 'left' 无 leftDate（如李若彤 v156）→ 全月隐藏（与旧行为一致）
+ * @param {Object} s staff 记录
+ * @param {string} monthKey 'YYYY-MM'
+ */
+function _isStaffVisibleInMonth(s, monthKey) {
+  if (!s) return false;
+  if (s.status === 'active') return true;
+  if (s.status === 'left' && s.leftDate) return String(monthKey || '') < String(s.leftDate).slice(0, 7);
+  return false;
+}
+
+/**
+ * v192: 月份感知的员工列表（替代裸 status==='active' 过滤的统一入口）
+ * @param {string} monthKey 'YYYY-MM'，缺省用 DEFAULT_VIEW_MONTH
+ * @param {Object} opts { dept: 'Service Team' | '仓库兼职' | undefined, excludeMgmt: bool 默认 true }
+ */
+
+/**
  * v128 第一性原理工时计算（v126 教训：totalHours 字段不可信）
  * 从 signIn/signOut 精确计算 + 扣午休（>6h扣1h）+ 跨日处理
  * 单条记录的 net 工时
@@ -354,14 +375,16 @@ const SCORE_THRESHOLDS = {
 
 function renderDashboard() {
   const staff = Store.get('staff');
-  const activeStaff = staff.filter(s => s.status === 'active' && !isManagementStaff(s));
+  // v192: 月份感知在职数（离职者在其离职月及之后不再计入，历史月保留）
+  const _dashMonth = (typeof DEFAULT_VIEW_MONTH !== 'undefined' ? DEFAULT_VIEW_MONTH : MonthConfig.getActiveScoringMonth());
+  const activeStaff = staff.filter(s => _isStaffVisibleInMonth(s, _dashMonth) && !isManagementStaff(s));
   const schedules = Store.get('schedules') || [];
   const ratings = Store.get('ratings') || [];
   const violations = Store.get('violations') || [];
   const attendance = Store.get('attendance') || [];
 
-  const serviceTeamStaff = staff.filter(s => s.dept === 'Service Team' && s.status === 'active').length;
-  const warehouseStaff = staff.filter(s => s.dept === '仓库兼职' && s.status === 'active').length;
+  const serviceTeamStaff = staff.filter(s => s.dept === 'Service Team' && _isStaffVisibleInMonth(s, _dashMonth)).length;
+  const warehouseStaff = staff.filter(s => s.dept === '仓库兼职' && _isStaffVisibleInMonth(s, _dashMonth)).length;
   const thisWeekSchedules = schedules.length;
   const pendingRatings = Math.max(0, activeStaff.length - ratings.filter(r => r.month === _scoringMonth).length);
   const attendanceRate = attendance.length > 0
@@ -468,7 +491,7 @@ function renderDashboard() {
 }
 
 function initDashboardCharts() {
-  const staff = Store.getList('staff').filter(s => s.status === 'active' && !isManagementStaff(s));
+  const staff = Store.getList('staff').filter(s => _isStaffVisibleInMonth(s, _scoringMonth) && !isManagementStaff(s)); // v192: 月份感知
   const serviceTeam = staff.filter(s => s.dept === 'Service Team').length;
   const warehouse = staff.filter(s => s.dept === '仓库兼职').length;
 
@@ -850,7 +873,7 @@ function _buildMonthWeeks(monthKey) {
 function renderSchedule() {
   // v172: 默认展示8月（优先），用户可手动切回历史月
   if (!_scheduleMonth) _scheduleMonth = DEFAULT_VIEW_MONTH;
-  const staff = Store.getList('staff').filter(s => s.status === 'active' && !isManagementStaff(s));
+  const staff = Store.getList('staff').filter(s => _isStaffVisibleInMonth(s, _scheduleMonth || DEFAULT_VIEW_MONTH) && !isManagementStaff(s)); // v192: 月份感知
   const serviceTeam = staff.filter(s => s.dept === 'Service Team');
   const availability = Store.get('availability');
   // Month to display: _scheduleMonth if set, otherwise availability.currentMonth
@@ -1281,7 +1304,7 @@ let _attMonth = null; // 考勤页面月份切换
 
 function renderAttendance() {
   const ATT_MIN_MONTH = '2026-06';
-  const allStaff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const allStaff = Store.getList('staff').filter(s => _isStaffVisibleInMonth(s, _attMonth || DEFAULT_VIEW_MONTH) && s.dept === 'Service Team');
   const linggongData = Store.get('linggongAttendance') || { lastSync: null, records: [] };
   const allLgRecords = linggongData.records || [];
 
@@ -2068,7 +2091,8 @@ function getBehaviorData() {
   // P1修复：缓存绑定 scoreMonth，切月或数据变更时自动失效
   if (_behaviorCache && _behaviorCacheMonth === scoreMonth) return _behaviorCache;
   _behaviorCacheMonth = scoreMonth;
-  const allStaff = Store.getList('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
+  // v192: 月份感知（王雅澜8月门迎时长仍计入评分；9月起不再参与）
+  const allStaff = Store.getList('staff').filter(s => s.dept === 'Service Team' && _isStaffVisibleInMonth(s, scoreMonth));
   const names = allStaff.map(s => s.name);
 
   // 门迎时长 — filter by scoring month
@@ -2183,7 +2207,7 @@ function renderRatings() {
     return !_defaultKeys.has(`${r.staffId}-${r.month}`);
   });
   const allRatings = [..._defaultRatings, ..._userCustom];
-  const staff = Store.getList('staff').filter(s => s.status === 'active' && !isManagementStaff(s));
+  const staff = Store.getList('staff').filter(s => _isStaffVisibleInMonth(s, _scoringMonth) && !isManagementStaff(s)); // v192: 月份感知
 
   // Available months from ratings — ensure current month always shows
   // 同时从 performanceData 和 defaults.ratings 补充月份选项
@@ -2222,7 +2246,7 @@ function renderRatings() {
   // 补全：如果当月已有 ratings 但缺少某些在职 Service Team 兼职，自动追加 placeholder
   const ratedStaffIds = new Set(ratings.map(r => r.staffId));
   const missingStaff = staff.filter(s =>
-    s.dept === 'Service Team' && s.status === 'active' && !ratedStaffIds.has(s.id) &&
+    s.dept === 'Service Team' && _isStaffVisibleInMonth(s, _scoringMonth) && !ratedStaffIds.has(s.id) &&
     !(_ratingExcludeNames.length && _ratingExcludeNames.includes(s.name))
   );
   if (missingStaff.length > 0) {
@@ -2280,7 +2304,8 @@ function renderRatings() {
     // 不在 staff 列表的人（如全职赵文瑞）不参与兼职评分
     if (!s) return false;
     // 转正/离职的成员不参与兼职评分展示（第一性原则：只管理兼职）
-    if (s.status !== 'active') return false;
+    // v192: 离职但有 leftDate 的成员，历史月份（离职月之前）仍保留展示（王雅澜8月评分）
+    if (s.status !== 'active' && !_isStaffVisibleInMonth(s, _scoringMonth)) return false;
     if (!s.serviceTeamStartDate) return true; // 老成员无此字段，始终显示
     return _scoringMonth >= s.serviceTeamStartDate.slice(0, 7);
   });
@@ -3191,7 +3216,8 @@ function renderPerformance() {
   const _perfYearMonth = _monthKeyToPerfKey_inv(perfMonth) || DEFAULT_VIEW_MONTH;
 
   // v80: 补 Service Team 无产出成员（从 staff 列表中补齐）
-  const _serviceTeam = Store.getList('staff').filter(s => s.dept === 'Service Team' && s.status === 'active');
+  // v192: 月份感知（王雅澜9月起离职不再补零行；8月及之前历史月保留）
+  const _serviceTeam = Store.getList('staff').filter(s => s.dept === 'Service Team' && _isStaffVisibleInMonth(s, _perfYearMonth));
   const _existingNames = new Set(currentData.records.map(r => r.name));
   const _missing = _serviceTeam.filter(s => !_existingNames.has(s.name));
   if (_missing.length > 0) {
@@ -3481,7 +3507,7 @@ const DOOR_PAGE_MIN_MONTH = '2026-06'; // 门迎排班最早月份
 
 function renderDoorSchedule() {
   const allDoorData = Store.get('doorSchedule') || [];
-  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.getList('staff').filter(s => _isStaffVisibleInMonth(s, _doorPageMonth || DEFAULT_VIEW_MONTH) && s.dept === 'Service Team'); // v192: 月份感知
 
   // === 月份切换：确定可用月份列表（限定最早6月） ===
   const allMonths = [...new Set(allDoorData.map(d => (d.date || '').slice(0, 7)))].filter(m => m >= DOOR_PAGE_MIN_MONTH).sort();
@@ -3850,7 +3876,8 @@ function renderSupportTable(data) {
 
 function renderStaffStatsTable(staffStats, staffSupportCount) {
   // v156: 排除管理者账号（admin）不出现在人员 lookup 与支援统计中
-  const allStaff = Store.getList('staff').filter(s => s.dept === 'Service Team' && s.status === 'active' && !isManagementStaff(s));
+  // v192: 月份感知（王雅澜8月店务时长历史保留；9月起不再出现在统计）
+  const allStaff = Store.getList('staff').filter(s => s.dept === 'Service Team' && !isManagementStaff(s) && _isStaffVisibleInMonth(s, _supportPageMonth || DEFAULT_VIEW_MONTH));
   const allSupportData = Store.get('storeSupport') || [];
   const _mgmtNames = new Set(Store.get('staff').filter(s => isManagementStaff(s)).map(s => s.name));
   const monthSupportData = allSupportData.filter(s => (s.date || '').startsWith(_supportPageMonth) && !_mgmtNames.has(s.staff || ''));
@@ -5139,7 +5166,7 @@ function renderMonthSwitcher() {
 // ===== Personal calendar view =====
 function renderPersonalCalendar() {
   // v156: 排除管理者账号（admin）不出现在填报下拉
-  const staff = Store.getList('staff').filter(s => s.status === 'active' && !isManagementStaff(s));
+  const staff = Store.getList('staff').filter(s => _isStaffVisibleInMonth(s, _availMonth || DEFAULT_VIEW_MONTH) && !isManagementStaff(s)); // v192: 月份感知
   // 非管理员只能填报自己，锁定姓名选择
   const _canSwitchAvail = _auth.isAdmin;
   // v158: 用 staffName 匹配（不再用 id，因 defaults.staff.id 与数据库 staff.id 错位）
@@ -5419,7 +5446,7 @@ function renderWeekSwitcher() {
 }
 
 function renderOverviewMatrix() {
-  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === _availOverviewDept);
+  const staff = Store.getList('staff').filter(s => _isStaffVisibleInMonth(s, _availMonth || DEFAULT_VIEW_MONTH) && s.dept === _availOverviewDept);
   const [year, mon] = _parseYM(_availMonth, 2026, 7);
 
   // Build weeks
@@ -5688,7 +5715,7 @@ function renderDoorTab() {
     days.push(dateStr);
   }
 
-  const staff = Store.getList('staff').filter(s => s.status === 'active' && s.dept === 'Service Team');
+  const staff = Store.getList('staff').filter(s => _isStaffVisibleInMonth(s, _doorViewMonth || DEFAULT_VIEW_MONTH) && s.dept === 'Service Team');
 
   return `
     <div class="card animate-in" style="margin-bottom: 20px;">

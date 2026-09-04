@@ -34,7 +34,8 @@ const Store = {
       { id: 6, name: '孔祥宇', gender: '女', dept: 'Service Team', joinDate: '2026-01-10', status: 'active', avatar_color: '#06b6d4', availableDays: 29, mbti: '' },
       { id: 7, name: '邓奇缘', gender: '男', dept: 'Service Team', joinDate: '2026-03-10', status: 'active', avatar_color: '#f43f5e', availableDays: 28, mbti: '' },
       { id: 8, name: '杨子豪', gender: '男', dept: 'Service Team', joinDate: '2026-02-20', status: 'active', avatar_color: '#6366f1', availableDays: 26, mbti: '' },
-      { id: 9, name: '王雅澜', gender: '女', dept: 'Service Team', joinDate: '2026-01-05', status: 'active', avatar_color: '#a855f7', availableDays: 26, mbti: '' },
+      // 王雅澜 已离职（v192: 9/1起离职，8月及之前历史数据保留展示；leftDate 供各模块按月隐藏）
+      { id: 9, name: '王雅澜', gender: '女', dept: 'Service Team', joinDate: '2026-01-05', status: 'left', leftDate: '2026-09-01', avatar_color: '#a855f7', availableDays: 0, mbti: '' },
       // 李若彤 已离职（v156: 在 defaults 保留并标记 left，迁移逻辑每 init 强制同步为离职）
       { id: 10, name: '李若彤', gender: '女', dept: 'Service Team', joinDate: '2026-01-15', status: 'left', avatar_color: '#14b8a6', availableDays: 0, mbti: '' },
       { id: 11, name: '王龙宇', gender: '男', dept: 'Service Team', joinDate: '2026-04-01', status: 'active', avatar_color: '#eab308', availableDays: 10, note: '19日到30日出差，请假', mbti: '' },
@@ -7216,7 +7217,7 @@ linggongAttendance: {
       { id: 54, staffName: '唐蓉', month: '2026-08', rating: 5, reviewDate: '2026-08-30', snippet: '感谢唐蓉姐姐的热心讲解！', keywords: ['感谢唐蓉', '热心讲解', '超预期'], source: '大众点评（鸭鸭型手打年糕，Lv2，打卡评价）' },
     ],
 
-    _dataVersion: '2026-09-04-v191',
+    _dataVersion: '2026-09-04-v192',
     // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
     // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
     _lockedMonths: ['2026-07', '2026-06'],
@@ -7264,7 +7265,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-09-04-v191';
+      const DATA_VERSION = '2026-09-04-v192';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -7291,13 +7292,14 @@ linggongAttendance: {
         }
         // 默认数据覆盖同名条目，但保留用户自定义新增的
         // 对默认成员：dept / transferredFrom / status 始终取默认值（防止旧用户数据覆盖部门调整）
+        // v192: status + leftDate 强制取默认值（王雅澜离职同步：老设备本地 active 不再覆盖 defaults 的 left）
         // 其他字段（mbti, avatar_color 等）保留用户编辑
         // 匹配优先级：id 相同 > name 相同（兼容旧数据 id 缺失的场景）
         merged.staff = merged.staff.map(s => {
           // 优先按 id 匹配用户版本（健壮的主键），回退到 name 匹配（兼容历史数据）
           const userVersion = existingById.get(String(s.id)) || existingByName.get(s.name);
           if (!userVersion) return s;
-          return { ...s, ...userVersion, id: s.id, dept: s.dept, transferredFrom: s.transferredFrom || userVersion.transferredFrom, serviceTeamStartDate: s.serviceTeamStartDate || userVersion.serviceTeamStartDate };
+          return { ...s, ...userVersion, id: s.id, dept: s.dept, status: s.status, leftDate: s.leftDate, transferredFrom: s.transferredFrom || userVersion.transferredFrom, serviceTeamStartDate: s.serviceTeamStartDate || userVersion.serviceTeamStartDate };
         });
         // 追加用户自定义新增的（id 和 name 都不在默认列表中的）
         data.staff.forEach(s => {
@@ -7484,8 +7486,10 @@ linggongAttendance: {
             const _def = _defMap.get(s.name);
             if (!_def) return s;
             // 强制同步部门相关字段
+            // v192: 补 leftDate 同步（王雅澜离职日期）
             if (s.dept !== _def.dept ||
                 s.status !== _def.status ||
+                (s.leftDate || '') !== (_def.leftDate || '') ||
                 (s.transferredFrom || '') !== (_def.transferredFrom || '') ||
                 (s.serviceTeamStartDate || '') !== (_def.serviceTeamStartDate || '')) {
               _changed = true;
@@ -7493,6 +7497,7 @@ linggongAttendance: {
                 ...s,
                 dept: _def.dept,
                 status: _def.status,
+                leftDate: _def.leftDate || '',
                 transferredFrom: _def.transferredFrom || s.transferredFrom,
                 serviceTeamStartDate: _def.serviceTeamStartDate || s.serviceTeamStartDate
               };

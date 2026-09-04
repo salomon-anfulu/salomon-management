@@ -248,7 +248,7 @@
       <!-- v155: 已移除 GitHub Token 配置面板 -->
     </div>
     <div class="login-footer">
-       安福路 Salomon 旗舰店 · v191
+       安福路 Salomon 旗舰店 · v192
     </div>
   </div>
 
@@ -270,9 +270,9 @@
   </div>
 
   <!-- Supabase config + client (必须在 auth 之前加载) -->
-  <script src="supabase/config.js?v=191"></script>
+  <script src="supabase/config.js?v=192"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js?v=191"></script>
+  <script src="js/supabase-client.js?v=192"></script>
 
   <script>
     // 回车键提交
@@ -316,6 +316,13 @@
             .select('*')
             .eq('auth_id', data.user.id)
             .single();
+
+          // v192: 离职拦截——已停用账号（黑名单或 staff 表 status=left）禁止登录
+          const DEACTIVATED_ACCOUNTS = ['wangyalan@salomon.temp']; // 王雅澜 2026-09-01 离职
+          if (DEACTIVATED_ACCOUNTS.includes(data.user.email || email) || staffData?.status === 'left') {
+            await salomonSupabase.client.auth.signOut();
+            throw new Error('该账号已停用（人员已离职），如需恢复请联系管理员');
+          }
 
           // 写入 session
           sessionStorage.setItem('auth', JSON.stringify({

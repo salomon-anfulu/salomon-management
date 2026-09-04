@@ -28,6 +28,16 @@ const AuthHelper = {
             .eq('auth_id', session.user.id)
             .single();
 
+          // v192: 离职拦截——已停用账号（黑名单或 staff 表 status=left）踢下线（防已登录会话残留）
+          const DEACTIVATED_ACCOUNTS = ['wangyalan@salomon.temp']; // 王雅澜 2026-09-01 离职
+          if ((session.user.email && DEACTIVATED_ACCOUNTS.includes(session.user.email)) || staff?.status === 'left') {
+            await salomonSupabase.client.auth.signOut();
+            sessionStorage.removeItem('auth');
+            this._currentUser = null;
+            this._redirect();
+            return false;
+          }
+
           this._currentUser = {
             authenticated: true,
             supabaseUserId: session.user.id,
