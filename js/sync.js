@@ -148,7 +148,9 @@ const Sync = {
       return { currentMonth: defaultMonth, months: {} };
     }
 
-    const normalized = { currentMonth: avail.currentMonth || '2026-08', months: {} };
+    const _nowYm = `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}`;
+    // v193: fallback 用真实当月（原硬编码 '2026-08' 跨月后会把默认月拖回旧月）
+    const normalized = { currentMonth: avail.currentMonth || _nowYm, months: {} };
 
     // 1. 先迁移标准 months 结构
     // v184: 只接受 YYYY-MM 格式的月份键——丢弃历史 bug 产生的非法键(如 'data')，

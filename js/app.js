@@ -57,7 +57,7 @@ const Store = {
     // 供班数据（多月结构，支持逐日状态+备注）
     // 旧结构 { month, data: { name: { total, unavailable, note } } } 已在 Store.init 中迁移
     availability: {
-      currentMonth: '2026-08',
+      currentMonth: '2026-09',
       months: {
         '2026-06': {
           data: {
@@ -7217,7 +7217,7 @@ linggongAttendance: {
       { id: 54, staffName: '唐蓉', month: '2026-08', rating: 5, reviewDate: '2026-08-30', snippet: '感谢唐蓉姐姐的热心讲解！', keywords: ['感谢唐蓉', '热心讲解', '超预期'], source: '大众点评（鸭鸭型手打年糕，Lv2，打卡评价）' },
     ],
 
-    _dataVersion: '2026-09-04-v192',
+    _dataVersion: '2026-09-04-v193',
     // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
     // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
     _lockedMonths: ['2026-07', '2026-06'],
@@ -7265,7 +7265,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-09-04-v192';
+      const DATA_VERSION = '2026-09-04-v193';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
@@ -7402,11 +7402,12 @@ linggongAttendance: {
             merged.availability.months[mk] = { data: cleanedData };
           });
 
-          // v86 P1-1: dynamic current month fallback
+          // v86 P1-1 + v193: dynamic current month fallback
+          // 真实当月优先——本地/云端的 stale currentMonth（旧月）不再盖回，避免跨月后默认显示旧月
           {
             const _d = new Date();
             const _ym = `${_d.getFullYear()}-${String(_d.getMonth()+1).padStart(2,'0')}`;
-            merged.availability.currentMonth = userAvail.currentMonth || _ym;
+            merged.availability.currentMonth = (userAvail.currentMonth && userAvail.currentMonth >= _ym) ? userAvail.currentMonth : _ym;
           }
         }
 
