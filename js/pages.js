@@ -2229,10 +2229,11 @@ function renderRatings() {
   let ratings = allRatings.filter(r => r.month === _scoringMonth);
 
   // If no ratings exist for current month, create placeholder entries from active staff
+  // v199: 评分页仅展示 Service Team 兼职（仓库兼职不参与评分）
   if (ratings.length === 0) {
     const existingIds = allRatings.map(r => r.id);
     let nextId = existingIds.length > 0 ? Math.max(...existingIds) + 1 : 1;
-    ratings = staff.map(s => ({
+    ratings = staff.filter(s => s.dept === 'Service Team').map(s => ({
       id: nextId++,
       staffId: s.id,
       month: _scoringMonth,
@@ -2304,6 +2305,8 @@ function renderRatings() {
     const s = Store.getStaff(r.staffId);
     // 不在 staff 列表的人（如全职赵文瑞）不参与兼职评分
     if (!s) return false;
+    // v199: 评分页仅展示 Service Team 兼职（仓库兼职不参与评分）
+    if (s.dept !== 'Service Team') return false;
     // 转正/离职的成员不参与兼职评分展示（第一性原则：只管理兼职）
     // v192: 离职但有 leftDate 的成员，历史月份（离职月之前）仍保留展示（王雅澜8月评分）
     if (s.status !== 'active' && !_isStaffVisibleInMonth(s, _scoringMonth)) return false;
@@ -2726,7 +2729,7 @@ function renderRatings() {
             <div class="form-group">
               <label class="form-label">选择人员 *</label>
               <select class="form-select" id="rate_staff">
-                ${staff.map(s => `<option value="${s.id}">${_esc(s.name)} (${s.dept})</option>`).join('')}
+                ${staff.filter(s => s.dept === 'Service Team').map(s => `<option value="${s.id}">${_esc(s.name)} (${s.dept})</option>`).join('')}
               </select>
             </div>
             <div class="form-group">
