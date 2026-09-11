@@ -270,9 +270,9 @@
   </div>
 
   <!-- Supabase config + client (必须在 auth 之前加载) -->
-  <script src="supabase/config.js?v=202"></script>
+  <script src="supabase/config.js?v=203"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js?v=202"></script>
+  <script src="js/supabase-client.js?v=203"></script>
 
   <script>
     // 回车键提交
@@ -318,7 +318,8 @@
             .single();
 
           // v192: 离职拦截——已停用账号（黑名单或 staff 表 status=left）禁止登录
-          const DEACTIVATED_ACCOUNTS = ['wangyalan@salomon.temp']; // 王雅澜 2026-09-01 离职
+          // v203: 祖白代 2026-09-11 离职（仓库兼职）
+          const DEACTIVATED_ACCOUNTS = ['wangyalan@salomon.temp', 'zubedai@salomon.temp'];
           if (DEACTIVATED_ACCOUNTS.includes(data.user.email || email) || staffData?.status === 'left') {
             await salomonSupabase.client.auth.signOut();
             throw new Error('该账号已停用（人员已离职），如需恢复请联系管理员');

@@ -5069,18 +5069,19 @@ function renderMyForms() {
     _availStaff = me ? me.name : (Store.getList('staff').find(s => s.status === 'active' && !isManagementStaff(s)) || {}).name || '';
   }
 
+  // v203: 门迎排班暂停填写——隐藏 Tab（保留 key 注释，恢复时取消注释即可）
   const tabs = [
     { key: 'availability', label: '📅 可上班时间' },
     { key: 'shifts', label: '🔄 换班登记' },
     { key: 'support', label: '🔧 店务支援' },
-    { key: 'door', label: '🚪 门迎排班' },
+    // { key: 'door', label: '🚪 门迎排班' },
   ];
 
   return `
     <div class="animate-in" style="margin-bottom: 24px;">
       <div style="background: linear-gradient(135deg, #1a1a2e 0%, #2d2d4a 100%); border-radius: var(--radius-lg); padding: 24px; color: #fff;">
         <h2 style="font-size: 20px; font-weight: 800;">📝 我的填报</h2>
-        <p style="font-size: 13px; opacity: 0.7;">填写可上班时间 · 换班 · 店务 · 门迎</p>
+        <p style="font-size: 13px; opacity: 0.7;">填写可上班时间 · 换班 · 店务</p>
       </div>
     </div>
 

@@ -46,7 +46,8 @@ const Store = {
       { id: 22, name: '吴嘉莹', gender: '女', dept: '仓库兼职', joinDate: '2026-07-08', status: 'active', avatar_color: '#06b6d4', availableDays: 0, mbti: '' },
       // ===== 仓库兼职 =====
       { id: 14, name: '严佳铮', gender: '男', dept: '仓库兼职', joinDate: '2026-03-01', status: 'active', avatar_color: '#22d3ee', availableDays: 7, mbti: '' },
-      { id: 15, name: '祖白代', gender: '女', dept: '仓库兼职', joinDate: '2026-01-20', status: 'active', avatar_color: '#fb923c', availableDays: 29, mbti: '' },
+      // 祖白代 已离职（v203: 9/11起离职，历史月份数据保留展示；leftDate 供各模块按月隐藏）
+      { id: 15, name: '祖白代', gender: '女', dept: '仓库兼职', joinDate: '2026-01-20', status: 'left', leftDate: '2026-09-11', avatar_color: '#fb923c', availableDays: 0, mbti: '' },
       { id: 16, name: '陈广权', gender: '男', dept: '仓库兼职', joinDate: '2026-02-05', status: 'active', avatar_color: '#a78bfa', availableDays: 26, mbti: '' },
       { id: 23, name: '何思嘉', gender: '女', dept: '仓库兼职', joinDate: '2026-07-22', status: 'active', avatar_color: '#3b82f6', availableDays: 0, mbti: '' },
       { id: 17, name: '贾长乐', gender: '男', dept: 'Service Team', joinDate: '2026-03-10', status: 'active', avatar_color: '#f472b6', availableDays: 13, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-20' },
@@ -7569,7 +7570,7 @@ linggongAttendance: {
       { id: 54, staffName: '唐蓉', month: '2026-08', rating: 5, reviewDate: '2026-08-30', snippet: '感谢唐蓉姐姐的热心讲解！', keywords: ['感谢唐蓉', '热心讲解', '超预期'], source: '大众点评（鸭鸭型手打年糕，Lv2，打卡评价）' },
     ],
 
-    _dataVersion: '2026-09-08-v202',
+    _dataVersion: '2026-09-11-v203',
     // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
     // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
     _lockedMonths: ['2026-07', '2026-06'],
@@ -7617,7 +7618,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-09-08-v202';
+      const DATA_VERSION = '2026-09-11-v203';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
