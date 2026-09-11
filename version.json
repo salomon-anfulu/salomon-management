@@ -1,6 +1,6 @@
 {
-  "dataVersion": "2026-09-11-v203",
-  "cacheBuster": "203",
-  "updatedAt": "2026-09-11T03:49:33.409Z",
-  "note": "v203: ①我的填报隐藏门迎排班Tab(暂停填写, 注释保留可恢复) ②祖白代(仓库兼职)9/11离职: defaults.staff标left+leftDate=2026-09-11, 各模块按月隐藏(历史月保留), login+auth-guard黑名单加zubedai@salomon.temp(账号停用)。在职仓库兼职余5人: 严佳铮/陈广权/李健华/吴嘉莹/何思嘉。灵工历史37条保留。"
+  "dataVersion": "2026-09-11-v204",
+  "cacheBuster": "204",
+  "updatedAt": "2026-09-11T03:58:27.535Z",
+  "note": "v204: 祖白代改全月隐藏模式(移除leftDate, 李若彤模式)——我的填报个人下拉/供班总览矩阵等所有月份均不再显示, 仅人员管理页保留离职徽章。王雅澜的leftDate历史保留模式不受影响。"
 }
