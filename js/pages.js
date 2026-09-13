@@ -244,6 +244,26 @@ function _isStaffVisibleInMonth(s, monthKey) {
 }
 
 /**
+ * v205: 该员工是否全月隐藏（离职且无 leftDate = 全月不可见，如李若彤/祖白代/王龙宇）
+ * 用于那些直接渲染姓名数组（业绩 records / 好评 / 门迎班次 / 店务支援）而不经过 staff 列表的模块
+ */
+function _isStaffHiddenAllMonths(s) {
+  return !!s && s.status === 'left' && !s.leftDate;
+}
+
+/**
+ * v205: 全月隐藏员工的姓名集合（供各渲染模块做姓名级过滤）
+ * @returns {Set<string>}
+ */
+function _hiddenStaffNameSet() {
+  const set = new Set();
+  try {
+    (Store.getList('staff') || []).forEach(s => { if (_isStaffHiddenAllMonths(s)) set.add(s.name); });
+  } catch (e) { /* 忽略，缺省不过滤 */ }
+  return set;
+}
+
+/**
  * v192: 月份感知的员工列表（替代裸 status==='active' 过滤的统一入口）
  * @param {string} monthKey 'YYYY-MM'，缺省用 DEFAULT_VIEW_MONTH
  * @param {Object} opts { dept: 'Service Team' | '仓库兼职' | undefined, excludeMgmt: bool 默认 true }
@@ -392,7 +412,9 @@ function renderDashboard() {
     ? Math.round(attendance.filter(a => a.status === 'normal').length / attendance.length * 100)
     : 100;
 
-  const storeSupport = Store.get('storeSupport') || [];
+  // v205: 工作台动态排除全月隐藏离职员工（王龙宇等）
+  const _hiddenDashNames = _hiddenStaffNameSet();
+  const storeSupport = (Store.get('storeSupport') || []).filter(r => !_hiddenDashNames.has(r.staff));
 
   return `
     ${_auth.isAdmin ? `<div id="dashResetAlert" style="display: none;"></div>` : ''}
@@ -3255,7 +3277,9 @@ function renderPerformance() {
     }
   });
 
-  let records = [...currentData.records].sort((a, b) => {
+  // v205: 全月隐藏离职员工（王龙宇/祖白代/李若彤）不出现在业绩排行中；各月总额按原口径保留
+  const _hiddenPerfNames = _hiddenStaffNameSet();
+  let records = [...currentData.records.filter(r => !_hiddenPerfNames.has(r.name))].sort((a, b) => {
     const valA = a[perfSort] || 0;
     const valB = b[perfSort] || 0;
     return perfSortDir === 'desc' ? valB - valA : valA - valB;
@@ -3510,7 +3534,12 @@ let _doorPageMonth = null; // 独立页面月份，null=默认所有数据中最
 const DOOR_PAGE_MIN_MONTH = '2026-06'; // 门迎排班最早月份
 
 function renderDoorSchedule() {
-  const allDoorData = Store.get('doorSchedule') || [];
+  // v205: 全月隐藏离职员工（王龙宇等）——剔除其门迎班次（显示为空班，底层数据保留）
+  const _hiddenDoorNames = _hiddenStaffNameSet();
+  const allDoorData = (Store.get('doorSchedule') || []).map(d => ({
+    ...d,
+    slots: (d.slots || []).map(s => (_hiddenDoorNames.has((s.staff || '').trim()) ? { ...s, staff: '' } : s))
+  }));
   const staff = Store.getList('staff').filter(s => _isStaffVisibleInMonth(s, _doorPageMonth || DEFAULT_VIEW_MONTH) && s.dept === 'Service Team'); // v192: 月份感知
 
   // === 月份切换：确定可用月份列表（限定最早6月） ===
@@ -3751,7 +3780,9 @@ let _supportPageMonth = null; // 独立页面月份
 const SUPPORT_PAGE_MIN_MONTH = '2026-06'; // 店务支援最早月份
 
 function renderSupport() {
-  const allSupportData = Store.get('storeSupport') || [];
+  // v205: 全月隐藏离职员工（王龙宇等）的店务支援记录不再展示（底层数据保留）
+  const _hiddenSupNames = _hiddenStaffNameSet();
+  const allSupportData = (Store.get('storeSupport') || []).filter(r => !_hiddenSupNames.has(r.staff));
   const allShiftChanges = Store.get('shiftChanges') || [];
   const staffStats = Store.get('staffStats') || {};
 
@@ -4244,7 +4275,9 @@ let reviewsStaffFilter = 'all';
 let reviewEditingId = null;
 
 function renderCustomerReviews() {
-  const reviews = Store.get('customerReviews') || [];
+  // v205: 全月隐藏离职员工（王龙宇等）的好评不再展示（底层数据保留）
+  const _hiddenRvNames = _hiddenStaffNameSet();
+  const reviews = (Store.get('customerReviews') || []).filter(r => !_hiddenRvNames.has(r.staffName));
   const staff = Store.get('staff');
 
   // 月份列表（最新月份在前），始终包含默认月 8月以便切换
@@ -5644,7 +5677,9 @@ function renderShiftsTab() {
 // ===== Tab: Store Support (reuse existing forms) =====
 function renderSupportTab() {
   if (!_supportMonth) _supportMonth = DEFAULT_VIEW_MONTH;
-  const allData = Store.get('storeSupport') || [];
+  // v205: 全月隐藏离职员工的店务支援记录（底层数据保留）
+  const _hiddenSupTabNames = _hiddenStaffNameSet();
+  const allData = (Store.get('storeSupport') || []).filter(r => !_hiddenSupTabNames.has(r.staff));
   const data = allData.filter(s => (s.date || '').startsWith(_supportMonth));
 
   const [y, m] = _parseYM(_supportMonth, 2026, 7);
@@ -5695,7 +5730,12 @@ const DOOR_HOURS = ['10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:
 
 function renderDoorTab() {
   if (!_doorViewMonth) _doorViewMonth = DEFAULT_VIEW_MONTH;
-  const allDoorData = Store.get('doorSchedule') || [];
+  // v205: 全月隐藏离职员工的门迎班次（显示为空白）
+  const _hiddenDoorTabNames = _hiddenStaffNameSet();
+  const allDoorData = (Store.get('doorSchedule') || []).map(d => ({
+    ...d,
+    slots: (d.slots || []).map(s => (_hiddenDoorTabNames.has((s.staff || '').trim()) ? { ...s, staff: '' } : s))
+  }));
   const doorData = allDoorData.filter(d => (d.date || '').startsWith(_doorViewMonth));
 
   const [y, m] = _parseYM(_doorViewMonth, 2026, 7);

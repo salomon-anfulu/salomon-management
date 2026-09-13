@@ -38,7 +38,8 @@ const Store = {
       { id: 9, name: '王雅澜', gender: '女', dept: 'Service Team', joinDate: '2026-01-05', status: 'left', leftDate: '2026-09-01', avatar_color: '#a855f7', availableDays: 0, mbti: '' },
       // 李若彤 已离职（v156: 在 defaults 保留并标记 left，迁移逻辑每 init 强制同步为离职）
       { id: 10, name: '李若彤', gender: '女', dept: 'Service Team', joinDate: '2026-01-15', status: 'left', avatar_color: '#14b8a6', availableDays: 0, mbti: '' },
-      { id: 11, name: '王龙宇', gender: '男', dept: 'Service Team', joinDate: '2026-04-01', status: 'active', avatar_color: '#eab308', availableDays: 10, note: '19日到30日出差，请假', mbti: '' },
+      // 王龙宇 已离职（v205: 彻底移除模式——全月隐藏+业绩/评分/好评/门迎/店务/灵工等所有相关数据删除; 人员管理保留"离职"状态）
+      { id: 11, name: '王龙宇', gender: '男', dept: 'Service Team', joinDate: '2026-04-01', status: 'left', avatar_color: '#eab308', availableDays: 0, mbti: '' },
       { id: 12, name: '何秋烨', gender: '女', dept: 'Service Team', joinDate: '2026-03-15', status: 'active', avatar_color: '#f97316', availableDays: 23, mbti: '' },
       { id: 13, name: '龚赟昊', gender: '男', dept: 'Service Team', joinDate: '2026-02-25', status: 'active', avatar_color: '#84cc16', availableDays: 25, mbti: '' },
       { id: 20, name: '唐蓉', gender: '女', dept: 'Service Team', joinDate: '2026-07-01', status: 'active', avatar_color: '#ec4899', availableDays: 0, mbti: '', serviceTeamStartDate: '2026-07-01' },
@@ -7570,7 +7571,7 @@ linggongAttendance: {
       { id: 54, staffName: '唐蓉', month: '2026-08', rating: 5, reviewDate: '2026-08-30', snippet: '感谢唐蓉姐姐的热心讲解！', keywords: ['感谢唐蓉', '热心讲解', '超预期'], source: '大众点评（鸭鸭型手打年糕，Lv2，打卡评价）' },
     ],
 
-    _dataVersion: '2026-09-11-v204',
+    _dataVersion: '2026-09-13-v205',
     // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
     // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
     _lockedMonths: ['2026-07', '2026-06'],
@@ -7618,7 +7619,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-09-11-v204';
+      const DATA_VERSION = '2026-09-13-v205';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       

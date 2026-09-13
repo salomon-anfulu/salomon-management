@@ -30,7 +30,8 @@ const AuthHelper = {
 
           // v192: 离职拦截——已停用账号（黑名单或 staff 表 status=left）踢下线（防已登录会话残留）
           // v203: 祖白代 2026-09-11 离职（仓库兼职）
-          const DEACTIVATED_ACCOUNTS = ['wangyalan@salomon.temp', 'zubedai@salomon.temp'];
+          // v205: 王龙宇 2026-09 离职（Service Team）
+          const DEACTIVATED_ACCOUNTS = ['wangyalan@salomon.temp', 'zubedai@salomon.temp', 'wanglongyu@salomon.temp'];
           if ((session.user.email && DEACTIVATED_ACCOUNTS.includes(session.user.email)) || staff?.status === 'left') {
             await salomonSupabase.client.auth.signOut();
             sessionStorage.removeItem('auth');
