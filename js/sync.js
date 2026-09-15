@@ -500,13 +500,40 @@ const Sync = {
    */
   _mergeIntoLocal(shared) {
     // === 人员信息 (staff) — 按 id 合并，最先处理，让 staff 名称早于 availability/shiftChanges 解析 ===
+    // v208: defaults 离职锁 — defaults.staff 中标 left 的人（id+name 双匹配），
+    // 云端旧数据（老设备推送的历史快照）不得把 status 复活回 active，leftDate 以 defaults 为准。
+    // 根因：云端 blob 存量还是 active，每 15s pull 会持续覆盖本地 left，渲染过滤因此失效。
+    const _leftLock = new Map(); // id -> { name, leftDate }
+    try {
+      (Store.defaults && Store.defaults.staff || []).forEach(ds => {
+        if (ds && ds.status === 'left') _leftLock.set(ds.id, { name: ds.name, leftDate: ds.leftDate });
+      });
+    } catch (e) { /* defaults 缺失时不加锁，保持旧行为 */ }
+
     if (shared.staff && Array.isArray(shared.staff) && shared.staff.length > 0) {
       const local = Store.get('staff') || [];
       const localCount = local.length;
       const staffMap = new Map();
       local.forEach(s => staffMap.set(s.id, { ...s }));
+      let _reviveBlocked = [];
       shared.staff.forEach(cloud => {
         if (!cloud || !cloud.id) return;
+        // v208: 离职锁 — 云端不得复活 defaults 已标 left 的人
+        const lock = _leftLock.get(cloud.id);
+        if (lock && cloud.name === lock.name) {
+          if (cloud.status !== 'left' || cloud.leftDate !== lock.leftDate) {
+            _reviveBlocked.push(cloud.name);
+          }
+          // 自愈：本地若已被历史复活污染（status=active），趁此机会强制修复
+          const polluted = staffMap.get(cloud.id);
+          if (polluted && polluted.name === lock.name && polluted.status !== 'left') {
+            polluted.status = 'left';
+            if (lock.leftDate) polluted.leftDate = lock.leftDate; else delete polluted.leftDate;
+            if (!_reviveBlocked.includes(cloud.name)) _reviveBlocked.push(cloud.name);
+            _reviveBlocked.push(cloud.name + '(本地已修复)');
+          }
+          return; // 整条丢弃，本地（已修复为 left）保持权威
+        }
         const existing = staffMap.get(cloud.id);
         if (existing) {
           // 合并字段：云端非空字段覆盖本地
@@ -527,12 +554,45 @@ const Sync = {
         const newNames = merged.filter(m => !local.find(l => l.id === m.id)).map(m => m.name);
         console.log(`[Sync] staff 合并: ${localCount} → ${merged.length} (新增: ${newNames.join(', ') || '无'})`);
       }
+      if (_reviveBlocked.length > 0) {
+        console.warn('[Sync] 离职锁拦截云端复活:', _reviveBlocked.join(', '));
+      }
       Store.set('staff', merged);
     }
 
     // === 可上班时间 (availability) — v67: 抽取 _mergePersonAvailability 复用 ===
+    // v208: 离职人员供班过滤 — 配合上方离职锁，云端不得把已隐藏人员的供班数据拉回本地。
+    // left 无 leftDate = 全月隐藏（祖白代/王龙宇/李若彤）；left 有 leftDate = 离职月起隐藏，
+    // 历史月仍正常同步（王雅澜 2026-09 起隐藏，2026-08 及之前保留）。
+    const _hiddenAllMonths = new Set();
+    const _hiddenFromMonth = new Map();
+    try {
+      (Store.defaults && Store.defaults.staff || []).forEach(ds => {
+        if (!ds || ds.status !== 'left') return;
+        if (ds.leftDate) _hiddenFromMonth.set(ds.name, String(ds.leftDate).slice(0, 7));
+        else _hiddenAllMonths.add(ds.name);
+      });
+    } catch (e) { /* defaults 缺失时不加锁，保持旧行为 */ }
+
     if (shared.availability && Object.keys(shared.availability).length > 0) {
       let localAvail = this._normalizeAvailabilityStructure(Store.get('availability'));
+
+      // v208: 清理本地已落地的离职人员违规键（云端复活期间写入的脏数据）
+      let _localPurged = [];
+      Object.entries(localAvail.months).forEach(([monthKey, monthData]) => {
+        if (!monthData || !monthData.data) return;
+        Object.keys(monthData.data).forEach(pName => {
+          const hidden = _hiddenAllMonths.has(pName) ||
+            (_hiddenFromMonth.has(pName) && monthKey >= _hiddenFromMonth.get(pName));
+          if (hidden) {
+            delete monthData.data[pName];
+            _localPurged.push(`${monthKey}/${pName}`);
+          }
+        });
+      });
+      if (_localPurged.length > 0) {
+        console.warn('[Sync] 清理本地离职供班脏键:', _localPurged.join(', '));
+      }
 
       Object.entries(shared.availability).forEach(([monthKey, monthData]) => {
         // v184: 丢弃非法月份键（如历史 bug 的 'data' 错位键），不让其落地本地
@@ -546,6 +606,10 @@ const Sync = {
             console.warn('[Sync] 拉取时跳过乱码人名:', sharedName.slice(0, 30));
             return;
           }
+          // v208: 离职隐藏人员过滤（不新增、不更新、不复活）
+          if (_hiddenAllMonths.has(sharedName)) return;
+          const _hm = _hiddenFromMonth.get(sharedName);
+          if (_hm && monthKey >= _hm) return;
           const cleanedShared = this._cleanPersonData(JSON.parse(JSON.stringify(sharedPerson)));
 
           if (!localMonthData[sharedName]) {
@@ -809,11 +873,36 @@ const Sync = {
     }
 
     // === staff（人员信息）— 优先合并，确保 staff 名称最新 ===
+    // v208: push 端离职锁 — defaults 已标 left 的人，push 到云端必须保持 left，
+    // 防止本地若有旧 active 残留（或被复活后未修复的设备）把离职状态又推回云端。
+    const _pushLeftLock = new Map(); // id -> { name, leftDate }
+    try {
+      (Store.defaults && Store.defaults.staff || []).forEach(ds => {
+        if (ds && ds.status === 'left') _pushLeftLock.set(ds.id, { name: ds.name, leftDate: ds.leftDate });
+      });
+    } catch (e) { /* defaults 缺失时不加锁 */ }
     const localStaff = Store.get('staff') || [];
+    localStaff.forEach(s => {
+      if (!s) return;
+      const lock = _pushLeftLock.get(s.id);
+      if (lock && s.name === lock.name && s.status !== 'left') {
+        console.warn('[Sync] push 前强制离职状态:', s.name);
+        s.status = 'left';
+        if (lock.leftDate) s.leftDate = lock.leftDate; else delete s.leftDate;
+      }
+    });
     const cloudStaff = shared.staff || [];
     const _cloudStaffIds = new Set(cloudStaff.map(s => s.id));
     const staffMap = new Map();
-    cloudStaff.forEach(s => staffMap.set(s.id, s));
+    cloudStaff.forEach(s => {
+      // v208: 云端条目若已被本地判离职，先打上标记再进合并，防止旧 active 胜出
+      const lock = _pushLeftLock.get(s && s.id);
+      if (lock && s.name === lock.name) {
+        s = { ...s, status: 'left' };
+        if (lock.leftDate) s.leftDate = lock.leftDate; else delete s.leftDate;
+      }
+      staffMap.set(s.id, s);
+    });
     localStaff.forEach(s => staffMap.set(s.id, s));
     shared.staff = Array.from(staffMap.values()).sort((a, b) => (a.id || 0) - (b.id || 0));
     // v58: push 端 staff 合并日志
@@ -823,6 +912,34 @@ const Sync = {
     }
 
     // === availability — v67: 抽取 _mergePersonAvailability 复用 ===
+    // v208: push 端净化 — 云端 blob 存量里离职隐藏人员的供班键直接删除，
+    // 任一在线设备触发一次 push 即完成云端清理（配合 pull 端过滤双保险）。
+    const _pushHiddenAll = new Set();
+    const _pushHiddenFrom = new Map();
+    try {
+      (Store.defaults && Store.defaults.staff || []).forEach(ds => {
+        if (!ds || ds.status !== 'left') return;
+        if (ds.leftDate) _pushHiddenFrom.set(ds.name, String(ds.leftDate).slice(0, 7));
+        else _pushHiddenAll.add(ds.name);
+      });
+    } catch (e) { /* defaults 缺失时不加锁 */ }
+    if (shared.availability && typeof shared.availability === 'object') {
+      let _purged = [];
+      Object.entries(shared.availability).forEach(([monthKey, monthData]) => {
+        if (!/^\d{4}-\d{2}$/.test(monthKey) || !monthData || !monthData.data) return;
+        Object.keys(monthData.data).forEach(pName => {
+          const hidden = _pushHiddenAll.has(pName) ||
+            (_pushHiddenFrom.has(pName) && monthKey >= _pushHiddenFrom.get(pName));
+          if (hidden) {
+            delete monthData.data[pName];
+            _purged.push(`${monthKey}/${pName}`);
+          }
+        });
+      });
+      if (_purged.length > 0) {
+        console.warn('[Sync] push 净化云端离职供班残留:', _purged.join(', '));
+      }
+    }
     const localAvail = this._normalizeAvailabilityStructure(Store.get('availability'));
     if (localAvail && localAvail.months && Object.keys(localAvail.months).length > 0) {
       if (!shared.availability) shared.availability = {};
@@ -836,6 +953,10 @@ const Sync = {
             console.warn('[Sync] 推送时跳过乱码人名:', staffName.slice(0, 30));
             return;
           }
+          // v208: 离职隐藏人员不推送（与上方净化配套，防止本地 defaults 历史键重新污染云端）
+          if (_pushHiddenAll.has(staffName)) return;
+          const _phm = _pushHiddenFrom.get(staffName);
+          if (_phm && monthKey >= _phm) return;
 
           const cleanedPerson = this._cleanPersonData(personData);
           const cloudPerson = shared.availability[monthKey].data[staffName];
