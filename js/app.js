@@ -6717,7 +6717,7 @@ linggongAttendance: {
                 "signIn": "08:41",
                 "signOut": "18:30",
                 "status": "打卡正常",
-                "totalHours": "34"
+                "totalHours": "42.5"
         },
         {
                 "name": "杨子豪",
@@ -6725,7 +6725,7 @@ linggongAttendance: {
                 "signIn": "07:45",
                 "signOut": "21:30",
                 "status": "打卡正常",
-                "totalHours": "38"
+                "totalHours": "47.5"
         },
         {
                 "name": "梁实秋",
@@ -6733,7 +6733,7 @@ linggongAttendance: {
                 "signIn": "07:47",
                 "signOut": "20:32",
                 "status": "打卡正常",
-                "totalHours": "40"
+                "totalHours": "50"
         },
         {
                 "name": "王靳毓",
@@ -6757,7 +6757,7 @@ linggongAttendance: {
                 "signIn": "07:52",
                 "signOut": "17:19",
                 "status": "打卡正常",
-                "totalHours": "34"
+                "totalHours": "42.5"
         },
         {
                 "name": "龚赟昊",
@@ -6765,7 +6765,7 @@ linggongAttendance: {
                 "signIn": "07:57",
                 "signOut": "21:15",
                 "status": "打卡正常",
-                "totalHours": "22"
+                "totalHours": "27.5"
         },
         {
                 "name": "何思嘉",
@@ -7157,7 +7157,7 @@ linggongAttendance: {
                 "signIn": "11:24",
                 "signOut": "次日00:21",
                 "status": "打卡正常",
-                "totalHours": "11.5"
+                "totalHours": "23"
         },
         {
                 "name": "贾长乐",
@@ -7203,17 +7203,17 @@ linggongAttendance: {
                 "name": "朱凯赟",
                 "date": "2026-09-08",
                 "signIn": "17:11",
-                "signOut": "",
-                "status": "打卡进行中",
-                "totalHours": "0"
+                "signOut": "21:15",
+                "status": "打卡正常",
+                "totalHours": "4"
         },
         {
                 "name": "杨子豪",
                 "date": "2026-09-08",
                 "signIn": "12:42",
-                "signOut": "",
-                "status": "打卡进行中",
-                "totalHours": "0"
+                "signOut": "21:30",
+                "status": "打卡正常",
+                "totalHours": "8"
         },
         {
                 "name": "祖白代",
@@ -7235,9 +7235,9 @@ linggongAttendance: {
                 "name": "陈广权",
                 "date": "2026-09-08",
                 "signIn": "12:23",
-                "signOut": "",
-                "status": "打卡进行中",
-                "totalHours": "0"
+                "signOut": "21:00",
+                "status": "打卡正常",
+                "totalHours": "8"
         },
         {
                 "name": "龚赟昊",
@@ -7246,6 +7246,390 @@ linggongAttendance: {
                 "signOut": "16:34",
                 "status": "打卡正常",
                 "totalHours": "2.5"
+        },
+        {
+                "name": "唐蓉",
+                "date": "2026-09-09",
+                "signIn": "12:57",
+                "signOut": "21:43",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "梁实秋",
+                "date": "2026-09-09",
+                "signIn": "09:49",
+                "signOut": "18:31",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "玛依拉",
+                "date": "2026-09-09",
+                "signIn": "09:31",
+                "signOut": "17:16",
+                "status": "打卡正常",
+                "totalHours": "7"
+        },
+        {
+                "name": "祖白代",
+                "date": "2026-09-09",
+                "signIn": "12:20",
+                "signOut": "21:09",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "贾长乐",
+                "date": "2026-09-09",
+                "signIn": "13:11",
+                "signOut": "17:31",
+                "status": "打卡正常",
+                "totalHours": "4"
+        },
+        {
+                "name": "邓奇缘",
+                "date": "2026-09-09",
+                "signIn": "16:59",
+                "signOut": "21:15",
+                "status": "打卡正常",
+                "totalHours": "4"
+        },
+        {
+                "name": "陈广权",
+                "date": "2026-09-09",
+                "signIn": "10:28",
+                "signOut": "19:00",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "孔祥宇",
+                "date": "2026-09-10",
+                "signIn": "17:08",
+                "signOut": "21:15",
+                "status": "打卡正常",
+                "totalHours": "4"
+        },
+        {
+                "name": "田佳乐",
+                "date": "2026-09-10",
+                "signIn": "10:24",
+                "signOut": "19:00",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "祖白代",
+                "date": "2026-09-10",
+                "signIn": "12:18",
+                "signOut": "21:02",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "贾长乐",
+                "date": "2026-09-10",
+                "signIn": "09:38",
+                "signOut": "17:25",
+                "status": "打卡正常",
+                "totalHours": "7"
+        },
+        {
+                "name": "迟骋",
+                "date": "2026-09-10",
+                "signIn": "14:20",
+                "signOut": "21:35",
+                "status": "打卡异常",
+                "totalHours": "6.5"
+        },
+        {
+                "name": "龚赟昊",
+                "date": "2026-09-10",
+                "signIn": "09:58",
+                "signOut": "18:30",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "何秋烨",
+                "date": "2026-09-11",
+                "signIn": "13:30",
+                "signOut": "17:33",
+                "status": "打卡正常",
+                "totalHours": "4"
+        },
+        {
+                "name": "唐蓉",
+                "date": "2026-09-11",
+                "signIn": "17:12",
+                "signOut": "21:24",
+                "status": "打卡正常",
+                "totalHours": "4"
+        },
+        {
+                "name": "李健华",
+                "date": "2026-09-11",
+                "signIn": "缺卡",
+                "signOut": "缺卡",
+                "status": "缺勤",
+                "totalHours": "0"
+        },
+        {
+                "name": "梁实秋",
+                "date": "2026-09-11",
+                "signIn": "13:23",
+                "signOut": "22:03",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "王靳毓",
+                "date": "2026-09-11",
+                "signIn": "10:19",
+                "signOut": "19:01",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "王龙宇",
+                "date": "2026-09-11",
+                "signIn": "09:34",
+                "signOut": "17:18",
+                "status": "打卡正常",
+                "totalHours": "7"
+        },
+        {
+                "name": "邓奇缘",
+                "date": "2026-09-11",
+                "signIn": "09:57",
+                "signOut": "18:34",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "严佳铮",
+                "date": "2026-09-12",
+                "signIn": "10:24",
+                "signOut": "21:32",
+                "status": "打卡正常",
+                "totalHours": "10"
+        },
+        {
+                "name": "孔祥宇",
+                "date": "2026-09-12",
+                "signIn": "11:30",
+                "signOut": "20:30",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
+                "name": "杨子豪",
+                "date": "2026-09-12",
+                "signIn": "09:47",
+                "signOut": "18:30",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "王靳毓",
+                "date": "2026-09-12",
+                "signIn": "09:47",
+                "signOut": "18:30",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "玛依拉",
+                "date": "2026-09-12",
+                "signIn": "13:17",
+                "signOut": "22:01",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "田佳乐",
+                "date": "2026-09-12",
+                "signIn": "11:15",
+                "signOut": "20:31",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
+                "name": "贾长乐",
+                "date": "2026-09-12",
+                "signIn": "12:29",
+                "signOut": "21:46",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
+                "name": "迟骋",
+                "date": "2026-09-12",
+                "signIn": "09:32",
+                "signOut": "18:47",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
+                "name": "严佳铮",
+                "date": "2026-09-13",
+                "signIn": "10:22",
+                "signOut": "21:30",
+                "status": "打卡正常",
+                "totalHours": "10"
+        },
+        {
+                "name": "何秋烨",
+                "date": "2026-09-13",
+                "signIn": "09:41",
+                "signOut": "18:17",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "唐蓉",
+                "date": "2026-09-13",
+                "signIn": "09:55",
+                "signOut": "18:35",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "孔祥宇",
+                "date": "2026-09-13",
+                "signIn": "13:19",
+                "signOut": "22:00",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "李健华",
+                "date": "2026-09-13",
+                "signIn": "缺卡",
+                "signOut": "缺卡",
+                "status": "缺勤",
+                "totalHours": "0"
+        },
+        {
+                "name": "梁实秋",
+                "date": "2026-09-13",
+                "signIn": "12:37",
+                "signOut": "21:16",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "王靳毓",
+                "date": "2026-09-13",
+                "signIn": "12:13",
+                "signOut": "21:00",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "玛依拉",
+                "date": "2026-09-13",
+                "signIn": "13:10",
+                "signOut": "17:30",
+                "status": "打卡正常",
+                "totalHours": "4"
+        },
+        {
+                "name": "邓奇缘",
+                "date": "2026-09-13",
+                "signIn": "11:27",
+                "signOut": "20:31",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
+                "name": "何秋烨",
+                "date": "2026-09-14",
+                "signIn": "12:52",
+                "signOut": "21:31",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "王靳毓",
+                "date": "2026-09-14",
+                "signIn": "11:30",
+                "signOut": "20:33",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
+                "name": "田佳乐",
+                "date": "2026-09-14",
+                "signIn": "12:15",
+                "signOut": "21:52",
+                "status": "打卡正常",
+                "totalHours": "9"
+        },
+        {
+                "name": "考赛尔·艾力",
+                "date": "2026-09-14",
+                "signIn": "10:24",
+                "signOut": "19:00",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "贾长乐",
+                "date": "2026-09-14",
+                "signIn": "09:52",
+                "signOut": "18:30",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "唐蓉",
+                "date": "2026-09-15",
+                "signIn": "14:55",
+                "signOut": "",
+                "status": "打卡进行中",
+                "totalHours": "0"
+        },
+        {
+                "name": "孔祥宇",
+                "date": "2026-09-15",
+                "signIn": "11:23",
+                "signOut": "",
+                "status": "打卡进行中",
+                "totalHours": "0"
+        },
+        {
+                "name": "杨子豪",
+                "date": "2026-09-15",
+                "signIn": "11:30",
+                "signOut": "",
+                "status": "打卡进行中",
+                "totalHours": "0"
+        },
+        {
+                "name": "王靳毓",
+                "date": "2026-09-15",
+                "signIn": "08:54",
+                "signOut": "",
+                "status": "打卡进行中",
+                "totalHours": "0"
+        },
+        {
+                "name": "邓奇缘",
+                "date": "2026-09-15",
+                "signIn": "12:53",
+                "signOut": "",
+                "status": "打卡进行中",
+                "totalHours": "0"
+        },
+        {
+                "name": "陈广权",
+                "date": "2026-09-15",
+                "signIn": "10:30",
+                "signOut": "",
+                "status": "打卡进行中",
+                "totalHours": "0"
         }
         ]
     },
@@ -7571,7 +7955,7 @@ linggongAttendance: {
       { id: 54, staffName: '唐蓉', month: '2026-08', rating: 5, reviewDate: '2026-08-30', snippet: '感谢唐蓉姐姐的热心讲解！', keywords: ['感谢唐蓉', '热心讲解', '超预期'], source: '大众点评（鸭鸭型手打年糕，Lv2，打卡评价）' },
     ],
 
-    _dataVersion: '2026-09-13-v205',
+    _dataVersion: '2026-09-15-v206',
     // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
     // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
     _lockedMonths: ['2026-07', '2026-06'],
@@ -7619,7 +8003,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-09-13-v205';
+      const DATA_VERSION = '2026-09-15-v206';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
