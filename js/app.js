@@ -52,6 +52,11 @@ const Store = {
       { id: 16, name: '陈广权', gender: '男', dept: '仓库兼职', joinDate: '2026-02-05', status: 'active', avatar_color: '#a78bfa', availableDays: 26, mbti: '' },
       { id: 23, name: '何思嘉', gender: '女', dept: '仓库兼职', joinDate: '2026-07-22', status: 'active', avatar_color: '#3b82f6', availableDays: 0, mbti: '' },
       { id: 24, name: '考赛尔·艾力', gender: '男', dept: '仓库兼职', joinDate: '2026-09-14', status: 'active', avatar_color: '#f59e0b', availableDays: 0, mbti: '' },
+      // v211: 新入职4名仓库兼职（9/17-9/18，刘晓静/和卫鹏/李淑婷9/17起已有灵工打卡，王佳鸣待上岗）
+      { id: 25, name: '刘晓静', gender: '女', dept: '仓库兼职', joinDate: '2026-09-18', status: 'active', avatar_color: '#60a5fa', availableDays: 0, mbti: '' },
+      { id: 26, name: '和卫鹏', gender: '男', dept: '仓库兼职', joinDate: '2026-09-17', status: 'active', avatar_color: '#2dd4bf', availableDays: 0, mbti: '' },
+      { id: 27, name: '李淑婷', gender: '女', dept: '仓库兼职', joinDate: '2026-09-17', status: 'active', avatar_color: '#e879f9', availableDays: 0, mbti: '' },
+      { id: 28, name: '王佳鸣', gender: '男', dept: '仓库兼职', joinDate: '2026-09-18', status: 'active', avatar_color: '#94a3b8', availableDays: 0, mbti: '' },
       { id: 17, name: '贾长乐', gender: '男', dept: 'Service Team', joinDate: '2026-03-10', status: 'active', avatar_color: '#f472b6', availableDays: 13, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-20' },
       { id: 18, name: '玛依拉', gender: '女', dept: 'Service Team', joinDate: '2026-02-15', status: 'active', avatar_color: '#34d399', availableDays: 23, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-01' },
       { id: 19, name: '梁实秋', gender: '男', dept: 'Service Team', joinDate: '2026-01-25', status: 'active', avatar_color: '#fbbf24', availableDays: 19, mbti: '', transferredFrom: '仓库兼职', serviceTeamStartDate: '2026-07-20' },
@@ -8132,7 +8137,7 @@ linggongAttendance: {
       { id: 54, staffName: '唐蓉', month: '2026-08', rating: 5, reviewDate: '2026-08-30', snippet: '感谢唐蓉姐姐的热心讲解！', keywords: ['感谢唐蓉', '热心讲解', '超预期'], source: '大众点评（鸭鸭型手打年糕，Lv2，打卡评价）' },
     ],
 
-    _dataVersion: '2026-09-15-v210',
+    _dataVersion: '2026-09-15-v211',
     // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
     // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
     _lockedMonths: ['2026-07', '2026-06'],
@@ -8180,7 +8185,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-09-15-v210';
+      const DATA_VERSION = '2026-09-15-v211';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
