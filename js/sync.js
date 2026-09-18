@@ -510,14 +510,36 @@ const Sync = {
       });
     } catch (e) { /* defaults 缺失时不加锁，保持旧行为 */ }
 
+    // v209: 管理层污染防御 — defaults.staff 条目（id+name 双匹配）永远不得携带
+    // role=admin/manager 或含 'admin' 的 email。云端出现此类字段一律剥离
+    // （历史上 Dashboard/手工 REST 曾把 admin 特征误合并进兼职条目，
+    //  导致 isManagementStaff() 误判、该员工从人员列表/个人填报下拉消失）。
+    const _defaultsStaffMap = new Map(); // id -> defaults 条目（供字段级净化）
+    try {
+      (Store.defaults && Store.defaults.staff || []).forEach(ds => {
+        if (ds && ds.id !== undefined) _defaultsStaffMap.set(ds.id, ds);
+      });
+    } catch (e) { /* defaults 缺失时不防御 */ }
+    const _stripMgmtPollution = (s) => {
+      if (!s) return s;
+      const ds = _defaultsStaffMap.get(s.id);
+      if (!ds || ds.name !== s.name) return s; // 与 defaults 不符（含真 admin 条目），不处理
+      let dirty = false;
+      if (s.role === 'admin' || s.role === 'manager') { delete s.role; dirty = true; }
+      if (s.email && String(s.email).toLowerCase().includes('admin')) { delete s.email; dirty = true; }
+      if (dirty) console.warn('[Sync] 管理层污染拦截: 已剥离', s.name, '的 admin 特征字段');
+      return s;
+    };
+
     if (shared.staff && Array.isArray(shared.staff) && shared.staff.length > 0) {
       const local = Store.get('staff') || [];
       const localCount = local.length;
       const staffMap = new Map();
-      local.forEach(s => staffMap.set(s.id, { ...s }));
+      local.forEach(s => staffMap.set(s.id, _stripMgmtPollution({ ...s })));
       let _reviveBlocked = [];
       shared.staff.forEach(cloud => {
         if (!cloud || !cloud.id) return;
+        cloud = _stripMgmtPollution({ ...cloud }); // v209: 剥离后再进合并
         // v208: 离职锁 — 云端不得复活 defaults 已标 left 的人
         const lock = _leftLock.get(cloud.id);
         if (lock && cloud.name === lock.name) {
@@ -894,7 +916,23 @@ const Sync = {
     const cloudStaff = shared.staff || [];
     const _cloudStaffIds = new Set(cloudStaff.map(s => s.id));
     const staffMap = new Map();
+    // v209: push 端管理层污染净化 — defaults 条目不得携带 role=admin/manager 或含 admin 的 email
+    const _pushDefaultsMap = new Map();
+    try {
+      (Store.defaults && Store.defaults.staff || []).forEach(ds => {
+        if (ds && ds.id !== undefined) _pushDefaultsMap.set(ds.id, ds);
+      });
+    } catch (e) {}
+    const _pushStrip = (s) => {
+      if (!s) return s;
+      const ds = _pushDefaultsMap.get(s.id);
+      if (!ds || ds.name !== s.name) return s;
+      if (s.role === 'admin' || s.role === 'manager') delete s.role;
+      if (s.email && String(s.email).toLowerCase().includes('admin')) delete s.email;
+      return s;
+    };
     cloudStaff.forEach(s => {
+      s = _pushStrip({ ...s });
       // v208: 云端条目若已被本地判离职，先打上标记再进合并，防止旧 active 胜出
       const lock = _pushLeftLock.get(s && s.id);
       if (lock && s.name === lock.name) {
@@ -903,7 +941,7 @@ const Sync = {
       }
       staffMap.set(s.id, s);
     });
-    localStaff.forEach(s => staffMap.set(s.id, s));
+    localStaff.forEach(s => staffMap.set(s.id, _pushStrip(s)));
     shared.staff = Array.from(staffMap.values()).sort((a, b) => (a.id || 0) - (b.id || 0));
     // v58: push 端 staff 合并日志
     if (shared.staff.length > cloudStaff.length) {
