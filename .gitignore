@@ -20,3 +20,14 @@ data/
 !images/**/*.png
 scripts/archive/
 service_role.key
+
+# 已退出git跟踪的历史文档(本地留档, 防add -A回流)
+/overview*.md
+/v155-overview.md
+/adversarial-review*.md
+/P0-remediation-steps.md
+/同步问题解决方案.md
+/小程序迁移方案.md
+/supabase-migration.md
+/monthly-report-july-2026.html
+/gen_poster.py
