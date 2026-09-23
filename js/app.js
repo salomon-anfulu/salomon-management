@@ -6723,7 +6723,7 @@ linggongAttendance: {
                 "signIn": "08:41",
                 "signOut": "18:30",
                 "status": "打卡正常",
-                "totalHours": "59.5"
+                "totalHours": "68"
         },
         {
                 "name": "杨子豪",
@@ -6731,7 +6731,7 @@ linggongAttendance: {
                 "signIn": "07:45",
                 "signOut": "21:30",
                 "status": "打卡正常",
-                "totalHours": "66.5"
+                "totalHours": "76"
         },
         {
                 "name": "梁实秋",
@@ -6739,7 +6739,7 @@ linggongAttendance: {
                 "signIn": "07:47",
                 "signOut": "20:32",
                 "status": "打卡正常",
-                "totalHours": "70"
+                "totalHours": "80"
         },
         {
                 "name": "王靳毓",
@@ -6763,7 +6763,7 @@ linggongAttendance: {
                 "signIn": "07:52",
                 "signOut": "17:19",
                 "status": "打卡正常",
-                "totalHours": "59.5"
+                "totalHours": "68"
         },
         {
                 "name": "龚赟昊",
@@ -6771,7 +6771,7 @@ linggongAttendance: {
                 "signIn": "07:57",
                 "signOut": "21:15",
                 "status": "打卡正常",
-                "totalHours": "38.5"
+                "totalHours": "44"
         },
         {
                 "name": "何思嘉",
@@ -7163,7 +7163,7 @@ linggongAttendance: {
                 "signIn": "11:24",
                 "signOut": "次日00:21",
                 "status": "打卡正常",
-                "totalHours": "46"
+                "totalHours": "57.5"
         },
         {
                 "name": "贾长乐",
@@ -7761,9 +7761,9 @@ linggongAttendance: {
                 "name": "孔祥宇",
                 "date": "2026-09-18",
                 "signIn": "09:51",
-                "signOut": "",
-                "status": "打卡进行中",
-                "totalHours": "0"
+                "signOut": "18:31",
+                "status": "打卡正常",
+                "totalHours": "8"
         },
         {
                 "name": "孔���宇",
@@ -7897,70 +7897,198 @@ linggongAttendance: {
                 "name": "何思嘉",
                 "date": "2026-09-20",
                 "signIn": "11:25",
-                "signOut": "",
-                "status": "打卡进行中",
-                "totalHours": "0"
+                "signOut": "20:48",
+                "status": "打卡正常",
+                "totalHours": "8.5"
         },
         {
                 "name": "何秋烨",
                 "date": "2026-09-20",
                 "signIn": "10:27",
-                "signOut": "",
-                "status": "打卡进行中",
-                "totalHours": "0"
+                "signOut": "19:00",
+                "status": "打卡正常",
+                "totalHours": "8"
         },
         {
                 "name": "刘晓静",
                 "date": "2026-09-20",
                 "signIn": "12:18",
-                "signOut": "",
-                "status": "打卡进行中",
-                "totalHours": "0"
+                "signOut": "21:01",
+                "status": "打卡正常",
+                "totalHours": "8"
         },
         {
                 "name": "唐蓉",
                 "date": "2026-09-20",
+                "signIn": "09:58",
+                "signOut": "18:32",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "梁实秋",
+                "date": "2026-09-20",
+                "signIn": "13:18",
+                "signOut": "22:15",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "王靳毓",
+                "date": "2026-09-20",
+                "signIn": "12:40",
+                "signOut": "21:16",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "玛依拉",
+                "date": "2026-09-20",
+                "signIn": "11:24",
+                "signOut": "20:30",
+                "status": "打卡正常",
+                "totalHours": "8.5"
+        },
+        {
+                "name": "考赛尔·艾力",
+                "date": "2026-09-20",
+                "signIn": "10:25",
+                "signOut": "19:00",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "邓奇缘",
+                "date": "2026-09-20",
+                "signIn": "09:41",
+                "signOut": "18:15",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "刘晓静",
+                "date": "2026-09-21",
+                "signIn": "10:18",
+                "signOut": "19:03",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "孔祥宇",
+                "date": "2026-09-21",
+                "signIn": "09:58",
+                "signOut": "18:31",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "朱凯赟",
+                "date": "2026-09-21",
+                "signIn": "12:43",
+                "signOut": "21:30",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "玛依拉",
+                "date": "2026-09-21",
+                "signIn": "09:38",
+                "signOut": "17:15",
+                "status": "打卡正常",
+                "totalHours": "7"
+        },
+        {
+                "name": "贾长乐",
+                "date": "2026-09-21",
+                "signIn": "16:48",
+                "signOut": "21:15",
+                "status": "打卡正常",
+                "totalHours": "4"
+        },
+        {
+                "name": "陈广权",
+                "date": "2026-09-21",
+                "signIn": "11:00",
+                "signOut": "21:00",
+                "status": "打卡正常",
+                "totalHours": "9.5"
+        },
+        {
+                "name": "何思嘉",
+                "date": "2026-09-22",
+                "signIn": "10:22",
+                "signOut": "19:01",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "杨子豪",
+                "date": "2026-09-22",
+                "signIn": "16:49",
+                "signOut": "21:17",
+                "status": "打卡正常",
+                "totalHours": "4"
+        },
+        {
+                "name": "王靳毓",
+                "date": "2026-09-22",
+                "signIn": "09:37",
+                "signOut": "17:17",
+                "status": "打卡正常",
+                "totalHours": "7"
+        },
+        {
+                "name": "田佳乐",
+                "date": "2026-09-22",
+                "signIn": "09:56",
+                "signOut": "18:37",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "考赛尔·艾力",
+                "date": "2026-09-22",
+                "signIn": "12:36",
+                "signOut": "21:10",
+                "status": "打卡正常",
+                "totalHours": "7.5"
+        },
+        {
+                "name": "龚赟昊",
+                "date": "2026-09-22",
+                "signIn": "12:53",
+                "signOut": "21:31",
+                "status": "打卡正常",
+                "totalHours": "8"
+        },
+        {
+                "name": "朱凯赟",
+                "date": "2026-09-23",
                 "signIn": "09:58",
                 "signOut": "",
                 "status": "打卡进行中",
                 "totalHours": "0"
         },
         {
-                "name": "梁实秋",
-                "date": "2026-09-20",
-                "signIn": "13:18",
+                "name": "李健华",
+                "date": "2026-09-23",
+                "signIn": "10:26",
                 "signOut": "",
                 "status": "打卡进行中",
                 "totalHours": "0"
         },
         {
-                "name": "王靳毓",
-                "date": "2026-09-20",
-                "signIn": "12:40",
-                "signOut": "",
-                "status": "打卡进行中",
-                "totalHours": "0"
-        },
-        {
-                "name": "玛依拉",
-                "date": "2026-09-20",
-                "signIn": "11:24",
-                "signOut": "",
-                "status": "打卡进行中",
-                "totalHours": "0"
-        },
-        {
-                "name": "考赛尔·艾力",
-                "date": "2026-09-20",
-                "signIn": "10:25",
+                "name": "贾长乐",
+                "date": "2026-09-23",
+                "signIn": "09:51",
                 "signOut": "",
                 "status": "打卡进行中",
                 "totalHours": "0"
         },
         {
                 "name": "邓奇缘",
-                "date": "2026-09-20",
-                "signIn": "09:41",
+                "date": "2026-09-23",
+                "signIn": "缺卡",
                 "signOut": "",
                 "status": "打卡进行中",
                 "totalHours": "0"
@@ -8208,28 +8336,28 @@ linggongAttendance: {
             },
             september: {
               month: '2026-09',
-              totalSales: 222876,
-              totalQty: 186,
-              totalTickets: 134,
-              avgUPT: 1.39,
-              avgPrice: 1198,
+              totalSales: 233062,
+              totalQty: 193,
+              totalTickets: 148,
+              avgUPT: 1.30,
+              avgPrice: 1208,
               avgHourlyOutput: 0,
-              note: '9月业绩(9/1-9/20, 小票74全量2079行整月重建v212)-兼职净额222876/186件/134票/14人; 归因引擎v5.1: 剥离顺序=抵用券[xxx]→HQ券码(hq\d+-\d+含~变体)→YCZF工号→ASCII前后视扫缩写→昵称; 与v202(9/1-9/8,110741)完全对账闭环: 差异+2606=080025三行1208(YZH券码行)+080028一行1398(yzh外宾)均为9/8后新增数据; 手工归因2笔保留(孔祥宇09060028三行4494/玛依拉09070012一笔1398); 月内退货回溯: 杨子豪-5094(060008退050009两行3496+060012退060009一笔1598)+唐蓉-2504+梁实秋-1398等, 跨月退货(原票8月)10笔全部排除; 换货行同票±对冲不参与归因; 王龙宇2496/田佳乐1298为9月初历史数据保留(渲染层离职隐藏); workHours/hourlyOutput置0待运行时动态补',
+              note: '9月业绩(9/1-9/23, 小票77全量2180行整月重建v213)-兼职净额233062/193件/148票/14人; 归因引擎v5.2: 在v5.1基础上原票号正则改[^,)]+兼容"销售员:AMxxxxxx"新后缀(此前回溯失败漏扣退货), 换货票(type=换货)整票不参与, 手工归因2笔沿用(孔祥宇09060028三行4494/玛依拉09070012一笔1398); 与v212(9/1-9/20,222876)对账闭环: 窗口重算225572差+2696=邓奇缘9200012外宾DQY 1398+何秋烨9200018hqy外宾1298, 行级diff确认77为74严格超集(0行丢失,30条新增全为9/20晚批次POS自然增长); 退货应用: 唐蓉-2504/杨子豪-5094/孔祥宇-4494(09060028全退回溯)/梁实秋-1398/邓奇缘-1398/何秋烨-498/唐蓉-698等, 跨月退货及原票无兼职归属者排除; 9/21董事会内购32940±对冲(收款方式错误重开)不涉及兼职; workHours/hourlyOutput置0待运行时动态补',
               records: [
-                { name: '贾长乐', sales: 27683, qty: 21, tickets: 16, upt: 1.31, avgPrice: 1318, workHours: 0, hourlyOutput: 0, salesShare: 0.1242, categories: '鞋履 77.9% / 服装 21.3% / 配件 0.8%' },
-                { name: '梁实秋', sales: 26720, qty: 20, tickets: 11, upt: 1.82, avgPrice: 1336, workHours: 0, hourlyOutput: 0, salesShare: 0.1199, categories: '鞋履 74.3% / 服装 24.9% / 配件 0.8%' },
-                { name: '孔祥宇', sales: 26673, qty: 21, tickets: 16, upt: 1.31, avgPrice: 1270, workHours: 0, hourlyOutput: 0, salesShare: 0.1197, categories: '鞋履 93.2% / 服装 6.5% / 配件 0.3%' },
-                { name: '唐蓉', sales: 23143, qty: 21, tickets: 17, upt: 1.24, avgPrice: 1102, workHours: 0, hourlyOutput: 0, salesShare: 0.1038, categories: '鞋履 85.8% / 服装 9.0% / 配件 5.1%' },
-                { name: '杨子豪', sales: 22410, qty: 22, tickets: 14, upt: 1.57, avgPrice: 1019, workHours: 0, hourlyOutput: 0, salesShare: 0.1005, categories: '鞋履 72.4% / 服装 23.0% / 配件 4.7%' },
-                { name: '玛依拉', sales: 19191, qty: 17, tickets: 14, upt: 1.21, avgPrice: 1129, workHours: 0, hourlyOutput: 0, salesShare: 0.0861, categories: '鞋履 93.9% / 配件 3.5% / 服装 2.6%' },
-                { name: '龚赟昊', sales: 16512, qty: 14, tickets: 8, upt: 1.75, avgPrice: 1179, workHours: 0, hourlyOutput: 0, salesShare: 0.0741, categories: '鞋履 62.3% / 服装 35.7% / 配件 2.0%' },
-                { name: '邓奇缘', sales: 12980, qty: 10, tickets: 9, upt: 1.11, avgPrice: 1298, workHours: 0, hourlyOutput: 0, salesShare: 0.0582, categories: '鞋履 95.6% / 服装 4.4%' },
-                { name: '何秋烨', sales: 11484, qty: 8, tickets: 6, upt: 1.33, avgPrice: 1436, workHours: 0, hourlyOutput: 0, salesShare: 0.0515, categories: '服装 52.8% / 鞋履 45.6% / 配件 1.6%' },
-                { name: '迟骋', sales: 11265, qty: 10, tickets: 6, upt: 1.67, avgPrice: 1127, workHours: 0, hourlyOutput: 0, salesShare: 0.0505, categories: '鞋履 61.9% / 服装 35.4% / 配件 2.6%' },
-                { name: '王靳毓', sales: 10812, qty: 11, tickets: 8, upt: 1.38, avgPrice: 983, workHours: 0, hourlyOutput: 0, salesShare: 0.0485, categories: '鞋履 80.4% / 服装 11.9% / 配件 7.7%' },
-                { name: '朱凯赟', sales: 10209, qty: 8, tickets: 7, upt: 1.14, avgPrice: 1276, workHours: 0, hourlyOutput: 0, salesShare: 0.0458, categories: '鞋履 67.5% / 服装 32.5%' },
-                { name: '王龙宇', sales: 2496, qty: 2, tickets: 1, upt: 2, avgPrice: 1248, workHours: 0, hourlyOutput: 0, salesShare: 0.0112, categories: '鞋履 100.0%' },
-                { name: '田佳乐', sales: 1298, qty: 1, tickets: 1, upt: 1, avgPrice: 1298, workHours: 0, hourlyOutput: 0, salesShare: 0.0058, categories: '鞋履 100.0%' },
+                { name: '孔祥宇', sales: 31067, qty: 24, tickets: 20, upt: 1.2, avgPrice: 1294, workHours: 0, hourlyOutput: 0, salesShare: 0.1333, categories: '鞋履 93.5% / 服装 6.2% / 配件 0.3%' },
+                { name: '贾长乐', sales: 27683, qty: 21, tickets: 16, upt: 1.31, avgPrice: 1318, workHours: 0, hourlyOutput: 0, salesShare: 0.1188, categories: '鞋履 77.9% / 服装 21.3% / 配件 0.8%' },
+                { name: '梁实秋', sales: 26720, qty: 20, tickets: 12, upt: 1.67, avgPrice: 1336, workHours: 0, hourlyOutput: 0, salesShare: 0.1146, categories: '鞋履 72.4% / 服装 26.7% / 配件 0.9%' },
+                { name: '唐蓉', sales: 23143, qty: 21, tickets: 18, upt: 1.17, avgPrice: 1102, workHours: 0, hourlyOutput: 0, salesShare: 0.0993, categories: '鞋履 84.5% / 服装 9.9% / 配件 5.6%' },
+                { name: '杨子豪', sales: 22410, qty: 22, tickets: 16, upt: 1.38, avgPrice: 1019, workHours: 0, hourlyOutput: 0, salesShare: 0.0962, categories: '鞋履 72.4% / 服装 23.0% / 配件 4.7%' },
+                { name: '玛依拉', sales: 19191, qty: 17, tickets: 14, upt: 1.21, avgPrice: 1129, workHours: 0, hourlyOutput: 0, salesShare: 0.0823, categories: '鞋履 93.9% / 配件 3.5% / 服装 2.6%' },
+                { name: '龚赟昊', sales: 16512, qty: 14, tickets: 8, upt: 1.75, avgPrice: 1179, workHours: 0, hourlyOutput: 0, salesShare: 0.0708, categories: '鞋履 62.3% / 服装 35.7% / 配件 2.0%' },
+                { name: '邓奇缘', sales: 14378, qty: 11, tickets: 11, upt: 1, avgPrice: 1307, workHours: 0, hourlyOutput: 0, salesShare: 0.0617, categories: '鞋履 95.9% / 服装 4.1%' },
+                { name: '朱凯赟', sales: 13305, qty: 10, tickets: 9, upt: 1.11, avgPrice: 1331, workHours: 0, hourlyOutput: 0, salesShare: 0.0571, categories: '鞋履 75.1% / 服装 24.9%' },
+                { name: '何秋烨', sales: 12782, qty: 9, tickets: 8, upt: 1.13, avgPrice: 1420, workHours: 0, hourlyOutput: 0, salesShare: 0.0548, categories: '鞋履 50.7% / 服装 47.8% / 配件 1.4%' },
+                { name: '迟骋', sales: 11265, qty: 10, tickets: 6, upt: 1.67, avgPrice: 1127, workHours: 0, hourlyOutput: 0, salesShare: 0.0483, categories: '鞋履 61.9% / 服装 35.4% / 配件 2.6%' },
+                { name: '王靳毓', sales: 10812, qty: 11, tickets: 8, upt: 1.38, avgPrice: 983, workHours: 0, hourlyOutput: 0, salesShare: 0.0464, categories: '鞋履 75.7% / 服装 14.8% / 配件 9.5%' },
+                { name: '王龙宇', sales: 2496, qty: 2, tickets: 1, upt: 2, avgPrice: 1248, workHours: 0, hourlyOutput: 0, salesShare: 0.0107, categories: '鞋履 100.0%' },
+                { name: '田佳乐', sales: 1298, qty: 1, tickets: 1, upt: 1, avgPrice: 1298, workHours: 0, hourlyOutput: 0, salesShare: 0.0056, categories: '鞋履 100.0%' },
               ]
             },
     },
@@ -8291,7 +8419,7 @@ linggongAttendance: {
       { id: 54, staffName: '唐蓉', month: '2026-08', rating: 5, reviewDate: '2026-08-30', snippet: '感谢唐蓉姐姐的热心讲解！', keywords: ['感谢唐蓉', '热心讲解', '超预期'], source: '大众点评（鸭鸭型手打年糕，Lv2，打卡评价）' },
     ],
 
-    _dataVersion: '2026-09-20-v212',
+    _dataVersion: '2026-09-23-v213',
     // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
     // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
     _lockedMonths: ['2026-07', '2026-06'],
@@ -8339,7 +8467,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-09-20-v212';
+      const DATA_VERSION = '2026-09-23-v213';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
