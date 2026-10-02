@@ -1,0 +1,158 @@
+// P02 · 目录
+<Slide>
+    {/* 背景：暖砂色 */}
+    <Box style={{
+        position: 'absolute', left: 0, top: 0,
+        width: '100%', height: '100%',
+        background: '#F5EFE6',
+    }} />
+
+    {/* 左侧 8% 暖驼色装饰条 */}
+    <Box style={{
+        position: 'absolute', left: 0, top: 0,
+        width: 8, height: '100%',
+        background: 'linear-gradient(180deg, #3E2F23 0%, #C08A5E 100%)',
+    }} />
+
+    {/* A 块：标题 */}
+    <Box style={{
+        position: 'absolute', left: 60, top: 36, right: 60, height: 64,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    }}>
+        <Text style={{
+            fontSize: 36, fontWeight: 'bold', color: '#3E2F23',
+        }}>
+            本期目录
+        </Text>
+        <Text style={{
+            fontSize: 18, color: '#6B5B4B',
+            letterSpacing: 4, fontWeight: 500,
+        }}>
+            CONTENTS · 2 CHAPTERS
+        </Text>
+    </Box>
+
+    {/* B 块：左标题 + 右内容 */}
+    <Box style={{
+        position: 'absolute', left: 60, top: 140, right: 60, height: 500,
+        flexDirection: 'row', gap: 48,
+    }}>
+        {/* 左侧 30% 大字锚点 */}
+        <Box style={{
+            width: 360, height: '100%',
+            flexDirection: 'column', justifyContent: 'center',
+        }}>
+            <Text style={{
+                fontSize: 96, fontWeight: 'bold', color: '#3E2F23',
+                lineHeight: 1.0, letterSpacing: -2,
+            }}>
+                Contents
+            </Text>
+            <Box style={{
+                width: 64, height: 3,
+                background: '#D65A3F',
+                marginTop: 32, marginBottom: 24,
+            }} />
+            <Text style={{
+                fontSize: 18, color: '#6B5B4B', lineHeight: 1.6,
+            }}>
+                8 月份兼职团队 5 维评分的完整复盘。{"\n"}
+                先看盘子，再看结构，最后看行动。
+            </Text>
+        </Box>
+
+        {/* 右侧 70% 两章列表 */}
+        <Box style={{
+            flex: 1, height: '100%',
+            flexDirection: 'column', gap: 24,
+        }}>
+            {/* 章节 01 */}
+            <Box style={{
+                flex: 1,
+                background: '#FFFFFF',
+                borderRadius: 12,
+                padding: 28,
+                flexDirection: 'column', gap: 16,
+                borderLeft: '4px solid #3E2F23',
+            }}>
+                <Box style={{
+                    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+                }}>
+                    <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+                        <Text style={{
+                            fontSize: 48, fontWeight: 'bold', color: '#3E2F23',
+                            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                        }}>
+                            01
+                        </Text>
+                        <Text style={{
+                            fontSize: 24, fontWeight: 'bold', color: '#3E2F23',
+                        }}>
+                            团队总盘
+                        </Text>
+                    </Box>
+                    <Text style={{
+                        fontSize: 14, color: '#C08A5E', letterSpacing: 2,
+                    }}>
+                        CHAPTER 01 · P.04—06
+                    </Text>
+                </Box>
+                <Text style={{ fontSize: 16, color: '#6B5B4B', lineHeight: 1.6 }}>
+                    8 月的销售盘子与时产结构：核心数据、人效分布、业绩贡献排行
+                </Text>
+            </Box>
+
+            {/* 章节 02 */}
+            <Box style={{
+                flex: 1,
+                background: '#FFFFFF',
+                borderRadius: 12,
+                padding: 28,
+                flexDirection: 'column', gap: 16,
+                borderLeft: '4px solid #D65A3F',
+            }}>
+                <Box style={{
+                    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+                }}>
+                    <Box style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}>
+                        <Text style={{
+                            fontSize: 48, fontWeight: 'bold', color: '#D65A3F',
+                            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                        }}>
+                            02
+                        </Text>
+                        <Text style={{
+                            fontSize: 24, fontWeight: 'bold', color: '#3E2F23',
+                        }}>
+                            诊断与行动
+                        </Text>
+                    </Box>
+                    <Text style={{
+                        fontSize: 14, color: '#C08A5E', letterSpacing: 2,
+                    }}>
+                        CHAPTER 02 · P.08—09
+                    </Text>
+                </Box>
+                <Text style={{ fontSize: 16, color: '#6B5B4B', lineHeight: 1.6 }}>
+                    三个结构性问题与 9 月四项行动建议：把数据转译为可执行的下一步
+                </Text>
+            </Box>
+        </Box>
+    </Box>
+
+    {/* C 块：页脚条 */}
+    <Box style={{
+        position: 'absolute', left: 60, right: 60, bottom: 20, height: 24,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    }}>
+        <Text style={{ fontSize: 14, color: '#6B5B4B' }}>
+            安福路 Salomon 兼职管理 · 8月复盘
+        </Text>
+        <Text style={{
+            fontSize: 14, color: '#6B5B4B',
+            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+        }}>
+            02 / 10
+        </Text>
+    </Box>
+</Slide>

@@ -1,0 +1,64 @@
+=== boot pid=25997 ts=2026-09-01 03:20:59.617 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/01_cover.slide --project . ===
+[2026-09-01 03:20:59.614] [INFO ] [pid=25997] [validate] ok slideId=01_cover status=ready ms=522
+=== boot pid=26001 ts=2026-09-01 03:21:05.630 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl 8月兼职表现总结.pptx --dsl-file slides/01_cover.slide ===
+[2026-09-01 03:21:05.628] [INFO ] [pid=26001] [server-url] env TENCENT_DOCS_LOCAL_MCP = http://127.0.0.1:39100/mcp
+[2026-09-01 03:21:05.669] [INFO ] [pid=26001] [mcp] mcp:slide_get_info send url=http://127.0.0.1:39100/mcp args={"file_id":"14A1984E-3AC7-47EF-B392-564BFBABEA30"}
+[2026-09-01 03:21:05.685] [INFO ] [pid=26001] [mcp] mcp:slide_get_info ok ms=14
+=== boot pid=26005 ts=2026-09-01 03:21:27.445 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/02_catalog.slide --project . ===
+[2026-09-01 03:21:27.444] [INFO ] [pid=26005] [validate] ok slideId=02_catalog status=ready ms=367
+=== boot pid=26006 ts=2026-09-01 03:21:28.459 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl 8月兼职表现总结.pptx --dsl-file slides/02_catalog.slide ===
+[2026-09-01 03:21:28.456] [INFO ] [pid=26006] [server-url] env TENCENT_DOCS_LOCAL_MCP = http://127.0.0.1:39100/mcp
+[2026-09-01 03:21:28.484] [INFO ] [pid=26006] [mcp] mcp:slide_get_info send url=http://127.0.0.1:39100/mcp args={"file_id":"14A1984E-3AC7-47EF-B392-564BFBABEA30"}
+[2026-09-01 03:21:28.495] [INFO ] [pid=26006] [mcp] mcp:slide_get_info ok ms=9
+=== boot pid=26019 ts=2026-09-01 03:21:42.535 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/03_section01.slide --project . ===
+[2026-09-01 03:21:42.533] [INFO ] [pid=26019] [validate] ok slideId=03_section01 status=ready ms=421
+=== boot pid=26027 ts=2026-09-01 03:21:43.531 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl 8月兼职表现总结.pptx --dsl-file slides/03_section01.slide ===
+[2026-09-01 03:21:43.530] [INFO ] [pid=26027] [server-url] env TENCENT_DOCS_LOCAL_MCP = http://127.0.0.1:39100/mcp
+[2026-09-01 03:21:43.556] [INFO ] [pid=26027] [mcp] mcp:slide_get_info send url=http://127.0.0.1:39100/mcp args={"file_id":"14A1984E-3AC7-47EF-B392-564BFBABEA30"}
+[2026-09-01 03:21:43.566] [INFO ] [pid=26027] [mcp] mcp:slide_get_info ok ms=8
+=== boot pid=26038 ts=2026-09-01 03:22:13.896 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/04_data.slide --project . ===
+[2026-09-01 03:22:13.894] [INFO ] [pid=26038] [validate] ok slideId=04_data status=ready ms=399
+=== boot pid=26046 ts=2026-09-01 03:22:14.955 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl 8月兼职表现总结.pptx --dsl-file slides/04_data.slide ===
+[2026-09-01 03:22:14.954] [INFO ] [pid=26046] [server-url] env TENCENT_DOCS_LOCAL_MCP = http://127.0.0.1:39100/mcp
+[2026-09-01 03:22:14.981] [INFO ] [pid=26046] [mcp] mcp:slide_get_info send url=http://127.0.0.1:39100/mcp args={"file_id":"14A1984E-3AC7-47EF-B392-564BFBABEA30"}
+[2026-09-01 03:22:14.992] [INFO ] [pid=26046] [mcp] mcp:slide_get_info ok ms=10
+=== boot pid=26056 ts=2026-09-01 03:22:42.222 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/05_efficiency.slide --project . ===
+[2026-09-01 03:22:42.220] [INFO ] [pid=26056] [validate] ok slideId=05_efficiency status=ready ms=385
+=== boot pid=26064 ts=2026-09-01 03:22:43.141 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl 8月兼职表现总结.pptx --dsl-file slides/05_efficiency.slide ===
+[2026-09-01 03:22:43.140] [INFO ] [pid=26064] [server-url] env TENCENT_DOCS_LOCAL_MCP = http://127.0.0.1:39100/mcp
+[2026-09-01 03:22:43.166] [INFO ] [pid=26064] [mcp] mcp:slide_get_info send url=http://127.0.0.1:39100/mcp args={"file_id":"14A1984E-3AC7-47EF-B392-564BFBABEA30"}
+[2026-09-01 03:22:43.176] [INFO ] [pid=26064] [mcp] mcp:slide_get_info ok ms=9
+=== boot pid=26079 ts=2026-09-01 03:23:09.144 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/06_ranking.slide --project . ===
+[2026-09-01 03:23:09.142] [INFO ] [pid=26079] [validate] ok slideId=06_ranking status=ready ms=412
+=== boot pid=26087 ts=2026-09-01 03:23:10.064 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl 8月兼职表现总结.pptx --dsl-file slides/06_ranking.slide ===
+[2026-09-01 03:23:10.062] [INFO ] [pid=26087] [server-url] env TENCENT_DOCS_LOCAL_MCP = http://127.0.0.1:39100/mcp
+[2026-09-01 03:23:10.088] [INFO ] [pid=26087] [mcp] mcp:slide_get_info send url=http://127.0.0.1:39100/mcp args={"file_id":"14A1984E-3AC7-47EF-B392-564BFBABEA30"}
+[2026-09-01 03:23:10.097] [INFO ] [pid=26087] [mcp] mcp:slide_get_info ok ms=8
+=== boot pid=26097 ts=2026-09-01 03:23:24.155 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/07_section02.slide --project . ===
+[2026-09-01 03:23:24.154] [INFO ] [pid=26097] [validate] ok slideId=07_section02 status=ready ms=391
+=== boot pid=26105 ts=2026-09-01 03:23:25.110 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl 8月兼职表现总结.pptx --dsl-file slides/07_section02.slide ===
+[2026-09-01 03:23:25.109] [INFO ] [pid=26105] [server-url] env TENCENT_DOCS_LOCAL_MCP = http://127.0.0.1:39100/mcp
+[2026-09-01 03:23:25.135] [INFO ] [pid=26105] [mcp] mcp:slide_get_info send url=http://127.0.0.1:39100/mcp args={"file_id":"14A1984E-3AC7-47EF-B392-564BFBABEA30"}
+[2026-09-01 03:23:25.145] [INFO ] [pid=26105] [mcp] mcp:slide_get_info ok ms=9
+=== boot pid=26115 ts=2026-09-01 03:23:45.983 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/08_issues.slide --project . ===
+[2026-09-01 03:23:45.981] [INFO ] [pid=26115] [validate] ok slideId=08_issues status=ready ms=399
+=== boot pid=26123 ts=2026-09-01 03:23:47.084 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl 8月兼职表现总结.pptx --dsl-file slides/08_issues.slide ===
+[2026-09-01 03:23:47.080] [INFO ] [pid=26123] [server-url] env TENCENT_DOCS_LOCAL_MCP = http://127.0.0.1:39100/mcp
+[2026-09-01 03:23:47.110] [INFO ] [pid=26123] [mcp] mcp:slide_get_info send url=http://127.0.0.1:39100/mcp args={"file_id":"14A1984E-3AC7-47EF-B392-564BFBABEA30"}
+[2026-09-01 03:23:47.120] [INFO ] [pid=26123] [mcp] mcp:slide_get_info ok ms=9
+=== boot pid=26144 ts=2026-09-01 03:24:12.848 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/09_actions.slide --project . ===
+[2026-09-01 03:24:12.846] [INFO ] [pid=26144] [validate] ok slideId=09_actions status=ready ms=468
+=== boot pid=26152 ts=2026-09-01 03:24:13.874 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl 8月兼职表现总结.pptx --dsl-file slides/09_actions.slide ===
+[2026-09-01 03:24:13.873] [INFO ] [pid=26152] [server-url] env TENCENT_DOCS_LOCAL_MCP = http://127.0.0.1:39100/mcp
+[2026-09-01 03:24:13.900] [INFO ] [pid=26152] [mcp] mcp:slide_get_info send url=http://127.0.0.1:39100/mcp args={"file_id":"14A1984E-3AC7-47EF-B392-564BFBABEA30"}
+[2026-09-01 03:24:13.910] [INFO ] [pid=26152] [mcp] mcp:slide_get_info ok ms=9
+=== boot pid=26163 ts=2026-09-01 03:24:29.333 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep-validate slides/10_ending.slide --project . ===
+[2026-09-01 03:24:29.331] [INFO ] [pid=26163] [validate] ok slideId=10_ending status=ready ms=403
+=== boot pid=26171 ts=2026-09-01 03:24:30.322 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep upsert-dsl 8月兼职表现总结.pptx --dsl-file slides/10_ending.slide ===
+[2026-09-01 03:24:30.320] [INFO ] [pid=26171] [server-url] env TENCENT_DOCS_LOCAL_MCP = http://127.0.0.1:39100/mcp
+[2026-09-01 03:24:30.345] [INFO ] [pid=26171] [mcp] mcp:slide_get_info send url=http://127.0.0.1:39100/mcp args={"file_id":"14A1984E-3AC7-47EF-B392-564BFBABEA30"}
+[2026-09-01 03:24:30.354] [INFO ] [pid=26171] [mcp] mcp:slide_get_info ok ms=8
+=== boot pid=26188 ts=2026-09-01 03:24:35.955 cwd=/Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结 argv=/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-2/bin/slidep-validate --all --project . ===
+[2026-09-01 03:24:35.953] [INFO ] [pid=26188] [validate] --all mode: found 10 files in /Users/a86137/Desktop/兼职/安福路兼职管理系统/8月兼职表现总结/slides
+[2026-09-01 03:24:35.958] [INFO ] [pid=26188] [validate] batch start files=10 checkOverflow=true
+[2026-09-01 03:24:37.075] [INFO ] [pid=26188] [validate] batch done total=10 passed=10 failed=0 ms=1123

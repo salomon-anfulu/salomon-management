@@ -1,0 +1,210 @@
+// P08 · 三个结构性问题
+<Slide>
+    {/* 背景：暖砂 */}
+    <Box style={{
+        position: 'absolute', left: 0, top: 0,
+        width: '100%', height: '100%',
+        background: '#F5EFE6',
+    }} />
+
+    {/* A 块：标题 */}
+    <Box style={{
+        position: 'absolute', left: 60, top: 36, right: 60, height: 64,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    }}>
+        <Text style={{
+            fontSize: 36, fontWeight: 'bold', color: '#3E2F23',
+        }}>
+            三个结构性问题
+        </Text>
+        <Text style={{
+            fontSize: 16, color: '#6B5B4B', letterSpacing: 4, fontWeight: 500,
+        }}>
+            THREE STRUCTURAL ISSUES
+        </Text>
+    </Box>
+
+    {/* 副标 */}
+    <Text style={{
+        position: 'absolute', left: 60, top: 110, right: 60,
+        fontSize: 16, color: '#6B5B4B', lineHeight: 1.5,
+    }}>
+        三个问题都落在"规则 / 结构"层面，不指向个人，9 月可通过机制调整缓解
+    </Text>
+
+    {/* B 块：左标题 + 右问题 */}
+    <Box style={{
+        position: 'absolute', left: 60, top: 156, right: 60, height: 480,
+        flexDirection: 'row', gap: 36,
+    }}>
+        {/* 左侧 32% 大字锚点 */}
+        <Box style={{
+            width: 360, height: '100%',
+            flexDirection: 'column', justifyContent: 'space-between',
+        }}>
+            <Box>
+                <Text style={{
+                    fontSize: 80, fontWeight: 'bold', color: '#3E2F23',
+                    lineHeight: 1.0, letterSpacing: -2,
+                    fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                }}>
+                    Three
+                </Text>
+                <Text style={{
+                    fontSize: 80, fontWeight: 'bold', color: '#3E2F23',
+                    lineHeight: 1.0, letterSpacing: -2,
+                    fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                }}>
+                    Structural
+                </Text>
+                <Text style={{
+                    fontSize: 80, fontWeight: 'bold', color: '#D65A3F',
+                    lineHeight: 1.0, letterSpacing: -2,
+                    fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                }}>
+                    Issues.
+                </Text>
+            </Box>
+            <Box style={{
+                width: 64, height: 3,
+                background: '#D65A3F',
+            }} />
+            <Text style={{
+                fontSize: 16, color: '#6B5B4B', lineHeight: 1.6,
+            }}>
+                三个隐藏在数据背后的"结构性"问题。
+                它们决定了 9 月行动的方向。
+            </Text>
+        </Box>
+
+        {/* 右侧 68% 三行问题 */}
+        <Box style={{
+            flex: 1, height: '100%',
+            flexDirection: 'column', gap: 16,
+        }}>
+            {/* 问题 1 */}
+            <Box style={{
+                flex: 1,
+                background: '#FFFFFF',
+                borderRadius: 12,
+                padding: 20,
+                flexDirection: 'row', alignItems: 'center', gap: 20,
+                borderLeft: '5px solid #D65A3F',
+                boxShadow: '0 4px 16px rgba(62,47,35,0.06)',
+            }}>
+                <Text style={{
+                    fontSize: 56, fontWeight: 'bold', color: '#D65A3F',
+                    fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                    width: 70, textAlign: 'center',
+                }}>
+                    01
+                </Text>
+                <Box style={{ flex: 1 }}>
+                    <Text style={{
+                        fontSize: 22, fontWeight: 'bold', color: '#3E2F23',
+                        marginBottom: 6,
+                    }}>
+                        头部依赖 47.3%
+                    </Text>
+                    <Text style={{
+                        fontSize: 15, color: '#6B5B4B', lineHeight: 1.55,
+                    }}>
+                        TOP 3 销售额占总盘
+                        <span style={{ color: '#D65A3F', fontWeight: 'bold' }}> 47.3% </span>
+                        ，TOP 5 占
+                        <span style={{ color: '#D65A3F', fontWeight: 'bold' }}> 66.5% </span>
+                        。团队抗风险能力弱，任一头部请假/离职都会冲击整月盘子。
+                    </Text>
+                </Box>
+            </Box>
+
+            {/* 问题 2 */}
+            <Box style={{
+                flex: 1,
+                background: '#FFFFFF',
+                borderRadius: 12,
+                padding: 20,
+                flexDirection: 'row', alignItems: 'center', gap: 20,
+                borderLeft: '5px solid #C08A5E',
+                boxShadow: '0 4px 16px rgba(62,47,35,0.06)',
+            }}>
+                <Text style={{
+                    fontSize: 56, fontWeight: 'bold', color: '#C08A5E',
+                    fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                    width: 70, textAlign: 'center',
+                }}>
+                    02
+                </Text>
+                <Box style={{ flex: 1 }}>
+                    <Text style={{
+                        fontSize: 22, fontWeight: 'bold', color: '#3E2F23',
+                        marginBottom: 6,
+                    }}>
+                        连单能力不足
+                    </Text>
+                    <Text style={{
+                        fontSize: 15, color: '#6B5B4B', lineHeight: 1.55,
+                    }}>
+                        团队 UPT 仅
+                        <span style={{ color: '#D65A3F', fontWeight: 'bold' }}> 1.33 </span>
+                        ，12 名有产出者中
+                        <span style={{ color: '#D65A3F', fontWeight: 'bold' }}> 7 人 UPT=1.00 </span>
+                        （一单一品）。这是最大可提升空间。
+                    </Text>
+                </Box>
+            </Box>
+
+            {/* 问题 3 */}
+            <Box style={{
+                flex: 1,
+                background: '#FFFFFF',
+                borderRadius: 12,
+                padding: 20,
+                flexDirection: 'row', alignItems: 'center', gap: 20,
+                borderLeft: '5px solid #3E2F23',
+                boxShadow: '0 4px 16px rgba(62,47,35,0.06)',
+            }}>
+                <Text style={{
+                    fontSize: 56, fontWeight: 'bold', color: '#3E2F23',
+                    fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                    width: 70, textAlign: 'center',
+                }}>
+                    03
+                </Text>
+                <Box style={{ flex: 1 }}>
+                    <Text style={{
+                        fontSize: 22, fontWeight: 'bold', color: '#3E2F23',
+                        marginBottom: 6,
+                    }}>
+                        评分门控失真
+                    </Text>
+                    <Text style={{
+                        fontSize: 15, color: '#6B5B4B', lineHeight: 1.55,
+                    }}>
+                        46 票 / 12 人 = 人均
+                        <span style={{ color: '#D65A3F', fontWeight: 'bold' }}> 3.8 票 </span>
+                        ，低于门控线 5 票，
+                        <span style={{ color: '#D65A3F', fontWeight: 'bold' }}> 10 人业绩分被压至 1 分 </span>
+                        。业绩维度失去区分度。
+                    </Text>
+                </Box>
+            </Box>
+        </Box>
+    </Box>
+
+    {/* C 块：页脚条 */}
+    <Box style={{
+        position: 'absolute', left: 60, right: 60, bottom: 20, height: 24,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    }}>
+        <Text style={{ fontSize: 14, color: '#6B5B4B' }}>
+            安福路 Salomon 兼职管理 · 8月复盘
+        </Text>
+        <Text style={{
+            fontSize: 14, color: '#6B5B4B',
+            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+        }}>
+            08 / 10
+        </Text>
+    </Box>
+</Slide>

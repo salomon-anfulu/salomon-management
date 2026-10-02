@@ -1,0 +1,191 @@
+// P05 · 人效与工时结构
+<Slide>
+    {/* 背景：暖砂 */}
+    <Box style={{
+        position: 'absolute', left: 0, top: 0,
+        width: '100%', height: '100%',
+        background: '#F5EFE6',
+    }} />
+
+    {/* A 块：标题 */}
+    <Box style={{
+        position: 'absolute', left: 60, top: 36, right: 60, height: 64,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    }}>
+        <Text style={{
+            fontSize: 36, fontWeight: 'bold', color: '#3E2F23',
+        }}>
+            人效与工时结构
+        </Text>
+        <Text style={{
+            fontSize: 16, color: '#6B5B4B', letterSpacing: 4, fontWeight: 500,
+        }}>
+            EFFICIENCY & HOURS
+        </Text>
+    </Box>
+
+    {/* 副标 */}
+    <Text style={{
+        position: 'absolute', left: 60, top: 110, right: 60,
+        fontSize: 16, color: '#6B5B4B', lineHeight: 1.5,
+    }}>
+        15 名兼职按"每小时产出"分档：高位头部 + 长尾底部，团队整体时产 ¥106/h
+    </Text>
+
+    {/* B 块：左图 + 右洞察 */}
+    <Box style={{
+        position: 'absolute', left: 60, top: 156, right: 60, height: 480,
+        flexDirection: 'row', gap: 24,
+    }}>
+        {/* 左侧 60% 图表 */}
+        <Box style={{
+            width: 676, height: '100%',
+            background: '#FFFFFF',
+            borderRadius: 12,
+            padding: 20,
+            flexDirection: 'column',
+            boxShadow: '0 4px 16px rgba(62,47,35,0.06)',
+        }}>
+            <Text style={{
+                fontSize: 18, fontWeight: 'bold', color: '#3E2F23', marginBottom: 8,
+            }}>
+                时产分档人数分布
+            </Text>
+            <Text style={{
+                fontSize: 13, color: '#6B5B4B', marginBottom: 16,
+            }}>
+                按"销售额 / 出勤小时"分档（n=15）
+            </Text>
+            <Box style={{ flex: 1 }}>
+                <Chart
+                    style={{ width: '100%', height: '100%' }}
+                    chartType='barChart'
+                    barDirection='column'
+                    showLegend={false}
+                    showDataLabels={true}
+                    dataLabelColor='#3E2F23'
+                    axisColor='#6B5B4B'
+                    colors={['#C08A5E']}
+                    background='transparent'
+                    data={[
+                        ['时产分档', '人数'],
+                        ['≥¥250/h', 2],
+                        ['¥150–250', 1],
+                        ['¥100–150', 4],
+                        ['¥50–100', 2],
+                        ['<¥50', 3],
+                        ['¥0', 3],
+                    ]}
+                />
+            </Box>
+        </Box>
+
+        {/* 右侧 40% 洞察 */}
+        <Box style={{
+            flex: 1, height: '100%',
+            flexDirection: 'column', gap: 16,
+        }}>
+            {/* 洞察1：时产结构 */}
+            <Box style={{
+                flex: 1,
+                background: '#FFFFFF',
+                borderRadius: 12,
+                padding: 18,
+                flexDirection: 'column', gap: 8,
+                borderTop: '3px solid #3E2F23',
+            }}>
+                <Text style={{
+                    fontSize: 13, color: '#C08A5E',
+                    letterSpacing: 2, fontWeight: 600,
+                }}>
+                    INSIGHT · 01
+                </Text>
+                <Text style={{
+                    fontSize: 22, fontWeight: 'bold', color: '#3E2F23',
+                }}>
+                    团队时产 ¥106/h
+                </Text>
+                <Text style={{
+                    fontSize: 15, color: '#6B5B4B', lineHeight: 1.55,
+                }}>
+                    头部 2 人（≥¥250/h）拉高均值，6 人处于
+                    <span style={{ color: '#D65A3F', fontWeight: 'bold' }}> ¥50–150 中段 </span>
+                    ，3 人接近 0 形成长尾底部。
+                </Text>
+            </Box>
+
+            {/* 洞察2：零产出工时 */}
+            <Box style={{
+                flex: 1,
+                background: '#FFFFFF',
+                borderRadius: 12,
+                padding: 18,
+                flexDirection: 'column', gap: 8,
+                borderTop: '3px solid #C08A5E',
+            }}>
+                <Text style={{
+                    fontSize: 13, color: '#C08A5E',
+                    letterSpacing: 2, fontWeight: 600,
+                }}>
+                    INSIGHT · 02
+                </Text>
+                <Text style={{
+                    fontSize: 22, fontWeight: 'bold', color: '#3E2F23',
+                }}>
+                    零产出工时 75h
+                </Text>
+                <Text style={{
+                    fontSize: 15, color: '#6B5B4B', lineHeight: 1.55,
+                }}>
+                    占总工时
+                    <span style={{ color: '#D65A3F', fontWeight: 'bold' }}> 11.8% </span>
+                    。这些时间被门迎、店务与摄影展服务吸收，是结构而非浪费。
+                </Text>
+            </Box>
+
+            {/* 洞察3：服务型工时 */}
+            <Box style={{
+                flex: 1,
+                background: '#3E2F23',
+                borderRadius: 12,
+                padding: 18,
+                flexDirection: 'column', gap: 8,
+            }}>
+                <Text style={{
+                    fontSize: 13, color: '#C08A5E',
+                    letterSpacing: 2, fontWeight: 600,
+                }}>
+                    INSIGHT · 03
+                </Text>
+                <Text style={{
+                    fontSize: 22, fontWeight: 'bold', color: '#F5EFE6',
+                }}>
+                    服务型工时 235h · 占 37%
+                </Text>
+                <Text style={{
+                    fontSize: 15, color: 'rgba(245,239,230,0.85)', lineHeight: 1.55,
+                }}>
+                    门迎 131h + 店务 104h。这部分价值不体现在销售额里，9 月需把
+                    <span style={{ color: '#C08A5E', fontWeight: 'bold' }}> "服务型"与"销售型" </span>
+                    分层评估。
+                </Text>
+            </Box>
+        </Box>
+    </Box>
+
+    {/* C 块：页脚条 */}
+    <Box style={{
+        position: 'absolute', left: 60, right: 60, bottom: 20, height: 24,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    }}>
+        <Text style={{ fontSize: 14, color: '#6B5B4B' }}>
+            安福路 Salomon 兼职管理 · 8月复盘
+        </Text>
+        <Text style={{
+            fontSize: 14, color: '#6B5B4B',
+            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+        }}>
+            05 / 10
+        </Text>
+    </Box>
+</Slide>

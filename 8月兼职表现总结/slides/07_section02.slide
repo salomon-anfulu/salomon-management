@@ -1,0 +1,91 @@
+// P07 · 章节扉页 02
+<Slide>
+    {/* L1 主视觉：沙丘上分岔山径全幅背景 */}
+    <Image
+        src="assets/fork_path.png"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+    />
+
+    {/* 全幅深棕蒙版 */}
+    <Box style={{
+        position: 'absolute', left: 0, top: 0,
+        width: '100%', height: '100%',
+        background: 'linear-gradient(135deg, rgba(62,47,35,0.78) 0%, rgba(62,47,35,0.45) 60%, rgba(62,47,35,0.25) 100%)',
+    }} />
+
+    {/* 顶部章节标签 */}
+    <Box style={{
+        position: 'absolute', left: 80, top: 80,
+        flexDirection: 'row', alignItems: 'center', gap: 20,
+    }}>
+        <Box style={{
+            width: 56, height: 2,
+            background: '#D65A3F',
+        }} />
+        <Text style={{
+            fontSize: 18, color: '#D65A3F',
+            letterSpacing: 6, fontWeight: 600,
+        }}>
+            CHAPTER · 02
+        </Text>
+    </Box>
+
+    {/* 中央：120px 章节编号 + 48px 副标 */}
+    <Box style={{
+        position: 'absolute', left: 80, top: 200,
+        flexDirection: 'column', gap: 16,
+    }}>
+        <Text style={{
+            fontSize: 120, fontWeight: 'bold', color: '#F5EFE6',
+            lineHeight: 1.0, letterSpacing: -4,
+            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+        }}>
+            02
+        </Text>
+        <Text style={{
+            fontSize: 48, fontWeight: 'bold', color: '#F5EFE6',
+            lineHeight: 1.2, letterSpacing: 2,
+        }}>
+            诊断与行动
+        </Text>
+    </Box>
+
+    {/* 底部章节要点带 */}
+    <Box style={{
+        position: 'absolute', left: 80, bottom: 110,
+        flexDirection: 'row', alignItems: 'center', gap: 32,
+    }}>
+        <Text style={{
+            fontSize: 18, color: 'rgba(245,239,230,0.85)',
+            fontWeight: 500, letterSpacing: 1,
+        }}>
+            3 个结构性问题
+        </Text>
+        <Box style={{ width: 1, height: 16, background: 'rgba(214,90,63,0.6)' }} />
+        <Text style={{
+            fontSize: 18, color: 'rgba(245,239,230,0.85)',
+            fontWeight: 500, letterSpacing: 1,
+        }}>
+            4 项 9 月行动
+        </Text>
+    </Box>
+
+    {/* 装饰右下英文小标 */}
+    <Box style={{
+        position: 'absolute', right: 80, bottom: 80,
+        flexDirection: 'column', alignItems: 'flex-end', gap: 8,
+    }}>
+        <Text style={{
+            fontSize: 14, color: 'rgba(245,239,230,0.55)',
+            letterSpacing: 4, fontWeight: 500,
+        }}>
+            DIAGNOSIS & ACTION
+        </Text>
+        <Text style={{
+            fontSize: 14, color: 'rgba(245,239,230,0.4)',
+            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+        }}>
+            07 / 10
+        </Text>
+    </Box>
+</Slide>

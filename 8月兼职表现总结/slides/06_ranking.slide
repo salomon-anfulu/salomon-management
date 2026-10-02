@@ -1,0 +1,233 @@
+// P06 · 业绩贡献排行
+<Slide>
+    {/* 背景：暖砂 */}
+    <Box style={{
+        position: 'absolute', left: 0, top: 0,
+        width: '100%', height: '100%',
+        background: '#F5EFE6',
+    }} />
+
+    {/* A 块：标题 */}
+    <Box style={{
+        position: 'absolute', left: 60, top: 36, right: 60, height: 64,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    }}>
+        <Text style={{
+            fontSize: 36, fontWeight: 'bold', color: '#3E2F23',
+        }}>
+            业绩贡献排行
+        </Text>
+        <Text style={{
+            fontSize: 16, color: '#6B5B4B', letterSpacing: 4, fontWeight: 500,
+        }}>
+            SALES RANKING · 12 ACTIVE
+        </Text>
+    </Box>
+
+    {/* 副标 */}
+    <Text style={{
+        position: 'absolute', left: 60, top: 110, right: 60,
+        fontSize: 16, color: '#6B5B4B', lineHeight: 1.5,
+    }}>
+        12 位有产出的兼职按销售额排序。头部 3 人贡献近一半，长尾产能是 9 月可释放的空间
+    </Text>
+
+    {/* B 块：左排行 + 右集中度 */}
+    <Box style={{
+        position: 'absolute', left: 60, top: 156, right: 60, height: 480,
+        flexDirection: 'row', gap: 24,
+    }}>
+        {/* 左侧 58% 排行榜 */}
+        <Box style={{
+            width: 672, height: '100%',
+            background: '#FFFFFF',
+            borderRadius: 12,
+            padding: 20,
+            flexDirection: 'column',
+            boxShadow: '0 4px 16px rgba(62,47,35,0.06)',
+        }}>
+            <Text style={{
+                fontSize: 18, fontWeight: 'bold', color: '#3E2F23', marginBottom: 12,
+            }}>
+                销售额排行（¥）
+            </Text>
+            <Box style={{ flex: 1 }}>
+                <Chart
+                    style={{ width: '100%', height: '100%' }}
+                    chartType='barChart'
+                    barDirection='bar'
+                    grouping='clustered'
+                    showLegend={false}
+                    showDataLabels={true}
+                    dataLabelColor='#3E2F23'
+                    axisColor='#6B5B4B'
+                    colors={['#C08A5E']}
+                    background='transparent'
+                    data={[
+                        ['姓名', '销售额'],
+                        ['龚赟昊', 12688],
+                        ['梁实秋', 9990],
+                        ['王龙宇', 9242],
+                        ['王雅澜', 8690],
+                        ['孔祥宇', 7266],
+                        ['何秋烨', 5692],
+                        ['迟骋', 4486],
+                        ['唐蓉', 3992],
+                        ['贾长乐', 3394],
+                        ['邓奇缘', 998],
+                        ['杨子豪', 696],
+                        ['朱凯赟', 398],
+                    ]}
+                />
+            </Box>
+        </Box>
+
+        {/* 右侧 42% 集中度 + 品类 */}
+        <Box style={{
+            flex: 1, height: '100%',
+            flexDirection: 'column', gap: 16,
+        }}>
+            {/* 集中度卡 */}
+            <Box style={{
+                flex: 1.1,
+                background: '#3E2F23',
+                borderRadius: 12,
+                padding: 18,
+                flexDirection: 'column', gap: 12,
+            }}>
+                <Text style={{
+                    fontSize: 13, color: '#C08A5E',
+                    letterSpacing: 2, fontWeight: 600,
+                }}>
+                    CONCENTRATION
+                </Text>
+                <Text style={{
+                    fontSize: 18, fontWeight: 'bold', color: '#F5EFE6',
+                }}>
+                    头部依赖度
+                </Text>
+                <Box style={{ flexDirection: 'column', gap: 8 }}>
+                    <Box style={{
+                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+                    }}>
+                        <Text style={{ fontSize: 14, color: 'rgba(245,239,230,0.75)' }}>
+                            TOP 3 销售额
+                        </Text>
+                        <Box style={{ flexDirection: 'row', alignItems: 'baseline', gap: 6 }}>
+                            <Text style={{
+                                fontSize: 22, color: '#D65A3F', fontWeight: 'bold',
+                                fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                            }}>
+                                47.3%
+                            </Text>
+                        </Box>
+                    </Box>
+                    <Box style={{
+                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+                    }}>
+                        <Text style={{ fontSize: 14, color: 'rgba(245,239,230,0.75)' }}>
+                            TOP 5 销售额
+                        </Text>
+                        <Text style={{
+                            fontSize: 22, color: '#F5EFE6', fontWeight: 'bold',
+                            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                        }}>
+                            66.5%
+                        </Text>
+                    </Box>
+                    <Box style={{
+                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+                    }}>
+                        <Text style={{ fontSize: 14, color: 'rgba(245,239,230,0.75)' }}>
+                            尾部 5 销售额
+                        </Text>
+                        <Text style={{
+                            fontSize: 22, color: 'rgba(245,239,230,0.7)', fontWeight: 'bold',
+                            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                        }}>
+                            3.1%
+                        </Text>
+                    </Box>
+                </Box>
+                <Text style={{
+                    fontSize: 13, color: 'rgba(245,239,230,0.6)', lineHeight: 1.5,
+                    marginTop: 4,
+                }}>
+                    头部 47% 是结构而非个人；连单 / 复购 / 跨品类是释放尾部的杠杆点
+                </Text>
+            </Box>
+
+            {/* 品类结构卡 */}
+            <Box style={{
+                flex: 0.9,
+                background: '#FFFFFF',
+                borderRadius: 12,
+                padding: 18,
+                flexDirection: 'column', gap: 8,
+                boxShadow: '0 4px 16px rgba(62,47,35,0.06)',
+            }}>
+                <Text style={{
+                    fontSize: 13, color: '#C08A5E',
+                    letterSpacing: 2, fontWeight: 600,
+                }}>
+                    CATEGORY MIX
+                </Text>
+                <Text style={{
+                    fontSize: 18, fontWeight: 'bold', color: '#3E2F23',
+                }}>
+                    品类销售结构
+                </Text>
+                {[
+                    { name: '鞋履', pct: 69.6, color: '#3E2F23' },
+                    { name: '服装', pct: 27.8, color: '#C08A5E' },
+                    { name: '配件', pct: 2.6, color: '#D65A3F' },
+                ].map((c, i) => (
+                    <Box key={i} style={{
+                        flexDirection: 'row', alignItems: 'center', gap: 12,
+                    }}>
+                        <Text style={{
+                            fontSize: 14, color: '#3E2F23', fontWeight: 500,
+                            width: 48,
+                        }}>
+                            {c.name}
+                        </Text>
+                        <Box style={{
+                            flex: 1, height: 10,
+                            background: '#F5EFE6',
+                            borderRadius: 5,
+                        }}>
+                            <Box style={{
+                                width: `${c.pct}%`, height: '100%',
+                                background: c.color,
+                                borderRadius: 5,
+                            }} />
+                        </Box>
+                        <Text style={{
+                            fontSize: 14, color: '#3E2F23', fontWeight: 'bold',
+                            width: 48, textAlign: 'right',
+                            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                        }}>
+                            {c.pct}%
+                        </Text>
+                    </Box>
+                ))}
+            </Box>
+        </Box>
+    </Box>
+
+    {/* C 块：页脚条 */}
+    <Box style={{
+        position: 'absolute', left: 60, right: 60, bottom: 20, height: 24,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    }}>
+        <Text style={{ fontSize: 14, color: '#6B5B4B' }}>
+            安福路 Salomon 兼职管理 · 8月复盘
+        </Text>
+        <Text style={{
+            fontSize: 14, color: '#6B5B4B',
+            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+        }}>
+            06 / 10
+        </Text>
+    </Box>
+</Slide>

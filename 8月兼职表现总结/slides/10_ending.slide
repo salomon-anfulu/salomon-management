@@ -1,0 +1,88 @@
+// P10 · 结束页
+<Slide>
+    {/* L1 主视觉：复用封面图 + 深色蒙版 */}
+    <Image
+        src="assets/cover_ridge.png"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+    />
+
+    {/* 全幅深棕蒙版，更深 */}
+    <Box style={{
+        position: 'absolute', left: 0, top: 0,
+        width: '100%', height: '100%',
+        background: 'linear-gradient(135deg, rgba(36,28,22,0.78) 0%, rgba(62,47,35,0.65) 50%, rgba(36,28,22,0.78) 100%)',
+    }} />
+
+    {/* 顶部小角标 */}
+    <Box style={{
+        position: 'absolute', left: 80, top: 80,
+        flexDirection: 'row', alignItems: 'center', gap: 16,
+    }}>
+        <Box style={{
+            width: 48, height: 2,
+            background: '#D65A3F',
+        }} />
+        <Text style={{
+            fontSize: 16, color: '#D65A3F',
+            letterSpacing: 6, fontWeight: 600,
+        }}>
+            END OF REVIEW
+        </Text>
+    </Box>
+
+    {/* 居中金句 */}
+    <Box style={{
+        position: 'absolute', left: 0, right: 0, top: 240,
+        alignItems: 'center',
+    }}>
+        <Text style={{
+            fontSize: 96, fontWeight: 'bold', color: '#F5EFE6',
+            lineHeight: 1.1, letterSpacing: 4,
+            textAlign: 'center',
+        }}>
+            九月 · 再出发
+        </Text>
+        <Text style={{
+            fontSize: 28, color: 'rgba(245,239,230,0.85)',
+            marginTop: 24, letterSpacing: 8, fontWeight: 500,
+            textAlign: 'center',
+        }}>
+            8 月打烊，9 月开张
+        </Text>
+    </Box>
+
+    {/* 中下装饰分隔线 */}
+    <Box style={{
+        position: 'absolute', left: 560, top: 460,
+        width: 160, height: 2,
+        background: '#C08A5E',
+    }} />
+
+    {/* 底部落款 */}
+    <Box style={{
+        position: 'absolute', left: 0, right: 0, bottom: 110,
+        alignItems: 'center',
+    }}>
+        <Text style={{
+            fontSize: 18, color: 'rgba(245,239,230,0.7)',
+            letterSpacing: 4, fontWeight: 500,
+        }}>
+            安福路 SALOMON · STORE L140
+        </Text>
+        <Text style={{
+            fontSize: 14, color: 'rgba(245,239,230,0.5)',
+            letterSpacing: 2, marginTop: 8,
+        }}>
+            8月兼职表现总结 · 2026
+        </Text>
+    </Box>
+
+    {/* 右下小角标 */}
+    <Text style={{
+        position: 'absolute', right: 60, bottom: 36,
+        fontSize: 14, color: 'rgba(245,239,230,0.4)',
+        fontFamily: 'Arial, Helvetica Neue, sans-serif',
+    }}>
+        10 / 10
+    </Text>
+</Slide>

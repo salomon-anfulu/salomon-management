@@ -1,0 +1,101 @@
+// P01 · 封面
+<Slide>
+    {/* L1 主视觉：暖砂色沙丘脊线全幅背景 */}
+    <Image
+        src="assets/cover_ridge.png"
+        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+    />
+
+    {/* 左侧骑线色块：深咖棕 → 透明的渐变叠层，保证文字可读 */}
+    <Box style={{
+        position: 'absolute', left: 0, top: 0,
+        width: 760, height: 720,
+        background: 'linear-gradient(90deg, rgba(62,47,35,0.82) 0%, rgba(62,47,35,0.55) 55%, rgba(62,47,35,0.0) 100%)',
+    }} />
+
+    {/* 顶部小角标：英文标识 */}
+    <Box style={{
+        position: 'absolute', left: 80, top: 80,
+        flexDirection: 'row', alignItems: 'center', gap: 16,
+    }}>
+        <Box style={{
+            width: 48, height: 2,
+            background: '#C08A5E',
+        }} />
+        <Text style={{
+            fontSize: 16, color: '#C08A5E',
+            letterSpacing: 6, fontWeight: 600,
+        }}>
+            SALOMON · ANFULU L140
+        </Text>
+    </Box>
+
+    {/* 中央主标题区 */}
+    <Box style={{
+        position: 'absolute', left: 80, top: 220,
+        flexDirection: 'column', gap: 28,
+    }}>
+        <Text style={{
+            fontSize: 22, color: 'rgba(245,239,230,0.75)',
+            letterSpacing: 4, fontWeight: 500,
+        }}>
+            MONTHLY REVIEW · AUG 2026
+        </Text>
+        <Text style={{
+            fontSize: 72, color: '#F5EFE6',
+            fontWeight: 'bold', lineHeight: 1.15,
+        }}>
+            8月兼职表现总结
+        </Text>
+        <Text style={{
+            fontSize: 26, color: 'rgba(245,239,230,0.9)',
+            fontWeight: 500, lineHeight: 1.4,
+        }}>
+            安福路旗舰店 · 2026年8月
+        </Text>
+    </Box>
+
+    {/* 底部关键指标带 */}
+    <Box style={{
+        position: 'absolute', left: 80, bottom: 90,
+        flexDirection: 'row', alignItems: 'center', gap: 24,
+    }}>
+        <Text style={{
+            fontSize: 18, color: 'rgba(245,239,230,0.85)',
+            fontWeight: 500, letterSpacing: 2,
+        }}>
+            15人团队
+        </Text>
+        <Box style={{ width: 1, height: 18, background: 'rgba(192,138,94,0.6)' }} />
+        <Text style={{
+            fontSize: 18, color: 'rgba(245,239,230,0.85)',
+            fontWeight: 500, letterSpacing: 2,
+        }}>
+            634.5h 工时
+        </Text>
+        <Box style={{ width: 1, height: 18, background: 'rgba(192,138,94,0.6)' }} />
+        <Text style={{
+            fontSize: 18, color: 'rgba(245,239,230,0.85)',
+            fontWeight: 500, letterSpacing: 2,
+        }}>
+            五维评分复盘
+        </Text>
+    </Box>
+
+    {/* 右下 L3 角标 */}
+    <Box style={{
+        position: 'absolute', right: 60, bottom: 36,
+        flexDirection: 'row', alignItems: 'center', gap: 12,
+    }}>
+        <Box style={{
+            width: 28, height: 1,
+            background: 'rgba(192,138,94,0.7)',
+        }} />
+        <Text style={{
+            fontSize: 12, color: 'rgba(245,239,230,0.6)',
+            letterSpacing: 4, fontWeight: 500,
+        }}>
+            SALOMON ANFULU · STORE L140
+        </Text>
+    </Box>
+</Slide>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page-node-id="h5zE050mLLpM7JHvBUkFAZ">
+<head data-page-node-id="OwZky4CgpM4Du3PO9x33jG">
+<meta charset="UTF-8" data-page-node-id="VBHqld74aMGAauAasbfFmm">
+<title>SALOMON 安福路旗舰店 · 仓库兼职系统使用指南</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+    background:#e9ecf1; color:#15181d; padding:28px 0;
+  }
+  .page { width:1080px; margin:0 auto; background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 8px 40px rgba(15,23,42,.12); }
+
+  /* ============ HEADER ============ */
+  .hero { background:linear-gradient(125deg,#0b0d11 0%,#1c2029 45%,#2b313c 100%); color:#fff; padding:34px 44px 30px; position:relative; overflow:hidden; }
+  .hero::after { content:""; position:absolute; right:-90px; top:-90px; width:340px; height:340px; border-radius:50%; background:radial-gradient(circle,rgba(255,255,255,.10) 0%,rgba(255,255,255,0) 68%); }
+  .brand { display:flex; align-items:center; gap:12px; margin-bottom:20px; position:relative; z-index:2; }
+  .smark { width:38px; height:38px; background:#fff; color:#0b0d11; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:23px; font-weight:800; font-style:italic; letter-spacing:-1px; }
+  .brand-txt { font-size:13.5px; letter-spacing:3.4px; color:#a8b0bd; font-weight:600; }
+  .hero-main { display:flex; align-items:flex-end; justify-content:space-between; gap:24px; position:relative; z-index:2; }
+  .hero h1 { font-size:38px; font-weight:800; letter-spacing:-.4px; line-height:1.18; }
+  .hero h1 em { font-style:normal; background:linear-gradient(90deg,#ffffff 0%,#b9c2cf 100%); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero .sub { margin-top:11px; font-size:15.5px; color:#98a1b0; letter-spacing:.6px; }
+  .hero .sub b { color:#fff; font-weight:700; }
+  .qty-badge { flex:0 0 auto; background:linear-gradient(135deg,#1f6feb,#144a9c); border-radius:14px; padding:14px 26px; text-align:center; box-shadow:0 6px 20px rgba(31,111,235,.36); }
+  .qty-badge .n { font-size:32px; font-weight:800; line-height:1; letter-spacing:-1px; }
+  .qty-badge .u { font-size:12px; letter-spacing:3px; opacity:.92; margin-top:5px; }
+
+  /* ============ BODY ============ */
+  .body { padding:30px 44px 40px; }
+  .sec { margin-bottom:26px; }
+  .sec-hd { display:flex; align-items:center; gap:11px; margin-bottom:15px; }
+  .sec-hd .bar { width:5px; height:21px; border-radius:3px; background:#15181d; }
+  .sec-hd h2 { font-size:20px; font-weight:800; letter-spacing:.4px; }
+  .sec-hd .en { font-size:11.5px; color:#9aa3b0; letter-spacing:2.2px; font-weight:600; margin-left:auto; text-transform:uppercase; }
+
+  /* ---- Info card ---- */
+  .info { display:flex; gap:26px; background:#f6f8fa; border:1px solid #e5e9ef; border-radius:14px; padding:24px 28px; align-items:center; }
+  .info-grid { flex:1; display:grid; grid-template-columns:1fr 1fr; gap:16px 30px; }
+  .info-item .k { font-size:12.5px; color:#8b95a3; letter-spacing:1.2px; margin-bottom:5px; }
+  .info-item .v { font-size:18px; font-weight:700; letter-spacing:.2px; }
+  .info-item .v small { font-size:13px; font-weight:600; color:#6b7583; }
+  .info-item .v .code { font-family:"SF Mono",Menlo,Consolas,monospace; font-size:15.5px; background:#fff; border:1px solid #e0e5ec; border-radius:7px; padding:3px 10px; }
+
+  /* ---- Steps ---- */
+  .tl { position:relative; padding-left:4px; }
+  .tl-row { display:flex; gap:18px; position:relative; }
+  .tl-row + .tl-row { margin-top:9px; }
+  .tl-left { flex:0 0 96px; padding-top:15px; text-align:right; }
+  .tl-day { font-size:15.5px; font-weight:800; letter-spacing:.3px; }
+  .tl-date { font-size:11.5px; color:#98a2b0; margin-top:3px; letter-spacing:1px; }
+  .tl-mid { flex:0 0 26px; display:flex; flex-direction:column; align-items:center; position:relative; }
+  .tl-dot { width:13px; height:13px; border-radius:50%; background:#fff; border:3.5px solid #15181d; margin-top:20px; z-index:2; }
+  .tl-line { position:absolute; top:35px; bottom:-30px; width:2px; background:#dfe4ea; }
+  .tl-row:last-child .tl-line { display:none; }
+  .tl-card { flex:1; background:#f6f8fa; border:1px solid #e5e9ef; border-left:4px solid #15181d; border-radius:11px; padding:15px 20px; }
+  .tl-card .t { font-size:16.5px; font-weight:750; margin-bottom:8px; letter-spacing:.2px; }
+  .tl-card ul { list-style:none; }
+  .tl-card li { font-size:14.5px; color:#3d4653; line-height:1.85; padding-left:15px; position:relative; }
+  .tl-card li::before { content:""; position:absolute; left:0; top:11px; width:5px; height:5px; border-radius:50%; background:#adb6c2; }
+  .tl-card li b { color:#15181d; }
+  .tl-row.hot .tl-dot { border-color:#1f6feb; }
+  .tl-row.hot .tl-card { border-left-color:#1f6feb; background:#f2f7ff; border-color:#dbe7fa; }
+  .tl-row.hot .tl-day { color:#144a9c; }
+  .pill { display:inline-block; font-size:11px; font-weight:700; padding:2.5px 9px; border-radius:20px; background:#15181d; color:#fff; letter-spacing:.8px; vertical-align:2px; margin-left:8px; }
+  .pill.blue { background:#1f6feb; }
+  .pill.grey { background:#dfe4ea; color:#5a6473; }
+
+  /* ---- Legend chips ---- */
+  .legend { display:flex; gap:14px; margin-top:14px; }
+  .chip { flex:1; display:flex; align-items:center; gap:10px; border-radius:11px; padding:12px 16px; border:1px solid #e5e9ef; font-size:14px; }
+  .chip .sq { width:30px; height:30px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:16px; flex:0 0 auto; }
+  .chip b { font-weight:700; }
+  .chip small { color:#7a8494; font-size:12px; display:block; margin-top:1px; }
+  .chip.g { background:rgba(16,185,129,.07); border-color:rgba(16,185,129,.3); }
+  .chip.g .sq { background:rgba(16,185,129,.15); }
+  .chip.r { background:rgba(239,68,68,.06); border-color:rgba(239,68,68,.25); }
+  .chip.r .sq { background:rgba(239,68,68,.12); }
+  .chip.n { background:#f6f8fa; }
+  .chip.n .sq { background:#eceff4; }
+
+  /* ---- Notice ---- */
+  .notice { display:flex; gap:16px; align-items:center; background:#fff8e6; border:1px solid #f5e0a8; border-left:4px solid #e8a317; border-radius:12px; padding:18px 22px; }
+  .notice .ico { flex:0 0 auto; width:42px; height:42px; border-radius:11px; background:#e8a317; color:#fff; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:800; }
+  .notice .txt { font-size:15px; line-height:1.7; color:#4a3c14; }
+  .notice .txt b { color:#8a5d00; }
+
+  /* ---- FAQ ---- */
+  .faq { border:1px solid #e5e9ef; border-radius:13px; overflow:hidden; }
+  .faq-row { display:flex; gap:16px; padding:15px 22px; border-top:1px solid #eef1f5; background:#fff; }
+  .faq-row:first-child { border-top:none; }
+  .faq-row .q { flex:0 0 218px; font-size:14.8px; font-weight:750; color:#15181d; line-height:1.65; }
+  .faq-row .a { flex:1; font-size:14.3px; color:#3d4653; line-height:1.75; }
+  .faq-row .a b { color:#15181d; }
+  .faq-row:nth-child(odd) { background:#fafbfd; }
+
+  /* ---- Footer ---- */
+  .foot { margin-top:26px; padding-top:18px; border-top:1px dashed #dde2e9; display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:#98a2b0; letter-spacing:.8px; }
+  .foot b { color:#5a6473; font-weight:650; }
+</style>
+</head>
+<body data-page-node-id="sEC7JEPulOTVDmupyPzGP4">
+<div class="page" data-page-node-id="IEYjMCWCixuMe5pHFb2DCM">
+
+  <!-- ========== HERO ========== -->
+  <div class="hero" data-page-node-id="25UcIHAg6ibIqEXtkPhSqE">
+    <div class="brand" data-page-node-id="XF4x9jLMI5gJUMc85FMlM0">
+      <div class="smark" data-page-node-id="pqjX25r3vL8XvrIpbwY780">S</div>
+      <div class="brand-txt" data-page-node-id="bQVwAL7pf5rETCB090EPHX">SALOMON 安福路旗舰店 · 仓库兼职</div>
+    </div>
+    <div class="hero-main" data-page-node-id="NCEGOcYnCZuVeQEO0aAfUS">
+      <div data-page-node-id="wrxdNGx7VBuivJUy1UUps1">
+        <h1 data-page-node-id="23cpcQ0J96AuI35XOSCF89">兼职系统<em data-page-node-id="mgGVJrMExGvGt2tn8AKwBp">使用指南</em></h1>
+        <div class="sub" data-page-node-id="jHucXhHP2Me1oaBdcv52lN">登录 → 填「可上班时间」→ 查排班 ｜ <b data-page-node-id="qWDfWgXAdZlyTuHjhU0k89">3 件事，一次看会</b></div>
+      </div>
+      <div class="qty-badge" data-page-node-id="T9b6zRkZ45Xz4VWfFzl2ld">
+        <div class="n" data-page-node-id="CQRPN7E5tUsBNFm61zePhJ">3 步</div>
+        <div class="u" data-page-node-id="MvWMeTOktZmy19qNlAKoSh">全 部 操 作</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="body" data-page-node-id="vIGJl4v1JIUdcrcRNM2nMF">
+
+    <!-- ========== 01 登录 ========== -->
+    <div class="sec" data-page-node-id="ztiuUkUPk6AirS6BUBDjGx">
+      <div class="sec-hd" data-page-node-id="BCrHwnCF0cjlmaBVWuOalb"><div class="bar" data-page-node-id="EUi96m2QlXSdItpJsf7Lpn"></div><h2 data-page-node-id="KXTzFrUk1ZGWvRrmDk701c">① 登录系统</h2><div class="en" data-page-node-id="optnhmLjWClSA6LNEyCLFb">Sign In</div></div>
+      <div class="info" data-page-node-id="5OGHTsQILqmBfTzzFEWUi6">
+        <div class="info-grid" data-page-node-id="COhNscEFblaSMZuLO6RCsD">
+          <div class="info-item" data-page-node-id="cZcUgVoxPspu3omjtjirMG">
+            <div class="k" data-page-node-id="qRnUUw6FxFFd8fXiTu49e1">系统网址（手机/电脑均可）</div>
+            <div class="v" data-page-node-id="mWCtNwN9MKwNtzYdi55gm7"><span class="code" data-page-node-id="9lj8rVuvP5y19TS5J4AsyJ">salomon-anfulu.github.io/salomon-management</span></div>
+          </div>
+          <div class="info-item" data-page-node-id="YWlgdCvRc6bI0AjcK6bTHO">
+            <div class="k" data-page-node-id="CDBsBDVHwXKnTC1BSDpasu">登录账号</div>
+            <div class="v" data-page-node-id="WiTLbtW2FJJwD70pwcW2ql">名字拼音全拼<small data-page-node-id="Om0OwTx4fF9oFd8rUhZR0q">@salomon.temp</small>　<small data-page-node-id="gOSwT5HTA3tR4I02F7mhGw">（例：严佳铮 = yanjiazheng@salomon.temp）</small></div>
+          </div>
+          <div class="info-item" data-page-node-id="hSHQaCBuFdBcul6B9jm8Vs">
+            <div class="k" data-page-node-id="J1B5aEo9jPPP3lPRkv3s7F">初始密码</div>
+            <div class="v" data-page-node-id="2pzmCaS1VfpjdcvTMtAn51"><span class="code" data-page-node-id="dKHMxDO9iG4FpCYvB3LJNq">Salomon2026!</span>　<small data-page-node-id="sbsL3FB7BvwF3jbr6M55gu">首次登录会强制改为你自己的密码</small></div>
+          </div>
+          <div class="info-item" data-page-node-id="kwr4OUb1AIdzAW1TVi2GmN">
+            <div class="k" data-page-node-id="2x4VqvcRdjpogugyb9pdH7">登录后确认</div>
+            <div class="v" data-page-node-id="riV0m2deX2WEv2SjmQRPQW">顶部状态点 <b style="color:#10b981;" data-page-node-id="xd4s85IhNnMscLOXbE3NJv">绿色「已同步」</b> <small data-page-node-id="c3CwogeEJ6Csa6T486cFgC">= 连上云端，数据实时同步</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 02 填可上班时间 ========== -->
+    <div class="sec" data-page-node-id="xN9eNfMl6x8OguqovvsEiB">
+      <div class="sec-hd" data-page-node-id="xBiA3ylj0tM4d0VpBdOLrH"><div class="bar" data-page-node-id="9oSrTFlGt2J8orz5FCEoYb"></div><h2 data-page-node-id="yA1YQNizAp6lZcMgcGDDcc">② 核心动作 · 填「可上班时间」</h2><div class="en" data-page-node-id="DVLMxJc0jxB2NAUoGswzYE">Availability</div></div>
+      <div class="tl" data-page-node-id="KJrezDf0mWHZASfKR1vJvT">
+        <div class="tl-row hot" data-page-node-id="KiA0MSq8pJgiBgdkhQdcM5">
+          <div class="tl-left" data-page-node-id="LgMmXE0wBt8ckGp7ousACA"><div class="tl-day" data-page-node-id="I3G7zp1MA4HI0OK42iOHD2">STEP 1</div><div class="tl-date" data-page-node-id="PTVlTbLtnC9IHAFH9aB9KP">进入填报</div></div>
+          <div class="tl-mid" data-page-node-id="xnfetkP7nGf8sxzbRbNhPE"><div class="tl-dot" data-page-node-id="48FvCrxm2GVD5Jv9HSA1hU"></div><div class="tl-line" data-page-node-id="DAknjoDwPHN66nVMvXqDBw"></div></div>
+          <div class="tl-card" data-page-node-id="FvBD5nZlkUDe6dH5vw4cpA">
+            <div class="t" data-page-node-id="vN3kcIr5mPNvBqQr79z7Co">左侧菜单「📝 我的填报」→「📅 可上班时间」</div>
+            <ul data-page-node-id="M27yLQKU0XSyUaY8mzpbon">
+              <li data-page-node-id="z39K2wgaRg6vYVIp1wX3Bd">姓名已锁定为<b data-page-node-id="XaWcf0F5zOiZmfyHqtdTWj">你自己</b>，无需选择</li>
+              <li data-page-node-id="2QAHhv2L95AvpcfmAN7Z0y">顶部切换月份，提前填好<b data-page-node-id="cBIYAfVJdeGlec6f8f0n4d">下个月</b>的可用时间</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-row hot" data-page-node-id="b7EwGVahm91T7yyhMtjR5R">
+          <div class="tl-left" data-page-node-id="OHvQBAJHGOwlwmYoXPM013"><div class="tl-day" data-page-node-id="gvwZMMPqEHWSn9Z3mW2w63">STEP 2</div><div class="tl-date" data-page-node-id="WSOuHnn5LcVy3BuurESYEf">点日期填写</div></div>
+          <div class="tl-mid" data-page-node-id="ULkcQt0SDZ1RivIIVv2VhX"><div class="tl-dot" data-page-node-id="KrFypSpKu7KDWf2h4rUuUK"></div><div class="tl-line" data-page-node-id="5jXIgQpEnXxjMR72WYdYjx"></div></div>
+          <div class="tl-card" data-page-node-id="6RzwRVF9hzoKzAqGRBcm0w">
+            <div class="t" data-page-node-id="E1BoNN8hmJwdCzgpI6HFEB">点某一天的日期格子 → 弹窗中选择</div>
+            <ul data-page-node-id="VELyGCUd4FbrQUPxk0MYAY">
+              <li data-page-node-id="sV1BZysxUlnE7oxvVLYhJL"><b data-page-node-id="pkx60ZajSOGcjKcyPV77dn">可上班</b> 或 <b data-page-node-id="gZmFaqL4ApjmQKAnVNRGbo">不可上班</b>（二选一）</li>
+              <li data-page-node-id="u18ZQlnMpXyxeSO3SjWI7R">有特殊情况写在「备注」里（如：仅下午 / 17点后）</li>
+              <li data-page-node-id="u4kRqVSjBAyMm0Vh1EXoLo">填错了就再点一次同一天，改成正确状态即可</li>
+            </ul>
+          </div>
+        </div>
+        <div class="tl-row hot" data-page-node-id="AkYcdcz9VO74dEVD9pHi4r">
+          <div class="tl-left" data-page-node-id="tuAAkZo7vBdFwfPhSVkVqZ"><div class="tl-day" data-page-node-id="BQFxfglFe88Cneg89xerZq">STEP 3</div><div class="tl-date" data-page-node-id="OYAAD2WTG3fg8GXBmnN5eA">自动保存</div></div>
+          <div class="tl-mid" data-page-node-id="CChPQlFCkoqHUGdlRmgcut"><div class="tl-dot" data-page-node-id="WZjGLzYQrkVIFDvNC07dAu"></div></div>
+          <div class="tl-card" data-page-node-id="UfOeH19Gp28B25nOjCqJRc">
+            <div class="t" data-page-node-id="hvcUAAkGKzzYGYWusm0Bg1">保存后全店实时可见，<b data-page-node-id="HMpwnwvXsZCl2ElFDtEj1S">店长按此排班</b></div>
+            <ul data-page-node-id="e2RvKrTbRPDdE8kADIyanE">
+              <li data-page-node-id="rUFQxtkiY3kERpNRt66Emj">时间有变动，随时回来改，改完即时同步</li>
+              <li data-page-node-id="0UoJCOzCwJ7HwPmQuSEl8i">过去的日期会显示 🔒 锁定，不可再改</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="legend" data-page-node-id="EYsHyCW7MQUjyvIsxBvTw1">
+        <div class="chip g" data-page-node-id="nU3gKjmguEVXDEa55xWTc0"><div class="sq" data-page-node-id="36Py6PQBAsLyJkwMO8eYq0">✅</div><div data-page-node-id="cbp3DQjNwKV5QWvA3crL8B"><b data-page-node-id="2gi0GgkZLkVW3ubAe7qwjL">可上班</b><small data-page-node-id="WCeJcyMqMNO31MYTqbzcS9">当天可以来</small></div></div>
+        <div class="chip r" data-page-node-id="JrA0PxFIrgfwkXQR3Ol7Cc"><div class="sq" data-page-node-id="bQUUhE2oxBNjV6I4Zyccnw">❌</div><div data-page-node-id="ZEajbfhCmyjL0iSwIn01um"><b data-page-node-id="a5aIEHdpPnlCt2oxpXmTMO">不可上班</b><small data-page-node-id="x35He3JLxkThlqlGKogrWB">当天来不了</small></div></div>
+        <div class="chip n" data-page-node-id="hscICQ58j9Dv7q8KjKPYzm"><div class="sq" data-page-node-id="ZvL56yd1t5zEh4kcmy5jDh">○</div><div data-page-node-id="cals4dmrz8yzAJrB7rGG2R"><b data-page-node-id="1VdKhJ2y2ZgSPgGnHcrG8S">未填写</b><small data-page-node-id="sqjONKYlGDuPC24MSwvihU">还没填过</small></div></div>
+      </div>
+    </div>
+
+    <!-- ========== 03 查排班 ========== -->
+    <div class="sec" data-page-node-id="3q3pRMBGhhxA2RyR4Yfd7J">
+      <div class="sec-hd" data-page-node-id="Hwm07eEI2PCNfgoz4CSsGo"><div class="bar" data-page-node-id="OSJS9k1XQJpUAj5ixvHp6X"></div><h2 data-page-node-id="91YNM21F7kKHeiDRExSI4p">③ 查看排班</h2><div class="en" data-page-node-id="7YAk6qA4qIg3WASqL4MzaZ">Schedule</div></div>
+      <div class="tl" data-page-node-id="ZTQHUuTffK2qB6vpBI7knh">
+        <div class="tl-row" data-page-node-id="B6HugCZD31ijCDjSvXdQpM">
+          <div class="tl-left" data-page-node-id="irhqvaVN63ijGZRhluJv63"><div class="tl-day" data-page-node-id="OOKoU8415oYbNAxpnDUdVa">入口</div><div class="tl-date" data-page-node-id="rEESPRWdBGrwWlMfDOilHu">腾讯文档</div></div>
+          <div class="tl-mid" data-page-node-id="HemJzoSK8CknczO404O1G4"><div class="tl-dot" data-page-node-id="J4xKeec6OMlKiDxsCgeyPC"></div><div class="tl-line" data-page-node-id="tVFHsmrSl7ZSjZENyxmXCD"></div></div>
+          <div class="tl-card" data-page-node-id="pAOzhQSeNaz836ZWxdzrDB">
+            <div class="t" data-page-node-id="iW8BloVVGgolCxCHlNDazT">排班不在本系统，通过腾讯文档在线表格查看</div>
+            <ul data-page-node-id="esGYVWrCkZzyr98fseWiyi">
+              <li data-page-node-id="l6Q5it402giINxfLPXaOpP">表格链接（微信里可直接点开）：<b data-page-node-id="E4s16bdpdH8v9jRHuyrauv" style="font-family:'SF Mono',Menlo,Consolas,monospace; font-size:13.5px;">docs.qq.com/sheet/DVE1KUkxpSFRncHVY</b></li>
+              <li data-page-node-id="UXnLDOPq1jVns79tv9UgIT">打开后建议<b>收藏</b>，以后从微信收藏里进</li>
+              <li data-page-node-id="sC5AIrsIq5cvYNdvh2EkvG">排班以该表格为准，<b data-page-node-id="LHTVO0sApc4WrH4uq84Fot">每次排班更新后主动查看</b></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 04 打卡说明 ========== -->
+    <div class="sec" data-page-node-id="WNxHk2C2z8PZyYspxjr9Up">
+      <div class="sec-hd" data-page-node-id="jwTByqQ2MeZo5ZmB2JkDRP"><div class="bar" data-page-node-id="cYR09Xp09vnZ2QdhILOoRd"></div><h2 data-page-node-id="IAcScQSQayKldgsH6gPXDg">④ 上下班打卡</h2><div class="en" data-page-node-id="MFSdfFZn7rbyNrLig1JsUh">Clock In</div></div>
+      <div class="notice" data-page-node-id="9V4g8wLlzkC6tQxVnaFVGD">
+        <div class="ico" data-page-node-id="3hlke9hGA0sfMAOmkJLU5c">⚠️</div>
+        <div class="txt" data-page-node-id="f7iZ6oLKcLS5pI4dDBg00A">打卡<b data-page-node-id="uF5HdBdgsPECi850Gzrt0F">不在本系统</b>：上下班仍在<b data-page-node-id="UEg94FrLBQkfDG9DgTT6hK">灵工平台</b>照常打卡签到/签退。打卡记录由店长定期同步进系统「考勤记录」，工时按签到签退时间计算（<b data-page-node-id="aFTfgtXq1L1o8tj41csa5C">超 6 小时自动扣 1 小时午休</b>），作为发薪依据。漏打卡当天找店长补录。</div>
+      </div>
+    </div>
+
+    <!-- ========== 05 FAQ ========== -->
+    <div class="sec" data-page-node-id="xjjolTubGhalRA7zXj71zR">
+      <div class="sec-hd" data-page-node-id="wAFCJnFqwYBDrWhsrxRSSC"><div class="bar" data-page-node-id="qra932KEi6mzIw4B13QrXg"></div><h2 data-page-node-id="Zv71fXz80iGtYFE4g0UBEb">常见问题</h2><div class="en" data-page-node-id="unL1AzjPYzld4MLTTXx3Ef">FAQ</div></div>
+      <div class="faq" data-page-node-id="iAhrlaFzQkX1I7mrBqyrRD">
+        <div class="faq-row" data-page-node-id="dIeuqW2v7rC8XAHLQBhxrf">
+          <div class="q" data-page-node-id="SfuddGiEOGJCmak5N6N2Wh">提示「邮箱或密码错误」？</div>
+          <div class="a" data-page-node-id="83qkf5wIZEEs1rPnRkozPo">邮箱是<b data-page-node-id="PTDJ2AP0a20s3nJFlyCqnY">全小写拼音</b>；首次登录密码 <b data-page-node-id="aQvap7ybosQrC1Xs1N2VnT">Salomon2026!</b>（S 大写、含英文叹号）。改过密码的用你自己的新密码。</div>
+        </div>
+        <div class="faq-row" data-page-node-id="NljacSiT11KlnIrnMflCde">
+          <div class="q" data-page-node-id="lQbVGkXXJk4vDS3VUMwuhx">忘记密码了怎么办？</div>
+          <div class="a" data-page-node-id="pfiTiF5CH2RGmPSONVnxfs">联系店长重置，重置后恢复为初始密码，登录时系统会让你重新设置。</div>
+        </div>
+        <div class="faq-row" data-page-node-id="GydxPNsua36wHYqr8yXwhj">
+          <div class="q" data-page-node-id="iZw2f9XFFpZQquKEPyrUN1">换手机 / 换浏览器登录，数据还在吗？</div>
+          <div class="a" data-page-node-id="YieC1PgTKtBuzKDiJtiUJU">在。数据存云端，同一邮箱登录，你的填报和历史记录自动拉回。</div>
+        </div>
+        <div class="faq-row" data-page-node-id="JwGwwbD6oGHiFT1Hlm08pP">
+          <div class="q" data-page-node-id="y7Cn0QCZoA8zNXsfxVbEoJ">页面显示旧版本 / 数据不对？</div>
+          <div class="a" data-page-node-id="9xeKEEY7LJgET35bwwMx1v">先看登录页底部版本号，旧的话清一次浏览器缓存（网站数据）后重新打开网址。</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot" data-page-node-id="m4ALAy1ElFO7e2aiDYsi63">
+      <div data-page-node-id="k5WzsEc143vTE8abqPm8MG">SALOMON 安福路旗舰店 · 仓库兼职系统使用指南</div>
+      <div data-page-node-id="rHxWlRpHqr8cREQihUtLVc"><b data-page-node-id="EDjdrVaXRXwZrmk0WBWlpN">2026.09 版</b> · 有问题先看本页，再联系店长</div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

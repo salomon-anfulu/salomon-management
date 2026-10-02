@@ -1,0 +1,275 @@
+// P09 · 9月行动建议
+<Slide>
+    {/* 背景：暖砂 */}
+    <Box style={{
+        position: 'absolute', left: 0, top: 0,
+        width: '100%', height: '100%',
+        background: '#F5EFE6',
+    }} />
+
+    {/* A 块：标题 */}
+    <Box style={{
+        position: 'absolute', left: 60, top: 36, right: 60, height: 64,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    }}>
+        <Text style={{
+            fontSize: 36, fontWeight: 'bold', color: '#3E2F23',
+        }}>
+            9月行动建议
+        </Text>
+        <Text style={{
+            fontSize: 16, color: '#6B5B4B', letterSpacing: 4, fontWeight: 500,
+        }}>
+            SEPTEMBER ACTIONS · 4 ITEMS
+        </Text>
+    </Box>
+
+    {/* 副标 */}
+    <Text style={{
+        position: 'absolute', left: 60, top: 110, right: 60,
+        fontSize: 16, color: '#6B5B4B', lineHeight: 1.5,
+    }}>
+        把数据结论转译为可执行的下一步。四项行动都是"低投入、可立刻上手"，9 月首周前可完成规则上线
+    </Text>
+
+    {/* B 块：左标题 + 右 2x2 行动卡 */}
+    <Box style={{
+        position: 'absolute', left: 60, top: 156, right: 60, height: 480,
+        flexDirection: 'row', gap: 32,
+    }}>
+        {/* 左侧 26% 大字锚点 */}
+        <Box style={{
+            width: 290, height: '100%',
+            flexDirection: 'column', justifyContent: 'space-between',
+        }}>
+            <Box>
+                <Text style={{
+                    fontSize: 16, color: '#C08A5E',
+                    letterSpacing: 4, fontWeight: 600, marginBottom: 8,
+                }}>
+                    FROM
+                </Text>
+                <Text style={{
+                    fontSize: 60, fontWeight: 'bold', color: '#3E2F23',
+                    lineHeight: 1.0, letterSpacing: -2,
+                    fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                }}>
+                    Data
+                </Text>
+                <Text style={{
+                    fontSize: 18, color: '#6B5B4B', marginTop: 4, marginBottom: 12,
+                }}>
+                    ↓
+                </Text>
+                <Text style={{
+                    fontSize: 16, color: '#D65A3F',
+                    letterSpacing: 4, fontWeight: 600, marginBottom: 8,
+                }}>
+                    TO
+                </Text>
+                <Text style={{
+                    fontSize: 60, fontWeight: 'bold', color: '#D65A3F',
+                    lineHeight: 1.0, letterSpacing: -2,
+                    fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                }}>
+                    Action.
+                </Text>
+            </Box>
+            <Box style={{
+                width: 64, height: 3,
+                background: '#D65A3F',
+                marginTop: 16,
+            }} />
+        </Box>
+
+        {/* 右侧 74% 2x2 行动卡 */}
+        <Box style={{
+            flex: 1, height: '100%',
+            flexDirection: 'column', gap: 16,
+        }}>
+            {/* 第一行 */}
+            <Box style={{ flex: 1, flexDirection: 'row', gap: 16 }}>
+                {/* 行动 1: 连单训练 */}
+                <Box style={{
+                    flex: 1,
+                    background: '#3E2F23',
+                    borderRadius: 12,
+                    padding: 20,
+                    flexDirection: 'column', gap: 10,
+                }}>
+                    <Box style={{
+                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+                    }}>
+                        <Text style={{
+                            fontSize: 36, fontWeight: 'bold', color: '#D65A3F',
+                            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                        }}>
+                            01
+                        </Text>
+                        <Text style={{
+                            fontSize: 12, color: 'rgba(192,138,94,0.85)',
+                            letterSpacing: 2, fontWeight: 600,
+                        }}>
+                            CROSS-SELL
+                        </Text>
+                    </Box>
+                    <Text style={{
+                        fontSize: 22, fontWeight: 'bold', color: '#F5EFE6',
+                    }}>
+                        连单训练
+                    </Text>
+                    <Text style={{
+                        fontSize: 14, color: 'rgba(245,239,230,0.85)', lineHeight: 1.55,
+                    }}>
+                        UPT 从 1.33 拉到
+                        <span style={{ color: '#C08A5E', fontWeight: 'bold' }}> 1.5 </span>
+                        （+0.17），按 46 票 × 0.17 × ¥1,468 ≈
+                        <span style={{ color: '#D65A3F', fontWeight: 'bold' }}> ¥11,500 </span>
+                        月度增量。
+                    </Text>
+                </Box>
+
+                {/* 行动 2: 岗位分层 */}
+                <Box style={{
+                    flex: 1,
+                    background: '#FFFFFF',
+                    borderRadius: 12,
+                    padding: 20,
+                    flexDirection: 'column', gap: 10,
+                    borderLeft: '4px solid #C08A5E',
+                    boxShadow: '0 4px 16px rgba(62,47,35,0.06)',
+                }}>
+                    <Box style={{
+                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+                    }}>
+                        <Text style={{
+                            fontSize: 36, fontWeight: 'bold', color: '#C08A5E',
+                            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                        }}>
+                            02
+                        </Text>
+                        <Text style={{
+                            fontSize: 12, color: '#C08A5E',
+                            letterSpacing: 2, fontWeight: 600,
+                        }}>
+                            ROLE SPLIT
+                        </Text>
+                    </Box>
+                    <Text style={{
+                        fontSize: 22, fontWeight: 'bold', color: '#3E2F23',
+                    }}>
+                        岗位分层
+                    </Text>
+                    <Text style={{
+                        fontSize: 14, color: '#6B5B4B', lineHeight: 1.55,
+                    }}>
+                        区分
+                        <span style={{ color: '#3E2F23', fontWeight: 'bold' }}> 销售型 </span>
+                        与
+                        <span style={{ color: '#C08A5E', fontWeight: 'bold' }}> 服务型 </span>
+                        ；服务型以"好评 + 门迎 + 店务"为价值评估。
+                    </Text>
+                </Box>
+            </Box>
+
+            {/* 第二行 */}
+            <Box style={{ flex: 1, flexDirection: 'row', gap: 16 }}>
+                {/* 行动 3: 评分校准 */}
+                <Box style={{
+                    flex: 1,
+                    background: '#FFFFFF',
+                    borderRadius: 12,
+                    padding: 20,
+                    flexDirection: 'column', gap: 10,
+                    borderLeft: '4px solid #3E2F23',
+                    boxShadow: '0 4px 16px rgba(62,47,35,0.06)',
+                }}>
+                    <Box style={{
+                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+                    }}>
+                        <Text style={{
+                            fontSize: 36, fontWeight: 'bold', color: '#3E2F23',
+                            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                        }}>
+                            03
+                        </Text>
+                        <Text style={{
+                            fontSize: 12, color: '#3E2F23',
+                            letterSpacing: 2, fontWeight: 600,
+                        }}>
+                            SCORING FIX
+                        </Text>
+                    </Box>
+                    <Text style={{
+                        fontSize: 22, fontWeight: 'bold', color: '#3E2F23',
+                    }}>
+                        评分校准
+                    </Text>
+                    <Text style={{
+                        fontSize: 14, color: '#6B5B4B', lineHeight: 1.55,
+                    }}>
+                        门控线
+                        <span style={{ color: '#3E2F23', fontWeight: 'bold' }}> 5 票 → 3 票 </span>
+                        ，或改为"按工时折算票效"，恢复业绩维度区分度。
+                    </Text>
+                </Box>
+
+                {/* 行动 4: 供班锁定 */}
+                <Box style={{
+                    flex: 1,
+                    background: '#FFFFFF',
+                    borderRadius: 12,
+                    padding: 20,
+                    flexDirection: 'column', gap: 10,
+                    borderLeft: '4px solid #D65A3F',
+                    boxShadow: '0 4px 16px rgba(62,47,35,0.06)',
+                }}>
+                    <Box style={{
+                        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+                    }}>
+                        <Text style={{
+                            fontSize: 36, fontWeight: 'bold', color: '#D65A3F',
+                            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+                        }}>
+                            04
+                        </Text>
+                        <Text style={{
+                            fontSize: 12, color: '#D65A3F',
+                            letterSpacing: 2, fontWeight: 600,
+                        }}>
+                            SCHEDULING
+                        </Text>
+                    </Box>
+                    <Text style={{
+                        fontSize: 22, fontWeight: 'bold', color: '#3E2F23',
+                    }}>
+                        供班锁定
+                    </Text>
+                    <Text style={{
+                        fontSize: 14, color: '#6B5B4B', lineHeight: 1.55,
+                    }}>
+                        9 月排班提前一周敲定；满勤 6/6 周人员享受
+                        <span style={{ color: '#D65A3F', fontWeight: 'bold' }}> 优先排班权 </span>
+                        。
+                    </Text>
+                </Box>
+            </Box>
+        </Box>
+    </Box>
+
+    {/* C 块：页脚条 */}
+    <Box style={{
+        position: 'absolute', left: 60, right: 60, bottom: 20, height: 24,
+        flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    }}>
+        <Text style={{ fontSize: 14, color: '#6B5B4B' }}>
+            安福路 Salomon 兼职管理 · 8月复盘
+        </Text>
+        <Text style={{
+            fontSize: 14, color: '#6B5B4B',
+            fontFamily: 'Arial, Helvetica Neue, sans-serif',
+        }}>
+            09 / 10
+        </Text>
+    </Box>
+</Slide>
