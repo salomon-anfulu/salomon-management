@@ -119,7 +119,7 @@ const MonthConfig = {
 // ===== 全局默认展示月份：2026年9月 =====
 // 所有模块的"默认显示月份"统一走这里，确保打开任意模块优先展示9月内容。
 // 用户仍可手动切回历史月（如已锁定的7月/8月，仅查看不可编辑）。
-const DEFAULT_VIEW_MONTH = '2026-09';
+const DEFAULT_VIEW_MONTH = '2026-10';
 
 // ===== v92: 安全工具函数（第一性原则修复） =====
 // 根因：JS 原生 .split()/.replace()/.slice() 在 null/undefined 上会崩溃。
