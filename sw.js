@@ -16,9 +16,9 @@
  *   - SW 'controllerchange' 事件触发页面 reload（在探针逻辑中处理）
  */
 
-const SW_VERSION = 'sw-v220';
-const CACHE_STATIC = 'static-v220';
-const CACHE_IMG = 'img-v220';
+const SW_VERSION = 'sw-v221';
+const CACHE_STATIC = 'static-v221';
+const CACHE_IMG = 'img-v221';
 
 // 需要绕过 SW 的路径（直接走网络）
 const NETWORK_ONLY_PATHS = [
