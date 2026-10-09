@@ -2078,6 +2078,53 @@ function getLinggongAttStats(staffName) {
  *   旷工：每次-2
  *   最低1分
  */
+/**
+ * 白房间支持评分（2026-10 起新维度）
+ * 数据源：灵工打卡记录按班次容差匹配（±30分钟）
+ * 班次时长（>7h 扣 0.5h 休息）：945-1715=7h / 945-1815=8h / 1245-2115=8h / 945-2115=11h / 1715-2115=4h
+ * 规则：基础1分，每满20小时+1分，5分封顶（80h 满分）
+ */
+const WHITE_ROOM_SHIFTS = [
+  { start: '09:45', end: '17:15', hours: 7 },
+  { start: '09:45', end: '18:15', hours: 8 },
+  { start: '12:45', end: '21:15', hours: 8 },
+  { start: '09:45', end: '21:15', hours: 11 },
+  { start: '17:15', end: '21:15', hours: 4 },
+];
+let _whiteRoomCache = null;
+let _whiteRoomCacheMonth = null;
+function getWhiteRoomData() {
+  const scoreMonth = typeof _scoringMonth !== 'undefined' ? _scoringMonth : DEFAULT_VIEW_MONTH;
+  if (_whiteRoomCache && _whiteRoomCacheMonth === scoreMonth) return _whiteRoomCache;
+  _whiteRoomCacheMonth = scoreMonth;
+  const lgData = Store.get('linggongAttendance') || { records: [] };
+  const records = (lgData.records || []).filter(r => (r.date || '').startsWith(scoreMonth));
+  const toMin = t => { const m = String(t || '').match(/(\d{1,2}):(\d{2})/); return m ? +m[1] * 60 + +m[2] : null; };
+  const hoursByStaff = {}; const shiftsByStaff = {};
+  const TOL = 30; // 容差分钟
+  records.forEach(r => {
+    const ci = toMin(r.signIn || r.clockIn || '');
+    const co = toMin(r.signOut || r.clockOut || '');
+    if (ci === null || co === null) return;
+    for (const sh of WHITE_ROOM_SHIFTS) {
+      const s = toMin(sh.start), e = toMin(sh.end);
+      if (Math.abs(ci - s) <= TOL && Math.abs(co - e) <= TOL) {
+        hoursByStaff[r.name] = (hoursByStaff[r.name] || 0) + sh.hours;
+        (shiftsByStaff[r.name] = shiftsByStaff[r.name] || []).push({ date: r.date, shift: sh.start + '-' + sh.end, hours: sh.hours });
+        break;
+      }
+    }
+  });
+  _whiteRoomCache = { hoursByStaff, shiftsByStaff };
+  return _whiteRoomCache;
+}
+function calcWhiteRoomScore(staffName) {
+  const data = getWhiteRoomData();
+  const hours = data.hoursByStaff[staffName] || 0;
+  const score = Math.min(5, 1 + Math.floor(hours / 20));
+  return { score: parseFloat(score.toFixed(1)), hours, hoursDetail: data.shiftsByStaff[staffName] || [] };
+}
+
 function calcAttendanceScore(staffName) {
   const { lateCount, missedPunch, absentCount, records } = getLinggongAttStats(staffName);
 
@@ -2307,9 +2354,14 @@ function renderRatings() {
     const reviewCalc = calcCustomerReviewScore(staffName);
     const attendCalc = calcAttendanceScore(staffName);
     const behaviorCalc = calcBehaviorScore(staffName);
-    const dynamicScores = { availability: availCalc.score, performance: perfCalc.score, behavior: behaviorCalc.score, attendance: attendCalc.score, customerReview: reviewCalc.score };
+    // v222: 2026-10 起维度集切换——隐藏行为规范/顾客好评，新增白房间支持
+    const _isOctPlus = _scoringMonth >= '2026-10';
+    const whiteCalc = _isOctPlus ? calcWhiteRoomScore(staffName) : null;
+    const dynamicScores = _isOctPlus
+      ? { availability: availCalc.score, performance: perfCalc.score, attendance: attendCalc.score, whiteRoom: whiteCalc.score }
+      : { availability: availCalc.score, performance: perfCalc.score, behavior: behaviorCalc.score, attendance: attendCalc.score, customerReview: reviewCalc.score };
     const dynamicAvg = Object.values(dynamicScores).reduce((a, b) => a + b, 0) / Object.values(dynamicScores).length;
-    return { ...r, _dynamicAvg: dynamicAvg, _availCalc: availCalc, _perfCalc: perfCalc, _reviewCalc: reviewCalc, _attendCalc: attendCalc, _behaviorCalc: behaviorCalc };
+    return { ...r, _dynamicAvg: dynamicAvg, _availCalc: availCalc, _perfCalc: perfCalc, _reviewCalc: reviewCalc, _attendCalc: attendCalc, _behaviorCalc: behaviorCalc, _whiteCalc: whiteCalc, _isOctPlus };
   });
   let sortedRatings = [...enrichedRatings].sort((a, b) => b._dynamicAvg - a._dynamicAvg);
 
@@ -2389,11 +2441,18 @@ function renderRatings() {
         <style>@keyframes pulse-lock{0%{box-shadow:0 0 0 0 rgba(251,146,60,0.7)}70%{box-shadow:0 0 0 8px rgba(251,146,60,0)}100%{box-shadow:0 0 0 0 rgba(251,146,60,0)}}</style>
         ` : ''}
         <div style="display: flex; gap: 12px; margin-top: 10px; flex-wrap: wrap;">
+          ${_scoringMonth >= '2026-10' ? `
+          <span style="font-size: 11px; opacity: 0.6;">🛡️ 工时支持 <span style="opacity: 0.5; font-size: 10px;">(基础5分·每周不达标-1)</span></span>
+          <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩 <span style="opacity: 0.5; font-size: 10px;">(时产+UPT各50% · 月销2万+0.5)</span></span>
+          <span style="font-size: 11px; opacity: 0.6;">⏰ 考勤纪律</span>
+          <span style="font-size: 11px; opacity: 0.6;">⬜ 白房间支持 <span style="opacity: 0.5; font-size: 10px;">(基础1分·每20小时+1·封顶5分)</span></span>
+          ` : `
           <span style="font-size: 11px; opacity: 0.6;">🛡️ 工时支持 <span style="opacity: 0.5; font-size: 10px;">(基础5分·每周不达标-1)</span></span>
           <span style="font-size: 11px; opacity: 0.6;">🎯 销售业绩 <span style="opacity: 0.5; font-size: 10px;">(时产+UPT各50% · 月销2万+0.5)</span></span>
           <span style="font-size: 11px; opacity: 0.6;">🎪 行为规范 <span style="opacity: 0.5; font-size: 10px;">(门迎+店务时长·对标平均·前三加成)</span></span>
           <span style="font-size: 11px; opacity: 0.6;">⏰ 考勤纪律</span>
           <span style="font-size: 11px; opacity: 0.6;">💕 顾客好评 <span style="opacity: 0.5; font-size: 10px;">(基础1+每条好评递增)</span></span>
+          `}
         </div>
       </div>
     </div>
@@ -2476,7 +2535,9 @@ function renderRatings() {
 
         const attendCalc = r._attendCalc;
         const behaviorCalc = r._behaviorCalc;
-        const dynamicScores = { availability: availScore, performance: r._perfCalc.score, behavior: behaviorCalc.score, customerReview: r._reviewCalc.score, attendance: attendCalc.score };
+        const dynamicScores = r._isOctPlus
+          ? { availability: availScore, performance: r._perfCalc.score, attendance: attendCalc.score, whiteRoom: r._whiteCalc.score }
+          : { availability: availScore, performance: r._perfCalc.score, behavior: behaviorCalc.score, customerReview: r._reviewCalc.score, attendance: attendCalc.score };
         const reviewScore = r._reviewCalc.score;
         const reviewCalc = r._reviewCalc;
         const titleInfo = getRatingTitle(dynamicScores, dynamicAvg, staffName);
@@ -2486,7 +2547,12 @@ function renderRatings() {
         const ringCircumference = 2 * Math.PI * 22;
         const ringDash = (level / 100) * ringCircumference;
         const perfCalc = r._perfCalc;
-        const dimensions = [
+        const dimensions = r._isOctPlus ? [
+          { key: 'availability', label: '工时支持', val: availScore },
+          { key: 'performance', label: '销售业绩', val: perfCalc.score },
+          { key: 'attendance', label: '考勤纪律', val: attendCalc.score },
+          { key: 'whiteRoom', label: '白房间支持', val: r._whiteCalc.score, extra: r._whiteCalc.hours + 'h' },
+        ] : [
           { key: 'availability', label: '工时支持', val: availScore },
           { key: 'performance', label: '销售业绩', val: perfCalc.score },
           { key: 'behavior', label: '行为规范', val: behaviorCalc.score },
