@@ -45,18 +45,35 @@ function loadSupabaseLib() {
       resolve(null);
       return;
     }
-    const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
-    script.async = true;
-    script.onload = () => {
+    // v223: 双源加载——本地 vendor 优先(jsdelivr CDN 国内时好时坏), CDN 兜底
+    const SOURCES = [
+      'js/vendor/supabase.min.js?v=222',
+      'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js'
+    ];
+    let srcIdx = 0;
+    const tryLoad = () => {
       if (typeof supabase !== 'undefined' && supabase.createClient) {
         resolve(supabase.createClient);
-      } else {
-        reject(new Error('Supabase 库加载失败'));
+        return;
       }
+      if (srcIdx >= SOURCES.length) {
+        reject(new Error('Supabase 库加载失败(本地+CDN均不可用)'));
+        return;
+      }
+      const script = document.createElement('script');
+      script.src = SOURCES[srcIdx++];
+      script.async = true;
+      script.onload = () => {
+        if (typeof supabase !== 'undefined' && supabase.createClient) {
+          resolve(supabase.createClient);
+        } else {
+          tryLoad();
+        }
+      };
+      script.onerror = tryLoad; // 失败换下一源
+      document.head.appendChild(script);
     };
-    script.onerror = () => reject(new Error('Supabase CDN 加载失败'));
-    document.head.appendChild(script);
+    tryLoad();
   });
 }
 
