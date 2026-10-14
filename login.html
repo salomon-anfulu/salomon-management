@@ -270,9 +270,9 @@
   </div>
 
   <!-- Supabase config + client (必须在 auth 之前加载) -->
-  <script src="supabase/config.js?v=225"></script>
+  <script src="supabase/config.js?v=226"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js?v=225"></script>
+  <script src="js/supabase-client.js?v=226"></script>
 
   <script>
     // 回车键提交
@@ -303,12 +303,28 @@
       try {
         // 尝试 Supabase 登录
         if (typeof salomonSupabase !== 'undefined' && salomonSupabase.client) {
-          const { data, error } = await salomonSupabase.client.auth.signInWithPassword({
-            email: email,
-            password: password
-          });
+          // v226: 网络瞬时失败自动重试(Safari报load failed/Chrome报Failed to fetch, 国内访问supabase域名偶发)
+          const isNetworkErr = e => /load failed|failed to fetch|networkerror|timeout|timed?s*out/i.test(String(e && e.message || e));
+          let data = null, lastErr = null;
+          for (let attempt = 0; attempt < 3; attempt++) {
+            try {
+              const res = await salomonSupabase.client.auth.signInWithPassword({ email: email, password: password });
+              if (res.error) throw res.error;
+              data = res.data;
+              lastErr = null;
+              break;
+            } catch (e) {
+              lastErr = e;
+              if (!isNetworkErr(e)) break; // 非网络错误(密码错等)不重试
+              if (attempt < 2) {
+                btn.textContent = '网络波动，重试中(' + (attempt + 2) + '/3)...';
+                await new Promise(r => setTimeout(r, 1200 * (attempt + 1)));
+              }
+            }
+          }
+          if (lastErr) throw lastErr;
 
-          if (error) throw error;
+          if (false) { throw new Error('unreachable'); }
 
           // 登录成功，获取用户信息
           const { data: staffData, error: staffErr } = await salomonSupabase.client
@@ -362,6 +378,8 @@
           // Supabase 默认开启邮箱确认，但我们用的是 .temp 域名
           // 需要在 Dashboard 关闭邮箱确认，或手动确认
           msgEl.innerHTML = '❌ 邮箱需要验证。<br>请在 Supabase Dashboard → Authentication → Users 中手动确认邮箱。<br>或在 Authentication → Providers → Email 中关闭"Confirm email"。';
+        } else if (/load failed|failed to fetch|networkerror/i.test(err.message || '')) {
+          msgEl.innerHTML = '❌ 网络连接不稳定，请稍等10秒后重试<br><span style="font-size:11px;opacity:0.7">若多次失败：切换网络(如手机热点)或关闭页面重新打开</span>';
         } else {
           msgEl.textContent = '❌ ' + (err.message || '登录失败');
         }
