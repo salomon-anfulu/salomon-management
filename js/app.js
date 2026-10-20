@@ -43,8 +43,8 @@ const Store = {
       { id: 12, name: '何秋烨', gender: '女', dept: 'Service Team', joinDate: '2026-03-15', status: 'active', avatar_color: '#f97316', availableDays: 23, mbti: '' },
       { id: 13, name: '龚赟昊', gender: '男', dept: 'Service Team', joinDate: '2026-02-25', status: 'active', avatar_color: '#84cc16', availableDays: 25, mbti: '' },
       { id: 20, name: '唐蓉', gender: '女', dept: 'Service Team', joinDate: '2026-07-01', status: 'left', leftDate: '2026-09-30', avatar_color: '#ec4899', availableDays: 0, mbti: '', serviceTeamStartDate: '2026-07-01' },
-      { id: 21, name: '李健华', gender: '男', dept: '仓库兼职', joinDate: '2026-07-08', status: 'active', avatar_color: '#10b981', availableDays: 0, mbti: '' },
-      { id: 22, name: '吴嘉莹', gender: '女', dept: '仓库兼职', joinDate: '2026-07-08', status: 'active', avatar_color: '#06b6d4', availableDays: 0, mbti: '' },
+      { id: 21, name: '李健华', gender: '男', dept: '仓库兼职', joinDate: '2026-07-08', status: 'left', avatar_color: '#10b981', availableDays: 0, mbti: '' },
+      { id: 22, name: '吴嘉莹', gender: '女', dept: '仓库兼职', joinDate: '2026-07-08', status: 'left', avatar_color: '#06b6d4', availableDays: 0, mbti: '' },
       // ===== 仓库兼职 =====
       { id: 14, name: '严佳铮', gender: '男', dept: '仓库兼职', joinDate: '2026-03-01', status: 'active', avatar_color: '#22d3ee', availableDays: 7, mbti: '' },
       // 祖白代 已离职（v203: 9/11离职标记; v204: 改全月隐藏模式(无leftDate=李若彤模式)——个人填报下拉/供班总览等所有月份均不再显示, 仅人员管理页保留"离职"状态; 灵工打卡历史数据保留在 linggongAttendance）
@@ -9762,7 +9762,7 @@ linggongAttendance: {
       { id: 54, staffName: '唐蓉', month: '2026-08', rating: 5, reviewDate: '2026-08-30', snippet: '感谢唐蓉姐姐的热心讲解！', keywords: ['感谢唐蓉', '热心讲解', '超预期'], source: '大众点评（鸭鸭型手打年糕，Lv2，打卡评价）' },
     ],
 
-    _dataVersion: '2026-10-19-v228',
+    _dataVersion: '2026-10-20-v229',
     // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
     // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
     _lockedMonths: ['2026-07', '2026-06'],
@@ -9810,7 +9810,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-10-19-v228';
+      const DATA_VERSION = '2026-10-20-v229';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
