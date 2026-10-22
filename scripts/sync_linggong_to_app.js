@@ -48,7 +48,12 @@ const mapRec = r => ({
   status: r.status || '',
   totalHours: String(r.totalHours ?? ''),
 });
-const mapped = newRaw.map(mapRec);
+// v231: 离职真删名单——这些人的打卡在 app.js 已被底层删除(v230), 灵工API/本地json再吐出也一律拦截
+const LINGGONG_EXCLUDED = ['李健华', '吴嘉莹'];
+const mapped = newRaw.map(mapRec).filter(r => {
+  if (LINGGONG_EXCLUDED.includes(r.name)) return false;
+  return true;
+});
 
 const src = fs.readFileSync(appPath, 'utf8');
 // 匹配 linggongAttendance 块内的 records 数组

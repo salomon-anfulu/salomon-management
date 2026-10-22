@@ -8066,7 +8066,7 @@ linggongAttendance: {
     "date": "2026-10-03",
     "signIn": "11:08",
     "signOut": "19:02",
-    "status": "���卡异常",
+    "status": "打卡异常",
     "totalHours": "7"
   },
                 {
@@ -8667,7 +8667,7 @@ linggongAttendance: {
     "signIn": "10:58",
     "signOut": "次日00:02",
     "status": "打卡正常",
-    "totalHours": "20.5"
+    "totalHours": "32"
   },
                 {
     "name": "陈广权",
@@ -8969,70 +8969,310 @@ linggongAttendance: {
     "name": "严佳铮",
     "date": "2026-10-18",
     "signIn": "10:23",
-    "signOut": "",
-    "status": "打卡进行中",
-    "totalHours": "0"
+    "signOut": "21:30",
+    "status": "打卡正常",
+    "totalHours": "10"
   },
                 {
     "name": "刘晓静",
     "date": "2026-10-18",
     "signIn": "11:04",
-    "signOut": "",
-    "status": "打卡进行中",
-    "totalHours": "0"
+    "signOut": "20:30",
+    "status": "打卡正常",
+    "totalHours": "8.5"
   },
                 {
     "name": "朱凯赟",
     "date": "2026-10-18",
     "signIn": "12:37",
-    "signOut": "",
-    "status": "打卡进行中",
-    "totalHours": "0"
+    "signOut": "17:30",
+    "status": "打卡正常",
+    "totalHours": "4"
   },
                 {
     "name": "李淑婷",
     "date": "2026-10-18",
     "signIn": "12:18",
-    "signOut": "",
-    "status": "打卡进行中",
-    "totalHours": "0"
+    "signOut": "21:00",
+    "status": "打卡正常",
+    "totalHours": "8"
   },
                 {
     "name": "玛依拉",
     "date": "2026-10-18",
     "signIn": "13:19",
-    "signOut": "",
-    "status": "打卡进行中",
-    "totalHours": "0"
+    "signOut": "22:00",
+    "status": "打卡正常",
+    "totalHours": "8"
   },
                 {
     "name": "田佳乐",
     "date": "2026-10-18",
     "signIn": "10:22",
-    "signOut": "",
-    "status": "打卡进行中",
-    "totalHours": "0"
+    "signOut": "19:58",
+    "status": "打卡正常",
+    "totalHours": "8.5"
   },
                 {
     "name": "迟骋",
     "date": "2026-10-18",
     "signIn": "09:43",
+    "signOut": "18:16",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "邓奇缘",
+    "date": "2026-10-18",
+    "signIn": "09:56",
+    "signOut": "19:04",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "龚赟昊",
+    "date": "2026-10-18",
+    "signIn": "12:43",
+    "signOut": "21:15",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "何思嘉",
+    "date": "2026-10-19",
+    "signIn": "09:59",
+    "signOut": "18:30",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "何秋烨",
+    "date": "2026-10-19",
+    "signIn": "12:52",
+    "signOut": "21:37",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "孔祥宇",
+    "date": "2026-10-19",
+    "signIn": "09:41",
+    "signOut": "18:16",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "梁实秋",
+    "date": "2026-10-19",
+    "signIn": "09:41",
+    "signOut": "17:19",
+    "status": "打卡正常",
+    "totalHours": "7"
+  },
+                {
+    "name": "王佳鸣",
+    "date": "2026-10-19",
+    "signIn": "10:26",
+    "signOut": "19:00",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "玛依拉",
+    "date": "2026-10-19",
+    "signIn": "17:01",
+    "signOut": "21:15",
+    "status": "打卡正常",
+    "totalHours": "4"
+  },
+                {
+    "name": "考赛尔·艾力",
+    "date": "2026-10-19",
+    "signIn": "12:28",
+    "signOut": "21:02",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "邓奇缘",
+    "date": "2026-10-19",
+    "signIn": "09:42",
+    "signOut": "13:48",
+    "status": "打卡正常",
+    "totalHours": "4"
+  },
+                {
+    "name": "何秋烨",
+    "date": "2026-10-20",
+    "signIn": "17:04",
+    "signOut": "21:15",
+    "status": "打卡正常",
+    "totalHours": "4"
+  },
+                {
+    "name": "刘晓静",
+    "date": "2026-10-20",
+    "signIn": "10:15",
+    "signOut": "19:01",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "和卫鹏",
+    "date": "2026-10-20",
+    "signIn": "12:22",
+    "signOut": "21:01",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "孔祥宇",
+    "date": "2026-10-20",
+    "signIn": "12:59",
+    "signOut": "21:30",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "杨子豪",
+    "date": "2026-10-20",
+    "signIn": "10:21",
+    "signOut": "19:00",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "邓奇缘",
+    "date": "2026-10-20",
+    "signIn": "09:32",
+    "signOut": "18:31",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "龚赟昊",
+    "date": "2026-10-20",
+    "signIn": "09:41",
+    "signOut": "17:17",
+    "status": "打卡正常",
+    "totalHours": "7"
+  },
+                {
+    "name": "何思嘉",
+    "date": "2026-10-21",
+    "signIn": "缺卡",
+    "signOut": "缺卡",
+    "status": "缺勤",
+    "totalHours": "0"
+  },
+                {
+    "name": "刘晓静",
+    "date": "2026-10-21",
+    "signIn": "12:21",
+    "signOut": "21:02",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "孔祥宇",
+    "date": "2026-10-21",
+    "signIn": "10:28",
+    "signOut": "19:01",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "杨子豪",
+    "date": "2026-10-21",
+    "signIn": "09:36",
+    "signOut": "17:16",
+    "status": "打卡正常",
+    "totalHours": "7"
+  },
+                {
+    "name": "玛依拉",
+    "date": "2026-10-21",
+    "signIn": "12:47",
+    "signOut": "21:30",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "田佳乐",
+    "date": "2026-10-21",
+    "signIn": "17:09",
+    "signOut": "21:16",
+    "status": "打卡正常",
+    "totalHours": "4"
+  },
+                {
+    "name": "考赛尔·艾力",
+    "date": "2026-10-21",
+    "signIn": "10:24",
+    "signOut": "19:02",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "迟骋",
+    "date": "2026-10-21",
+    "signIn": "09:49",
+    "signOut": "18:30",
+    "status": "打卡正常",
+    "totalHours": "8"
+  },
+                {
+    "name": "刘晓静",
+    "date": "2026-10-22",
+    "signIn": "12:25",
     "signOut": "",
     "status": "打卡进行中",
     "totalHours": "0"
   },
                 {
-    "name": "邓奇缘",
-    "date": "2026-10-18",
+    "name": "杨子豪",
+    "date": "2026-10-22",
+    "signIn": "09:41",
+    "signOut": "",
+    "status": "打卡进行中",
+    "totalHours": "0"
+  },
+                {
+    "name": "梁实秋",
+    "date": "2026-10-22",
     "signIn": "09:56",
     "signOut": "",
     "status": "打卡进行中",
     "totalHours": "0"
   },
                 {
-    "name": "龚赟昊",
-    "date": "2026-10-18",
-    "signIn": "12:43",
+    "name": "王佳鸣",
+    "date": "2026-10-22",
+    "signIn": "缺卡",
+    "signOut": "",
+    "status": "打卡进行中",
+    "totalHours": "0"
+  },
+                {
+    "name": "玛依拉",
+    "date": "2026-10-22",
+    "signIn": "10:23",
+    "signOut": "",
+    "status": "打卡进行中",
+    "totalHours": "0"
+  },
+                {
+    "name": "田佳乐",
+    "date": "2026-10-22",
+    "signIn": "12:56",
+    "signOut": "",
+    "status": "打卡进行中",
+    "totalHours": "0"
+  },
+                {
+    "name": "考赛尔·艾力",
+    "date": "2026-10-22",
+    "signIn": "11:28",
     "signOut": "",
     "status": "打卡进行中",
     "totalHours": "0"
@@ -9386,7 +9626,7 @@ linggongAttendance: {
       { id: 54, staffName: '唐蓉', month: '2026-08', rating: 5, reviewDate: '2026-08-30', snippet: '感谢唐蓉姐姐的热心讲解！', keywords: ['感谢唐蓉', '热心讲解', '超预期'], source: '大众点评（鸭鸭型手打年糕，Lv2，打卡评价）' },
     ],
 
-    _dataVersion: '2026-10-20-v230',
+    _dataVersion: '2026-10-22-v231',
     // v170: 锁定月份兜底配置（云端 data._lockedMonths 为主，此为前端兜底，
     // 防止 pull 未同步/延迟时 7月填报锁定失效）。与云端保持一致：锁 7月+6月。
     _lockedMonths: ['2026-07', '2026-06'],
@@ -9434,7 +9674,7 @@ linggongAttendance: {
         return;
       }
       const data = JSON.parse(this._safeGetItem(this.KEY));
-      const DATA_VERSION = '2026-10-20-v230';
+      const DATA_VERSION = '2026-10-22-v231';
       const isVersionMismatch = data._dataVersion !== DATA_VERSION;
       const isMissingCritical = !data.ratings || !data.linggongAttendance || !data.performanceData || !data.customerReviews || !data.staff;
       
