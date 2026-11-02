@@ -7,6 +7,15 @@
 cd "/Users/a86137/Desktop/兼职/安福路兼职管理系统"
 export NODE_PATH=/Users/a86137/.workbuddy/binaries/node/workspace/node_modules
 
+# v238: 动态解析 node 路径（旧版硬编码 22.22.2-3 已随环境升级被删）
+NODE_BIN=$(ls -d /Users/a86137/.workbuddy/binaries/node/versions/*/bin/node 2>/dev/null | sort -V | tail -1)
+if [ -z "$NODE_BIN" ] || [ ! -x "$NODE_BIN" ]; then
+    echo "❌ 未找到可用的 node，请检查 /Users/a86137/.workbuddy/binaries/node/versions/"
+    read -p "按回车键关闭..."
+    exit 1
+fi
+echo "使用 node: $NODE_BIN"
+
 echo ""
 echo "============================================"
 echo "  Salomon 安福路 - 灵工考勤一键更新"
@@ -38,7 +47,7 @@ echo ""
 
 # Step 1: Fetch 数据
 NODE_PATH=/Users/a86137/.workbuddy/binaries/node/workspace/node_modules \
-    /Users/a86137/.workbuddy/binaries/node/versions/22.22.2-3/bin/node \
+    "$NODE_BIN" \
     scripts/fetch_linggong.js \
     --phone="$PHONE" \
     --password="$PASSWORD" \
@@ -55,8 +64,7 @@ echo ""
 echo ">>> [2/5] 合并数据到 app.js..."
 
 # Step 2: 合并到 app.js
-/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-3/bin/node \
-    scripts/sync_linggong_to_app.js
+"$NODE_BIN" scripts/sync_linggong_to_app.js
 
 if [ $? -ne 0 ]; then
     echo ""
@@ -68,13 +76,13 @@ fi
 echo ""
 echo ">>> [3/5] 验证语法..."
 
-# Step 3: 验证语法
-/Users/a86137/.workbuddy/binaries/node/versions/22.22.2-3/bin/node -c js/app.js
+# Step 3: 验证语法（node --check 才是合法参数）
+"$NODE_BIN" --check js/app.js
 if [ $? -ne 0 ]; then
     echo "❌ 语法错误，自动修复双逗号..."
     # 自动修复常见的双逗号问题
     sed -i '' 's/,,/,/g' js/app.js
-    /Users/a86137/.workbuddy/binaries/node/versions/22.22.2-3/bin/node -c js/app.js
+    "$NODE_BIN" --check js/app.js
     if [ $? -ne 0 ]; then
         echo "❌ 语法仍然有误，请联系 AI 协助"
         read -p "按回车键关闭..."
